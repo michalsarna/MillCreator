@@ -6,8 +6,8 @@ license.workspace = true
 description = "MillCreator: open-source CNC mill design and control software (early skeleton)"
 
 [dependencies]
-base-core = { git = "https://github.com/michalsarna/baseCreator", tag = "v0.2.0" }
-base-ui = { git = "https://github.com/michalsarna/baseCreator", tag = "v0.2.0" }
+base-core = { git = "https://github.com/michalsarna/baseCreator", tag = "v0.3.0" }
+base-ui = { git = "https://github.com/michalsarna/baseCreator", tag = "v0.3.0" }
 eframe = { version = "0.36", default-features = false, features = ["default_fonts", "glow", "x11", "wayland"] }
 rfd = "0.17"
 
