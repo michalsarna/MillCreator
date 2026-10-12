@@ -2,10 +2,10 @@
 
 ## Available now
 
-* Window with the colour schemes and fonts of baseCreator.
+* The window of LightCreator's look: own frame and title bar, start screen, control bar, status bar, a Properties tab (position and size, rotation, mirror, alignment), the colour schemes, fonts and the 30 languages of baseCreator.
 * Reading SVG, PDF and Illustrator (PDF-compatible) files into a scene of shapes.
 * The editor of baseCreator: drawing tools, selection, node editing, undo and redo, copy and paste, group, align, flip, rotate, order, grid and snapping.
-* Menus, icons, tool palette, arrange bar, View options and the About window of baseCreator.
+* Menus (with the native macOS menu bar and recent files), icons, tool palette, arrange bar, View options and the About window of baseCreator.
 
 ## Planned
 
@@ -18,4 +18,4 @@ Nothing below exists yet; the list is a plan, not a promise.
 * G-code for GRBL (and other controllers), with post-processor settings.
 * Machine control: connection, jogging, homing, probing, streaming.
 * Project files, undo and redo, units in mm and inches.
-* Translations (the shared translation layer is in baseCreator).
+* Translations of MillCreator's own texts (the shared ones are translated in baseCreator).

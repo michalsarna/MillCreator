@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <radialGradient id="bg" cx="512" cy="330" r="700" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f5620f"/>
+      <stop offset="0.45" stop-color="#f5620f"/>
+      <stop offset="1" stop-color="#cf530d"/>
+    </radialGradient>
+    <linearGradient id="steel" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#8d949c"/>
+      <stop offset="0.35" stop-color="#eef1f4"/>
+      <stop offset="0.7" stop-color="#b9c0c7"/>
+      <stop offset="1" stop-color="#6f767e"/>
+    </linearGradient>
+    <linearGradient id="steelDark" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#6a7078"/>
+      <stop offset="0.35" stop-color="#c9ced3"/>
+      <stop offset="0.7" stop-color="#9aa1a8"/>
+      <stop offset="1" stop-color="#555b62"/>
+    </linearGradient>
+    <clipPath id="clip"><rect width="1024" height="1024" rx="225"/></clipPath>
+    <clipPath id="flutes"><rect x="-62" y="-250" width="124" height="380" rx="12"/></clipPath>
+    <radialGradient id="glow" cx="0" cy="0" r="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff3b0" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffd24a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g clip-path="url(#clip)">
+    <rect width="1024" height="1024" fill="url(#bg)"/>
+    <rect y="735" width="1024" height="289" fill="#241808"/>
+    <rect y="735" width="1024" height="1" fill="#7f4317"/>
+    <rect y="736" width="1024" height="3" fill="#5a3a1a"/>
+    <!-- the slot the cutter has made, and the tool that goes into it -->
+    <g transform="translate(470 737) rotate(8)">
+      <rect x="-80" y="-4" width="160" height="150" fill="#130d04"/>
+      <ellipse cx="0" cy="0" rx="82" ry="14" fill="#130d04"/>
+      <!-- spindle nose with the same blue accent as the laser head -->
+      <rect x="-92" y="-650" width="184" height="130" rx="34" fill="#2a4264"/>
+      <circle cx="0" cy="-585" r="32" fill="#8bc8ff"/>
+      <!-- collet and shank -->
+      <path d="M-72 -520 H72 L54 -440 H-54 Z" fill="url(#steelDark)"/>
+      <rect x="-46" y="-440" width="92" height="200" fill="url(#steel)"/>
+      <!-- the fluted part -->
+      <g clip-path="url(#flutes)">
+        <rect x="-62" y="-250" width="124" height="400" fill="url(#steel)"/>
+        <g stroke="#4f555c" stroke-width="20" fill="none">
+          <path d="M-70 -205 L70 -140"/><path d="M-70 -120 L70 -55"/><path d="M-70 -35 L70 30"/><path d="M-70 50 L70 115"/>
+        </g>
+        <g stroke="#f4f6f8" stroke-width="5" fill="none" opacity="0.8">
+          <path d="M-70 -186 L70 -121"/><path d="M-70 -101 L70 -36"/><path d="M-70 -16 L70 49"/><path d="M-70 69 L70 134"/>
+        </g>
+      </g>
+      <rect x="-62" y="-250" width="124" height="14" fill="#d9dde1"/>
+    </g>
+    <!-- below the surface the tool is in the shade of the material -->
+    <rect y="738" width="1024" height="290" fill="#241808" opacity="0.38"/>
+    <!-- warm glow and chips where the tool meets the material -->
+    <circle cx="470" cy="737" r="180" fill="url(#glow)"/>
+    <g fill="#f0d46a">
+      <rect x="318" y="640" width="46" height="16" rx="6" transform="rotate(-38 341 648)"/>
+      <rect x="570" y="628" width="52" height="16" rx="6" transform="rotate(30 596 636)"/>
+      <rect x="296" y="708" width="40" height="14" rx="6" transform="rotate(-14 316 715)"/>
+      <rect x="610" y="700" width="44" height="14" rx="6" transform="rotate(14 632 707)"/>
+      <rect x="360" y="580" width="30" height="12" rx="6" transform="rotate(-62 375 586)"/>
+      <rect x="640" y="560" width="30" height="12" rx="6" transform="rotate(58 655 566)"/>
+    </g>
+    <g fill="#e6b04a">
+      <rect x="260" y="772" width="38" height="13" rx="6" transform="rotate(10 279 778)"/>
+      <rect x="648" y="780" width="40" height="13" rx="6" transform="rotate(-12 668 786)"/>
+      <rect x="404" y="830" width="32" height="12" rx="6" transform="rotate(30 420 836)"/>
+      <rect x="560" y="840" width="32" height="12" rx="6" transform="rotate(-28 576 846)"/>
+    </g>
+  </g>
+</svg>
