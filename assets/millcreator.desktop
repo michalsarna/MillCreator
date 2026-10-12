@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=MillCreator
+Comment=Open-source CNC mill design and control software
+Exec=millcreator %f
+Icon=millcreator
+Terminal=false
+Categories=Graphics;2DGraphics;VectorGraphics;
+MimeType=image/svg+xml;
+StartupWMClass=millcreator
