@@ -4,7 +4,9 @@
 use base_core::geom::Xf;
 use base_core::scene::{Kind, Scene};
 use base_core::units::Units;
+use base_ui::dialogs::AboutInfo;
 use base_ui::editor::{EditorCanvas, EditorCommands, EditorHost, EditorState, Tool};
+use base_ui::menu::{key, std_entries, Entry, MenuHost, Menus, StdAct};
 use base_ui::theme::{self, Scheme};
 use eframe::egui;
 
@@ -54,20 +56,59 @@ impl History {
     }
 }
 
+/// What the menus can do.
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+enum Act {
+    Open,
+    Quit,
+    Std(StdAct),
+    ViewOptions,
+    SetScheme(Scheme),
+    About,
+}
+
+impl From<StdAct> for Act {
+    fn from(a: StdAct) -> Act {
+        Act::Std(a)
+    }
+}
+
+fn std(entries: Vec<Entry<StdAct>>) -> Vec<Entry<Act>> {
+    entries.into_iter().map(|e| e.map(&Act::from)).collect()
+}
+
+fn menus() -> Menus<Act> {
+    use Entry::{Item, Sep, Sub};
+    vec![
+        ("File", vec![Item(Act::Open, "Open SVG / PDF…", key("CmdOrCtrl+O", "Ctrl+O")), Sep, Item(Act::Quit, "Quit", key("CmdOrCtrl+Q", "Ctrl+Q"))]),
+        ("Edit", std(std_entries::edit())),
+        (
+            "Arrange",
+            [std(std_entries::align()), vec![Sep], std(std_entries::place()), vec![Sep], std(std_entries::group()), vec![Sep], std(std_entries::order()), vec![Sep], std(std_entries::nodes())].concat(),
+        ),
+        ("View", [std(std_entries::grid()), std(std_entries::zoom()), vec![Item(Act::ViewOptions, "View options…", None)]].concat()),
+        ("Settings", vec![Sub("Colour scheme", Scheme::ALL.iter().map(|s| Item(Act::SetScheme(*s), s.label(), None)).collect())]),
+        ("Help", vec![Item(Act::About, "About", None)]),
+    ]
+}
+
 struct App {
     scene: Scene,
     ed: EditorState,
     history: History,
     scheme: Scheme,
     status: String,
+    show_options: bool,
+    show_about: bool,
 }
 
 impl App {
     fn new(cc: &eframe::CreationContext<'_>) -> App {
         base_ui::fonts::install(&cc.egui_ctx);
+        base_ui::icons::install(&cc.egui_ctx);
         let scheme = Scheme::ALL[0];
         theme::apply(&cc.egui_ctx, scheme);
-        App { scene: Scene::default(), ed: EditorState::new(), history: History::default(), scheme, status: "Ready".into() }
+        App { scene: Scene::default(), ed: EditorState::new(), history: History::default(), scheme, status: "Ready".into(), show_options: false, show_about: false }
     }
 
     fn open(&mut self, path: std::path::PathBuf) {
@@ -155,18 +196,6 @@ impl App {
             }
         }
     }
-
-    fn tool_bar(&mut self, ui: &mut egui::Ui) {
-        for (tool, label, _) in Tool::ALL {
-            // The text tool needs a font dialog that MillCreator does not have yet.
-            if tool == Tool::Text {
-                continue;
-            }
-            if ui.selectable_label(self.ed.tool == tool, label).clicked() {
-                self.ed.tool = tool;
-            }
-        }
-    }
 }
 
 impl EditorHost for App {
@@ -190,6 +219,18 @@ impl EditorHost for App {
         self.history.push(before);
     }
     fn touch(&mut self) {}
+    fn undo(&mut self) {
+        App::undo(self)
+    }
+    fn redo(&mut self) {
+        App::redo(self)
+    }
+    fn can_undo(&self) -> bool {
+        !self.history.undo.is_empty()
+    }
+    fn can_redo(&self) -> bool {
+        !self.history.redo.is_empty()
+    }
     fn drop_checkpoint(&mut self) {
         self.history.undo.pop();
     }
@@ -223,79 +264,77 @@ impl EditorHost for App {
     }
 }
 
+impl MenuHost for App {
+    type Act = Act;
+    fn menus(&self) -> Menus<Act> {
+        menus()
+    }
+    fn act_enabled(&self, a: Act) -> bool {
+        match a {
+            Act::Std(s) => s.enabled(self),
+            _ => true,
+        }
+    }
+    fn act_checked(&self, a: Act) -> Option<bool> {
+        match a {
+            Act::Std(s) => s.checked(self),
+            Act::SetScheme(s) => Some(self.scheme == s),
+            _ => None,
+        }
+    }
+    fn act_icon(&self, a: Act) -> Option<&'static str> {
+        match a {
+            Act::Std(s) => Some(s.icon()),
+            Act::Open => Some("folder-open"),
+            Act::Quit => Some("x"),
+            Act::ViewOptions => Some("sliders-horizontal"),
+            Act::About => Some("info"),
+            Act::SetScheme(_) => None,
+        }
+    }
+    fn run_act(&mut self, ctx: &egui::Context, a: Act) {
+        match a {
+            Act::Open => {
+                if let Some(p) = rfd::FileDialog::new().add_filter("SVG / PDF / Illustrator", &["svg", "pdf", "ai"]).pick_file() {
+                    self.open(p);
+                }
+            }
+            Act::Quit => ctx.send_viewport_cmd(egui::ViewportCommand::Close),
+            Act::Std(s) => s.run(self),
+            Act::ViewOptions => self.show_options = true,
+            Act::SetScheme(s) => {
+                self.scheme = s;
+                theme::apply(ctx, s);
+            }
+            Act::About => self.show_about = true,
+        }
+    }
+}
+
 impl eframe::App for App {
     fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
         let ctx = ui.ctx().clone();
         self.shortcuts(&ctx);
-        egui::Panel::top("menu").show(ui, |ui| {
-            egui::MenuBar::new().ui(ui, |ui| {
-                ui.menu_button("File", |ui| {
-                    if ui.button("Open SVG / PDF…").clicked() {
-                        ui.close();
-                        if let Some(p) = rfd::FileDialog::new().add_filter("SVG / PDF / Illustrator", &["svg", "pdf", "ai"]).pick_file() {
-                            self.open(p);
-                        }
-                    }
-                });
-                ui.menu_button("Edit", |ui| {
-                    if ui.add_enabled(!self.history.undo.is_empty(), egui::Button::new("Undo")).clicked() {
-                        ui.close();
-                        self.undo();
-                    }
-                    if ui.add_enabled(!self.history.redo.is_empty(), egui::Button::new("Redo")).clicked() {
-                        ui.close();
-                        self.redo();
-                    }
-                    ui.separator();
-                    let has_sel = !self.ed.sel.is_empty();
-                    if ui.button("Select all").clicked() {
-                        ui.close();
-                        self.select_all();
-                    }
-                    if ui.add_enabled(has_sel, egui::Button::new("Copy")).clicked() {
-                        ui.close();
-                        self.copy();
-                    }
-                    if ui.add_enabled(!self.ed.clipboard.is_empty(), egui::Button::new("Paste")).clicked() {
-                        ui.close();
-                        self.paste();
-                    }
-                    if ui.add_enabled(has_sel, egui::Button::new("Duplicate")).clicked() {
-                        ui.close();
-                        self.duplicate();
-                    }
-                    if ui.add_enabled(has_sel, egui::Button::new("Delete")).clicked() {
-                        ui.close();
-                        self.delete_selection();
-                    }
-                    ui.separator();
-                    if ui.add_enabled(has_sel, egui::Button::new("Group")).clicked() {
-                        ui.close();
-                        self.group_selection();
-                    }
-                    if ui.add_enabled(has_sel, egui::Button::new("Ungroup")).clicked() {
-                        ui.close();
-                        self.ungroup_selection();
-                    }
-                });
-                ui.menu_button("View", |ui| {
-                    ui.checkbox(&mut self.ed.show_grid, "Grid");
-                    ui.checkbox(&mut self.ed.snap, "Snap to grid");
-                    ui.separator();
-                    for s in Scheme::ALL {
-                        if ui.selectable_label(self.scheme == s, s.label()).clicked() {
-                            self.scheme = s;
-                            theme::apply(&ctx, s);
-                        }
-                    }
-                });
-            });
-        });
-        egui::Panel::bottom("status").show(ui, |ui| {
+        let chrome = egui::Frame::new().fill(theme::panel()).stroke(egui::Stroke::new(1.0, theme::border())).inner_margin(egui::Margin::symmetric(8, 4));
+        egui::Panel::top("menu").frame(chrome).show(ui, |ui| base_ui::menu::menu_bar(self, ui));
+        egui::Panel::bottom("status").frame(chrome).show(ui, |ui| {
             ui.label(format!("MillCreator {VERSION} (early skeleton, no milling features yet): {}", self.status));
         });
-        egui::Panel::left("tools").resizable(false).exact_size(150.0).show(ui, |ui| self.tool_bar(ui));
+        egui::Panel::left("tools").frame(chrome).exact_size(52.0).resizable(false).show(ui, |ui| base_ui::editor::tool_palette(self, ui, None));
+        egui::Panel::right("arrange_bar").frame(chrome.inner_margin(egui::Margin::symmetric(2, 4))).exact_size(40.0).resizable(false).show(ui, |ui| base_ui::editor::arrange_bar(self, ui));
         egui::CentralPanel::no_frame().show(ui, |ui| self.canvas(ui));
+        let mut show = self.show_options;
+        base_ui::editor::view_options_window(self, &ctx, &mut show);
+        self.show_options = show;
+        let about = AboutInfo {
+            title: "About MillCreator",
+            name: "MillCreator",
+            version: VERSION,
+            lines: vec!["Open-source CNC mill design and control software (early skeleton).".into(), "Written in Rust with egui; shares its core and interface with LightCreator through baseCreator.".into()],
+            url: "https://github.com/michalsarna/MillCreator",
+            licence: "MIT OR Apache-2.0",
+        };
+        base_ui::dialogs::about_window(&ctx, &mut self.show_about, &about, None);
     }
 }
 
@@ -325,7 +364,7 @@ mod tests {
     const SVG: &[u8] = br##"<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect x="10" y="10" width="40" height="20" stroke="#ff0000" fill="none"/><circle cx="70" cy="70" r="10"/></svg>"##;
 
     fn app() -> App {
-        App { scene: Scene::default(), ed: EditorState::new(), history: History::default(), scheme: Scheme::ALL[0], status: String::new() }
+        App { scene: Scene::default(), ed: EditorState::new(), history: History::default(), scheme: Scheme::ALL[0], status: String::new(), show_options: false, show_about: false }
     }
 
     #[test]

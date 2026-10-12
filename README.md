@@ -7,11 +7,11 @@ through [baseCreator](https://github.com/michalsarna/baseCreator), pinned to a t
 
 ## What it does today
 
-* Opens a window with the shared colour schemes and fonts.
+* Opens a window with the shared colour schemes, fonts and icons, a menu bar (File, Edit, Arrange, View, Settings, Help), a tool palette on the left and an arrange bar on the right.
 * Opens an SVG, PDF or Illustrator (PDF-compatible) file (File menu, or the path on the command line).
 * Draws and edits shapes on a work area with the editor of baseCreator: select, node edit, rectangle, ellipse, triangle,
   star, polygon, heart, spiral, line, pen, pan and zoom; selection handles to move, resize, turn and slant; the usual
-  commands (undo and redo, select all, copy, paste, duplicate, delete, group, ungroup); grid and snapping.
+  commands (undo and redo, select all, copy, paste, duplicate, delete, group, ungroup); grid and snapping (View menu and View options…).
   Keyboard: tool letters as in LightCreator (V, N, R, E, ...), Ctrl+Z / Y, Ctrl+A / C / V / D / G, Delete.
 
 There is no project file, no layers, no tool paths, no G-code and no machine control yet; see [FEATURES.md](FEATURES.md).
