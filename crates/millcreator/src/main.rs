@@ -1,12 +1,18 @@
 //! MillCreator: an early skeleton. It opens a window with the shared theme and fonts of baseCreator, imports SVG and
-//! PDF files into a scene and shows the outlines (pan with the mouse, zoom with the wheel). There are no milling
-//! features yet.
-use base_core::geom::{Pt, Xf};
+//! PDF files into a scene and lets you draw and edit shapes on the work area with the shared editor (tools, selection,
+//! node editing, the usual commands). There are no milling features yet.
+use base_core::geom::Xf;
 use base_core::scene::{Kind, Scene};
+use base_core::units::Units;
+use base_ui::editor::{EditorCanvas, EditorCommands, EditorHost, EditorState, Tool};
 use base_ui::theme::{self, Scheme};
 use eframe::egui;
 
 const VERSION: &str = concat!("v", env!("CARGO_PKG_VERSION"));
+/// The size of the work area in millimetres until the machine is configurable.
+const WORK_AREA: (f64, f64) = (300.0, 200.0);
+/// How many steps of undo are kept.
+const UNDO_STEPS: usize = 100;
 
 /// Read an SVG or PDF (by its content) into a new scene. Every outline becomes one shape on layer 0.
 fn read_scene(data: &[u8]) -> Result<Scene, String> {
@@ -19,11 +25,40 @@ fn read_scene(data: &[u8]) -> Result<Scene, String> {
     Ok(scene)
 }
 
+/// Undo and redo of whole scenes.
+#[derive(Default)]
+struct History {
+    undo: Vec<Scene>,
+    redo: Vec<Scene>,
+}
+
+impl History {
+    /// Remember `before`, the state before a change.
+    fn push(&mut self, before: Scene) {
+        self.undo.push(before);
+        if self.undo.len() > UNDO_STEPS {
+            self.undo.remove(0);
+        }
+        self.redo.clear();
+    }
+    /// The state to go back to, given the current one (which becomes the redo state).
+    fn back(&mut self, now: &Scene) -> Option<Scene> {
+        let s = self.undo.pop()?;
+        self.redo.push(now.clone());
+        Some(s)
+    }
+    fn forward(&mut self, now: &Scene) -> Option<Scene> {
+        let s = self.redo.pop()?;
+        self.undo.push(now.clone());
+        Some(s)
+    }
+}
+
 struct App {
     scene: Scene,
+    ed: EditorState,
+    history: History,
     scheme: Scheme,
-    zoom: f32,
-    pan: egui::Vec2,
     status: String,
 }
 
@@ -32,7 +67,7 @@ impl App {
         base_ui::fonts::install(&cc.egui_ctx);
         let scheme = Scheme::ALL[0];
         theme::apply(&cc.egui_ctx, scheme);
-        App { scene: Scene::default(), scheme, zoom: 3.0, pan: egui::vec2(40.0, 40.0), status: "Ready".into() }
+        App { scene: Scene::default(), ed: EditorState::new(), history: History::default(), scheme, status: "Ready".into() }
     }
 
     fn open(&mut self, path: std::path::PathBuf) {
@@ -41,46 +76,157 @@ impl App {
             Ok(scene) => {
                 self.status = format!("Opened {name}: {} shapes", scene.shapes.len());
                 self.scene = scene;
+                self.history = History::default();
+                self.ed.sel.clear();
+                self.ed.node_sel.clear();
+                self.ed.view.need_fit = true;
             }
             Err(e) => self.status = format!("Could not open {name}: {e}"),
         }
     }
 
-    fn canvas(&mut self, ui: &mut egui::Ui) {
-        let (resp, painter) = ui.allocate_painter(ui.available_size(), egui::Sense::click_and_drag());
-        painter.rect_filled(resp.rect, 0.0, theme::workspace());
-        if resp.dragged() {
-            self.pan += resp.drag_delta();
+    fn undo(&mut self) {
+        if let Some(s) = self.history.back(&self.scene) {
+            self.scene = s;
+            self.forget_missing();
         }
-        if resp.hovered() {
-            let scroll = ui.input(|i| i.smooth_scroll_delta.y);
-            if scroll != 0.0 {
-                let before = ui.input(|i| i.pointer.hover_pos()).unwrap_or(resp.rect.center()) - resp.rect.min - self.pan;
-                let k = (1.0 + scroll * 0.002).clamp(0.5, 2.0);
-                let zoom = (self.zoom * k).clamp(0.05, 200.0);
-                self.pan -= before * (zoom / self.zoom - 1.0);
-                self.zoom = zoom;
-            }
+    }
+
+    fn redo(&mut self) {
+        if let Some(s) = self.history.forward(&self.scene) {
+            self.scene = s;
+            self.forget_missing();
         }
-        let to_screen = |p: Pt| resp.rect.min + self.pan + egui::vec2(p.x as f32 * self.zoom, p.y as f32 * self.zoom);
-        let stroke = egui::Stroke::new(1.5, theme::accent());
-        for shape in &self.scene.shapes {
-            for poly in shape.polys() {
-                let mut pts: Vec<egui::Pos2> = poly.pts.iter().map(|p| to_screen(*p)).collect();
-                if poly.closed {
-                    if let Some(first) = pts.first().copied() {
-                        pts.push(first);
-                    }
+    }
+
+    /// Drop selected shapes that the undo took away.
+    fn forget_missing(&mut self) {
+        let scene = &self.scene;
+        self.ed.sel.retain(|id| scene.shape(*id).is_some());
+        self.ed.node_sel.retain(|(id, _, _)| scene.shape(*id).is_some());
+        self.ed.active_seg = None;
+    }
+
+    fn shortcuts(&mut self, ctx: &egui::Context) {
+        if ctx.egui_wants_keyboard_input() {
+            return;
+        }
+        let (cmd, shift) = ctx.input(|i| (i.modifiers.command, i.modifiers.shift));
+        let pressed = |k: egui::Key| ctx.input(|i| i.key_pressed(k));
+        if cmd {
+            if pressed(egui::Key::Z) {
+                if shift {
+                    self.redo();
+                } else {
+                    self.undo();
                 }
-                painter.add(egui::Shape::line(pts, stroke));
+            } else if pressed(egui::Key::Y) {
+                self.redo();
+            } else if pressed(egui::Key::A) {
+                self.select_all();
+            } else if pressed(egui::Key::C) {
+                self.copy();
+            } else if pressed(egui::Key::V) {
+                self.paste();
+            } else if pressed(egui::Key::D) {
+                self.duplicate();
+            } else if pressed(egui::Key::G) {
+                if shift {
+                    self.ungroup_selection();
+                } else {
+                    self.group_selection();
+                }
+            }
+        } else if pressed(egui::Key::Delete) || pressed(egui::Key::Backspace) {
+            if self.ed.tool == Tool::Node && !self.ed.node_sel.is_empty() {
+                self.delete_nodes();
+            } else {
+                self.delete_selection();
+            }
+        } else if pressed(egui::Key::Escape) {
+            self.ed.sel.clear();
+            self.ed.node_sel.clear();
+            self.ed.pen_pts.clear();
+        } else {
+            for (tool, _, key) in Tool::ALL {
+                if pressed(key) {
+                    self.ed.tool = tool;
+                }
             }
         }
+    }
+
+    fn tool_bar(&mut self, ui: &mut egui::Ui) {
+        for (tool, label, _) in Tool::ALL {
+            // The text tool needs a font dialog that MillCreator does not have yet.
+            if tool == Tool::Text {
+                continue;
+            }
+            if ui.selectable_label(self.ed.tool == tool, label).clicked() {
+                self.ed.tool = tool;
+            }
+        }
+    }
+}
+
+impl EditorHost for App {
+    fn ed(&self) -> &EditorState {
+        &self.ed
+    }
+    fn ed_mut(&mut self) -> &mut EditorState {
+        &mut self.ed
+    }
+    fn scene(&self) -> &Scene {
+        &self.scene
+    }
+    fn scene_mut(&mut self) -> &mut Scene {
+        &mut self.scene
+    }
+    fn layer_visible(&self, _layer: usize) -> bool {
+        true
+    }
+    fn checkpoint(&mut self) {
+        let before = self.scene.clone();
+        self.history.push(before);
+    }
+    fn touch(&mut self) {}
+    fn drop_checkpoint(&mut self) {
+        self.history.undo.pop();
+    }
+    fn say(&mut self, msg: String) {
+        self.status = msg;
+    }
+    fn said(&self) -> &str {
+        &self.status
+    }
+    fn work_size(&self) -> (f64, f64) {
+        WORK_AREA
+    }
+    fn units(&self) -> Units {
+        Units::Mm
+    }
+    fn workspace_fill(&self) -> egui::Color32 {
+        theme::workspace()
+    }
+    fn bed_fill(&self) -> egui::Color32 {
+        if self.scheme.is_dark() {
+            egui::Color32::from_rgb(0xea, 0xea, 0xed)
+        } else {
+            egui::Color32::WHITE
+        }
+    }
+    fn shape_color(&self, layer: usize) -> Option<egui::Color32> {
+        Some(self.layer_color(layer))
+    }
+    fn layer_color(&self, _layer: usize) -> egui::Color32 {
+        egui::Color32::from_rgb(0x20, 0x20, 0x30)
     }
 }
 
 impl eframe::App for App {
     fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
         let ctx = ui.ctx().clone();
+        self.shortcuts(&ctx);
         egui::Panel::top("menu").show(ui, |ui| {
             egui::MenuBar::new().ui(ui, |ui| {
                 ui.menu_button("File", |ui| {
@@ -91,7 +237,51 @@ impl eframe::App for App {
                         }
                     }
                 });
+                ui.menu_button("Edit", |ui| {
+                    if ui.add_enabled(!self.history.undo.is_empty(), egui::Button::new("Undo")).clicked() {
+                        ui.close();
+                        self.undo();
+                    }
+                    if ui.add_enabled(!self.history.redo.is_empty(), egui::Button::new("Redo")).clicked() {
+                        ui.close();
+                        self.redo();
+                    }
+                    ui.separator();
+                    let has_sel = !self.ed.sel.is_empty();
+                    if ui.button("Select all").clicked() {
+                        ui.close();
+                        self.select_all();
+                    }
+                    if ui.add_enabled(has_sel, egui::Button::new("Copy")).clicked() {
+                        ui.close();
+                        self.copy();
+                    }
+                    if ui.add_enabled(!self.ed.clipboard.is_empty(), egui::Button::new("Paste")).clicked() {
+                        ui.close();
+                        self.paste();
+                    }
+                    if ui.add_enabled(has_sel, egui::Button::new("Duplicate")).clicked() {
+                        ui.close();
+                        self.duplicate();
+                    }
+                    if ui.add_enabled(has_sel, egui::Button::new("Delete")).clicked() {
+                        ui.close();
+                        self.delete_selection();
+                    }
+                    ui.separator();
+                    if ui.add_enabled(has_sel, egui::Button::new("Group")).clicked() {
+                        ui.close();
+                        self.group_selection();
+                    }
+                    if ui.add_enabled(has_sel, egui::Button::new("Ungroup")).clicked() {
+                        ui.close();
+                        self.ungroup_selection();
+                    }
+                });
                 ui.menu_button("View", |ui| {
+                    ui.checkbox(&mut self.ed.show_grid, "Grid");
+                    ui.checkbox(&mut self.ed.snap, "Snap to grid");
+                    ui.separator();
                     for s in Scheme::ALL {
                         if ui.selectable_label(self.scheme == s, s.label()).clicked() {
                             self.scheme = s;
@@ -104,6 +294,7 @@ impl eframe::App for App {
         egui::Panel::bottom("status").show(ui, |ui| {
             ui.label(format!("MillCreator {VERSION} (early skeleton, no milling features yet): {}", self.status));
         });
+        egui::Panel::left("tools").resizable(false).exact_size(150.0).show(ui, |ui| self.tool_bar(ui));
         egui::CentralPanel::no_frame().show(ui, |ui| self.canvas(ui));
     }
 }
@@ -129,8 +320,13 @@ fn main() -> eframe::Result {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use base_core::geom::Pt;
 
     const SVG: &[u8] = br##"<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect x="10" y="10" width="40" height="20" stroke="#ff0000" fill="none"/><circle cx="70" cy="70" r="10"/></svg>"##;
+
+    fn app() -> App {
+        App { scene: Scene::default(), ed: EditorState::new(), history: History::default(), scheme: Scheme::ALL[0], status: String::new() }
+    }
 
     #[test]
     fn an_svg_becomes_one_shape_per_outline() {
@@ -144,5 +340,43 @@ mod tests {
         assert!(read_scene(b"not a picture").is_err());
         assert!(read_scene(b"%PDF-1.5 broken").is_err());
         assert!(read_scene(b"").is_err());
+    }
+
+    #[test]
+    fn edits_can_be_undone_and_redone() {
+        let mut a = app();
+        a.scene = read_scene(SVG).unwrap();
+        a.select_all();
+        assert_eq!(a.ed.sel.len(), 2);
+        a.delete_selection();
+        assert!(a.scene.shapes.is_empty());
+        a.undo();
+        assert_eq!(a.scene.shapes.len(), 2);
+        a.redo();
+        assert!(a.scene.shapes.is_empty());
+        a.undo();
+        // A shape that the undo took away is no longer selected.
+        a.ed.sel = vec![999];
+        a.forget_missing();
+        assert!(a.ed.sel.is_empty());
+    }
+
+    #[test]
+    fn the_editor_draws_in_the_window_for_every_tool() {
+        let mut a = app();
+        a.scene = read_scene(SVG).unwrap();
+        a.ed.sel = vec![1];
+        let ctx = egui::Context::default();
+        for (tool, _, _) in Tool::ALL {
+            a.ed.tool = tool;
+            let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
+                egui::CentralPanel::no_frame().show(ui, |ui| a.canvas(ui));
+            });
+            out.textures_delta.clear();
+        }
+        a.ed.pen_pts = vec![Pt::new(0.0, 0.0), Pt::new(10.0, 10.0)];
+        a.finish_pen(false);
+        assert_eq!(a.scene.shapes.len(), 3);
+        assert!(!a.history.undo.is_empty(), "drawing is undoable");
     }
 }
