@@ -12,6 +12,7 @@ pub enum Act {
     Open,
     Save,
     SaveAs,
+    ImportLightburn,
     OpenRecent(u8),
     ClearRecent,
     Quit,
@@ -36,7 +37,7 @@ fn std(entries: Vec<Entry<StdAct>>) -> Vec<Entry<Act>> {
 /// Top-level menus: (English title, entries). The macOS app menu (About, Quit) is added by `native_menu`.
 pub fn menus() -> Menus<Act> {
     use Entry::{Item, Recent, Sep, Sub};
-    let mut file = vec![Item(Act::New, "New", key("CmdOrCtrl+N", "Ctrl+N")), Item(Act::Open, "Open…", key("CmdOrCtrl+O", "Ctrl+O")), Recent, Sep, Item(Act::Save, "Save", key("CmdOrCtrl+S", "Ctrl+S")), Item(Act::SaveAs, "Save as…", key("CmdOrCtrl+Shift+S", "Ctrl+Shift+S"))];
+    let mut file = vec![Item(Act::New, "New", key("CmdOrCtrl+N", "Ctrl+N")), Item(Act::Open, "Open…", key("CmdOrCtrl+O", "Ctrl+O")), Recent, Sep, Item(Act::Save, "Save", key("CmdOrCtrl+S", "Ctrl+S")), Item(Act::SaveAs, "Save as…", key("CmdOrCtrl+Shift+S", "Ctrl+Shift+S")), Sep, Sub("Import", vec![Item(Act::ImportLightburn, "Import LightBurn project…", None)])];
     let mut help = vec![Item(Act::OpenGithub, "Project page on GitHub", None)];
     if !cfg!(target_os = "macos") {
         file.push(Sep);

@@ -79,6 +79,7 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::New => Some("file-plus"),
         Act::Open => Some("folder-open"),
         Act::Save | Act::SaveAs => Some("save"),
+        Act::ImportLightburn => Some("file-input"),
         Act::OpenRecent(_) | Act::ClearRecent => None,
         Act::Quit => Some("x"),
         Act::ViewOptions => Some("sliders-horizontal"),
@@ -239,7 +240,10 @@ impl App {
                 self.ed.node_sel.clear();
                 self.ed.view.need_fit = true;
                 self.screen = Screen::Editor;
-                self.add_recent(&path);
+                // An import is not a project to reopen, so it stays out of the recent files.
+                if !is_lightburn {
+                    self.add_recent(&path);
+                }
                 // An SVG, PDF or LightBurn project is not saved over: the next save asks for a project name.
                 self.path = is_project.then_some(path);
             }
@@ -275,7 +279,14 @@ impl App {
     }
 
     fn open_dialog(&mut self) {
-        if let Some(p) = rfd::FileDialog::new().add_filter("Project, SVG, PDF, Illustrator, LightBurn", &[project::EXTENSION, "svg", "pdf", "ai", "lbrn2", "lbrn"]).pick_file() {
+        if let Some(p) = rfd::FileDialog::new().add_filter("Project, SVG, PDF, Illustrator", &[project::EXTENSION, "svg", "pdf", "ai"]).pick_file() {
+            self.open(p);
+        }
+    }
+
+    /// File > Import > Import LightBurn project…: the shapes of the project come over as a new, unsaved drawing.
+    fn import_lightburn_dialog(&mut self) {
+        if let Some(p) = rfd::FileDialog::new().add_filter("LightBurn", &["lbrn2", "lbrn"]).pick_file() {
             self.open(p);
         }
     }
@@ -656,6 +667,7 @@ impl MenuHost for App {
             Act::Open => self.open_dialog(),
             Act::Save => self.save(false),
             Act::SaveAs => self.save(true),
+            Act::ImportLightburn => self.import_lightburn_dialog(),
             Act::OpenRecent(i) => {
                 if let Some(p) = self.recent.get(i as usize).cloned() {
                     self.open(p);
@@ -788,9 +800,11 @@ mod tests {
         std::fs::write(&file, r#"<LightBurnProject><Shape Type="Rect" CutIndex="0" W="30" H="10" Cr="0"><XForm>1 0 0 1 50 20</XForm></Shape></LightBurnProject>"#).unwrap();
         let mut a = app();
         let h = a.work_size().1;
+        let recent = a.recent.clone();
         a.open(file);
         assert_eq!((a.scene.shapes.len(), a.screen), (1, Screen::Editor));
         assert!(a.path.is_none());
+        assert_eq!(a.recent, recent, "an import is not a project to reopen");
         // LightBurn's centre is 20 mm above the bottom; here that is 20 mm above the bottom of the work area too.
         let b = a.scene.shapes[0].bounds().unwrap();
         assert!((b.min.y - (h - 25.0)).abs() < 1e-9 && (b.min.x - 35.0).abs() < 1e-9, "{b:?}");
