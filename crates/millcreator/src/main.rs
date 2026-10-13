@@ -1,13 +1,19 @@
-//! MillCreator: an early skeleton. It looks like LightCreator (the window frame, the menus, the control and status bars,
-//! the tool palette, the Properties tab, the colour schemes and the languages all come from baseCreator), imports SVG and
-//! PDF files into a scene and lets you draw and edit shapes on the work area with the shared editor. There are no
-//! milling features yet.
+//! MillCreator: design and prepare CNC milling jobs. It looks like LightCreator (the window frame, the menus, the
+//! control and status bars, the tool palette, the Properties tab, the colour schemes and the languages come from
+//! baseCreator). It adds devices (with cameras), milling layers, a library of bits, a simple material, toolpaths with a
+//! 3D view and G-code.
 mod device;
+mod device_ui;
 mod layers;
+mod layers_ui;
 mod materials;
 mod menu;
+mod preview_ui;
+mod section;
 mod toolpath;
+mod view3d;
 mod tools;
+mod tools_ui;
 #[cfg(test)]
 mod screenshots;
 #[cfg(target_os = "macos")]
@@ -24,14 +30,20 @@ use base_ui::i18n::{self, tr, Lang};
 use base_ui::menu::{MenuHost, Menus};
 use base_ui::theme::{self, Scheme};
 use base_ui::widgets::icon_button_ink;
+use device::Device;
+use device_ui::{CamState, DeviceEdit};
+use layers::MillLayer;
+use materials::Stock;
+use toolpath::Program;
+use tools::Library;
+use tools_ui::ToolsWindow;
+use view3d::View3d;
 use base_ui::window::{NEW_BLUE, OPEN_ORANGE, SAVE_GREEN};
 use eframe::egui::{self, Color32, RichText};
 use menu::{menus, Act, MAX_RECENT};
 use std::path::PathBuf;
 
 const VERSION: &str = concat!("v", env!("CARGO_PKG_VERSION"));
-/// The size of the work area in millimetres until the machine is configurable.
-const WORK_AREA: (f64, f64) = (300.0, 200.0);
 /// How many steps of undo are kept.
 const UNDO_STEPS: usize = 100;
 const ICON_256: &[u8] = include_bytes!("../../../assets/icons/icon-256.png");
@@ -85,6 +97,9 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::Open => Some("folder-open"),
         Act::Save | Act::SaveAs => Some("save"),
         Act::ImportLightburn => Some("file-input"),
+        Act::ToolLibrary => Some("package"),
+        Act::Preview3d => Some("eye"),
+        Act::ExportGcode => Some("file-code"),
         Act::OpenRecent(_) | Act::ClearRecent => None,
         Act::Quit => Some("x"),
         Act::ViewOptions => Some("sliders-horizontal"),
@@ -98,8 +113,12 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 enum SideTab {
     Properties,
+    Layers,
+    Material,
+    Device,
     Clipart,
     Description,
+    Camera,
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
@@ -125,6 +144,25 @@ struct App {
     description: String,
     /// The parts of the project file that are not ours (laser, pen...), kept as they were read and written back.
     kept: Project,
+    /// The devices that are kept between runs, the one the project is made for, and which of the list it is.
+    devices: Vec<Device>,
+    device: Device,
+    active: Option<usize>,
+    start_sel: usize,
+    dev_edit: Option<DeviceEdit>,
+    confirm_delete: bool,
+    /// The bits (ready-made and the user's own, which are kept for every device) and the window of the library.
+    tools: Library,
+    tools_win: ToolsWindow,
+    layers: Vec<MillLayer>,
+    stock: Stock,
+    view: View3d,
+    show_3d: bool,
+    prog: Option<Program>,
+    /// Counts the changes of the project; the program is made again when it differs from `prog_rev`.
+    rev: u64,
+    prog_rev: u64,
+    cam: Option<CamState>,
     show_options: bool,
     show_about: bool,
     #[cfg(target_os = "macos")]
@@ -149,6 +187,11 @@ impl App {
         theme::apply(ctx, scheme);
         let on = |k: &str, default: bool| saved(k).map(|v| v == "1").unwrap_or(default);
         let ed = EditorState { show_grid: on("grid_main_on", true), snap: on("snap", false), snap_objects: on("snap_objects", false), ..EditorState::new() };
+        let mut tools = Library::new();
+        if let Some(t) = saved("tools") {
+            tools.load_text(&t);
+        }
+        let devices = saved("devices").map(|t| device::load_all(&t)).unwrap_or_default();
         let recent = saved("recent_files").map(|s| s.lines().map(PathBuf::from).take(MAX_RECENT).collect()).unwrap_or_default();
         #[cfg(not(target_os = "macos"))]
         let _ = native_menu;
@@ -167,6 +210,22 @@ impl App {
             clip: ClipState::new(base_core::clipart::Library::open(eframe::storage_dir("millcreator").unwrap_or_else(std::env::temp_dir).join("clipart"))),
             description: String::new(),
             kept: Project::default(),
+            device: devices.first().cloned().unwrap_or_else(Device::dummy),
+            active: (!devices.is_empty()).then_some(0),
+            devices,
+            start_sel: 0,
+            dev_edit: None,
+            confirm_delete: false,
+            layers: layers::default_layers(&tools),
+            tools,
+            tools_win: ToolsWindow::default(),
+            stock: Stock::default(),
+            view: View3d::default(),
+            show_3d: false,
+            prog: None,
+            rev: 0,
+            prog_rev: 0,
+            cam: None,
             show_options: false,
             show_about: false,
             #[cfg(target_os = "macos")]
@@ -183,6 +242,8 @@ impl App {
             ("grid_main_on", flag(self.ed.show_grid)),
             ("snap", flag(self.ed.snap)),
             ("snap_objects", flag(self.ed.snap_objects)),
+            ("devices", self.devices_text()),
+            ("tools", self.tools.save_text()),
             ("recent_files", self.recent.iter().map(|p| p.to_string_lossy().into_owned()).collect::<Vec<_>>().join("\n")),
         ]
     }
@@ -196,11 +257,17 @@ impl App {
 
     /// A new, empty design.
     fn new_design(&mut self) {
+        if self.screen == Screen::Start {
+            self.take_selected_device();
+        }
         self.scene = Scene::default();
         self.history = History::default();
         self.path = None;
         self.description.clear();
         self.kept = Project::default();
+        self.layers = layers::default_layers(&self.tools);
+        self.stock = Stock::default();
+        self.touch_rev();
         self.ed.sel.clear();
         self.ed.node_sel.clear();
         self.ed.view.need_fit = true;
@@ -209,6 +276,9 @@ impl App {
     }
 
     fn open(&mut self, path: PathBuf) {
+        if self.screen == Screen::Start {
+            self.take_selected_device();
+        }
         let name = path.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
         let is_project = path.extension().is_some_and(|e| e.eq_ignore_ascii_case(project::EXTENSION));
         let is_lightburn = path.extension().is_some_and(|e| e.eq_ignore_ascii_case("lbrn2") || e.eq_ignore_ascii_case("lbrn"));
@@ -231,6 +301,21 @@ impl App {
         });
         match read {
             Ok((scene, file)) => {
+                // The milling part of the project: layers, material and the bits it uses (they join the library).
+                let loaded = match &file {
+                    Some(p) => section::load(p, &mut self.tools),
+                    None => section::load(&Project::default(), &mut self.tools),
+                };
+                let loaded = match loaded {
+                    Ok(l) => l,
+                    Err(e) => {
+                        self.status = format!("Could not open {name}: {e}");
+                        return;
+                    }
+                };
+                self.layers = loaded.layers;
+                self.stock = loaded.stock;
+                self.touch_rev();
                 // Sections of other programs wait here until the next save; a drawing from SVG or PDF has none.
                 self.description = file.as_ref().map(|p| p.description.clone()).unwrap_or_default();
                 self.kept = file.unwrap_or_default();
@@ -238,6 +323,13 @@ impl App {
                 self.status = format!("Opened {name}: {} shapes", scene.shapes.len());
                 if !warnings.is_empty() {
                     self.status.push_str(&format!(" (some parts could not be used: {warnings})"));
+                }
+                if let Some(m) = loaded.machine.as_ref().and_then(|m| m.differences(&self.device)) {
+                    self.status.push_str(&format!(" — {}", tr("this project was made for a different machine: {}").replace("{}", &m)));
+                }
+                if !loaded.added_tools.is_empty() {
+                    self.status.push_str(&format!(" — {}: {}", tr("bits added to the library"), loaded.added_tools.join(", ")));
+                    self.tools_win.changed = true;
                 }
                 self.scene = scene;
                 self.history = History::default();
@@ -256,12 +348,13 @@ impl App {
         }
     }
 
-    /// The project as it is saved: the drawing and the description, with the sections of other programs as they were
-    /// read. MillCreator has no section of its own yet.
+    /// The project as it is saved: the drawing, the description and the milling part, with the sections of other
+    /// programs as they were read.
     fn to_project(&self) -> Project {
         let mut p = Project::new(self.scene.clone());
         p.description = self.description.clone();
-        p.restore_sections(&self.kept.other_sections(""));
+        p.set_section(section::SECTION, &section::MillSection::new(&self.layers, &self.stock, &self.device, &self.tools));
+        p.restore_sections(&self.kept.other_sections(section::SECTION));
         p.restore_extra(self.kept.extra());
         p
     }
@@ -294,6 +387,16 @@ impl App {
         if let Some(p) = rfd::FileDialog::new().add_filter("LightBurn", &["lbrn2", "lbrn"]).pick_file() {
             self.open(p);
         }
+    }
+
+    /// The size of the work area of the device in mm.
+    fn work_size_mm(&self) -> (f64, f64) {
+        (self.device.area.x, self.device.area.y)
+    }
+
+    /// Something in the project changed: the toolpaths are out of date.
+    fn touch_rev(&mut self) {
+        self.rev += 1;
     }
 
     fn undo(&mut self) {
@@ -431,15 +534,22 @@ impl App {
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                 base_ui::editor::zoom_and_cursor(self, ui);
                 ui.separator();
-                ui.label(RichText::new(tr("Early skeleton: no milling features yet")).color(theme::text_dim()));
+                ui.label(RichText::new(&self.device.name).color(theme::text_dim())).on_hover_text(tr("The device of this project"));
             });
         });
     }
 
-    /// The tabs of the right panel. Only the properties of the selection so far.
+    /// The tabs of the right panel.
     fn side_panel(&mut self, ui: &mut egui::Ui) {
+        let mut tabs = vec![(SideTab::Properties, tr("Properties")), (SideTab::Layers, tr("Layers")), (SideTab::Material, tr("Material")), (SideTab::Device, tr("Device")), (SideTab::Clipart, clipart_ui::tab_label()), (SideTab::Description, base_ui::description_ui::tab_label())];
+        if self.device.camera().is_some() {
+            tabs.push((SideTab::Camera, tr("Camera")));
+        }
+        if self.side_tab == SideTab::Camera && self.device.camera().is_none() {
+            self.side_tab = SideTab::Properties;
+        }
         ui.horizontal_wrapped(|ui| {
-            for (tab, label) in [(SideTab::Properties, tr("Properties")), (SideTab::Clipart, clipart_ui::tab_label()), (SideTab::Description, base_ui::description_ui::tab_label())] {
+            for (tab, label) in tabs {
                 if ui.add(egui::Button::selectable(self.side_tab == tab, RichText::new(label).strong())).clicked() {
                     self.side_tab = tab;
                 }
@@ -454,9 +564,19 @@ impl App {
                     }
                 });
             }
+            SideTab::Layers => self.layers_panel(ui),
+            SideTab::Material => self.material_panel(ui),
+            SideTab::Device => {
+                egui::ScrollArea::vertical().id_salt("tab_device").auto_shrink([false, false]).show(ui, |ui| self.device_tab(ui));
+            }
             SideTab::Clipart => self.clipart_panel(ui),
             SideTab::Description => {
-                base_ui::description_ui::panel(ui, &mut self.description);
+                if base_ui::description_ui::panel(ui, &mut self.description) {
+                    self.touch_rev();
+                }
+            }
+            SideTab::Camera => {
+                egui::ScrollArea::vertical().id_salt("tab_camera").auto_shrink([false, false]).show(ui, |ui| self.camera_tab(ui));
             }
         }
     }
@@ -467,6 +587,12 @@ impl App {
             ui.vertical_centered(|ui| {
                 base_ui::start::start_header(ui, self.logo.as_ref(), "MillCreator", VERSION);
                 ui.add_space(18.0);
+                let frame = egui::Frame::group(ui.style()).inner_margin(egui::Margin::same(12));
+                frame.show(ui, |ui| {
+                    ui.set_width(460.0);
+                    ui.with_layout(egui::Layout::top_down(egui::Align::LEFT), |ui| self.device_section(ui));
+                });
+                ui.add_space(12.0);
                 ui.label(RichText::new(tr("Start")).size(16.0).strong());
                 ui.label(RichText::new(tr("Open a drawing or start an empty design.")).color(theme::text_dim()));
                 ui.add_space(8.0);
@@ -514,12 +640,15 @@ impl App {
         base_ui::editor::view_options_window(self, ctx, &mut show);
         self.clip_dialogs(ctx);
         self.online_clipart_window(ctx);
+        tools_ui::tools_window(ctx, &mut self.tools_win, &mut self.tools);
+        self.device_window(ctx);
+        self.preview_window(ctx);
         self.show_options = show;
         let about = AboutInfo {
             title: "About MillCreator",
             name: "MillCreator",
             version: VERSION,
-            lines: vec!["Open-source CNC mill design and control software (early skeleton).".into(), "Written in Rust with egui; shares its core and interface with LightCreator through baseCreator.".into()],
+            lines: vec!["Open-source CNC mill design and preparation software: layers, bits, toolpaths, 3D view and G-code.".into(), "Written in Rust with egui; shares its core and interface with LightCreator through baseCreator.".into()],
             url: "https://github.com/michalsarna/MillCreator",
             licence: "MIT OR Apache-2.0",
         };
@@ -581,14 +710,16 @@ impl EditorHost for App {
     fn scene_mut(&mut self) -> &mut Scene {
         &mut self.scene
     }
-    fn layer_visible(&self, _layer: usize) -> bool {
-        true
+    fn layer_visible(&self, layer: usize) -> bool {
+        self.layers.get(layer).is_none_or(|l| l.visible)
     }
     fn checkpoint(&mut self) {
         let before = self.scene.clone();
         self.history.push(before);
     }
-    fn touch(&mut self) {}
+    fn touch(&mut self) {
+        self.touch_rev();
+    }
     fn undo(&mut self) {
         App::undo(self)
     }
@@ -611,10 +742,10 @@ impl EditorHost for App {
         &self.status
     }
     fn work_size(&self) -> (f64, f64) {
-        WORK_AREA
+        self.work_size_mm()
     }
     fn units(&self) -> Units {
-        Units::Mm
+        self.device.units
     }
     fn workspace_fill(&self) -> egui::Color32 {
         theme::workspace()
@@ -627,10 +758,10 @@ impl EditorHost for App {
         }
     }
     fn shape_color(&self, layer: usize) -> Option<egui::Color32> {
-        Some(self.layer_color(layer))
+        self.layer_visible(layer).then(|| self.layer_color(layer))
     }
-    fn layer_color(&self, _layer: usize) -> egui::Color32 {
-        egui::Color32::from_rgb(0x20, 0x20, 0x30)
+    fn layer_color(&self, layer: usize) -> egui::Color32 {
+        self.layers.get(layer).map_or(egui::Color32::from_rgb(0x20, 0x20, 0x30), |l| l.color32())
     }
 }
 
@@ -642,7 +773,7 @@ impl MenuHost for App {
     fn act_enabled(&self, a: Act) -> bool {
         match a {
             Act::Std(s) => self.screen == Screen::Editor && s.enabled(self),
-            Act::Save | Act::SaveAs => self.screen == Screen::Editor,
+            Act::Save | Act::SaveAs | Act::Preview3d | Act::ExportGcode => self.screen == Screen::Editor,
             _ => true,
         }
     }
@@ -673,6 +804,9 @@ impl MenuHost for App {
             Act::Save => self.save(false),
             Act::SaveAs => self.save(true),
             Act::ImportLightburn => self.import_lightburn_dialog(),
+            Act::ToolLibrary => self.tools_win.open = true,
+            Act::Preview3d => self.open_preview(),
+            Act::ExportGcode => self.export_gcode(),
             Act::OpenRecent(i) => {
                 if let Some(p) = self.recent.get(i as usize).cloned() {
                     self.open(p);
@@ -786,9 +920,9 @@ mod tests {
         assert_eq!(saved.scene.shapes.len(), 3);
         assert_eq!(saved.description, "from the laser");
         assert_eq!(saved.section::<serde_json::Value>("laser").unwrap().unwrap()["material"], "Plywood");
-        // A new design starts without them.
+        // A new design starts without the sections of the other programs.
         a.new_design();
-        assert!(a.to_project().section_names().is_empty());
+        assert_eq!(a.to_project().section_names(), vec!["mill"], "only its own part");
         // An SVG is opened without becoming the file that is saved over.
         let svg = dir.join("badge.svg");
         std::fs::write(&svg, SVG).unwrap();

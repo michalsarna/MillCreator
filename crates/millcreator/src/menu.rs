@@ -13,6 +13,9 @@ pub enum Act {
     Save,
     SaveAs,
     ImportLightburn,
+    ToolLibrary,
+    Preview3d,
+    ExportGcode,
     OpenRecent(u8),
     ClearRecent,
     Quit,
@@ -48,6 +51,7 @@ pub fn menus() -> Menus<Act> {
     vec![
         ("File", file),
         ("Edit", std(std_entries::edit())),
+        ("Milling", vec![Item(Act::ToolLibrary, "Bit library…", None), Sep, Item(Act::Preview3d, "3D view of the job…", key("CmdOrCtrl+Shift+3", "Ctrl+Shift+3")), Item(Act::ExportGcode, "Export G-code…", key("CmdOrCtrl+Shift+G", "Ctrl+Shift+G"))]),
         (
             "Arrange",
             [std(std_entries::align()), vec![Sep], std(std_entries::place()), vec![Sep], std(std_entries::group()), vec![Sep], std(std_entries::order()), vec![Sep], std(std_entries::nodes())].concat(),
