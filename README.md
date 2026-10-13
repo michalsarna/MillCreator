@@ -13,10 +13,12 @@ It looks like LightCreator, because the window and its parts come from baseCreat
 
 ![The start screen](docs/screenshots/01-start.png)
 ![An SVG file open in the editor](docs/screenshots/02-editor-properties.png)
+![The clipart gallery](docs/screenshots/03-clipart.png)
 
 * The window has its own flat frame and title bar, a start screen (new design, open a file, recent files, language and
   colour scheme), a menu bar (File, Edit, Arrange, View, Settings, Help; the native menu bar on macOS), a control bar,
-  a tool palette on the left, an arrange bar and a Properties tab on the right, and a status bar.
+  a tool palette on the left, an arrange bar and the Properties and Clipart tabs on the right, and a status bar.
+* The clipart gallery of baseCreator: 310 included pictures in 9 categories, search, your own pictures, and online search of open icon collections; a picture is placed as ordinary shapes.
 * 30 languages for the shared texts and the colour schemes of LightCreator (Settings menu); the choice is kept.
 * Opens an SVG, PDF or Illustrator (PDF-compatible) file (File menu, drag and drop, or the path on the command line).
 * Draws and edits shapes on a work area with the editor of baseCreator: select, node edit, rectangle, ellipse, triangle,

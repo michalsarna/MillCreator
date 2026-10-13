@@ -11,6 +11,7 @@ mod native_menu;
 use base_core::geom::Xf;
 use base_core::scene::{Kind, Scene};
 use base_core::units::Units;
+use base_ui::clipart_ui::{self, ClipGallery, ClipHost, ClipState};
 use base_ui::dialogs::AboutInfo;
 use base_ui::editor::{EditorCanvas, EditorCommands, EditorHost, EditorState, Tool};
 use base_ui::i18n::{self, tr, Lang};
@@ -85,6 +86,13 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
     }
 }
 
+/// The tabs of the side panel.
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+enum SideTab {
+    Properties,
+    Clipart,
+}
+
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 enum Screen {
     Start,
@@ -102,6 +110,8 @@ struct App {
     path: Option<PathBuf>,
     recent: Vec<PathBuf>,
     logo: Option<egui::TextureHandle>,
+    side_tab: SideTab,
+    clip: ClipState,
     show_options: bool,
     show_about: bool,
     #[cfg(target_os = "macos")]
@@ -140,6 +150,8 @@ impl App {
             path: None,
             recent,
             logo: base_ui::start::load_logo(ctx, ICON_256, "millcreator-logo"),
+            side_tab: SideTab::Properties,
+            clip: ClipState::new(base_core::clipart::Library::open(eframe::storage_dir("millcreator").unwrap_or_else(std::env::temp_dir).join("clipart"))),
             show_options: false,
             show_about: false,
             #[cfg(target_os = "macos")]
@@ -344,14 +356,23 @@ impl App {
     /// The tabs of the right panel. Only the properties of the selection so far.
     fn side_panel(&mut self, ui: &mut egui::Ui) {
         ui.horizontal_wrapped(|ui| {
-            ui.add(egui::Button::selectable(true, RichText::new(tr("Properties")).strong()));
-        });
-        ui.separator();
-        egui::ScrollArea::vertical().id_salt("tab_props").auto_shrink([false, false]).show(ui, |ui| {
-            if !base_ui::editor::properties_sections(self, ui) {
-                ui.label(RichText::new(tr("Nothing selected")).color(theme::text_dim()));
+            for (tab, label) in [(SideTab::Properties, tr("Properties")), (SideTab::Clipart, clipart_ui::tab_label())] {
+                if ui.add(egui::Button::selectable(self.side_tab == tab, RichText::new(label).strong())).clicked() {
+                    self.side_tab = tab;
+                }
             }
         });
+        ui.separator();
+        match self.side_tab {
+            SideTab::Properties => {
+                egui::ScrollArea::vertical().id_salt("tab_props").auto_shrink([false, false]).show(ui, |ui| {
+                    if !base_ui::editor::properties_sections(self, ui) {
+                        ui.label(RichText::new(tr("Nothing selected")).color(theme::text_dim()));
+                    }
+                });
+            }
+            SideTab::Clipart => self.clipart_panel(ui),
+        }
     }
 
     fn start_screen(&mut self, ui: &mut egui::Ui) {
@@ -405,6 +426,8 @@ impl App {
     fn dialogs(&mut self, ctx: &egui::Context) {
         let mut show = self.show_options;
         base_ui::editor::view_options_window(self, ctx, &mut show);
+        self.clip_dialogs(ctx);
+        self.online_clipart_window(ctx);
         self.show_options = show;
         let about = AboutInfo {
             title: "About MillCreator",
@@ -447,6 +470,15 @@ impl App {
         egui::Panel::right("arrange_bar").frame(chrome.inner_margin(egui::Margin::symmetric(2, 4))).exact_size(40.0).resizable(false).show(ui, |ui| base_ui::editor::arrange_bar(self, ui));
         egui::CentralPanel::no_frame().show(ui, |ui| self.canvas(ui));
         self.dialogs(&ctx);
+    }
+}
+
+impl ClipHost for App {
+    fn clip(&self) -> &ClipState {
+        &self.clip
+    }
+    fn clip_mut(&mut self) -> &mut ClipState {
+        &mut self.clip
     }
 }
 
@@ -642,6 +674,29 @@ mod tests {
         assert!(read_scene(b"not a picture").is_err());
         assert!(read_scene(b"%PDF-1.5 broken").is_err());
         assert!(read_scene(b"").is_err());
+    }
+
+    #[test]
+    fn a_gallery_picture_is_placed_and_undone() {
+        let mut a = app();
+        let (_, name, svg) = clipart_ui::BUILTIN_CLIPART[0];
+        a.place_clip(svg, name);
+        assert!(!a.scene.shapes.is_empty() && !a.ed.sel.is_empty());
+        a.undo();
+        assert!(a.scene.shapes.is_empty());
+    }
+
+    #[test]
+    fn the_clipart_tab_draws() {
+        let mut h = egui_kittest::Harness::builder().with_size([1280.0, 800.0]).build_ui_state(
+            |ui, a: &mut App| {
+                a.screen = Screen::Editor;
+                a.side_tab = SideTab::Clipart;
+                a.draw(ui);
+            },
+            App::build(&egui::Context::default(), None, false),
+        );
+        h.run_steps(3);
     }
 
     #[test]

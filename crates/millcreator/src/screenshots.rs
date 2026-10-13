@@ -39,4 +39,6 @@ fn render_screenshots() {
         a.status = "Opened badge.svg".into();
     }
     save(&mut h, "02-editor-properties.png");
+    h.state_mut().as_mut().expect("app built").side_tab = crate::SideTab::Clipart;
+    save(&mut h, "03-clipart.png");
 }
