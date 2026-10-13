@@ -2,7 +2,12 @@
 //! the tool palette, the Properties tab, the colour schemes and the languages all come from baseCreator), imports SVG and
 //! PDF files into a scene and lets you draw and edit shapes on the work area with the shared editor. There are no
 //! milling features yet.
+mod device;
+mod layers;
+mod materials;
 mod menu;
+mod toolpath;
+mod tools;
 #[cfg(test)]
 mod screenshots;
 #[cfg(target_os = "macos")]
