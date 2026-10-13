@@ -6,7 +6,7 @@ Only the newest released version receives security fixes.
 
 | Version | Supported |
 |---------|-----------|
-| newest release | yes |
+| v0.2.0 (latest) | yes |
 | older | no, please update |
 
 ## Reporting a vulnerability
@@ -20,12 +20,12 @@ as a new version.
 
 ## What counts
 
-MillCreator opens files from other people (SVG, PDF / Illustrator) and will talk to machines over a serial port.
-Reports about crashes, hangs or memory use when opening a crafted file, and about anything that could send unintended
-commands to a machine, are in scope. Problems in the shared code are handled in
+MillCreator opens files from other people (SVG, PDF / Illustrator, LightBurn, `.cre` projects, device and bit files) and
+writes G-code for machines. Reports about crashes, hangs or memory use when opening a crafted file, and about anything
+that could write unintended G-code, are in scope. Problems in the shared code are handled in
 [baseCreator](https://github.com/michalsarna/baseCreator/security/advisories/new).
 
 ## Safety reminder
 
-A milling machine is dangerous. MillCreator is an early skeleton without milling features yet; when they arrive, test
-new jobs without material first, wear eye protection and never leave a running machine unattended.
+A milling machine is dangerous. MillCreator writes G-code and does not control the machine; test every job in the air
+first, wear eye and ear protection and never leave a running machine unattended.

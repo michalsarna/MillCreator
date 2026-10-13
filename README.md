@@ -2,32 +2,45 @@
 
 # MillCreator
 
-Open-source CNC mill design and control software, written in Rust. **Early skeleton: there are no milling features yet.**
+Open-source CNC milling software, written in Rust: design or import shapes, give every layer an operation and a bit,
+look at the job in 3D and write G-code. It is the sibling of [LightCreator](https://github.com/michalsarna/LightCreator)
+(laser) and shares its core and interface code through [baseCreator](https://github.com/michalsarna/baseCreator),
+pinned to a tag in `crates/millcreator/Cargo.toml`.
 
-It shares its core and its interface code with [LightCreator](https://github.com/michalsarna/LightCreator) (laser)
-through [baseCreator](https://github.com/michalsarna/baseCreator), pinned to a tag in `crates/millcreator/Cargo.toml`.
+> ⚠️ A milling machine is dangerous and this program has not been run on a machine by its author. It **writes G-code; it
+> does not control the machine.** Test every job in the air first. See the wiki page *Safety and Limitations*.
 
-## What it does today
+![Layers](docs/screenshots/05-layers.png)
+![3D view of the job](docs/screenshots/16-3d-view.png)
 
-It looks like LightCreator, because the window and its parts come from baseCreator:
+The wiki has the full documentation in English and Polish: <https://github.com/michalsarna/MillCreator/wiki>
+(all pictures are on its *Screenshots* page).
 
-![The start screen](docs/screenshots/01-start.png)
-![An SVG file open in the editor](docs/screenshots/02-editor-properties.png)
-![The clipart gallery](docs/screenshots/03-clipart.png)
+## What it does
 
-* The window has its own flat frame and title bar, a start screen (new design, open a file, recent files, language and
-  colour scheme), a menu bar (File, Edit, Arrange, View, Settings, Help; the native menu bar on macOS), a control bar,
-  a tool palette on the left, an arrange bar and the Properties, Clipart and Description tabs on the right, and a status bar.
-* The clipart gallery of baseCreator: 310 included pictures in 9 categories, search, your own pictures, and online search of open icon collections; a picture is placed as ordinary shapes.
-* 30 languages for the shared texts and the colour schemes of LightCreator (Settings menu); the choice is kept.
-* Opens an SVG, PDF or Illustrator (PDF-compatible) file, or a `.cre` project (File menu, drag and drop, or the path on the command line), imports a LightBurn project (File → Import: `.lbrn2` shapes, text outlines and bitmaps),, and saves projects as `.cre`. The project file is shared with LightCreator and other programs on baseCreator: it holds the drawing, the description and one section per program. MillCreator keeps the sections of other programs untouched when it saves, so a project made for a laser can be opened and saved here without losing its laser settings.
-* Draws and edits shapes on a work area with the editor of baseCreator: select, node edit, rectangle, ellipse, triangle,
-  star, polygon, heart, spiral, line, pen, pan and zoom; selection handles to move, resize, turn and slant; the usual
-  commands (undo and redo, select all, copy, paste, duplicate, delete, group, ungroup); grid and snapping (View menu and View options…).
-  Keyboard: tool letters as in LightCreator (V, N, R, E, ...), Ctrl+Z / Y, Ctrl+A / C / V / D / G, Delete.
+* **Devices:** a list of machines (work area, travel in Z, safe height, spindle range, speeds), each with up to eight
+  cameras and a live **Camera** tab; add, edit, duplicate, export and import; **I have no device** makes a stand-in
+  called Dummy. The list is kept for every project.
+* **Layers:** 16 layers with an operation (cut outside the line, cut inside, follow the line, pocket, drill), a bit,
+  depth, pass depth, step over, feeds and spindle speed.
+* **Bit library:** ready-made bits and your own (kept for every device), seven kinds (flat, ball nose, bull nose,
+  V-bit, engraving, tapered ball nose, drill), each with a picture that shows the letter of every dimension where it is
+  measured; import and export as JSON.
+* **Material:** wood in three colours, metal, plastic in a colour you choose, and the thickness.
+* **3D view:** the block of material, the cuts and the moves at the safe height, turn / zoom / reset, a slider that plays
+  the job; the shown area is 10 % larger than the project.
+* **Toolpaths and G-code:** profiles, pockets, lines and drilling with passes; GRBL-style G-code with a pause to change
+  the bit; warnings (no bit, deeper than the material, outside the work area, spindle out of range).
+* **Project file:** `.cre`, shared with LightCreator; MillCreator keeps its own `mill` section (layers, material, device
+  snapshot, the bits used) and leaves the sections of other programs untouched.
+* **Shared with LightCreator:** the window, menus and editor, 310 clipart pictures, import of SVG, PDF, Illustrator and
+  LightBurn projects, 30 languages for the shared texts (the texts of MillCreator's own screens are English), 14 colour schemes.
 
-There is no project file, no layers, no tool paths, no G-code and no machine control yet; see [FEATURES.md](FEATURES.md).
-The work area is a fixed 300 x 200 mm.
+What is not there: machine control, tabs, ramps, V-carving, 3D relief, collision checks. See [FEATURES.md](FEATURES.md).
+
+## Install
+
+Ready-made packages for Windows, macOS and Linux are on the [Releases page](https://github.com/michalsarna/MillCreator/releases); see [INSTALL.md](INSTALL.md).
 
 ## Building
 
@@ -56,6 +69,16 @@ mill going into the base. `tools/make-icons.sh assets/icons/millcreator.svg mill
 the `.icns` (needs inkscape; the `.icns` needs macOS). The screenshots are made by
 `cargo test -p millcreator render_screenshots -- --ignored`.
 
-## Licence
+<p align="center">
+  <a href="SUPPORT.md">
+    <img src="https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=%E2%98%95&slug=michalsarna&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy me a coffee" height="48">
+  </a>
+</p>
 
-Either of [Apache License 2.0](LICENSE-APACHE) or the [MIT license](LICENSE), at your option.
+## Credits and licence
+
+MillCreator is licensed under either of [Apache License 2.0](LICENSE-APACHE) or the [MIT license](LICENSE), at your option. Copyright (c) 2026 MillCreator contributors.
+
+Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in MillCreator by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
+
+It is built on many open-source projects, fonts and icon sets: see [CREDITS.md](CREDITS.md) and [`assets/LICENSES.md`](assets/LICENSES.md).
