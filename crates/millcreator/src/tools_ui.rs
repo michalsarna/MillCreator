@@ -118,7 +118,10 @@ pub fn marks(kind: ToolKind, d: &Dims) -> Vec<Mark> {
                 // The two sides of the angle are drawn from the apex of the cone.
                 let apex_y = match kind {
                     ToolKind::Engraver => -(d.tip / 2.0) / half_angle.tan(),
-                    ToolKind::TaperedBall => -0.0,
+                    ToolKind::TaperedBall => {
+                        let t = (d.tip / 2.0).max(0.01);
+                        t - t / half_angle.sin()
+                    }
                     _ => 0.0,
                 };
                 Mark { dim: *dim, from: (0.0, apex_y), to: (0.0, apex_y + r.max(1.0)) }
@@ -147,7 +150,15 @@ fn arrow_line(painter: &egui::Painter, a: Pos2, b: Pos2, color: Color32) {
 }
 
 /// Draw the bit into `rect`, with the letters of its dimensions.
-pub fn draw_tool(painter: &egui::Painter, rect: Rect, kind: ToolKind, d: &Dims) {
+pub fn draw_tool(painter: &egui::Painter, rect: Rect, kind: ToolKind, real: &Dims) {
+    // The shank is shown short, with a break in it, so the cutting end is large enough to see.
+    let shank_shown = (real.diameter * 1.5).max(8.0);
+    let broken = real.overall - real.cut_length > shank_shown * 1.3;
+    let mut shown = real.clone();
+    if broken {
+        shown.overall = real.cut_length + shank_shown;
+    }
+    let d = &shown;
     let ink = theme::text();
     let body = if theme::text().r() > 128 { Color32::from_rgb(0x5a, 0x66, 0x7a) } else { Color32::from_rgb(0xb8, 0xc2, 0xd0) };
     let mark_color = Color32::from_rgb(0xd0, 0x50, 0x20);
@@ -166,19 +177,30 @@ pub fn draw_tool(painter: &egui::Painter, rect: Rect, kind: ToolKind, d: &Dims) 
     // The cutting part is a little darker than the shank.
     let cut_top = d.cut_length;
     painter.line_segment([to_screen((-widest.max(d.shank / 2.0) - 0.3, cut_top)), to_screen((widest.max(d.shank / 2.0) + 0.3, cut_top))], Stroke::new(0.8, ink.gamma_multiply(0.35)));
+    if broken {
+        // The sign of a break on the shank.
+        let y = d.cut_length + shank_shown * 0.82;
+        let half = d.shank as f32 / 2.0 * s + 3.0;
+        for off in [-3.0f32, 3.0] {
+            let c = to_screen((0.0, y));
+            painter.line_segment([Pos2::new(c.x - half, c.y + off + 2.0), Pos2::new(c.x + half, c.y + off - 2.0)], Stroke::new(1.4, theme::workspace()));
+        }
+    }
     for m in marks(kind, d) {
         let (a, b) = (to_screen(m.from), to_screen(m.to));
         match m.dim {
             Dim::Angle => {
                 // Two lines from the apex along the flanks and an arc between them.
                 let half = (d.angle.clamp(1.0, 179.0) / 2.0).to_radians() as f32;
-                let len = 0.45 * overall as f32 * s;
+                // From the apex of the cone: the flanks go a little past the cone, the arc sits inside it.
+                let cone = (d.diameter / 2.0 / (half as f64).tan()) as f32;
+                let len = (cone * 1.25 * s).max(30.0);
                 let up = Vec2::new(0.0, -1.0);
                 let rot = |a: f32| Vec2::new(up.x * a.cos() - up.y * a.sin(), up.x * a.sin() + up.y * a.cos());
                 let apex = a;
                 painter.line_segment([apex, apex + rot(-half) * len], Stroke::new(1.0, mark_color));
                 painter.line_segment([apex, apex + rot(half) * len], Stroke::new(1.0, mark_color));
-                let rad = len * 0.7;
+                let rad = (cone * 0.55 * s).clamp(14.0, len * 0.9);
                 let pts: Vec<Pos2> = (0..=16).map(|i| apex + rot(-half + 2.0 * half * i as f32 / 16.0) * rad).collect();
                 painter.add(egui::Shape::line(pts, Stroke::new(1.2, mark_color)));
                 painter.text(apex + rot(0.0) * (rad + 9.0), Align2::CENTER_CENTER, m.dim.letter(), FontId::proportional(13.0), mark_color);
@@ -269,7 +291,7 @@ pub fn tools_window(ctx: &egui::Context, win: &mut ToolsWindow, lib: &mut Librar
             // The list.
             ui.vertical(|ui| {
                 ui.set_width(250.0);
-                egui::ScrollArea::vertical().id_salt("tool_list").max_height(ui.available_height() - 70.0).auto_shrink([false, false]).show(ui, |ui| {
+                egui::ScrollArea::vertical().id_salt("tool_list").max_height(410.0).auto_shrink([false, false]).show(ui, |ui| {
                     let mut pick = None;
                     for (title, user) in [(tr("Ready-made bits"), false), (tr("My bits"), true)] {
                         ui.label(egui::RichText::new(title).strong().color(theme::text_dim()));
@@ -279,7 +301,7 @@ pub fn tools_window(ctx: &egui::Context, win: &mut ToolsWindow, lib: &mut Librar
                         }
                         for t in list {
                             let on = win.selected.as_deref() == Some(t.id.as_str());
-                            if ui.add_sized([ui.available_width(), 24.0], egui::Button::selectable(on, &t.name)).clicked() {
+                            if ui.add_sized([ui.available_width(), 22.0], egui::Button::selectable(on, &t.name)).clicked() {
                                 pick = Some(t.id.clone());
                             }
                         }
@@ -365,7 +387,7 @@ pub fn tools_window(ctx: &egui::Context, win: &mut ToolsWindow, lib: &mut Librar
                 };
                 let editable = !draft.builtin;
                 let mut changed = false;
-                let (rect, _) = ui.allocate_exact_size(Vec2::new(ui.available_width().min(520.0), 260.0), egui::Sense::hover());
+                let (rect, _) = ui.allocate_exact_size(Vec2::new(ui.available_width().min(520.0), 230.0), egui::Sense::hover());
                 let painter = ui.painter_at(rect);
                 painter.rect_filled(rect, 4.0, theme::workspace());
                 draw_tool(&painter, rect, draft.kind, &draft.dims);
@@ -373,7 +395,7 @@ pub fn tools_window(ctx: &egui::Context, win: &mut ToolsWindow, lib: &mut Librar
                 if !editable {
                     ui.label(egui::RichText::new(tr("A ready-made bit cannot be changed. Make a copy to change it.")).color(theme::text_dim()));
                 }
-                egui::ScrollArea::vertical().id_salt("tool_edit").auto_shrink([false, false]).show(ui, |ui| {
+                egui::ScrollArea::vertical().id_salt("tool_edit").max_height(330.0).auto_shrink([false, false]).show(ui, |ui| {
                     egui::Grid::new("tool_grid").num_columns(3).spacing([10.0, 5.0]).show(ui, |ui| {
                         ui.label("");
                         ui.label(tr("Name"));

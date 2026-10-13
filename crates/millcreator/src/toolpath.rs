@@ -230,6 +230,12 @@ pub fn generate(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Devi
         }
     }
     prog.moves = b.moves;
+    // The machine is already above the first cut when the program starts: no move comes from the corner of the table.
+    if let Some(first) = prog.moves.first_mut() {
+        if first.kind == MoveKind::Rapid && first.from == [0.0, 0.0, dev.safe_z] {
+            first.from = first.to;
+        }
+    }
     prog.bounds = bounds(&prog.moves);
     if let Some((lo, hi)) = prog.bounds {
         if lo[0] < -1e-6 || lo[1] < -1e-6 || hi[0] > dev.area.x + 1e-6 || hi[1] > dev.area.y + 1e-6 {

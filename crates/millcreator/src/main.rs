@@ -403,6 +403,7 @@ impl App {
         if let Some(s) = self.history.back(&self.scene) {
             self.scene = s;
             self.forget_missing();
+            self.touch_rev();
         }
     }
 
@@ -410,6 +411,7 @@ impl App {
         if let Some(s) = self.history.forward(&self.scene) {
             self.scene = s;
             self.forget_missing();
+            self.touch_rev();
         }
     }
 

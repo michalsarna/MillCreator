@@ -40,13 +40,16 @@ impl App {
         let active = self.ed.active_layer.min(self.layers.len().saturating_sub(1));
         let mut pick = None;
         let mut changed = false;
-        egui::ScrollArea::vertical().id_salt("layer_list").max_height(250.0).auto_shrink([false, true]).show(ui, |ui| {
+        egui::ScrollArea::vertical().id_salt("layer_list").max_height(190.0).auto_shrink([false, true]).show(ui, |ui| {
             for (i, l) in self.layers.iter_mut().enumerate() {
                 ui.horizontal(|ui| {
                     let (rect, _) = ui.allocate_exact_size(egui::vec2(14.0, 14.0), egui::Sense::hover());
                     ui.painter().rect_filled(rect, 3.0, l.color32());
                     changed |= ui.checkbox(&mut l.enabled, "").on_hover_text(tr("Milled: taken into the toolpaths and the G-code")).changed();
-                    changed |= ui.toggle_value(&mut l.visible, "👁").on_hover_text(tr("Shown in the work area")).changed();
+                    if base_ui::widgets::toggle_icon(ui, "eye", &tr("Shown in the work area"), l.visible) {
+                        l.visible = !l.visible;
+                        changed = true;
+                    }
                     let text = format!("{}  ·  {}", l.name, tr(l.op.label()));
                     let r = ui.add_sized([ui.available_width() - 44.0, 22.0], egui::Button::selectable(i == active, text));
                     if r.clicked() {
