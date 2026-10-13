@@ -2,7 +2,7 @@
 //!
 //! `cargo test -p millcreator render_screenshots -- --ignored --nocapture` writes PNG files into `docs/screenshots/`.
 use crate::{App, Screen};
-use base_ui::editor::{EditorCommands, EditorHost};
+use base_ui::editor::EditorCommands;
 use egui_kittest::Harness;
 use std::path::PathBuf;
 

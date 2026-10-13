@@ -9,6 +9,7 @@ mod screenshots;
 mod native_menu;
 
 use base_core::geom::Xf;
+use base_core::project::{self, Project};
 use base_core::scene::{Kind, Scene};
 use base_core::units::Units;
 use base_ui::clipart_ui::{self, ClipGallery, ClipHost, ClipState};
@@ -18,7 +19,7 @@ use base_ui::i18n::{self, tr, Lang};
 use base_ui::menu::{MenuHost, Menus};
 use base_ui::theme::{self, Scheme};
 use base_ui::widgets::icon_button_ink;
-use base_ui::window::{NEW_BLUE, OPEN_ORANGE};
+use base_ui::window::{NEW_BLUE, OPEN_ORANGE, SAVE_GREEN};
 use eframe::egui::{self, Color32, RichText};
 use menu::{menus, Act, MAX_RECENT};
 use std::path::PathBuf;
@@ -77,6 +78,7 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::Std(s) => Some(s.icon()),
         Act::New => Some("file-plus"),
         Act::Open => Some("folder-open"),
+        Act::Save | Act::SaveAs => Some("save"),
         Act::OpenRecent(_) | Act::ClearRecent => None,
         Act::Quit => Some("x"),
         Act::ViewOptions => Some("sliders-horizontal"),
@@ -112,6 +114,10 @@ struct App {
     logo: Option<egui::TextureHandle>,
     side_tab: SideTab,
     clip: ClipState,
+    /// The free text of the project, kept for the next save.
+    description: String,
+    /// The parts of the project file that are not ours (laser, pen...), kept as they were read and written back.
+    kept: Project,
     show_options: bool,
     show_about: bool,
     #[cfg(target_os = "macos")]
@@ -152,6 +158,8 @@ impl App {
             logo: base_ui::start::load_logo(ctx, ICON_256, "millcreator-logo"),
             side_tab: SideTab::Properties,
             clip: ClipState::new(base_core::clipart::Library::open(eframe::storage_dir("millcreator").unwrap_or_else(std::env::temp_dir).join("clipart"))),
+            description: String::new(),
+            kept: Project::default(),
             show_options: false,
             show_about: false,
             #[cfg(target_os = "macos")]
@@ -184,6 +192,8 @@ impl App {
         self.scene = Scene::default();
         self.history = History::default();
         self.path = None;
+        self.description.clear();
+        self.kept = Project::default();
         self.ed.sel.clear();
         self.ed.node_sel.clear();
         self.ed.view.need_fit = true;
@@ -193,8 +203,21 @@ impl App {
 
     fn open(&mut self, path: PathBuf) {
         let name = path.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
-        match std::fs::read(&path).map_err(|e| e.to_string()).and_then(|d| read_scene(&d)) {
-            Ok(scene) => {
+        let is_project = path.extension().is_some_and(|e| e.eq_ignore_ascii_case(project::EXTENSION));
+        let read = std::fs::read(&path).map_err(|e| e.to_string()).and_then(|d| {
+            if is_project {
+                let text = String::from_utf8(d).map_err(|_| "this is not a project file".to_string())?;
+                Project::from_json(&text).map(|p| (p.scene.clone(), Some(p)))
+            } else {
+                read_scene(&d).map(|s| (s, None))
+            }
+        });
+        match read {
+            Ok((scene, file)) => {
+                // Sections of other programs wait here until the next save; a drawing from SVG or PDF has none.
+                self.description = file.as_ref().map(|p| p.description.clone()).unwrap_or_default();
+                self.kept = file.unwrap_or_default();
+                self.kept.scene = Scene::default();
                 self.status = format!("Opened {name}: {} shapes", scene.shapes.len());
                 self.scene = scene;
                 self.history = History::default();
@@ -203,14 +226,42 @@ impl App {
                 self.ed.view.need_fit = true;
                 self.screen = Screen::Editor;
                 self.add_recent(&path);
-                self.path = Some(path);
+                // An SVG or PDF is not saved over: the next save asks for a project name.
+                self.path = is_project.then_some(path);
             }
             Err(e) => self.status = format!("Could not open {name}: {e}"),
         }
     }
 
+    /// The project as it is saved: the drawing and the description, with the sections of other programs as they were
+    /// read. MillCreator has no section of its own yet.
+    fn to_project(&self) -> Project {
+        let mut p = Project::new(self.scene.clone());
+        p.description = self.description.clone();
+        p.restore_sections(&self.kept.other_sections(""));
+        p.restore_extra(self.kept.extra());
+        p
+    }
+
+    fn save(&mut self, as_new: bool) {
+        let path = match (&self.path, as_new) {
+            (Some(p), false) => Some(p.clone()),
+            _ => rfd::FileDialog::new().add_filter("Project", &[project::EXTENSION]).set_file_name("untitled.cre").save_file(),
+        };
+        let Some(path) = path else { return };
+        let name = path.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
+        match std::fs::write(&path, self.to_project().to_json()) {
+            Ok(()) => {
+                self.status = format!("Saved {name}");
+                self.add_recent(&path);
+                self.path = Some(path);
+            }
+            Err(e) => self.status = format!("Could not save {name}: {e}"),
+        }
+    }
+
     fn open_dialog(&mut self) {
-        if let Some(p) = rfd::FileDialog::new().add_filter("SVG / PDF / Illustrator", &["svg", "pdf", "ai"]).pick_file() {
+        if let Some(p) = rfd::FileDialog::new().add_filter("Project, SVG, PDF, Illustrator", &[project::EXTENSION, "svg", "pdf", "ai"]).pick_file() {
             self.open(p);
         }
     }
@@ -272,6 +323,8 @@ impl App {
                 }
             } else if !native && pressed(egui::Key::N) {
                 self.new_design();
+            } else if !native && pressed(egui::Key::S) {
+                self.save(shift);
             } else if !native && pressed(egui::Key::O) {
                 self.open_dialog();
             } else if !native && pressed(egui::Key::Q) {
@@ -331,7 +384,7 @@ impl App {
             base_ui::editor::control_name(self, ui);
             ui.separator();
             let ctx = ui.ctx().clone();
-            for (act, icon, tip, ink) in [(Act::New, "file-plus", "New", NEW_BLUE), (Act::Open, "folder-open", "Open…", OPEN_ORANGE)] {
+            for (act, icon, tip, ink) in [(Act::New, "file-plus", "New", NEW_BLUE), (Act::Open, "folder-open", "Open…", OPEN_ORANGE), (Act::Save, "save", "Save", SAVE_GREEN)] {
                 if icon_button_ink(ui, icon, &tr(tip), true, 28.0, ink) {
                     self.run_act(&ctx, act);
                 }
@@ -392,7 +445,7 @@ impl App {
                         self.run_act(&ctx, Act::New);
                     }
                     ui.add_space(4.0);
-                    let open = egui::Button::image_and_text(base_ui::icons::slot(Some("folder-open"), theme::text()), tr("Open SVG / PDF…"));
+                    let open = egui::Button::image_and_text(base_ui::icons::slot(Some("folder-open"), theme::text()), tr("Open…"));
                     if ui.add_sized([ui.available_width(), 30.0], open).clicked() {
                         self.run_act(&ctx, Act::Open);
                     }
@@ -556,6 +609,7 @@ impl MenuHost for App {
     fn act_enabled(&self, a: Act) -> bool {
         match a {
             Act::Std(s) => self.screen == Screen::Editor && s.enabled(self),
+            Act::Save | Act::SaveAs => self.screen == Screen::Editor,
             _ => true,
         }
     }
@@ -583,6 +637,8 @@ impl MenuHost for App {
         match a {
             Act::New => self.new_design(),
             Act::Open => self.open_dialog(),
+            Act::Save => self.save(false),
+            Act::SaveAs => self.save(true),
             Act::OpenRecent(i) => {
                 if let Some(p) = self.recent.get(i as usize).cloned() {
                     self.open(p);
@@ -674,6 +730,51 @@ mod tests {
         assert!(read_scene(b"not a picture").is_err());
         assert!(read_scene(b"%PDF-1.5 broken").is_err());
         assert!(read_scene(b"").is_err());
+    }
+
+    #[test]
+    fn a_project_is_saved_and_opened_and_keeps_the_sections_of_other_programs() {
+        let dir = std::env::temp_dir().join(format!("mc-project-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        // A project made by a laser program: a drawing and a laser section.
+        let mut p = Project::new(read_scene(SVG).unwrap());
+        p.description = "from the laser".into();
+        p.set_section("laser", &serde_json::json!({ "format": 1, "material": "Plywood" }));
+        let file = dir.join("job.cre");
+        std::fs::write(&file, p.to_json()).unwrap();
+        let mut a = app();
+        a.open(file.clone());
+        assert_eq!((a.scene.shapes.len(), a.path.as_ref(), a.screen), (2, Some(&file), Screen::Editor));
+        // Edit and save in place.
+        a.scene.add(0, Kind::Rect { w: 5.0, h: 5.0 }, Xf::IDENTITY);
+        a.save(false);
+        let saved = Project::from_json(&std::fs::read_to_string(&file).unwrap()).unwrap();
+        assert_eq!(saved.scene.shapes.len(), 3);
+        assert_eq!(saved.description, "from the laser");
+        assert_eq!(saved.section::<serde_json::Value>("laser").unwrap().unwrap()["material"], "Plywood");
+        // A new design starts without them.
+        a.new_design();
+        assert!(a.to_project().section_names().is_empty());
+        // An SVG is opened without becoming the file that is saved over.
+        let svg = dir.join("badge.svg");
+        std::fs::write(&svg, SVG).unwrap();
+        a.open(svg);
+        assert!(a.path.is_none());
+        std::fs::remove_dir_all(dir).ok();
+    }
+
+    #[test]
+    fn a_broken_project_is_an_error_message_and_changes_nothing() {
+        let dir = std::env::temp_dir().join(format!("mc-broken-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let file = dir.join("broken.cre");
+        std::fs::write(&file, "{ not json").unwrap();
+        let mut a = app();
+        a.scene = read_scene(SVG).unwrap();
+        a.open(file);
+        assert_eq!(a.scene.shapes.len(), 2);
+        assert!(a.status.starts_with("Could not open"), "{}", a.status);
+        std::fs::remove_dir_all(dir).ok();
     }
 
     #[test]

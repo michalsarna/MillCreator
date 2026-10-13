@@ -6,8 +6,8 @@ license.workspace = true
 description = "MillCreator: open-source CNC mill design and control software (early skeleton)"
 
 [dependencies]
-base-core = { git = "https://github.com/michalsarna/baseCreator", tag = "v0.5.1" }
-base-ui = { git = "https://github.com/michalsarna/baseCreator", tag = "v0.5.1" }
+base-core = { git = "https://github.com/michalsarna/baseCreator", tag = "v0.6.0" }
+base-ui = { git = "https://github.com/michalsarna/baseCreator", tag = "v0.6.0" }
 eframe = { version = "0.36", default-features = false, features = ["default_fonts", "glow", "x11", "wayland", "persistence"] }
 rfd = "0.17"
 
@@ -50,3 +50,4 @@ assets = [
 [dev-dependencies]
 # Renders the UI headlessly to PNG for the README screenshots (see src/screenshots.rs).
 egui_kittest = { version = "0.36", features = ["wgpu"] }
+serde_json = "1"
