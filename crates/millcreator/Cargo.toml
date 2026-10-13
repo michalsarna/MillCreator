@@ -3,13 +3,16 @@ name = "millcreator"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "MillCreator: open-source CNC mill design and control software (early skeleton)"
+description = "MillCreator: open-source CNC milling software: layers, bits, toolpaths, 3D view and G-code"
 
 [dependencies]
-base-core = { git = "https://github.com/michalsarna/baseCreator", tag = "v0.7.0" }
-base-ui = { git = "https://github.com/michalsarna/baseCreator", tag = "v0.7.0" }
+base-core = { git = "https://github.com/michalsarna/baseCreator", tag = "v0.8.0" }
+base-ui = { git = "https://github.com/michalsarna/baseCreator", tag = "v0.8.0" }
 eframe = { version = "0.36", default-features = false, features = ["default_fonts", "glow", "x11", "wayland", "persistence"] }
 rfd = "0.17"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+egui = "0.36"
 
 [features]
 # Live camera capture, passed on to base-ui: cargo run --features camera
@@ -22,7 +25,7 @@ winresource = "0.1"
 name = "MillCreator"
 identifier = "io.github.michalsarna.millcreator"
 icon = ["../../assets/icons/icon-256.png", "../../assets/icons/icon-512.png"]
-short_description = "Open-source CNC mill design and control software"
+short_description = "Open-source CNC milling software"
 
 [package.metadata.bundle.osx]
 minimum_system_version = "11.0"
@@ -34,7 +37,7 @@ section = "graphics"
 priority = "optional"
 # The GUI loads libxkbcommon-x11 and libGL at run time, so list them explicitly.
 depends = "$auto, libxkbcommon-x11-0, libgl1"
-extended-description = "Design shapes and import SVG and PDF for CNC milling (early skeleton)."
+extended-description = "Design shapes, set layers, bits and material, see the job in 3D and write G-code for CNC milling."
 assets = [
   ["target/release/millcreator", "usr/bin/", "755"],
   ["../../assets/millcreator.desktop", "usr/share/applications/", "644"],
@@ -50,4 +53,3 @@ assets = [
 [dev-dependencies]
 # Renders the UI headlessly to PNG for the README screenshots (see src/screenshots.rs).
 egui_kittest = { version = "0.36", features = ["wgpu"] }
-serde_json = "1"
