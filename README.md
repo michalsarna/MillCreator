@@ -17,7 +17,7 @@ It looks like LightCreator, because the window and its parts come from baseCreat
 
 * The window has its own flat frame and title bar, a start screen (new design, open a file, recent files, language and
   colour scheme), a menu bar (File, Edit, Arrange, View, Settings, Help; the native menu bar on macOS), a control bar,
-  a tool palette on the left, an arrange bar and the Properties and Clipart tabs on the right, and a status bar.
+  a tool palette on the left, an arrange bar and the Properties, Clipart and Description tabs on the right, and a status bar.
 * The clipart gallery of baseCreator: 310 included pictures in 9 categories, search, your own pictures, and online search of open icon collections; a picture is placed as ordinary shapes.
 * 30 languages for the shared texts and the colour schemes of LightCreator (Settings menu); the choice is kept.
 * Opens an SVG, PDF or Illustrator (PDF-compatible) file, a LightBurn project (`.lbrn2`: shapes, text outlines and bitmaps) or a `.cre` project (File menu, drag and drop, or the path on the command line), and saves projects as `.cre`. The project file is shared with LightCreator and other programs on baseCreator: it holds the drawing, the description and one section per program. MillCreator keeps the sections of other programs untouched when it saves, so a project made for a laser can be opened and saved here without losing its laser settings.

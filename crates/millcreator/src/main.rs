@@ -93,6 +93,7 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
 enum SideTab {
     Properties,
     Clipart,
+    Description,
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
@@ -422,7 +423,7 @@ impl App {
     /// The tabs of the right panel. Only the properties of the selection so far.
     fn side_panel(&mut self, ui: &mut egui::Ui) {
         ui.horizontal_wrapped(|ui| {
-            for (tab, label) in [(SideTab::Properties, tr("Properties")), (SideTab::Clipart, clipart_ui::tab_label())] {
+            for (tab, label) in [(SideTab::Properties, tr("Properties")), (SideTab::Clipart, clipart_ui::tab_label()), (SideTab::Description, base_ui::description_ui::tab_label())] {
                 if ui.add(egui::Button::selectable(self.side_tab == tab, RichText::new(label).strong())).clicked() {
                     self.side_tab = tab;
                 }
@@ -438,6 +439,9 @@ impl App {
                 });
             }
             SideTab::Clipart => self.clipart_panel(ui),
+            SideTab::Description => {
+                base_ui::description_ui::panel(ui, &mut self.description);
+            }
         }
     }
 
@@ -828,6 +832,23 @@ mod tests {
             App::build(&egui::Context::default(), None, false),
         );
         h.run_steps(3);
+    }
+
+    #[test]
+    fn the_description_tab_draws_the_text_of_the_project_and_it_is_saved() {
+        let mut app = App::build(&egui::Context::default(), None, false);
+        app.description = "Birch plywood 3 mm".into();
+        let mut h = egui_kittest::Harness::builder().with_size([1280.0, 800.0]).build_ui_state(
+            |ui, a: &mut App| {
+                a.screen = Screen::Editor;
+                a.side_tab = SideTab::Description;
+                a.draw(ui);
+            },
+            app,
+        );
+        h.run_steps(3);
+        assert_eq!(h.state().description, "Birch plywood 3 mm");
+        assert_eq!(h.state().to_project().description, "Birch plywood 3 mm");
     }
 
     #[test]
