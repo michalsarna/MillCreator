@@ -204,8 +204,18 @@ impl App {
     fn open(&mut self, path: PathBuf) {
         let name = path.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
         let is_project = path.extension().is_some_and(|e| e.eq_ignore_ascii_case(project::EXTENSION));
+        let is_lightburn = path.extension().is_some_and(|e| e.eq_ignore_ascii_case("lbrn2") || e.eq_ignore_ascii_case("lbrn"));
+        let area_h = self.work_size().1;
+        let mut warnings = String::new();
         let read = std::fs::read(&path).map_err(|e| e.to_string()).and_then(|d| {
-            if is_project {
+            if is_lightburn {
+                // LightBurn counts Y up from the bottom of the work area; the scene counts down from the top. The layers
+                // of the project (laser speed and power) mean nothing here; the shapes come over.
+                let text = String::from_utf8(d).map_err(|_| "this is not a LightBurn project".to_string())?;
+                let imp = base_core::lightburn::import(&text, area_h)?;
+                warnings = imp.warnings.join("; ");
+                Ok((imp.scene, None))
+            } else if is_project {
                 let text = String::from_utf8(d).map_err(|_| "this is not a project file".to_string())?;
                 Project::from_json(&text).map(|p| (p.scene.clone(), Some(p)))
             } else {
@@ -219,6 +229,9 @@ impl App {
                 self.kept = file.unwrap_or_default();
                 self.kept.scene = Scene::default();
                 self.status = format!("Opened {name}: {} shapes", scene.shapes.len());
+                if !warnings.is_empty() {
+                    self.status.push_str(&format!(" (some parts could not be used: {warnings})"));
+                }
                 self.scene = scene;
                 self.history = History::default();
                 self.ed.sel.clear();
@@ -226,7 +239,7 @@ impl App {
                 self.ed.view.need_fit = true;
                 self.screen = Screen::Editor;
                 self.add_recent(&path);
-                // An SVG or PDF is not saved over: the next save asks for a project name.
+                // An SVG, PDF or LightBurn project is not saved over: the next save asks for a project name.
                 self.path = is_project.then_some(path);
             }
             Err(e) => self.status = format!("Could not open {name}: {e}"),
@@ -261,7 +274,7 @@ impl App {
     }
 
     fn open_dialog(&mut self) {
-        if let Some(p) = rfd::FileDialog::new().add_filter("Project, SVG, PDF, Illustrator", &[project::EXTENSION, "svg", "pdf", "ai"]).pick_file() {
+        if let Some(p) = rfd::FileDialog::new().add_filter("Project, SVG, PDF, Illustrator, LightBurn", &[project::EXTENSION, "svg", "pdf", "ai", "lbrn2", "lbrn"]).pick_file() {
             self.open(p);
         }
     }
@@ -760,6 +773,23 @@ mod tests {
         std::fs::write(&svg, SVG).unwrap();
         a.open(svg);
         assert!(a.path.is_none());
+        std::fs::remove_dir_all(dir).ok();
+    }
+
+    #[test]
+    fn a_lightburn_project_opens_with_its_shapes_turned_over() {
+        let dir = std::env::temp_dir().join(format!("mc-lb-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let file = dir.join("job.lbrn2");
+        std::fs::write(&file, r#"<LightBurnProject><Shape Type="Rect" CutIndex="0" W="30" H="10" Cr="0"><XForm>1 0 0 1 50 20</XForm></Shape></LightBurnProject>"#).unwrap();
+        let mut a = app();
+        let h = a.work_size().1;
+        a.open(file);
+        assert_eq!((a.scene.shapes.len(), a.screen), (1, Screen::Editor));
+        assert!(a.path.is_none());
+        // LightBurn's centre is 20 mm above the bottom; here that is 20 mm above the bottom of the work area too.
+        let b = a.scene.shapes[0].bounds().unwrap();
+        assert!((b.min.y - (h - 25.0)).abs() < 1e-9 && (b.min.x - 35.0).abs() < 1e-9, "{b:?}");
         std::fs::remove_dir_all(dir).ok();
     }
 
