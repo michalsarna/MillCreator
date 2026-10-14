@@ -17,6 +17,7 @@
 * The window of LightCreator's look: own frame and title bar, start screen, control bar, status bar, tabs (Properties, Layers, Material, Device, Clipart, Description, Camera), the clipart gallery (310 included pictures, your own, online search), the colour schemes, fonts and the 30 languages of baseCreator for the shared texts.
 * Reading SVG, PDF and Illustrator (PDF-compatible) files and LightBurn projects (`.lbrn2`: shapes, text outlines, bitmaps) into a scene of shapes.
 * The editor of baseCreator: drawing tools, selection, node editing, undo and redo, copy and paste, group, align, flip, rotate, order, grid and snapping.
+* **Backup:** Help → Download backup… saves a zip with the settings of MillCreator and the shared clipart gallery; Help → Restore from backup… reads it back (settings replaced after a confirmation, pictures added to the gallery, a backup of another program refused). The same entries as in LightCreator.
 
 ## Not there (yet)
 

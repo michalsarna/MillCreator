@@ -12,6 +12,7 @@ Język, schemat kolorów, opcje widoku, ostatnie pliki, **lista urządzeń** i *
 
 * Twoje cliparty leżą obok, w folderze `clipart`.
 * Plik jest zapisywany przy zamknięciu programu (i co jakiś czas). **Usuń go, żeby wszystko zresetować**: znika też lista urządzeń i twoje frezy, więc najpierw je wyeksportuj (**Export…** na ekranie startowym i w bibliotece frezów).
+* **Help → Download backup…** zapisuje plik zip z ustawieniami programu MillCreator (lista urządzeń, frezy, język, schemat kolorów, ostatnie pliki) i całą wspólną galerią clipartów, z README. **Help → Restore from backup…** wczytuje taki plik po potwierdzeniu: ustawienia są zastępowane, a obrazki **dodawane** do galerii, więc nic, co w międzyczasie zapisał inny program, nie ginie. Kopia zrobiona w innym programie jest odrzucana. LightCreator ma te same dwie pozycje.
 * Projekty (`.cre`), SVG i G-code zapisują się tam, gdzie wskażesz.
 * Okno ma własną płaską ramkę; **Settings** ma język (30, dla wspólnych tekstów i własnych MillCreatora) i schemat kolorów (14) oraz **View options…**
 * **Help → Project page on GitHub** otwiera repozytorium.
