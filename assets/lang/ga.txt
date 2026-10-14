@@ -253,3 +253,4 @@
 252|{}: tá an doimhneacht teoranta do thaisteal an mheaisín ({} mm)
 253|{}: tá an doimhneacht {} mm níos mó ná tiús an ábhair ({} mm)
 254|{}: tá {} rpm lasmuigh d'raon na fearsaide {}…{} rpm
+255|Iompórtáil dearadh UGS…

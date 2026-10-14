@@ -253,3 +253,4 @@
 252|{}: dybden er begrenset til maskinens bevegelse ({} mm)
 253|{}: dybden på {} mm er større enn tykkelsen på materialet ({} mm)
 254|{}: {} o/min er utenfor spindelområdet {}…{} o/min
+255|Importer UGS-design…

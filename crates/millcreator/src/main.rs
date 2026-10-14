@@ -13,6 +13,7 @@ mod menu;
 mod preview_ui;
 mod section;
 mod toolpath;
+mod ugs_import;
 mod view3d;
 mod texts;
 mod warn;
@@ -105,7 +106,7 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::New => Some("file-plus"),
         Act::Open => Some("folder-open"),
         Act::Save | Act::SaveAs => Some("save"),
-        Act::ImportLightburn => Some("file-input"),
+        Act::ImportLightburn | Act::ImportUgsd => Some("file-input"),
         Act::ToolLibrary => Some("package"),
         Act::Firmware => Some("settings"),
         Act::ToolSensor => Some("target"),
@@ -201,6 +202,11 @@ struct App {
     show_about: bool,
     #[cfg(target_os = "macos")]
     native_menu: Option<native_menu::NativeMenu>,
+}
+
+/// A file that is imported into the drawing: a LightBurn project or a UGS design.
+fn is_import(p: &std::path::Path) -> bool {
+    p.extension().is_some_and(|e| ["lbrn2", "lbrn", "ugsd"].iter().any(|x| e.eq_ignore_ascii_case(x)))
 }
 
 impl App {
@@ -328,23 +334,17 @@ impl App {
     }
 
     fn open(&mut self, path: PathBuf) {
+        // A LightBurn project or a UGS design is imported into the drawing, not opened.
+        if is_import(&path) {
+            return self.import_file(path);
+        }
         if self.screen == Screen::Start {
             self.take_selected_device();
         }
         let name = path.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
         let is_project = path.extension().is_some_and(|e| e.eq_ignore_ascii_case(project::EXTENSION));
-        let is_lightburn = path.extension().is_some_and(|e| e.eq_ignore_ascii_case("lbrn2") || e.eq_ignore_ascii_case("lbrn"));
-        let area_h = self.work_size().1;
-        let mut warnings = String::new();
         let read = std::fs::read(&path).map_err(|e| e.to_string()).and_then(|d| {
-            if is_lightburn {
-                // LightBurn counts Y up from the bottom of the work area; the scene counts down from the top. The layers
-                // of the project (laser speed and power) mean nothing here; the shapes come over.
-                let text = String::from_utf8(d).map_err(|_| "this is not a LightBurn project".to_string())?;
-                let imp = base_core::lightburn::import(&text, area_h)?;
-                warnings = imp.warnings.join("; ");
-                Ok((imp.scene, None))
-            } else if is_project {
+            if is_project {
                 let text = String::from_utf8(d).map_err(|_| "this is not a project file".to_string())?;
                 Project::from_json(&text).map(|p| (p.scene.clone(), Some(p)))
             } else {
@@ -373,9 +373,6 @@ impl App {
                 self.kept = file.unwrap_or_default();
                 self.kept.scene = Scene::default();
                 self.status = format!("Opened {name}: {} shapes", scene.shapes.len());
-                if !warnings.is_empty() {
-                    self.status.push_str(&format!(" (some parts could not be used: {warnings})"));
-                }
                 if let Some(m) = loaded.machine.as_ref().and_then(|m| m.differences(&self.device)) {
                     self.status.push_str(&format!(" — {}", tr("this project was made for a different machine: {}").replace("{}", &m)));
                 }
@@ -389,14 +386,61 @@ impl App {
                 self.ed.node_sel.clear();
                 self.ed.view.need_fit = true;
                 self.screen = Screen::Editor;
-                // An import is not a project to reopen, so it stays out of the recent files.
-                if !is_lightburn {
-                    self.add_recent(&path);
-                }
-                // An SVG, PDF or LightBurn project is not saved over: the next save asks for a project name.
+                self.add_recent(&path);
+                // An SVG or PDF is not saved over: the next save asks for a project name.
                 self.path = is_project.then_some(path);
             }
             Err(e) => self.status = format!("Could not open {name}: {e}"),
+        }
+    }
+
+    /// Import a LightBurn project or a UGS design into the drawing: its shapes are added, selected, and undoable. The ways
+    /// of cutting of a UGS design become the settings of the layers that have no shapes yet; the other layers keep theirs.
+    fn import_file(&mut self, path: PathBuf) {
+        if self.screen == Screen::Start {
+            self.new_design();
+        }
+        let name = path.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
+        let is_ugsd = path.extension().is_some_and(|e| e.eq_ignore_ascii_case("ugsd"));
+        let area_h = self.work_size().1;
+        let max_rpm = self.device.spindle.max_rpm;
+        let last = layers::LAYER_COUNT - 1;
+        let read = std::fs::read(&path).map_err(|e| e.to_string()).and_then(|d| {
+            let text = String::from_utf8(d).map_err(|_| "this is not a text file".to_string())?;
+            if is_ugsd {
+                let imp = base_core::ugsd::import(&text, area_h, layers::LAYER_COUNT)?;
+                let ls = ugs_import::layers(&imp, &mut self.tools, max_rpm);
+                Ok((imp.scene, imp.warnings, Some((ls, imp.cuts.iter().map(|c| c.index).collect::<Vec<_>>()))))
+            } else {
+                let imp = base_core::lightburn::import(&text, area_h)?;
+                Ok((imp.scene, imp.warnings, None))
+            }
+        });
+        match read {
+            Ok((scene, warnings, ugs)) => {
+                self.checkpoint();
+                let used: std::collections::HashSet<usize> = self.scene.shapes.iter().map(|s| s.layer).collect();
+                if let Some(((new_layers, added), cut_layers)) = ugs.map(|(l, c)| (l, c)) {
+                    for i in cut_layers.into_iter().filter(|i| !used.contains(i)) {
+                        self.layers[i] = new_layers[i].clone();
+                    }
+                    if let Some(a) = added {
+                        self.status = format!("{}: {a}", tr("bits added to the library"));
+                        self.tools_win.changed = true;
+                    }
+                }
+                let n = scene.shapes.len();
+                let ids = self.scene.append(scene, last);
+                self.ed.sel = ids.into_iter().collect();
+                self.ed.node_sel.clear();
+                self.touch_rev();
+                self.ed.view.need_fit = true;
+                self.status = format!("Imported {n} shapes from {name}");
+                if !warnings.is_empty() {
+                    self.status.push_str(&format!(" (some parts could not be used: {})", warnings.join("; ")));
+                }
+            }
+            Err(e) => self.status = format!("Could not import {name}: {e}"),
         }
     }
 
@@ -429,7 +473,7 @@ impl App {
     }
 
     fn open_dialog(&mut self) {
-        if let Some(p) = rfd::FileDialog::new().add_filter("Project, SVG, PDF, Illustrator", &[project::EXTENSION, "svg", "pdf", "ai"]).pick_file() {
+        if let Some(p) = rfd::FileDialog::new().add_filter("Project, SVG, PDF, Illustrator", &[project::EXTENSION, "svg", "pdf", "ai", "ugsd"]).pick_file() {
             self.open(p);
         }
     }
@@ -437,6 +481,14 @@ impl App {
     /// File > Import > Import LightBurn project…: the shapes of the project come over as a new, unsaved drawing.
     fn import_lightburn_dialog(&mut self) {
         if let Some(p) = rfd::FileDialog::new().add_filter("LightBurn", &["lbrn2", "lbrn"]).pick_file() {
+            self.open(p);
+        }
+    }
+
+    /// File > Import > Import UGS design…: the shapes and the ways of cutting of a UGS Designer file come over as a new,
+    /// unsaved drawing.
+    fn import_ugsd_dialog(&mut self) {
+        if let Some(p) = rfd::FileDialog::new().add_filter("UGS Designer", &["ugsd"]).pick_file() {
             self.open(p);
         }
     }
@@ -940,6 +992,7 @@ impl MenuHost for App {
             Act::Save => self.save(false),
             Act::SaveAs => self.save(true),
             Act::ImportLightburn => self.import_lightburn_dialog(),
+            Act::ImportUgsd => self.import_ugsd_dialog(),
             Act::ToolLibrary => self.tools_win.open = true,
             Act::Firmware => self.fw_open = true,
             Act::ToolSensor => self.tls_ui.open = true,
@@ -1097,21 +1150,48 @@ mod tests {
     }
 
     #[test]
-    fn a_lightburn_project_opens_with_its_shapes_turned_over() {
+    fn a_lightburn_project_is_imported_into_the_drawing() {
         let dir = std::env::temp_dir().join(format!("mc-lb-{}", std::process::id()));
         std::fs::create_dir_all(&dir).unwrap();
         let file = dir.join("job.lbrn2");
         std::fs::write(&file, r#"<LightBurnProject><Shape Type="Rect" CutIndex="0" W="30" H="10" Cr="0"><XForm>1 0 0 1 50 20</XForm></Shape></LightBurnProject>"#).unwrap();
         let mut a = app();
+        a.scene = read_scene(SVG).unwrap();
+        let before = a.scene.shapes.len();
         let h = a.work_size().1;
         let recent = a.recent.clone();
         a.open(file);
-        assert_eq!((a.scene.shapes.len(), a.screen), (1, Screen::Editor));
-        assert!(a.path.is_none());
+        assert_eq!(a.scene.shapes.len(), before + 1, "added to the drawing");
+        assert_eq!(a.ed.sel.len(), 1);
         assert_eq!(a.recent, recent, "an import is not a project to reopen");
         // LightBurn's centre is 20 mm above the bottom; here that is 20 mm above the bottom of the work area too.
-        let b = a.scene.shapes[0].bounds().unwrap();
+        let b = a.scene.shapes.last().unwrap().bounds().unwrap();
         assert!((b.min.y - (h - 25.0)).abs() < 1e-9 && (b.min.x - 35.0).abs() < 1e-9, "{b:?}");
+        assert!(a.status.starts_with("Imported"), "{}", a.status);
+        // One undo takes the import back.
+        let now = a.scene.clone();
+        a.scene = a.history.back(&now).unwrap();
+        assert_eq!(a.scene.shapes.len(), before);
+        std::fs::remove_dir_all(dir).ok();
+    }
+
+    #[test]
+    fn a_ugs_design_is_imported_with_its_cuts_on_free_layers_only() {
+        let dir = std::env::temp_dir().join(format!("mc-ugsd-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let file = dir.join("job.ugsd");
+        std::fs::write(&file, r#"{"version":"1","entities":[{"type":"RECTANGLE","cutType":"POCKET","cutDepth":4,"feedRate":700,"spindleSpeed":100,"transform":{"m00":30,"m10":0,"m01":0,"m11":10,"m02":50,"m12":20}},{"type":"RECTANGLE","isHidden":true,"cutType":"OUTSIDE_PATH","cutDepth":6,"feedRate":500,"transform":{"m00":5,"m10":0,"m01":0,"m11":5,"m02":0,"m12":0}}]}"#).unwrap();
+        let mut a = app();
+        a.scene.add(1, base_core::scene::Kind::Rect { w: 5.0, h: 5.0 }, base_core::geom::Xf::IDENTITY);
+        let own = a.layers[1].clone();
+        let recent = a.recent.clone();
+        a.open(file);
+        assert_eq!(a.scene.shapes.len(), 3, "the hidden shape is drawn too");
+        assert!(a.path.is_none());
+        assert_eq!(a.recent, recent);
+        // The pocket is the first way of cutting: layer 0 was free and takes it; layer 1 holds a shape and stays.
+        assert_eq!((a.layers[0].op, a.layers[0].depth, a.layers[0].feed), (layers::Operation::Pocket, 4.0, 700.0));
+        assert_eq!(a.layers[1], own);
         std::fs::remove_dir_all(dir).ok();
     }
 

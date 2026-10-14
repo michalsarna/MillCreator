@@ -253,3 +253,4 @@
 252|{}: gylis apribotas staklių eiga ({} mm)
 253|{}: {} mm gylis didesnis už medžiagos storį ({} mm)
 254|{}: {} aps./min. už verpstės ribų {}…{} aps./min.
+255|Importuoti UGS dizainą…

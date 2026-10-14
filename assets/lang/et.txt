@@ -253,3 +253,4 @@
 252|{}: sügavus on piiratud masina käiguga ({} mm)
 253|{}: sügavus {} mm on suurem kui materjali paksus ({} mm)
 254|{}: {} p/min on väljaspool spindli vahemikku {}…{} p/min
+255|Impordi UGS-i kujundus…

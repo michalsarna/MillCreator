@@ -253,3 +253,4 @@
 252|{}: globina je omejena na hod stroja ({} mm)
 253|{}: globina {} mm je večja od debeline materiala ({} mm)
 254|{}: {} vrt/min je zunaj območja vretena {}…{} vrt/min
+255|Uvozi načrt UGS…

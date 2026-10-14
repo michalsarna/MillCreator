@@ -253,3 +253,4 @@
 252|{}: dybden er begrænset til maskinens kørselsvej ({} mm)
 253|{}: dybden på {} mm er større end materialets tykkelse ({} mm)
 254|{}: {} omdr./min ligger uden for spindelområdet {}…{} omdr./min
+255|Importér UGS-design…

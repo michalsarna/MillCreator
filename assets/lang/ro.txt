@@ -253,3 +253,4 @@
 252|{}: adâncimea este limitată la cursa mașinii ({} mm)
 253|{}: adâncimea de {} mm este mai mare decât grosimea materialului ({} mm)
 254|{}: {} rpm este în afara intervalului axului {}…{} rpm
+255|Importă designul UGS…

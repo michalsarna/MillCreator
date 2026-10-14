@@ -253,3 +253,4 @@
 252|{}: dýptin er takmörkuð við slag vélarinnar ({} mm)
 253|{}: dýptin {} mm er meiri en þykkt efnisins ({} mm)
 254|{}: {} sn./mín. er utan sviðs snældunnar {}…{} sn./mín.
+255|Flytja inn UGS-hönnun…

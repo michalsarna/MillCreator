@@ -253,3 +253,4 @@
 252|{}: la profunditat està limitada al recorregut de la màquina ({} mm)
 253|{}: la profunditat de {} mm és més gran que el gruix del material ({} mm)
 254|{}: {} rpm és fora del rang de l'eix {}…{} rpm
+255|Importa el disseny d'UGS…

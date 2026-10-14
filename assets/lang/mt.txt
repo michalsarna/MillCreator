@@ -253,3 +253,4 @@
 252|{}: il-fond huwa limitat għall-ivvjaġġar tal-magna ({} mm)
 253|{}: il-fond ta' {} mm huwa akbar mill-ħxuna tal-materjal ({} mm)
 254|{}: {} rpm huwa barra mill-medda tal-ispindil {}…{} rpm
+255|Importa disinn UGS…

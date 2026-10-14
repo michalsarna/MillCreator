@@ -253,3 +253,4 @@
 252|{}: a profundidade está limitada ao curso da máquina ({} mm)
 253|{}: a profundidade de {} mm é maior do que a espessura do material ({} mm)
 254|{}: {} rpm está fora do intervalo do fuso {}…{} rpm
+255|Importar design UGS…

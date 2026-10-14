@@ -253,3 +253,4 @@
 252|{}: hĺbka je obmedzená zdvihom stroja ({} mm)
 253|{}: hĺbka {} mm je väčšia ako hrúbka materiálu ({} mm)
 254|{}: {} ot/min je mimo rozsahu vretena {}…{} ot/min
+255|Importovať návrh UGS…

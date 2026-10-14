@@ -253,3 +253,4 @@
 252|{}: dziļums ir ierobežots ar iekārtas gājienu ({} mm)
 253|{}: dziļums {} mm ir lielāks par materiāla biezumu ({} mm)
 254|{}: {} apgr./min ir ārpus vārpstas diapazona {}…{} apgr./min
+255|Importēt UGS dizainu…
