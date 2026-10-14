@@ -2,6 +2,12 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.2.3
+
+* **The animation of the preview works** (its buttons were inert), in 3D and from above.
+* The preview window no longer has an *Export G-code…* button: the control bar has *Save G-code*.
+* baseCreator v0.9.1.
+
 ## v0.2.2
 
 **The machine**

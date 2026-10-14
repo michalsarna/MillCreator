@@ -100,7 +100,6 @@ impl App {
             self.prog_rev = self.rev;
         }
         let mut open = true;
-        let mut export = false;
         popup(ctx, "preview_3d", &tr("Preview"), [980.0, 700.0], &mut open, |ui| {
             let prog = self.prog.as_ref().expect("the program was made above");
             let region = Region::of(prog, self.shapes_box());
@@ -114,9 +113,6 @@ impl App {
                 ui.checkbox(&mut self.view.show_stock, tr("Material"));
                 ui.checkbox(&mut self.view.show_cuts, tr("Cuts"));
                 ui.checkbox(&mut self.view.show_rapids, tr("Moves at the safe height"));
-                if ui.button(tr("Export G-code…")).clicked() {
-                    export = true;
-                }
             });
             ui.horizontal(|ui| {
                 self.playback.show(ui, &mut self.view.progress);
@@ -138,9 +134,6 @@ impl App {
                 }
             }
         });
-        if export {
-            self.export_gcode();
-        }
         self.show_3d = open;
         if !open {
             self.playback.playing = false;
