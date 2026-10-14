@@ -26,5 +26,5 @@ All pictures are rendered headlessly from the real UI (`cargo test -p millcreato
 | Preview from above, with the animation controls | The Toolpaths button draws the paths over the work area |
 | ![Device: the connection to the GRBL controller](screenshots/21-device-connection.png) | ![Device: a rotary attachment](screenshots/22-device-rotary.png) |
 | Device: the connection to the GRBL controller | Device: a rotary attachment |
-| ![Device tab: connect, home, pause, console](screenshots/23-device-tab-machine.png) |  |
-| Device tab: connect, home, pause, console |  |
+| ![Device tab: connect, home, pause, console](screenshots/23-device-tab-machine.png) | ![Console tab: the traffic with the controller and a line to send a command](screenshots/24-console.png) |
+| Device tab: connect, home, pause, console | Console tab: the traffic with the controller and a line to send a command |

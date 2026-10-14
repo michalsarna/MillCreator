@@ -2,6 +2,11 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.2.4
+
+* A **Console** tab, as in LightCreator: the traffic with the controller, status polls on request, auto-scroll, clear and a line to send a command. It replaces the small console of the Device tab.
+* baseCreator v0.9.2.
+
 ## v0.2.3
 
 * **The animation of the preview works** (its buttons were inert), in 3D and from above.

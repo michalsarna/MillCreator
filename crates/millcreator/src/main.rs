@@ -120,6 +120,7 @@ enum SideTab {
     Layers,
     Material,
     Device,
+    Console,
     Clipart,
     Description,
     Camera,
@@ -605,7 +606,7 @@ impl App {
 
     /// The tabs of the right panel.
     fn side_panel(&mut self, ui: &mut egui::Ui) {
-        let mut tabs = vec![(SideTab::Properties, tr("Properties")), (SideTab::Layers, tr("Layers")), (SideTab::Material, tr("Material")), (SideTab::Device, tr("Device")), (SideTab::Clipart, clipart_ui::tab_label()), (SideTab::Description, base_ui::description_ui::tab_label())];
+        let mut tabs = vec![(SideTab::Properties, tr("Properties")), (SideTab::Layers, tr("Layers")), (SideTab::Material, tr("Material")), (SideTab::Device, tr("Device")), (SideTab::Console, tr("Console")), (SideTab::Clipart, clipart_ui::tab_label()), (SideTab::Description, base_ui::description_ui::tab_label())];
         if self.device.camera().is_some() {
             tabs.push((SideTab::Camera, tr("Camera")));
         }
@@ -636,6 +637,11 @@ impl App {
                     ui.separator();
                     self.machine_section(ui);
                 });
+            }
+            SideTab::Console => {
+                if let Some(line) = self.machine.console.show(ui, self.machine.connected) {
+                    self.machine_line(&line);
+                }
             }
             SideTab::Clipart => self.clipart_panel(ui),
             SideTab::Description => {
