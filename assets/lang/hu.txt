@@ -4,237 +4,252 @@
 3|Egy portnév, vagy az USB gyártó- és termékazonosító (VID:PID, hexadecimálisan): az ilyen azonosítójú portot használja.
 4|A kész maró nem módosítható. Készíts másolatot, ha módosítani szeretnéd.
 5|Forgatóegység csatlakoztatva
-6|A futó munka megszakítása
-7|Névjegy
-8|Kamera hozzáadása
-9|Eszköz hozzáadása
+6|Egy szokásos gépméret…
+7|A futó munka megszakítása
+8|Névjegy
+9|Kamera hozzáadása
 10|Eszköz hozzáadása
-11|Eszköz hozzáadása…
-12|Cím
-13|Csatlakozás után
-14|A vonalon belüli teljes terület gyűrűről gyűrűre kimarásra kerül a réteg mélységéig.
-15|Elrendezés
-16|Hátul balra
-17|Hátul jobbra
-18|Vissza az első nézethez. A képre duplán kattintva ugyanez történik.
-19|Gömbmaró
-20|Baudráta
-21|Kötés ehhez a porthoz
-22|Maró
-23|Marókönyvtár
-24|Marókönyvtár…
-25|Kötött USB-eszköz
-26|Lekerekített sarkú maró (sarokrádiusz)
-27|Kamera
-28|Kamera neve
-29|Kamera száma
-30|Ennek a számítógépnek a kamerája
-31|Kamera elforgatása
-32|Kameranézet
-33|Kamerák
-34|A fájl nem használható
-35|A fájl nem használható: {}
-36|Válassz marót
-37|Először válassz portot vagy gazdagépet az eszköz beállításaiban.
-38|Válaszd ki a gépet, amellyel dolgozni fogsz.
-39|Tokmány
-40|Kerület
-41|Riasztás törlése
-42|Riasztás törlése ($X)
-43|A riasztás törlése kihagyja a referenciafutást: csak akkor használja, ha a fej biztosan biztonságos helyen áll.
-44|Törlés megerősítése
-45|Csatlakozás
-46|Automatikus újracsatlakozás
-47|Először csatlakozz a géphez (Eszköz lap)
-48|Csatlakoztatva
-49|Kapcsolat
-50|Kapcsolat típusa
-51|Konzol
-52|Vezérlő
-53|Átmásolva ide: {}
-54|Sarokrádiusz
-55|Nem sikerült menteni
-56|Nem sikerült menteni: {}
-57|A számlálás megtölti a vezérlő pufferét, és gyors. Az egyszerű egy sort küld, és várja az ok-ját: lassú, de rosszul válaszoló firmware-hez.
-58|Vágás a vonalon belül
-59|Vágás a vonalon kívül
-60|Vágások
-61|Vágások: {} m, körülbelül {} perc
-62|Vágási átmérő
-63|Vágási hossz
-64|Kamera törlése
-65|Mélység
-66|Eszköz
-67|Eszközbeállítások
-68|Eszközbeállítások…
-69|Kapcsolat bontása
-70|Fúró
-71|Szerkesztés
-72|Szerkesztés…
-73|Gravírozó maró
-74|G-code exportálása…
-75|A maró exportálása…
-76|Exportálás…
-77|Előtolás
-78|Előtolás szüneteltetése
-79|Fájl
-80|Ujjmaró
-81|Élek
-82|A vonal követése
-83|Keret
-84|A munkaterület keretezése
-85|Felülről
-86|Elöl balra
-87|Elöl jobbra
-88|A GRBL 1.1-nek három tengelye van: az A tengely nem elérhető, az Y-t használja.
-89|Általános
-90|Járd körbe a keretet, ahol a munka lesz
-91|Súgó
-92|Legnagyobb sebesség
-93|Alaphelyzet
-94|A gép referenciafutása
-95|Gazdagép
-96|Nincs eszközöm
-97|LightBurn-projekt importálása…
-98|A(z) {} eszköz importálva
-99|Importálás…
-100|Fajta
-101|Rétegek
-102|Kihagyva
-103|Legkisebb sebesség
-104|Gép
-105|Gép nullpontja (0,0)
-106|Anyag
-107|A munkadarab anyaga
-108|Fém
-109|A motor mikrolépései annak egy teljes fordulatához, amit hajt (a tokmány vagy egy görgő).
-110|Mikrolépés fordulatonként
-111|Marásra kerül: bekerül a szerszámpályákba és a G-kódba
-112|Marás
-113|Mozgások biztonságos magasságban
-114|Saját marók
-115|Új
-116|Új maró
-117|Nincs maró
-118|Még nincs eszköz. Adj hozzá egyet, vagy dolgozz gép nélkül.
-119|Nincs port
-120|Nem http vagy https cím.
-121|Jegyzetek
-122|Jegyzetek erről a gépről
-123|Itt még nincs semmi
-124|Nincs kijelölve semmi
-125|Csak a műanyag színe módosítható. Az anyag és a vastagsága a 3D nézetben látható, és a projektben mentésre kerül.
-126|Nyiss meg egy rajzot, vagy kezdj üres tervet.
-127|A kapcsolat megnyitása az eszköz beállításaiban megadott vezérlővel
-128|Az előnézeti ablak megnyitása
-129|Megnyitás…
-130|Művelet
-131|Teljes hossz
-132|Átfutás mélysége
-133|Átfutás mélysége (az átmérőből)
-134|Műanyag
-135|Beszúrási előtolás
-136|Zseb
-137|Port
-138|Port vagy USB-azonosító
-139|Előnézet
-140|Előnézet…
-141|Tulajdonságok
-142|A kijelölt alakzatok erre a rétegre
-143|Eszköz beolvasása fájlból
-144|Marók beolvasása fájlból
-145|Kész
-146|Kész marók
-147|Újracsatlakozás
-148|Frissítés
-149|Megjegyzi a kiválasztott port USB-azonosítóit: ha a neve megváltozik, ezekkel találja meg újra.
-150|Nézet visszaállítása
-151|Folytatás
-152|Görgő átmérője
-153|Görgők
-154|Forgató
-155|STOP
-156|Biztonságos magasság
-157|Mentés
-158|G-code mentése
-159|Mentés másként…
-160|Az eszköz mentése fájlba
-161|A marók mentése fájlba
-162|Mentve
-163|Az eszköz mentve ide: {}
-164|Mentve: {}
-165|Beállítások
-166|Szár átmérője
-167|Alakzatok ezen a rétegen
-168|Megjeleníti ennek a gépnek az élő kameraképét
-169|Megjeleníti a pályákat a munkaterületen
-170|A Kamera lapon látható
-171|A munkaterületen látható
-172|A mozgások sebessége az anyag felett
-173|Főorsó
-174|Főorsó fordulatszáma
-175|Indítás
-176|A munka indul: {} sor, ~{}
-177|A réteg kezdősebességei
-178|Oldalirányú átfedés
-179|Oldalirányú átfedés (az átmérőből)
-180|A munka elküldése a csatlakoztatott gépre
-181|Streamelés
-182|Bekapcsolva
-183|TCP-port
-184|Kúpos gömbmaró
-185|A maró a vonalon belül megy, így az alakzat kiesik: lyuk vagy ablak.
-186|A maró a vonalon kívül megy, így az alakzat megmarad: egy alkatrész kivágásra kerül az anyagból.
-187|A maró közepe követi a vonalat: gravírozás és hornyok. A nyitott vonalak is működnek.
-188|A vezérlőnek {} lépés/mm kell az Y tengelyen ($101).
-189|A vágások kilógnak az eszköz munkaterületéről
-190|A projekt eszköze
-191|Az eszköz hozzáadva.
-192|Az eszköz mentve.
-193|A rajz magasabb, mint a munkadarab kerülete ({} mm)
-194|A fájl túl nagy
-195|A munka kész.
-196|A munka fut.
-197|A munkadarab kerülete: a terv nem lehet magasabb.
-198|Nincs mit vágni: tedd az alakzatokat olyan rétegekre, amelyeken van maró.
-199|Nincs mit körbejárni: tedd az alakzatokat olyan rétegekre, amelyeken van maró.
-200|Még nincs mit mutatni: rajzolj alakzatokat, és tedd őket olyan rétegekre, amelyeken van maró.
-201|Vastagság
-202|Ez a verzió nem tudja használni a számítógép kameráit.
-203|Ennek az eszköznek nincs bekapcsolt kamerája. Adj hozzá egyet az eszköz beállításaiban.
-204|Ez az eszköz nincs a listában: a projekttel érkezett
-205|Ez a helyettesítő eszköz (Dummy): alapértelmezett munkaterület és sebességek.
-206|Idő {} / {}
-207|Csúcs átmérője
-208|Túl sok eszköz
-209|Pályák
-210|Típus
-211|Kötés feloldása
-212|Mértékegységek
-213|V-maró
-214|Nézet
-215|Nézetbeállítások…
-216|Várakozás bekapcsolás után
-217|Várakozás a képre…
-218|Ha a kapcsolat magától megszakad, néhány másodpercenként újra próbálkozik, amíg a Szétkapcsolást meg nem nyomja.
-219|Forgatóval az Y tengely forgatja a munkadarabot: a rajz nem lehet magasabb a munkadarab kerületénél. A modell egyszerű (a tokmány a munkadarab átmérőjével fordul, a görgők úgy mozgatják a felületet, mint a sajátjukat); valódi gépet ki kell próbálni.
-220|Fa, sötét
-221|Fa, világos
-222|Fa, közepes
-223|Dolgozzon projekten gép nélkül: egy Dummy nevű egyszerű eszköz az alapértelmezett munkaterülettel és sebességekkel
-224|Munkadarab átmérője
-225|A Z azt adja meg, mennyire megy le a főorsó az anyag tetejétől. A biztonságos magasság az, ahol a főorsó a vágások között mozog.
-226|maró hozzáadva
-227|marók hozzáadva a könyvtárhoz
-228|pl. Az én CNC marógépem
-229|nincs
-230|ez a projekt másik géphez készült: {}
-231|{} átfutás {} mm-ig
-232|{}: nincs maró kiválasztva
-233|{}: nincs mit vágni (a vonal túl kicsi lehet a maróhoz)
-234|{}: a nyitott vonalak kimaradnak a zsebből
-235|{}: a nyitott vonalak kimaradnak a profilból (használd a „A vonal követése” funkciót)
-236|{}: a képeket nem marja
-237|{}: a mélységet a gép mozgástartománya korlátozza ({} mm)
-238|{}: a(z) {} mm mélység nagyobb az anyag vastagságánál ({} mm)
-239|{}: {} ford./perc a főorsó tartományán kívül van ({}…{} ford./perc)
+11|Eszköz hozzáadása
+12|Eszköz hozzáadása…
+13|Cím
+14|Csatlakozás után
+15|Riasztás {}
+16|A vonalon belüli teljes terület gyűrűről gyűrűre kimarásra kerül a réteg mélységéig.
+17|Elrendezés
+18|Hátul balra
+19|Hátul jobbra
+20|Vissza az első nézethez. A képre duplán kattintva ugyanez történik.
+21|Gömbmaró
+22|Baudráta
+23|Kötés ehhez a porthoz
+24|Maró
+25|Marókönyvtár
+26|Marókönyvtár…
+27|Kötött USB-eszköz
+28|Lekerekített sarkú maró (sarokrádiusz)
+29|Kamera
+30|Kamera neve
+31|Kamera száma
+32|Ennek a számítógépnek a kamerája
+33|Kamera elforgatása
+34|Kameranézet
+35|Kamerák
+36|A fájl nem használható
+37|Program ellenőrzése
+38|A program ellenőrzése előbb…
+39|A program ellenőrzése…
+40|Válassz marót
+41|Először válassz portot vagy gazdagépet az eszköz beállításaiban.
+42|Válaszd ki a gépet, amellyel dolgozni fogsz.
+43|Tokmány
+44|Kerület
+45|Riasztás törlése
+46|A riasztás törlése kihagyja a referenciafutást: csak akkor használja, ha a fej biztosan biztonságos helyen áll.
+47|Törlés megerősítése
+48|Csatlakozás
+49|Automatikus újracsatlakozás
+50|Csatlakoztatva
+51|Kapcsolat
+52|Kapcsolat típusa
+53|Konzol
+54|Vezérlés
+55|Átmásolva ide: {}
+56|Sarokrádiusz
+57|Nem sikerült menteni
+58|Nem sikerült menteni: {}
+59|A számlálás megtölti a vezérlő pufferét, és gyors. Az egyszerű egy sort küld, és várja az ok-ját: lassú, de rosszul válaszoló firmware-hez.
+60|Vágás a vonalon belül
+61|Vágás a vonalon kívül
+62|Vágások
+63|Vágások: {} m, körülbelül {} perc
+64|Vágási átmérő
+65|Vágási hossz
+66|Kamera törlése
+67|Mélység
+68|Eszköz
+69|Eszközbeállítások
+70|Eszközbeállítások…
+71|Diagnosztika és statisztika…
+72|Kapcsolat bontása
+73|Fúró
+74|Szerkesztés
+75|Szerkesztés…
+76|Gravírozó maró
+77|Hiba {} a(z) {}. sorban: {}
+78|Hiba {}: {}
+79|G-code exportálása…
+80|A maró exportálása…
+81|Exportálás…
+82|Előtolás
+83|Firmware-beállítások ($$)…
+84|Ujjmaró
+85|Élek
+86|A vonal követése
+87|Keret
+88|A munkaterület keretezése
+89|Felülről
+90|Sorból…
+91|Elöl balra
+92|Elöl jobbra
+93|A GRBL 1.1-nek három tengelye van: az A tengely nem elérhető, az Y-t használja.
+94|Általános
+95|Járd körbe a keretet, ahol a munka lesz
+96|Súgó
+97|Legnagyobb sebesség
+98|Alaphelyzet
+99|A gép referenciafutása
+100|Gazdagép
+101|Nincs eszközöm
+102|LightBurn-projekt importálása…
+103|A(z) {} eszköz importálva
+104|Importálás…
+105|Fajta
+106|Rétegek
+107|Kihagyva
+108|Legkisebb sebesség
+109|Gép nullpontja (0,0)
+110|Anyag
+111|A munkadarab anyaga
+112|Fém
+113|A motor mikrolépései annak egy teljes fordulatához, amit hajt (a tokmány vagy egy görgő).
+114|Mikrolépés fordulatonként
+115|Marásra kerül: bekerül a szerszámpályákba és a G-kódba
+116|Marás
+117|Mozgások biztonságos magasságban
+118|Saját marók
+119|Új
+120|Új maró
+121|Nincs maró
+122|Még nincs eszköz. Adj hozzá egyet, vagy dolgozz gép nélkül.
+123|Nincs port
+124|Nem http vagy https cím.
+125|Jegyzetek
+126|Jegyzetek erről a gépről
+127|Itt még nincs semmi
+128|Nincs kijelölve semmi
+129|Csak a műanyag színe módosítható. Az anyag és a vastagsága a 3D nézetben látható, és a projektben mentésre kerül.
+130|Nyiss meg egy rajzot, vagy kezdj üres tervet.
+131|A kapcsolat megnyitása az eszköz beállításaiban megadott vezérlővel
+132|Az előnézeti ablak megnyitása
+133|Megnyitás…
+134|Művelet
+135|Teljes hossz
+136|Átfutás mélysége
+137|Átfutás mélysége (az átmérőből)
+138|Műanyag
+139|Beszúrási előtolás
+140|Zseb
+141|Port
+142|Port vagy USB-azonosító
+143|Előnézet
+144|Előnézet…
+145|Tulajdonságok
+146|A kijelölt alakzatok erre a rétegre
+147|Eszköz beolvasása fájlból
+148|Marók beolvasása fájlból
+149|Kész
+150|Kész marók
+151|Újracsatlakozás
+152|Frissítés
+153|Megjegyzi a kiválasztott port USB-azonosítóit: ha a neve megváltozik, ezekkel találja meg újra.
+154|Nézet visszaállítása
+155|Folytatás
+156|Görgő átmérője
+157|Görgők
+158|Forgató
+159|STOP
+160|Biztonságos magasság
+161|Mentés
+162|G-code mentése
+163|Mentés másként…
+164|Az eszköz mentése fájlba
+165|A marók mentése fájlba
+166|Mentve
+167|Az eszköz mentve ide: {}
+168|Mentve: {}
+169|Beállítások
+170|Szár átmérője
+171|Alakzatok ezen a rétegen
+172|Megjeleníti ennek a gépnek az élő kameraképét
+173|Megjeleníti a pályákat a munkaterületen
+174|A Kamera lapon látható
+175|A munkaterületen látható
+176|A mozgások sebessége az anyag felett
+177|Főorsó
+178|Indítás
+179|Indulás innen
+180|A munka indítása a program egy sorától
+181|A munka indul: {} sor, ~{}
+182|A réteg kezdősebességei
+183|Oldalirányú átfedés
+184|Oldalirányú átfedés (az átmérőből)
+185|A munka elküldése a csatlakoztatott gépre
+186|Streamelés
+187|Bekapcsolva
+188|TCP-port
+189|Kúpos gömbmaró
+190|A munka körüli G-kód: {}
+191|A maró a vonalon belül megy, így az alakzat kiesik: lyuk vagy ablak.
+192|A maró a vonalon kívül megy, így az alakzat megmarad: egy alkatrész kivágásra kerül az anyagból.
+193|A maró közepe követi a vonalat: gravírozás és hornyok. A nyitott vonalak is működnek.
+194|Az ellenőrzés nem talált hibát.
+195|Az ellenőrzés nem talált semmit. A munka fut.
+196|Az ellenőrzés {} problémát talált, az elsőt a(z) {}. sorban. A munka nem indult el.
+197|A vezérlőnek {} lépés/mm kell az Y tengelyen ($101).
+198|A vágások kilógnak az eszköz munkaterületéről
+199|A projekt eszköze
+200|Az eszköz hozzáadva.
+201|Az eszköz mentve.
+202|A rajz magasabb, mint a munkadarab kerülete ({} mm)
+203|A fájl túl nagy
+204|A munka kész, {} problémával (lásd a Konzolt).
+205|A munka kész.
+206|A munka szünetel: {}
+207|A munka fut.
+208|A mérés az érzékelőnél nem sikerült: nincs érintés, vagy riasztás van.
+209|A referenciaszerszámot megmérte: Z {} az érzékelőnél.
+210|A szerszámot megmérte; még nincs referencia az összehasonlításhoz.
+211|A munkadarab kerülete: a terv nem lehet magasabb.
+212|Nincs mit vágni: tedd az alakzatokat olyan rétegekre, amelyeken van maró.
+213|Nincs mit körbejárni: tedd az alakzatokat olyan rétegekre, amelyeken van maró.
+214|Még nincs mit mutatni: rajzolj alakzatokat, és tedd őket olyan rétegekre, amelyeken van maró.
+215|Vastagság
+216|Ez a verzió nem tudja használni a számítógép kameráit.
+217|Ennek az eszköznek nincs bekapcsolt kamerája. Adj hozzá egyet az eszköz beállításaiban.
+218|Ez az eszköz nincs a listában: a projekttel érkezett
+219|Ez a helyettesítő eszköz (Dummy): alapértelmezett munkaterület és sebességek.
+220|Idő {} / {}
+221|Csúcs átmérője
+222|Túl sok eszköz
+223|Pályák
+224|Típus
+225|Kötés feloldása
+226|Mértékegységek
+227|V-maró
+228|Nézet
+229|Nézetbeállítások…
+230|Várakozás bekapcsolás után
+231|Várakozás a képre…
+232|Ha a kapcsolat magától megszakad, néhány másodpercenként újra próbálkozik, amíg a Szétkapcsolást meg nem nyomja.
+233|Forgatóval az Y tengely forgatja a munkadarabot: a rajz nem lehet magasabb a munkadarab kerületénél. A modell egyszerű (a tokmány a munkadarab átmérőjével fordul, a görgők úgy mozgatják a felületet, mint a sajátjukat); valódi gépet ki kell próbálni.
+234|Fa, sötét
+235|Fa, világos
+236|Fa, közepes
+237|Dolgozzon projekten gép nélkül: egy Dummy nevű egyszerű eszköz az alapértelmezett munkaterülettel és sebességekkel
+238|Munkadarab átmérője
+239|A Z azt adja meg, mennyire megy le a főorsó az anyag tetejétől. A biztonságos magasság az, ahol a főorsó a vágások között mozog.
+240|A Z a referencia alapján beállítva.
+241|maró hozzáadva
+242|marók hozzáadva a könyvtárhoz
+243|pl. Az én CNC marógépem
+244|nincs
+245|ez a projekt másik géphez készült: {}
+246|{} átfutás {} mm-ig
+247|{}: nincs maró kiválasztva
+248|{}: nincs mit vágni (a vonal túl kicsi lehet a maróhoz)
+249|{}: a nyitott vonalak kimaradnak a zsebből
+250|{}: a nyitott vonalak kimaradnak a profilból (használd a „A vonal követése” funkciót)
+251|{}: a képeket nem marja
+252|{}: a mélységet a gép mozgástartománya korlátozza ({} mm)
+253|{}: a(z) {} mm mélység nagyobb az anyag vastagságánál ({} mm)
+254|{}: {} ford./perc a főorsó tartományán kívül van ({}…{} ford./perc)

@@ -4,237 +4,252 @@
 3|Et portnavn eller USB-leverandør- og produkt-id (VID:PID, hexadecimalt): porten med disse id'er bruges.
 4|En færdig fræser kan ikke ændres. Lav en kopi for at ændre den.
 5|En rotationstilbehør er tilsluttet
-6|Afbryd det igangværende job
-7|Om
-8|Tilføj et kamera
-9|Tilføj en enhed
-10|Tilføj enhed
-11|Tilføj enhed…
-12|Adresse
-13|Efter tilslutning
-14|Hele området inden for linjen ryddes ring for ring ned til lagets dybde.
-15|Arranger
-16|Bagved til venstre
-17|Bagved til højre
-18|Tilbage til den første visning. Dobbeltklik på billedet gør det samme.
-19|Kuglefræser
-20|Baudrate
-21|Bind til denne port
-22|Fræser
-23|Fræserbibliotek
-24|Fræserbibliotek…
-25|Bundet USB-enhed
-26|Hjørneradiusfræser (hjørneradius)
-27|Kamera
-28|Kameranavn
-29|Kameranummer
-30|Kamera på denne computer
-31|Kameradrejning
-32|Kameravisning
-33|Kameraer
-34|Filen kan ikke bruges
-35|Filen kan ikke bruges: {}
-36|Vælg en fræser
-37|Vælg først en port eller vært i enhedens indstillinger.
-38|Vælg den maskine, du vil arbejde med.
-39|Spændepatron
-40|Omkreds
-41|Ryd en alarm
-42|Ryd alarmen ($X)
-43|Rydning af alarmen springer homing over: brug det kun, når hovedet vides at stå et sikkert sted.
-44|Bekræft sletning
-45|Forbind
-46|Opret forbindelse igen automatisk
-47|Opret først forbindelse til maskinen (fanen Enhed)
-48|Forbundet
-49|Forbindelse
-50|Forbindelsestype
-51|Konsol
-52|Controller
-53|Kopieret til {}
-54|Hjørneradius
-55|Kunne ikke gemme
-56|Kunne ikke gemme: {}
-57|Optælling fylder styringens buffer og er hurtig. Enkel sender én linje og venter på dens ok: langsom, men til firmware, der svarer forkert.
-58|Skær inden for linjen
-59|Skær uden for linjen
-60|Snit
-61|Snit: {} m, ca. {} min
-62|Skærediameter
-63|Skærelængde
-64|Slet dette kamera
-65|Dybde
-66|Enhed
-67|Enhedsindstillinger
-68|Enhedsindstillinger…
-69|Afbryd
-70|Bor
-71|Rediger
-72|Rediger…
-73|Graveringsfræser
-74|Eksporter G-code…
-75|Eksportér denne fræser…
-76|Eksportér…
-77|Fremføring
-78|Stop fremføring
-79|Filer
-80|Pindfræser
-81|Skær
-82|Følg linjen
-83|Ramme
-84|Ramme om arbejdsområdet
-85|Fra oven
-86|Foran til venstre
-87|Foran til højre
-88|GRBL 1.1 har tre akser: A-aksen er ikke tilgængelig, Y bruges.
-89|Generelt
-90|Gå rundt om feltet, hvor arbejdet skal udføres
-91|Hjælp
-92|Højeste hastighed
-93|Hjem
-94|Homing af maskinen
-95|Vært
-96|Jeg har ingen enhed
-97|Importér LightBurn-projekt…
-98|Enheden {} blev importeret
-99|Importér…
-100|Slags
-101|Lag
-102|Udeladt
-103|Laveste hastighed
-104|Maskine
-105|Maskinens nulpunkt (0,0)
-106|Materiale
-107|Emnets materiale
-108|Metal
-109|Motorens mikrotrin for en hel omdrejning af det, den driver (patronen eller én rulle).
-110|Mikrotrin pr. omdrejning
-111|Fræses: medtages i værktøjsbanerne og G-koden
-112|Fræsning
-113|Bevægelser i sikker højde
-114|Mine fræsere
-115|Ny
-116|Ny fræser
-117|Ingen fræser
-118|Ingen enhed endnu. Tilføj en, eller arbejd uden maskine.
-119|Ingen port
-120|Ikke en http- eller https-adresse.
-121|Noter
-122|Noter om denne maskine
-123|Der er intet her endnu
-124|Intet markeret
-125|Kun farven på en plast kan ændres. Materialet og dets tykkelse vises i 3D-visningen og gemmes i projektet.
-126|Åbn en tegning, eller begynd et tomt design.
-127|Åbn forbindelsen til styringen i enhedens indstillinger
-128|Åbn forhåndsvisningsvinduet
-129|Åbn…
-130|Operation
-131|Samlet længde
-132|Trindybde
-133|Trindybde (af diameteren)
-134|Plast
-135|Indstiksfremføring
-136|Lomme
-137|Port
-138|Port eller USB-id
-139|Forhåndsvisning
-140|Forhåndsvisning…
-141|Egenskaber
-142|Læg de valgte former på dette lag
-143|Læs en enhed fra en fil
-144|Læs fræsere fra en fil
-145|Klar
-146|Færdige fræsere
-147|Gentilslut
-148|Opdater
-149|Husk USB-id'erne for den valgte port: porten findes igen med dem, når navnet ændres.
-150|Nulstil visning
-151|Genoptag
-152|Rullediameter
-153|Ruller
-154|Rotation
-155|STOP
-156|Sikker højde
-157|Gem
-158|Gem G-code
-159|Gem som…
-160|Gem denne enhed i en fil
-161|Gem dine fræsere i en fil
-162|Gemt
-163|Enheden blev gemt i {}
-164|{} gemt
-165|Indstillinger
-166|Skaftdiameter
-167|Former på dette lag
-168|Viser livebilledet fra denne maskines kamera
-169|Viser stierne på arbejdsområdet
-170|Vises på fanen Kamera
-171|Vises i arbejdsområdet
-172|Hastighed for bevægelser over materialet
-173|Spindel
-174|Spindelhastighed
-175|Start
-176|Starter job: {} linjer, ~{}
-177|Starthastigheder for et lag
-178|Sideoverlap
-179|Sideoverlap (af diameteren)
-180|Send jobbet til den tilsluttede maskine
-181|Streaming
-182|Tændt
-183|TCP-port
-184|Konisk kuglefræser
-185|Fræseren går inden for linjen, så formen falder ud: et hul eller et vindue.
-186|Fræseren går uden for linjen, så formen bliver: en del skæres ud af materialet.
-187|Fræserens midte følger linjen: gravering og riller. Åbne linjer virker også.
-188|Styringen skal bruge {} trin pr. mm på Y-aksen ($101).
-189|Snittene går uden for enhedens arbejdsområde
-190|Enheden til dette projekt
-191|Enheden blev tilføjet.
-192|Enheden blev gemt.
-193|Tegningen er højere end emnets omkreds ({} mm)
-194|Filen er for stor
-195|Jobbet er færdigt.
-196|Jobbet kører.
-197|Emnets omkreds: designet må ikke være højere.
-198|Der er intet at skære: læg former på lag, der har en fræser.
-199|Intet at indramme: læg former på lag, der har en fræser.
-200|Der er intet at vise endnu: tegn former og læg dem på lag, der har en fræser.
-201|Tykkelse
-202|Denne version kan ikke bruge computerens kameraer.
-203|Denne enhed har intet tændt kamera. Tilføj et i enhedsindstillingerne.
-204|Denne enhed er ikke på listen: den kom med projektet
-205|Dette er erstatningsenheden (Dummy): standardarbejdsområde og -hastigheder.
-206|Tid {} / {}
-207|Spidsdiameter
-208|For mange enheder
-209|Stier
-210|Type
-211|Fjern binding
-212|Enheder
-213|V-fræser
-214|Vis
-215|Visningsindstillinger…
-216|Ventetid efter tænding
-217|Venter på billedet…
-218|Når forbindelsen falder af sig selv, prøv igen hvert par sekunder, til du trykker Afbryd.
-219|Med et rotationstilbehør drejer Y-aksen emnet: tegningen må ikke være højere end emnets omkreds. Modellen er enkel (en patron drejer emnets diameter, ruller flytter overfladen som deres egen); en rigtig maskine skal testes.
-220|Træ, mørkt
-221|Træ, lyst
-222|Træ, medium
-223|Arbejd på et projekt uden maskine: en almindelig enhed kaldet Dummy med standardarbejdsområde og -hastigheder
-224|Emnets diameter
-225|Z er, hvor dybt spindlen går ned fra materialets overside. Den sikre højde er, hvor spindlen bevæger sig mellem snittene.
-226|fræsere tilføjet
-227|fræsere tilføjet til biblioteket
-228|f.eks. Min CNC-fræser
-229|ingen
-230|dette projekt er lavet til en anden maskine: {}
-231|{} gennemløb til {} mm
-232|{}: ingen fræser valgt
-233|{}: intet at skære (linjen kan være for lille til fræseren)
-234|{}: åbne linjer udelades i en lomme
-235|{}: åbne linjer udelades i en profil (brug “Følg linjen”)
-236|{}: billeder fræses ikke
-237|{}: dybden er begrænset til maskinens kørselsvej ({} mm)
-238|{}: dybden på {} mm er større end materialets tykkelse ({} mm)
-239|{}: {} omdr./min ligger uden for spindelområdet {}…{} omdr./min
+6|En almindelig maskinstørrelse…
+7|Afbryd det igangværende job
+8|Om
+9|Tilføj et kamera
+10|Tilføj en enhed
+11|Tilføj enhed
+12|Tilføj enhed…
+13|Adresse
+14|Efter tilslutning
+15|Alarm {}
+16|Hele området inden for linjen ryddes ring for ring ned til lagets dybde.
+17|Arranger
+18|Bagved til venstre
+19|Bagved til højre
+20|Tilbage til den første visning. Dobbeltklik på billedet gør det samme.
+21|Kuglefræser
+22|Baudrate
+23|Bind til denne port
+24|Fræser
+25|Fræserbibliotek
+26|Fræserbibliotek…
+27|Bundet USB-enhed
+28|Hjørneradiusfræser (hjørneradius)
+29|Kamera
+30|Kameranavn
+31|Kameranummer
+32|Kamera på denne computer
+33|Kameradrejning
+34|Kameravisning
+35|Kameraer
+36|Filen kan ikke bruges
+37|Tjek programmet
+38|Tjekker programmet først…
+39|Tjekker programmet…
+40|Vælg en fræser
+41|Vælg først en port eller vært i enhedens indstillinger.
+42|Vælg den maskine, du vil arbejde med.
+43|Spændepatron
+44|Omkreds
+45|Ryd en alarm
+46|Rydning af alarmen springer homing over: brug det kun, når hovedet vides at stå et sikkert sted.
+47|Bekræft sletning
+48|Forbind
+49|Opret forbindelse igen automatisk
+50|Forbundet
+51|Forbindelse
+52|Forbindelsestype
+53|Konsol
+54|Styring
+55|Kopieret til {}
+56|Hjørneradius
+57|Kunne ikke gemme
+58|Kunne ikke gemme: {}
+59|Optælling fylder styringens buffer og er hurtig. Enkel sender én linje og venter på dens ok: langsom, men til firmware, der svarer forkert.
+60|Skær inden for linjen
+61|Skær uden for linjen
+62|Snit
+63|Snit: {} m, ca. {} min
+64|Skærediameter
+65|Skærelængde
+66|Slet dette kamera
+67|Dybde
+68|Enhed
+69|Enhedsindstillinger
+70|Enhedsindstillinger…
+71|Diagnostik og statistik…
+72|Afbryd
+73|Bor
+74|Rediger
+75|Rediger…
+76|Graveringsfræser
+77|Fejl {} i linje {}: {}
+78|Fejl {}: {}
+79|Eksporter G-code…
+80|Eksportér denne fræser…
+81|Eksportér…
+82|Fremføring
+83|Firmwareindstillinger ($$)…
+84|Pindfræser
+85|Skær
+86|Følg linjen
+87|Ramme
+88|Ramme om arbejdsområdet
+89|Fra oven
+90|Fra linje…
+91|Foran til venstre
+92|Foran til højre
+93|GRBL 1.1 har tre akser: A-aksen er ikke tilgængelig, Y bruges.
+94|Generelt
+95|Gå rundt om feltet, hvor arbejdet skal udføres
+96|Hjælp
+97|Højeste hastighed
+98|Hjem
+99|Homing af maskinen
+100|Vært
+101|Jeg har ingen enhed
+102|Importér LightBurn-projekt…
+103|Enheden {} blev importeret
+104|Importér…
+105|Slags
+106|Lag
+107|Udeladt
+108|Laveste hastighed
+109|Maskinens nulpunkt (0,0)
+110|Materiale
+111|Emnets materiale
+112|Metal
+113|Motorens mikrotrin for en hel omdrejning af det, den driver (patronen eller én rulle).
+114|Mikrotrin pr. omdrejning
+115|Fræses: medtages i værktøjsbanerne og G-koden
+116|Fræsning
+117|Bevægelser i sikker højde
+118|Mine fræsere
+119|Ny
+120|Ny fræser
+121|Ingen fræser
+122|Ingen enhed endnu. Tilføj en, eller arbejd uden maskine.
+123|Ingen port
+124|Ikke en http- eller https-adresse.
+125|Noter
+126|Noter om denne maskine
+127|Der er intet her endnu
+128|Intet markeret
+129|Kun farven på en plast kan ændres. Materialet og dets tykkelse vises i 3D-visningen og gemmes i projektet.
+130|Åbn en tegning, eller begynd et tomt design.
+131|Åbn forbindelsen til styringen i enhedens indstillinger
+132|Åbn forhåndsvisningsvinduet
+133|Åbn…
+134|Operation
+135|Samlet længde
+136|Trindybde
+137|Trindybde (af diameteren)
+138|Plast
+139|Indstiksfremføring
+140|Lomme
+141|Port
+142|Port eller USB-id
+143|Forhåndsvisning
+144|Forhåndsvisning…
+145|Egenskaber
+146|Læg de valgte former på dette lag
+147|Læs en enhed fra en fil
+148|Læs fræsere fra en fil
+149|Klar
+150|Færdige fræsere
+151|Gentilslut
+152|Opdater
+153|Husk USB-id'erne for den valgte port: porten findes igen med dem, når navnet ændres.
+154|Nulstil visning
+155|Genoptag
+156|Rullediameter
+157|Ruller
+158|Rotation
+159|STOP
+160|Sikker højde
+161|Gem
+162|Gem G-code
+163|Gem som…
+164|Gem denne enhed i en fil
+165|Gem dine fræsere i en fil
+166|Gemt
+167|Enheden blev gemt i {}
+168|{} gemt
+169|Indstillinger
+170|Skaftdiameter
+171|Former på dette lag
+172|Viser livebilledet fra denne maskines kamera
+173|Viser stierne på arbejdsområdet
+174|Vises på fanen Kamera
+175|Vises i arbejdsområdet
+176|Hastighed for bevægelser over materialet
+177|Spindel
+178|Start
+179|Start fra
+180|Start jobbet ved en linje i programmet
+181|Starter job: {} linjer, ~{}
+182|Starthastigheder for et lag
+183|Sideoverlap
+184|Sideoverlap (af diameteren)
+185|Send jobbet til den tilsluttede maskine
+186|Streaming
+187|Tændt
+188|TCP-port
+189|Konisk kuglefræser
+190|G-code omkring jobbet: {}
+191|Fræseren går inden for linjen, så formen falder ud: et hul eller et vindue.
+192|Fræseren går uden for linjen, så formen bliver: en del skæres ud af materialet.
+193|Fræserens midte følger linjen: gravering og riller. Åbne linjer virker også.
+194|Kontrollen fandt intet galt.
+195|Kontrollen fandt intet. Jobbet kører.
+196|Kontrollen fandt {} problemer, det første i linje {}. Jobbet blev ikke startet.
+197|Styringen skal bruge {} trin pr. mm på Y-aksen ($101).
+198|Snittene går uden for enhedens arbejdsområde
+199|Enheden til dette projekt
+200|Enheden blev tilføjet.
+201|Enheden blev gemt.
+202|Tegningen er højere end emnets omkreds ({} mm)
+203|Filen er for stor
+204|Jobbet er færdigt, med {} problemer (se Konsollen).
+205|Jobbet er færdigt.
+206|Jobbet er sat på pause: {}
+207|Jobbet kører.
+208|Målingen ved sensoren mislykkedes: ingen berøring, eller en alarm.
+209|Referenceværktøjet blev målt: Z {} ved sensoren.
+210|Værktøjet blev målt; der er endnu ingen reference at sammenligne med.
+211|Emnets omkreds: designet må ikke være højere.
+212|Der er intet at skære: læg former på lag, der har en fræser.
+213|Intet at indramme: læg former på lag, der har en fræser.
+214|Der er intet at vise endnu: tegn former og læg dem på lag, der har en fræser.
+215|Tykkelse
+216|Denne version kan ikke bruge computerens kameraer.
+217|Denne enhed har intet tændt kamera. Tilføj et i enhedsindstillingerne.
+218|Denne enhed er ikke på listen: den kom med projektet
+219|Dette er erstatningsenheden (Dummy): standardarbejdsområde og -hastigheder.
+220|Tid {} / {}
+221|Spidsdiameter
+222|For mange enheder
+223|Stier
+224|Type
+225|Fjern binding
+226|Enheder
+227|V-fræser
+228|Vis
+229|Visningsindstillinger…
+230|Ventetid efter tænding
+231|Venter på billedet…
+232|Når forbindelsen falder af sig selv, prøv igen hvert par sekunder, til du trykker Afbryd.
+233|Med et rotationstilbehør drejer Y-aksen emnet: tegningen må ikke være højere end emnets omkreds. Modellen er enkel (en patron drejer emnets diameter, ruller flytter overfladen som deres egen); en rigtig maskine skal testes.
+234|Træ, mørkt
+235|Træ, lyst
+236|Træ, medium
+237|Arbejd på et projekt uden maskine: en almindelig enhed kaldet Dummy med standardarbejdsområde og -hastigheder
+238|Emnets diameter
+239|Z er, hvor dybt spindlen går ned fra materialets overside. Den sikre højde er, hvor spindlen bevæger sig mellem snittene.
+240|Z blev sat ud fra referencen.
+241|fræsere tilføjet
+242|fræsere tilføjet til biblioteket
+243|f.eks. Min CNC-fræser
+244|ingen
+245|dette projekt er lavet til en anden maskine: {}
+246|{} gennemløb til {} mm
+247|{}: ingen fræser valgt
+248|{}: intet at skære (linjen kan være for lille til fræseren)
+249|{}: åbne linjer udelades i en lomme
+250|{}: åbne linjer udelades i en profil (brug “Følg linjen”)
+251|{}: billeder fræses ikke
+252|{}: dybden er begrænset til maskinens kørselsvej ({} mm)
+253|{}: dybden på {} mm er større end materialets tykkelse ({} mm)
+254|{}: {} omdr./min ligger uden for spindelområdet {}…{} omdr./min

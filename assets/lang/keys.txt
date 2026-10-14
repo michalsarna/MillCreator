@@ -4,237 +4,252 @@
 3	A port name, or the USB vendor and product id (VID:PID, hexadecimal): the port that has these ids is used.
 4	A ready-made bit cannot be changed. Make a copy to change it.
 5	A rotary attachment is connected
-6	Abort the running job
-7	About
-8	Add a camera
-9	Add a device
-10	Add device
-11	Add device…
-12	Address
-13	After connecting
-14	All of the area inside the line is cleared, ring after ring, to the depth of the layer.
-15	Arrange
-16	Back left
-17	Back right
-18	Back to the first view. Double click on the picture does the same.
-19	Ball nose
-20	Baud rate
-21	Bind to this port
-22	Bit
-23	Bit library
-24	Bit library…
-25	Bound USB device
-26	Bull nose (corner radius)
-27	Camera
-28	Camera name
-29	Camera number
-30	Camera of this computer
-31	Camera rotation
-32	Camera view
-33	Cameras
-34	Cannot use the file
-35	Cannot use the file: {}
-36	Choose a bit
-37	Choose a port or a host in the device settings first.
-38	Choose the machine you will work with.
-39	Chuck
-40	Circumference
-41	Clear an alarm
-42	Clear an alarm ($X)
-43	Clearing the alarm skips homing: use it only when the head is known to stand in a safe place.
-44	Confirm delete
-45	Connect
-46	Connect again automatically
-47	Connect to the machine first (Device tab)
-48	Connected
-49	Connection
-50	Connection type
-51	Console
-52	Controller
-53	Copied to {}
-54	Corner radius
-55	Could not save
-56	Could not save: {}
-57	Counting fills the controller's buffer and is fast. Simple sends one line and waits for its ok: slow, but for firmware that answers wrongly.
-58	Cut inside the line
-59	Cut outside the line
-60	Cuts
-61	Cuts: {} m, about {} min
-62	Cutting diameter
-63	Cutting length
-64	Delete this camera
-65	Depth
-66	Device
-67	Device settings
-68	Device settings…
-69	Disconnect
-70	Drill
-71	Edit
-72	Edit…
-73	Engraving bit
-74	Export G-code…
-75	Export this bit…
-76	Export…
-77	Feed
-78	Feed hold
-79	File
-80	Flat end mill
-81	Flutes
-82	Follow the line
-83	Frame
-84	Framing the work area
-85	From above
-86	Front left
-87	Front right
-88	GRBL 1.1 has three axes: the A axis is not available, Y is used.
-89	General
-90	Go round the box where the work will be done
-91	Help
-92	Highest speed
-93	Home
-94	Home the machine
-95	Host
-96	I have no device
-97	Import LightBurn project…
-98	Imported the device {}
-99	Import…
-100	Kind
-101	Layers
-102	Left out
-103	Lowest speed
-104	Machine
-105	Machine zero (0,0)
-106	Material
-107	Material of the workpiece
-108	Metal
-109	Microsteps of the motor for one full turn of what it drives (the chuck, or one roller).
-110	Microsteps per turn
-111	Milled: taken into the toolpaths and the G-code
-112	Milling
-113	Moves at the safe height
-114	My bits
-115	New
-116	New bit
-117	No bit
-118	No device yet. Add one, or work without a machine.
-119	No port
-120	Not an http or https address.
-121	Notes
-122	Notes about this machine
-123	Nothing here yet
-124	Nothing selected
-125	Only the colour of a plastic can be changed. The material and its thickness are shown in the 3D view and saved in the project.
-126	Open a drawing or start an empty design.
-127	Open the link to the controller set in the device settings
-128	Open the preview window
-129	Open…
-130	Operation
-131	Overall length
-132	Pass depth
-133	Pass depth (of the diameter)
-134	Plastic
-135	Plunge feed
-136	Pocket
-137	Port
-138	Port or USB id
-139	Preview
-140	Preview…
-141	Properties
-142	Put the selected shapes on this layer
-143	Read a device from a file
-144	Read bits from a file
-145	Ready
-146	Ready-made bits
-147	Reconnect
-148	Refresh
-149	Remember the USB ids of the chosen port: the port is found again by them when its name changes.
-150	Reset view
-151	Resume
-152	Roller diameter
-153	Rollers
-154	Rotary
-155	STOP
-156	Safe height
-157	Save
-158	Save G-code
-159	Save as…
-160	Save this device to a file
-161	Save your bits to a file
-162	Saved
-163	Saved the device to {}
-164	Saved {}
-165	Settings
-166	Shank diameter
-167	Shapes on this layer
-168	Show the live camera picture of this machine
-169	Show the toolpaths on the work area
-170	Shown in the Camera tab
-171	Shown in the work area
-172	Speed of moves above the material
-173	Spindle
-174	Spindle speed
-175	Start
-176	Starting job: {} lines, ~{}
-177	Starting speeds for a layer
-178	Step over
-179	Step over (of the diameter)
-180	Stream the job to the connected machine
-181	Streaming
-182	Switched on
-183	TCP port
-184	Tapered ball nose
-185	The bit goes round the inside of the line, so the shape falls out: a hole or a window.
-186	The bit goes round the outside of the line, so the shape stays: a part is cut out of the material.
-187	The centre of the bit follows the line: engraving and grooves. Open lines work too.
-188	The controller needs {} steps per mm on the Y axis ($101).
-189	The cuts go outside of the work area of the device
-190	The device of this project
-191	The device was added.
-192	The device was saved.
-193	The drawing is higher than the way round the workpiece ({} mm)
-194	The file is too large
-195	The job is finished.
-196	The job is running.
-197	The way round the workpiece: the design may not be higher.
-198	There is nothing to cut: put shapes on layers that have a bit.
-199	There is nothing to frame: put shapes on layers that have a bit.
-200	There is nothing to show yet: draw shapes and put them on layers that have a bit.
-201	Thickness
-202	This build cannot use the cameras of the computer.
-203	This device has no camera that is switched on. Add one in the device settings.
-204	This device is not in the list: it came with the project
-205	This is the stand-in device (Dummy): the default work area and speeds.
-206	Time {} / {}
-207	Tip diameter
-208	Too many devices
-209	Toolpaths
-210	Type
-211	Unbind
-212	Units
-213	V-bit
-214	View
-215	View options…
-216	Wait after switching on
-217	Waiting for the picture…
-218	When the link drops by itself, try again every few seconds until you press Disconnect.
-219	With a rotary attachment the Y axis turns the work: the drawing may not be higher than the way round the workpiece. The model is simple (a chuck turns by the workpiece diameter, rollers move the surface like their own); a real machine needs testing.
-220	Wood, dark
-221	Wood, light
-222	Wood, medium
-223	Work on a project without a machine: a plain device called Dummy, with the default work area and speeds
-224	Workpiece diameter
-225	Z is how far the spindle goes down from the top of the material. The safe height is where the spindle moves between cuts.
-226	bits added
-227	bits added to the library
-228	e.g. My CNC router
-229	none
-230	this project was made for a different machine: {}
-231	{} passes to {} mm
-232	{}: no bit chosen
-233	{}: nothing to cut (the line may be too small for the bit)
-234	{}: open lines are left out of a pocket
-235	{}: open lines are left out of a profile (use "Follow the line")
-236	{}: pictures are not milled
-237	{}: the depth is limited to the travel of the machine ({} mm)
-238	{}: the depth of {} mm is more than the thickness of the material ({} mm)
-239	{}: {} rpm is outside the spindle range {}…{} rpm
+6	A usual machine size…
+7	Abort the running job
+8	About
+9	Add a camera
+10	Add a device
+11	Add device
+12	Add device…
+13	Address
+14	After connecting
+15	Alarm {}
+16	All of the area inside the line is cleared, ring after ring, to the depth of the layer.
+17	Arrange
+18	Back left
+19	Back right
+20	Back to the first view. Double click on the picture does the same.
+21	Ball nose
+22	Baud rate
+23	Bind to this port
+24	Bit
+25	Bit library
+26	Bit library…
+27	Bound USB device
+28	Bull nose (corner radius)
+29	Camera
+30	Camera name
+31	Camera number
+32	Camera of this computer
+33	Camera rotation
+34	Camera view
+35	Cameras
+36	Cannot use the file
+37	Check the program
+38	Checking the program first…
+39	Checking the program…
+40	Choose a bit
+41	Choose a port or a host in the device settings first.
+42	Choose the machine you will work with.
+43	Chuck
+44	Circumference
+45	Clear an alarm
+46	Clearing the alarm skips homing: use it only when the head is known to stand in a safe place.
+47	Confirm delete
+48	Connect
+49	Connect again automatically
+50	Connected
+51	Connection
+52	Connection type
+53	Console
+54	Control
+55	Copied to {}
+56	Corner radius
+57	Could not save
+58	Could not save: {}
+59	Counting fills the controller's buffer and is fast. Simple sends one line and waits for its ok: slow, but for firmware that answers wrongly.
+60	Cut inside the line
+61	Cut outside the line
+62	Cuts
+63	Cuts: {} m, about {} min
+64	Cutting diameter
+65	Cutting length
+66	Delete this camera
+67	Depth
+68	Device
+69	Device settings
+70	Device settings…
+71	Diagnostics and statistics…
+72	Disconnect
+73	Drill
+74	Edit
+75	Edit…
+76	Engraving bit
+77	Error {} in line {}: {}
+78	Error {}: {}
+79	Export G-code…
+80	Export this bit…
+81	Export…
+82	Feed
+83	Firmware settings ($$)…
+84	Flat end mill
+85	Flutes
+86	Follow the line
+87	Frame
+88	Framing the work area
+89	From above
+90	From line…
+91	Front left
+92	Front right
+93	GRBL 1.1 has three axes: the A axis is not available, Y is used.
+94	General
+95	Go round the box where the work will be done
+96	Help
+97	Highest speed
+98	Home
+99	Home the machine
+100	Host
+101	I have no device
+102	Import LightBurn project…
+103	Imported the device {}
+104	Import…
+105	Kind
+106	Layers
+107	Left out
+108	Lowest speed
+109	Machine zero (0,0)
+110	Material
+111	Material of the workpiece
+112	Metal
+113	Microsteps of the motor for one full turn of what it drives (the chuck, or one roller).
+114	Microsteps per turn
+115	Milled: taken into the toolpaths and the G-code
+116	Milling
+117	Moves at the safe height
+118	My bits
+119	New
+120	New bit
+121	No bit
+122	No device yet. Add one, or work without a machine.
+123	No port
+124	Not an http or https address.
+125	Notes
+126	Notes about this machine
+127	Nothing here yet
+128	Nothing selected
+129	Only the colour of a plastic can be changed. The material and its thickness are shown in the 3D view and saved in the project.
+130	Open a drawing or start an empty design.
+131	Open the link to the controller set in the device settings
+132	Open the preview window
+133	Open…
+134	Operation
+135	Overall length
+136	Pass depth
+137	Pass depth (of the diameter)
+138	Plastic
+139	Plunge feed
+140	Pocket
+141	Port
+142	Port or USB id
+143	Preview
+144	Preview…
+145	Properties
+146	Put the selected shapes on this layer
+147	Read a device from a file
+148	Read bits from a file
+149	Ready
+150	Ready-made bits
+151	Reconnect
+152	Refresh
+153	Remember the USB ids of the chosen port: the port is found again by them when its name changes.
+154	Reset view
+155	Resume
+156	Roller diameter
+157	Rollers
+158	Rotary
+159	STOP
+160	Safe height
+161	Save
+162	Save G-code
+163	Save as…
+164	Save this device to a file
+165	Save your bits to a file
+166	Saved
+167	Saved the device to {}
+168	Saved {}
+169	Settings
+170	Shank diameter
+171	Shapes on this layer
+172	Show the live camera picture of this machine
+173	Show the toolpaths on the work area
+174	Shown in the Camera tab
+175	Shown in the work area
+176	Speed of moves above the material
+177	Spindle
+178	Start
+179	Start from
+180	Start the job at a line of the program
+181	Starting job: {} lines, ~{}
+182	Starting speeds for a layer
+183	Step over
+184	Step over (of the diameter)
+185	Stream the job to the connected machine
+186	Streaming
+187	Switched on
+188	TCP port
+189	Tapered ball nose
+190	The G-code around the job: {}
+191	The bit goes round the inside of the line, so the shape falls out: a hole or a window.
+192	The bit goes round the outside of the line, so the shape stays: a part is cut out of the material.
+193	The centre of the bit follows the line: engraving and grooves. Open lines work too.
+194	The check found nothing wrong.
+195	The check found nothing. The job is running.
+196	The check found {} problems, the first in line {}. The job was not started.
+197	The controller needs {} steps per mm on the Y axis ($101).
+198	The cuts go outside of the work area of the device
+199	The device of this project
+200	The device was added.
+201	The device was saved.
+202	The drawing is higher than the way round the workpiece ({} mm)
+203	The file is too large
+204	The job is finished, with {} problems (see the Console).
+205	The job is finished.
+206	The job is paused: {}
+207	The job is running.
+208	The measurement at the sensor failed: no contact, or an alarm.
+209	The reference tool was measured: Z {} at the sensor.
+210	The tool was measured; there is no reference to compare with yet.
+211	The way round the workpiece: the design may not be higher.
+212	There is nothing to cut: put shapes on layers that have a bit.
+213	There is nothing to frame: put shapes on layers that have a bit.
+214	There is nothing to show yet: draw shapes and put them on layers that have a bit.
+215	Thickness
+216	This build cannot use the cameras of the computer.
+217	This device has no camera that is switched on. Add one in the device settings.
+218	This device is not in the list: it came with the project
+219	This is the stand-in device (Dummy): the default work area and speeds.
+220	Time {} / {}
+221	Tip diameter
+222	Too many devices
+223	Toolpaths
+224	Type
+225	Unbind
+226	Units
+227	V-bit
+228	View
+229	View options…
+230	Wait after switching on
+231	Waiting for the picture…
+232	When the link drops by itself, try again every few seconds until you press Disconnect.
+233	With a rotary attachment the Y axis turns the work: the drawing may not be higher than the way round the workpiece. The model is simple (a chuck turns by the workpiece diameter, rollers move the surface like their own); a real machine needs testing.
+234	Wood, dark
+235	Wood, light
+236	Wood, medium
+237	Work on a project without a machine: a plain device called Dummy, with the default work area and speeds
+238	Workpiece diameter
+239	Z is how far the spindle goes down from the top of the material. The safe height is where the spindle moves between cuts.
+240	Z was set from the reference.
+241	bits added
+242	bits added to the library
+243	e.g. My CNC router
+244	none
+245	this project was made for a different machine: {}
+246	{} passes to {} mm
+247	{}: no bit chosen
+248	{}: nothing to cut (the line may be too small for the bit)
+249	{}: open lines are left out of a pocket
+250	{}: open lines are left out of a profile (use "Follow the line")
+251	{}: pictures are not milled
+252	{}: the depth is limited to the travel of the machine ({} mm)
+253	{}: the depth of {} mm is more than the thickness of the material ({} mm)
+254	{}: {} rpm is outside the spindle range {}…{} rpm

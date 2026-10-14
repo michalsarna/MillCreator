@@ -104,4 +104,29 @@ mod tests {
         assert!(base_core::backup::restore(&zip, "LightCreator", b.clip.lib.dir()).is_err());
         let _ = std::fs::remove_dir_all(&dir);
     }
+
+    #[test]
+    fn the_copies_of_the_controller_settings_and_the_sensor_are_in_the_backup() {
+        let ctx = egui::Context::default();
+        let dir = std::env::temp_dir().join(format!("mill-backup-copies-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let mut a = App::build(&ctx, None, false);
+        a.clip = base_ui::clipart_ui::ClipState::new(base_core::clipart::Library::open(dir.join("gallery")));
+        let mut d = crate::device::Device::dummy();
+        d.control.fw_copies.make(1_700_000_000, "Grbl 1.1h", &[(110u32, "3000.000".to_string()), (130, "300.000".to_string())].into_iter().collect());
+        d.control.tls = base_core::control::Tls { set: true, x: -10.0, y: -20.0, ref_wz: Some(-31.3), ..Default::default() };
+        a.devices = vec![d];
+        let zip = dir.join("b.zip");
+        base_core::backup::write(&zip, "MillCreator", "test", &a.settings_pairs(), a.clip.lib.dir()).unwrap();
+        let mut b = App::build(&ctx, None, false);
+        b.clip = base_ui::clipart_ui::ClipState::new(base_core::clipart::Library::open(dir.join("gallery2")));
+        let r = base_core::backup::restore(&zip, "MillCreator", b.clip.lib.dir()).unwrap();
+        b.apply_settings(&ctx, &r.settings);
+        let c = &b.devices[0].control;
+        assert_eq!(c.fw_copies.0.len(), 1);
+        assert_eq!(c.fw_copies.0[0].values.get(&110).map(String::as_str), Some("3000.000"));
+        assert_eq!(c.tls.ref_wz, Some(-31.3));
+        let _ = std::fs::remove_dir_all(&dir);
+    }
 }

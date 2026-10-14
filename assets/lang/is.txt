@@ -4,237 +4,252 @@
 3|Heiti tengis eða USB auðkenni framleiðanda og vöru (VID:PID, sextándakerfi): tengið með þessum auðkennum er notað.
 4|Tilbúinni fræsi er ekki hægt að breyta. Búðu til afrit til að breyta henni.
 5|Snúningstæki er tengt
-6|Stöðva verkið sem er í gangi
-7|Um forritið
-8|Bæta við myndavél
-9|Bæta við tæki
+6|Algeng stærð vélar…
+7|Stöðva verkið sem er í gangi
+8|Um forritið
+9|Bæta við myndavél
 10|Bæta við tæki
-11|Bæta við tæki…
-12|Heimilisfang
-13|Eftir tengingu
-14|Allt svæðið innan línunnar er hreinsað hring fyrir hring niður á dýpt lagsins.
-15|Raða
-16|Aftan til vinstri
-17|Aftan til hægri
-18|Aftur í fyrstu sýn. Tvísmellur á myndina gerir það sama.
-19|Kúlufræsir
-20|Baud-hraði
-21|Binda við þetta tengi
-22|Fræsir
-23|Fræsasafn
-24|Fræsasafn…
-25|Bundið USB-tæki
-26|Fræsir með ávölum hornum (hornradíus)
-27|Myndavél
-28|Nafn myndavélar
-29|Númer myndavélar
-30|Myndavél þessarar tölvu
-31|Snúningur myndavélar
-32|Myndavélarsýn
-33|Myndavélar
-34|Ekki er hægt að nota skrána
-35|Ekki er hægt að nota skrána: {}
-36|Veldu fræsi
-37|Veldu fyrst tengi eða hýsil í stillingum tækisins.
-38|Veldu vélina sem þú ætlar að vinna með.
-39|Patróna
-40|Ummál
-41|Hreinsa viðvörun
-42|Hreinsa viðvörun ($X)
-43|Að hreinsa viðvörun sleppir núllstillingu: notaðu aðeins þegar vitað er að hausinn er á öruggum stað.
-44|Staðfesta eyðingu
-45|Tengja
-46|Tengjast aftur sjálfkrafa
-47|Tengstu fyrst við vélina (flipinn Tæki)
-48|Tengt
-49|Tenging
-50|Gerð tengingar
-51|Skipanagluggi
-52|Stýring
-53|Afritað í {}
-54|Hornradíus
-55|Ekki tókst að vista
-56|Ekki tókst að vista: {}
-57|Talning fyllir biðminni stýringarinnar og er hröð. Einföld sendir eina línu og bíður eftir ok: hæg, en fyrir fastbúnað sem svarar rangt.
-58|Skera innan við línuna
-59|Skera utan við línuna
-60|Skurðir
-61|Skurðir: {} m, um það bil {} mín.
-62|Skurðarþvermál
-63|Skurðarlengd
-64|Eyða þessari myndavél
-65|Dýpt
-66|Tæki
-67|Stillingar tækis
-68|Stillingar tækis…
-69|Aftengja
-70|Bor
-71|Breyta
-72|Breyta…
-73|Gröfturfræsir
-74|Flytja út G-code…
-75|Flytja þennan fræsi út…
-76|Flytja út…
-77|Mötun
-78|Stöðva mötun
-79|Skrá
-80|Endafræsir
-81|Egg
-82|Fylgja línunni
-83|Rammi
-84|Rammi um vinnusvæðið
-85|Að ofan
-86|Fremst til vinstri
-87|Fremst til hægri
-88|GRBL 1.1 hefur þrjá ása: A-ás er ekki tiltækur, Y er notað.
-89|Almennt
-90|Farðu hringinn um rammann þar sem verkið verður unnið
-91|Hjálp
-92|Mesti hraði
-93|Heim
-94|Núllstilla vélina
-95|Hýsill
-96|Ég á ekkert tæki
-97|Flytja inn LightBurn-verkefni…
-98|Tækið {} var flutt inn
-99|Flytja inn…
-100|Gerð
-101|Lög
-102|Sleppt
-103|Minnsti hraði
-104|Vél
-105|Núllpunktur vélar (0,0)
-106|Efni
-107|Efni vinnustykkisins
-108|Málmur
-109|Örskref mótorsins fyrir heilan snúning þess sem hann knýr (patrónuna eða eina rúllu).
-110|Örskref á snúning
-111|Er fræst: tekið með í verkfærabrautir og G-kóða
-112|Fræsing
-113|Hreyfingar í öruggri hæð
-114|Mínir fræsar
-115|Ný
-116|Nýr fræsir
-117|Enginn fræsir
-118|Ekkert tæki enn. Bættu við einu eða vinndu án vélar.
-119|Engin tengi
-120|Ekki http- eða https-heimilisfang.
-121|Athugasemdir
-122|Athugasemdir um þessa vél
-123|Ekkert hér ennþá
-124|Ekkert valið
-125|Aðeins er hægt að breyta lit plasts. Efnið og þykkt þess sjást í 3D-sýninni og eru vistuð í verkefninu.
-126|Opnaðu teikningu eða byrjaðu á tómri hönnun.
-127|Opna tenginguna við stjórnandann sem er stilltur í stillingum tækisins
-128|Opna forskoðunargluggann
-129|Opna…
-130|Aðgerð
-131|Heildarlengd
-132|Umferðardýpt
-133|Umferðardýpt (af þvermáli)
-134|Plast
-135|Niðurstunguhraði
-136|Vasi
-137|Tengi
-138|Tengi eða USB auðkenni
-139|Forskoðun
-140|Forskoðun…
-141|Eiginleikar
-142|Setja valin form á þetta lag
-143|Lesa tæki úr skrá
-144|Lesa fræsa úr skrá
-145|Tilbúið
-146|Tilbúnir fræsar
-147|Endurtenging
-148|Endurnýja
-149|Muna USB auðkenni valda tengisins: tengið finnst aftur með þeim þegar nafni þess er breytt.
-150|Endurstilla sýn
-151|Halda áfram
-152|Þvermál rúllu
-153|Rúllur
-154|Snúningur
-155|STOPP
-156|Örugg hæð
-157|Vista
-158|Vista G-code
-159|Vista sem…
-160|Vista þetta tæki í skrá
-161|Vista fræsana þína í skrá
-162|Vistað
-163|Tækið var vistað í {}
-164|Vistað: {}
-165|Stillingar
-166|Þvermál skafts
-167|Form á þessu lagi
-168|Sýnir beina mynd úr myndavél þessarar vélar
-169|Sýnir ferla á vinnusvæðinu
-170|Sýnd á flipanum Myndavél
-171|Sýnt á vinnusvæðinu
-172|Hraði hreyfinga yfir efninu
-173|Snælda
-174|Snúningshraði snældu
-175|Byrja
-176|Verk hafið: {} línur, ~{}
-177|Upphafshraði fyrir lag
-178|Hliðarskörun
-179|Hliðarskörun (af þvermáli)
-180|Senda verkið á tengdu vélina
-181|Streymi
-182|Kveikt
-183|TCP-tengi
-184|Keilulaga kúlufræsir
-185|Fræsirinn fer innan við línuna svo formið dettur úr: gat eða gluggi.
-186|Fræsirinn fer utan við línuna svo formið verður eftir: hlutur er skorinn úr efninu.
-187|Miðja fræsisins fylgir línunni: gröftur og raufar. Opnar línur virka líka.
-188|Stýringin þarf {} skref á mm á Y-ásnum ($101).
-189|Skurðirnir fara út fyrir vinnusvæði tækisins
-190|Tæki þessa verkefnis
-191|Tækinu var bætt við.
-192|Tækið var vistað.
-193|Teikningin er hærri en ummál vinnustykkisins ({} mm)
-194|Skráin er of stór
-195|Verkinu er lokið.
-196|Verkið er í gangi.
-197|Ummál hlutarins: hönnunin má ekki vera hærri.
-198|Ekkert að skera: settu form á lög sem hafa fræsi.
-199|Ekkert að ramma inn: settu form á lög sem hafa fræsi.
-200|Ekkert að sýna ennþá: teiknaðu form og settu þau á lög sem hafa fræsi.
-201|Þykkt
-202|Þessi útgáfa getur ekki notað myndavélar tölvunnar.
-203|Þetta tæki er ekki með kveikt á myndavél. Bættu einni við í stillingum tækisins.
-204|Þetta tæki er ekki á listanum: það kom með verkefninu
-205|Þetta er staðgengilstækið (Dummy): sjálfgefið vinnusvæði og hraði.
-206|Tími {} / {}
-207|Þvermál odds
-208|Of mörg tæki
-209|Ferlar
-210|Gerð
-211|Aftengja binding
-212|Einingar
-213|V-fræsir
-214|Skoða
-215|Skoðunarvalkostir…
-216|Bið eftir að kveikt er
-217|Bíð eftir myndinni…
-218|Þegar tengingin slitnar sjálf, reyna aftur á nokkurra sekúndna fresti þar til þú ýtir á Aftengja.
-219|Með snúningsbúnaði snýr Y-ásinn vinnustykkinu: teikningin má ekki vera hærri en ummál vinnustykkisins. Líkanið er einfalt (patróna snýst um þvermál vinnustykkisins, rúllur hreyfa yfirborðið eins og sitt eigið); raunverulega vél þarf að prófa.
-220|Viður, dökkur
-221|Viður, ljós
-222|Viður, miðlungs
-223|Vinndu í verkefni án vélar: einfalt tæki sem heitir Dummy með sjálfgefnu vinnusvæði og hraða
-224|Þvermál hlutar
-225|Z er hve djúpt snældan fer niður frá efri hlið efnisins. Örugga hæðin er þar sem snældan hreyfist milli skurða.
-226|fræsum bætt við
-227|fræsum bætt við safnið
-228|t.d. CNC-fræsarinn minn
-229|ekkert
-230|þetta verkefni var gert fyrir aðra vél: {}
-231|{} umferðir að {} mm
-232|{}: enginn fræsir valinn
-233|{}: ekkert að skera (línan gæti verið of lítil fyrir fræsinn)
-234|{}: opnum línum er sleppt í vasa
-235|{}: opnum línum er sleppt í sniði (notaðu „Fylgja línunni“)
-236|{}: myndir eru ekki fræstar
-237|{}: dýptin er takmörkuð við slag vélarinnar ({} mm)
-238|{}: dýptin {} mm er meiri en þykkt efnisins ({} mm)
-239|{}: {} sn./mín. er utan sviðs snældunnar {}…{} sn./mín.
+11|Bæta við tæki
+12|Bæta við tæki…
+13|Heimilisfang
+14|Eftir tengingu
+15|Viðvörun {}
+16|Allt svæðið innan línunnar er hreinsað hring fyrir hring niður á dýpt lagsins.
+17|Raða
+18|Aftan til vinstri
+19|Aftan til hægri
+20|Aftur í fyrstu sýn. Tvísmellur á myndina gerir það sama.
+21|Kúlufræsir
+22|Baud-hraði
+23|Binda við þetta tengi
+24|Fræsir
+25|Fræsasafn
+26|Fræsasafn…
+27|Bundið USB-tæki
+28|Fræsir með ávölum hornum (hornradíus)
+29|Myndavél
+30|Nafn myndavélar
+31|Númer myndavélar
+32|Myndavél þessarar tölvu
+33|Snúningur myndavélar
+34|Myndavélarsýn
+35|Myndavélar
+36|Ekki er hægt að nota skrána
+37|Athuga forritið
+38|Athuga forritið fyrst…
+39|Athuga forritið…
+40|Veldu fræsi
+41|Veldu fyrst tengi eða hýsil í stillingum tækisins.
+42|Veldu vélina sem þú ætlar að vinna með.
+43|Patróna
+44|Ummál
+45|Hreinsa viðvörun
+46|Að hreinsa viðvörun sleppir núllstillingu: notaðu aðeins þegar vitað er að hausinn er á öruggum stað.
+47|Staðfesta eyðingu
+48|Tengja
+49|Tengjast aftur sjálfkrafa
+50|Tengt
+51|Tenging
+52|Gerð tengingar
+53|Skipanagluggi
+54|Stjórnun
+55|Afritað í {}
+56|Hornradíus
+57|Ekki tókst að vista
+58|Ekki tókst að vista: {}
+59|Talning fyllir biðminni stýringarinnar og er hröð. Einföld sendir eina línu og bíður eftir ok: hæg, en fyrir fastbúnað sem svarar rangt.
+60|Skera innan við línuna
+61|Skera utan við línuna
+62|Skurðir
+63|Skurðir: {} m, um það bil {} mín.
+64|Skurðarþvermál
+65|Skurðarlengd
+66|Eyða þessari myndavél
+67|Dýpt
+68|Tæki
+69|Stillingar tækis
+70|Stillingar tækis…
+71|Greining og tölfræði…
+72|Aftengja
+73|Bor
+74|Breyta
+75|Breyta…
+76|Gröfturfræsir
+77|Villa {} í línu {}: {}
+78|Villa {}: {}
+79|Flytja út G-code…
+80|Flytja þennan fræsi út…
+81|Flytja út…
+82|Mötun
+83|Fastbúnaðarstillingar ($$)…
+84|Endafræsir
+85|Egg
+86|Fylgja línunni
+87|Rammi
+88|Rammi um vinnusvæðið
+89|Að ofan
+90|Frá línu…
+91|Fremst til vinstri
+92|Fremst til hægri
+93|GRBL 1.1 hefur þrjá ása: A-ás er ekki tiltækur, Y er notað.
+94|Almennt
+95|Farðu hringinn um rammann þar sem verkið verður unnið
+96|Hjálp
+97|Mesti hraði
+98|Heim
+99|Núllstilla vélina
+100|Hýsill
+101|Ég á ekkert tæki
+102|Flytja inn LightBurn-verkefni…
+103|Tækið {} var flutt inn
+104|Flytja inn…
+105|Gerð
+106|Lög
+107|Sleppt
+108|Minnsti hraði
+109|Núllpunktur vélar (0,0)
+110|Efni
+111|Efni vinnustykkisins
+112|Málmur
+113|Örskref mótorsins fyrir heilan snúning þess sem hann knýr (patrónuna eða eina rúllu).
+114|Örskref á snúning
+115|Er fræst: tekið með í verkfærabrautir og G-kóða
+116|Fræsing
+117|Hreyfingar í öruggri hæð
+118|Mínir fræsar
+119|Ný
+120|Nýr fræsir
+121|Enginn fræsir
+122|Ekkert tæki enn. Bættu við einu eða vinndu án vélar.
+123|Engin tengi
+124|Ekki http- eða https-heimilisfang.
+125|Athugasemdir
+126|Athugasemdir um þessa vél
+127|Ekkert hér ennþá
+128|Ekkert valið
+129|Aðeins er hægt að breyta lit plasts. Efnið og þykkt þess sjást í 3D-sýninni og eru vistuð í verkefninu.
+130|Opnaðu teikningu eða byrjaðu á tómri hönnun.
+131|Opna tenginguna við stjórnandann sem er stilltur í stillingum tækisins
+132|Opna forskoðunargluggann
+133|Opna…
+134|Aðgerð
+135|Heildarlengd
+136|Umferðardýpt
+137|Umferðardýpt (af þvermáli)
+138|Plast
+139|Niðurstunguhraði
+140|Vasi
+141|Tengi
+142|Tengi eða USB auðkenni
+143|Forskoðun
+144|Forskoðun…
+145|Eiginleikar
+146|Setja valin form á þetta lag
+147|Lesa tæki úr skrá
+148|Lesa fræsa úr skrá
+149|Tilbúið
+150|Tilbúnir fræsar
+151|Endurtenging
+152|Endurnýja
+153|Muna USB auðkenni valda tengisins: tengið finnst aftur með þeim þegar nafni þess er breytt.
+154|Endurstilla sýn
+155|Halda áfram
+156|Þvermál rúllu
+157|Rúllur
+158|Snúningur
+159|STOPP
+160|Örugg hæð
+161|Vista
+162|Vista G-code
+163|Vista sem…
+164|Vista þetta tæki í skrá
+165|Vista fræsana þína í skrá
+166|Vistað
+167|Tækið var vistað í {}
+168|Vistað: {}
+169|Stillingar
+170|Þvermál skafts
+171|Form á þessu lagi
+172|Sýnir beina mynd úr myndavél þessarar vélar
+173|Sýnir ferla á vinnusvæðinu
+174|Sýnd á flipanum Myndavél
+175|Sýnt á vinnusvæðinu
+176|Hraði hreyfinga yfir efninu
+177|Snælda
+178|Byrja
+179|Byrja frá
+180|Hefja verkið í línu forritsins
+181|Verk hafið: {} línur, ~{}
+182|Upphafshraði fyrir lag
+183|Hliðarskörun
+184|Hliðarskörun (af þvermáli)
+185|Senda verkið á tengdu vélina
+186|Streymi
+187|Kveikt
+188|TCP-tengi
+189|Keilulaga kúlufræsir
+190|G-kóðinn í kringum verkið: {}
+191|Fræsirinn fer innan við línuna svo formið dettur úr: gat eða gluggi.
+192|Fræsirinn fer utan við línuna svo formið verður eftir: hlutur er skorinn úr efninu.
+193|Miðja fræsisins fylgir línunni: gröftur og raufar. Opnar línur virka líka.
+194|Athugunin fann ekkert rangt.
+195|Athugunin fann ekkert. Verkið er í gangi.
+196|Athugunin fann {} vandamál, það fyrsta í línu {}. Verkið var ekki ræst.
+197|Stýringin þarf {} skref á mm á Y-ásnum ($101).
+198|Skurðirnir fara út fyrir vinnusvæði tækisins
+199|Tæki þessa verkefnis
+200|Tækinu var bætt við.
+201|Tækið var vistað.
+202|Teikningin er hærri en ummál vinnustykkisins ({} mm)
+203|Skráin er of stór
+204|Verkinu er lokið, með {} vandamálum (sjá Stjórnborðið).
+205|Verkinu er lokið.
+206|Verkið er í bið: {}
+207|Verkið er í gangi.
+208|Mælingin við skynjarann mistókst: engin snerting, eða viðvörun.
+209|Viðmiðsverkfærið var mælt: Z {} við skynjarann.
+210|Verkfærið var mælt; ekkert viðmið er enn til að bera saman við.
+211|Ummál hlutarins: hönnunin má ekki vera hærri.
+212|Ekkert að skera: settu form á lög sem hafa fræsi.
+213|Ekkert að ramma inn: settu form á lög sem hafa fræsi.
+214|Ekkert að sýna ennþá: teiknaðu form og settu þau á lög sem hafa fræsi.
+215|Þykkt
+216|Þessi útgáfa getur ekki notað myndavélar tölvunnar.
+217|Þetta tæki er ekki með kveikt á myndavél. Bættu einni við í stillingum tækisins.
+218|Þetta tæki er ekki á listanum: það kom með verkefninu
+219|Þetta er staðgengilstækið (Dummy): sjálfgefið vinnusvæði og hraði.
+220|Tími {} / {}
+221|Þvermál odds
+222|Of mörg tæki
+223|Ferlar
+224|Gerð
+225|Aftengja binding
+226|Einingar
+227|V-fræsir
+228|Skoða
+229|Skoðunarvalkostir…
+230|Bið eftir að kveikt er
+231|Bíð eftir myndinni…
+232|Þegar tengingin slitnar sjálf, reyna aftur á nokkurra sekúndna fresti þar til þú ýtir á Aftengja.
+233|Með snúningsbúnaði snýr Y-ásinn vinnustykkinu: teikningin má ekki vera hærri en ummál vinnustykkisins. Líkanið er einfalt (patróna snýst um þvermál vinnustykkisins, rúllur hreyfa yfirborðið eins og sitt eigið); raunverulega vél þarf að prófa.
+234|Viður, dökkur
+235|Viður, ljós
+236|Viður, miðlungs
+237|Vinndu í verkefni án vélar: einfalt tæki sem heitir Dummy með sjálfgefnu vinnusvæði og hraða
+238|Þvermál hlutar
+239|Z er hve djúpt snældan fer niður frá efri hlið efnisins. Örugga hæðin er þar sem snældan hreyfist milli skurða.
+240|Z var stillt út frá viðmiðinu.
+241|fræsum bætt við
+242|fræsum bætt við safnið
+243|t.d. CNC-fræsarinn minn
+244|ekkert
+245|þetta verkefni var gert fyrir aðra vél: {}
+246|{} umferðir að {} mm
+247|{}: enginn fræsir valinn
+248|{}: ekkert að skera (línan gæti verið of lítil fyrir fræsinn)
+249|{}: opnum línum er sleppt í vasa
+250|{}: opnum línum er sleppt í sniði (notaðu „Fylgja línunni“)
+251|{}: myndir eru ekki fræstar
+252|{}: dýptin er takmörkuð við slag vélarinnar ({} mm)
+253|{}: dýptin {} mm er meiri en þykkt efnisins ({} mm)
+254|{}: {} sn./mín. er utan sviðs snældunnar {}…{} sn./mín.

@@ -4,237 +4,252 @@
 3|Un nume de port, sau id-ul USB de producător și produs (VID:PID, hexazecimal): se folosește portul care are aceste id-uri.
 4|O freză gata făcută nu poate fi modificată. Fă o copie ca să o modifici.
 5|Este conectat un accesoriu rotativ
-6|Întrerupe lucrarea în curs
-7|Despre
-8|Adaugă o cameră
-9|Adaugă un dispozitiv
-10|Adaugă dispozitiv
-11|Adaugă dispozitiv…
-12|Adresă
-13|După conectare
-14|Toată zona din interiorul liniei este golită, inel cu inel, până la adâncimea stratului.
-15|Aranjare
-16|În spate stânga
-17|În spate dreapta
-18|Înapoi la prima vizualizare. Dublu clic pe imagine face același lucru.
-19|Freză sferică
-20|Viteză în baud
-21|Leagă de acest port
-22|Freză
-23|Bibliotecă de freze
-24|Bibliotecă de freze…
-25|Dispozitiv USB legat
-26|Freză cu colțuri rotunjite (raza colțului)
-27|Cameră
-28|Numele camerei
-29|Numărul camerei
-30|Camera acestui calculator
-31|Rotirea camerei
-32|Vizualizare cameră
-33|Camere
-34|Fișierul nu poate fi folosit
-35|Fișierul nu poate fi folosit: {}
-36|Alege o freză
-37|Alege mai întâi un port sau o gazdă în setările dispozitivului.
-38|Alege mașina cu care vei lucra.
-39|Mandrină
-40|Circumferință
-41|Șterge o alarmă
-42|Șterge alarma ($X)
-43|Ștergerea alarmei omite homing-ul: folosiți doar când se știe că capul stă într-un loc sigur.
-44|Confirmă ștergerea
-45|Conectează
-46|Reconectează automat
-47|Conectează-te mai întâi la mașină (fila Dispozitiv)
-48|Conectat
-49|Conexiune
-50|Tip de conexiune
-51|Consolă
-52|Controler
-53|Copiat în {}
-54|Raza colțului
-55|Nu s-a putut salva
-56|Nu s-a putut salva: {}
-57|Numărarea umple bufferul controlerului și este rapidă. Simplu trimite o linie și așteaptă ok-ul ei: lent, dar pentru firmware care răspunde greșit.
-58|Taie în interiorul liniei
-59|Taie în exteriorul liniei
-60|Tăieturi
-61|Tăieturi: {} m, aproximativ {} min
-62|Diametru de tăiere
-63|Lungime de tăiere
-64|Șterge această cameră
-65|Adâncime
-66|Dispozitiv
-67|Setările dispozitivului
-68|Setările dispozitivului…
-69|Deconectează
-70|Burghiu
-71|Editare
-72|Editează…
-73|Freză de gravare
-74|Exportă G-code…
-75|Exportă această freză…
-76|Exportă…
-77|Avans
-78|Oprirea avansului
-79|Fișier
-80|Freză cilindrică
-81|Tăișuri
-82|Urmărește linia
-83|Cadru
-84|Încadrarea zonei de lucru
-85|De sus
-86|În față stânga
-87|În față dreapta
-88|GRBL 1.1 are trei axe: axa A nu este disponibilă, se folosește Y.
-89|General
-90|Parcurge cadrul în care se va lucra
-91|Ajutor
-92|Viteza maximă
-93|Acasă
-94|Fă homing mașinii
-95|Gazdă
-96|Nu am un dispozitiv
-97|Importă proiect LightBurn…
-98|Dispozitivul {} a fost importat
-99|Importă…
-100|Tip
-101|Straturi
-102|Omise
-103|Viteza minimă
-104|Mașină
-105|Zero mașină (0,0)
-106|Material
-107|Materialul piesei
-108|Metal
-109|Micropașii motorului pentru o rotație completă a ceea ce antrenează (mandrina sau o rolă).
-110|Micropași pe rotație
-111|Se frezează: inclus în traiectorii și în G-code
-112|Frezare
-113|Mișcări la înălțimea de siguranță
-114|Frezele mele
-115|Nou
-116|Freză nouă
-117|Fără freză
-118|Încă nu există niciun dispozitiv. Adaugă unul sau lucrează fără mașină.
-119|Fără port
-120|Nu este o adresă http sau https.
-121|Note
-122|Note despre această mașină
-123|Încă nu este nimic aici
-124|Nimic selectat
-125|Doar culoarea unui plastic poate fi schimbată. Materialul și grosimea lui apar în vizualizarea 3D și se salvează în proiect.
-126|Deschide un desen sau începe un design gol.
-127|Deschide legătura cu controlerul din setările dispozitivului
-128|Deschide fereastra de previzualizare
-129|Deschide…
-130|Operație
-131|Lungime totală
-132|Adâncime de trecere
-133|Adâncime de trecere (din diametru)
-134|Plastic
-135|Avans de pătrundere
-136|Buzunar
-137|Port
-138|Port sau id USB
-139|Previzualizare
-140|Previzualizare…
-141|Proprietăți
-142|Pune formele selectate pe acest strat
-143|Citește un dispozitiv dintr-un fișier
-144|Citește freze dintr-un fișier
-145|Gata
-146|Freze gata făcute
-147|Reconectare
-148|Reîmprospătează
-149|Reține id-urile USB ale portului ales: când numele se schimbă, portul este regăsit prin ele.
-150|Resetează vizualizarea
-151|Reia
-152|Diametrul rolei
-153|Role
-154|Rotativ
-155|STOP
-156|Înălțime de siguranță
-157|Salvează
-158|Salvează G-code
-159|Salvează ca…
-160|Salvează acest dispozitiv într-un fișier
-161|Salvează-ți frezele într-un fișier
-162|Salvat
-163|Dispozitiv salvat în {}
-164|{} salvat
-165|Setări
-166|Diametrul cozii
-167|Forme pe acest strat
-168|Arată imaginea live de la camera acestei mașini
-169|Arată traseele pe zona de lucru
-170|Afișată în fila Cameră
-171|Afișat în zona de lucru
-172|Viteza mișcărilor deasupra materialului
-173|Ax
-174|Turația axului
-175|Start
-176|Se pornește lucrarea: {} linii, ~{}
-177|Viteze inițiale pentru un strat
-178|Suprapunere laterală
-179|Suprapunere laterală (din diametru)
-180|Trimite lucrarea la mașina conectată
-181|Transmisie
-182|Pornit
-183|Port TCP
-184|Freză conică sferică
-185|Freza merge în interiorul liniei, deci forma cade: o gaură sau o fereastră.
-186|Freza merge în exteriorul liniei, deci forma rămâne: o piesă este tăiată din material.
-187|Centrul frezei urmărește linia: gravări și canale. Liniile deschise funcționează și ele.
-188|Controlerul are nevoie de {} pași pe mm pe axa Y ($101).
-189|Tăieturile ies din zona de lucru a dispozitivului
-190|Dispozitivul acestui proiect
-191|Dispozitivul a fost adăugat.
-192|Dispozitivul a fost salvat.
-193|Desenul este mai înalt decât circumferința piesei ({} mm)
-194|Fișierul este prea mare
-195|Lucrarea s-a terminat.
-196|Lucrarea rulează.
-197|Circumferința piesei: desenul nu poate fi mai înalt.
-198|Nu e nimic de tăiat: pune forme pe straturi care au freză.
-199|Nu e nimic de încadrat: pune forme pe straturi care au freză.
-200|Încă nu e nimic de arătat: desenează forme și pune-le pe straturi care au freză.
-201|Grosime
-202|Această versiune nu poate folosi camerele computerului.
-203|Acest dispozitiv nu are nicio cameră pornită. Adaugă una în setările dispozitivului.
-204|Acest dispozitiv nu este în listă: a venit cu proiectul
-205|Acesta este dispozitivul înlocuitor (Dummy): zonă de lucru și viteze implicite.
-206|Timp {} / {}
-207|Diametrul vârfului
-208|Prea multe dispozitive
-209|Trasee
-210|Tip
-211|Dezleagă
-212|Unități
-213|Freză în V
-214|Vizualizare
-215|Opțiuni de vizualizare…
-216|Așteptare după pornire
-217|Se așteaptă imaginea…
-218|Când legătura cade singură, încearcă din nou la câteva secunde până apăsați Deconectează.
-219|Cu un accesoriu rotativ axa Y rotește piesa: desenul nu poate fi mai înalt decât circumferința piesei. Modelul este simplu (un mandrin se rotește cu diametrul piesei, rolele mișcă suprafața ca pe a lor); o mașină reală trebuie testată.
-220|Lemn, închis
-221|Lemn, deschis
-222|Lemn, mediu
-223|Lucrează la un proiect fără mașină: un dispozitiv simplu numit Dummy, cu zona de lucru și vitezele implicite
-224|Diametrul piesei
-225|Z este cât de adânc coboară axul de la partea de sus a materialului. Înălțimea de siguranță este cea la care se mișcă axul între tăieturi.
-226|freze adăugate
-227|freze adăugate în bibliotecă
-228|ex. Freza mea CNC
-229|niciunul
-230|acest proiect a fost făcut pentru altă mașină: {}
-231|{} treceri până la {} mm
-232|{}: nicio freză aleasă
-233|{}: nimic de tăiat (linia poate fi prea mică pentru freză)
-234|{}: liniile deschise sunt omise într-un buzunar
-235|{}: liniile deschise sunt omise într-un profil (folosește „Urmărește linia”)
-236|{}: imaginile nu se frezează
-237|{}: adâncimea este limitată la cursa mașinii ({} mm)
-238|{}: adâncimea de {} mm este mai mare decât grosimea materialului ({} mm)
-239|{}: {} rpm este în afara intervalului axului {}…{} rpm
+6|O dimensiune obișnuită de mașină…
+7|Întrerupe lucrarea în curs
+8|Despre
+9|Adaugă o cameră
+10|Adaugă un dispozitiv
+11|Adaugă dispozitiv
+12|Adaugă dispozitiv…
+13|Adresă
+14|După conectare
+15|Alarmă {}
+16|Toată zona din interiorul liniei este golită, inel cu inel, până la adâncimea stratului.
+17|Aranjare
+18|În spate stânga
+19|În spate dreapta
+20|Înapoi la prima vizualizare. Dublu clic pe imagine face același lucru.
+21|Freză sferică
+22|Viteză în baud
+23|Leagă de acest port
+24|Freză
+25|Bibliotecă de freze
+26|Bibliotecă de freze…
+27|Dispozitiv USB legat
+28|Freză cu colțuri rotunjite (raza colțului)
+29|Cameră
+30|Numele camerei
+31|Numărul camerei
+32|Camera acestui calculator
+33|Rotirea camerei
+34|Vizualizare cameră
+35|Camere
+36|Fișierul nu poate fi folosit
+37|Verifică programul
+38|Se verifică mai întâi programul…
+39|Se verifică programul…
+40|Alege o freză
+41|Alege mai întâi un port sau o gazdă în setările dispozitivului.
+42|Alege mașina cu care vei lucra.
+43|Mandrină
+44|Circumferință
+45|Șterge o alarmă
+46|Ștergerea alarmei omite homing-ul: folosiți doar când se știe că capul stă într-un loc sigur.
+47|Confirmă ștergerea
+48|Conectează
+49|Reconectează automat
+50|Conectat
+51|Conexiune
+52|Tip de conexiune
+53|Consolă
+54|Control
+55|Copiat în {}
+56|Raza colțului
+57|Nu s-a putut salva
+58|Nu s-a putut salva: {}
+59|Numărarea umple bufferul controlerului și este rapidă. Simplu trimite o linie și așteaptă ok-ul ei: lent, dar pentru firmware care răspunde greșit.
+60|Taie în interiorul liniei
+61|Taie în exteriorul liniei
+62|Tăieturi
+63|Tăieturi: {} m, aproximativ {} min
+64|Diametru de tăiere
+65|Lungime de tăiere
+66|Șterge această cameră
+67|Adâncime
+68|Dispozitiv
+69|Setările dispozitivului
+70|Setările dispozitivului…
+71|Diagnostic și statistici…
+72|Deconectează
+73|Burghiu
+74|Editare
+75|Editează…
+76|Freză de gravare
+77|Eroare {} la linia {}: {}
+78|Eroare {}: {}
+79|Exportă G-code…
+80|Exportă această freză…
+81|Exportă…
+82|Avans
+83|Setările firmware-ului ($$)…
+84|Freză cilindrică
+85|Tăișuri
+86|Urmărește linia
+87|Cadru
+88|Încadrarea zonei de lucru
+89|De sus
+90|De la linia…
+91|În față stânga
+92|În față dreapta
+93|GRBL 1.1 are trei axe: axa A nu este disponibilă, se folosește Y.
+94|General
+95|Parcurge cadrul în care se va lucra
+96|Ajutor
+97|Viteza maximă
+98|Acasă
+99|Fă homing mașinii
+100|Gazdă
+101|Nu am un dispozitiv
+102|Importă proiect LightBurn…
+103|Dispozitivul {} a fost importat
+104|Importă…
+105|Tip
+106|Straturi
+107|Omise
+108|Viteza minimă
+109|Zero mașină (0,0)
+110|Material
+111|Materialul piesei
+112|Metal
+113|Micropașii motorului pentru o rotație completă a ceea ce antrenează (mandrina sau o rolă).
+114|Micropași pe rotație
+115|Se frezează: inclus în traiectorii și în G-code
+116|Frezare
+117|Mișcări la înălțimea de siguranță
+118|Frezele mele
+119|Nou
+120|Freză nouă
+121|Fără freză
+122|Încă nu există niciun dispozitiv. Adaugă unul sau lucrează fără mașină.
+123|Fără port
+124|Nu este o adresă http sau https.
+125|Note
+126|Note despre această mașină
+127|Încă nu este nimic aici
+128|Nimic selectat
+129|Doar culoarea unui plastic poate fi schimbată. Materialul și grosimea lui apar în vizualizarea 3D și se salvează în proiect.
+130|Deschide un desen sau începe un design gol.
+131|Deschide legătura cu controlerul din setările dispozitivului
+132|Deschide fereastra de previzualizare
+133|Deschide…
+134|Operație
+135|Lungime totală
+136|Adâncime de trecere
+137|Adâncime de trecere (din diametru)
+138|Plastic
+139|Avans de pătrundere
+140|Buzunar
+141|Port
+142|Port sau id USB
+143|Previzualizare
+144|Previzualizare…
+145|Proprietăți
+146|Pune formele selectate pe acest strat
+147|Citește un dispozitiv dintr-un fișier
+148|Citește freze dintr-un fișier
+149|Gata
+150|Freze gata făcute
+151|Reconectare
+152|Reîmprospătează
+153|Reține id-urile USB ale portului ales: când numele se schimbă, portul este regăsit prin ele.
+154|Resetează vizualizarea
+155|Reia
+156|Diametrul rolei
+157|Role
+158|Rotativ
+159|STOP
+160|Înălțime de siguranță
+161|Salvează
+162|Salvează G-code
+163|Salvează ca…
+164|Salvează acest dispozitiv într-un fișier
+165|Salvează-ți frezele într-un fișier
+166|Salvat
+167|Dispozitiv salvat în {}
+168|{} salvat
+169|Setări
+170|Diametrul cozii
+171|Forme pe acest strat
+172|Arată imaginea live de la camera acestei mașini
+173|Arată traseele pe zona de lucru
+174|Afișată în fila Cameră
+175|Afișat în zona de lucru
+176|Viteza mișcărilor deasupra materialului
+177|Ax
+178|Start
+179|Pornește de la
+180|Pornește lucrarea de la o linie a programului
+181|Se pornește lucrarea: {} linii, ~{}
+182|Viteze inițiale pentru un strat
+183|Suprapunere laterală
+184|Suprapunere laterală (din diametru)
+185|Trimite lucrarea la mașina conectată
+186|Transmisie
+187|Pornit
+188|Port TCP
+189|Freză conică sferică
+190|G-code-ul din jurul lucrării: {}
+191|Freza merge în interiorul liniei, deci forma cade: o gaură sau o fereastră.
+192|Freza merge în exteriorul liniei, deci forma rămâne: o piesă este tăiată din material.
+193|Centrul frezei urmărește linia: gravări și canale. Liniile deschise funcționează și ele.
+194|Verificarea nu a găsit nimic greșit.
+195|Verificarea nu a găsit nimic. Lucrarea rulează.
+196|Verificarea a găsit {} probleme, prima la linia {}. Lucrarea nu a fost pornită.
+197|Controlerul are nevoie de {} pași pe mm pe axa Y ($101).
+198|Tăieturile ies din zona de lucru a dispozitivului
+199|Dispozitivul acestui proiect
+200|Dispozitivul a fost adăugat.
+201|Dispozitivul a fost salvat.
+202|Desenul este mai înalt decât circumferința piesei ({} mm)
+203|Fișierul este prea mare
+204|Lucrarea s-a terminat, cu {} probleme (vezi Consola).
+205|Lucrarea s-a terminat.
+206|Lucrarea este în pauză: {}
+207|Lucrarea rulează.
+208|Măsurarea la senzor a eșuat: fără contact sau o alarmă.
+209|Scula de referință a fost măsurată: Z {} la senzor.
+210|Scula a fost măsurată; nu există încă o referință de comparat.
+211|Circumferința piesei: desenul nu poate fi mai înalt.
+212|Nu e nimic de tăiat: pune forme pe straturi care au freză.
+213|Nu e nimic de încadrat: pune forme pe straturi care au freză.
+214|Încă nu e nimic de arătat: desenează forme și pune-le pe straturi care au freză.
+215|Grosime
+216|Această versiune nu poate folosi camerele computerului.
+217|Acest dispozitiv nu are nicio cameră pornită. Adaugă una în setările dispozitivului.
+218|Acest dispozitiv nu este în listă: a venit cu proiectul
+219|Acesta este dispozitivul înlocuitor (Dummy): zonă de lucru și viteze implicite.
+220|Timp {} / {}
+221|Diametrul vârfului
+222|Prea multe dispozitive
+223|Trasee
+224|Tip
+225|Dezleagă
+226|Unități
+227|Freză în V
+228|Vizualizare
+229|Opțiuni de vizualizare…
+230|Așteptare după pornire
+231|Se așteaptă imaginea…
+232|Când legătura cade singură, încearcă din nou la câteva secunde până apăsați Deconectează.
+233|Cu un accesoriu rotativ axa Y rotește piesa: desenul nu poate fi mai înalt decât circumferința piesei. Modelul este simplu (un mandrin se rotește cu diametrul piesei, rolele mișcă suprafața ca pe a lor); o mașină reală trebuie testată.
+234|Lemn, închis
+235|Lemn, deschis
+236|Lemn, mediu
+237|Lucrează la un proiect fără mașină: un dispozitiv simplu numit Dummy, cu zona de lucru și vitezele implicite
+238|Diametrul piesei
+239|Z este cât de adânc coboară axul de la partea de sus a materialului. Înălțimea de siguranță este cea la care se mișcă axul între tăieturi.
+240|Z a fost setat din referință.
+241|freze adăugate
+242|freze adăugate în bibliotecă
+243|ex. Freza mea CNC
+244|niciunul
+245|acest proiect a fost făcut pentru altă mașină: {}
+246|{} treceri până la {} mm
+247|{}: nicio freză aleasă
+248|{}: nimic de tăiat (linia poate fi prea mică pentru freză)
+249|{}: liniile deschise sunt omise într-un buzunar
+250|{}: liniile deschise sunt omise într-un profil (folosește „Urmărește linia”)
+251|{}: imaginile nu se frezează
+252|{}: adâncimea este limitată la cursa mașinii ({} mm)
+253|{}: adâncimea de {} mm este mai mare decât grosimea materialului ({} mm)
+254|{}: {} rpm este în afara intervalului axului {}…{} rpm

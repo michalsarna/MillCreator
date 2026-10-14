@@ -14,6 +14,12 @@ pub enum Act {
     SaveAs,
     ImportLightburn,
     ToolLibrary,
+    Firmware,
+    ToolSensor,
+    Calibration,
+    Diagnostics,
+    StartFrom,
+    CheckProgram,
     Preview3d,
     ExportGcode,
     OpenRecent(u8),
@@ -53,6 +59,7 @@ pub fn menus() -> Menus<Act> {
     vec![
         ("File", file),
         ("Edit", std(std_entries::edit())),
+        ("Machine", vec![Item(Act::Firmware, "Firmware settings ($$)…", None), Item(Act::Calibration, "Calibration…", None), Item(Act::ToolSensor, "Tool length sensor…", None), Item(Act::Diagnostics, "Diagnostics and statistics…", None), Sep, Item(Act::StartFrom, "Start from line…", None), Item(Act::CheckProgram, "Check the program", None)]),
         ("Milling", vec![Item(Act::ToolLibrary, "Bit library…", None), Sep, Item(Act::Preview3d, "3D view of the job…", key("CmdOrCtrl+Shift+3", "Ctrl+Shift+3")), Item(Act::ExportGcode, "Export G-code…", key("CmdOrCtrl+Shift+G", "Ctrl+Shift+G"))]),
         (
             "Arrange",

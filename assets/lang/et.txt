@@ -4,237 +4,252 @@
 3|Pordi nimi või USB tootja ja toote tunnus (VID:PID, kuueteistkümnendsüsteemis): kasutatakse porti, millel on need tunnused.
 4|Valmis freesi ei saa muuta. Tee koopia, et seda muuta.
 5|Pöörlemisseade on ühendatud
-6|Katkesta käimasolev töö
-7|Teave
-8|Lisa kaamera
-9|Lisa seade
+6|Tavaline masina suurus…
+7|Katkesta käimasolev töö
+8|Teave
+9|Lisa kaamera
 10|Lisa seade
-11|Lisa seade…
-12|Aadress
-13|Pärast ühendamist
-14|Kogu joone sees olev ala puhastatakse ring-ringilt kihi sügavuseni.
-15|Korrasta
-16|Taga vasakul
-17|Taga paremal
-18|Tagasi esimesse vaatesse. Pildil topeltklõps teeb sama.
-19|Kerafrees
-20|Siduskiirus (baud)
-21|Seo selle pordiga
-22|Frees
-23|Freeside kogu
-24|Freeside kogu…
-25|Seotud USB-seade
-26|Ümardatud nurgaga frees (nurga raadius)
-27|Kaamera
-28|Kaamera nimi
-29|Kaamera number
-30|Selle arvuti kaamera
-31|Kaamera pööramine
-32|Kaameravaade
-33|Kaamerad
-34|Faili ei saa kasutada
-35|Faili ei saa kasutada: {}
-36|Vali frees
-37|Vali esmalt seadme sätetes port või host.
-38|Vali masin, millega töötad.
-39|Padrun
-40|Ümbermõõt
-41|Tühista alarm
-42|Tühjenda alarm ($X)
-43|Alarmi tühistamine jätab kodustamise vahele: kasuta ainult siis, kui pea on teadaolevalt turvalises kohas.
-44|Kinnita kustutamine
-45|Ühenda
-46|Ühenda automaatselt uuesti
-47|Ühendu esmalt masinaga (vahekaart Seade)
-48|Ühendatud
-49|Ühendus
-50|Ühenduse tüüp
-51|Konsool
-52|Kontroller
-53|Kopeeritud: {}
-54|Nurga raadius
-55|Salvestamine ebaõnnestus
-56|Salvestamine ebaõnnestus: {}
-57|Loendamine täidab kontrolleri puhvri ja on kiire. Lihtne saadab ühe rea ja ootab selle ok-d: aeglane, kuid valesti vastavale püsivarale.
-58|Lõika joone seest
-59|Lõika joone väljast
-60|Lõiked
-61|Lõiked: {} m, umbes {} min
-62|Lõikediameeter
-63|Lõikepikkus
-64|Kustuta see kaamera
-65|Sügavus
-66|Seade
-67|Seadme seaded
-68|Seadme seaded…
-69|Katkesta ühendus
-70|Puur
-71|Redigeeri
-72|Redigeeri…
-73|Graveerimisfrees
-74|Ekspordi G-code…
-75|Ekspordi see frees…
-76|Ekspordi…
-77|Etteanne
-78|Söötmise peatamine
-79|Fail
-80|Sõrmfrees
-81|Lõiketerad
-82|Järgi joont
-83|Raam
-84|Tööala raamimine
-85|Ülalt
-86|Ees vasakul
-87|Ees paremal
-88|GRBL 1.1-l on kolm telge: A-telg pole saadaval, kasutatakse Y-d.
-89|Üldine
-90|Käi ümber raami, kus tööd tehakse
-91|Abi
-92|Suurim kiirus
-93|Algasend
-94|Kodusta masin
-95|Host
-96|Mul pole seadet
-97|Impordi LightBurni projekt…
-98|Seade {} imporditi
-99|Impordi…
-100|Liik
-101|Kihid
-102|Välja jäetud
-103|Väikseim kiirus
-104|Masin
-105|Masina null (0,0)
-106|Materjal
-107|Töödeldava detaili materjal
-108|Metall
-109|Mootori mikrosammud ühe täispöörde kohta sellest, mida see ajab (padrun või üks rull).
-110|Mikrosammu pöörde kohta
-111|Freesitakse: kaasatud tööradadesse ja G-koodi
-112|Freesimine
-113|Liikumised ohutul kõrgusel
-114|Minu freesid
-115|Uus
-116|Uus frees
-117|Freesi pole
-118|Seadet veel pole. Lisa üks või tööta ilma masinata.
-119|Porti pole
-120|See pole http- ega https-aadress.
-121|Märkmed
-122|Märkmed selle masina kohta
-123|Siin pole veel midagi
-124|Midagi pole valitud
-125|Muuta saab ainult plasti värvi. Materjal ja selle paksus on näha 3D-vaates ning salvestatakse projekti.
-126|Ava joonis või alusta tühja kavandiga.
-127|Ava seadme sätetes määratud kontrolleri ühendus
-128|Ava eelvaateaken
-129|Ava…
-130|Toiming
-131|Kogupikkus
-132|Läbimiku sügavus
-133|Läbimiku sügavus (läbimõõdust)
-134|Plast
-135|Sukeldumissöötmine
-136|Tasku
-137|Port
-138|Port või USB-tunnus
-139|Eelvaade
-140|Eelvaade…
-141|Atribuudid
-142|Pane valitud kujud sellele kihile
-143|Loe seade failist
-144|Loe freesid failist
-145|Valmis
-146|Valmis freesid
-147|Taasühendus
-148|Värskenda
-149|Jäta meelde valitud pordi USB-tunnused: kui selle nimi muutub, leitakse port nende järgi.
-150|Lähtesta vaade
-151|Jätka
-152|Rulli läbimõõt
-153|Rullid
-154|Pöörlev
-155|STOPP
-156|Ohutu kõrgus
-157|Salvesta
-158|Salvesta G-code
-159|Salvesta nimega…
-160|Salvesta see seade faili
-161|Salvesta oma freesid faili
-162|Salvestatud
-163|Seade salvestati: {}
-164|Salvestatud: {}
-165|Seaded
-166|Varre läbimõõt
-167|Kujud sellel kihil
-168|Näitab selle masina kaamera otsepilti
-169|Näitab trajektoore tööalal
-170|Näidatakse vahekaardil Kaamera
-171|Näidatakse tööalas
-172|Liikumiste kiirus materjali kohal
-173|Spindel
-174|Spindli pöörded
-175|Start
-176|Töö algab: {} rida, ~{}
-177|Kihi algkiirused
-178|Külgmine kattuvus
-179|Külgmine kattuvus (läbimõõdust)
-180|Saada töö ühendatud masinale
-181|Voogedastus
-182|Sees
-183|TCP-port
-184|Koonuseline kerafrees
-185|Frees läheb joone seest, nii et kuju kukub välja: auk või aken.
-186|Frees läheb joone väljast, nii et kuju jääb: detail lõigatakse materjalist välja.
-187|Freesi keskpunkt järgib joont: graveeringud ja sooned. Avatud jooned töötavad samuti.
-188|Kontroller vajab Y-teljel {} sammu mm kohta ($101).
-189|Lõiked ulatuvad seadme tööalast välja
-190|Selle projekti seade
-191|Seade lisati.
-192|Seade salvestati.
-193|Joonis on kõrgem kui detaili ümbermõõt ({} mm)
-194|Fail on liiga suur
-195|Töö on valmis.
-196|Töö käib.
-197|Eseme ümbermõõt: kujundus ei tohi olla kõrgem.
-198|Pole midagi lõigata: pane kujud kihtidele, millel on frees.
-199|Pole midagi raamida: pane kujud kihtidele, millel on frees.
-200|Pole veel midagi näidata: joonista kujud ja pane need kihtidele, millel on frees.
-201|Paksus
-202|See versioon ei saa kasutada arvuti kaameraid.
-203|Sellel seadmel pole sisselülitatud kaamerat. Lisa see seadme sätetes.
-204|Seda seadet pole nimekirjas: see tuli projektiga kaasa
-205|See on asendusseade (Dummy): vaiketööala ja -kiirused.
-206|Aeg {} / {}
-207|Otsa läbimõõt
-208|Liiga palju seadmeid
-209|Trajektoorid
-210|Tüüp
-211|Eemalda sidumine
-212|Ühikud
-213|V-frees
-214|Vaade
-215|Vaate valikud…
-216|Ooteaeg sisselülitamise järel
-217|Ootan pilti…
-218|Kui ühendus katkeb iseenesest, proovi mõne sekundi tagant uuesti, kuni vajutad Katkesta.
-219|Pöördlisaga pöörab Y-telg detaili: joonis ei tohi olla kõrgem kui detaili ümbermõõt. Mudel on lihtne (padrun pöörleb detaili läbimõõdu võrra, rullid liigutavad pinda nagu oma pinda); päris masinat tuleb testida.
-220|Puit, tume
-221|Puit, hele
-222|Puit, keskmine
-223|Tööta projektiga ilma masinata: lihtne seade nimega Dummy vaiketööala ja vaikekiirustega
-224|Eseme läbimõõt
-225|Z on see, kui sügavale spindel läheb materjali pealispinnast. Ohutu kõrgus on see, kus spindel lõigete vahel liigub.
-226|freesid lisatud
-227|freesid lisatud kogusse
-228|nt Minu CNC-frees
-229|puudub
-230|see projekt tehti teisele masinale: {}
-231|{} läbimit kuni {} mm
-232|{}: freesi pole valitud
-233|{}: pole midagi lõigata (joon võib olla freesi jaoks liiga väike)
-234|{}: avatud jooned jäetakse taskus välja
-235|{}: avatud jooned jäetakse profiilis välja (kasuta „Järgi joont“)
-236|{}: pilte ei freesita
-237|{}: sügavus on piiratud masina käiguga ({} mm)
-238|{}: sügavus {} mm on suurem kui materjali paksus ({} mm)
-239|{}: {} p/min on väljaspool spindli vahemikku {}…{} p/min
+11|Lisa seade
+12|Lisa seade…
+13|Aadress
+14|Pärast ühendamist
+15|Alarm {}
+16|Kogu joone sees olev ala puhastatakse ring-ringilt kihi sügavuseni.
+17|Korrasta
+18|Taga vasakul
+19|Taga paremal
+20|Tagasi esimesse vaatesse. Pildil topeltklõps teeb sama.
+21|Kerafrees
+22|Siduskiirus (baud)
+23|Seo selle pordiga
+24|Frees
+25|Freeside kogu
+26|Freeside kogu…
+27|Seotud USB-seade
+28|Ümardatud nurgaga frees (nurga raadius)
+29|Kaamera
+30|Kaamera nimi
+31|Kaamera number
+32|Selle arvuti kaamera
+33|Kaamera pööramine
+34|Kaameravaade
+35|Kaamerad
+36|Faili ei saa kasutada
+37|Kontrolli programmi
+38|Kontrollitakse esmalt programmi…
+39|Kontrollitakse programmi…
+40|Vali frees
+41|Vali esmalt seadme sätetes port või host.
+42|Vali masin, millega töötad.
+43|Padrun
+44|Ümbermõõt
+45|Tühista alarm
+46|Alarmi tühistamine jätab kodustamise vahele: kasuta ainult siis, kui pea on teadaolevalt turvalises kohas.
+47|Kinnita kustutamine
+48|Ühenda
+49|Ühenda automaatselt uuesti
+50|Ühendatud
+51|Ühendus
+52|Ühenduse tüüp
+53|Konsool
+54|Juhtimine
+55|Kopeeritud: {}
+56|Nurga raadius
+57|Salvestamine ebaõnnestus
+58|Salvestamine ebaõnnestus: {}
+59|Loendamine täidab kontrolleri puhvri ja on kiire. Lihtne saadab ühe rea ja ootab selle ok-d: aeglane, kuid valesti vastavale püsivarale.
+60|Lõika joone seest
+61|Lõika joone väljast
+62|Lõiked
+63|Lõiked: {} m, umbes {} min
+64|Lõikediameeter
+65|Lõikepikkus
+66|Kustuta see kaamera
+67|Sügavus
+68|Seade
+69|Seadme seaded
+70|Seadme seaded…
+71|Diagnostika ja statistika…
+72|Katkesta ühendus
+73|Puur
+74|Redigeeri
+75|Redigeeri…
+76|Graveerimisfrees
+77|Viga {} real {}: {}
+78|Viga {}: {}
+79|Ekspordi G-code…
+80|Ekspordi see frees…
+81|Ekspordi…
+82|Etteanne
+83|Püsivara seaded ($$)…
+84|Sõrmfrees
+85|Lõiketerad
+86|Järgi joont
+87|Raam
+88|Tööala raamimine
+89|Ülalt
+90|Realt…
+91|Ees vasakul
+92|Ees paremal
+93|GRBL 1.1-l on kolm telge: A-telg pole saadaval, kasutatakse Y-d.
+94|Üldine
+95|Käi ümber raami, kus tööd tehakse
+96|Abi
+97|Suurim kiirus
+98|Algasend
+99|Kodusta masin
+100|Host
+101|Mul pole seadet
+102|Impordi LightBurni projekt…
+103|Seade {} imporditi
+104|Impordi…
+105|Liik
+106|Kihid
+107|Välja jäetud
+108|Väikseim kiirus
+109|Masina null (0,0)
+110|Materjal
+111|Töödeldava detaili materjal
+112|Metall
+113|Mootori mikrosammud ühe täispöörde kohta sellest, mida see ajab (padrun või üks rull).
+114|Mikrosammu pöörde kohta
+115|Freesitakse: kaasatud tööradadesse ja G-koodi
+116|Freesimine
+117|Liikumised ohutul kõrgusel
+118|Minu freesid
+119|Uus
+120|Uus frees
+121|Freesi pole
+122|Seadet veel pole. Lisa üks või tööta ilma masinata.
+123|Porti pole
+124|See pole http- ega https-aadress.
+125|Märkmed
+126|Märkmed selle masina kohta
+127|Siin pole veel midagi
+128|Midagi pole valitud
+129|Muuta saab ainult plasti värvi. Materjal ja selle paksus on näha 3D-vaates ning salvestatakse projekti.
+130|Ava joonis või alusta tühja kavandiga.
+131|Ava seadme sätetes määratud kontrolleri ühendus
+132|Ava eelvaateaken
+133|Ava…
+134|Toiming
+135|Kogupikkus
+136|Läbimiku sügavus
+137|Läbimiku sügavus (läbimõõdust)
+138|Plast
+139|Sukeldumissöötmine
+140|Tasku
+141|Port
+142|Port või USB-tunnus
+143|Eelvaade
+144|Eelvaade…
+145|Atribuudid
+146|Pane valitud kujud sellele kihile
+147|Loe seade failist
+148|Loe freesid failist
+149|Valmis
+150|Valmis freesid
+151|Taasühendus
+152|Värskenda
+153|Jäta meelde valitud pordi USB-tunnused: kui selle nimi muutub, leitakse port nende järgi.
+154|Lähtesta vaade
+155|Jätka
+156|Rulli läbimõõt
+157|Rullid
+158|Pöörlev
+159|STOPP
+160|Ohutu kõrgus
+161|Salvesta
+162|Salvesta G-code
+163|Salvesta nimega…
+164|Salvesta see seade faili
+165|Salvesta oma freesid faili
+166|Salvestatud
+167|Seade salvestati: {}
+168|Salvestatud: {}
+169|Seaded
+170|Varre läbimõõt
+171|Kujud sellel kihil
+172|Näitab selle masina kaamera otsepilti
+173|Näitab trajektoore tööalal
+174|Näidatakse vahekaardil Kaamera
+175|Näidatakse tööalas
+176|Liikumiste kiirus materjali kohal
+177|Spindel
+178|Start
+179|Alguspunkt
+180|Alusta tööd programmi realt
+181|Töö algab: {} rida, ~{}
+182|Kihi algkiirused
+183|Külgmine kattuvus
+184|Külgmine kattuvus (läbimõõdust)
+185|Saada töö ühendatud masinale
+186|Voogedastus
+187|Sees
+188|TCP-port
+189|Koonuseline kerafrees
+190|G-kood töö ümber: {}
+191|Frees läheb joone seest, nii et kuju kukub välja: auk või aken.
+192|Frees läheb joone väljast, nii et kuju jääb: detail lõigatakse materjalist välja.
+193|Freesi keskpunkt järgib joont: graveeringud ja sooned. Avatud jooned töötavad samuti.
+194|Kontroll ei leidnud midagi valesti.
+195|Kontroll ei leidnud midagi. Töö käib.
+196|Kontroll leidis {} probleemi, esimene real {}. Tööd ei alustatud.
+197|Kontroller vajab Y-teljel {} sammu mm kohta ($101).
+198|Lõiked ulatuvad seadme tööalast välja
+199|Selle projekti seade
+200|Seade lisati.
+201|Seade salvestati.
+202|Joonis on kõrgem kui detaili ümbermõõt ({} mm)
+203|Fail on liiga suur
+204|Töö on valmis, {} probleemiga (vt Konsool).
+205|Töö on valmis.
+206|Töö on peatatud: {}
+207|Töö käib.
+208|Mõõtmine andurilt ebaõnnestus: puudet pole või tekkis alarm.
+209|Võrdlustööriist mõõdeti: Z {} anduril.
+210|Tööriist mõõdeti; veel pole võrdlust, millega võrrelda.
+211|Eseme ümbermõõt: kujundus ei tohi olla kõrgem.
+212|Pole midagi lõigata: pane kujud kihtidele, millel on frees.
+213|Pole midagi raamida: pane kujud kihtidele, millel on frees.
+214|Pole veel midagi näidata: joonista kujud ja pane need kihtidele, millel on frees.
+215|Paksus
+216|See versioon ei saa kasutada arvuti kaameraid.
+217|Sellel seadmel pole sisselülitatud kaamerat. Lisa see seadme sätetes.
+218|Seda seadet pole nimekirjas: see tuli projektiga kaasa
+219|See on asendusseade (Dummy): vaiketööala ja -kiirused.
+220|Aeg {} / {}
+221|Otsa läbimõõt
+222|Liiga palju seadmeid
+223|Trajektoorid
+224|Tüüp
+225|Eemalda sidumine
+226|Ühikud
+227|V-frees
+228|Vaade
+229|Vaate valikud…
+230|Ooteaeg sisselülitamise järel
+231|Ootan pilti…
+232|Kui ühendus katkeb iseenesest, proovi mõne sekundi tagant uuesti, kuni vajutad Katkesta.
+233|Pöördlisaga pöörab Y-telg detaili: joonis ei tohi olla kõrgem kui detaili ümbermõõt. Mudel on lihtne (padrun pöörleb detaili läbimõõdu võrra, rullid liigutavad pinda nagu oma pinda); päris masinat tuleb testida.
+234|Puit, tume
+235|Puit, hele
+236|Puit, keskmine
+237|Tööta projektiga ilma masinata: lihtne seade nimega Dummy vaiketööala ja vaikekiirustega
+238|Eseme läbimõõt
+239|Z on see, kui sügavale spindel läheb materjali pealispinnast. Ohutu kõrgus on see, kus spindel lõigete vahel liigub.
+240|Z seati võrdluse järgi.
+241|freesid lisatud
+242|freesid lisatud kogusse
+243|nt Minu CNC-frees
+244|puudub
+245|see projekt tehti teisele masinale: {}
+246|{} läbimit kuni {} mm
+247|{}: freesi pole valitud
+248|{}: pole midagi lõigata (joon võib olla freesi jaoks liiga väike)
+249|{}: avatud jooned jäetakse taskus välja
+250|{}: avatud jooned jäetakse profiilis välja (kasuta „Järgi joont“)
+251|{}: pilte ei freesita
+252|{}: sügavus on piiratud masina käiguga ({} mm)
+253|{}: sügavus {} mm on suurem kui materjali paksus ({} mm)
+254|{}: {} p/min on väljaspool spindli vahemikku {}…{} p/min

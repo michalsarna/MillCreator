@@ -37,8 +37,14 @@ The wiki has the full documentation in English and Polish: <https://github.com/m
   project. The **Toolpaths** button of the control bar draws the paths over the work area.
 * **The machine:** a GRBL controller on a serial port or a network socket (set in the device: port, baud rate, streaming,
   homing after connecting); **Connect**, **Home**, **Frame** (the tool goes round the box of the work at the safe
-  height), **Start** and **Stop** of the job, **Save G-code**, pause and resume, a console. A rotary attachment can be
-  set in the device (the Y axis turns the work; the drawing may not be higher than the way round it).
+  height), **Start** (also **From line…** and a check of the program in the controller's check mode) and **Stop** of
+  the job, **Save G-code**, pause and resume, a console. The **Control** tab has the work and machine position, zero
+  and G54 … G59, jogging (steps, hold to move, keyboard), probing with a touch plate or a 3D probe, and macros; a job
+  stops at a change of the bit and offers to probe Z again. The **Machine** menu has the settings of the controller
+  (`$$`: search, backup before the first change, restore), calibration (steps per millimetre, squareness),
+  diagnostics with statistics and maintenance reminders, and alarms and errors are explained in your language. The
+  device can be filled in from the controller, keeps copies of the controller settings (a change is noticed at connecting), and a tool length sensor gives every new bit the Z of the first. A rotary attachment can be set in the device (the Y axis turns the
+  work; the drawing may not be higher than the way round it).
 * **Toolpaths and G-code:** profiles, pockets, lines and drilling with passes; GRBL-style G-code with a pause to change
   the bit; warnings (no bit, deeper than the material, outside the work area, spindle out of range).
 * **Project file:** `.cre`, shared with LightCreator; MillCreator keeps its own `mill` section (layers, material, device
@@ -46,7 +52,7 @@ The wiki has the full documentation in English and Polish: <https://github.com/m
 * **Shared with LightCreator:** the window, menus and editor, 310 clipart pictures, import of SVG, PDF, Illustrator and
   LightBurn projects, 30 languages (the shared texts and MillCreator's own), 14 colour schemes.
 
-What is not there: jogging, probing, tabs, ramps, V-carving, 3D relief, collision checks. See [FEATURES.md](FEATURES.md).
+What is not there: tabs, ramps, V-carving, 3D relief, collision checks. See [FEATURES.md](FEATURES.md).
 
 ## Install
 

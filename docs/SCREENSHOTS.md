@@ -28,3 +28,15 @@ All pictures are rendered headlessly from the real UI (`cargo test -p millcreato
 | Device: the connection to the GRBL controller | Device: a rotary attachment |
 | ![Device tab: connect, home, pause, console](screenshots/23-device-tab-machine.png) | ![Console tab: the traffic with the controller and a line to send a command](screenshots/24-console.png) |
 | Device tab: connect, home, pause, console | Console tab: the traffic with the controller and a line to send a command |
+| ![Control tab: position, zero, jogging, probe, macros](screenshots/25-control-tab.png) | ![Settings of the controller ($$)](screenshots/26-firmware.png) |
+| Control tab: position, zero, jogging, probe, macros | Settings of the controller ($$) |
+| ![Calibration: steps per millimetre and squareness](screenshots/27-calibration.png) | ![Diagnostics, statistics and maintenance](screenshots/28-diagnostics.png) |
+| Calibration: steps per millimetre and squareness | Diagnostics, statistics and maintenance |
+| ![Start from line](screenshots/29-start-from-line.png) | ![The job waits for the bit to be changed](screenshots/30-job-paused.png) |
+| Start from line | The job waits for the bit to be changed |
+| ![Device settings: the probe](screenshots/31-device-probe.png) | ![Device settings: macros and G-code around a job](screenshots/32-device-macros.png) |
+| Device settings: the probe | Device settings: macros and G-code around a job |
+| ![Control tab in Polish](screenshots/33-control-tab-polish.png) | ![Calibration in Polish](screenshots/34-calibration-polish.png) |
+| Control tab in Polish | Calibration in Polish |
+| ![Tool length sensor: where it is, the reference tool, every other tool](screenshots/35-tool-length-sensor.png) | ![Settings of the controller: what changed since the copy kept with the device](screenshots/36-firmware-copies.png) |
+| Tool length sensor: where it is, the reference tool, every other tool | Settings of the controller: what changed since the copy kept with the device |

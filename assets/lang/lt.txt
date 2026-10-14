@@ -4,237 +4,252 @@
 3|Prievado pavadinimas arba USB gamintojo ir gaminio ID (VID:PID, šešioliktainis): naudojamas prievadas su šiais ID.
 4|Paruoštos frezos keisti negalima. Padarykite kopiją, kad ją pakeistumėte.
 5|Prijungtas sukimo priedas
-6|Nutraukti vykdomą darbą
-7|Apie
-8|Pridėti kamerą
-9|Pridėti įrenginį
+6|Įprastas mašinos dydis…
+7|Nutraukti vykdomą darbą
+8|Apie
+9|Pridėti kamerą
 10|Pridėti įrenginį
-11|Pridėti įrenginį…
-12|Adresas
-13|Prisijungus
-14|Visa linijos vidaus sritis išvaloma žiedas po žiedo iki sluoksnio gylio.
-15|Išdėstyti
-16|Gale kairėje
-17|Gale dešinėje
-18|Atgal į pirmąjį vaizdą. Dukart spustelėjus paveikslėlį daroma tas pats.
-19|Rutulinė freza
-20|Perdavimo sparta (baud)
-21|Susieti su šiuo prievadu
-22|Freza
-23|Frezų biblioteka
-24|Frezų biblioteka…
-25|Susietas USB įrenginys
-26|Freza su suapvalintais kampais (kampo spindulys)
-27|Kamera
-28|Kameros pavadinimas
-29|Kameros numeris
-30|Šio kompiuterio kamera
-31|Kameros pasukimas
-32|Kameros vaizdas
-33|Kameros
-34|Failo naudoti negalima
-35|Failo naudoti negalima: {}
-36|Pasirinkite frezą
-37|Pirmiausia įrenginio nustatymuose pasirinkite prievadą arba šeimininką.
-38|Pasirinkite staklių modelį, su kuriuo dirbsite.
-39|Griebtuvas
-40|Apimtis
-41|Panaikinti aliarmą
-42|Išvalyti aliarmą ($X)
-43|Aliarmo panaikinimas praleidžia bazavimą: naudokite tik tada, kai žinoma, kad galvutė yra saugioje vietoje.
-44|Patvirtinti naikinimą
-45|Prisijungti
-46|Automatiškai prisijungti iš naujo
-47|Pirmiausia prisijunkite prie staklių (skirtukas Įrenginys)
-48|Prisijungta
-49|Ryšys
-50|Ryšio tipas
-51|Konsolė
-52|Valdiklis
-53|Nukopijuota į {}
-54|Kampo spindulys
-55|Nepavyko išsaugoti
-56|Nepavyko išsaugoti: {}
-57|Skaičiavimas užpildo valdiklio buferį ir yra greitas. Paprastas siunčia vieną eilutę ir laukia jos ok: lėtas, bet skirtas programinei įrangai, kuri atsako klaidingai.
-58|Pjauti linijos viduje
-59|Pjauti linijos išorėje
-60|Pjūviai
-61|Pjūviai: {} m, apie {} min.
-62|Pjovimo skersmuo
-63|Pjovimo ilgis
-64|Ištrinti šią kamerą
-65|Gylis
-66|Įrenginys
-67|Įrenginio nustatymai
-68|Įrenginio nustatymai…
-69|Atsijungti
-70|Grąžtas
-71|Redaguoti
-72|Redaguoti…
-73|Graviravimo freza
-74|Eksportuoti G-code…
-75|Eksportuoti šią frezą…
-76|Eksportuoti…
-77|Paduotis
-78|Pastūmos sustabdymas
-79|Failas
-80|Pirštinė freza
-81|Ašmenys
-82|Sekti linija
-83|Rėmelis
-84|Darbo srities rėmelis
-85|Iš viršaus
-86|Priekyje kairėje
-87|Priekyje dešinėje
-88|GRBL 1.1 turi tris ašis: A ašis nepasiekiama, naudojama Y.
-89|Bendra
-90|Apeiti rėmelį, kur bus dirbama
-91|Žinynas
-92|Didžiausias greitis
-93|Pradžia
-94|Bazuoti staklės
-95|Pagrindinis kompiuteris
-96|Neturiu įrenginio
-97|Importuoti „LightBurn“ projektą…
-98|Įrenginys {} importuotas
-99|Importuoti…
-100|Rūšis
-101|Sluoksniai
-102|Praleista
-103|Mažiausias greitis
-104|Staklės
-105|Staklių nulis (0,0)
-106|Medžiaga
-107|Ruošinio medžiaga
-108|Metalas
-109|Variklio mikrožingsniai vienam pilnam to, ką jis suka, apsisukimui (griebtuvo ar vieno ritinėlio).
-110|Mikrožingsnių per apsisukimą
-111|Frezuojama: įtraukta į įrankio trajektorijas ir G-kodą
-112|Frezavimas
-113|Judesiai saugiame aukštyje
-114|Mano frezos
-115|Naujas
-116|Nauja freza
-117|Nėra frezos
-118|Dar nėra įrenginio. Pridėkite vieną arba dirbkite be staklių.
-119|Nėra prievado
-120|Tai nėra http ar https adresas.
-121|Pastabos
-122|Pastabos apie šias stakles
-123|Čia dar nieko nėra
-124|Nieko nepažymėta
-125|Galima keisti tik plastiko spalvą. Medžiaga ir jos storis rodomi 3D vaizde ir išsaugomi projekte.
-126|Atidarykite brėžinį arba pradėkite tuščią dizainą.
-127|Atidaryti ryšį su valdikliu, nustatytu įrenginio nustatymuose
-128|Atverti peržiūros langą
-129|Atverti…
-130|Operacija
-131|Bendras ilgis
-132|Praėjimo gylis
-133|Praėjimo gylis (nuo skersmens)
-134|Plastikas
-135|Įleidimo pastūma
-136|Kišenė
-137|Prievadas
-138|Prievadas arba USB ID
-139|Peržiūra
-140|Peržiūra…
-141|Ypatybės
-142|Padėti pasirinktas formas ant šio sluoksnio
-143|Nuskaityti įrenginį iš failo
-144|Nuskaityti frezas iš failo
-145|Paruošta
-146|Paruoštos frezos
-147|Pakartotinis prisijungimas
-148|Atnaujinti
-149|Įsiminti pasirinkto prievado USB ID: pasikeitus pavadinimui prievadas randamas pagal juos.
-150|Atstatyti vaizdą
-151|Tęsti
-152|Ritinėlio skersmuo
-153|Ritinėliai
-154|Sukimosi
-155|STOP
-156|Saugus aukštis
-157|Įrašyti
-158|Įrašyti G-code
-159|Įrašyti kaip…
-160|Išsaugoti šį įrenginį faile
-161|Išsaugoti jūsų frezas faile
-162|Išsaugota
-163|Įrenginys išsaugotas: {}
-164|Įrašyta: {}
-165|Nustatymai
-166|Kotelio skersmuo
-167|Formos šiame sluoksnyje
-168|Rodo šių staklių kameros tiesioginį vaizdą
-169|Rodo trajektorijas darbo srityje
-170|Rodoma skirtuke Kamera
-171|Rodoma darbo srityje
-172|Judesių greitis virš medžiagos
-173|Verpstė
-174|Verpstės sūkiai
-175|Pradėti
-176|Pradedamas darbas: {} eilučių, ~{}
-177|Pradiniai sluoksnio greičiai
-178|Šoninis persidengimas
-179|Šoninis persidengimas (nuo skersmens)
-180|Siųsti darbą į prijungtas stakles
-181|Srautinis siuntimas
-182|Įjungta
-183|TCP prievadas
-184|Kūginė rutulinė freza
-185|Freza eina linijos viduje, todėl forma iškrenta: skylė arba langas.
-186|Freza eina linijos išorėje, todėl forma lieka: detalė išpjaunama iš medžiagos.
-187|Frezos centras seka linija: graviūros ir grioveliai. Atviros linijos taip pat veikia.
-188|Valdikliui reikia {} žingsnių mm Y ašyje ($101).
-189|Pjūviai išeina už įrenginio darbo srities ribų
-190|Šio projekto įrenginys
-191|Įrenginys pridėtas.
-192|Įrenginys išsaugotas.
-193|Brėžinys aukštesnis už ruošinio apimtį ({} mm)
-194|Failas per didelis
-195|Darbas baigtas.
-196|Darbas vyksta.
-197|Ruošinio apimtis: dizainas negali būti aukštesnis.
-198|Nėra ko pjauti: padėkite formas ant sluoksnių, kurie turi frezą.
-199|Nėra ko apibrėžti: padėkite formas ant sluoksnių, kurie turi frezą.
-200|Dar nėra ką rodyti: nupieškite formas ir padėkite jas ant sluoksnių, kurie turi frezą.
-201|Storis
-202|Ši versija negali naudoti kompiuterio kamerų.
-203|Šis įrenginys neturi įjungtos kameros. Pridėkite ją įrenginio nustatymuose.
-204|Šio įrenginio sąraše nėra: jis atkeliavo su projektu
-205|Tai pakaitinis įrenginys (Dummy): numatytoji darbo sritis ir greičiai.
-206|Laikas {} / {}
-207|Smaigalio skersmuo
-208|Per daug įrenginių
-209|Trajektorijos
-210|Tipas
-211|Atsieti
-212|Vienetai
-213|V formos freza
-214|Rodinys
-215|Rodinio parinktys…
-216|Laukimas po įjungimo
-217|Laukiama vaizdo…
-218|Kai ryšys nutrūksta pats, bandyti kas kelias sekundes, kol paspausite Atsijungti.
-219|Su sukimo priedu Y ašis sukioja ruošinį: brėžinys negali būti aukštesnis už ruošinio apimtį. Modelis paprastas (griebtuvas sukasi ruošinio skersmeniu, ritinėliai juda paviršių kaip savo); tikras stakles reikia išbandyti.
-220|Mediena, tamsi
-221|Mediena, šviesi
-222|Mediena, vidutinė
-223|Dirbkite su projektu be staklių: paprastas įrenginys pavadinimu Dummy su numatytuoju darbo plotu ir greičiais
-224|Ruošinio skersmuo
-225|Z yra tai, kaip giliai verpstė leidžiasi nuo medžiagos viršaus. Saugus aukštis yra aukštis, kuriame verpstė juda tarp pjūvių.
-226|frezos pridėtos
-227|frezos pridėtos į biblioteką
-228|pvz., Mano CNC freza
-229|nėra
-230|šis projektas sukurtas kitoms staklėms: {}
-231|{} praėjimų iki {} mm
-232|{}: freza nepasirinkta
-233|{}: nėra ko pjauti (linija gali būti per maža frezai)
-234|{}: atviros linijos kišenėje praleidžiamos
-235|{}: atviros linijos profilyje praleidžiamos (naudokite „Sekti linija“)
-236|{}: paveikslėliai nefrezuojami
-237|{}: gylis apribotas staklių eiga ({} mm)
-238|{}: {} mm gylis didesnis už medžiagos storį ({} mm)
-239|{}: {} aps./min. už verpstės ribų {}…{} aps./min.
+11|Pridėti įrenginį
+12|Pridėti įrenginį…
+13|Adresas
+14|Prisijungus
+15|Aliarmas {}
+16|Visa linijos vidaus sritis išvaloma žiedas po žiedo iki sluoksnio gylio.
+17|Išdėstyti
+18|Gale kairėje
+19|Gale dešinėje
+20|Atgal į pirmąjį vaizdą. Dukart spustelėjus paveikslėlį daroma tas pats.
+21|Rutulinė freza
+22|Perdavimo sparta (baud)
+23|Susieti su šiuo prievadu
+24|Freza
+25|Frezų biblioteka
+26|Frezų biblioteka…
+27|Susietas USB įrenginys
+28|Freza su suapvalintais kampais (kampo spindulys)
+29|Kamera
+30|Kameros pavadinimas
+31|Kameros numeris
+32|Šio kompiuterio kamera
+33|Kameros pasukimas
+34|Kameros vaizdas
+35|Kameros
+36|Failo naudoti negalima
+37|Tikrinti programą
+38|Pirmiausia tikrinama programa…
+39|Tikrinama programa…
+40|Pasirinkite frezą
+41|Pirmiausia įrenginio nustatymuose pasirinkite prievadą arba šeimininką.
+42|Pasirinkite staklių modelį, su kuriuo dirbsite.
+43|Griebtuvas
+44|Apimtis
+45|Panaikinti aliarmą
+46|Aliarmo panaikinimas praleidžia bazavimą: naudokite tik tada, kai žinoma, kad galvutė yra saugioje vietoje.
+47|Patvirtinti naikinimą
+48|Prisijungti
+49|Automatiškai prisijungti iš naujo
+50|Prisijungta
+51|Ryšys
+52|Ryšio tipas
+53|Konsolė
+54|Valdymas
+55|Nukopijuota į {}
+56|Kampo spindulys
+57|Nepavyko išsaugoti
+58|Nepavyko išsaugoti: {}
+59|Skaičiavimas užpildo valdiklio buferį ir yra greitas. Paprastas siunčia vieną eilutę ir laukia jos ok: lėtas, bet skirtas programinei įrangai, kuri atsako klaidingai.
+60|Pjauti linijos viduje
+61|Pjauti linijos išorėje
+62|Pjūviai
+63|Pjūviai: {} m, apie {} min.
+64|Pjovimo skersmuo
+65|Pjovimo ilgis
+66|Ištrinti šią kamerą
+67|Gylis
+68|Įrenginys
+69|Įrenginio nustatymai
+70|Įrenginio nustatymai…
+71|Diagnostika ir statistika…
+72|Atsijungti
+73|Grąžtas
+74|Redaguoti
+75|Redaguoti…
+76|Graviravimo freza
+77|Klaida {} eilutėje {}: {}
+78|Klaida {}: {}
+79|Eksportuoti G-code…
+80|Eksportuoti šią frezą…
+81|Eksportuoti…
+82|Paduotis
+83|Programinės įrangos nustatymai ($$)…
+84|Pirštinė freza
+85|Ašmenys
+86|Sekti linija
+87|Rėmelis
+88|Darbo srities rėmelis
+89|Iš viršaus
+90|Nuo eilutės…
+91|Priekyje kairėje
+92|Priekyje dešinėje
+93|GRBL 1.1 turi tris ašis: A ašis nepasiekiama, naudojama Y.
+94|Bendra
+95|Apeiti rėmelį, kur bus dirbama
+96|Žinynas
+97|Didžiausias greitis
+98|Pradžia
+99|Bazuoti staklės
+100|Pagrindinis kompiuteris
+101|Neturiu įrenginio
+102|Importuoti „LightBurn“ projektą…
+103|Įrenginys {} importuotas
+104|Importuoti…
+105|Rūšis
+106|Sluoksniai
+107|Praleista
+108|Mažiausias greitis
+109|Staklių nulis (0,0)
+110|Medžiaga
+111|Ruošinio medžiaga
+112|Metalas
+113|Variklio mikrožingsniai vienam pilnam to, ką jis suka, apsisukimui (griebtuvo ar vieno ritinėlio).
+114|Mikrožingsnių per apsisukimą
+115|Frezuojama: įtraukta į įrankio trajektorijas ir G-kodą
+116|Frezavimas
+117|Judesiai saugiame aukštyje
+118|Mano frezos
+119|Naujas
+120|Nauja freza
+121|Nėra frezos
+122|Dar nėra įrenginio. Pridėkite vieną arba dirbkite be staklių.
+123|Nėra prievado
+124|Tai nėra http ar https adresas.
+125|Pastabos
+126|Pastabos apie šias stakles
+127|Čia dar nieko nėra
+128|Nieko nepažymėta
+129|Galima keisti tik plastiko spalvą. Medžiaga ir jos storis rodomi 3D vaizde ir išsaugomi projekte.
+130|Atidarykite brėžinį arba pradėkite tuščią dizainą.
+131|Atidaryti ryšį su valdikliu, nustatytu įrenginio nustatymuose
+132|Atverti peržiūros langą
+133|Atverti…
+134|Operacija
+135|Bendras ilgis
+136|Praėjimo gylis
+137|Praėjimo gylis (nuo skersmens)
+138|Plastikas
+139|Įleidimo pastūma
+140|Kišenė
+141|Prievadas
+142|Prievadas arba USB ID
+143|Peržiūra
+144|Peržiūra…
+145|Ypatybės
+146|Padėti pasirinktas formas ant šio sluoksnio
+147|Nuskaityti įrenginį iš failo
+148|Nuskaityti frezas iš failo
+149|Paruošta
+150|Paruoštos frezos
+151|Pakartotinis prisijungimas
+152|Atnaujinti
+153|Įsiminti pasirinkto prievado USB ID: pasikeitus pavadinimui prievadas randamas pagal juos.
+154|Atstatyti vaizdą
+155|Tęsti
+156|Ritinėlio skersmuo
+157|Ritinėliai
+158|Sukimosi
+159|STOP
+160|Saugus aukštis
+161|Įrašyti
+162|Įrašyti G-code
+163|Įrašyti kaip…
+164|Išsaugoti šį įrenginį faile
+165|Išsaugoti jūsų frezas faile
+166|Išsaugota
+167|Įrenginys išsaugotas: {}
+168|Įrašyta: {}
+169|Nustatymai
+170|Kotelio skersmuo
+171|Formos šiame sluoksnyje
+172|Rodo šių staklių kameros tiesioginį vaizdą
+173|Rodo trajektorijas darbo srityje
+174|Rodoma skirtuke Kamera
+175|Rodoma darbo srityje
+176|Judesių greitis virš medžiagos
+177|Verpstė
+178|Pradėti
+179|Pradėti nuo
+180|Pradėti darbą nuo programos eilutės
+181|Pradedamas darbas: {} eilučių, ~{}
+182|Pradiniai sluoksnio greičiai
+183|Šoninis persidengimas
+184|Šoninis persidengimas (nuo skersmens)
+185|Siųsti darbą į prijungtas stakles
+186|Srautinis siuntimas
+187|Įjungta
+188|TCP prievadas
+189|Kūginė rutulinė freza
+190|G-kodas aplink darbą: {}
+191|Freza eina linijos viduje, todėl forma iškrenta: skylė arba langas.
+192|Freza eina linijos išorėje, todėl forma lieka: detalė išpjaunama iš medžiagos.
+193|Frezos centras seka linija: graviūros ir grioveliai. Atviros linijos taip pat veikia.
+194|Patikra nieko blogo nerado.
+195|Patikra nieko nerado. Darbas vyksta.
+196|Patikra rado {} problemų, pirmą eilutėje {}. Darbas nepradėtas.
+197|Valdikliui reikia {} žingsnių mm Y ašyje ($101).
+198|Pjūviai išeina už įrenginio darbo srities ribų
+199|Šio projekto įrenginys
+200|Įrenginys pridėtas.
+201|Įrenginys išsaugotas.
+202|Brėžinys aukštesnis už ruošinio apimtį ({} mm)
+203|Failas per didelis
+204|Darbas baigtas su {} problemomis (žr. Konsolę).
+205|Darbas baigtas.
+206|Darbas pristabdytas: {}
+207|Darbas vyksta.
+208|Matavimas prie jutiklio nepavyko: nėra palietimo arba yra aliarmas.
+209|Atskaitos įrankis išmatuotas: Z {} prie jutiklio.
+210|Įrankis išmatuotas; dar nėra atskaitos palyginimui.
+211|Ruošinio apimtis: dizainas negali būti aukštesnis.
+212|Nėra ko pjauti: padėkite formas ant sluoksnių, kurie turi frezą.
+213|Nėra ko apibrėžti: padėkite formas ant sluoksnių, kurie turi frezą.
+214|Dar nėra ką rodyti: nupieškite formas ir padėkite jas ant sluoksnių, kurie turi frezą.
+215|Storis
+216|Ši versija negali naudoti kompiuterio kamerų.
+217|Šis įrenginys neturi įjungtos kameros. Pridėkite ją įrenginio nustatymuose.
+218|Šio įrenginio sąraše nėra: jis atkeliavo su projektu
+219|Tai pakaitinis įrenginys (Dummy): numatytoji darbo sritis ir greičiai.
+220|Laikas {} / {}
+221|Smaigalio skersmuo
+222|Per daug įrenginių
+223|Trajektorijos
+224|Tipas
+225|Atsieti
+226|Vienetai
+227|V formos freza
+228|Rodinys
+229|Rodinio parinktys…
+230|Laukimas po įjungimo
+231|Laukiama vaizdo…
+232|Kai ryšys nutrūksta pats, bandyti kas kelias sekundes, kol paspausite Atsijungti.
+233|Su sukimo priedu Y ašis sukioja ruošinį: brėžinys negali būti aukštesnis už ruošinio apimtį. Modelis paprastas (griebtuvas sukasi ruošinio skersmeniu, ritinėliai juda paviršių kaip savo); tikras stakles reikia išbandyti.
+234|Mediena, tamsi
+235|Mediena, šviesi
+236|Mediena, vidutinė
+237|Dirbkite su projektu be staklių: paprastas įrenginys pavadinimu Dummy su numatytuoju darbo plotu ir greičiais
+238|Ruošinio skersmuo
+239|Z yra tai, kaip giliai verpstė leidžiasi nuo medžiagos viršaus. Saugus aukštis yra aukštis, kuriame verpstė juda tarp pjūvių.
+240|Z nustatytas pagal atskaitą.
+241|frezos pridėtos
+242|frezos pridėtos į biblioteką
+243|pvz., Mano CNC freza
+244|nėra
+245|šis projektas sukurtas kitoms staklėms: {}
+246|{} praėjimų iki {} mm
+247|{}: freza nepasirinkta
+248|{}: nėra ko pjauti (linija gali būti per maža frezai)
+249|{}: atviros linijos kišenėje praleidžiamos
+250|{}: atviros linijos profilyje praleidžiamos (naudokite „Sekti linija“)
+251|{}: paveikslėliai nefrezuojami
+252|{}: gylis apribotas staklių eiga ({} mm)
+253|{}: {} mm gylis didesnis už medžiagos storį ({} mm)
+254|{}: {} aps./min. už verpstės ribų {}…{} aps./min.

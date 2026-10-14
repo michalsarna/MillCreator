@@ -99,3 +99,51 @@ All pictures are rendered headlessly from the real interface (`cargo test -p mil
 ### Console tab: the traffic with the controller and a line to send a command
 
 ![Console tab: the traffic with the controller and a line to send a command](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/24-console.png)
+
+### Control tab: position, zero, jogging, probe, macros
+
+![Control tab: position, zero, jogging, probe, macros](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/25-control-tab.png)
+
+### Settings of the controller ($$)
+
+![Settings of the controller ($$)](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/26-firmware.png)
+
+### Calibration: steps per millimetre and squareness
+
+![Calibration: steps per millimetre and squareness](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/27-calibration.png)
+
+### Diagnostics, statistics and maintenance
+
+![Diagnostics, statistics and maintenance](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/28-diagnostics.png)
+
+### Start from line
+
+![Start from line](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/29-start-from-line.png)
+
+### The job waits for the bit to be changed
+
+![The job waits for the bit to be changed](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/30-job-paused.png)
+
+### Device settings: the probe
+
+![Device settings: the probe](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/31-device-probe.png)
+
+### Device settings: macros and G-code around a job
+
+![Device settings: macros and G-code around a job](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/32-device-macros.png)
+
+### Control tab in Polish
+
+![Control tab in Polish](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/33-control-tab-polish.png)
+
+### Calibration in Polish
+
+![Calibration in Polish](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/34-calibration-polish.png)
+
+### Tool length sensor: where it is, the reference tool, every other tool
+
+![Tool length sensor: where it is, the reference tool, every other tool](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/35-tool-length-sensor.png)
+
+### Settings of the controller: what changed since the copy kept with the device
+
+![Settings of the controller: what changed since the copy kept with the device](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/36-firmware-copies.png)

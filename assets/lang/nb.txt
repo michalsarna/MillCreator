@@ -4,237 +4,252 @@
 3|Et portnavn, eller USB-leverandør- og produkt-ID (VID:PID, heksadesimalt): porten med disse ID-ene brukes.
 4|En ferdig fres kan ikke endres. Lag en kopi for å endre den.
 5|Et rotasjonstilbehør er tilkoblet
-6|Avbryt jobben som kjører
-7|Om
-8|Legg til et kamera
-9|Legg til en enhet
-10|Legg til enhet
-11|Legg til enhet…
-12|Adresse
-13|Etter tilkobling
-14|Hele området innenfor linjen ryddes ring for ring ned til lagets dybde.
-15|Ordne
-16|Bak til venstre
-17|Bak til høyre
-18|Tilbake til den første visningen. Dobbeltklikk på bildet gjør det samme.
-19|Kulefres
-20|Baudrate
-21|Bind til denne porten
-22|Fres
-23|Fresebibliotek
-24|Fresebibliotek…
-25|Bundet USB-enhet
-26|Hjørneradiusfres (hjørneradius)
-27|Kamera
-28|Kameranavn
-29|Kameranummer
-30|Kamera på denne datamaskinen
-31|Kameraets rotasjon
-32|Kameravisning
-33|Kameraer
-34|Filen kan ikke brukes
-35|Filen kan ikke brukes: {}
-36|Velg en fres
-37|Velg først en port eller vert i enhetsinnstillingene.
-38|Velg maskinen du skal arbeide med.
-39|Chuck
-40|Omkrets
-41|Fjern et alarm
-42|Fjern alarmen ($X)
-43|Å fjerne alarmen hopper over homing: bruk det bare når hodet er kjent for å stå på et trygt sted.
-44|Bekreft sletting
-45|Koble til
-46|Koble til igjen automatisk
-47|Koble først til maskinen (fanen Enhet)
-48|Tilkoblet
-49|Tilkobling
-50|Tilkoblingstype
-51|Konsoll
-52|Kontroller
-53|Kopiert til {}
-54|Hjørneradius
-55|Kunne ikke lagre
-56|Kunne ikke lagre: {}
-57|Telling fyller kontrollerens buffer og er rask. Enkel sender én linje og venter på dens ok: treg, men for fastvare som svarer feil.
-58|Skjær innenfor linjen
-59|Skjær utenfor linjen
-60|Snitt
-61|Snitt: {} m, omtrent {} min
-62|Skjærediameter
-63|Skjærelengde
-64|Slett dette kameraet
-65|Dybde
-66|Enhet
-67|Enhetsinnstillinger
-68|Enhetsinnstillinger…
-69|Koble fra
-70|Bor
-71|Rediger
-72|Rediger…
-73|Graveringsfres
-74|Eksporter G-code…
-75|Eksporter denne fresen…
-76|Eksporter…
-77|Mating
-78|Stans matingen
-79|Fil
-80|Pinnfres
-81|Egger
-82|Følg linjen
-83|Ramme
-84|Ramme rundt arbeidsområdet
-85|Ovenfra
-86|Foran til venstre
-87|Foran til høyre
-88|GRBL 1.1 har tre akser: A-aksen er ikke tilgjengelig, Y brukes.
-89|Generelt
-90|Gå rundt boksen der arbeidet skal gjøres
-91|Hjelp
-92|Høyeste hastighet
-93|Hjem
-94|Home maskinen
-95|Vert
-96|Jeg har ingen enhet
-97|Importer LightBurn-prosjekt…
-98|Enheten {} ble importert
-99|Importer…
-100|Type
-101|Lag
-102|Utelatt
-103|Laveste hastighet
-104|Maskin
-105|Maskinens nullpunkt (0,0)
-106|Materiale
-107|Materialet i arbeidsstykket
-108|Metall
-109|Motorens mikrotrinn for en hel omdreining av det den driver (chucken eller én rulle).
-110|Mikrotrinn per omdreining
-111|Freses: tas med i verktøybanene og G-koden
-112|Fresing
-113|Bevegelser i sikker høyde
-114|Mine freser
-115|Ny
-116|Ny fres
-117|Ingen fres
-118|Ingen enhet ennå. Legg til en, eller arbeid uten maskin.
-119|Ingen port
-120|Ikke en http- eller https-adresse.
-121|Notater
-122|Notater om denne maskinen
-123|Ingenting her ennå
-124|Ingenting merket
-125|Bare fargen på en plast kan endres. Materialet og tykkelsen vises i 3D-visningen og lagres i prosjektet.
-126|Åpne en tegning, eller begynn et tomt design.
-127|Åpne forbindelsen til styringen i enhetsinnstillingene
-128|Åpne forhåndsvisningsvinduet
-129|Åpne…
-130|Operasjon
-131|Total lengde
-132|Trinndybde
-133|Trinndybde (av diameteren)
-134|Plast
-135|Innstikksmating
-136|Lomme
-137|Port
-138|Port eller USB-ID
-139|Forhåndsvisning
-140|Forhåndsvisning…
-141|Egenskaper
-142|Legg de valgte formene på dette laget
-143|Les en enhet fra en fil
-144|Les freser fra en fil
-145|Klar
-146|Ferdige freser
-147|Gjentilkobling
-148|Oppdater
-149|Husk USB-ID-ene til den valgte porten: porten finnes igjen med dem når navnet endres.
-150|Tilbakestill visningen
-151|Fortsett
-152|Rullediameter
-153|Ruller
-154|Rotasjon
-155|STOPP
-156|Sikker høyde
-157|Lagre
-158|Lagre G-code
-159|Lagre som…
-160|Lagre denne enheten i en fil
-161|Lagre fresene dine i en fil
-162|Lagret
-163|Enheten ble lagret i {}
-164|{} lagret
-165|Innstillinger
-166|Skaftdiameter
-167|Former på dette laget
-168|Viser direktebildet fra kameraet på denne maskinen
-169|Viser banene på arbeidsområdet
-170|Vises i fanen Kamera
-171|Vises i arbeidsområdet
-172|Hastighet for bevegelser over materialet
-173|Spindel
-174|Spindelturtall
-175|Start
-176|Starter jobb: {} linjer, ~{}
-177|Starthastigheter for et lag
-178|Sideoverlapp
-179|Sideoverlapp (av diameteren)
-180|Send jobben til den tilkoblede maskinen
-181|Strømming
-182|Slått på
-183|TCP-port
-184|Konisk kulefres
-185|Fresen går innenfor linjen, så formen faller ut: et hull eller et vindu.
-186|Fresen går utenfor linjen, så formen blir igjen: en del skjæres ut av materialet.
-187|Midten av fresen følger linjen: gravering og spor. Åpne linjer fungerer også.
-188|Kontrolleren trenger {} trinn per mm på Y-aksen ($101).
-189|Snittene går utenfor enhetens arbeidsområde
-190|Enheten til dette prosjektet
-191|Enheten ble lagt til.
-192|Enheten ble lagret.
-193|Tegningen er høyere enn omkretsen av arbeidsstykket ({} mm)
-194|Filen er for stor
-195|Jobben er ferdig.
-196|Jobben pågår.
-197|Emnets omkrets: designet kan ikke være høyere.
-198|Det er ingenting å skjære: legg former på lag som har en fres.
-199|Ingenting å ramme inn: legg former på lag som har en fres.
-200|Det er ingenting å vise ennå: tegn former og legg dem på lag som har en fres.
-201|Tykkelse
-202|Denne versjonen kan ikke bruke maskinens kameraer.
-203|Denne enheten har ikke noe kamera som er slått på. Legg til ett i enhetsinnstillingene.
-204|Denne enheten er ikke i listen: den fulgte med prosjektet
-205|Dette er erstatningsenheten (Dummy): standard arbeidsområde og hastigheter.
-206|Tid {} / {}
-207|Spissdiameter
-208|For mange enheter
-209|Baner
-210|Type
-211|Fjern binding
-212|Enheter
-213|V-fres
-214|Vis
-215|Visningsvalg…
-216|Ventetid etter påslåing
-217|Venter på bildet…
-218|Når forbindelsen faller av seg selv, prøv igjen hvert par sekunder til du trykker Koble fra.
-219|Med et rotasjonstilbehør dreier Y-aksen arbeidsstykket: tegningen kan ikke være høyere enn omkretsen av arbeidsstykket. Modellen er enkel (en chuck dreier arbeidsstykkets diameter, ruller flytter overflaten som sin egen); en ekte maskin må testes.
-220|Tre, mørkt
-221|Tre, lyst
-222|Tre, middels
-223|Jobb med et prosjekt uten maskin: en vanlig enhet kalt Dummy med standard arbeidsområde og hastigheter
-224|Emnets diameter
-225|Z er hvor dypt spindelen går ned fra toppen av materialet. Den sikre høyden er der spindelen beveger seg mellom snittene.
-226|freser lagt til
-227|freser lagt til i biblioteket
-228|f.eks. Min CNC-fres
-229|ingen
-230|dette prosjektet ble laget for en annen maskin: {}
-231|{} gjennomganger til {} mm
-232|{}: ingen fres valgt
-233|{}: ingenting å skjære (linjen kan være for liten for fresen)
-234|{}: åpne linjer utelates i en lomme
-235|{}: åpne linjer utelates i en profil (bruk «Følg linjen»)
-236|{}: bilder freses ikke
-237|{}: dybden er begrenset til maskinens bevegelse ({} mm)
-238|{}: dybden på {} mm er større enn tykkelsen på materialet ({} mm)
-239|{}: {} o/min er utenfor spindelområdet {}…{} o/min
+6|En vanlig maskinstørrelse…
+7|Avbryt jobben som kjører
+8|Om
+9|Legg til et kamera
+10|Legg til en enhet
+11|Legg til enhet
+12|Legg til enhet…
+13|Adresse
+14|Etter tilkobling
+15|Alarm {}
+16|Hele området innenfor linjen ryddes ring for ring ned til lagets dybde.
+17|Ordne
+18|Bak til venstre
+19|Bak til høyre
+20|Tilbake til den første visningen. Dobbeltklikk på bildet gjør det samme.
+21|Kulefres
+22|Baudrate
+23|Bind til denne porten
+24|Fres
+25|Fresebibliotek
+26|Fresebibliotek…
+27|Bundet USB-enhet
+28|Hjørneradiusfres (hjørneradius)
+29|Kamera
+30|Kameranavn
+31|Kameranummer
+32|Kamera på denne datamaskinen
+33|Kameraets rotasjon
+34|Kameravisning
+35|Kameraer
+36|Filen kan ikke brukes
+37|Sjekk programmet
+38|Sjekker programmet først…
+39|Sjekker programmet…
+40|Velg en fres
+41|Velg først en port eller vert i enhetsinnstillingene.
+42|Velg maskinen du skal arbeide med.
+43|Chuck
+44|Omkrets
+45|Fjern et alarm
+46|Å fjerne alarmen hopper over homing: bruk det bare når hodet er kjent for å stå på et trygt sted.
+47|Bekreft sletting
+48|Koble til
+49|Koble til igjen automatisk
+50|Tilkoblet
+51|Tilkobling
+52|Tilkoblingstype
+53|Konsoll
+54|Styring
+55|Kopiert til {}
+56|Hjørneradius
+57|Kunne ikke lagre
+58|Kunne ikke lagre: {}
+59|Telling fyller kontrollerens buffer og er rask. Enkel sender én linje og venter på dens ok: treg, men for fastvare som svarer feil.
+60|Skjær innenfor linjen
+61|Skjær utenfor linjen
+62|Snitt
+63|Snitt: {} m, omtrent {} min
+64|Skjærediameter
+65|Skjærelengde
+66|Slett dette kameraet
+67|Dybde
+68|Enhet
+69|Enhetsinnstillinger
+70|Enhetsinnstillinger…
+71|Diagnostikk og statistikk…
+72|Koble fra
+73|Bor
+74|Rediger
+75|Rediger…
+76|Graveringsfres
+77|Feil {} i linje {}: {}
+78|Feil {}: {}
+79|Eksporter G-code…
+80|Eksporter denne fresen…
+81|Eksporter…
+82|Mating
+83|Fastvareinnstillinger ($$)…
+84|Pinnfres
+85|Egger
+86|Følg linjen
+87|Ramme
+88|Ramme rundt arbeidsområdet
+89|Ovenfra
+90|Fra linje…
+91|Foran til venstre
+92|Foran til høyre
+93|GRBL 1.1 har tre akser: A-aksen er ikke tilgjengelig, Y brukes.
+94|Generelt
+95|Gå rundt boksen der arbeidet skal gjøres
+96|Hjelp
+97|Høyeste hastighet
+98|Hjem
+99|Home maskinen
+100|Vert
+101|Jeg har ingen enhet
+102|Importer LightBurn-prosjekt…
+103|Enheten {} ble importert
+104|Importer…
+105|Type
+106|Lag
+107|Utelatt
+108|Laveste hastighet
+109|Maskinens nullpunkt (0,0)
+110|Materiale
+111|Materialet i arbeidsstykket
+112|Metall
+113|Motorens mikrotrinn for en hel omdreining av det den driver (chucken eller én rulle).
+114|Mikrotrinn per omdreining
+115|Freses: tas med i verktøybanene og G-koden
+116|Fresing
+117|Bevegelser i sikker høyde
+118|Mine freser
+119|Ny
+120|Ny fres
+121|Ingen fres
+122|Ingen enhet ennå. Legg til en, eller arbeid uten maskin.
+123|Ingen port
+124|Ikke en http- eller https-adresse.
+125|Notater
+126|Notater om denne maskinen
+127|Ingenting her ennå
+128|Ingenting merket
+129|Bare fargen på en plast kan endres. Materialet og tykkelsen vises i 3D-visningen og lagres i prosjektet.
+130|Åpne en tegning, eller begynn et tomt design.
+131|Åpne forbindelsen til styringen i enhetsinnstillingene
+132|Åpne forhåndsvisningsvinduet
+133|Åpne…
+134|Operasjon
+135|Total lengde
+136|Trinndybde
+137|Trinndybde (av diameteren)
+138|Plast
+139|Innstikksmating
+140|Lomme
+141|Port
+142|Port eller USB-ID
+143|Forhåndsvisning
+144|Forhåndsvisning…
+145|Egenskaper
+146|Legg de valgte formene på dette laget
+147|Les en enhet fra en fil
+148|Les freser fra en fil
+149|Klar
+150|Ferdige freser
+151|Gjentilkobling
+152|Oppdater
+153|Husk USB-ID-ene til den valgte porten: porten finnes igjen med dem når navnet endres.
+154|Tilbakestill visningen
+155|Fortsett
+156|Rullediameter
+157|Ruller
+158|Rotasjon
+159|STOPP
+160|Sikker høyde
+161|Lagre
+162|Lagre G-code
+163|Lagre som…
+164|Lagre denne enheten i en fil
+165|Lagre fresene dine i en fil
+166|Lagret
+167|Enheten ble lagret i {}
+168|{} lagret
+169|Innstillinger
+170|Skaftdiameter
+171|Former på dette laget
+172|Viser direktebildet fra kameraet på denne maskinen
+173|Viser banene på arbeidsområdet
+174|Vises i fanen Kamera
+175|Vises i arbeidsområdet
+176|Hastighet for bevegelser over materialet
+177|Spindel
+178|Start
+179|Start fra
+180|Start jobben ved en linje i programmet
+181|Starter jobb: {} linjer, ~{}
+182|Starthastigheter for et lag
+183|Sideoverlapp
+184|Sideoverlapp (av diameteren)
+185|Send jobben til den tilkoblede maskinen
+186|Strømming
+187|Slått på
+188|TCP-port
+189|Konisk kulefres
+190|G-code rundt jobben: {}
+191|Fresen går innenfor linjen, så formen faller ut: et hull eller et vindu.
+192|Fresen går utenfor linjen, så formen blir igjen: en del skjæres ut av materialet.
+193|Midten av fresen følger linjen: gravering og spor. Åpne linjer fungerer også.
+194|Kontrollen fant ingenting galt.
+195|Kontrollen fant ingenting. Jobben kjører.
+196|Kontrollen fant {} problemer, det første i linje {}. Jobben ble ikke startet.
+197|Kontrolleren trenger {} trinn per mm på Y-aksen ($101).
+198|Snittene går utenfor enhetens arbeidsområde
+199|Enheten til dette prosjektet
+200|Enheten ble lagt til.
+201|Enheten ble lagret.
+202|Tegningen er høyere enn omkretsen av arbeidsstykket ({} mm)
+203|Filen er for stor
+204|Jobben er ferdig, med {} problemer (se Konsollen).
+205|Jobben er ferdig.
+206|Jobben er satt på pause: {}
+207|Jobben pågår.
+208|Målingen ved sensoren mislyktes: ingen berøring, eller en alarm.
+209|Referanseverktøyet ble målt: Z {} ved sensoren.
+210|Verktøyet ble målt; det finnes ennå ingen referanse å sammenligne med.
+211|Emnets omkrets: designet kan ikke være høyere.
+212|Det er ingenting å skjære: legg former på lag som har en fres.
+213|Ingenting å ramme inn: legg former på lag som har en fres.
+214|Det er ingenting å vise ennå: tegn former og legg dem på lag som har en fres.
+215|Tykkelse
+216|Denne versjonen kan ikke bruke maskinens kameraer.
+217|Denne enheten har ikke noe kamera som er slått på. Legg til ett i enhetsinnstillingene.
+218|Denne enheten er ikke i listen: den fulgte med prosjektet
+219|Dette er erstatningsenheten (Dummy): standard arbeidsområde og hastigheter.
+220|Tid {} / {}
+221|Spissdiameter
+222|For mange enheter
+223|Baner
+224|Type
+225|Fjern binding
+226|Enheter
+227|V-fres
+228|Vis
+229|Visningsvalg…
+230|Ventetid etter påslåing
+231|Venter på bildet…
+232|Når forbindelsen faller av seg selv, prøv igjen hvert par sekunder til du trykker Koble fra.
+233|Med et rotasjonstilbehør dreier Y-aksen arbeidsstykket: tegningen kan ikke være høyere enn omkretsen av arbeidsstykket. Modellen er enkel (en chuck dreier arbeidsstykkets diameter, ruller flytter overflaten som sin egen); en ekte maskin må testes.
+234|Tre, mørkt
+235|Tre, lyst
+236|Tre, middels
+237|Jobb med et prosjekt uten maskin: en vanlig enhet kalt Dummy med standard arbeidsområde og hastigheter
+238|Emnets diameter
+239|Z er hvor dypt spindelen går ned fra toppen av materialet. Den sikre høyden er der spindelen beveger seg mellom snittene.
+240|Z ble satt ut fra referansen.
+241|freser lagt til
+242|freser lagt til i biblioteket
+243|f.eks. Min CNC-fres
+244|ingen
+245|dette prosjektet ble laget for en annen maskin: {}
+246|{} gjennomganger til {} mm
+247|{}: ingen fres valgt
+248|{}: ingenting å skjære (linjen kan være for liten for fresen)
+249|{}: åpne linjer utelates i en lomme
+250|{}: åpne linjer utelates i en profil (bruk «Følg linjen»)
+251|{}: bilder freses ikke
+252|{}: dybden er begrenset til maskinens bevegelse ({} mm)
+253|{}: dybden på {} mm er større enn tykkelsen på materialet ({} mm)
+254|{}: {} o/min er utenfor spindelområdet {}…{} o/min

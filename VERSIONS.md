@@ -2,6 +2,14 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.2.6
+
+* **Machine control:** the **Control** tab (work and machine position, zero and G54 … G59, jogging by steps or by holding a button, keyboard jogging, probing Z and the edges with a touch plate or a 3D probe, macros with variables, G-code before and after every job) and the **Machine** menu (settings of the controller `$$` with search, backup before the first change, restore, factory reset; calibration; diagnostics with statistics, maintenance reminders and a zip; **Start from line…**; **Check the program**). A job stops at a change of the bit in a window with a Z probe and continue / stop.
+* **Tool length sensor** (menu Machine): its place, the reference tool, and every new bit measured at a pause of the job so that it gets the Z of the reference tool.
+* **Copies of the settings of the controller** are kept with the device (made at the first connection and whenever the settings differ from the newest copy, with a message saying what changed); they are part of the backup of the program.
+* Alarms and errors of GRBL are explained in the console and the status bar, in 30 languages. A device can be read from the controller and started from a usual machine size.
+* No more moving of settings from the old per-program folders. baseCreator v0.9.6.
+
 ## v0.2.5
 
 * One data folder for all programs: `baseCreator` (macOS `~/Library/Application Support/baseCreator`). The clipart gallery is now **shared** by LightCreator, MillCreator and PenCreator; settings, device profiles, materials and tools stay separate per program in `apps/<program>/app.ron`.

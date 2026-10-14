@@ -4,237 +4,252 @@
 3|Název portu, nebo USB identifikátor výrobce a produktu (VID:PID, hexadecimálně): použije se port s těmito identifikátory.
 4|Hotovou frézu nelze změnit. Vytvořte kopii, abyste ji mohli změnit.
 5|Je připojen rotační nástavec
-6|Přerušit probíhající úlohu
-7|O programu
-8|Přidat kameru
-9|Přidat zařízení
+6|Obvyklá velikost stroje…
+7|Přerušit probíhající úlohu
+8|O programu
+9|Přidat kameru
 10|Přidat zařízení
-11|Přidat zařízení…
-12|Adresa
-13|Po připojení
-14|Celá plocha uvnitř čáry se vybírá kruh po kruhu do hloubky vrstvy.
-15|Uspořádat
-16|Vzadu vlevo
-17|Vzadu vpravo
-18|Zpět na první pohled. Dvojklik na obrázek dělá totéž.
-19|Kulová fréza
-20|Přenosová rychlost
-21|Svázat s tímto portem
-22|Fréza
-23|Knihovna fréz
-24|Knihovna fréz…
-25|Svázané zařízení USB
-26|Fréza se zaoblenými rohy (poloměr rohu)
-27|Kamera
-28|Název kamery
-29|Číslo kamery
-30|Kamera tohoto počítače
-31|Otočení kamery
-32|Pohled z kamery
-33|Kamery
-34|Soubor nelze použít
-35|Soubor nelze použít: {}
-36|Vyberte frézu
-37|Nejprve vyberte port nebo hostitele v nastavení zařízení.
-38|Vyberte stroj, se kterým budete pracovat.
-39|Sklíčidlo
-40|Obvod
-41|Zrušit alarm
-42|Smazat alarm ($X)
-43|Zrušení alarmu přeskočí referenci: použijte jen tehdy, když víte, že hlava stojí na bezpečném místě.
-44|Potvrdit smazání
-45|Připojit
-46|Znovu se připojit automaticky
-47|Nejprve se připojte ke stroji (karta Zařízení)
-48|Připojeno
-49|Připojení
-50|Typ připojení
-51|Konzole
-52|Řadič
-53|Zkopírováno do {}
-54|Poloměr rohu
-55|Nepodařilo se uložit
-56|Nepodařilo se uložit: {}
-57|Počítání plní vyrovnávací paměť řídicí jednotky a je rychlé. Jednoduchý režim pošle jeden řádek a čeká na jeho ok: pomalý, ale pro firmware, který odpovídá špatně.
-58|Řezat uvnitř čáry
-59|Řezat vně čáry
-60|Řezy
-61|Řezy: {} m, asi {} min
-62|Řezný průměr
-63|Délka řezu
-64|Smazat tuto kameru
-65|Hloubka
-66|Zařízení
-67|Nastavení zařízení
-68|Nastavení zařízení…
-69|Odpojit
-70|Vrták
-71|Úpravy
-72|Upravit…
-73|Rycí fréza
-74|Exportovat G-code…
-75|Exportovat tuto frézu…
-76|Exportovat…
-77|Posuv
-78|Pozastavit posuv
-79|Soubor
-80|Válcová fréza
-81|Břity
-82|Sledovat čáru
-83|Rámeček
-84|Rámování pracovní plochy
-85|Shora
-86|Vpředu vlevo
-87|Vpředu vpravo
-88|GRBL 1.1 má tři osy: osa A není k dispozici, použije se Y.
-89|Obecné
-90|Obejít rámeček, kde se bude pracovat
-91|Nápověda
-92|Nejvyšší rychlost
-93|Domů
-94|Referencovat stroj
-95|Hostitel
-96|Nemám zařízení
-97|Importovat projekt LightBurn…
-98|Zařízení {} bylo importováno
-99|Importovat…
-100|Druh
-101|Vrstvy
-102|Vynecháno
-103|Nejnižší rychlost
-104|Stroj
-105|Nula stroje (0,0)
-106|Materiál
-107|Materiál obrobku
-108|Kov
-109|Mikrokroky motoru na jednu celou otáčku toho, co pohání (sklíčidla nebo jednoho válečku).
-110|Mikrokroků na otáčku
-111|Frézuje se: zahrnuto do drah nástroje a G-kódu
-112|Frézování
-113|Pohyby v bezpečné výšce
-114|Moje frézy
-115|Nový
-116|Nová fréza
-117|Žádná fréza
-118|Zatím žádné zařízení. Přidejte jedno, nebo pracujte bez stroje.
-119|Žádný port
-120|Není to adresa http ani https.
-121|Poznámky
-122|Poznámky k tomuto stroji
-123|Zatím tu nic není
-124|Nic není vybráno
-125|Změnit lze jen barvu plastu. Materiál a jeho tloušťka se zobrazují v 3D zobrazení a ukládají se do projektu.
-126|Otevřete kresbu, nebo začněte prázdný návrh.
-127|Otevřít spojení s ovladačem nastaveným v nastavení zařízení
-128|Otevřít okno náhledu
-129|Otevřít…
-130|Operace
-131|Celková délka
-132|Hloubka průchodu
-133|Hloubka průchodu (z průměru)
-134|Plast
-135|Posuv zanořením
-136|Kapsa
-137|Port
-138|Port nebo USB id
-139|Náhled
-140|Náhled…
-141|Vlastnosti
-142|Dát vybrané tvary na tuto vrstvu
-143|Načíst zařízení ze souboru
-144|Načíst frézy ze souboru
-145|Připraveno
-146|Hotové frézy
-147|Opětovné připojení
-148|Obnovit
-149|Zapamatovat USB identifikátory zvoleného portu: při změně jeho názvu se port podle nich znovu najde.
-150|Obnovit pohled
-151|Pokračovat
-152|Průměr válečku
-153|Válečky
-154|Rotační
-155|STOP
-156|Bezpečná výška
-157|Uložit
-158|Uložit G-code
-159|Uložit jako…
-160|Uložit toto zařízení do souboru
-161|Uložit vaše frézy do souboru
-162|Uloženo
-163|Zařízení uloženo do {}
-164|Uloženo: {}
-165|Nastavení
-166|Průměr stopky
-167|Tvary na této vrstvě
-168|Zobrazí živý obraz z kamery tohoto stroje
-169|Zobrazí dráhy na pracovní ploše
-170|Zobrazeno na kartě Kamera
-171|Zobrazeno v pracovní ploše
-172|Rychlost pohybů nad materiálem
-173|Vřeteno
-174|Otáčky vřetene
-175|Start
-176|Spouští se úloha: {} řádků, ~{}
-177|Počáteční rychlosti pro vrstvu
-178|Boční přesah
-179|Boční přesah (z průměru)
-180|Odeslat úlohu do připojeného stroje
-181|Streamování
-182|Zapnuto
-183|Port TCP
-184|Kuželová kulová fréza
-185|Fréza jede uvnitř čáry, takže tvar vypadne: díra nebo okno.
-186|Fréza jede vně čáry, takže tvar zůstane: z materiálu se vyřízne díl.
-187|Střed frézy sleduje čáru: gravírování a drážky. Otevřené čáry fungují také.
-188|Řídicí jednotka potřebuje {} kroků na mm na ose Y ($101).
-189|Řezy zasahují mimo pracovní plochu zařízení
-190|Zařízení tohoto projektu
-191|Zařízení bylo přidáno.
-192|Zařízení bylo uloženo.
-193|Kresba je vyšší než obvod obrobku ({} mm)
-194|Soubor je příliš velký
-195|Úloha je hotová.
-196|Úloha běží.
-197|Obvod obrobku: návrh nesmí být vyšší.
-198|Není co řezat: dejte tvary na vrstvy, které mají frézu.
-199|Není co orámovat: dejte tvary na vrstvy, které mají frézu.
-200|Zatím není co zobrazit: nakreslete tvary a dejte je na vrstvy, které mají frézu.
-201|Tloušťka
-202|Tato verze nemůže používat kamery počítače.
-203|Toto zařízení nemá zapnutou kameru. Přidejte ji v nastavení zařízení.
-204|Toto zařízení není v seznamu: přišlo s projektem
-205|Toto je náhradní zařízení (Dummy): výchozí pracovní plocha a rychlosti.
-206|Čas {} / {}
-207|Průměr špičky
-208|Příliš mnoho zařízení
-209|Dráhy
-210|Typ
-211|Zrušit vazbu
-212|Jednotky
-213|V-fréza
-214|Zobrazení
-215|Možnosti zobrazení…
-216|Čekání po zapnutí
-217|Čekání na obraz…
-218|Když spojení samo spadne, zkoušet to každých pár sekund, dokud nestisknete Odpojit.
-219|S rotačním příslušenstvím otáčí obrobkem osa Y: kresba nesmí být vyšší než obvod obrobku. Model je jednoduchý (sklíčidlo se otočí o průměr obrobku, válečky posouvají povrch jako svůj vlastní); skutečný stroj je třeba vyzkoušet.
-220|Dřevo, tmavé
-221|Dřevo, světlé
-222|Dřevo, střední
-223|Práce na projektu bez stroje: obyčejné zařízení jménem Dummy s výchozí pracovní plochou a rychlostmi
-224|Průměr obrobku
-225|Z je, jak hluboko vřeteno jede od horní plochy materiálu. Bezpečná výška je výška, ve které se vřeteno pohybuje mezi řezy.
-226|frézy přidány
-227|frézy přidány do knihovny
-228|např. Moje CNC frézka
-229|žádné
-230|tento projekt byl vytvořen pro jiný stroj: {}
-231|{} průchodů do {} mm
-232|{}: není vybrána fréza
-233|{}: není co řezat (čára může být pro frézu příliš malá)
-234|{}: otevřené čáry se v kapse vynechají
-235|{}: otevřené čáry se v profilu vynechají (použijte „Sledovat čáru“)
-236|{}: obrázky se nefrézují
-237|{}: hloubka je omezena zdvihem stroje ({} mm)
-238|{}: hloubka {} mm je větší než tloušťka materiálu ({} mm)
-239|{}: {} ot/min je mimo rozsah vřetene {}…{} ot/min
+11|Přidat zařízení
+12|Přidat zařízení…
+13|Adresa
+14|Po připojení
+15|Alarm {}
+16|Celá plocha uvnitř čáry se vybírá kruh po kruhu do hloubky vrstvy.
+17|Uspořádat
+18|Vzadu vlevo
+19|Vzadu vpravo
+20|Zpět na první pohled. Dvojklik na obrázek dělá totéž.
+21|Kulová fréza
+22|Přenosová rychlost
+23|Svázat s tímto portem
+24|Fréza
+25|Knihovna fréz
+26|Knihovna fréz…
+27|Svázané zařízení USB
+28|Fréza se zaoblenými rohy (poloměr rohu)
+29|Kamera
+30|Název kamery
+31|Číslo kamery
+32|Kamera tohoto počítače
+33|Otočení kamery
+34|Pohled z kamery
+35|Kamery
+36|Soubor nelze použít
+37|Zkontrolovat program
+38|Nejdřív se kontroluje program…
+39|Kontroluje se program…
+40|Vyberte frézu
+41|Nejprve vyberte port nebo hostitele v nastavení zařízení.
+42|Vyberte stroj, se kterým budete pracovat.
+43|Sklíčidlo
+44|Obvod
+45|Zrušit alarm
+46|Zrušení alarmu přeskočí referenci: použijte jen tehdy, když víte, že hlava stojí na bezpečném místě.
+47|Potvrdit smazání
+48|Připojit
+49|Znovu se připojit automaticky
+50|Připojeno
+51|Připojení
+52|Typ připojení
+53|Konzole
+54|Ovládání
+55|Zkopírováno do {}
+56|Poloměr rohu
+57|Nepodařilo se uložit
+58|Nepodařilo se uložit: {}
+59|Počítání plní vyrovnávací paměť řídicí jednotky a je rychlé. Jednoduchý režim pošle jeden řádek a čeká na jeho ok: pomalý, ale pro firmware, který odpovídá špatně.
+60|Řezat uvnitř čáry
+61|Řezat vně čáry
+62|Řezy
+63|Řezy: {} m, asi {} min
+64|Řezný průměr
+65|Délka řezu
+66|Smazat tuto kameru
+67|Hloubka
+68|Zařízení
+69|Nastavení zařízení
+70|Nastavení zařízení…
+71|Diagnostika a statistiky…
+72|Odpojit
+73|Vrták
+74|Úpravy
+75|Upravit…
+76|Rycí fréza
+77|Chyba {} na řádku {}: {}
+78|Chyba {}: {}
+79|Exportovat G-code…
+80|Exportovat tuto frézu…
+81|Exportovat…
+82|Posuv
+83|Nastavení firmwaru ($$)…
+84|Válcová fréza
+85|Břity
+86|Sledovat čáru
+87|Rámeček
+88|Rámování pracovní plochy
+89|Shora
+90|Od řádku…
+91|Vpředu vlevo
+92|Vpředu vpravo
+93|GRBL 1.1 má tři osy: osa A není k dispozici, použije se Y.
+94|Obecné
+95|Obejít rámeček, kde se bude pracovat
+96|Nápověda
+97|Nejvyšší rychlost
+98|Domů
+99|Referencovat stroj
+100|Hostitel
+101|Nemám zařízení
+102|Importovat projekt LightBurn…
+103|Zařízení {} bylo importováno
+104|Importovat…
+105|Druh
+106|Vrstvy
+107|Vynecháno
+108|Nejnižší rychlost
+109|Nula stroje (0,0)
+110|Materiál
+111|Materiál obrobku
+112|Kov
+113|Mikrokroky motoru na jednu celou otáčku toho, co pohání (sklíčidla nebo jednoho válečku).
+114|Mikrokroků na otáčku
+115|Frézuje se: zahrnuto do drah nástroje a G-kódu
+116|Frézování
+117|Pohyby v bezpečné výšce
+118|Moje frézy
+119|Nový
+120|Nová fréza
+121|Žádná fréza
+122|Zatím žádné zařízení. Přidejte jedno, nebo pracujte bez stroje.
+123|Žádný port
+124|Není to adresa http ani https.
+125|Poznámky
+126|Poznámky k tomuto stroji
+127|Zatím tu nic není
+128|Nic není vybráno
+129|Změnit lze jen barvu plastu. Materiál a jeho tloušťka se zobrazují v 3D zobrazení a ukládají se do projektu.
+130|Otevřete kresbu, nebo začněte prázdný návrh.
+131|Otevřít spojení s ovladačem nastaveným v nastavení zařízení
+132|Otevřít okno náhledu
+133|Otevřít…
+134|Operace
+135|Celková délka
+136|Hloubka průchodu
+137|Hloubka průchodu (z průměru)
+138|Plast
+139|Posuv zanořením
+140|Kapsa
+141|Port
+142|Port nebo USB id
+143|Náhled
+144|Náhled…
+145|Vlastnosti
+146|Dát vybrané tvary na tuto vrstvu
+147|Načíst zařízení ze souboru
+148|Načíst frézy ze souboru
+149|Připraveno
+150|Hotové frézy
+151|Opětovné připojení
+152|Obnovit
+153|Zapamatovat USB identifikátory zvoleného portu: při změně jeho názvu se port podle nich znovu najde.
+154|Obnovit pohled
+155|Pokračovat
+156|Průměr válečku
+157|Válečky
+158|Rotační
+159|STOP
+160|Bezpečná výška
+161|Uložit
+162|Uložit G-code
+163|Uložit jako…
+164|Uložit toto zařízení do souboru
+165|Uložit vaše frézy do souboru
+166|Uloženo
+167|Zařízení uloženo do {}
+168|Uloženo: {}
+169|Nastavení
+170|Průměr stopky
+171|Tvary na této vrstvě
+172|Zobrazí živý obraz z kamery tohoto stroje
+173|Zobrazí dráhy na pracovní ploše
+174|Zobrazeno na kartě Kamera
+175|Zobrazeno v pracovní ploše
+176|Rychlost pohybů nad materiálem
+177|Vřeteno
+178|Start
+179|Začít od
+180|Začít úlohu od řádku programu
+181|Spouští se úloha: {} řádků, ~{}
+182|Počáteční rychlosti pro vrstvu
+183|Boční přesah
+184|Boční přesah (z průměru)
+185|Odeslat úlohu do připojeného stroje
+186|Streamování
+187|Zapnuto
+188|Port TCP
+189|Kuželová kulová fréza
+190|G-code kolem úlohy: {}
+191|Fréza jede uvnitř čáry, takže tvar vypadne: díra nebo okno.
+192|Fréza jede vně čáry, takže tvar zůstane: z materiálu se vyřízne díl.
+193|Střed frézy sleduje čáru: gravírování a drážky. Otevřené čáry fungují také.
+194|Kontrola nenašla nic špatného.
+195|Kontrola nic nenašla. Úloha běží.
+196|Kontrola našla {} problémů, první na řádku {}. Úloha nebyla spuštěna.
+197|Řídicí jednotka potřebuje {} kroků na mm na ose Y ($101).
+198|Řezy zasahují mimo pracovní plochu zařízení
+199|Zařízení tohoto projektu
+200|Zařízení bylo přidáno.
+201|Zařízení bylo uloženo.
+202|Kresba je vyšší než obvod obrobku ({} mm)
+203|Soubor je příliš velký
+204|Úloha je hotová, s {} problémy (viz Konzole).
+205|Úloha je hotová.
+206|Úloha je pozastavena: {}
+207|Úloha běží.
+208|Měření na senzoru selhalo: žádný kontakt, nebo alarm.
+209|Referenční nástroj byl změřen: Z {} u senzoru.
+210|Nástroj byl změřen; zatím není reference k porovnání.
+211|Obvod obrobku: návrh nesmí být vyšší.
+212|Není co řezat: dejte tvary na vrstvy, které mají frézu.
+213|Není co orámovat: dejte tvary na vrstvy, které mají frézu.
+214|Zatím není co zobrazit: nakreslete tvary a dejte je na vrstvy, které mají frézu.
+215|Tloušťka
+216|Tato verze nemůže používat kamery počítače.
+217|Toto zařízení nemá zapnutou kameru. Přidejte ji v nastavení zařízení.
+218|Toto zařízení není v seznamu: přišlo s projektem
+219|Toto je náhradní zařízení (Dummy): výchozí pracovní plocha a rychlosti.
+220|Čas {} / {}
+221|Průměr špičky
+222|Příliš mnoho zařízení
+223|Dráhy
+224|Typ
+225|Zrušit vazbu
+226|Jednotky
+227|V-fréza
+228|Zobrazení
+229|Možnosti zobrazení…
+230|Čekání po zapnutí
+231|Čekání na obraz…
+232|Když spojení samo spadne, zkoušet to každých pár sekund, dokud nestisknete Odpojit.
+233|S rotačním příslušenstvím otáčí obrobkem osa Y: kresba nesmí být vyšší než obvod obrobku. Model je jednoduchý (sklíčidlo se otočí o průměr obrobku, válečky posouvají povrch jako svůj vlastní); skutečný stroj je třeba vyzkoušet.
+234|Dřevo, tmavé
+235|Dřevo, světlé
+236|Dřevo, střední
+237|Práce na projektu bez stroje: obyčejné zařízení jménem Dummy s výchozí pracovní plochou a rychlostmi
+238|Průměr obrobku
+239|Z je, jak hluboko vřeteno jede od horní plochy materiálu. Bezpečná výška je výška, ve které se vřeteno pohybuje mezi řezy.
+240|Z bylo nastaveno podle reference.
+241|frézy přidány
+242|frézy přidány do knihovny
+243|např. Moje CNC frézka
+244|žádné
+245|tento projekt byl vytvořen pro jiný stroj: {}
+246|{} průchodů do {} mm
+247|{}: není vybrána fréza
+248|{}: není co řezat (čára může být pro frézu příliš malá)
+249|{}: otevřené čáry se v kapse vynechají
+250|{}: otevřené čáry se v profilu vynechají (použijte „Sledovat čáru“)
+251|{}: obrázky se nefrézují
+252|{}: hloubka je omezena zdvihem stroje ({} mm)
+253|{}: hloubka {} mm je větší než tloušťka materiálu ({} mm)
+254|{}: {} ot/min je mimo rozsah vřetene {}…{} ot/min
