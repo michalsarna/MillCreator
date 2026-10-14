@@ -6,6 +6,7 @@ use crate::device::{Device, Origin};
 use crate::layers::{MillLayer, Operation};
 use crate::materials::Stock;
 use crate::tools::{Library, Tool};
+use crate::warn::Warn;
 use base_core::geom::{Polyline, Pt};
 use base_core::ops;
 use base_core::scene::{Kind, Scene};
@@ -43,7 +44,7 @@ impl Move {
 pub struct Program {
     pub moves: Vec<Move>,
     /// What could not be done, or looks wrong, in words for the user.
-    pub warnings: Vec<String>,
+    pub warnings: Vec<Warn>,
     /// The box that holds the cuts: the lowest and the highest corner (X, Y, Z).
     pub bounds: Option<(P3, P3)>,
 }
@@ -191,29 +192,29 @@ pub fn generate(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Devi
         let mut images = 0;
         let outlines = layer_outlines(scene, li, dev.area.y, &mut images);
         if images > 0 && layer.enabled {
-            prog.warnings.push(format!("{}: pictures are not milled", layer.name));
+            prog.warnings.push(Warn::new("{}: pictures are not milled", &[&layer.name]));
         }
         if !layer.enabled || outlines.is_empty() {
             continue;
         }
         if let Err(e) = layer.check() {
-            prog.warnings.push(e);
+            prog.warnings.push(Warn::new("{}", &[&e]));
             continue;
         }
         let Some(tool) = layer.tool.as_deref().and_then(|id| tools.get(id)) else {
-            prog.warnings.push(format!("{}: no bit chosen", layer.name));
+            prog.warnings.push(Warn::new("{}: no bit chosen", &[&layer.name]));
             continue;
         };
         let mut layer = layer.clone();
         if layer.depth > stock.thickness + 1e-9 {
-            prog.warnings.push(format!("{}: the depth of {} mm is more than the thickness of the material ({} mm)", layer.name, layer.depth, stock.thickness));
+            prog.warnings.push(Warn::new("{}: the depth of {} mm is more than the thickness of the material ({} mm)", &[&layer.name, &layer.depth, &stock.thickness]));
         }
         if layer.depth > dev.area.z {
-            prog.warnings.push(format!("{}: the depth is limited to the travel of the machine ({} mm)", layer.name, dev.area.z));
+            prog.warnings.push(Warn::new("{}: the depth is limited to the travel of the machine ({} mm)", &[&layer.name, &dev.area.z]));
             layer.depth = dev.area.z;
         }
         if layer.rpm > dev.spindle.max_rpm || layer.rpm < dev.spindle.min_rpm {
-            prog.warnings.push(format!("{}: {} rpm is outside the spindle range {}…{} rpm", layer.name, layer.rpm, dev.spindle.min_rpm, dev.spindle.max_rpm));
+            prog.warnings.push(Warn::new("{}: {} rpm is outside the spindle range {}…{} rpm", &[&layer.name, &layer.rpm, &dev.spindle.min_rpm, &dev.spindle.max_rpm]));
         }
         let depths = layer.passes();
         if depths.is_empty() {
@@ -226,7 +227,7 @@ pub fn generate(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Devi
         run_layer(&mut b, &layer, tool, &outlines, &depths, &mut prog.warnings);
         b.retract();
         if b.moves.len() == start {
-            prog.warnings.push(format!("{}: nothing to cut (the line may be too small for the bit)", layer.name));
+            prog.warnings.push(Warn::new("{}: nothing to cut (the line may be too small for the bit)", &[&layer.name]));
         }
     }
     prog.moves = b.moves;
@@ -239,19 +240,19 @@ pub fn generate(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Devi
     prog.bounds = bounds(&prog.moves);
     if let Some((lo, hi)) = prog.bounds {
         if lo[0] < -1e-6 || lo[1] < -1e-6 || hi[0] > dev.area.x + 1e-6 || hi[1] > dev.area.y + 1e-6 {
-            prog.warnings.push("The cuts go outside of the work area of the device".to_string());
+            prog.warnings.push(Warn::new("The cuts go outside of the work area of the device", &[]));
         }
     }
     prog
 }
 
-fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyline], depths: &[f64], warnings: &mut Vec<String>) {
+fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyline], depths: &[f64], warnings: &mut Vec<Warn>) {
     let r = tool.radius();
     match layer.op {
         Operation::ProfileOutside | Operation::ProfileInside => {
             let closed = closed_only(outlines);
             if closed.len() < outlines.len() {
-                warnings.push(format!("{}: open lines are left out of a profile (use \"Follow the line\")", layer.name));
+                warnings.push(Warn::new("{}: open lines are left out of a profile (use \"Follow the line\")", &[&layer.name]));
             }
             let d = if layer.op == Operation::ProfileOutside { r } else { -r };
             for ring in ops::offset(&closed, d) {
@@ -261,7 +262,7 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
         Operation::Pocket => {
             let closed = closed_only(outlines);
             if closed.len() < outlines.len() {
-                warnings.push(format!("{}: open lines are left out of a pocket", layer.name));
+                warnings.push(Warn::new("{}: open lines are left out of a pocket", &[&layer.name]));
             }
             let inner = ops::offset(&closed, -r);
             let step = (tool.dims.diameter * layer.step_over_pct / 100.0).max(0.05);
@@ -447,7 +448,7 @@ mod tests {
         square(&mut tiny, 1, 10.0, 10.0, 2.0);
         let prog = generate(&tiny, &layers, &lib, &dev, &stock);
         assert!(prog.is_empty());
-        assert!(prog.warnings.iter().any(|w| w.contains("nothing to cut")), "{:?}", prog.warnings);
+        assert!(prog.warnings.iter().any(|w| w.to_string().contains("nothing to cut")), "{:?}", prog.warnings);
     }
 
     #[test]
@@ -524,17 +525,17 @@ mod tests {
         square(&mut scene, 0, 20.0, 20.0, 20.0);
         layers[0].tool = None;
         let prog = generate(&scene, &layers, &lib, &dev, &stock);
-        assert!(prog.is_empty() && prog.warnings.iter().any(|w| w.contains("no bit")));
+        assert!(prog.is_empty() && prog.warnings.iter().any(|w| w.to_string().contains("no bit")));
         layers[0].tool = Some("std-flat-3".into());
         layers[0].depth = 25.0;
         let prog = generate(&scene, &layers, &lib, &dev, &stock);
-        assert!(prog.warnings.iter().any(|w| w.contains("more than the thickness")), "{:?}", prog.warnings);
+        assert!(prog.warnings.iter().any(|w| w.to_string().contains("more than the thickness")), "{:?}", prog.warnings);
         // Outside the work area.
         let mut far = Scene::default();
         square(&mut far, 0, 280.0, 20.0, 40.0);
         layers[0].depth = 5.0;
         let prog = generate(&far, &layers, &lib, &dev, &stock);
-        assert!(prog.warnings.iter().any(|w| w.contains("outside of the work area")), "{:?}", prog.warnings);
+        assert!(prog.warnings.iter().any(|w| w.to_string().contains("outside of the work area")), "{:?}", prog.warnings);
         // A switched-off layer gives nothing.
         layers[0].enabled = false;
         assert!(generate(&scene, &layers, &lib, &dev, &stock).is_empty());

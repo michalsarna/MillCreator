@@ -1,0 +1,172 @@
+0|3D zobrazení úlohy
+1|3D zobrazení úlohy…
+2|Kopie mezi vašimi vlastními frézami
+3|Díra uprostřed každého uzavřeného tvaru vrstvy, po krocích hloubky průchodu.
+4|Hotovou frézu nelze změnit. Vytvořte kopii, abyste ji mohli změnit.
+5|O programu
+6|Přidat kameru
+7|Přidat zařízení
+8|Přidat zařízení
+9|Přidat zařízení…
+10|Adresa
+11|Celá plocha uvnitř čáry se vybírá kruh po kruhu do hloubky vrstvy.
+12|Uspořádat
+13|Vzadu vlevo
+14|Vzadu vpravo
+15|Zpět na první pohled. Dvojklik na obrázek dělá totéž.
+16|Kulová fréza
+17|Fréza
+18|Knihovna fréz
+19|Knihovna fréz…
+20|Fréza se zaoblenými rohy (poloměr rohu)
+21|Kamera
+22|Název kamery
+23|Číslo kamery
+24|Kamera tohoto počítače
+25|Otočení kamery
+26|Kamery
+27|Soubor nelze použít
+28|Soubor nelze použít: {}
+29|Vyberte frézu
+30|Vyberte stroj, se kterým budete pracovat.
+31|Potvrdit smazání
+32|Řadič
+33|Zkopírováno do {}
+34|Poloměr rohu
+35|Nepodařilo se uložit
+36|Nepodařilo se uložit: {}
+37|Řezat uvnitř čáry
+38|Řezat vně čáry
+39|Řezy
+40|Řezy: {} m, asi {} min
+41|Řezný průměr
+42|Délka řezu
+43|Smazat tuto kameru
+44|Hloubka
+45|Zařízení
+46|Nastavení zařízení
+47|Nastavení zařízení…
+48|Vrták
+49|Úpravy
+50|Upravit…
+51|Rycí fréza
+52|Exportovat G-code…
+53|Exportovat tuto frézu…
+54|Exportovat…
+55|Posuv
+56|Soubor
+57|Válcová fréza
+58|Břity
+59|Sledovat čáru
+60|Vpředu vlevo
+61|Vpředu vpravo
+62|Obecné
+63|Nápověda
+64|Nejvyšší rychlost
+65|Nemám zařízení
+66|Importovat projekt LightBurn…
+67|Zařízení {} bylo importováno
+68|Importovat…
+69|Vrstvy
+70|Vynecháno
+71|Nejnižší rychlost
+72|Stroj
+73|Nula stroje (0,0)
+74|Materiál
+75|Materiál obrobku
+76|Kov
+77|Frézuje se: zahrnuto do drah nástroje a G-kódu
+78|Frézování
+79|Pohyby v bezpečné výšce
+80|Moje frézy
+81|Nový
+82|Nová fréza
+83|Žádná fréza
+84|Zatím žádné zařízení. Přidejte jedno, nebo pracujte bez stroje.
+85|Není to adresa http ani https.
+86|Poznámky
+87|Poznámky k tomuto stroji
+88|Zatím tu nic není
+89|Nic není vybráno
+90|Změnit lze jen barvu plastu. Materiál a jeho tloušťka se zobrazují v 3D zobrazení a ukládají se do projektu.
+91|Otevřete kresbu, nebo začněte prázdný návrh.
+92|Otevřít…
+93|Operace
+94|Celková délka
+95|Hloubka průchodu
+96|Hloubka průchodu (z průměru)
+97|Plast
+98|Posuv zanořením
+99|Kapsa
+100|Průběh
+101|Vlastnosti
+102|Dát vybrané tvary na tuto vrstvu
+103|Načíst zařízení ze souboru
+104|Načíst frézy ze souboru
+105|Připraveno
+106|Hotové frézy
+107|Obnovit pohled
+108|Bezpečná výška
+109|Uložit
+110|Uložit jako…
+111|Uložit toto zařízení do souboru
+112|Uložit vaše frézy do souboru
+113|Uloženo
+114|Zařízení uloženo do {}
+115|Uloženo: {}
+116|Nastavení
+117|Průměr stopky
+118|Tvary na této vrstvě
+119|Zobrazeno na kartě Kamera
+120|Zobrazeno v pracovní ploše
+121|Rychlost pohybů nad materiálem
+122|Vřeteno
+123|Otáčky vřetene
+124|Start
+125|Počáteční rychlosti pro vrstvu
+126|Boční přesah
+127|Boční přesah (z průměru)
+128|Zapnuto
+129|Kuželová kulová fréza
+130|Fréza jede uvnitř čáry, takže tvar vypadne: díra nebo okno.
+131|Fréza jede vně čáry, takže tvar zůstane: z materiálu se vyřízne díl.
+132|Střed frézy sleduje čáru: gravírování a drážky. Otevřené čáry fungují také.
+133|Řezy zasahují mimo pracovní plochu zařízení
+134|Zařízení tohoto projektu
+135|Zařízení bylo přidáno.
+136|Zařízení bylo uloženo.
+137|Soubor je příliš velký
+138|Není co řezat: dejte tvary na vrstvy, které mají frézu.
+139|Zatím není co zobrazit: nakreslete tvary a dejte je na vrstvy, které mají frézu.
+140|Tloušťka
+141|Tato verze nemůže používat kamery počítače.
+142|Toto zařízení nemá zapnutou kameru. Přidejte ji v nastavení zařízení.
+143|Toto zařízení není v seznamu: přišlo s projektem
+144|Toto je náhradní zařízení (Dummy): výchozí pracovní plocha a rychlosti.
+145|Průměr špičky
+146|Příliš mnoho zařízení
+147|Typ
+148|Jednotky
+149|V-fréza
+150|Zobrazení
+151|Možnosti zobrazení…
+152|Čekání po zapnutí
+153|Čekání na obraz…
+154|Dřevo, tmavé
+155|Dřevo, světlé
+156|Dřevo, střední
+157|Práce na projektu bez stroje: obyčejné zařízení jménem Dummy s výchozí pracovní plochou a rychlostmi
+158|Z je, jak hluboko vřeteno jede od horní plochy materiálu. Bezpečná výška je výška, ve které se vřeteno pohybuje mezi řezy.
+159|frézy přidány
+160|frézy přidány do knihovny
+161|např. Moje CNC frézka
+162|tento projekt byl vytvořen pro jiný stroj: {}
+163|{} průchodů do {} mm
+164|{}: není vybrána fréza
+165|{}: není co řezat (čára může být pro frézu příliš malá)
+166|{}: otevřené čáry se v kapse vynechají
+167|{}: otevřené čáry se v profilu vynechají (použijte „Sledovat čáru“)
+168|{}: obrázky se nefrézují
+169|{}: hloubka je omezena zdvihem stroje ({} mm)
+170|{}: hloubka {} mm je větší než tloušťka materiálu ({} mm)
+171|{}: {} ot/min je mimo rozsah vřetene {}…{} ot/min

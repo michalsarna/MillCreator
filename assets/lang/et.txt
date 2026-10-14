@@ -1,0 +1,172 @@
+0|Töö 3D-vaade
+1|Töö 3D-vaade…
+2|Koopia sinu oma freeside seas
+3|Auk kihi iga suletud kuju keskel, läbimiku sügavuse sammudega.
+4|Valmis freesi ei saa muuta. Tee koopia, et seda muuta.
+5|Teave
+6|Lisa kaamera
+7|Lisa seade
+8|Lisa seade
+9|Lisa seade…
+10|Aadress
+11|Kogu joone sees olev ala puhastatakse ring-ringilt kihi sügavuseni.
+12|Korrasta
+13|Taga vasakul
+14|Taga paremal
+15|Tagasi esimesse vaatesse. Pildil topeltklõps teeb sama.
+16|Kerafrees
+17|Frees
+18|Freeside kogu
+19|Freeside kogu…
+20|Ümardatud nurgaga frees (nurga raadius)
+21|Kaamera
+22|Kaamera nimi
+23|Kaamera number
+24|Selle arvuti kaamera
+25|Kaamera pööramine
+26|Kaamerad
+27|Faili ei saa kasutada
+28|Faili ei saa kasutada: {}
+29|Vali frees
+30|Vali masin, millega töötad.
+31|Kinnita kustutamine
+32|Kontroller
+33|Kopeeritud: {}
+34|Nurga raadius
+35|Salvestamine ebaõnnestus
+36|Salvestamine ebaõnnestus: {}
+37|Lõika joone seest
+38|Lõika joone väljast
+39|Lõiked
+40|Lõiked: {} m, umbes {} min
+41|Lõikediameeter
+42|Lõikepikkus
+43|Kustuta see kaamera
+44|Sügavus
+45|Seade
+46|Seadme seaded
+47|Seadme seaded…
+48|Puur
+49|Redigeeri
+50|Redigeeri…
+51|Graveerimisfrees
+52|Ekspordi G-code…
+53|Ekspordi see frees…
+54|Ekspordi…
+55|Etteanne
+56|Fail
+57|Sõrmfrees
+58|Lõiketerad
+59|Järgi joont
+60|Ees vasakul
+61|Ees paremal
+62|Üldine
+63|Abi
+64|Suurim kiirus
+65|Mul pole seadet
+66|Impordi LightBurni projekt…
+67|Seade {} imporditi
+68|Impordi…
+69|Kihid
+70|Välja jäetud
+71|Väikseim kiirus
+72|Masin
+73|Masina null (0,0)
+74|Materjal
+75|Töödeldava detaili materjal
+76|Metall
+77|Freesitakse: kaasatud tööradadesse ja G-koodi
+78|Freesimine
+79|Liikumised ohutul kõrgusel
+80|Minu freesid
+81|Uus
+82|Uus frees
+83|Freesi pole
+84|Seadet veel pole. Lisa üks või tööta ilma masinata.
+85|See pole http- ega https-aadress.
+86|Märkmed
+87|Märkmed selle masina kohta
+88|Siin pole veel midagi
+89|Midagi pole valitud
+90|Muuta saab ainult plasti värvi. Materjal ja selle paksus on näha 3D-vaates ning salvestatakse projekti.
+91|Ava joonis või alusta tühja kavandiga.
+92|Ava…
+93|Toiming
+94|Kogupikkus
+95|Läbimiku sügavus
+96|Läbimiku sügavus (läbimõõdust)
+97|Plast
+98|Sukeldumissöötmine
+99|Tasku
+100|Edenemine
+101|Atribuudid
+102|Pane valitud kujud sellele kihile
+103|Loe seade failist
+104|Loe freesid failist
+105|Valmis
+106|Valmis freesid
+107|Lähtesta vaade
+108|Ohutu kõrgus
+109|Salvesta
+110|Salvesta nimega…
+111|Salvesta see seade faili
+112|Salvesta oma freesid faili
+113|Salvestatud
+114|Seade salvestati: {}
+115|Salvestatud: {}
+116|Seaded
+117|Varre läbimõõt
+118|Kujud sellel kihil
+119|Näidatakse vahekaardil Kaamera
+120|Näidatakse tööalas
+121|Liikumiste kiirus materjali kohal
+122|Spindel
+123|Spindli pöörded
+124|Start
+125|Kihi algkiirused
+126|Külgmine kattuvus
+127|Külgmine kattuvus (läbimõõdust)
+128|Sees
+129|Koonuseline kerafrees
+130|Frees läheb joone seest, nii et kuju kukub välja: auk või aken.
+131|Frees läheb joone väljast, nii et kuju jääb: detail lõigatakse materjalist välja.
+132|Freesi keskpunkt järgib joont: graveeringud ja sooned. Avatud jooned töötavad samuti.
+133|Lõiked ulatuvad seadme tööalast välja
+134|Selle projekti seade
+135|Seade lisati.
+136|Seade salvestati.
+137|Fail on liiga suur
+138|Pole midagi lõigata: pane kujud kihtidele, millel on frees.
+139|Pole veel midagi näidata: joonista kujud ja pane need kihtidele, millel on frees.
+140|Paksus
+141|See versioon ei saa kasutada arvuti kaameraid.
+142|Sellel seadmel pole sisselülitatud kaamerat. Lisa see seadme sätetes.
+143|Seda seadet pole nimekirjas: see tuli projektiga kaasa
+144|See on asendusseade (Dummy): vaiketööala ja -kiirused.
+145|Otsa läbimõõt
+146|Liiga palju seadmeid
+147|Tüüp
+148|Ühikud
+149|V-frees
+150|Vaade
+151|Vaate valikud…
+152|Ooteaeg sisselülitamise järel
+153|Ootan pilti…
+154|Puit, tume
+155|Puit, hele
+156|Puit, keskmine
+157|Tööta projektiga ilma masinata: lihtne seade nimega Dummy vaiketööala ja vaikekiirustega
+158|Z on see, kui sügavale spindel läheb materjali pealispinnast. Ohutu kõrgus on see, kus spindel lõigete vahel liigub.
+159|freesid lisatud
+160|freesid lisatud kogusse
+161|nt Minu CNC-frees
+162|see projekt tehti teisele masinale: {}
+163|{} läbimit kuni {} mm
+164|{}: freesi pole valitud
+165|{}: pole midagi lõigata (joon võib olla freesi jaoks liiga väike)
+166|{}: avatud jooned jäetakse taskus välja
+167|{}: avatud jooned jäetakse profiilis välja (kasuta „Järgi joont“)
+168|{}: pilte ei freesita
+169|{}: sügavus on piiratud masina käiguga ({} mm)
+170|{}: sügavus {} mm on suurem kui materjali paksus ({} mm)
+171|{}: {} p/min on väljaspool spindli vahemikku {}…{} p/min

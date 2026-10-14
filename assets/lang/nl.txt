@@ -1,0 +1,172 @@
+0|3D-weergave van de opdracht
+1|3D-weergave van de opdracht…
+2|Een kopie tussen je eigen frezen
+3|Een gat in het midden van elke gesloten vorm van de laag, in stappen van de stapdiepte.
+4|Een kant-en-klare frees kan niet worden gewijzigd. Maak een kopie om hem te wijzigen.
+5|Over
+6|Camera toevoegen
+7|Apparaat toevoegen
+8|Apparaat toevoegen
+9|Apparaat toevoegen…
+10|Adres
+11|Het hele gebied binnen de lijn wordt ring na ring uitgefreesd tot de diepte van de laag.
+12|Rangschikken
+13|Achter links
+14|Achter rechts
+15|Terug naar de eerste weergave. Dubbelklikken op de afbeelding doet hetzelfde.
+16|Kogelfrees
+17|Frees
+18|Freesbibliotheek
+19|Freesbibliotheek…
+20|Torusfrees (hoekradius)
+21|Camera
+22|Cameranaam
+23|Cameranummer
+24|Camera van deze computer
+25|Camerarotatie
+26|Camera's
+27|Het bestand kan niet worden gebruikt
+28|Het bestand kan niet worden gebruikt: {}
+29|Kies een frees
+30|Kies de machine waarmee je gaat werken.
+31|Verwijderen bevestigen
+32|Controller
+33|Gekopieerd naar {}
+34|Hoekradius
+35|Kon niet opslaan
+36|Kon niet opslaan: {}
+37|Binnen de lijn snijden
+38|Buiten de lijn snijden
+39|Sneden
+40|Sneden: {} m, ongeveer {} min
+41|Snijdiameter
+42|Snijlengte
+43|Deze camera verwijderen
+44|Diepte
+45|Apparaat
+46|Apparaatinstellingen
+47|Apparaatinstellingen…
+48|Boor
+49|Bewerken
+50|Bewerken…
+51|Graveerfrees
+52|G-code exporteren…
+53|Deze frees exporteren…
+54|Exporteren…
+55|Voeding
+56|Bestand
+57|Vlakke frees
+58|Snijkanten
+59|De lijn volgen
+60|Voor links
+61|Voor rechts
+62|Algemeen
+63|Help
+64|Hoogste snelheid
+65|Ik heb geen apparaat
+66|LightBurn-project importeren…
+67|Apparaat {} geïmporteerd
+68|Importeren…
+69|Lagen
+70|Weggelaten
+71|Laagste snelheid
+72|Machine
+73|Machinenul (0,0)
+74|Materiaal
+75|Materiaal van het werkstuk
+76|Metaal
+77|Gefreesd: wordt opgenomen in de gereedschapspaden en de G-code
+78|Frezen
+79|Bewegingen op veilige hoogte
+80|Mijn frezen
+81|Nieuw
+82|Nieuwe frees
+83|Geen frees
+84|Nog geen apparaat. Voeg er een toe of werk zonder machine.
+85|Geen http- of https-adres.
+86|Notities
+87|Notities over deze machine
+88|Hier is nog niets
+89|Niets geselecteerd
+90|Alleen de kleur van een kunststof kan worden gewijzigd. Het materiaal en de dikte zijn te zien in de 3D-weergave en worden in het project opgeslagen.
+91|Open een tekening of begin met een leeg ontwerp.
+92|Openen…
+93|Bewerking
+94|Totale lengte
+95|Stapdiepte
+96|Stapdiepte (van de diameter)
+97|Kunststof
+98|Insteekvoeding
+99|Uitholling
+100|Voortgang
+101|Eigenschappen
+102|De geselecteerde vormen op deze laag plaatsen
+103|Een apparaat uit een bestand lezen
+104|Frezen uit een bestand lezen
+105|Gereed
+106|Kant-en-klare frezen
+107|Weergave herstellen
+108|Veilige hoogte
+109|Opslaan
+110|Opslaan als…
+111|Dit apparaat in een bestand opslaan
+112|Je frezen in een bestand opslaan
+113|Opgeslagen
+114|Apparaat opgeslagen in {}
+115|{} opgeslagen
+116|Instellingen
+117|Schachtdiameter
+118|Vormen op deze laag
+119|Getoond in het tabblad Camera
+120|Getoond in het werkgebied
+121|Snelheid van de bewegingen boven het materiaal
+122|Spindel
+123|Spindeltoerental
+124|Start
+125|Beginsnelheden voor een laag
+126|Zijdelingse overlap
+127|Zijdelingse overlap (van de diameter)
+128|Ingeschakeld
+129|Conische kogelfrees
+130|De frees loopt langs de binnenkant van de lijn, dus de vorm valt eruit: een gat of een raam.
+131|De frees loopt langs de buitenkant van de lijn, dus de vorm blijft: een onderdeel wordt uit het materiaal gesneden.
+132|Het midden van de frees volgt de lijn: gravures en groeven. Open lijnen werken ook.
+133|De sneden vallen buiten het werkgebied van het apparaat
+134|Het apparaat van dit project
+135|Het apparaat is toegevoegd.
+136|Het apparaat is opgeslagen.
+137|Het bestand is te groot
+138|Er is niets te snijden: zet vormen op lagen met een frees.
+139|Er is nog niets te tonen: teken vormen en zet ze op lagen met een frees.
+140|Dikte
+141|Deze versie kan de camera's van de computer niet gebruiken.
+142|Dit apparaat heeft geen ingeschakelde camera. Voeg er een toe in de apparaatinstellingen.
+143|Dit apparaat staat niet in de lijst: het kwam met het project mee
+144|Dit is het vervangende apparaat (Dummy): standaard werkgebied en snelheden.
+145|Puntdiameter
+146|Te veel apparaten
+147|Type
+148|Eenheden
+149|V-frees
+150|Weergave
+151|Weergaveopties…
+152|Wachttijd na het inschakelen
+153|Wachten op het beeld…
+154|Hout, donker
+155|Hout, licht
+156|Hout, middel
+157|Werk aan een project zonder machine: een gewoon apparaat genaamd Dummy, met het standaardwerkgebied en de standaardsnelheden
+158|Z is hoe diep de spindel vanaf de bovenkant van het materiaal omlaag gaat. De veilige hoogte is waar de spindel tussen de sneden beweegt.
+159|frezen toegevoegd
+160|frezen toegevoegd aan de bibliotheek
+161|bijv. Mijn CNC-frees
+162|dit project is gemaakt voor een andere machine: {}
+163|{} stappen tot {} mm
+164|{}: geen frees gekozen
+165|{}: niets te snijden (de lijn is misschien te klein voor de frees)
+166|{}: open lijnen worden bij een uitholling weggelaten
+167|{}: open lijnen worden bij een profiel weggelaten (gebruik ‘De lijn volgen’)
+168|{}: afbeeldingen worden niet gefreesd
+169|{}: de diepte is beperkt tot de slag van de machine ({} mm)
+170|{}: de diepte van {} mm is groter dan de dikte van het materiaal ({} mm)
+171|{}: {} tpm valt buiten het spindelbereik {}…{} tpm

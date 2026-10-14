@@ -12,6 +12,8 @@ mod preview_ui;
 mod section;
 mod toolpath;
 mod view3d;
+mod texts;
+mod warn;
 mod tools;
 mod tools_ui;
 #[cfg(test)]
@@ -178,6 +180,7 @@ impl App {
     fn build(ctx: &egui::Context, storage: Option<&dyn eframe::Storage>, native_menu: bool) -> App {
         static TEXTS: std::sync::Once = std::sync::Once::new();
         TEXTS.call_once(|| i18n::register(&base_ui::texts::TEXTS));
+        texts::register();
         let saved = |k: &str| storage.and_then(|st| st.get_string(k));
         let lang = saved("lang").and_then(|c| Lang::from_code(&c)).unwrap_or(Lang::En);
         let scheme = saved("scheme").and_then(|c| Scheme::from_id(&c)).unwrap_or(Scheme::LightDark);

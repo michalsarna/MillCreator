@@ -34,7 +34,7 @@ The wiki has the full documentation in English and Polish: <https://github.com/m
 * **Project file:** `.cre`, shared with LightCreator; MillCreator keeps its own `mill` section (layers, material, device
   snapshot, the bits used) and leaves the sections of other programs untouched.
 * **Shared with LightCreator:** the window, menus and editor, 310 clipart pictures, import of SVG, PDF, Illustrator and
-  LightBurn projects, 30 languages for the shared texts (the texts of MillCreator's own screens are English), 14 colour schemes.
+  LightBurn projects, 30 languages (the shared texts and MillCreator's own), 14 colour schemes.
 
 What is not there: machine control, tabs, ramps, V-carving, 3D relief, collision checks. See [FEATURES.md](FEATURES.md).
 

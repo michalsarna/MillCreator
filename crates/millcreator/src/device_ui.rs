@@ -73,8 +73,12 @@ impl App {
         idx
     }
 
-    /// The device that is selected on the start screen becomes the device of the project.
+    /// The device that is selected on the start screen becomes the device of the project; without any device it is the
+    /// Dummy.
     pub(crate) fn take_selected_device(&mut self) {
+        if self.devices.is_empty() {
+            self.use_dummy_device();
+        }
         if let Some(d) = self.devices.get(self.start_sel) {
             self.device = d.clone();
             self.active = Some(self.start_sel);
@@ -540,6 +544,14 @@ mod tests {
         a.take_selected_device();
         assert!(a.device.is_dummy() && a.active == Some(0));
         assert_eq!(a.work_size_mm(), (300.0, 200.0));
+    }
+
+    #[test]
+    fn a_new_project_without_any_device_gets_the_dummy() {
+        let mut a = app();
+        a.devices.clear();
+        a.new_design();
+        assert_eq!((a.screen, a.devices.len(), a.device.is_dummy()), (crate::Screen::Editor, 1, true));
     }
 
     #[test]

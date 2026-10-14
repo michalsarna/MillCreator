@@ -13,5 +13,5 @@ Język, schemat kolorów, opcje widoku, ostatnie pliki, **lista urządzeń** i *
 * Twoje cliparty leżą obok, w folderze `clipart`.
 * Plik jest zapisywany przy zamknięciu programu (i co jakiś czas). **Usuń go, żeby wszystko zresetować**: znika też lista urządzeń i twoje frezy, więc najpierw je wyeksportuj (**Export…** na ekranie startowym i w bibliotece frezów).
 * Projekty (`.cre`), SVG i G-code zapisują się tam, gdzie wskażesz.
-* Okno ma własną płaską ramkę; **Settings** ma język (30 dla wspólnych tekstów; teksty własnych ekranów MillCreatora są po angielsku) i schemat kolorów (14) oraz **View options…**
+* Okno ma własną płaską ramkę; **Settings** ma język (30, dla wspólnych tekstów i własnych MillCreatora) i schemat kolorów (14) oraz **View options…**
 * **Help → Project page on GitHub** otwiera repozytorium.

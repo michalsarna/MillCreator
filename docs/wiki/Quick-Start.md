@@ -2,7 +2,7 @@
 
 # Quick Start
 
-1. **Choose the device.** On the start screen pick your machine, or press **Add device…**. Without a machine press **I have no device**: a stand-in called *Dummy* (300 × 200 × 60 mm) is made and used. See [Devices and Cameras](Devices-and-Cameras).
+1. **Choose the device.** On the start screen pick your machine, or press **Add device…**. Without a machine press **I have no device**: a stand-in called *Dummy* (300 × 200 × 60 mm) is made and selected. If you press **New** or **Open…** with no device at all, the Dummy is made and used. See [Devices and Cameras](Devices-and-Cameras).
 2. **Start the design.** **New** starts an empty design; **Open…** reads an SVG, PDF, Illustrator or `.cre` file; **File → Import → Import LightBurn project…** reads a LightBurn project. Or draw with the tools on the left.
 3. **Put shapes on layers.** Select shapes, open the **Layers** tab, click the layer and press **Put the selected shapes on this layer**. The first layers are ready: *Cut out* (outside the line), *Holes and windows* (inside the line), *Pocket*, *Engrave* (follow the line) and *Drill*. See [Layers and Operations](Layers-and-Operations).
 4. **Choose the bit and the depth** of each layer you use. Every ready-made bit brings its feed and speed. **Bit library…** (Milling menu or the **…** button) shows and edits them: [Bit Library](Bit-Library).

@@ -10,7 +10,7 @@ A **device** is a milling machine. The list of devices is kept between runs and 
 **Add device…**, **I have no device**, **Edit…**, **Duplicate**, **Export…** (one device as a JSON file), **Import…** (strictly checked: a newer format, a wrong number or a file over 2 MB is refused) and **Delete** (asks to confirm). A copy or an imported device with a name that is taken gets a number: `Router (2)`.
 
 ## I have no device
-Makes, once, a plain device called **Dummy**: a 300 × 200 mm work area with 60 mm of travel in Z, safe height 5 mm, spindle 1000–24000 rpm. It stays in the list like any other device and can be edited; the project is saved with it as its machine.
+Makes, once, a plain device called **Dummy**: a 300 × 200 mm work area with 60 mm of travel in Z, safe height 5 mm, spindle 1000–24000 rpm. It stays in the list like any other device and can be edited; the project is saved with it as its machine. **New** and **Open…** without any device make and use it too.
 
 ## Device settings
 | Page | What it holds |

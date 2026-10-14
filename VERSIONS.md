@@ -2,6 +2,11 @@
 
 Each release gets the next version number. Newest first.
 
+## Unreleased
+
+* MillCreator's own texts are translated into the 30 languages; warnings of the toolpaths too.
+* **New** and **Open…** on the start screen without any device use the Dummy.
+
 ## v0.2.0
 
 **Milling**

@@ -1,7 +1,7 @@
 //! Renders the README screenshots headlessly (no window, no display needed).
 //!
 //! `cargo test -p millcreator render_screenshots -- --ignored --nocapture` writes PNG files into `docs/screenshots/`.
-use crate::{App, Screen};
+use crate::App;
 use base_ui::editor::EditorCommands;
 use egui_kittest::Harness;
 use std::path::PathBuf;

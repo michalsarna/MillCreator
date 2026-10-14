@@ -1,0 +1,172 @@
+0|3D-visning av jobben
+1|3D-visning av jobben…
+2|En kopi blant dine egne freser
+3|Et hull midt i hver lukkede form i laget, i trinn av trinndybden.
+4|En ferdig fres kan ikke endres. Lag en kopi for å endre den.
+5|Om
+6|Legg til et kamera
+7|Legg til en enhet
+8|Legg til enhet
+9|Legg til enhet…
+10|Adresse
+11|Hele området innenfor linjen ryddes ring for ring ned til lagets dybde.
+12|Ordne
+13|Bak til venstre
+14|Bak til høyre
+15|Tilbake til den første visningen. Dobbeltklikk på bildet gjør det samme.
+16|Kulefres
+17|Fres
+18|Fresebibliotek
+19|Fresebibliotek…
+20|Hjørneradiusfres (hjørneradius)
+21|Kamera
+22|Kameranavn
+23|Kameranummer
+24|Kamera på denne datamaskinen
+25|Kameraets rotasjon
+26|Kameraer
+27|Filen kan ikke brukes
+28|Filen kan ikke brukes: {}
+29|Velg en fres
+30|Velg maskinen du skal arbeide med.
+31|Bekreft sletting
+32|Kontroller
+33|Kopiert til {}
+34|Hjørneradius
+35|Kunne ikke lagre
+36|Kunne ikke lagre: {}
+37|Skjær innenfor linjen
+38|Skjær utenfor linjen
+39|Snitt
+40|Snitt: {} m, omtrent {} min
+41|Skjærediameter
+42|Skjærelengde
+43|Slett dette kameraet
+44|Dybde
+45|Enhet
+46|Enhetsinnstillinger
+47|Enhetsinnstillinger…
+48|Bor
+49|Rediger
+50|Rediger…
+51|Graveringsfres
+52|Eksporter G-code…
+53|Eksporter denne fresen…
+54|Eksporter…
+55|Mating
+56|Fil
+57|Pinnfres
+58|Egger
+59|Følg linjen
+60|Foran til venstre
+61|Foran til høyre
+62|Generelt
+63|Hjelp
+64|Høyeste hastighet
+65|Jeg har ingen enhet
+66|Importer LightBurn-prosjekt…
+67|Enheten {} ble importert
+68|Importer…
+69|Lag
+70|Utelatt
+71|Laveste hastighet
+72|Maskin
+73|Maskinens nullpunkt (0,0)
+74|Materiale
+75|Materialet i arbeidsstykket
+76|Metall
+77|Freses: tas med i verktøybanene og G-koden
+78|Fresing
+79|Bevegelser i sikker høyde
+80|Mine freser
+81|Ny
+82|Ny fres
+83|Ingen fres
+84|Ingen enhet ennå. Legg til en, eller arbeid uten maskin.
+85|Ikke en http- eller https-adresse.
+86|Notater
+87|Notater om denne maskinen
+88|Ingenting her ennå
+89|Ingenting merket
+90|Bare fargen på en plast kan endres. Materialet og tykkelsen vises i 3D-visningen og lagres i prosjektet.
+91|Åpne en tegning, eller begynn et tomt design.
+92|Åpne…
+93|Operasjon
+94|Total lengde
+95|Trinndybde
+96|Trinndybde (av diameteren)
+97|Plast
+98|Innstikksmating
+99|Lomme
+100|Framdrift
+101|Egenskaper
+102|Legg de valgte formene på dette laget
+103|Les en enhet fra en fil
+104|Les freser fra en fil
+105|Klar
+106|Ferdige freser
+107|Tilbakestill visningen
+108|Sikker høyde
+109|Lagre
+110|Lagre som…
+111|Lagre denne enheten i en fil
+112|Lagre fresene dine i en fil
+113|Lagret
+114|Enheten ble lagret i {}
+115|{} lagret
+116|Innstillinger
+117|Skaftdiameter
+118|Former på dette laget
+119|Vises i fanen Kamera
+120|Vises i arbeidsområdet
+121|Hastighet for bevegelser over materialet
+122|Spindel
+123|Spindelturtall
+124|Start
+125|Starthastigheter for et lag
+126|Sideoverlapp
+127|Sideoverlapp (av diameteren)
+128|Slått på
+129|Konisk kulefres
+130|Fresen går innenfor linjen, så formen faller ut: et hull eller et vindu.
+131|Fresen går utenfor linjen, så formen blir igjen: en del skjæres ut av materialet.
+132|Midten av fresen følger linjen: gravering og spor. Åpne linjer fungerer også.
+133|Snittene går utenfor enhetens arbeidsområde
+134|Enheten til dette prosjektet
+135|Enheten ble lagt til.
+136|Enheten ble lagret.
+137|Filen er for stor
+138|Det er ingenting å skjære: legg former på lag som har en fres.
+139|Det er ingenting å vise ennå: tegn former og legg dem på lag som har en fres.
+140|Tykkelse
+141|Denne versjonen kan ikke bruke maskinens kameraer.
+142|Denne enheten har ikke noe kamera som er slått på. Legg til ett i enhetsinnstillingene.
+143|Denne enheten er ikke i listen: den fulgte med prosjektet
+144|Dette er erstatningsenheten (Dummy): standard arbeidsområde og hastigheter.
+145|Spissdiameter
+146|For mange enheter
+147|Type
+148|Enheter
+149|V-fres
+150|Vis
+151|Visningsvalg…
+152|Ventetid etter påslåing
+153|Venter på bildet…
+154|Tre, mørkt
+155|Tre, lyst
+156|Tre, middels
+157|Jobb med et prosjekt uten maskin: en vanlig enhet kalt Dummy med standard arbeidsområde og hastigheter
+158|Z er hvor dypt spindelen går ned fra toppen av materialet. Den sikre høyden er der spindelen beveger seg mellom snittene.
+159|freser lagt til
+160|freser lagt til i biblioteket
+161|f.eks. Min CNC-fres
+162|dette prosjektet ble laget for en annen maskin: {}
+163|{} gjennomganger til {} mm
+164|{}: ingen fres valgt
+165|{}: ingenting å skjære (linjen kan være for liten for fresen)
+166|{}: åpne linjer utelates i en lomme
+167|{}: åpne linjer utelates i en profil (bruk «Følg linjen»)
+168|{}: bilder freses ikke
+169|{}: dybden er begrenset til maskinens bevegelse ({} mm)
+170|{}: dybden på {} mm er større enn tykkelsen på materialet ({} mm)
+171|{}: {} o/min er utenfor spindelområdet {}…{} o/min

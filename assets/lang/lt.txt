@@ -1,0 +1,172 @@
+0|Darbo 3D vaizdas
+1|Darbo 3D vaizdas…
+2|Kopija tarp jūsų pačių frezų
+3|Skylė kiekvienos uždaros sluoksnio formos centre, praėjimo gylio žingsniais.
+4|Paruoštos frezos keisti negalima. Padarykite kopiją, kad ją pakeistumėte.
+5|Apie
+6|Pridėti kamerą
+7|Pridėti įrenginį
+8|Pridėti įrenginį
+9|Pridėti įrenginį…
+10|Adresas
+11|Visa linijos vidaus sritis išvaloma žiedas po žiedo iki sluoksnio gylio.
+12|Išdėstyti
+13|Gale kairėje
+14|Gale dešinėje
+15|Atgal į pirmąjį vaizdą. Dukart spustelėjus paveikslėlį daroma tas pats.
+16|Rutulinė freza
+17|Freza
+18|Frezų biblioteka
+19|Frezų biblioteka…
+20|Freza su suapvalintais kampais (kampo spindulys)
+21|Kamera
+22|Kameros pavadinimas
+23|Kameros numeris
+24|Šio kompiuterio kamera
+25|Kameros pasukimas
+26|Kameros
+27|Failo naudoti negalima
+28|Failo naudoti negalima: {}
+29|Pasirinkite frezą
+30|Pasirinkite staklių modelį, su kuriuo dirbsite.
+31|Patvirtinti naikinimą
+32|Valdiklis
+33|Nukopijuota į {}
+34|Kampo spindulys
+35|Nepavyko išsaugoti
+36|Nepavyko išsaugoti: {}
+37|Pjauti linijos viduje
+38|Pjauti linijos išorėje
+39|Pjūviai
+40|Pjūviai: {} m, apie {} min.
+41|Pjovimo skersmuo
+42|Pjovimo ilgis
+43|Ištrinti šią kamerą
+44|Gylis
+45|Įrenginys
+46|Įrenginio nustatymai
+47|Įrenginio nustatymai…
+48|Grąžtas
+49|Redaguoti
+50|Redaguoti…
+51|Graviravimo freza
+52|Eksportuoti G-code…
+53|Eksportuoti šią frezą…
+54|Eksportuoti…
+55|Paduotis
+56|Failas
+57|Pirštinė freza
+58|Ašmenys
+59|Sekti linija
+60|Priekyje kairėje
+61|Priekyje dešinėje
+62|Bendra
+63|Žinynas
+64|Didžiausias greitis
+65|Neturiu įrenginio
+66|Importuoti „LightBurn“ projektą…
+67|Įrenginys {} importuotas
+68|Importuoti…
+69|Sluoksniai
+70|Praleista
+71|Mažiausias greitis
+72|Staklės
+73|Staklių nulis (0,0)
+74|Medžiaga
+75|Ruošinio medžiaga
+76|Metalas
+77|Frezuojama: įtraukta į įrankio trajektorijas ir G-kodą
+78|Frezavimas
+79|Judesiai saugiame aukštyje
+80|Mano frezos
+81|Naujas
+82|Nauja freza
+83|Nėra frezos
+84|Dar nėra įrenginio. Pridėkite vieną arba dirbkite be staklių.
+85|Tai nėra http ar https adresas.
+86|Pastabos
+87|Pastabos apie šias stakles
+88|Čia dar nieko nėra
+89|Nieko nepažymėta
+90|Galima keisti tik plastiko spalvą. Medžiaga ir jos storis rodomi 3D vaizde ir išsaugomi projekte.
+91|Atidarykite brėžinį arba pradėkite tuščią dizainą.
+92|Atverti…
+93|Operacija
+94|Bendras ilgis
+95|Praėjimo gylis
+96|Praėjimo gylis (nuo skersmens)
+97|Plastikas
+98|Įleidimo pastūma
+99|Kišenė
+100|Eiga
+101|Ypatybės
+102|Padėti pasirinktas formas ant šio sluoksnio
+103|Nuskaityti įrenginį iš failo
+104|Nuskaityti frezas iš failo
+105|Paruošta
+106|Paruoštos frezos
+107|Atstatyti vaizdą
+108|Saugus aukštis
+109|Įrašyti
+110|Įrašyti kaip…
+111|Išsaugoti šį įrenginį faile
+112|Išsaugoti jūsų frezas faile
+113|Išsaugota
+114|Įrenginys išsaugotas: {}
+115|Įrašyta: {}
+116|Nustatymai
+117|Kotelio skersmuo
+118|Formos šiame sluoksnyje
+119|Rodoma skirtuke Kamera
+120|Rodoma darbo srityje
+121|Judesių greitis virš medžiagos
+122|Verpstė
+123|Verpstės sūkiai
+124|Pradėti
+125|Pradiniai sluoksnio greičiai
+126|Šoninis persidengimas
+127|Šoninis persidengimas (nuo skersmens)
+128|Įjungta
+129|Kūginė rutulinė freza
+130|Freza eina linijos viduje, todėl forma iškrenta: skylė arba langas.
+131|Freza eina linijos išorėje, todėl forma lieka: detalė išpjaunama iš medžiagos.
+132|Frezos centras seka linija: graviūros ir grioveliai. Atviros linijos taip pat veikia.
+133|Pjūviai išeina už įrenginio darbo srities ribų
+134|Šio projekto įrenginys
+135|Įrenginys pridėtas.
+136|Įrenginys išsaugotas.
+137|Failas per didelis
+138|Nėra ko pjauti: padėkite formas ant sluoksnių, kurie turi frezą.
+139|Dar nėra ką rodyti: nupieškite formas ir padėkite jas ant sluoksnių, kurie turi frezą.
+140|Storis
+141|Ši versija negali naudoti kompiuterio kamerų.
+142|Šis įrenginys neturi įjungtos kameros. Pridėkite ją įrenginio nustatymuose.
+143|Šio įrenginio sąraše nėra: jis atkeliavo su projektu
+144|Tai pakaitinis įrenginys (Dummy): numatytoji darbo sritis ir greičiai.
+145|Smaigalio skersmuo
+146|Per daug įrenginių
+147|Tipas
+148|Vienetai
+149|V formos freza
+150|Rodinys
+151|Rodinio parinktys…
+152|Laukimas po įjungimo
+153|Laukiama vaizdo…
+154|Mediena, tamsi
+155|Mediena, šviesi
+156|Mediena, vidutinė
+157|Dirbkite su projektu be staklių: paprastas įrenginys pavadinimu Dummy su numatytuoju darbo plotu ir greičiais
+158|Z yra tai, kaip giliai verpstė leidžiasi nuo medžiagos viršaus. Saugus aukštis yra aukštis, kuriame verpstė juda tarp pjūvių.
+159|frezos pridėtos
+160|frezos pridėtos į biblioteką
+161|pvz., Mano CNC freza
+162|šis projektas sukurtas kitoms staklėms: {}
+163|{} praėjimų iki {} mm
+164|{}: freza nepasirinkta
+165|{}: nėra ko pjauti (linija gali būti per maža frezai)
+166|{}: atviros linijos kišenėje praleidžiamos
+167|{}: atviros linijos profilyje praleidžiamos (naudokite „Sekti linija“)
+168|{}: paveikslėliai nefrezuojami
+169|{}: gylis apribotas staklių eiga ({} mm)
+170|{}: {} mm gylis didesnis už medžiagos storį ({} mm)
+171|{}: {} aps./min. už verpstės ribų {}…{} aps./min.
