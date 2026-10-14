@@ -2,10 +2,12 @@
 
 Each release gets the next version number. Newest first.
 
-## Unreleased
+## v0.2.1
 
 * MillCreator's own texts are translated into the 30 languages; warnings of the toolpaths too.
 * **New** and **Open…** on the start screen without any device use the Dummy.
+* The device section of the start screen is tidied and centred: *Add device…*, *Edit…*, *Duplicate*, *Import…* and, in a second row, *I have no device*; *Export…* and *Delete* are in the window of *Edit…*.
+* baseCreator v0.8.1.
 
 ## v0.2.0
 
