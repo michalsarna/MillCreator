@@ -218,7 +218,7 @@ impl App {
             recent,
             logo: base_ui::start::load_logo(ctx, ICON_256, "millcreator-logo"),
             side_tab: SideTab::Properties,
-            clip: ClipState::new(base_core::clipart::Library::open(eframe::storage_dir("millcreator").unwrap_or_else(std::env::temp_dir).join("clipart"))),
+            clip: ClipState::new(base_core::clipart::Library::open(data_paths().gallery.clone())),
             description: String::new(),
             kept: Project::default(),
             device: devices.first().cloned().unwrap_or_else(Device::dummy),
@@ -926,6 +926,19 @@ impl eframe::App for App {
     }
 }
 
+/// Where this program keeps its data: the settings in its own folder, the gallery shared with the other programs
+/// (see `base_core::paths`). The first call moves the data of an older version in.
+pub fn data_paths() -> &'static base_core::paths::DataPaths {
+    static PATHS: std::sync::OnceLock<base_core::paths::DataPaths> = std::sync::OnceLock::new();
+    PATHS.get_or_init(|| {
+        if cfg!(test) {
+            // Tests never touch the real folders.
+            return base_core::paths::prepare_in(&std::env::temp_dir().join(format!("millcreator-test-data-{}", std::process::id())), "millcreator", None);
+        }
+        base_core::paths::prepare("millcreator", eframe::storage_dir("millcreator").as_deref())
+    })
+}
+
 fn main() -> eframe::Result {
     let mut viewport = egui::ViewportBuilder::default()
         .with_title(format!("MillCreator {VERSION}"))
@@ -937,7 +950,7 @@ fn main() -> eframe::Result {
     if let Some(icon) = base_ui::start::window_icon(ICON_512) {
         viewport = viewport.with_icon(icon);
     }
-    let opts = eframe::NativeOptions { viewport, ..Default::default() };
+    let opts = eframe::NativeOptions { viewport, persistence_path: Some(data_paths().settings.clone()), ..Default::default() };
     eframe::run_native(
         "MillCreator",
         opts,

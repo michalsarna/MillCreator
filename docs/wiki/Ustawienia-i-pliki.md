@@ -6,9 +6,9 @@ Język, schemat kolorów, opcje widoku, ostatnie pliki, **lista urządzeń** i *
 
 | System | Położenie |
 |---|---|
-| macOS | `~/Library/Application Support/millcreator/app.ron` |
-| Windows | `%APPDATA%\millcreator\data\app.ron` |
-| Linux | `$XDG_DATA_HOME/millcreator/app.ron`, domyślnie `~/.local/share/millcreator/app.ron` |
+| macOS | `~/Library/Application Support/baseCreator/apps/millcreator/app.ron` |
+| Windows | `%APPDATA%\baseCreator\apps\millcreator\app.ron` |
+| Linux | `$XDG_DATA_HOME/baseCreator/apps/millcreator/app.ron`, domyślnie `~/.local/share/baseCreator/apps/millcreator/app.ron` |
 
 * Twoje cliparty leżą obok, w folderze `clipart`.
 * Plik jest zapisywany przy zamknięciu programu (i co jakiś czas). **Usuń go, żeby wszystko zresetować**: znika też lista urządzeń i twoje frezy, więc najpierw je wyeksportuj (**Export…** na ekranie startowym i w bibliotece frezów).

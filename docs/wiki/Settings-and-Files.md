@@ -6,11 +6,11 @@ Language, colour scheme, view options, recent files, **the list of devices** and
 
 | System | Location |
 |---|---|
-| macOS | `~/Library/Application Support/millcreator/app.ron` |
-| Windows | `%APPDATA%\millcreator\data\app.ron` |
-| Linux | `$XDG_DATA_HOME/millcreator/app.ron`, by default `~/.local/share/millcreator/app.ron` |
+| macOS | `~/Library/Application Support/baseCreator/apps/millcreator/app.ron` |
+| Windows | `%APPDATA%\baseCreator\apps\millcreator\app.ron` |
+| Linux | `$XDG_DATA_HOME/baseCreator/apps/millcreator/app.ron`, by default `~/.local/share/baseCreator/apps/millcreator/app.ron` |
 
-* Your clipart sits in the `clipart` folder next to it.
+* **Shared folder.** LightCreator, MillCreator and PenCreator keep their data in one folder, `baseCreator` (the table shows the program's own settings inside it). The **clipart gallery is shared**: a picture saved or downloaded in one program shows up in the others (the `clipart` folder next to `apps`, with an `index.json` recording name, category, source, licence and author). Each program keeps its own settings, device profiles, materials and tools in `apps/<program>/app.ron`. Set the environment variable `BASECREATOR_DIR` to use another folder. A program started for the first time after the update moves its old settings and pictures in (the old folder is left untouched, identical pictures are not duplicated).
 * The file is written when the program closes (and from time to time). **Delete it to reset everything**: the device list and your bits go too, so export them first (**Export…** on the start screen and in the bit library).
 * Projects (`.cre`), SVG and G-code are saved wherever you choose.
 * The window has its own flat frame; **Settings** has the language (30, for the shared texts and MillCreator's own) and the colour scheme (14), and **View options…**
