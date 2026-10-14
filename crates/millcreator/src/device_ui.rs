@@ -23,11 +23,15 @@ pub enum Page {
     Connection,
     Camera,
     Rotary,
+    Jog,
+    Probe,
+    Macros,
+    Maintenance,
     Notes,
 }
 
 impl Page {
-    const ALL: [Page; 7] = [Page::General, Page::Machine, Page::Spindle, Page::Connection, Page::Camera, Page::Rotary, Page::Notes];
+    const ALL: [Page; 11] = [Page::General, Page::Machine, Page::Spindle, Page::Connection, Page::Camera, Page::Rotary, Page::Jog, Page::Probe, Page::Macros, Page::Maintenance, Page::Notes];
     fn label(self) -> &'static str {
         match self {
             Page::General => "General",
@@ -35,6 +39,10 @@ impl Page {
             Page::Spindle => "Spindle",
             Page::Connection => "Connection",
             Page::Rotary => "Rotary",
+            Page::Jog => "Jogging",
+            Page::Probe => "Probe",
+            Page::Macros => "Macros",
+            Page::Maintenance => "Maintenance",
             Page::Camera => "Camera",
             Page::Notes => "Notes",
         }
@@ -57,6 +65,23 @@ pub struct CamState {
     local: Option<camera::Worker>,
     pub tex: Option<egui::TextureHandle>,
     pub error: String,
+}
+
+/// Take what the controller reports into the draft of a device: the travel, the spindle speeds and the speed of moves.
+fn apply_suggestion(d: &mut Device, s: &base_core::firmware::Suggestion) {
+    if let Some(a) = s.area {
+        d.area.x = a[0].clamp(10.0, 10_000.0);
+        d.area.y = a[1].clamp(10.0, 10_000.0);
+        d.area.z = a[2].clamp(1.0, 2_000.0);
+        d.safe_z = d.safe_z.min(d.area.z).max(0.1);
+    }
+    if let Some((lo, hi)) = s.spindle {
+        d.spindle.max_rpm = hi.max(1.0);
+        d.spindle.min_rpm = lo.min(d.spindle.max_rpm);
+    }
+    if let Some(r) = s.rapid {
+        d.rapid = r.clamp(1.0, 100_000.0);
+    }
 }
 
 impl App {
@@ -205,6 +230,7 @@ impl App {
         let confirm = self.confirm_delete;
         let ports = self.machine.ports.clone();
         let mut refresh_ports = false;
+        let machine = &mut self.machine;
         let new = edit.idx.is_none();
         let title = if new { tr("Add a device") } else { tr("Device settings") };
         popup(ctx, "device_window", &title, [620.0, 540.0], &mut open, |ui| {
@@ -228,6 +254,23 @@ impl App {
                             ui.label(tr("Controller"));
                             ui.label("GRBL");
                             ui.end_row();
+                            if new {
+                                ui.label(tr("Start from"));
+                                egui::ComboBox::from_id_salt("dev_preset").selected_text(tr("A usual machine size…")).show_ui(ui, |ui| {
+                                    for p in base_core::presets::MILL {
+                                        if ui.selectable_label(false, p.name).clicked() {
+                                            d.area.x = p.area[0];
+                                            d.area.y = p.area[1];
+                                            d.area.z = p.area[2];
+                                            d.safe_z = d.safe_z.min(p.area[2]);
+                                            d.rapid = p.rapid;
+                                            d.spindle.max_rpm = p.spindle_max;
+                                            d.spindle.min_rpm = d.spindle.min_rpm.min(p.spindle_max);
+                                        }
+                                    }
+                                });
+                                ui.end_row();
+                            }
                             ui.label(tr("Units"));
                             egui::ComboBox::from_id_salt("dev_units").selected_text(tr(d.units.label())).show_ui(ui, |ui| {
                                 for u in Units::ALL {
@@ -265,7 +308,19 @@ impl App {
                         });
                         ui.add_space(4.0);
                         ui.label(RichText::new(tr("Z is how far the spindle goes down from the top of the material. The safe height is where the spindle moves between cuts.")).color(theme::text_dim()));
+                        ui.add_space(8.0);
+                        ui.separator();
+                        let sugg = machine.suggestion();
+                        if base_ui::device_pages::suggestion_ui(ui, machine, &sugg) {
+                            apply_suggestion(d, &sugg);
+                        }
+                        ui.add_space(6.0);
+                        base_ui::device_pages::copies_section(ui, machine, &mut d.control);
                     }
+                    Page::Jog => base_ui::device_pages::jog_page(ui, &mut d.control),
+                    Page::Probe => base_ui::device_pages::probe_page(ui, &mut d.control),
+                    Page::Macros => base_ui::device_pages::macros_page(ui, &mut d.control),
+                    Page::Maintenance => base_ui::device_pages::maintenance_page(ui, &mut d.control),
                     Page::Spindle => {
                         egui::Grid::new("dev_spindle").num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
                             ui.label(tr("Lowest speed"));

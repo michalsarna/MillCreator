@@ -4,237 +4,252 @@
 3|Ainm poirt, nó aitheantas USB déantóra agus táirge (VID:PID, heicsidheachúil): úsáidtear an port a bhfuil na haitheantais seo aige.
 4|Ní féidir snáthaid ghearrtha réamhdhéanta a athrú. Déan cóip chun í a athrú.
 5|Tá ceangaltán rothlach ceangailte
-6|Stop an obair atá ar siúl
-7|Maidir leis
-8|Cuir ceamara leis
-9|Cuir gléas leis
+6|Méid meaisín coitianta…
+7|Stop an obair atá ar siúl
+8|Maidir leis
+9|Cuir ceamara leis
 10|Cuir gléas leis
-11|Cuir gléas leis…
-12|Seoladh
-13|Tar éis ceangal
-14|Glantar an limistéar ar fad laistigh den líne fáinne ar fháinne go dtí doimhneacht an chiseal.
-15|Socraigh
-16|Cúl ar chlé
-17|Cúl ar dheis
-18|Ar ais chuig an gcéad amharc. Déanann cliceáil dhúbailte ar an bpictiúr an rud céanna.
-19|Snáthaid ghearrtha sféarúil
-20|Ráta baud
-21|Ceangail leis an bport seo
-22|Snáthaid ghearrtha
-23|Leabharlann snáthaidí gearrtha
-24|Leabharlann snáthaidí gearrtha…
-25|Gléas USB ceangailte
-26|Snáthaid ghearrtha le coirnéil chruinne (ga an choirnéil)
-27|Ceamara
-28|Ainm an cheamara
-29|Uimhir an cheamara
-30|Ceamara an ríomhaire seo
-31|Rothlú an cheamara
-32|Amharc ceamara
-33|Ceamaraí
-34|Ní féidir an comhad a úsáid
-35|Ní féidir an comhad a úsáid: {}
-36|Roghnaigh snáthaid ghearrtha
-37|Roghnaigh port nó óstach i socruithe an ghléis ar dtús.
-38|Roghnaigh an meaisín a bhfuil tú chun oibriú leis.
-39|Chuck
-40|Imlíne
-41|Glan aláram
-42|Glan an t-aláram ($X)
-43|Seachnaíonn glanadh an ailárim an bhaile: ná húsáid ach nuair is eol go bhfuil an ceann in áit shábháilte.
-44|Deimhnigh an scriosadh
-45|Ceangail
-46|Athcheangail go huathoibríoch
-47|Ceangail leis an meaisín ar dtús (cluaisín Gléas)
-48|Ceangailte
-49|Ceangal
-50|Cineál ceangail
-51|Consól
-52|Rialaitheoir
-53|Cóipeáilte chuig {}
-54|Ga an choirnéil
-55|Níorbh fhéidir a shábháil
-56|Níorbh fhéidir a shábháil: {}
-57|Líonann comhaireamh maolán an rialaitheora agus tá sé tapa. Seolann simplí líne amháin agus fanann sé lena ok: mall, ach d'earraí dochta a fhreagraíonn go mícheart.
-58|Gearr taobh istigh den líne
-59|Gearr taobh amuigh den líne
-60|Gearrthaí
-61|Gearrthaí: {} m, thart ar {} nóim.
-62|Trastomhas gearrtha
-63|Fad gearrtha
-64|Scrios an ceamara seo
-65|Doimhneacht
-66|Gléas
-67|Socruithe an ghléis
-68|Socruithe an ghléis…
-69|Dícheangail
-70|Druil
-71|Eagar
-72|Cuir in eagar…
-73|Snáthaid ghearrtha greanta
-74|Easpórtáil G-code…
-75|Easpórtáil an tsnáthaid ghearrtha seo…
-76|Onnmhairigh…
-77|Beatha
-78|Coinnigh an beathú
-79|Comhad
-80|Muileann deiridh cothrom
-81|Fliúití
-82|Lean an líne
-83|Fráma
-84|Frámaigh an limistéar oibre
-85|Ó thuas
-86|Tosaigh ar chlé
-87|Tosaigh ar dheis
-88|Tá trí ais ag GRBL 1.1: níl an ais A ar fáil, úsáidtear Y.
-89|Ginearálta
-90|Téigh timpeall ar an mbosca ina ndéanfar an obair
-91|Cabhair
-92|An luas is airde
-93|Baile
-94|Cuir an meaisín abhaile
-95|Óstríomhaire
-96|Níl feiste agam
-97|Iompórtáil tionscadal LightBurn…
-98|Iompórtáladh an gléas {}
-99|Iompórtáil…
-100|Cineál
-101|Ciseail
-102|Fágtha ar lár
-103|An luas is ísle
-104|Meaisín
-105|Nialas an mheaisín (0,0)
-106|Ábhar
-107|Ábhar an phíosa oibre
-108|Miotal
-109|Micreaghlais an mhótair do chasadh iomlán an ruda a thiomáineann sé (an chuck nó rollóir amháin).
-110|Micreaghlais in aghaidh an chasta
-111|Muilleáiltear é: san áireamh sna cosáin uirlise agus sa G-code
-112|Muilleáil
-113|Gluaiseachtaí ag an airde sábháilte
-114|Mo shnáthaidí gearrtha
-115|Nua
-116|Snáthaid ghearrtha nua
-117|Gan snáthaid ghearrtha
-118|Níl aon ghléas ann fós. Cuir ceann leis nó oibrigh gan meaisín.
-119|Gan port
-120|Ní seoladh http ná https é.
-121|Nótaí
-122|Nótaí faoin meaisín seo
-123|Níl aon rud anseo fós
-124|Níl aon rud roghnaithe
-125|Ní féidir ach dath plaisteach a athrú. Taispeántar an t-ábhar agus a thiús san amharc 3D agus sábháiltear sa tionscadal iad.
-126|Oscail líníocht nó tosaigh le dearadh folamh.
-127|Oscail an nasc leis an rialaitheoir atá socraithe i socruithe an ghléis
-128|Oscail an fhuinneog réamhamhairc
-129|Oscail…
-130|Oibríocht
-131|Fad iomlán
-132|Doimhneacht phasa
-133|Doimhneacht phasa (den trastomhas)
-134|Plaisteach
-135|Beathú tumtha
-136|Póca
-137|Port
-138|Port nó aitheantas USB
-139|Réamhamharc
-140|Réamhamharc…
-141|Airíonna
-142|Cuir na cruthanna roghnaithe ar an gciseal seo
-143|Léigh gléas ó chomhad
-144|Léigh snáthaidí gearrtha ó chomhad
-145|Réidh
-146|Snáthaidí gearrtha réamhdhéanta
-147|Athcheangal
-148|Athnuaigh
-149|Cuimhnigh ar aitheantais USB an phoirt roghnaithe: aimsítear an port arís leo nuair a athraíonn a ainm.
-150|Athshocraigh an t-amharc
-151|Lean ar aghaidh
-152|Trastomhas an rollóra
-153|Rollóirí
-154|Rothlach
-155|STOP
-156|Airde shábháilte
-157|Sábháil
-158|Sábháil G-code
-159|Sábháil mar…
-160|Sábháil an gléas seo i gcomhad
-161|Sábháil do shnáthaidí gearrtha i gcomhad
-162|Sábháilte
-163|Sábháladh an gléas i {}
-164|Sábháilte: {}
-165|Socruithe
-166|Trastomhas na cuaille
-167|Cruthanna ar an gciseal seo
-168|Taispeánann íomhá bheo ó cheamara an mheaisín seo
-169|Taispeánann na cosáin ar an limistéar oibre
-170|Taispeántar é sa chluaisín Ceamara
-171|Taispeántar é sa limistéar oibre
-172|Luas na ngluaiseachtaí os cionn an ábhair
-173|Fearsaid
-174|Luas na fearsaide
-175|Tosaigh
-176|Ag tosú na hoibre: {} líne, ~{}
-177|Luasanna tosaigh do chiseal
-178|Forluí taobh
-179|Forluí taobh (den trastomhas)
-180|Seol an obair chuig an meaisín ceangailte
-181|Sruthú
-182|Casta air
-183|Port TCP
-184|Snáthaid ghearrtha sféarúil cónúil
-185|Téann an tsnáthaid ghearrtha taobh istigh den líne, mar sin titeann an cruth amach: poll nó fuinneog.
-186|Téann an tsnáthaid ghearrtha taobh amuigh den líne, mar sin fanann an cruth: gearrtar páirt as an ábhar.
-187|Leanann lár na snáthaide ghearrtha an líne: greanadh agus grúdaí. Oibríonn línte oscailte freisin.
-188|Teastaíonn {} céim in aghaidh an mm ón rialaitheoir ar an ais Y ($101).
-189|Téann na gearrthaí lasmuigh de limistéar oibre an ghléis
-190|Gléas an tionscadail seo
-191|Cuireadh an gléas leis.
-192|Sábháladh an gléas.
-193|Tá an líníocht níos airde ná imfhálú an phíosa oibre ({} mm)
-194|Tá an comhad rómhór
-195|Tá an obair críochnaithe.
-196|Tá an obair ar siúl.
-197|Imlíne an phíosa: ní féidir leis an dearadh a bheith níos airde.
-198|Níl aon rud le gearradh: cuir cruthanna ar chisil a bhfuil snáthaid ghearrtha acu.
-199|Níl aon rud le frámú: cuir cruthanna ar chisil a bhfuil snáthaid ghearrtha acu.
-200|Níl aon rud le taispeáint fós: tarraing cruthanna agus cuir ar chisil a bhfuil snáthaid ghearrtha acu iad.
-201|Tiús
-202|Ní féidir leis an leagan seo ceamaraí an ríomhaire a úsáid.
-203|Níl aon cheamara casta air ag an ngléas seo. Cuir ceann leis i socruithe an ghléis.
-204|Níl an gléas seo ar an liosta: tháinig sé leis an tionscadal
-205|Seo é an gléas ionaid (Dummy): limistéar oibre agus luasanna réamhshocraithe.
-206|Am {} / {}
-207|Trastomhas an bharra
-208|An iomarca gléasanna
-209|Cosáin
-210|Cineál
-211|Dícheangail
-212|Aonaid
-213|Snáthaid ghearrtha V
-214|Amharc
-215|Roghanna amhairc…
-216|Fan tar éis casadh air
-217|Ag fanacht leis an íomhá…
-218|Nuair a thiteann an nasc as féin, triail arís gach cúpla soicind go dtí go mbrúnn tú Dícheangail.
-219|Le gaireas rothlach casann an ais Y an píosa oibre: ní fhéadfaidh an líníocht a bheith níos airde ná imfhálú an phíosa oibre. Tá an tsamhail simplí (casann cuc de réir trastomhas an phíosa, bogann rollóirí an dromchla mar a gcuid féin); ní mór meaisín fíor a thástáil.
-220|Adhmad, dorcha
-221|Adhmad, éadrom
-222|Adhmad, meánach
-223|Oibrigh ar thionscadal gan meaisín: gnáthfheiste darb ainm Dummy, leis an limistéar oibre agus na luasanna réamhshocraithe
-224|Trastomhas an phíosa
-225|Is é Z cé chomh domhain agus a théann an fhearsaid síos ó bharr an ábhair. Is é an airde shábháilte an áit a ngluaiseann an fhearsaid idir gearrthaí.
-226|snáthaidí gearrtha curtha leis
-227|snáthaidí gearrtha curtha leis an leabharlann
-228|m.sh. Mo ródaire CNC
-229|gan aon cheann
-230|rinneadh an tionscadal seo do mheaisín eile: {}
-231|{} pas go {} mm
-232|{}: níor roghnaíodh snáthaid ghearrtha
-233|{}: níl aon rud le gearradh (b'fhéidir go bhfuil an líne ró-bheag don tsnáthaid ghearrtha)
-234|{}: fágtar línte oscailte ar lár i bpóca
-235|{}: fágtar línte oscailte ar lár i bpróifíl (úsáid “Lean an líne”)
-236|{}: ní mhuilleáiltear pictiúir
-237|{}: tá an doimhneacht teoranta do thaisteal an mheaisín ({} mm)
-238|{}: tá an doimhneacht {} mm níos mó ná tiús an ábhair ({} mm)
-239|{}: tá {} rpm lasmuigh d'raon na fearsaide {}…{} rpm
+11|Cuir gléas leis
+12|Cuir gléas leis…
+13|Seoladh
+14|Tar éis ceangal
+15|Aláram {}
+16|Glantar an limistéar ar fad laistigh den líne fáinne ar fháinne go dtí doimhneacht an chiseal.
+17|Socraigh
+18|Cúl ar chlé
+19|Cúl ar dheis
+20|Ar ais chuig an gcéad amharc. Déanann cliceáil dhúbailte ar an bpictiúr an rud céanna.
+21|Snáthaid ghearrtha sféarúil
+22|Ráta baud
+23|Ceangail leis an bport seo
+24|Snáthaid ghearrtha
+25|Leabharlann snáthaidí gearrtha
+26|Leabharlann snáthaidí gearrtha…
+27|Gléas USB ceangailte
+28|Snáthaid ghearrtha le coirnéil chruinne (ga an choirnéil)
+29|Ceamara
+30|Ainm an cheamara
+31|Uimhir an cheamara
+32|Ceamara an ríomhaire seo
+33|Rothlú an cheamara
+34|Amharc ceamara
+35|Ceamaraí
+36|Ní féidir an comhad a úsáid
+37|Seiceáil an clár
+38|Á sheiceáil an chláir ar dtús…
+39|Á sheiceáil an chláir…
+40|Roghnaigh snáthaid ghearrtha
+41|Roghnaigh port nó óstach i socruithe an ghléis ar dtús.
+42|Roghnaigh an meaisín a bhfuil tú chun oibriú leis.
+43|Chuck
+44|Imlíne
+45|Glan aláram
+46|Seachnaíonn glanadh an ailárim an bhaile: ná húsáid ach nuair is eol go bhfuil an ceann in áit shábháilte.
+47|Deimhnigh an scriosadh
+48|Ceangail
+49|Athcheangail go huathoibríoch
+50|Ceangailte
+51|Ceangal
+52|Cineál ceangail
+53|Consól
+54|Rialú
+55|Cóipeáilte chuig {}
+56|Ga an choirnéil
+57|Níorbh fhéidir a shábháil
+58|Níorbh fhéidir a shábháil: {}
+59|Líonann comhaireamh maolán an rialaitheora agus tá sé tapa. Seolann simplí líne amháin agus fanann sé lena ok: mall, ach d'earraí dochta a fhreagraíonn go mícheart.
+60|Gearr taobh istigh den líne
+61|Gearr taobh amuigh den líne
+62|Gearrthaí
+63|Gearrthaí: {} m, thart ar {} nóim.
+64|Trastomhas gearrtha
+65|Fad gearrtha
+66|Scrios an ceamara seo
+67|Doimhneacht
+68|Gléas
+69|Socruithe an ghléis
+70|Socruithe an ghléis…
+71|Diagnóisic agus staitisticí…
+72|Dícheangail
+73|Druil
+74|Eagar
+75|Cuir in eagar…
+76|Snáthaid ghearrtha greanta
+77|Earráid {} i líne {}: {}
+78|Earráid {}: {}
+79|Easpórtáil G-code…
+80|Easpórtáil an tsnáthaid ghearrtha seo…
+81|Onnmhairigh…
+82|Beatha
+83|Socruithe an dochtearraí ($$)…
+84|Muileann deiridh cothrom
+85|Fliúití
+86|Lean an líne
+87|Fráma
+88|Frámaigh an limistéar oibre
+89|Ó thuas
+90|Ó líne…
+91|Tosaigh ar chlé
+92|Tosaigh ar dheis
+93|Tá trí ais ag GRBL 1.1: níl an ais A ar fáil, úsáidtear Y.
+94|Ginearálta
+95|Téigh timpeall ar an mbosca ina ndéanfar an obair
+96|Cabhair
+97|An luas is airde
+98|Baile
+99|Cuir an meaisín abhaile
+100|Óstríomhaire
+101|Níl feiste agam
+102|Iompórtáil tionscadal LightBurn…
+103|Iompórtáladh an gléas {}
+104|Iompórtáil…
+105|Cineál
+106|Ciseail
+107|Fágtha ar lár
+108|An luas is ísle
+109|Nialas an mheaisín (0,0)
+110|Ábhar
+111|Ábhar an phíosa oibre
+112|Miotal
+113|Micreaghlais an mhótair do chasadh iomlán an ruda a thiomáineann sé (an chuck nó rollóir amháin).
+114|Micreaghlais in aghaidh an chasta
+115|Muilleáiltear é: san áireamh sna cosáin uirlise agus sa G-code
+116|Muilleáil
+117|Gluaiseachtaí ag an airde sábháilte
+118|Mo shnáthaidí gearrtha
+119|Nua
+120|Snáthaid ghearrtha nua
+121|Gan snáthaid ghearrtha
+122|Níl aon ghléas ann fós. Cuir ceann leis nó oibrigh gan meaisín.
+123|Gan port
+124|Ní seoladh http ná https é.
+125|Nótaí
+126|Nótaí faoin meaisín seo
+127|Níl aon rud anseo fós
+128|Níl aon rud roghnaithe
+129|Ní féidir ach dath plaisteach a athrú. Taispeántar an t-ábhar agus a thiús san amharc 3D agus sábháiltear sa tionscadal iad.
+130|Oscail líníocht nó tosaigh le dearadh folamh.
+131|Oscail an nasc leis an rialaitheoir atá socraithe i socruithe an ghléis
+132|Oscail an fhuinneog réamhamhairc
+133|Oscail…
+134|Oibríocht
+135|Fad iomlán
+136|Doimhneacht phasa
+137|Doimhneacht phasa (den trastomhas)
+138|Plaisteach
+139|Beathú tumtha
+140|Póca
+141|Port
+142|Port nó aitheantas USB
+143|Réamhamharc
+144|Réamhamharc…
+145|Airíonna
+146|Cuir na cruthanna roghnaithe ar an gciseal seo
+147|Léigh gléas ó chomhad
+148|Léigh snáthaidí gearrtha ó chomhad
+149|Réidh
+150|Snáthaidí gearrtha réamhdhéanta
+151|Athcheangal
+152|Athnuaigh
+153|Cuimhnigh ar aitheantais USB an phoirt roghnaithe: aimsítear an port arís leo nuair a athraíonn a ainm.
+154|Athshocraigh an t-amharc
+155|Lean ar aghaidh
+156|Trastomhas an rollóra
+157|Rollóirí
+158|Rothlach
+159|STOP
+160|Airde shábháilte
+161|Sábháil
+162|Sábháil G-code
+163|Sábháil mar…
+164|Sábháil an gléas seo i gcomhad
+165|Sábháil do shnáthaidí gearrtha i gcomhad
+166|Sábháilte
+167|Sábháladh an gléas i {}
+168|Sábháilte: {}
+169|Socruithe
+170|Trastomhas na cuaille
+171|Cruthanna ar an gciseal seo
+172|Taispeánann íomhá bheo ó cheamara an mheaisín seo
+173|Taispeánann na cosáin ar an limistéar oibre
+174|Taispeántar é sa chluaisín Ceamara
+175|Taispeántar é sa limistéar oibre
+176|Luas na ngluaiseachtaí os cionn an ábhair
+177|Fearsaid
+178|Tosaigh
+179|Tosaigh ó
+180|Tosaigh an obair ag líne den chlár
+181|Ag tosú na hoibre: {} líne, ~{}
+182|Luasanna tosaigh do chiseal
+183|Forluí taobh
+184|Forluí taobh (den trastomhas)
+185|Seol an obair chuig an meaisín ceangailte
+186|Sruthú
+187|Casta air
+188|Port TCP
+189|Snáthaid ghearrtha sféarúil cónúil
+190|An G-code timpeall na hoibre: {}
+191|Téann an tsnáthaid ghearrtha taobh istigh den líne, mar sin titeann an cruth amach: poll nó fuinneog.
+192|Téann an tsnáthaid ghearrtha taobh amuigh den líne, mar sin fanann an cruth: gearrtar páirt as an ábhar.
+193|Leanann lár na snáthaide ghearrtha an líne: greanadh agus grúdaí. Oibríonn línte oscailte freisin.
+194|Níor aimsigh an seiceáil aon rud as alt.
+195|Níor aimsigh an seiceáil aon rud. Tá an obair ag rith.
+196|D'aimsigh an seiceáil {} fadhb, an chéad cheann i líne {}. Níor cuireadh tús leis an obair.
+197|Teastaíonn {} céim in aghaidh an mm ón rialaitheoir ar an ais Y ($101).
+198|Téann na gearrthaí lasmuigh de limistéar oibre an ghléis
+199|Gléas an tionscadail seo
+200|Cuireadh an gléas leis.
+201|Sábháladh an gléas.
+202|Tá an líníocht níos airde ná imfhálú an phíosa oibre ({} mm)
+203|Tá an comhad rómhór
+204|Tá an obair críochnaithe, le {} fadhb (féach an Chonsól).
+205|Tá an obair críochnaithe.
+206|Tá an obair curtha ar sos: {}
+207|Tá an obair ar siúl.
+208|Theip ar an tomhas ag an mbraiteoir: gan teagmháil, nó aláram.
+209|Tomhaiseadh an uirlis tagartha: Z {} ag an mbraiteoir.
+210|Tomhaiseadh an uirlis; níl tagairt ann fós le comparáid a dhéanamh.
+211|Imlíne an phíosa: ní féidir leis an dearadh a bheith níos airde.
+212|Níl aon rud le gearradh: cuir cruthanna ar chisil a bhfuil snáthaid ghearrtha acu.
+213|Níl aon rud le frámú: cuir cruthanna ar chisil a bhfuil snáthaid ghearrtha acu.
+214|Níl aon rud le taispeáint fós: tarraing cruthanna agus cuir ar chisil a bhfuil snáthaid ghearrtha acu iad.
+215|Tiús
+216|Ní féidir leis an leagan seo ceamaraí an ríomhaire a úsáid.
+217|Níl aon cheamara casta air ag an ngléas seo. Cuir ceann leis i socruithe an ghléis.
+218|Níl an gléas seo ar an liosta: tháinig sé leis an tionscadal
+219|Seo é an gléas ionaid (Dummy): limistéar oibre agus luasanna réamhshocraithe.
+220|Am {} / {}
+221|Trastomhas an bharra
+222|An iomarca gléasanna
+223|Cosáin
+224|Cineál
+225|Dícheangail
+226|Aonaid
+227|Snáthaid ghearrtha V
+228|Amharc
+229|Roghanna amhairc…
+230|Fan tar éis casadh air
+231|Ag fanacht leis an íomhá…
+232|Nuair a thiteann an nasc as féin, triail arís gach cúpla soicind go dtí go mbrúnn tú Dícheangail.
+233|Le gaireas rothlach casann an ais Y an píosa oibre: ní fhéadfaidh an líníocht a bheith níos airde ná imfhálú an phíosa oibre. Tá an tsamhail simplí (casann cuc de réir trastomhas an phíosa, bogann rollóirí an dromchla mar a gcuid féin); ní mór meaisín fíor a thástáil.
+234|Adhmad, dorcha
+235|Adhmad, éadrom
+236|Adhmad, meánach
+237|Oibrigh ar thionscadal gan meaisín: gnáthfheiste darb ainm Dummy, leis an limistéar oibre agus na luasanna réamhshocraithe
+238|Trastomhas an phíosa
+239|Is é Z cé chomh domhain agus a théann an fhearsaid síos ó bharr an ábhair. Is é an airde shábháilte an áit a ngluaiseann an fhearsaid idir gearrthaí.
+240|Socraíodh Z ón tagairt.
+241|snáthaidí gearrtha curtha leis
+242|snáthaidí gearrtha curtha leis an leabharlann
+243|m.sh. Mo ródaire CNC
+244|gan aon cheann
+245|rinneadh an tionscadal seo do mheaisín eile: {}
+246|{} pas go {} mm
+247|{}: níor roghnaíodh snáthaid ghearrtha
+248|{}: níl aon rud le gearradh (b'fhéidir go bhfuil an líne ró-bheag don tsnáthaid ghearrtha)
+249|{}: fágtar línte oscailte ar lár i bpóca
+250|{}: fágtar línte oscailte ar lár i bpróifíl (úsáid “Lean an líne”)
+251|{}: ní mhuilleáiltear pictiúir
+252|{}: tá an doimhneacht teoranta do thaisteal an mheaisín ({} mm)
+253|{}: tá an doimhneacht {} mm níos mó ná tiús an ábhair ({} mm)
+254|{}: tá {} rpm lasmuigh d'raon na fearsaide {}…{} rpm

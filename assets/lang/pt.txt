@@ -4,237 +4,252 @@
 3|Um nome de porta, ou o id USB de fabricante e produto (VID:PID, hexadecimal): usa-se a porta que tem estes id.
 4|Uma fresa pré-definida não pode ser alterada. Faça uma cópia para a alterar.
 5|Está ligado um acessório rotativo
-6|Interromper o trabalho em curso
-7|Acerca de
-8|Adicionar uma câmara
-9|Adicionar um dispositivo
-10|Adicionar dispositivo
-11|Adicionar dispositivo…
-12|Endereço
-13|Depois de ligar
-14|Toda a área dentro da linha é desbastada, anel a anel, até à profundidade da camada.
-15|Organizar
-16|Atrás à esquerda
-17|Atrás à direita
-18|Volta à primeira vista. Fazer duplo clique na imagem faz o mesmo.
-19|Fresa de ponta esférica
-20|Velocidade em baud
-21|Associar a esta porta
-22|Fresa
-23|Biblioteca de fresas
-24|Biblioteca de fresas…
-25|Dispositivo USB associado
-26|Fresa tórica (raio do canto)
-27|Câmara
-28|Nome da câmara
-29|Número da câmara
-30|Câmara deste computador
-31|Rotação da câmara
-32|Vista da câmara
-33|Câmaras
-34|Não é possível usar o ficheiro
-35|Não é possível usar o ficheiro: {}
-36|Escolha uma fresa
-37|Escolha primeiro uma porta ou um host nas definições do dispositivo.
-38|Escolha a máquina com que vai trabalhar.
-39|Mandril
-40|Perímetro
-41|Limpar um alarme
-42|Limpar o alarme ($X)
-43|Limpar o alarme salta o homing: use só quando se souber que o cabeçote está num local seguro.
-44|Confirmar eliminação
-45|Ligar
-46|Voltar a ligar automaticamente
-47|Ligue-se primeiro à máquina (separador Dispositivo)
-48|Ligado
-49|Ligação
-50|Tipo de ligação
-51|Consola
-52|Controlador
-53|Copiado para {}
-54|Raio do canto
-55|Não foi possível guardar
-56|Não foi possível guardar: {}
-57|A contagem enche o buffer do controlador e é rápida. O simples envia uma linha e espera pelo seu ok: lento, mas para firmware que responde mal.
-58|Cortar por dentro da linha
-59|Cortar por fora da linha
-60|Cortes
-61|Cortes: {} m, cerca de {} min
-62|Diâmetro de corte
-63|Comprimento de corte
-64|Eliminar esta câmara
-65|Profundidade
-66|Dispositivo
-67|Definições do dispositivo
-68|Definições do dispositivo…
-69|Desligar
-70|Broca
-71|Editar
-72|Editar…
-73|Fresa de gravação
-74|Exportar G-code…
-75|Exportar esta fresa…
-76|Exportar…
-77|Avanço
-78|Retenção de avanço
-79|Ficheiro
-80|Fresa de topo plano
-81|Estrias
-82|Seguir a linha
-83|Moldura
-84|Moldura da área de trabalho
-85|De cima
-86|À frente à esquerda
-87|À frente à direita
-88|O GRBL 1.1 tem três eixos: o eixo A não está disponível, usa-se Y.
-89|Geral
-90|Percorra a caixa onde o trabalho será feito
-91|Ajuda
-92|Velocidade máxima
-93|Origem
-94|Fazer homing da máquina
-95|Anfitrião
-96|Não tenho dispositivo
-97|Importar projeto do LightBurn…
-98|Dispositivo {} importado
-99|Importar…
-100|Tipo
-101|Camadas
-102|Omitidos
-103|Velocidade mínima
-104|Máquina
-105|Zero da máquina (0,0)
-106|Material
-107|Material da peça
-108|Metal
-109|Micropassos do motor para uma volta completa do que ele move (o mandril ou um rolo).
-110|Micropassos por volta
-111|Fresada: incluída nos percursos e no G-code
-112|Fresagem
-113|Movimentos à altura de segurança
-114|As minhas fresas
-115|Novo
-116|Nova fresa
-117|Sem fresa
-118|Ainda não há dispositivo. Adicione um ou trabalhe sem máquina.
-119|Sem porta
-120|Não é um endereço http ou https.
-121|Notas
-122|Notas sobre esta máquina
-123|Ainda não há nada aqui
-124|Nada selecionado
-125|Só a cor de um plástico pode ser alterada. O material e a sua espessura aparecem na vista 3D e são guardados no projeto.
-126|Abra um desenho ou comece um desenho vazio.
-127|Abrir a ligação ao controlador definido nas definições do dispositivo
-128|Abrir a janela de pré-visualização
-129|Abrir…
-130|Operação
-131|Comprimento total
-132|Profundidade de passagem
-133|Profundidade de passagem (do diâmetro)
-134|Plástico
-135|Avanço de mergulho
-136|Cavidade
-137|Porta
-138|Porta ou id USB
-139|Pré-visualização
-140|Pré-visualização…
-141|Propriedades
-142|Pôr as formas selecionadas nesta camada
-143|Ler um dispositivo de um ficheiro
-144|Ler fresas de um ficheiro
-145|Pronto
-146|Fresas pré-definidas
-147|Religação
-148|Atualizar
-149|Lembra os id USB da porta escolhida: se o nome mudar, a porta é encontrada de novo por eles.
-150|Repor a vista
-151|Retomar
-152|Diâmetro do rolo
-153|Rolos
-154|Rotativo
-155|PARAR
-156|Altura de segurança
-157|Guardar
-158|Guardar G-code
-159|Guardar como…
-160|Guardar este dispositivo num ficheiro
-161|Guardar as suas fresas num ficheiro
-162|Guardado
-163|Dispositivo guardado em {}
-164|{} guardado
-165|Definições
-166|Diâmetro da haste
-167|Formas nesta camada
-168|Mostra a imagem em direto da câmara desta máquina
-169|Mostra os percursos na área de trabalho
-170|Mostrada no separador Câmara
-171|Mostrada na área de trabalho
-172|Velocidade dos movimentos acima do material
-173|Fuso
-174|Velocidade do fuso
-175|Iniciar
-176|A iniciar o trabalho: {} linhas, ~{}
-177|Velocidades iniciais de uma camada
-178|Sobreposição lateral
-179|Sobreposição lateral (do diâmetro)
-180|Enviar o trabalho para a máquina ligada
-181|Transmissão
-182|Ligada
-183|Porta TCP
-184|Fresa cónica de ponta esférica
-185|A fresa passa por dentro da linha, por isso a forma cai: um furo ou uma janela.
-186|A fresa passa por fora da linha, por isso a forma fica: uma peça é cortada do material.
-187|O centro da fresa segue a linha: gravações e ranhuras. As linhas abertas também funcionam.
-188|O controlador precisa de {} passos por mm no eixo Y ($101).
-189|Os cortes saem da área de trabalho do dispositivo
-190|O dispositivo deste projeto
-191|O dispositivo foi adicionado.
-192|O dispositivo foi guardado.
-193|O desenho é mais alto do que o perímetro da peça ({} mm)
-194|O ficheiro é demasiado grande
-195|O trabalho terminou.
-196|O trabalho está em curso.
-197|O perímetro da peça: o desenho não pode ser mais alto.
-198|Não há nada para cortar: ponha formas em camadas que tenham fresa.
-199|Nada para enquadrar: ponha formas em camadas que tenham fresa.
-200|Ainda não há nada para mostrar: desenhe formas e ponha-as em camadas que tenham fresa.
-201|Espessura
-202|Esta versão não pode usar as câmaras do computador.
-203|Este dispositivo não tem nenhuma câmara ligada. Adicione uma nas definições do dispositivo.
-204|Este dispositivo não está na lista: veio com o projeto
-205|Este é o dispositivo de substituição (Dummy): área de trabalho e velocidades predefinidas.
-206|Tempo {} / {}
-207|Diâmetro da ponta
-208|Demasiados dispositivos
-209|Percursos
-210|Tipo
-211|Desassociar
-212|Unidades
-213|Fresa em V
-214|Ver
-215|Opções de visualização…
-216|Espera depois de ligar
-217|A aguardar a imagem…
-218|Quando a ligação cai sozinha, tenta de novo a cada poucos segundos até premir Desligar.
-219|Com um acessório rotativo o eixo Y faz rodar a peça: o desenho não pode ser mais alto do que o perímetro da peça. O modelo é simples (uma bucha roda o diâmetro da peça, os rolos movem a superfície como a sua); uma máquina real precisa de testes.
-220|Madeira, escura
-221|Madeira, clara
-222|Madeira, média
-223|Trabalhe num projeto sem máquina: um dispositivo simples chamado Dummy, com a área de trabalho e as velocidades predefinidas
-224|Diâmetro da peça
-225|Z é quanto o fuso desce a partir do topo do material. A altura de segurança é a altura a que o fuso se move entre cortes.
-226|fresas adicionadas
-227|fresas adicionadas à biblioteca
-228|p. ex. A minha fresadora CNC
-229|nenhum
-230|este projeto foi feito para outra máquina: {}
-231|{} passagens até {} mm
-232|{}: nenhuma fresa escolhida
-233|{}: nada para cortar (a linha pode ser pequena demais para a fresa)
-234|{}: as linhas abertas são omitidas numa cavidade
-235|{}: as linhas abertas são omitidas num perfil (use «Seguir a linha»)
-236|{}: as imagens não são fresadas
-237|{}: a profundidade está limitada ao curso da máquina ({} mm)
-238|{}: a profundidade de {} mm é maior do que a espessura do material ({} mm)
-239|{}: {} rpm está fora do intervalo do fuso {}…{} rpm
+6|Um tamanho de máquina comum…
+7|Interromper o trabalho em curso
+8|Acerca de
+9|Adicionar uma câmara
+10|Adicionar um dispositivo
+11|Adicionar dispositivo
+12|Adicionar dispositivo…
+13|Endereço
+14|Depois de ligar
+15|Alarme {}
+16|Toda a área dentro da linha é desbastada, anel a anel, até à profundidade da camada.
+17|Organizar
+18|Atrás à esquerda
+19|Atrás à direita
+20|Volta à primeira vista. Fazer duplo clique na imagem faz o mesmo.
+21|Fresa de ponta esférica
+22|Velocidade em baud
+23|Associar a esta porta
+24|Fresa
+25|Biblioteca de fresas
+26|Biblioteca de fresas…
+27|Dispositivo USB associado
+28|Fresa tórica (raio do canto)
+29|Câmara
+30|Nome da câmara
+31|Número da câmara
+32|Câmara deste computador
+33|Rotação da câmara
+34|Vista da câmara
+35|Câmaras
+36|Não é possível usar o ficheiro
+37|Verificar o programa
+38|A verificar primeiro o programa…
+39|A verificar o programa…
+40|Escolha uma fresa
+41|Escolha primeiro uma porta ou um host nas definições do dispositivo.
+42|Escolha a máquina com que vai trabalhar.
+43|Mandril
+44|Perímetro
+45|Limpar um alarme
+46|Limpar o alarme salta o homing: use só quando se souber que o cabeçote está num local seguro.
+47|Confirmar eliminação
+48|Ligar
+49|Voltar a ligar automaticamente
+50|Ligado
+51|Ligação
+52|Tipo de ligação
+53|Consola
+54|Controlo
+55|Copiado para {}
+56|Raio do canto
+57|Não foi possível guardar
+58|Não foi possível guardar: {}
+59|A contagem enche o buffer do controlador e é rápida. O simples envia uma linha e espera pelo seu ok: lento, mas para firmware que responde mal.
+60|Cortar por dentro da linha
+61|Cortar por fora da linha
+62|Cortes
+63|Cortes: {} m, cerca de {} min
+64|Diâmetro de corte
+65|Comprimento de corte
+66|Eliminar esta câmara
+67|Profundidade
+68|Dispositivo
+69|Definições do dispositivo
+70|Definições do dispositivo…
+71|Diagnóstico e estatísticas…
+72|Desligar
+73|Broca
+74|Editar
+75|Editar…
+76|Fresa de gravação
+77|Erro {} na linha {}: {}
+78|Erro {}: {}
+79|Exportar G-code…
+80|Exportar esta fresa…
+81|Exportar…
+82|Avanço
+83|Definições do firmware ($$)…
+84|Fresa de topo plano
+85|Estrias
+86|Seguir a linha
+87|Moldura
+88|Moldura da área de trabalho
+89|De cima
+90|A partir da linha…
+91|À frente à esquerda
+92|À frente à direita
+93|O GRBL 1.1 tem três eixos: o eixo A não está disponível, usa-se Y.
+94|Geral
+95|Percorra a caixa onde o trabalho será feito
+96|Ajuda
+97|Velocidade máxima
+98|Origem
+99|Fazer homing da máquina
+100|Anfitrião
+101|Não tenho dispositivo
+102|Importar projeto do LightBurn…
+103|Dispositivo {} importado
+104|Importar…
+105|Tipo
+106|Camadas
+107|Omitidos
+108|Velocidade mínima
+109|Zero da máquina (0,0)
+110|Material
+111|Material da peça
+112|Metal
+113|Micropassos do motor para uma volta completa do que ele move (o mandril ou um rolo).
+114|Micropassos por volta
+115|Fresada: incluída nos percursos e no G-code
+116|Fresagem
+117|Movimentos à altura de segurança
+118|As minhas fresas
+119|Novo
+120|Nova fresa
+121|Sem fresa
+122|Ainda não há dispositivo. Adicione um ou trabalhe sem máquina.
+123|Sem porta
+124|Não é um endereço http ou https.
+125|Notas
+126|Notas sobre esta máquina
+127|Ainda não há nada aqui
+128|Nada selecionado
+129|Só a cor de um plástico pode ser alterada. O material e a sua espessura aparecem na vista 3D e são guardados no projeto.
+130|Abra um desenho ou comece um desenho vazio.
+131|Abrir a ligação ao controlador definido nas definições do dispositivo
+132|Abrir a janela de pré-visualização
+133|Abrir…
+134|Operação
+135|Comprimento total
+136|Profundidade de passagem
+137|Profundidade de passagem (do diâmetro)
+138|Plástico
+139|Avanço de mergulho
+140|Cavidade
+141|Porta
+142|Porta ou id USB
+143|Pré-visualização
+144|Pré-visualização…
+145|Propriedades
+146|Pôr as formas selecionadas nesta camada
+147|Ler um dispositivo de um ficheiro
+148|Ler fresas de um ficheiro
+149|Pronto
+150|Fresas pré-definidas
+151|Religação
+152|Atualizar
+153|Lembra os id USB da porta escolhida: se o nome mudar, a porta é encontrada de novo por eles.
+154|Repor a vista
+155|Retomar
+156|Diâmetro do rolo
+157|Rolos
+158|Rotativo
+159|PARAR
+160|Altura de segurança
+161|Guardar
+162|Guardar G-code
+163|Guardar como…
+164|Guardar este dispositivo num ficheiro
+165|Guardar as suas fresas num ficheiro
+166|Guardado
+167|Dispositivo guardado em {}
+168|{} guardado
+169|Definições
+170|Diâmetro da haste
+171|Formas nesta camada
+172|Mostra a imagem em direto da câmara desta máquina
+173|Mostra os percursos na área de trabalho
+174|Mostrada no separador Câmara
+175|Mostrada na área de trabalho
+176|Velocidade dos movimentos acima do material
+177|Fuso
+178|Iniciar
+179|Começar a partir de
+180|Começar o trabalho numa linha do programa
+181|A iniciar o trabalho: {} linhas, ~{}
+182|Velocidades iniciais de uma camada
+183|Sobreposição lateral
+184|Sobreposição lateral (do diâmetro)
+185|Enviar o trabalho para a máquina ligada
+186|Transmissão
+187|Ligada
+188|Porta TCP
+189|Fresa cónica de ponta esférica
+190|O G-code em torno do trabalho: {}
+191|A fresa passa por dentro da linha, por isso a forma cai: um furo ou uma janela.
+192|A fresa passa por fora da linha, por isso a forma fica: uma peça é cortada do material.
+193|O centro da fresa segue a linha: gravações e ranhuras. As linhas abertas também funcionam.
+194|A verificação não encontrou nada de errado.
+195|A verificação não encontrou nada. O trabalho está a decorrer.
+196|A verificação encontrou {} problemas, o primeiro na linha {}. O trabalho não foi iniciado.
+197|O controlador precisa de {} passos por mm no eixo Y ($101).
+198|Os cortes saem da área de trabalho do dispositivo
+199|O dispositivo deste projeto
+200|O dispositivo foi adicionado.
+201|O dispositivo foi guardado.
+202|O desenho é mais alto do que o perímetro da peça ({} mm)
+203|O ficheiro é demasiado grande
+204|O trabalho terminou, com {} problemas (ver a Consola).
+205|O trabalho terminou.
+206|O trabalho está em pausa: {}
+207|O trabalho está em curso.
+208|A medição no sensor falhou: sem contacto, ou um alarme.
+209|A ferramenta de referência foi medida: Z {} no sensor.
+210|A ferramenta foi medida; ainda não há referência para comparar.
+211|O perímetro da peça: o desenho não pode ser mais alto.
+212|Não há nada para cortar: ponha formas em camadas que tenham fresa.
+213|Nada para enquadrar: ponha formas em camadas que tenham fresa.
+214|Ainda não há nada para mostrar: desenhe formas e ponha-as em camadas que tenham fresa.
+215|Espessura
+216|Esta versão não pode usar as câmaras do computador.
+217|Este dispositivo não tem nenhuma câmara ligada. Adicione uma nas definições do dispositivo.
+218|Este dispositivo não está na lista: veio com o projeto
+219|Este é o dispositivo de substituição (Dummy): área de trabalho e velocidades predefinidas.
+220|Tempo {} / {}
+221|Diâmetro da ponta
+222|Demasiados dispositivos
+223|Percursos
+224|Tipo
+225|Desassociar
+226|Unidades
+227|Fresa em V
+228|Ver
+229|Opções de visualização…
+230|Espera depois de ligar
+231|A aguardar a imagem…
+232|Quando a ligação cai sozinha, tenta de novo a cada poucos segundos até premir Desligar.
+233|Com um acessório rotativo o eixo Y faz rodar a peça: o desenho não pode ser mais alto do que o perímetro da peça. O modelo é simples (uma bucha roda o diâmetro da peça, os rolos movem a superfície como a sua); uma máquina real precisa de testes.
+234|Madeira, escura
+235|Madeira, clara
+236|Madeira, média
+237|Trabalhe num projeto sem máquina: um dispositivo simples chamado Dummy, com a área de trabalho e as velocidades predefinidas
+238|Diâmetro da peça
+239|Z é quanto o fuso desce a partir do topo do material. A altura de segurança é a altura a que o fuso se move entre cortes.
+240|Z foi definido a partir da referência.
+241|fresas adicionadas
+242|fresas adicionadas à biblioteca
+243|p. ex. A minha fresadora CNC
+244|nenhum
+245|este projeto foi feito para outra máquina: {}
+246|{} passagens até {} mm
+247|{}: nenhuma fresa escolhida
+248|{}: nada para cortar (a linha pode ser pequena demais para a fresa)
+249|{}: as linhas abertas são omitidas numa cavidade
+250|{}: as linhas abertas são omitidas num perfil (use «Seguir a linha»)
+251|{}: as imagens não são fresadas
+252|{}: a profundidade está limitada ao curso da máquina ({} mm)
+253|{}: a profundidade de {} mm é maior do que a espessura do material ({} mm)
+254|{}: {} rpm está fora do intervalo do fuso {}…{} rpm

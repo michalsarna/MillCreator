@@ -1,47 +1,18 @@
-//! The machine: the link to a GRBL controller (from baseCreator), the buttons that use it (connect, home, frame, start,
-//! stop, pause) and the little console.
+//! The machine: the link to a GRBL controller (from baseCreator) and the buttons that use it (connect, home, frame, start,
+//! stop, pause, start from a line, check the program). The state of the link, the pauses of a job, the probe, the macros
+//! and the statistics are in `base_ui::machine_ctl`; here is what depends on the device and the project.
 use crate::device::Device;
 use crate::toolpath;
 use crate::App;
-use base_core::machine::{Controller, LinkKind};
+use base_core::control;
+use base_core::machine::LinkKind;
 use base_ui::i18n::{tr, trf};
-use base_ui::link::{self, Cmd, ConsoleLine, Evt, LaserLink, PortInfo, Target};
+use base_ui::link::{self, Target};
+use base_ui::machine_ctl::Notice;
 use base_ui::theme;
 use eframe::egui::{self, Color32, RichText};
 
-/// The state of the link to the machine.
-pub struct MachineLink {
-    link: LaserLink,
-    pub connected: bool,
-    /// The user asked for the link (so a lost one is worth opening again).
-    pub want_link: bool,
-    pub reconnect_at: Option<std::time::Instant>,
-    /// The state word of the last status report (`Idle`, `Run`, `Hold:0`, `Alarm`…) and the position.
-    pub state: String,
-    pub pos: [f64; 3],
-    /// Lines of the job acknowledged and the number of lines of the job.
-    pub progress: (usize, usize),
-    pub console: base_ui::console_ui::ConsoleState,
-    pub ports: Vec<PortInfo>,
-}
-
-impl MachineLink {
-    pub fn new(ctx: &egui::Context) -> MachineLink {
-        MachineLink { link: LaserLink::spawn(ctx.clone()), connected: false, want_link: false, reconnect_at: None, state: String::new(), pos: [f64::NAN; 3], progress: (0, 0), console: Default::default(), ports: vec![] }
-    }
-
-    pub fn refresh_ports(&mut self) {
-        self.ports = link::list_port_info();
-    }
-
-    fn push(&mut self, l: ConsoleLine) {
-        self.console.push_capped(l);
-    }
-
-    pub fn job_running(&self) -> bool {
-        self.progress.1 > 0 && self.progress.0 < self.progress.1
-    }
-}
+pub use base_ui::machine_ctl::Machine as MachineLink;
 
 /// Where the device says to connect, if anywhere.
 pub fn target_of(dev: &Device) -> Option<Target> {
@@ -54,73 +25,143 @@ pub fn target_of(dev: &Device) -> Option<Target> {
     })
 }
 
+/// A job that waits for the check run to find nothing wrong.
+pub struct AfterCheck {
+    pub lines: Vec<String>,
+    pub before: Vec<String>,
+    pub after: Vec<String>,
+}
+
 impl App {
     pub(crate) fn connect_machine(&mut self) {
         let Some(target) = target_of(&self.device) else {
             self.status = tr("Choose a port or a host in the device settings first.").to_string();
             return;
         };
-        self.machine.want_link = true;
-        self.machine.link.send(Cmd::Connect { target, controller: Controller::Grbl, streaming: self.device.connection.streaming });
+        self.machine.connect(target, self.device.connection.streaming);
     }
 
     pub(crate) fn disconnect_machine(&mut self) {
-        self.machine.want_link = false;
-        self.machine.reconnect_at = None;
-        self.machine.link.send(Cmd::Disconnect);
+        self.machine.disconnect();
     }
 
-    /// Take what the worker reports; called every frame.
+    /// Copy the statistics and the other things the machine changes from the device in use to its entry in the list, so
+    /// they are kept with it.
+    pub(crate) fn keep_control(&mut self) {
+        if let Some(slot) = self.active.and_then(|i| self.devices.get_mut(i)) {
+            slot.control = self.device.control.clone();
+        }
+    }
+
+    /// Take what the machine reports; called every frame.
     pub(crate) fn poll_machine(&mut self) {
-        let events = self.machine.link.poll();
-        for e in events {
-            match e {
-                Evt::Log(s) => self.machine.push(ConsoleLine::info(s)),
-                Evt::Traffic(l) => self.machine.push(l),
-                Evt::Connected(c) => {
-                    let lost = self.machine.connected && !c;
-                    self.machine.connected = c;
-                    if lost && self.machine.want_link && self.device.connection.auto_reconnect {
+        for n in self.machine.poll() {
+            match n {
+                Notice::Connected => {
+                    self.machine.read_all();
+                    if self.device.connection.unlock_on_connect {
+                        self.machine.line("$X");
+                    } else if self.device.connection.home_on_connect {
+                        self.machine.line("$H");
+                    }
+                }
+                Notice::Disconnected { lost } => {
+                    if lost && self.device.connection.auto_reconnect {
                         self.machine.reconnect_at = Some(std::time::Instant::now() + std::time::Duration::from_secs(3));
                     }
-                    if c {
-                        self.machine.reconnect_at = None;
-                        if self.device.connection.unlock_on_connect {
-                            self.machine.link.send(Cmd::Line("$X".into()));
-                        } else if self.device.connection.home_on_connect {
-                            self.machine.link.send(Cmd::Line("$H".into()));
-                        }
+                    self.after_check = None;
+                }
+                Notice::ReconnectDue => self.connect_machine(),
+                Notice::Barrier(b) => self.status = trf("The job is paused: {}", &[&b.message()]),
+                Notice::JobFinished { seconds, issues, checked } => {
+                    if checked {
+                        self.finish_check(issues);
                     } else {
-                        self.machine.state.clear();
-                        self.machine.progress = (0, 0);
+                        self.device.control.stats.job_done(seconds);
+                        self.keep_control();
+                        self.status = if issues == 0 { tr("The job is finished.").to_string() } else { trf("The job is finished, with {} problems (see the Console).", &[&issues]) };
                     }
                 }
-                Evt::Status { state, x, y, z } => {
-                    self.machine.state = state;
-                    self.machine.pos = [x, y, z];
+                Notice::Alarm(code) => {
+                    self.device.control.stats.alarm(code);
+                    self.keep_control();
+                    self.status = match base_core::grbl_codes::alarm(code) {
+                        Some(t) => trf("Alarm {}: {}", &[&code, &tr(t)]),
+                        None => trf("Alarm {}", &[&code]),
+                    };
                 }
-                Evt::Progress { done, total } => {
-                    let was = self.machine.job_running();
-                    self.machine.progress = (done, total);
-                    if was && done >= total && total > 0 {
-                        self.status = tr("The job is finished.").to_string();
+                Notice::Error { code, line } => {
+                    // The errors a check run finds are the program's, not the machine's.
+                    if !self.machine.checking() {
+                        self.device.control.stats.error(code);
+                        self.keep_control();
                     }
+                    let text = base_core::grbl_codes::error(code).map(tr).unwrap_or("");
+                    self.status = match line {
+                        Some(n) => trf("Error {} in line {}: {}", &[&code, &(n + 1), &text]),
+                        None => trf("Error {}: {}", &[&code, &text]),
+                    };
                 }
-                Evt::Stalled { secs, state } => {
+                Notice::Stalled { secs, state } => {
                     self.status = trf("No answer from the controller for {} s while a job is running (state: {}).", &[&secs, &state]);
                 }
+                Notice::Read => {
+                    // Something changed in the controller since the copy kept with the device? Say so, and make a new copy.
+                    if let Some(line) = self.machine.compare_copies(&mut self.device.control.fw_copies) {
+                        self.status = line;
+                    }
+                    self.keep_control();
+                }
+                Notice::Probed { .. } => {}
+                Notice::TlsReference { wz } => {
+                    self.device.control.tls.ref_wz = Some(wz);
+                    self.keep_control();
+                    self.status = trf("The reference tool was measured: Z {} at the sensor.", &[&format!("{:.3}", wz)]);
+                }
+                Notice::TlsTool { delta } => {
+                    self.keep_control();
+                    self.status = format!("{} {}", base_ui::tls_ui::describe(delta), tr("Z was set from the reference."));
+                }
+                Notice::TlsTest { delta, .. } => {
+                    self.status = match delta {
+                        Some(d) => base_ui::tls_ui::describe(d),
+                        None => tr("The tool was measured; there is no reference to compare with yet.").to_string(),
+                    };
+                }
+                Notice::TlsFailed => self.status = tr("The measurement at the sensor failed: no contact, or an alarm.").to_string(),
             }
         }
-        if self.machine.reconnect_at.is_some_and(|t| t <= std::time::Instant::now()) {
-            self.machine.reconnect_at = None;
-            if self.machine.want_link && !self.machine.connected {
-                self.connect_machine();
-            }
+    }
+
+    /// The diameter of the first bit in the layers, for probing an edge with a plate.
+    pub(crate) fn tool_diameter(&self) -> f64 {
+        self.layers.iter().find_map(|l| l.tool.as_deref().and_then(|id| self.tools.get(id))).map_or(0.0, |t| t.dims.diameter)
+    }
+
+    /// The windows of the machine: firmware settings, calibration, diagnostics, start from a line, the pause of a job.
+    pub(crate) fn machine_windows(&mut self, ctx: &egui::Context) {
+        let mut say = None;
+        let td = self.tool_diameter();
+        say = base_ui::job_ui::barrier_window(ctx, &mut self.machine, Some((&self.device.control, td))).or(say);
+        say = base_ui::firmware_ui::window(ctx, &mut self.machine, &mut self.device.control.fw_copies, &mut self.fw_open).or(say);
+        self.keep_control();
+        say = base_ui::tls_ui::window(ctx, &mut self.tls_ui, &mut self.machine, &mut self.device.control.tls).or(say);
+        say = base_ui::tools_ui::calibration_window(ctx, &mut self.cal, &mut self.machine).or(say);
+        if self.diag.open {
+            let info = base_ui::tools_ui::DiagInfo { title: "MillCreator", version: crate::VERSION, device: base_core::control::Control::default().check().map(|_| serde_json::to_string_pretty(&self.device).unwrap_or_default()).unwrap_or_default(), gcode: self.diag_gcode.as_deref() };
+            say = base_ui::tools_ui::diagnostics_window(ctx, &mut self.diag, &mut self.machine, &mut self.device.control, &info).or(say);
+            self.keep_control();
+        }
+        if let Some(from) = base_ui::job_ui::start_from_window(ctx, &mut self.start_from, &self.start_lines, self.device.safe_z, self.device.spindle.spin_up) {
+            self.start_job_from(from);
+        }
+        if let Some(s) = say {
+            self.status = s;
         }
     }
 
     pub(crate) fn can_start(&self) -> bool {
-        self.machine.connected && !self.machine.job_running()
+        self.machine.connected && !self.machine.job_active() && !self.machine.job_running()
     }
 
     /// Frame: the tool goes round the box where the work will be done, at the safe height, with the spindle off.
@@ -138,43 +179,116 @@ impl App {
             self.status = tr("There is nothing to frame: put shapes on layers that have a bit.").to_string();
             return;
         };
-        for l in link::clean_gcode(&toolpath::frame_gcode(b, &self.device)) {
-            self.machine.link.send(Cmd::Line(l));
-        }
+        self.machine.lines([toolpath::frame_gcode(b, &self.device)]);
         self.status = tr("Framing the work area").to_string();
     }
 
-    pub(crate) fn start_job(&mut self) {
-        if !self.machine.connected {
-            self.status = tr("Connect to the machine first (Device tab)").to_string();
-            return;
-        }
+    /// The lines of the whole program, or `None` (with the reason in the status bar) when there is nothing to cut.
+    pub(crate) fn job_lines(&mut self) -> Option<(Vec<String>, f64)> {
         let prog = self.make_program();
         if prog.is_empty() {
             self.status = tr("There is nothing to cut: put shapes on layers that have a bit.").to_string();
-            return;
+            return None;
         }
         let name = self.path.as_ref().and_then(|p| p.file_stem()).map(|s| s.to_string_lossy().into_owned()).unwrap_or_else(|| "untitled".into());
         let lines = link::clean_gcode(&toolpath::to_gcode(&prog, &self.device, &self.layers, &self.tools, &name));
-        self.machine.push(ConsoleLine::info(trf("Starting job: {} lines, ~{}", &[&lines.len(), &base_ui::widgets::fmt_time(prog.estimate_seconds(self.device.rapid))])));
-        self.machine.link.send(Cmd::Job(lines));
+        Some((lines, prog.estimate_seconds(self.device.rapid)))
+    }
+
+    /// The G-code the person wrote for the start and the end of every job, with its variables filled in.
+    fn hook_lines(&mut self) -> Option<(Vec<String>, Vec<String>)> {
+        let vars = self.machine.macro_vars(self.device.safe_z, self.job_box());
+        let h = &self.device.control.hooks;
+        match (control::expand(&h.before_job, &vars), control::expand(&h.after_job, &vars)) {
+            (Ok(b), Ok(a)) => Some((link::clean_gcode(&b.join("\n")), link::clean_gcode(&a.join("\n")))),
+            (Err(e), _) | (_, Err(e)) => {
+                self.status = trf("The G-code around the job: {}", &[&e]);
+                None
+            }
+        }
+    }
+
+    /// The box of the job for the variables of macros (x and y of the shapes, z unknown).
+    pub(crate) fn job_box(&self) -> Option<([f64; 3], [f64; 3])> {
+        self.shapes_box().map(|b| ([b[0], b[1], f64::NAN], [b[2], b[3], f64::NAN]))
+    }
+
+    /// Start the job.
+    pub(crate) fn start_job(&mut self) {
+        self.start_job_from(0);
+    }
+
+    /// Start the job at line `from` of the program (0-based; 0 is the whole program).
+    pub(crate) fn start_job_from(&mut self, from: usize) {
+        if !self.can_start() {
+            self.status = tr("Connect to the machine first (Device tab)").to_string();
+            return;
+        }
+        let Some((all, secs)) = self.job_lines() else { return };
+        let lines = match base_core::resume::plan(&all, from, self.device.safe_z, self.device.spindle.spin_up) {
+            Ok(l) => l,
+            Err(e) => {
+                self.status = trf("Cannot start here: {}", &[&tr(e)]);
+                return;
+            }
+        };
+        let Some((before, after)) = self.hook_lines() else { return };
+        self.machine.info(trf("Starting job: {} lines, ~{}", &[&lines.len(), &base_ui::widgets::fmt_time(secs)]));
+        if self.device.control.check_first && from == 0 {
+            // The real job waits for a clean check run.
+            self.after_check = Some(AfterCheck { lines: lines.clone(), before, after });
+            self.machine.start_job(lines, vec![], vec![], true);
+            self.status = tr("Checking the program first…").to_string();
+            return;
+        }
+        self.machine.start_job(lines, before, after, false);
         self.status = tr("The job is running.").to_string();
     }
 
+    /// Run the program through the controller's check mode: nothing moves, the lines it does not understand are reported.
+    pub(crate) fn check_program(&mut self) {
+        if !self.can_start() {
+            self.status = tr("Connect to the machine first (Device tab)").to_string();
+            return;
+        }
+        let Some((lines, _)) = self.job_lines() else { return };
+        self.after_check = None;
+        self.machine.start_job(lines, vec![], vec![], true);
+        self.status = tr("Checking the program…").to_string();
+    }
+
+    /// The check run ended: go on with the job if it found nothing, otherwise say where.
+    fn finish_check(&mut self, issues: usize) {
+        let pending = self.after_check.take();
+        if issues == 0 {
+            match pending {
+                Some(job) => {
+                    self.machine.start_job(job.lines, job.before, job.after, false);
+                    self.status = tr("The check found nothing. The job is running.").to_string();
+                }
+                None => self.status = tr("The check found nothing wrong.").to_string(),
+            }
+            return;
+        }
+        let first = self.machine.issues.first().map(|i| i.line + 1).unwrap_or(0);
+        self.status = trf("The check found {} problems, the first in line {}. The job was not started.", &[&issues, &first]);
+    }
+
     pub(crate) fn abort_job(&mut self) {
-        self.machine.link.send(Cmd::Abort);
+        self.after_check = None;
+        self.machine.stop_job();
     }
 
     pub(crate) fn pause_job(&mut self) {
-        self.machine.link.send(Cmd::Realtime(b'!'));
+        self.machine.pause();
     }
 
     pub(crate) fn resume_job(&mut self) {
-        self.machine.link.send(Cmd::Realtime(b'~'));
+        self.machine.resume();
     }
 
     pub(crate) fn machine_line(&mut self, line: &str) {
-        self.machine.link.send(Cmd::Line(line.to_string()));
+        self.machine.line(line);
     }
 
     /// The Connection part of the Device tab: connect, the state, the positions and the buttons that need the link.
@@ -201,10 +315,10 @@ impl App {
         ui.horizontal_wrapped(|ui| {
             let idle = self.machine.connected && !self.machine.job_running();
             if ui.add_enabled(idle, egui::Button::new(tr("Home"))).clicked() {
-                self.machine_line("$H");
+                self.machine.home();
             }
             if ui.add_enabled(idle, egui::Button::new(tr("Unlock"))).on_hover_text(tr("Clear an alarm ($X)")).clicked() {
-                self.machine_line("$X");
+                self.machine.unlock();
             }
             if ui.add_enabled(self.machine.connected, egui::Button::new(tr("Pause"))).on_hover_text(tr("Feed hold")).clicked() {
                 self.pause_job();
@@ -223,6 +337,125 @@ impl App {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use base_ui::link::Dir;
+    use std::io::{Read, Write};
+    use std::net::TcpListener;
+    use std::time::{Duration, Instant};
+
+    /// A GRBL that says `ok` to every line and reports Idle.
+    fn fake_grbl(listener: TcpListener) {
+        std::thread::spawn(move || {
+            let (mut s, _) = listener.accept().unwrap();
+            let _ = s.set_read_timeout(Some(Duration::from_millis(10)));
+            let start = Instant::now();
+            let (mut buf, mut chunk) = (Vec::new(), [0u8; 64]);
+            while start.elapsed() < Duration::from_secs(20) {
+                match s.read(&mut chunk) {
+                    Ok(0) => break,
+                    Ok(n) => {
+                        for &b in &chunk[..n] {
+                            match b {
+                                b'?' => {
+                                    let _ = s.write_all(b"<Idle|MPos:0.000,0.000,0.000|WCO:0.000,0.000,0.000>\n");
+                                }
+                                0x18 => {
+                                    let _ = s.write_all(b"\r\nGrbl 1.1h ['$' for help]\r\n");
+                                }
+                                b'\n' => {
+                                    let line = String::from_utf8_lossy(&buf).to_string();
+                                    buf.clear();
+                                    let reply: &[u8] = match line.as_str() {
+                                        "$I" => b"[VER:1.1h.20190825:]\nok\n",
+                                        "$$" => b"$130=300.000\nok\n",
+                                        _ => b"ok\n",
+                                    };
+                                    let _ = s.write_all(reply);
+                                }
+                                _ => buf.push(b),
+                            }
+                        }
+                    }
+                    _ => {}
+                }
+            }
+        });
+    }
+
+    fn until(a: &mut App, secs: f64, mut f: impl FnMut(&mut App) -> bool) -> bool {
+        let end = Instant::now() + Duration::from_secs_f64(secs);
+        while Instant::now() < end {
+            a.poll_machine();
+            if f(a) {
+                return true;
+            }
+            std::thread::sleep(Duration::from_millis(10));
+        }
+        false
+    }
+
+    fn connected_app() -> App {
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        let port = listener.local_addr().unwrap().port();
+        fake_grbl(listener);
+        let ctx = egui::Context::default();
+        let mut a = App::build(&ctx, None, false);
+        a.device.connection.link = LinkKind::Tcp;
+        a.device.connection.host = "127.0.0.1".into();
+        a.device.connection.tcp_port = port;
+        a.devices = vec![a.device.clone()];
+        a.active = Some(0);
+        crate::screenshots::demo_job(&mut a);
+        a.connect_machine();
+        assert!(until(&mut a, 3.0, |a| a.machine.connected), "connected");
+        a
+    }
+
+    #[test]
+    fn a_job_stops_at_the_change_of_the_bit_and_its_time_is_counted_with_the_device() {
+        let mut a = connected_app();
+        a.start_job();
+        assert!(until(&mut a, 5.0, |a| a.machine.barrier.is_some()), "the demo job changes the bit");
+        assert!(a.status.contains("Change the bit"), "{}", a.status);
+        a.machine.continue_job();
+        // There may be more than one change of bit: go on until the job ends.
+        assert!(until(&mut a, 10.0, |a| {
+            if a.machine.barrier.is_some() {
+                a.machine.continue_job();
+            }
+            !a.machine.job_active()
+        }));
+        assert_eq!(a.device.control.stats.jobs, 1);
+        assert_eq!(a.devices[0].control.stats.jobs, 1, "kept with the device in the list");
+    }
+
+    #[test]
+    fn the_check_run_comes_first_when_asked_for_and_the_job_follows_it() {
+        let mut a = connected_app();
+        a.device.control.check_first = true;
+        a.start_job();
+        assert!(a.after_check.is_some());
+        assert!(until(&mut a, 10.0, |a| {
+            if a.machine.barrier.is_some() {
+                a.machine.continue_job();
+            }
+            a.after_check.is_none() && !a.machine.job_active() && a.device.control.stats.jobs == 1
+        }), "check, then the real job");
+        let sent: Vec<&str> = a.machine.console.iter().filter(|l| l.dir == Dir::Tx && !l.poll).map(|l| l.text.as_str()).collect();
+        assert_eq!(sent.iter().filter(|l| **l == "$C").count(), 2, "check mode is entered and left: {sent:?}");
+    }
+
+    #[test]
+    fn start_from_a_line_sends_a_preamble_first() {
+        let mut a = connected_app();
+        a.start_job_from(8);
+        let first_lines = |a: &App| a.machine.console.iter().filter(|l| l.dir == Dir::Tx && !l.poll).map(|l| l.text.clone()).collect::<Vec<_>>();
+        assert!(until(&mut a, 5.0, |a| first_lines(a).len() > 6));
+        let sent = first_lines(&a);
+        assert!(sent.iter().any(|l| l.starts_with("G0 X")), "{sent:?}");
+        assert!(sent.iter().any(|l| l.starts_with("G0 Z")), "{sent:?}");
+        // The program of the first lines (before line 8) is not sent again.
+        assert!(!sent.iter().any(|l| l.starts_with("(")), "{sent:?}");
+    }
 
     #[test]
     fn a_device_without_a_port_or_host_has_no_target_and_a_port_gives_one() {

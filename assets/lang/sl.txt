@@ -4,237 +4,252 @@
 3|Ime vrat ali USB ID proizvajalca in izdelka (VID:PID, šestnajstiško): uporabljena so vrata s temi ID-ji.
 4|Izdelanega frezala ni mogoče spremeniti. Naredite kopijo, da ga spremenite.
 5|Priključen je vrtljiv nastavek
-6|Prekini delo v teku
-7|O programu
-8|Dodaj kamero
-9|Dodaj napravo
+6|Običajna velikost stroja…
+7|Prekini delo v teku
+8|O programu
+9|Dodaj kamero
 10|Dodaj napravo
-11|Dodaj napravo…
-12|Naslov
-13|Po povezavi
-14|Celotno območje znotraj črte se izprazni obroč za obročem do globine sloja.
-15|Razporedi
-16|Zadaj levo
-17|Zadaj desno
-18|Nazaj na prvi pogled. Dvoklik na sliko naredi isto.
-19|Kroglično frezalo
-20|Hitrost v bodih
-21|Veži na ta vrata
-22|Frezalo
-23|Knjižnica frezal
-24|Knjižnica frezal…
-25|Vezana naprava USB
-26|Frezalo z zaobljenimi robovi (polmer vogala)
-27|Kamera
-28|Ime kamere
-29|Številka kamere
-30|Kamera tega računalnika
-31|Vrtenje kamere
-32|Pogled kamere
-33|Kamere
-34|Datoteke ni mogoče uporabiti
-35|Datoteke ni mogoče uporabiti: {}
-36|Izberite frezalo
-37|Najprej izberite vrata ali gostitelja v nastavitvah naprave.
-38|Izberite stroj, s katerim boste delali.
-39|Vpenjalo
-40|Obod
-41|Počisti alarm
-42|Počisti alarm ($X)
-43|Čiščenje alarma preskoči iskanje izhodišča: uporabite le, če je znano, da glava stoji na varnem mestu.
-44|Potrdi brisanje
-45|Poveži
-46|Samodejno znova poveži
-47|Najprej se povežite s strojem (zavihek Naprava)
-48|Povezano
-49|Povezava
-50|Vrsta povezave
-51|Konzola
-52|Krmilnik
-53|Kopirano v {}
-54|Polmer vogala
-55|Shranjevanje ni uspelo
-56|Shranjevanje ni uspelo: {}
-57|Štetje napolni medpomnilnik krmilnika in je hitro. Preprosti pošlje eno vrstico in počaka na njen ok: počasno, a za strojno programsko opremo, ki odgovarja napačno.
-58|Rezanje znotraj črte
-59|Rezanje zunaj črte
-60|Rezi
-61|Rezi: {} m, približno {} min
-62|Premer reza
-63|Dolžina reza
-64|Izbriši to kamero
-65|Globina
-66|Naprava
-67|Nastavitve naprave
-68|Nastavitve naprave…
-69|Prekini povezavo
-70|Sveder
-71|Urejanje
-72|Uredi…
-73|Graverno frezalo
-74|Izvozi G-code…
-75|Izvozi to frezalo…
-76|Izvozi…
-77|Podajanje
-78|Zadrži podajanje
-79|Datoteka
-80|Prstno frezalo
-81|Rezila
-82|Sledi črti
-83|Okvir
-84|Okvir delovnega območja
-85|Od zgoraj
-86|Spredaj levo
-87|Spredaj desno
-88|GRBL 1.1 ima tri osi: os A ni na voljo, uporabi se Y.
-89|Splošno
-90|Obhodi okvir, kjer bo delo opravljeno
-91|Pomoč
-92|Najvišja hitrost
-93|Domov
-94|Poišči izhodišče stroja
-95|Gostitelj
-96|Nimam naprave
-97|Uvozi projekt LightBurn…
-98|Naprava {} je uvožena
-99|Uvozi…
-100|Vrsta
-101|Sloji
-102|Izpuščeno
-103|Najnižja hitrost
-104|Stroj
-105|Ničla stroja (0,0)
-106|Material
-107|Material obdelovanca
-108|Kovina
-109|Mikrokoraki motorja za en poln obrat tistega, kar poganja (vpenjala ali enega valja).
-110|Mikrokorakov na obrat
-111|Frezano: vključeno v poti orodja in G-kodo
-112|Frezanje
-113|Premiki na varni višini
-114|Moja frezala
-115|Novo
-116|Novo frezalo
-117|Ni frezala
-118|Še ni naprave. Dodajte jo ali delajte brez stroja.
-119|Ni vrat
-120|Ni naslov http ali https.
-121|Opombe
-122|Opombe o tem stroju
-123|Tu še ni ničesar
-124|Nič ni izbrano
-125|Spremeniti je mogoče samo barvo plastike. Material in njegova debelina se prikažeta v 3D-pogledu in se shranita v projekt.
-126|Odprite risbo ali začnite prazen osnutek.
-127|Odpri povezavo do krmilnika, nastavljenega v nastavitvah naprave
-128|Odpri okno predogleda
-129|Odpri…
-130|Operacija
-131|Skupna dolžina
-132|Globina prehoda
-133|Globina prehoda (od premera)
-134|Plastika
-135|Podajanje pri vbadanju
-136|Žep
-137|Vrata
-138|Vrata ali USB ID
-139|Predogled
-140|Predogled…
-141|Lastnosti
-142|Postavi izbrane oblike na ta sloj
-143|Preberi napravo iz datoteke
-144|Preberi frezala iz datoteke
-145|Pripravljeno
-146|Izdelana frezala
-147|Ponovna povezava
-148|Osveži
-149|Zapomni si USB ID-je izbranih vrat: ko se ime spremeni, se vrata po njih spet najdejo.
-150|Ponastavi pogled
-151|Nadaljuj
-152|Premer valja
-153|Valji
-154|Vrtljiv
-155|STOP
-156|Varna višina
-157|Shrani
-158|Shrani G-code
-159|Shrani kot…
-160|Shrani to napravo v datoteko
-161|Shrani svoja frezala v datoteko
-162|Shranjeno
-163|Naprava shranjena v {}
-164|Shranjeno: {}
-165|Nastavitve
-166|Premer držala
-167|Oblike na tem sloju
-168|Pokaže sliko v živo s kamere tega stroja
-169|Pokaže poti na delovnem območju
-170|Prikazano na zavihku Kamera
-171|Prikazano v delovnem območju
-172|Hitrost premikov nad materialom
-173|Vreteno
-174|Vrtljaji vretena
-175|Začni
-176|Začetek dela: {} vrstic, ~{}
-177|Začetne hitrosti za sloj
-178|Stranski preklop
-179|Stranski preklop (od premera)
-180|Pošlji opravilo na povezani stroj
-181|Pretakanje
-182|Vklopljeno
-183|Vrata TCP
-184|Stožčasto kroglično frezalo
-185|Frezalo gre znotraj črte, zato oblika odpade: luknja ali okno.
-186|Frezalo gre zunaj črte, zato oblika ostane: iz materiala se izreže del.
-187|Sredina frezala sledi črti: graviranje in utori. Odprte črte delujejo tudi.
-188|Krmilnik potrebuje {} korakov na mm na osi Y ($101).
-189|Rezi segajo zunaj delovnega območja naprave
-190|Naprava tega projekta
-191|Naprava je bila dodana.
-192|Naprava je bila shranjena.
-193|Risba je višja od oboda obdelovanca ({} mm)
-194|Datoteka je prevelika
-195|Opravilo je končano.
-196|Opravilo teče.
-197|Obod obdelovanca: načrt ne sme biti višji.
-198|Ni kaj rezati: postavite oblike na sloje, ki imajo frezalo.
-199|Ni česa uokviriti: postavite oblike na sloje, ki imajo frezalo.
-200|Še ni kaj prikazati: narišite oblike in jih postavite na sloje, ki imajo frezalo.
-201|Debelina
-202|Ta različica ne more uporabljati kamer računalnika.
-203|Ta naprava nima vklopljene kamere. Dodajte jo v nastavitvah naprave.
-204|Te naprave ni na seznamu: prišla je s projektom
-205|To je nadomestna naprava (Dummy): privzeto delovno območje in hitrosti.
-206|Čas {} / {}
-207|Premer konice
-208|Preveč naprav
-209|Poti
-210|Vrsta
-211|Razveži
-212|Enote
-213|V-frezalo
-214|Pogled
-215|Možnosti pogleda…
-216|Čakanje po vklopu
-217|Čakanje na sliko…
-218|Ko povezava sama pade, poskušaj vsakih nekaj sekund, dokler ne pritisnete Prekini.
-219|Z rotacijskim nastavkom Y-os vrti obdelovanec: risba ne sme biti višja od oboda obdelovanca. Model je preprost (vpenjalo se zavrti za premer obdelovanca, valji premikajo površino kot svojo); pravi stroj je treba preizkusiti.
-220|Les, temen
-221|Les, svetel
-222|Les, srednji
-223|Delo na projektu brez stroja: preprosta naprava z imenom Dummy s privzetim delovnim območjem in hitrostmi
-224|Premer obdelovanca
-225|Z je, kako globoko gre vreteno od vrha materiala. Varna višina je višina, na kateri se vreteno premika med rezi.
-226|frezala dodana
-227|frezala dodana v knjižnico
-228|npr. Moj CNC-frezalnik
-229|brez
-230|ta projekt je bil narejen za drug stroj: {}
-231|{} prehodov do {} mm
-232|{}: frezalo ni izbrano
-233|{}: ni kaj rezati (črta je morda premajhna za frezalo)
-234|{}: odprte črte so v žepu izpuščene
-235|{}: odprte črte so v profilu izpuščene (uporabite »Sledi črti«)
-236|{}: slike se ne frezajo
-237|{}: globina je omejena na hod stroja ({} mm)
-238|{}: globina {} mm je večja od debeline materiala ({} mm)
-239|{}: {} vrt/min je zunaj območja vretena {}…{} vrt/min
+11|Dodaj napravo
+12|Dodaj napravo…
+13|Naslov
+14|Po povezavi
+15|Alarm {}
+16|Celotno območje znotraj črte se izprazni obroč za obročem do globine sloja.
+17|Razporedi
+18|Zadaj levo
+19|Zadaj desno
+20|Nazaj na prvi pogled. Dvoklik na sliko naredi isto.
+21|Kroglično frezalo
+22|Hitrost v bodih
+23|Veži na ta vrata
+24|Frezalo
+25|Knjižnica frezal
+26|Knjižnica frezal…
+27|Vezana naprava USB
+28|Frezalo z zaobljenimi robovi (polmer vogala)
+29|Kamera
+30|Ime kamere
+31|Številka kamere
+32|Kamera tega računalnika
+33|Vrtenje kamere
+34|Pogled kamere
+35|Kamere
+36|Datoteke ni mogoče uporabiti
+37|Preveri program
+38|Najprej se preverja program…
+39|Preverja se program…
+40|Izberite frezalo
+41|Najprej izberite vrata ali gostitelja v nastavitvah naprave.
+42|Izberite stroj, s katerim boste delali.
+43|Vpenjalo
+44|Obod
+45|Počisti alarm
+46|Čiščenje alarma preskoči iskanje izhodišča: uporabite le, če je znano, da glava stoji na varnem mestu.
+47|Potrdi brisanje
+48|Poveži
+49|Samodejno znova poveži
+50|Povezano
+51|Povezava
+52|Vrsta povezave
+53|Konzola
+54|Upravljanje
+55|Kopirano v {}
+56|Polmer vogala
+57|Shranjevanje ni uspelo
+58|Shranjevanje ni uspelo: {}
+59|Štetje napolni medpomnilnik krmilnika in je hitro. Preprosti pošlje eno vrstico in počaka na njen ok: počasno, a za strojno programsko opremo, ki odgovarja napačno.
+60|Rezanje znotraj črte
+61|Rezanje zunaj črte
+62|Rezi
+63|Rezi: {} m, približno {} min
+64|Premer reza
+65|Dolžina reza
+66|Izbriši to kamero
+67|Globina
+68|Naprava
+69|Nastavitve naprave
+70|Nastavitve naprave…
+71|Diagnostika in statistika…
+72|Prekini povezavo
+73|Sveder
+74|Urejanje
+75|Uredi…
+76|Graverno frezalo
+77|Napaka {} v vrstici {}: {}
+78|Napaka {}: {}
+79|Izvozi G-code…
+80|Izvozi to frezalo…
+81|Izvozi…
+82|Podajanje
+83|Nastavitve strojne programske opreme ($$)…
+84|Prstno frezalo
+85|Rezila
+86|Sledi črti
+87|Okvir
+88|Okvir delovnega območja
+89|Od zgoraj
+90|Od vrstice…
+91|Spredaj levo
+92|Spredaj desno
+93|GRBL 1.1 ima tri osi: os A ni na voljo, uporabi se Y.
+94|Splošno
+95|Obhodi okvir, kjer bo delo opravljeno
+96|Pomoč
+97|Najvišja hitrost
+98|Domov
+99|Poišči izhodišče stroja
+100|Gostitelj
+101|Nimam naprave
+102|Uvozi projekt LightBurn…
+103|Naprava {} je uvožena
+104|Uvozi…
+105|Vrsta
+106|Sloji
+107|Izpuščeno
+108|Najnižja hitrost
+109|Ničla stroja (0,0)
+110|Material
+111|Material obdelovanca
+112|Kovina
+113|Mikrokoraki motorja za en poln obrat tistega, kar poganja (vpenjala ali enega valja).
+114|Mikrokorakov na obrat
+115|Frezano: vključeno v poti orodja in G-kodo
+116|Frezanje
+117|Premiki na varni višini
+118|Moja frezala
+119|Novo
+120|Novo frezalo
+121|Ni frezala
+122|Še ni naprave. Dodajte jo ali delajte brez stroja.
+123|Ni vrat
+124|Ni naslov http ali https.
+125|Opombe
+126|Opombe o tem stroju
+127|Tu še ni ničesar
+128|Nič ni izbrano
+129|Spremeniti je mogoče samo barvo plastike. Material in njegova debelina se prikažeta v 3D-pogledu in se shranita v projekt.
+130|Odprite risbo ali začnite prazen osnutek.
+131|Odpri povezavo do krmilnika, nastavljenega v nastavitvah naprave
+132|Odpri okno predogleda
+133|Odpri…
+134|Operacija
+135|Skupna dolžina
+136|Globina prehoda
+137|Globina prehoda (od premera)
+138|Plastika
+139|Podajanje pri vbadanju
+140|Žep
+141|Vrata
+142|Vrata ali USB ID
+143|Predogled
+144|Predogled…
+145|Lastnosti
+146|Postavi izbrane oblike na ta sloj
+147|Preberi napravo iz datoteke
+148|Preberi frezala iz datoteke
+149|Pripravljeno
+150|Izdelana frezala
+151|Ponovna povezava
+152|Osveži
+153|Zapomni si USB ID-je izbranih vrat: ko se ime spremeni, se vrata po njih spet najdejo.
+154|Ponastavi pogled
+155|Nadaljuj
+156|Premer valja
+157|Valji
+158|Vrtljiv
+159|STOP
+160|Varna višina
+161|Shrani
+162|Shrani G-code
+163|Shrani kot…
+164|Shrani to napravo v datoteko
+165|Shrani svoja frezala v datoteko
+166|Shranjeno
+167|Naprava shranjena v {}
+168|Shranjeno: {}
+169|Nastavitve
+170|Premer držala
+171|Oblike na tem sloju
+172|Pokaže sliko v živo s kamere tega stroja
+173|Pokaže poti na delovnem območju
+174|Prikazano na zavihku Kamera
+175|Prikazano v delovnem območju
+176|Hitrost premikov nad materialom
+177|Vreteno
+178|Začni
+179|Začni od
+180|Začni opravilo pri vrstici programa
+181|Začetek dela: {} vrstic, ~{}
+182|Začetne hitrosti za sloj
+183|Stranski preklop
+184|Stranski preklop (od premera)
+185|Pošlji opravilo na povezani stroj
+186|Pretakanje
+187|Vklopljeno
+188|Vrata TCP
+189|Stožčasto kroglično frezalo
+190|G-code okoli opravila: {}
+191|Frezalo gre znotraj črte, zato oblika odpade: luknja ali okno.
+192|Frezalo gre zunaj črte, zato oblika ostane: iz materiala se izreže del.
+193|Sredina frezala sledi črti: graviranje in utori. Odprte črte delujejo tudi.
+194|Preverjanje ni našlo nič narobe.
+195|Preverjanje ni našlo nič. Opravilo teče.
+196|Preverjanje je našlo {} težav, prvo v vrstici {}. Opravilo ni bilo zagnano.
+197|Krmilnik potrebuje {} korakov na mm na osi Y ($101).
+198|Rezi segajo zunaj delovnega območja naprave
+199|Naprava tega projekta
+200|Naprava je bila dodana.
+201|Naprava je bila shranjena.
+202|Risba je višja od oboda obdelovanca ({} mm)
+203|Datoteka je prevelika
+204|Opravilo je končano, s {} težavami (glej Konzolo).
+205|Opravilo je končano.
+206|Opravilo je začasno ustavljeno: {}
+207|Opravilo teče.
+208|Meritev pri tipalu ni uspela: ni dotika ali pa je alarm.
+209|Referenčno orodje je izmerjeno: Z {} pri tipalu.
+210|Orodje je izmerjeno; še ni reference za primerjavo.
+211|Obod obdelovanca: načrt ne sme biti višji.
+212|Ni kaj rezati: postavite oblike na sloje, ki imajo frezalo.
+213|Ni česa uokviriti: postavite oblike na sloje, ki imajo frezalo.
+214|Še ni kaj prikazati: narišite oblike in jih postavite na sloje, ki imajo frezalo.
+215|Debelina
+216|Ta različica ne more uporabljati kamer računalnika.
+217|Ta naprava nima vklopljene kamere. Dodajte jo v nastavitvah naprave.
+218|Te naprave ni na seznamu: prišla je s projektom
+219|To je nadomestna naprava (Dummy): privzeto delovno območje in hitrosti.
+220|Čas {} / {}
+221|Premer konice
+222|Preveč naprav
+223|Poti
+224|Vrsta
+225|Razveži
+226|Enote
+227|V-frezalo
+228|Pogled
+229|Možnosti pogleda…
+230|Čakanje po vklopu
+231|Čakanje na sliko…
+232|Ko povezava sama pade, poskušaj vsakih nekaj sekund, dokler ne pritisnete Prekini.
+233|Z rotacijskim nastavkom Y-os vrti obdelovanec: risba ne sme biti višja od oboda obdelovanca. Model je preprost (vpenjalo se zavrti za premer obdelovanca, valji premikajo površino kot svojo); pravi stroj je treba preizkusiti.
+234|Les, temen
+235|Les, svetel
+236|Les, srednji
+237|Delo na projektu brez stroja: preprosta naprava z imenom Dummy s privzetim delovnim območjem in hitrostmi
+238|Premer obdelovanca
+239|Z je, kako globoko gre vreteno od vrha materiala. Varna višina je višina, na kateri se vreteno premika med rezi.
+240|Z je nastavljen po referenci.
+241|frezala dodana
+242|frezala dodana v knjižnico
+243|npr. Moj CNC-frezalnik
+244|brez
+245|ta projekt je bil narejen za drug stroj: {}
+246|{} prehodov do {} mm
+247|{}: frezalo ni izbrano
+248|{}: ni kaj rezati (črta je morda premajhna za frezalo)
+249|{}: odprte črte so v žepu izpuščene
+250|{}: odprte črte so v profilu izpuščene (uporabite »Sledi črti«)
+251|{}: slike se ne frezajo
+252|{}: globina je omejena na hod stroja ({} mm)
+253|{}: globina {} mm je večja od debeline materiala ({} mm)
+254|{}: {} vrt/min je zunaj območja vretena {}…{} vrt/min

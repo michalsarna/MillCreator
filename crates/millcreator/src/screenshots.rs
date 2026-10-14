@@ -19,7 +19,7 @@ fn save(h: &mut Shot, name: &str) {
 }
 
 /// A small plaque: the outline cut out, two holes drilled, a pocket, and a star engraved.
-fn demo_job(a: &mut App) {
+pub(crate) fn demo_job(a: &mut App) {
     use base_core::bezier::Contour;
     use base_core::geom::Xf;
     use base_core::scene::Kind;
@@ -176,4 +176,111 @@ fn render_screenshots() {
         a.side_tab = crate::SideTab::Console;
     }
     save(&mut h, "24-console.png");
+    // The Control tab with a machine that is connected, and the windows of the machine.
+    {
+        let a = app(&mut h);
+        a.machine.connected = true;
+        a.machine.state = "Idle".into();
+        a.machine.mpos = [-120.5, -42.25, -5.0];
+        a.machine.wpos = [29.5, 107.75, 12.0];
+        a.machine.pos = a.machine.wpos;
+        a.machine.wcs = 2;
+        a.machine.fw.info = base_core::firmware::FirmwareInfo { name: "Grbl".into(), version: "1.1h".into(), options: "V".into(), raw: vec!["[VER:1.1h.20190825:]".into(), "[OPT:V,15,128]".into()] };
+        a.device.control.macros = vec![base_core::control::Macro { name: "Park".into(), code: "G0 Z[safez]\nG0 X0 Y0".into() }, base_core::control::Macro { name: "Spindle test".into(), code: "S8000 M3\nG4 P3\nM5".into() }];
+        a.side_tab = crate::SideTab::Control;
+    }
+    save(&mut h, "25-control-tab.png");
+    {
+        let a = app(&mut h);
+        a.machine.fw.values = [(30, "24000.000"), (31, "1000.000"), (32, "0"), (100, "800.000"), (101, "800.000"), (102, "800.000"), (110, "3000.000"), (111, "3000.000"), (112, "500.000"), (130, "300.000"), (131, "200.000"), (132, "60.000")].into_iter().map(|(k, v)| (k, v.to_string())).collect();
+        a.fw_open = true;
+    }
+    save(&mut h, "26-firmware.png");
+    {
+        let a = app(&mut h);
+        a.fw_open = false;
+        a.cal.open = true;
+    }
+    save(&mut h, "27-calibration.png");
+    {
+        let a = app(&mut h);
+        a.cal.open = false;
+        a.machine.pins = "P".into();
+        a.device.control.stats.job_done(7200);
+        a.device.control.stats.job_done(3600);
+        a.device.control.stats.alarm(1);
+        a.device.control.stats.error(20);
+        a.device.control.reminders.push(base_core::control::Reminder { name: "Oil the rails".into(), every_hours: 2.0, done_at_hours: 0.0 });
+        a.diag.open = true;
+    }
+    save(&mut h, "28-diagnostics.png");
+    {
+        let a = app(&mut h);
+        a.diag.open = false;
+        a.machine.pins.clear();
+        a.start_lines = "G21 G90 G54\nM5\nG0 Z5\nG0 X10 Y10\nS12000 M3\nG4 P2\nF300\nG1 Z-1\nG1 X50 Y10\nG1 X50 Y40\nG1 X10 Y40\nG0 Z5\nM5\nM30".lines().map(String::from).collect();
+        a.start_from.line = 10;
+        a.start_from.open = true;
+    }
+    save(&mut h, "29-start-from-line.png");
+    {
+        let a = app(&mut h);
+        a.start_from.open = false;
+        a.machine.barrier = Some(base_ui::machine_ctl::Barrier { text: "M0 (Change the bit to: V-bit 60°)".into(), line: 120 });
+    }
+    save(&mut h, "30-job-paused.png");
+    {
+        let a = app(&mut h);
+        a.machine.barrier = None;
+        a.start_edit_device(0);
+        a.dev_edit.as_mut().expect("window").page = crate::device_ui::Page::Probe;
+    }
+    save(&mut h, "31-device-probe.png");
+    {
+        let a = app(&mut h);
+        let e = a.dev_edit.as_mut().expect("window");
+        e.page = crate::device_ui::Page::Macros;
+        e.draft.control.macros = vec![base_core::control::Macro { name: "Park".into(), code: "G0 Z[safez]\nG0 X0 Y0".into() }];
+        e.draft.control.hooks.after_job = "M5\nG0 Z[safez]".into();
+    }
+    save(&mut h, "32-device-macros.png");
+    {
+        let a = app(&mut h);
+        a.dev_edit = None;
+        a.lang = base_ui::i18n::Lang::Pl;
+        base_ui::i18n::set_lang(base_ui::i18n::Lang::Pl);
+        a.side_tab = crate::SideTab::Control;
+    }
+    save(&mut h, "33-control-tab-polish.png");
+    {
+        let a = app(&mut h);
+        a.cal.open = true;
+        a.machine.fw.values = [(100, "800.000".to_string())].into_iter().collect();
+    }
+    save(&mut h, "34-calibration-polish.png");
+    {
+        let a = app(&mut h);
+        a.cal.open = false;
+        a.lang = base_ui::i18n::Lang::En;
+        base_ui::i18n::set_lang(base_ui::i18n::Lang::En);
+        a.device.control.tls = base_core::control::Tls { set: true, x: -12.5, y: -8.0, start_z: -25.0, ref_wz: Some(-31.3), ..Default::default() };
+        a.tls_ui.open = true;
+    }
+    save(&mut h, "35-tool-length-sensor.png");
+    {
+        let a = app(&mut h);
+        a.tls_ui.open = false;
+        let v = |l: &[(u32, &str)]| -> std::collections::BTreeMap<u32, String> { l.iter().map(|(k, x)| (*k, x.to_string())).collect() };
+        a.device.control.fw_copies.0.clear();
+        a.device.control.fw_copies.make(1_791_800_000, "Grbl 1.1h", &v(&[(110, "3000.000"), (130, "300.000")]));
+        a.device.control.fw_copies.make(1_791_900_000, "Grbl 1.1h", &v(&[(110, "5000.000"), (130, "300.000")]));
+        a.machine.fw.changes = vec![base_core::control::Change { id: 110, old: Some("3000.000".into()), new: Some("5000.000".into()) }];
+        a.fw_open = true;
+    }
+    save(&mut h, "36-firmware-copies.png");
+    {
+        let a = app(&mut h);
+        a.fw_open = false;
+        a.machine.fw.changes.clear();
+    }
 }

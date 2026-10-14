@@ -21,6 +21,7 @@ Otwartoźródłowy program do projektowania i przygotowania zadań dla frezarek 
 | Ustawić materiał | [Materiał](Material-obrabiany) |
 | Zobaczyć zadanie w 3D, zapisać G-code | [Widok 3D i G-code](Widok-3D-i-G-code) |
 | Dzielić projekt z LightCreatorem | [Plik projektu](Plik-projektu) |
+| Steruj maszyną: przesuw, zerowanie, sondowanie, firmware, kalibracja | [Sterowanie maszyną](Sterowanie-maszyna) |
 | Zobaczyć, jak to wygląda | [Zrzuty ekranu](Zrzuty-ekranu) |
 | Znaleźć plik ustawień | [Ustawienia i pliki](Ustawienia-i-pliki) |
 | Poczytać o kodzie | [Architektura](Architektura) |
@@ -38,4 +39,4 @@ Otwartoźródłowy program do projektowania i przygotowania zadań dla frezarek 
 
 > ⚠️ **Bezpieczeństwo:** frezarki są niebezpieczne. Nowe zadanie sprawdź najpierw w powietrzu nad materiałem, noś ochronę oczu i słuchu, zamocuj materiał, nigdy nie zostawiaj pracującej maszyny bez nadzoru. Zobacz [Bezpieczeństwo i ograniczenia](Bezpieczenstwo-i-ograniczenia).
 
-Najnowsza wersja: **v0.2.5** · [Wydania](https://github.com/michalsarna/MillCreator/releases) · [Zgłoszenia](https://github.com/michalsarna/MillCreator/issues) · Licencja: [MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) lub [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE), do wyboru
+Najnowsza wersja: **v0.2.6** · [Wydania](https://github.com/michalsarna/MillCreator/releases) · [Zgłoszenia](https://github.com/michalsarna/MillCreator/issues) · Licencja: [MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) lub [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE), do wyboru

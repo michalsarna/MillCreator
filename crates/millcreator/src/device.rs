@@ -1,6 +1,7 @@
 //! A device: the milling machine a project is made for. It holds the size of the work area, the spindle, the speeds,
 //! the safe height and the cameras. The devices are kept in one file; a device can be exported to a file and imported.
 use base_core::camimg::{CameraKind, CameraSource};
+use base_core::control::Control;
 use base_core::machine::{Connection, LinkKind, Rotary};
 use base_core::units::Units;
 use serde::{Deserialize, Serialize};
@@ -72,6 +73,9 @@ pub struct Device {
     /// A rotary attachment that turns the work.
     #[serde(default)]
     pub rotary: Rotary,
+    /// Jogging, probe, macros, statistics and maintenance of the machine.
+    #[serde(default)]
+    pub control: Control,
 }
 
 impl Default for Device {
@@ -90,6 +94,7 @@ impl Default for Device {
             notes: String::new(),
             connection: Connection::default(),
             rotary: Rotary::default(),
+            control: Control::default(),
         }
     }
 }
@@ -148,6 +153,7 @@ impl Device {
         if ![r.diameter, r.roller_diameter, r.microsteps_per_rev].iter().all(|v| v.is_finite() && *v > 0.0 && *v <= 1_000_000.0) {
             return Err("the rotary settings are out of range".into());
         }
+        self.control.check()?;
         Ok(())
     }
 

@@ -20,6 +20,7 @@ Open-source software to design and prepare CNC milling jobs, written in Rust. Dr
 | Choose or define a bit | [Bit Library](Bit-Library) |
 | Set the material | [Material](Material) |
 | See the job in 3D, export G-code | [3D View and G-code](3D-View-and-G-code) |
+| Drive the machine: jog, zero, probe, firmware, calibration | [Machine Control](Machine-Control) |
 | Share a project with LightCreator | [Project File](Project-File) |
 | See what it looks like | [Screenshots](Screenshots) |
 | Find the settings file | [Settings and Files](Settings-and-Files) |
@@ -38,4 +39,4 @@ Open-source software to design and prepare CNC milling jobs, written in Rust. Dr
 
 > ⚠️ **Safety:** milling machines are dangerous. Test a new job in the air above the material, wear eye and ear protection, clamp the work, never leave a running machine unattended. See [Safety and Limitations](Safety-and-Limitations).
 
-Latest release: **v0.2.5** · [Releases](https://github.com/michalsarna/MillCreator/releases) · [Issues](https://github.com/michalsarna/MillCreator/issues) · Licence: [MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) or [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE), at your option
+Latest release: **v0.2.6** · [Releases](https://github.com/michalsarna/MillCreator/releases) · [Issues](https://github.com/michalsarna/MillCreator/issues) · Licence: [MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) or [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE), at your option

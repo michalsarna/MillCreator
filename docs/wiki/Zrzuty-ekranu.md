@@ -99,3 +99,51 @@ Wszystkie obrazy są generowane bez okna z prawdziwego interfejsu (`cargo test -
 ### Karta Console: wymiana ze sterownikiem i linia do wysłania polecenia
 
 ![Karta Console: wymiana ze sterownikiem i linia do wysłania polecenia](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/24-console.png)
+
+### Karta Control: pozycja, zerowanie, przesuw, sonda, makra
+
+![Karta Control: pozycja, zerowanie, przesuw, sonda, makra](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/25-control-tab.png)
+
+### Ustawienia kontrolera ($$)
+
+![Ustawienia kontrolera ($$)](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/26-firmware.png)
+
+### Kalibracja: kroki na milimetr i prostopadłość
+
+![Kalibracja: kroki na milimetr i prostopadłość](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/27-calibration.png)
+
+### Diagnostyka, statystyki i konserwacja
+
+![Diagnostyka, statystyki i konserwacja](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/28-diagnostics.png)
+
+### Start od wiersza
+
+![Start od wiersza](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/29-start-from-line.png)
+
+### Zadanie czeka na zmianę frezu
+
+![Zadanie czeka na zmianę frezu](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/30-job-paused.png)
+
+### Ustawienia urządzenia: sonda
+
+![Ustawienia urządzenia: sonda](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/31-device-probe.png)
+
+### Ustawienia urządzenia: makra i G-code wokół zadania
+
+![Ustawienia urządzenia: makra i G-code wokół zadania](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/32-device-macros.png)
+
+### Karta Sterowanie po polsku
+
+![Karta Sterowanie po polsku](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/33-control-tab-polish.png)
+
+### Kalibracja po polsku
+
+![Kalibracja po polsku](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/34-calibration-polish.png)
+
+### Czujnik długości narzędzia: gdzie jest, narzędzie wzorcowe, każde następne
+
+![Czujnik długości narzędzia: gdzie jest, narzędzie wzorcowe, każde następne](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/35-tool-length-sensor.png)
+
+### Ustawienia kontrolera: co zmieniło się od kopii przechowywanej przy urządzeniu
+
+![Ustawienia kontrolera: co zmieniło się od kopii przechowywanej przy urządzeniu](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/36-firmware-copies.png)
