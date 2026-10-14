@@ -95,3 +95,7 @@ All pictures are rendered headlessly from the real interface (`cargo test -p mil
 ### Device tab: connect, home, pause, console
 
 ![Device tab: connect, home, pause, console](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/23-device-tab-machine.png)
+
+### Console tab: the traffic with the controller and a line to send a command
+
+![Console tab: the traffic with the controller and a line to send a command](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/24-console.png)

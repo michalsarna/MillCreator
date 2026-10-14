@@ -95,3 +95,7 @@ Wszystkie obrazy są generowane bez okna z prawdziwego interfejsu (`cargo test -
 ### Karta Device: połączenie, bazowanie, pauza, konsola
 
 ![Karta Device: połączenie, bazowanie, pauza, konsola](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/23-device-tab-machine.png)
+
+### Karta Console: wymiana ze sterownikiem i linia do wysłania polecenia
+
+![Karta Console: wymiana ze sterownikiem i linia do wysłania polecenia](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/24-console.png)

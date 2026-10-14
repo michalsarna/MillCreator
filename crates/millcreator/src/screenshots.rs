@@ -161,4 +161,19 @@ fn render_screenshots() {
     app(&mut h).dev_edit = None;
     app(&mut h).side_tab = crate::SideTab::Device;
     save(&mut h, "23-device-tab-machine.png");
+    {
+        use base_ui::link::{ConsoleLine, Dir};
+        let a = app(&mut h);
+        let line = |dir, text: &str| ConsoleLine { dir, text: text.into(), poll: false };
+        a.machine.console.clear();
+        a.machine.console.push(ConsoleLine::info("Connected to /dev/ttyUSB0 @ 115200"));
+        a.machine.console.push(line(Dir::Rx, "Grbl 1.1h ['$' for help]"));
+        for (t, r) in [("$H", "ok"), ("G21 G90", "ok"), ("G0 Z5", "ok"), ("G0 X10 Y10", "ok")] {
+            a.machine.console.push(line(Dir::Tx, t));
+            a.machine.console.push(line(Dir::Rx, r));
+        }
+        a.show_3d = false;
+        a.side_tab = crate::SideTab::Console;
+    }
+    save(&mut h, "24-console.png");
 }

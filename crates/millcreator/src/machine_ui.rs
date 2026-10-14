@@ -5,12 +5,9 @@ use crate::toolpath;
 use crate::App;
 use base_core::machine::{Controller, LinkKind};
 use base_ui::i18n::{tr, trf};
-use base_ui::link::{self, Cmd, ConsoleLine, Dir, Evt, LaserLink, PortInfo, Target};
+use base_ui::link::{self, Cmd, ConsoleLine, Evt, LaserLink, PortInfo, Target};
 use base_ui::theme;
 use eframe::egui::{self, Color32, RichText};
-
-/// How many lines of traffic the console keeps.
-const CONSOLE_LINES: usize = 1000;
 
 /// The state of the link to the machine.
 pub struct MachineLink {
@@ -24,13 +21,13 @@ pub struct MachineLink {
     pub pos: [f64; 3],
     /// Lines of the job acknowledged and the number of lines of the job.
     pub progress: (usize, usize),
-    pub console: Vec<ConsoleLine>,
+    pub console: base_ui::console_ui::ConsoleState,
     pub ports: Vec<PortInfo>,
 }
 
 impl MachineLink {
     pub fn new(ctx: &egui::Context) -> MachineLink {
-        MachineLink { link: LaserLink::spawn(ctx.clone()), connected: false, want_link: false, reconnect_at: None, state: String::new(), pos: [f64::NAN; 3], progress: (0, 0), console: vec![], ports: vec![] }
+        MachineLink { link: LaserLink::spawn(ctx.clone()), connected: false, want_link: false, reconnect_at: None, state: String::new(), pos: [f64::NAN; 3], progress: (0, 0), console: Default::default(), ports: vec![] }
     }
 
     pub fn refresh_ports(&mut self) {
@@ -38,10 +35,7 @@ impl MachineLink {
     }
 
     fn push(&mut self, l: ConsoleLine) {
-        self.console.push(l);
-        if self.console.len() > CONSOLE_LINES + 200 {
-            self.console.drain(..200);
-        }
+        self.console.push_capped(l);
     }
 
     pub fn job_running(&self) -> bool {
@@ -223,18 +217,6 @@ impl App {
             let (d, t) = self.machine.progress;
             ui.add(egui::ProgressBar::new(d as f32 / t.max(1) as f32).text(format!("{d} / {t}")));
         }
-        egui::CollapsingHeader::new(tr("Console")).id_salt("machine_console").show(ui, |ui| {
-            egui::ScrollArea::vertical().id_salt("machine_console_lines").max_height(160.0).stick_to_bottom(true).show(ui, |ui| {
-                for l in self.machine.console.iter().filter(|l| !l.poll).rev().take(200).collect::<Vec<_>>().into_iter().rev() {
-                    let color = match l.dir {
-                        Dir::Tx => Color32::from_rgb(0x4a, 0x8f, 0xe0),
-                        Dir::Rx => Color32::from_rgb(0x2e, 0xa0, 0x4f),
-                        Dir::Info => theme::text_dim(),
-                    };
-                    ui.label(RichText::new(&l.text).monospace().color(color));
-                }
-            });
-        });
     }
 }
 
