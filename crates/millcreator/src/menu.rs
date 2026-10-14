@@ -24,6 +24,8 @@ pub enum Act {
     SetLang(Lang),
     SetScheme(Scheme),
     OpenGithub,
+    DownloadBackup,
+    RestoreBackup,
     About,
 }
 
@@ -41,7 +43,7 @@ fn std(entries: Vec<Entry<StdAct>>) -> Vec<Entry<Act>> {
 pub fn menus() -> Menus<Act> {
     use Entry::{Item, Recent, Sep, Sub};
     let mut file = vec![Item(Act::New, "New", key("CmdOrCtrl+N", "Ctrl+N")), Item(Act::Open, "Open…", key("CmdOrCtrl+O", "Ctrl+O")), Recent, Sep, Item(Act::Save, "Save", key("CmdOrCtrl+S", "Ctrl+S")), Item(Act::SaveAs, "Save as…", key("CmdOrCtrl+Shift+S", "Ctrl+Shift+S")), Sep, Sub("Import", vec![Item(Act::ImportLightburn, "Import LightBurn project…", None)])];
-    let mut help = vec![Item(Act::OpenGithub, "Project page on GitHub", None)];
+    let mut help = vec![Item(Act::OpenGithub, "Project page on GitHub", None), Sep, Item(Act::DownloadBackup, base_ui::backup_ui::DOWNLOAD, None), Item(Act::RestoreBackup, base_ui::backup_ui::RESTORE, None)];
     if !cfg!(target_os = "macos") {
         file.push(Sep);
         file.push(Item(Act::Quit, "Quit", key("CmdOrCtrl+Q", "Ctrl+Q")));
