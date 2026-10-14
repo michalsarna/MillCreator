@@ -10,6 +10,7 @@ mod layers_ui;
 mod machine_ui;
 mod materials;
 mod menu;
+mod plugins_glue;
 mod preview_ui;
 mod section;
 mod toolpath;
@@ -106,7 +107,9 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::New => Some("file-plus"),
         Act::Open => Some("folder-open"),
         Act::Save | Act::SaveAs => Some("save"),
-        Act::ImportLightburn | Act::ImportUgsd => Some("file-input"),
+        Act::ImportLightburn | Act::ImportUgsd | Act::ImportPlugin => Some("file-input"),
+        Act::Plugins => Some("package-open"),
+        Act::GenerateShape => Some("shapes"),
         Act::ToolLibrary => Some("package"),
         Act::Firmware => Some("settings"),
         Act::ToolSensor => Some("target"),
@@ -190,6 +193,9 @@ struct App {
     cal: CalUi,
     diag: DiagUi,
     diag_gcode: Option<String>,
+    plugins: base_ui::plugins_ui::PluginsUi,
+    /// What the postprocessor of the last export said, for the status bar.
+    post_note: Option<String>,
     start_from: StartFrom,
     start_lines: Vec<String>,
     /// A job that waits for the check run to find nothing wrong.
@@ -236,7 +242,7 @@ impl App {
         let recent = saved("recent_files").map(|s| s.lines().map(PathBuf::from).take(MAX_RECENT).collect()).unwrap_or_default();
         #[cfg(not(target_os = "macos"))]
         let _ = native_menu;
-        App {
+        let mut app = App {
             scene: Scene::default(),
             ed,
             history: History::default(),
@@ -278,6 +284,8 @@ impl App {
             cal: CalUi::default(),
             diag: DiagUi::default(),
             diag_gcode: None,
+            plugins: base_ui::plugins_ui::PluginsUi::new("millcreator", &data_paths().base),
+            post_note: None,
             start_from: StartFrom::default(),
             start_lines: vec![],
             after_check: None,
@@ -288,7 +296,9 @@ impl App {
             show_about: false,
             #[cfg(target_os = "macos")]
             native_menu: native_menu.then(|| native_menu::install(ctx)),
-        }
+        };
+        app.after_plugins_changed();
+        app
     }
 
     /// What is kept between runs.
@@ -337,6 +347,9 @@ impl App {
         // A LightBurn project or a UGS design is imported into the drawing, not opened.
         if is_import(&path) {
             return self.import_file(path);
+        }
+        if self.try_plugin_import(&path) {
+            return;
         }
         if self.screen == Screen::Start {
             self.take_selected_device();
@@ -818,6 +831,7 @@ impl App {
         base_ui::editor::view_options_window(self, ctx, &mut show);
         self.clip_dialogs(ctx);
         self.online_clipart_window(ctx);
+        self.plugin_windows(ctx);
         tools_ui::tools_window(ctx, &mut self.tools_win, &mut self.tools);
         self.device_window(ctx);
         self.machine_windows(ctx);
@@ -993,6 +1007,9 @@ impl MenuHost for App {
             Act::SaveAs => self.save(true),
             Act::ImportLightburn => self.import_lightburn_dialog(),
             Act::ImportUgsd => self.import_ugsd_dialog(),
+            Act::ImportPlugin => self.import_with_plugin_dialog(),
+            Act::Plugins => self.plugins.open = true,
+            Act::GenerateShape => self.plugins.gen_open = true,
             Act::ToolLibrary => self.tools_win.open = true,
             Act::Firmware => self.fw_open = true,
             Act::ToolSensor => self.tls_ui.open = true,
@@ -1193,6 +1210,57 @@ mod tests {
         assert_eq!((a.layers[0].op, a.layers[0].depth, a.layers[0].feed), (layers::Operation::Pocket, 4.0, 700.0));
         assert_eq!(a.layers[1], own);
         std::fs::remove_dir_all(dir).ok();
+    }
+
+    /// A folder of plugins with a small importer and a postprocessor, and a pack with a bit.
+    fn scratch_plugins(name: &str) -> PathBuf {
+        let base = std::env::temp_dir().join(format!("mc-plugins-{name}-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&base);
+        let p = base.join("plugins/my-tools");
+        std::fs::create_dir_all(&p).unwrap();
+        std::fs::write(p.join("plugin.json"), r#"{"id":"my-tools","name":"My tools","importers":[{"id":"xy","name":"XY","extensions":["xy"],"script":"read.rhai"}],"postprocessors":[{"id":"n","name":"Numbers","script":"post.rhai"}],"data":[{"kind":"mill-tools","file":"tools.json"}]}"#).unwrap();
+        std::fs::write(p.join("read.rhai"), "fn read(text, ctx) { [rect(5, 5, 10, 20), circle(30, 30, 4)] }").unwrap();
+        std::fs::write(p.join("post.rhai"), r#"fn post(lines, ctx) { let out = []; let n = 1; for l in lines { out.push("N" + n + " " + l); n += 1; } out }"#).unwrap();
+        let mut lib = Library::new();
+        let t = tools::Tool::new("x", "Plugin bit 2.5 mm", tools::ToolKind::FlatEnd, tools::Dims { diameter: 2.5, ..tools::Dims::default() });
+        lib.add(t).unwrap();
+        std::fs::write(p.join("tools.json"), lib.export(None)).unwrap();
+        base
+    }
+
+    #[test]
+    fn a_plugin_reads_its_files_adds_its_bits_and_postprocesses_the_gcode() {
+        let base = scratch_plugins("all");
+        let mut a = app();
+        a.plugins = base_ui::plugins_ui::PluginsUi::new("millcreator", &base);
+        a.after_plugins_changed();
+        a.after_plugins_changed();
+        assert_eq!(a.tools.all().filter(|t| t.name == "Plugin bit 2.5 mm").count(), 1, "read once, not at every start");
+        let file = base.join("shapes.xy");
+        std::fs::write(&file, "anything").unwrap();
+        a.scene = read_scene(SVG).unwrap();
+        let before = a.scene.shapes.len();
+        let recent = a.recent.clone();
+        a.open(file);
+        assert_eq!(a.scene.shapes.len(), before + 2, "{}", a.status);
+        assert_eq!(a.recent, recent);
+        a.plugins.post = Some("my-tools/n".into());
+        assert_eq!(a.postprocessed("G21\nM5\n".into()).unwrap(), "N1 G21\nN2 M5\n");
+        a.plugins.post = None;
+        assert_eq!(a.postprocessed("G21\n".into()).unwrap(), "G21\n");
+        std::fs::remove_dir_all(base).ok();
+    }
+
+    #[test]
+    fn a_postprocessor_that_sends_controller_commands_saves_nothing() {
+        let base = scratch_plugins("bad");
+        std::fs::write(base.join("plugins/my-tools/post.rhai"), r#"fn post(lines, ctx) { ["$RST=*"] }"#).unwrap();
+        let mut a = app();
+        a.plugins = base_ui::plugins_ui::PluginsUi::new("millcreator", &base);
+        a.plugins.post = Some("my-tools/n".into());
+        assert!(a.postprocessed("G21\n".into()).is_none());
+        assert!(a.status.contains("nothing was saved"), "{}", a.status);
+        std::fs::remove_dir_all(base).ok();
     }
 
     #[test]

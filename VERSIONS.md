@@ -2,6 +2,12 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.2.8
+
+* **Plugins** (Settings → Plugins…): packs without code (clipart, presets, translations, data files), importers of other file formats, generators of shapes with a form and G-code postprocessors; scripts (Rhai) run in a sandbox, the output of a postprocessor is checked and controller commands are refused. File → Import → *Import with a plugin…* and *Generate shape…*. Shared with the other programs on baseCreator; see the Plugins wiki page.
+* Plugins can bring bits (`mill-tools` data files) and machine presets of class `mill`.
+* baseCreator v0.9.8.
+
 ## v0.2.7
 
 * **Import of UGS Designer files** (`.ugsd`, File → Import → Import UGS design…, also drag and drop): shapes, rounded rectangles, ellipses, text and pictures; every way of cutting of the file (cut type, depth, feed, spindle speed) becomes the settings of a layer. Hidden objects are drawn too. Bits of the file's tool diameter are added to the library; spindle speed is a percent of the top speed of the device.

@@ -1,0 +1,106 @@
+//! Plugins in MillCreator: the windows, the importers, the generators and the postprocessor of the G-code export
+//! (the machinery is in baseCreator: `base_core::plugins`, `base_ui::plugins_ui`).
+use crate::{App, Screen};
+use base_core::plugin_script::Shapes;
+use base_ui::editor::EditorHost;
+use base_ui::plugins_ui;
+use std::path::PathBuf;
+
+impl App {
+    /// The windows of the plugins and the generators; what a generator makes is added to the drawing.
+    pub(crate) fn plugin_windows(&mut self, ctx: &egui::Context) {
+        if let Some(say) = plugins_ui::window(ctx, &mut self.plugins) {
+            self.status = say;
+            self.after_plugins_changed();
+        }
+        let area = self.work_size_mm();
+        if let Some(s) = plugins_ui::generator_window(ctx, &mut self.plugins, area) {
+            self.add_plugin_shapes(s, "the generator");
+        }
+    }
+
+    /// Pictures and bits that plugins bring join the gallery and the library (once).
+    pub(crate) fn after_plugins_changed(&mut self) {
+        self.plugins.sync_clipart(&crate::data_paths().gallery);
+        self.clip.lib.refresh();
+        self.adopt_plugin_tools();
+    }
+
+    /// The bits of the plugins' `mill-tools` files the library does not have by name yet.
+    pub(crate) fn adopt_plugin_tools(&mut self) {
+        let mut added = 0;
+        for (_, text) in self.plugins.registry.data("millcreator", "mill-tools") {
+            added += self.tools.import_new(&text);
+        }
+        if added > 0 {
+            self.tools_win.changed = true;
+        }
+    }
+
+    /// Put shapes made by a plugin into the drawing: selected, and one undo takes them back.
+    fn add_plugin_shapes(&mut self, s: Shapes, what: &str) {
+        if self.screen == Screen::Start {
+            self.new_design();
+        }
+        self.checkpoint();
+        let n = s.scene.shapes.len();
+        let last = crate::layers::LAYER_COUNT - 1;
+        let ids = self.scene.append(s.scene, last);
+        self.ed.sel = ids.into_iter().collect();
+        self.ed.node_sel.clear();
+        self.touch_rev();
+        self.ed.view.need_fit = true;
+        self.status = format!("Added {n} shapes from {what}");
+        if !s.warnings.is_empty() {
+            self.status.push_str(&format!(" ({})", s.warnings.join("; ")));
+        }
+    }
+
+    /// File > Import > Import with a plugin…
+    pub(crate) fn import_with_plugin_dialog(&mut self) {
+        let area = self.work_size_mm();
+        match self.plugins.import_dialog(area) {
+            Some((p, r)) => self.finish_plugin_import(p, r),
+            None => self.status = "No plugin reads files: install one in the Plugins window".into(),
+        }
+    }
+
+    /// A file a plugin reads (by its extension): imported into the drawing. `false` when no plugin reads it.
+    pub(crate) fn try_plugin_import(&mut self, path: &std::path::Path) -> bool {
+        let area = self.work_size_mm();
+        match self.plugins.import_file(path, area) {
+            Some(r) => {
+                self.finish_plugin_import(path.to_path_buf(), r);
+                true
+            }
+            None => false,
+        }
+    }
+
+    fn finish_plugin_import(&mut self, path: PathBuf, r: Result<Shapes, String>) {
+        let name = path.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
+        match r {
+            Ok(s) => self.add_plugin_shapes(s, &name),
+            Err(e) => self.status = format!("Could not import {name}: {e}"),
+        }
+    }
+
+    /// The text of a G-code file after the postprocessor the person chose (as it is when none).
+    pub(crate) fn postprocessed(&mut self, text: String) -> Option<String> {
+        let area = self.work_size_mm();
+        match self.plugins.export_text(&text, area) {
+            Ok((t, said)) => {
+                if let Some(n) = self.plugins.post_name() {
+                    self.post_note = Some(format!("postprocessor {n}{}", if said.is_empty() { String::new() } else { format!(": {}", said.join("; ")) }));
+                } else {
+                    self.post_note = None;
+                }
+                Some(t)
+            }
+            Err(e) => {
+                self.status = format!("The postprocessor failed, nothing was saved: {e}");
+                None
+            }
+        }
+    }
+}

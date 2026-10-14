@@ -408,6 +408,25 @@ impl Library {
         Ok((added, problems))
     }
 
+    /// Read a file of bits (plugins bring them) and add the ones whose name the library does not have yet; the others
+    /// are left alone, so reading the same file at every start adds nothing. Returns how many were added.
+    pub fn import_new(&mut self, text: &str) -> usize {
+        let Ok(data) = serde_json::from_str::<FileData>(text) else { return 0 };
+        if data.format > FILE_FORMAT {
+            return 0;
+        }
+        let mut added = 0;
+        for t in data.tools.into_iter().take(MAX_TOOLS) {
+            if self.all().any(|o| o.name == t.name) {
+                continue;
+            }
+            if self.add(t).is_ok() {
+                added += 1;
+            }
+        }
+        added
+    }
+
     /// The user's bits as they are kept between runs.
     pub fn save_text(&self) -> String {
         self.export(None)
