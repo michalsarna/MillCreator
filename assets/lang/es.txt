@@ -253,3 +253,4 @@
 252|{}: la profundidad está limitada al recorrido de la máquina ({} mm)
 253|{}: la profundidad de {} mm es mayor que el grosor del material ({} mm)
 254|{}: {} rpm está fuera del rango del husillo {}…{} rpm
+255|Importar diseño de UGS…

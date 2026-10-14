@@ -253,3 +253,4 @@
 252|{}: djupet begränsas av maskinens rörelseområde ({} mm)
 253|{}: djupet {} mm är större än materialets tjocklek ({} mm)
 254|{}: {} varv/min ligger utanför spindelns område {}…{} varv/min
+255|Importera UGS-design…

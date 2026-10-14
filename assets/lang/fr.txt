@@ -253,3 +253,4 @@
 252|{} : la profondeur est limitée à la course de la machine ({} mm)
 253|{} : la profondeur de {} mm dépasse l'épaisseur du matériau ({} mm)
 254|{} : {} tr/min est hors de la plage de la broche {}…{} tr/min
+255|Importer un design UGS…

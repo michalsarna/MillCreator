@@ -253,3 +253,4 @@
 252|{}: dubina je ograničena hodom stroja ({} mm)
 253|{}: dubina {} mm veća je od debljine materijala ({} mm)
 254|{}: {} okr/min izvan je raspona vretena {}…{} okr/min
+255|Uvezi UGS dizajn…

@@ -253,3 +253,4 @@
 252|{}: de diepte is beperkt tot de slag van de machine ({} mm)
 253|{}: de diepte van {} mm is groter dan de dikte van het materiaal ({} mm)
 254|{}: {} tpm valt buiten het spindelbereik {}…{} tpm
+255|UGS-ontwerp importeren…

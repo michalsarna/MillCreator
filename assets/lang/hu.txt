@@ -253,3 +253,4 @@
 252|{}: a mélységet a gép mozgástartománya korlátozza ({} mm)
 253|{}: a(z) {} mm mélység nagyobb az anyag vastagságánál ({} mm)
 254|{}: {} ford./perc a főorsó tartományán kívül van ({}…{} ford./perc)
+255|UGS-terv importálása…

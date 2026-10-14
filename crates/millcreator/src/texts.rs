@@ -298,6 +298,7 @@ const TABLE: &[[&str; 7]] = &[
     ["{}: the depth is limited to the travel of the machine ({} mm)", "{}: głębokość jest ograniczona skokiem maszyny ({} mm)", "{}: Die Tiefe ist auf den Verfahrweg der Maschine begrenzt ({} mm)", "{}: la profondità è limitata alla corsa della macchina ({} mm)", "{}: syvyys on rajoitettu koneen liikematkaan ({} mm)", "{}：深度受机器行程限制（{} mm）", "{}: गहराई मशीन की यात्रा तक सीमित है ({} मिमी)"],
     ["{}: the depth of {} mm is more than the thickness of the material ({} mm)", "{}: głębokość {} mm jest większa niż grubość materiału ({} mm)", "{}: Die Tiefe von {} mm ist größer als die Dicke des Materials ({} mm)", "{}: la profondità di {} mm supera lo spessore del materiale ({} mm)", "{}: syvyys {} mm on suurempi kuin materiaalin paksuus ({} mm)", "{}：深度 {} mm 大于材料厚度（{} mm）", "{}: {} मिमी की गहराई सामग्री की मोटाई ({} मिमी) से अधिक है"],
     ["{}: {} rpm is outside the spindle range {}…{} rpm", "{}: {} obr./min jest poza zakresem wrzeciona {}…{} obr./min", "{}: {} U/min liegen außerhalb des Spindelbereichs {}…{} U/min", "{}: {} giri/min sono fuori dall'intervallo del mandrino {}…{} giri/min", "{}: {} rpm on karan alueen {}…{} rpm ulkopuolella", "{}：{} rpm 超出主轴范围 {}…{} rpm", "{}: {} आरपीएम स्पिंडल की सीमा {}…{} आरपीएम से बाहर है"],
+    ["Import UGS design…", "Importuj projekt UGS…", "UGS-Entwurf importieren…", "Importa progetto UGS…", "Tuo UGS-suunnitelma…", "导入 UGS 设计…", "UGS डिज़ाइन आयात करें…"],
 ];
 
 #[cfg(test)]

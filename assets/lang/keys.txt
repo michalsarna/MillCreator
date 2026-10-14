@@ -253,3 +253,4 @@
 252	{}: the depth is limited to the travel of the machine ({} mm)
 253	{}: the depth of {} mm is more than the thickness of the material ({} mm)
 254	{}: {} rpm is outside the spindle range {}…{} rpm
+255	Import UGS design…

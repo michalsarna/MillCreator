@@ -13,6 +13,7 @@ listed in its [CREDITS.md](https://github.com/michalsarna/baseCreator/blob/main/
 * **[GRBL](https://github.com/gnea/grbl)**: the controller firmware whose G-code dialect MillCreator writes.
 * **[Lucide](https://lucide.dev/)** icons (ISC) and **[Noto fonts](https://fonts.google.com/noto)** (SIL OFL 1.1), through baseCreator.
 * **[LightBurn](https://lightburnsoftware.com/)**: the format of its projects is read for import; MillCreator contains none of its code.
+* **[Universal G-code Sender](https://github.com/winder/Universal-G-Code-Sender)**: the format of its Designer files (`.ugsd`) is read for import; MillCreator contains none of its code.
 * **[muda](https://github.com/tauri-apps/muda)** and **[objc2](https://github.com/madsmtm/objc2)**, through baseCreator: the native macOS menu bar.
 * **[Material Design Icons](https://github.com/Templarian/MaterialDesign-SVG)** by Pictogrammers (Apache-2.0), through baseCreator: the pictures of the clipart gallery.
 
