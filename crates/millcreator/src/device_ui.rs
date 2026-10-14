@@ -257,8 +257,8 @@ impl App {
                             if new {
                                 ui.label(tr("Start from"));
                                 egui::ComboBox::from_id_salt("dev_preset").selected_text(tr("A usual machine size…")).show_ui(ui, |ui| {
-                                    for p in base_core::presets::MILL {
-                                        if ui.selectable_label(false, p.name).clicked() {
+                                    for p in base_core::presets::with_plugins(base_core::presets::MILL, &self.plugins.registry, "millcreator", base_core::plugins::PresetClass::Mill) {
+                                        if ui.selectable_label(false, &p.name).clicked() {
                                             d.area.x = p.area[0];
                                             d.area.y = p.area[1];
                                             d.area.z = p.area[2];
