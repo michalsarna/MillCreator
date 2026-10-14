@@ -7,11 +7,16 @@ look at the job in 3D and write G-code. It is the sibling of [LightCreator](http
 (laser) and shares its core and interface code through [baseCreator](https://github.com/michalsarna/baseCreator),
 pinned to a tag in `crates/millcreator/Cargo.toml`.
 
-> ⚠️ A milling machine is dangerous and this program has not been run on a machine by its author. It **writes G-code; it
-> does not control the machine.** Test every job in the air first. See the wiki page *Safety and Limitations*.
+> ⚠️ A milling machine is dangerous and this program has not been run on a machine by its author. It writes G-code and
+> can **stream it to a GRBL machine** (connect, home, frame, start, stop), but none of this has been tried on a real
+> machine. Test every job in the air first. See the wiki page *Safety and Limitations*.
 
-![Layers](docs/screenshots/05-layers.png)
-![3D view of the job](docs/screenshots/16-3d-view.png)
+## Screenshots
+
+![The layers and the 3D view](docs/screenshots/05-layers.png)
+
+More pictures (devices, the bit library, the 3D view, the preview from above, the connection and more) are on the
+[screenshots page](docs/SCREENSHOTS.md).
 
 The wiki has the full documentation in English and Polish: <https://github.com/michalsarna/MillCreator/wiki>
 (all pictures are on its *Screenshots* page).
@@ -27,8 +32,13 @@ The wiki has the full documentation in English and Polish: <https://github.com/m
   V-bit, engraving, tapered ball nose, drill), each with a picture that shows the letter of every dimension where it is
   measured; import and export as JSON.
 * **Material:** wood in three colours, metal, plastic in a colour you choose, and the thickness.
-* **3D view:** the block of material, the cuts and the moves at the safe height, turn / zoom / reset, a slider that plays
-  the job; the shown area is 10 % larger than the project.
+* **Preview:** a window with the block of material, the cuts and the moves at the safe height, in 3D (turn / zoom /
+  reset) or from above as a plan, with an animation (play, pause, speed, repeat); the shown area is 10 % larger than the
+  project. The **Toolpaths** button of the control bar draws the paths over the work area.
+* **The machine:** a GRBL controller on a serial port or a network socket (set in the device: port, baud rate, streaming,
+  homing after connecting); **Connect**, **Home**, **Frame** (the tool goes round the box of the work at the safe
+  height), **Start** and **Stop** of the job, **Save G-code**, pause and resume, a console. A rotary attachment can be
+  set in the device (the Y axis turns the work; the drawing may not be higher than the way round it).
 * **Toolpaths and G-code:** profiles, pockets, lines and drilling with passes; GRBL-style G-code with a pause to change
   the bit; warnings (no bit, deeper than the material, outside the work area, spindle out of range).
 * **Project file:** `.cre`, shared with LightCreator; MillCreator keeps its own `mill` section (layers, material, device
@@ -36,7 +46,7 @@ The wiki has the full documentation in English and Polish: <https://github.com/m
 * **Shared with LightCreator:** the window, menus and editor, 310 clipart pictures, import of SVG, PDF, Illustrator and
   LightBurn projects, 30 languages (the shared texts and MillCreator's own), 14 colour schemes.
 
-What is not there: machine control, tabs, ramps, V-carving, 3D relief, collision checks. See [FEATURES.md](FEATURES.md).
+What is not there: jogging, probing, tabs, ramps, V-carving, 3D relief, collision checks. See [FEATURES.md](FEATURES.md).
 
 ## Install
 

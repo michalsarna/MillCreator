@@ -23,7 +23,8 @@ Z kształtów, warstw, frezów i urządzenia program tworzy ruchy maszyny. Wspó
 | przeciąganie prawym lub środkowym | przesuwa obraz |
 | **Reset view** lub dwuklik | powrót do pierwszego widoku |
 | Material, Cuts, Moves at the safe height | pokazuje lub ukrywa każdą część; niebieska ramka to bezpieczna wysokość |
-| suwak Progress | pokazuje zadanie do pewnej części jego długości, z zaznaczonym frezem; rysowane cięcia są tak szerokie jak frez |
+| animacja | z powrotem na początek, odtwarzanie / pauza, suwak postępu, szybkość (×0.25 do ×25) i powtarzanie; zadanie jest pokazane do pewnej części jego długości, z zaznaczonym frezem; rysowane cięcia są tak szerokie jak frez |
+| **3D** / **From above** | obraz 3D albo plan zadania widziany z góry (nie da się go obracać) |
 
 Cięcia są rysowane kolorem swojej warstwy nad rowkiem tak szerokim jak frez na danej głębokości (frez V poszerza się z głębokością). Okno pokazuje długość cięć, szacunek czasu i ostrzeżenia, a po każdej zmianie projektu tworzy program od nowa.
 

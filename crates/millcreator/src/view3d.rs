@@ -57,22 +57,27 @@ pub struct View3d {
     pub show_stock: bool,
     /// How much of the program is shown, 0..=1.
     pub progress: f32,
+    /// Looked at from straight above: the plan of the job. It cannot be turned.
+    pub top: bool,
 }
 
 impl Default for View3d {
     fn default() -> View3d {
-        View3d { yaw: START_YAW, pitch: START_PITCH, zoom: 1.0, pan: Vec2::ZERO, show_cuts: true, show_rapids: true, show_stock: true, progress: 1.0 }
+        View3d { yaw: START_YAW, pitch: START_PITCH, zoom: 1.0, pan: Vec2::ZERO, show_cuts: true, show_rapids: true, show_stock: true, progress: 1.0, top: false }
     }
 }
 
 impl View3d {
     /// Back to the first position of the view (the choices of what to show stay).
     pub fn reset(&mut self) {
-        let keep = View3d { show_cuts: self.show_cuts, show_rapids: self.show_rapids, show_stock: self.show_stock, ..View3d::default() };
+        let keep = View3d { show_cuts: self.show_cuts, show_rapids: self.show_rapids, show_stock: self.show_stock, top: self.top, ..View3d::default() };
         *self = keep;
     }
 
     pub fn rotate(&mut self, dx: f32, dy: f32) {
+        if self.top {
+            return;
+        }
         self.yaw = (self.yaw - dx * 0.01).rem_euclid(std::f32::consts::TAU);
         self.pitch = (self.pitch + dy * 0.01).clamp(MIN_PITCH, MAX_PITCH);
     }
@@ -83,7 +88,8 @@ impl View3d {
 
     /// The direction from the model to the eye, and the right and up directions of the picture.
     fn axes(&self) -> ([f32; 3], [f32; 3], [f32; 3]) {
-        let (sy, cy, sp, cp) = (self.yaw.sin(), self.yaw.cos(), self.pitch.sin(), self.pitch.cos());
+        let (yaw, pitch) = if self.top { (0.0, std::f32::consts::FRAC_PI_2) } else { (self.yaw, self.pitch) };
+        let (sy, cy, sp, cp) = (yaw.sin(), yaw.cos(), pitch.sin(), pitch.cos());
         ([sy * cp, -cy * cp, sp], [cy, sy, 0.0], [-sy * sp, cy * sp, cp])
     }
 }
@@ -316,6 +322,24 @@ mod tests {
         assert!(v.pitch >= MIN_PITCH);
         v.zoom_by(1e9);
         assert!(v.zoom <= 40.0);
+    }
+
+    #[test]
+    fn from_straight_above_the_plan_is_drawn_as_on_the_map_and_cannot_be_turned() {
+        let area = Rect::from_min_size(Pos2::ZERO, Vec2::new(800.0, 600.0));
+        let mut v = View3d { top: true, ..View3d::default() };
+        v.rotate(200.0, 100.0);
+        assert_eq!((v.yaw, v.pitch), (START_YAW, START_PITCH), "turning does nothing");
+        let pj = Projector::new(&v, [0.0, 0.0, 0.0], 50.0, area);
+        let o = pj.project([0.0, 0.0, 0.0]);
+        let right = pj.project([10.0, 0.0, 0.0]);
+        let away = pj.project([0.0, 10.0, 0.0]);
+        let high = pj.project([0.0, 0.0, 10.0]);
+        assert!(right.x > o.x && (right.y - o.y).abs() < 1e-3, "X to the right");
+        assert!(away.y < o.y && (away.x - o.x).abs() < 1e-3, "Y up the screen");
+        assert!((high - o).length() < 1e-3, "height does not move the point");
+        v.reset();
+        assert!(v.top, "the choice of the view stays");
     }
 
     #[test]

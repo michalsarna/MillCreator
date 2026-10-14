@@ -11,7 +11,9 @@
 * **What is tested:** the geometry of the toolpaths (the distance from the line, the passes, the safe height), the bit library with its checks and files, the device files, the project file and the G-code text, by automatic tests on every change. The pictures in this wiki are rendered by the program itself.
 
 ## What it does not do
-* It **does not connect to or control the machine**; it writes G-code only.
+* It can **connect to a GRBL machine and stream the job** (Connect, Home, Frame, Start, Stop), but **none of this has been tried on a real machine**. Start with the spindle off and the bit in the air, and stay at the machine; the Stop button aborts with a soft reset.
+* Frame goes round the box of the work at the safe height with the spindle off: check that the safe height is really clear.
+* No jogging and no probing.
 * No tabs, no ramps or helical entry (a bit plunges straight down), no climb / conventional choice, no V-carving, no 3D relief, no tool length offsets and no collision check with clamps.
 * The pocket leaves a thin strip in the middle when its width is not a multiple of the step over.
 * A shape outside the work area is reported, but not moved.

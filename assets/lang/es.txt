@@ -1,172 +1,240 @@
-0|Vista 3D del trabajo
-1|Vista 3D del trabajo…
-2|Una copia entre tus propias fresas
-3|Un agujero en el centro de cada forma cerrada de la capa, en pasadas de la profundidad indicada.
+0|Vista 3D del trabajo…
+1|Una copia entre tus propias fresas
+2|Un agujero en el centro de cada forma cerrada de la capa, en pasadas de la profundidad indicada.
+3|Un nombre de puerto, o el id USB de fabricante y producto (VID:PID, hexadecimal): se usa el puerto que tenga estos id.
 4|Una fresa predefinida no se puede modificar. Haz una copia para cambiarla.
-5|Acerca de
-6|Añadir una cámara
-7|Añadir un dispositivo
-8|Añadir dispositivo
-9|Añadir dispositivo…
-10|Dirección
-11|Toda el área dentro de la línea se vacía, anillo tras anillo, hasta la profundidad de la capa.
-12|Organizar
-13|Atrás izquierda
-14|Atrás derecha
-15|Vuelve a la primera vista. Hacer doble clic en la imagen hace lo mismo.
-16|Fresa de punta esférica
-17|Fresa
-18|Biblioteca de fresas
-19|Biblioteca de fresas…
-20|Fresa tórica (radio de esquina)
-21|Cámara
-22|Nombre de la cámara
-23|Número de cámara
-24|Cámara de este ordenador
-25|Rotación de la cámara
-26|Cámaras
-27|No se puede usar el archivo
-28|No se puede usar el archivo: {}
-29|Elige una fresa
-30|Elige la máquina con la que vas a trabajar.
-31|Confirmar eliminación
-32|Controlador
-33|Copiado a {}
-34|Radio de esquina
-35|No se pudo guardar
-36|No se pudo guardar: {}
-37|Cortar por dentro de la línea
-38|Cortar por fuera de la línea
-39|Cortes
-40|Cortes: {} m, unos {} min
-41|Diámetro de corte
-42|Longitud de corte
-43|Eliminar esta cámara
-44|Profundidad
-45|Dispositivo
-46|Ajustes del dispositivo
-47|Ajustes del dispositivo…
-48|Broca
-49|Edición
-50|Editar…
-51|Fresa de grabado
-52|Exportar G-code…
-53|Exportar esta fresa…
-54|Exportar…
-55|Avance
-56|Archivo
-57|Fresa de punta plana
-58|Filos
-59|Seguir la línea
-60|Delante izquierda
-61|Delante derecha
-62|General
-63|Ayuda
-64|Velocidad máxima
-65|No tengo dispositivo
-66|Importar proyecto de LightBurn…
-67|Dispositivo {} importado
-68|Importar…
-69|Capas
-70|Omitidos
-71|Velocidad mínima
-72|Máquina
-73|Cero de la máquina (0,0)
-74|Material
-75|Material de la pieza
-76|Metal
-77|Se fresa: se incluye en las trayectorias y en el G-code
-78|Fresado
-79|Movimientos a la altura de seguridad
-80|Mis fresas
-81|Nuevo
-82|Nueva fresa
-83|Sin fresa
-84|Aún no hay dispositivo. Añade uno o trabaja sin máquina.
-85|No es una dirección http o https.
-86|Notas
-87|Notas sobre esta máquina
-88|Todavía no hay nada aquí
-89|Nada seleccionado
-90|Solo se puede cambiar el color de un plástico. El material y su grosor se muestran en la vista 3D y se guardan en el proyecto.
-91|Abre un dibujo o empieza un diseño vacío.
-92|Abrir…
-93|Operación
-94|Longitud total
-95|Profundidad de pasada
-96|Profundidad de pasada (del diámetro)
-97|Plástico
-98|Avance de penetración
-99|Vaciado
-100|Progreso
-101|Propiedades
-102|Poner las formas seleccionadas en esta capa
-103|Leer un dispositivo desde un archivo
-104|Leer fresas desde un archivo
-105|Listo
-106|Fresas predefinidas
-107|Restablecer la vista
-108|Altura de seguridad
-109|Guardar
-110|Guardar como…
-111|Guardar este dispositivo en un archivo
-112|Guardar tus fresas en un archivo
-113|Guardado
-114|Dispositivo guardado en {}
-115|{} guardado
-116|Ajustes
-117|Diámetro del vástago
-118|Formas en esta capa
-119|Se muestra en la pestaña Cámara
-120|Se muestra en el área de trabajo
-121|Velocidad de los movimientos sobre el material
-122|Husillo
-123|Velocidad del husillo
-124|Iniciar
-125|Velocidades iniciales de una capa
-126|Solape lateral
-127|Solape lateral (del diámetro)
-128|Activada
-129|Fresa cónica de punta esférica
-130|La fresa va por dentro de la línea, así que la forma se cae: un agujero o una ventana.
-131|La fresa va por fuera de la línea, así que la forma queda: se corta una pieza del material.
-132|El centro de la fresa sigue la línea: grabados y ranuras. Las líneas abiertas también funcionan.
-133|Los cortes salen del área de trabajo del dispositivo
-134|El dispositivo de este proyecto
-135|Se añadió el dispositivo.
-136|Se guardó el dispositivo.
-137|El archivo es demasiado grande
-138|No hay nada que cortar: pon formas en capas que tengan fresa.
-139|Aún no hay nada que mostrar: dibuja formas y ponlas en capas que tengan fresa.
-140|Grosor
-141|Esta versión no puede usar las cámaras del ordenador.
-142|Este dispositivo no tiene ninguna cámara activada. Añade una en los ajustes del dispositivo.
-143|Este dispositivo no está en la lista: vino con el proyecto
-144|Este es el dispositivo sustituto (Dummy): área de trabajo y velocidades predeterminadas.
-145|Diámetro de la punta
-146|Demasiados dispositivos
-147|Tipo
-148|Unidades
-149|Fresa en V
-150|Ver
-151|Opciones de vista…
-152|Espera tras encender
-153|Esperando la imagen…
-154|Madera, oscura
-155|Madera, clara
-156|Madera, media
-157|Trabaja en un proyecto sin máquina: un dispositivo sencillo llamado Dummy, con el área de trabajo y las velocidades predeterminadas
-158|Z es cuánto baja el husillo desde la parte superior del material. La altura de seguridad es la altura a la que se mueve el husillo entre cortes.
-159|fresas añadidas
-160|fresas añadidas a la biblioteca
-161|p. ej. Mi fresadora CNC
-162|este proyecto se hizo para otra máquina: {}
-163|{} pasadas hasta {} mm
-164|{}: no se eligió ninguna fresa
-165|{}: nada que cortar (la línea puede ser demasiado pequeña para la fresa)
-166|{}: las líneas abiertas se omiten en un vaciado
-167|{}: las líneas abiertas se omiten en un perfil (usa «Seguir la línea»)
-168|{}: las imágenes no se fresan
-169|{}: la profundidad está limitada al recorrido de la máquina ({} mm)
-170|{}: la profundidad de {} mm es mayor que el grosor del material ({} mm)
-171|{}: {} rpm está fuera del rango del husillo {}…{} rpm
+5|Hay un accesorio rotativo conectado
+6|Interrumpir el trabajo en curso
+7|Acerca de
+8|Añadir una cámara
+9|Añadir un dispositivo
+10|Añadir dispositivo
+11|Añadir dispositivo…
+12|Dirección
+13|Tras conectar
+14|Toda el área dentro de la línea se vacía, anillo tras anillo, hasta la profundidad de la capa.
+15|Organizar
+16|Atrás izquierda
+17|Atrás derecha
+18|Vuelve a la primera vista. Hacer doble clic en la imagen hace lo mismo.
+19|Fresa de punta esférica
+20|Velocidad en baudios
+21|Vincular a este puerto
+22|Fresa
+23|Biblioteca de fresas
+24|Biblioteca de fresas…
+25|Dispositivo USB vinculado
+26|Fresa tórica (radio de esquina)
+27|Cámara
+28|Nombre de la cámara
+29|Número de cámara
+30|Cámara de este ordenador
+31|Rotación de la cámara
+32|Vista de cámara
+33|Cámaras
+34|No se puede usar el archivo
+35|No se puede usar el archivo: {}
+36|Elige una fresa
+37|Elige primero un puerto o un host en los ajustes del dispositivo.
+38|Elige la máquina con la que vas a trabajar.
+39|Mandril
+40|Circunferencia
+41|Borrar una alarma
+42|Borrar la alarma ($X)
+43|Borrar la alarma omite el homing: úselo solo cuando se sepa que el cabezal está en un lugar seguro.
+44|Confirmar eliminación
+45|Conectar
+46|Volver a conectar automáticamente
+47|Conéctate primero a la máquina (pestaña Dispositivo)
+48|Conectado
+49|Conexión
+50|Tipo de conexión
+51|Consola
+52|Controlador
+53|Copiado a {}
+54|Radio de esquina
+55|No se pudo guardar
+56|No se pudo guardar: {}
+57|El recuento llena el búfer del controlador y es rápido. El simple envía una línea y espera su ok: lento, pero para firmware que responde mal.
+58|Cortar por dentro de la línea
+59|Cortar por fuera de la línea
+60|Cortes
+61|Cortes: {} m, unos {} min
+62|Diámetro de corte
+63|Longitud de corte
+64|Eliminar esta cámara
+65|Profundidad
+66|Dispositivo
+67|Ajustes del dispositivo
+68|Ajustes del dispositivo…
+69|Desconectar
+70|Broca
+71|Edición
+72|Editar…
+73|Fresa de grabado
+74|Exportar G-code…
+75|Exportar esta fresa…
+76|Exportar…
+77|Avance
+78|Retención de avance
+79|Archivo
+80|Fresa de punta plana
+81|Filos
+82|Seguir la línea
+83|Marco
+84|Marco del área de trabajo
+85|Desde arriba
+86|Delante izquierda
+87|Delante derecha
+88|GRBL 1.1 tiene tres ejes: el eje A no está disponible, se usa Y.
+89|General
+90|Recorre el recuadro donde se hará el trabajo
+91|Ayuda
+92|Velocidad máxima
+93|Inicio
+94|Hacer homing de la máquina
+95|Host
+96|No tengo dispositivo
+97|Importar proyecto de LightBurn…
+98|Dispositivo {} importado
+99|Importar…
+100|Tipo
+101|Capas
+102|Omitidos
+103|Velocidad mínima
+104|Máquina
+105|Cero de la máquina (0,0)
+106|Material
+107|Material de la pieza
+108|Metal
+109|Micropasos del motor para una vuelta completa de lo que mueve (el mandril o un rodillo).
+110|Micropasos por vuelta
+111|Se fresa: se incluye en las trayectorias y en el G-code
+112|Fresado
+113|Movimientos a la altura de seguridad
+114|Mis fresas
+115|Nuevo
+116|Nueva fresa
+117|Sin fresa
+118|Aún no hay dispositivo. Añade uno o trabaja sin máquina.
+119|Sin puerto
+120|No es una dirección http o https.
+121|Notas
+122|Notas sobre esta máquina
+123|Todavía no hay nada aquí
+124|Nada seleccionado
+125|Solo se puede cambiar el color de un plástico. El material y su grosor se muestran en la vista 3D y se guardan en el proyecto.
+126|Abre un dibujo o empieza un diseño vacío.
+127|Abre el enlace con el controlador indicado en los ajustes del dispositivo
+128|Abrir la ventana de vista previa
+129|Abrir…
+130|Operación
+131|Longitud total
+132|Profundidad de pasada
+133|Profundidad de pasada (del diámetro)
+134|Plástico
+135|Avance de penetración
+136|Vaciado
+137|Puerto
+138|Puerto o id USB
+139|Vista previa
+140|Vista previa…
+141|Propiedades
+142|Poner las formas seleccionadas en esta capa
+143|Leer un dispositivo desde un archivo
+144|Leer fresas desde un archivo
+145|Listo
+146|Fresas predefinidas
+147|Reconexión
+148|Actualizar
+149|Recuerda los id USB del puerto elegido: si su nombre cambia, el puerto se encuentra de nuevo por ellos.
+150|Restablecer la vista
+151|Reanudar
+152|Diámetro del rodillo
+153|Rodillos
+154|Rotativo
+155|PARAR
+156|Altura de seguridad
+157|Guardar
+158|Guardar G-code
+159|Guardar como…
+160|Guardar este dispositivo en un archivo
+161|Guardar tus fresas en un archivo
+162|Guardado
+163|Dispositivo guardado en {}
+164|{} guardado
+165|Ajustes
+166|Diámetro del vástago
+167|Formas en esta capa
+168|Muestra la imagen en vivo de la cámara de esta máquina
+169|Muestra las trayectorias en el área de trabajo
+170|Se muestra en la pestaña Cámara
+171|Se muestra en el área de trabajo
+172|Velocidad de los movimientos sobre el material
+173|Husillo
+174|Velocidad del husillo
+175|Iniciar
+176|Iniciando el trabajo: {} líneas, ~{}
+177|Velocidades iniciales de una capa
+178|Solape lateral
+179|Solape lateral (del diámetro)
+180|Enviar el trabajo a la máquina conectada
+181|Transmisión
+182|Activada
+183|Puerto TCP
+184|Fresa cónica de punta esférica
+185|La fresa va por dentro de la línea, así que la forma se cae: un agujero o una ventana.
+186|La fresa va por fuera de la línea, así que la forma queda: se corta una pieza del material.
+187|El centro de la fresa sigue la línea: grabados y ranuras. Las líneas abiertas también funcionan.
+188|El controlador necesita {} pasos por mm en el eje Y ($101).
+189|Los cortes salen del área de trabajo del dispositivo
+190|El dispositivo de este proyecto
+191|Se añadió el dispositivo.
+192|Se guardó el dispositivo.
+193|El dibujo es más alto que el contorno de la pieza ({} mm)
+194|El archivo es demasiado grande
+195|El trabajo ha terminado.
+196|El trabajo está en marcha.
+197|La circunferencia de la pieza: el diseño no puede ser más alto.
+198|No hay nada que cortar: pon formas en capas que tengan fresa.
+199|No hay nada que enmarcar: pon formas en capas que tengan fresa.
+200|Aún no hay nada que mostrar: dibuja formas y ponlas en capas que tengan fresa.
+201|Grosor
+202|Esta versión no puede usar las cámaras del ordenador.
+203|Este dispositivo no tiene ninguna cámara activada. Añade una en los ajustes del dispositivo.
+204|Este dispositivo no está en la lista: vino con el proyecto
+205|Este es el dispositivo sustituto (Dummy): área de trabajo y velocidades predeterminadas.
+206|Tiempo {} / {}
+207|Diámetro de la punta
+208|Demasiados dispositivos
+209|Trayectorias
+210|Tipo
+211|Desvincular
+212|Unidades
+213|Fresa en V
+214|Ver
+215|Opciones de vista…
+216|Espera tras encender
+217|Esperando la imagen…
+218|Cuando la conexión se cae sola, reintenta cada pocos segundos hasta que pulse Desconectar.
+219|Con un accesorio rotativo el eje Y gira la pieza: el dibujo no puede ser más alto que el contorno de la pieza. El modelo es simple (un plato gira el diámetro de la pieza, los rodillos mueven la superficie como la suya); una máquina real necesita pruebas.
+220|Madera, oscura
+221|Madera, clara
+222|Madera, media
+223|Trabaja en un proyecto sin máquina: un dispositivo sencillo llamado Dummy, con el área de trabajo y las velocidades predeterminadas
+224|Diámetro de la pieza
+225|Z es cuánto baja el husillo desde la parte superior del material. La altura de seguridad es la altura a la que se mueve el husillo entre cortes.
+226|fresas añadidas
+227|fresas añadidas a la biblioteca
+228|p. ej. Mi fresadora CNC
+229|ninguno
+230|este proyecto se hizo para otra máquina: {}
+231|{} pasadas hasta {} mm
+232|{}: no se eligió ninguna fresa
+233|{}: nada que cortar (la línea puede ser demasiado pequeña para la fresa)
+234|{}: las líneas abiertas se omiten en un vaciado
+235|{}: las líneas abiertas se omiten en un perfil (usa «Seguir la línea»)
+236|{}: las imágenes no se fresan
+237|{}: la profundidad está limitada al recorrido de la máquina ({} mm)
+238|{}: la profundidad de {} mm es mayor que el grosor del material ({} mm)
+239|{}: {} rpm está fuera del rango del husillo {}…{} rpm

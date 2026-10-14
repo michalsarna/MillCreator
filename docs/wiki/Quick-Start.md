@@ -10,4 +10,4 @@
 6. **Look at the job:** **Milling → 3D view of the job…** shows the cuts and the moves at the safe height. Warnings (no bit, deeper than the material, outside the work area) are listed above the picture. See [3D View and G-code](3D-View-and-G-code).
 7. **Export G-code** from the 3D window or **Milling → Export G-code…**, and save the project (`.cre`).
 
-> The program writes G-code; it does not control the machine. Load the file into your controller software, test it in the air first and stay at the machine. See [Safety and Limitations](Safety-and-Limitations).
+> The program writes G-code and can stream it to a connected GRBL machine (Device tab: Connect; control bar: Frame, Start, Stop), but that has not been tried on a real machine. Test the job in the air first and stay at the machine. See [Safety and Limitations](Safety-and-Limitations).

@@ -10,4 +10,4 @@
 6. **Obejrzyj zadanie:** **Milling → 3D view of the job…** pokazuje cięcia i ruchy na bezpiecznej wysokości. Ostrzeżenia (brak freza, głębiej niż materiał, poza polem roboczym) są wypisane nad obrazem. Zobacz [Widok 3D i G-code](Widok-3D-i-G-code).
 7. **Zapisz G-code** z okna 3D albo z **Milling → Export G-code…** i zapisz projekt (`.cre`).
 
-> Program zapisuje G-code, ale nie steruje maszyną. Wczytaj plik do swojego programu sterującego, sprawdź go najpierw w powietrzu i bądź przy maszynie. Zobacz [Bezpieczeństwo i ograniczenia](Bezpieczenstwo-i-ograniczenia).
+> Program zapisuje G-code i może przesłać go do podłączonej maszyny GRBL (karta Device: Connect; pasek: Frame, Start, Stop), ale nie było to sprawdzone na prawdziwej maszynie. Sprawdź zadanie najpierw w powietrzu i bądź przy maszynie. Zobacz [Bezpieczeństwo i ograniczenia](Bezpieczenstwo-i-ograniczenia).

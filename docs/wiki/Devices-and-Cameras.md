@@ -18,10 +18,12 @@ Makes, once, a plain device called **Dummy**: a 300 × 200 mm work area with 60 
 | General | name, units (mm or inch; geometry is always stored in mm), machine zero (front left, front right, back left, back right) |
 | Machine | work area X and Y, travel in Z, **safe height** (where the spindle moves between cuts) and the speed of moves above the material |
 | Spindle | lowest and highest speed, and the wait after switching on |
+| Connection | serial port or network socket, port or USB id, baud rate, streaming, what to do after connecting |
+| Rotary | a rotary attachment: kind, diameters, microsteps per turn |
 | Camera | up to eight cameras: an address (MJPEG stream or JPEG snapshot, http / https) or a camera of the computer, a rotation of 0 / 90 / 180 / 270°, on / off |
 | Notes | free text |
 
-The controller is GRBL. **MillCreator does not connect to the machine**: the device describes it so that the toolpaths fit it.
+The controller is GRBL. The **Connection** page sets how to reach it (a serial port or a network socket, baud rate, counting or simple streaming, homing or clearing an alarm after connecting) and the **Rotary** page a rotary attachment (chuck or rollers, workpiece diameter, microsteps per turn; the Y axis turns the work). The **Device** tab of the editor has Connect, Home, Unlock, Pause, Resume, the state and position of the machine and a console.
 
 ## Camera
 When the device has a camera that is switched on (and valid), the editor gets a **Camera** tab with its live picture. Pictures from an address use the stream reader of baseCreator; cameras of the computer need a build with `--features camera`. Rotation and the picture adjustments of the camera are applied.

@@ -2,6 +2,21 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.2.2
+
+**The machine**
+* MillCreator can **connect to a GRBL machine**: the device has a *Connection* page (serial port or network socket, baud rate, streaming, homing or clearing an alarm after connecting) and the Device tab has Connect, Home, Unlock, Pause, Resume, the state, the position and a console.
+* The control bar has **Frame** (the tool goes round the box of the work at the safe height, spindle off), **Start** / **Stop** of the job and **Save G-code**, as in LightCreator.
+* The device has a **Rotary** page (chuck or rollers, workpiece diameter, microsteps per turn); a drawing higher than the way round the workpiece is reported.
+
+**Preview**
+* The control bar has **Toolpaths** (the paths over the work area), **Preview…** and **Camera view** (a window with the live camera).
+* The preview window is the same as PenCreator's and has an **animation** (back to the start, play / pause, speed, repeat) and a choice of **3D** or **From above** (the plan of the job).
+
+**Interface**
+* The pointer is the tool's only over the work area; the line of the side panel and the line between the list of layers and their options light up red and thicken under the pointer, and the latter is dragged to resize the list.
+* baseCreator v0.9.0.
+
 ## v0.2.1
 
 * MillCreator's own texts are translated into the 30 languages; warnings of the toolpaths too.

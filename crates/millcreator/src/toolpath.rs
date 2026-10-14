@@ -238,6 +238,14 @@ pub fn generate(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Devi
         }
     }
     prog.bounds = bounds(&prog.moves);
+    if dev.rotary.enabled {
+        if let Some((lo, hi)) = prog.bounds {
+            let round = dev.rotary.circumference();
+            if hi[1] - lo[1] > round + 1e-6 {
+                prog.warnings.push(Warn::new("The drawing is higher than the way round the workpiece ({} mm)", &[&format!("{round:.1}")]));
+            }
+        }
+    }
     if let Some((lo, hi)) = prog.bounds {
         if lo[0] < -1e-6 || lo[1] < -1e-6 || hi[0] > dev.area.x + 1e-6 || hi[1] > dev.area.y + 1e-6 {
             prog.warnings.push(Warn::new("The cuts go outside of the work area of the device", &[]));
@@ -305,6 +313,21 @@ fn bounds(moves: &[Move]) -> Option<(P3, P3)> {
         }
     }
     Some((lo, hi))
+}
+
+/// G-code that takes the tool once round the box `b` (min x, min y, max x, max y, in the coordinates of the work area) at
+/// the safe height, with the spindle off.
+pub fn frame_gcode(b: [f64; 4], dev: &Device) -> String {
+    let feed = dev.rapid.clamp(100.0, 6000.0);
+    let corner = |x: f64, y: f64| machine_xy(dev, x, y);
+    let (x0, y0) = corner(b[0], b[1]);
+    let (x1, y1) = corner(b[2], b[3]);
+    let mut g = String::from("G21 G90\nM5\n");
+    g.push_str(&format!("G0 Z{}\nG0 X{} Y{}\n", num(dev.safe_z), num(x0), num(y0)));
+    for (x, y) in [(x1, y0), (x1, y1), (x0, y1), (x0, y0)] {
+        g.push_str(&format!("G1 X{} Y{} F{}\n", num(x), num(y), num(feed)));
+    }
+    g
 }
 
 /// The machine zero of the device: the coordinates of a point of the work area as the machine counts them.
@@ -412,6 +435,29 @@ mod tests {
         let pts: Vec<P3> = cuts.flat_map(|m| [m.from, m.to]).collect();
         let f = |i: usize, min: bool| pts.iter().map(|p| p[i]).fold(if min { f64::INFINITY } else { f64::NEG_INFINITY }, |a, b| if min { a.min(b) } else { a.max(b) });
         (f(0, true), f(1, true), f(0, false), f(1, false))
+    }
+
+    #[test]
+    fn the_frame_goes_round_the_box_at_the_safe_height_and_a_rotary_limits_the_height() {
+        let (lib, mut dev, stock, layers) = setup();
+        let g = frame_gcode([10.0, 20.0, 60.0, 50.0], &dev);
+        assert!(g.contains("G0 Z5") && g.contains("M5") && g.contains("G1 X60 Y20") && g.contains("G1 X60 Y50"), "{g}");
+        assert!(g.trim_end().ends_with("G1 X10 Y20 F3000"), "{g}");
+        dev.origin = Origin::BackLeft;
+        assert!(frame_gcode([10.0, 20.0, 60.0, 50.0], &dev).contains("Y-180"), "machine zero moves it");
+        // A rotary with a small workpiece: the drawing is higher than the way round it.
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 10.0, 10.0, 40.0);
+        let mut layers = layers;
+        layers[0].depth = 2.0;
+        dev.origin = Origin::FrontLeft;
+        dev.rotary.enabled = true;
+        dev.rotary.diameter = 10.0;
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(prog.warnings.iter().any(|w| w.to_string().contains("way round")), "{:?}", prog.warnings);
+        dev.rotary.diameter = 100.0;
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(!prog.warnings.iter().any(|w| w.to_string().contains("way round")));
     }
 
     #[test]

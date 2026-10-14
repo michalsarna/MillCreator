@@ -6,6 +6,7 @@ mod device;
 mod device_ui;
 mod layers;
 mod layers_ui;
+mod machine_ui;
 mod materials;
 mod menu;
 mod preview_ui;
@@ -31,10 +32,11 @@ use base_ui::editor::{EditorCanvas, EditorCommands, EditorHost, EditorState, Too
 use base_ui::i18n::{self, tr, Lang};
 use base_ui::menu::{MenuHost, Menus};
 use base_ui::theme::{self, Scheme};
-use base_ui::widgets::icon_button_ink;
+use base_ui::widgets::{icon_button_ink, window_toggle};
 use device::Device;
 use device_ui::{CamState, DeviceEdit};
 use layers::MillLayer;
+use machine_ui::MachineLink;
 use materials::Stock;
 use toolpath::Program;
 use tools::Library;
@@ -165,6 +167,11 @@ struct App {
     rev: u64,
     prog_rev: u64,
     cam: Option<CamState>,
+    machine: MachineLink,
+    playback: base_ui::playback::Playback,
+    /// The toolpaths are drawn over the work area.
+    toolpaths_on: bool,
+    show_camera: bool,
     show_options: bool,
     show_about: bool,
     #[cfg(target_os = "macos")]
@@ -229,6 +236,10 @@ impl App {
             rev: 0,
             prog_rev: 0,
             cam: None,
+            machine: MachineLink::new(ctx),
+            playback: base_ui::playback::Playback::default(),
+            toolpaths_on: false,
+            show_camera: false,
             show_options: false,
             show_about: false,
             #[cfg(target_os = "macos")]
@@ -529,7 +540,47 @@ impl App {
             }
             ui.separator();
             base_ui::editor::grid_toggles(self, ui);
-            ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| base_ui::editor::selection_size(self, ui));
+            ui.separator();
+            // Green while the toolpaths are shown on the work area, grey otherwise.
+            let on = self.toolpaths_on;
+            let (fill, ink) = if on { (Color32::from_rgb(0x2e, 0xa0, 0x4f), Color32::WHITE) } else { (theme::panel_dark(), theme::text_dim()) };
+            let btn = egui::Button::image_and_text(base_ui::icons::slot(Some("route"), ink), RichText::new(tr("Toolpaths")).color(ink)).fill(fill);
+            if ui.add(btn).on_hover_text(tr("Show the toolpaths on the work area")).clicked() {
+                self.toolpaths_on = !self.toolpaths_on;
+            }
+            if window_toggle(ui, &tr("Preview…"), &tr("Open the preview window"), self.show_3d, self.screen == Screen::Editor) {
+                if self.show_3d {
+                    self.show_3d = false;
+                } else {
+                    self.open_preview();
+                }
+            }
+            if self.device.camera().is_some() && window_toggle(ui, &tr("Camera view"), &tr("Show the live camera picture of this machine"), self.show_camera, true) {
+                self.show_camera = !self.show_camera;
+            }
+            ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                let running = self.machine.job_running();
+                if running {
+                    let stop = egui::Button::new(RichText::new(format!("   {}   ", tr("STOP").to_uppercase())).color(Color32::WHITE).strong()).fill(Color32::from_rgb(0xc0, 0x30, 0x30));
+                    if ui.add(stop).on_hover_text(tr("Abort the running job")).clicked() {
+                        self.abort_job();
+                    }
+                } else {
+                    let go = egui::Button::new(RichText::new(format!("   {}   ", tr("Start").to_uppercase())).color(Color32::WHITE).strong()).fill(theme::accent());
+                    let tip = if self.can_start() { tr("Stream the job to the connected machine") } else { tr("Connect to the machine first (Device tab)") };
+                    if ui.add_enabled(self.can_start(), go).on_hover_text(tip).clicked() {
+                        self.start_job();
+                    }
+                }
+                let tip = if self.machine.connected { tr("Go round the box where the work will be done") } else { tr("Connect to the machine first (Device tab)") };
+                if ui.add_enabled(self.machine.connected && !running, egui::Button::new(tr("Frame"))).on_hover_text(tip).clicked() {
+                    self.frame_job();
+                }
+                if base_ui::window::save_button(ui, &tr("Save G-code")).clicked() {
+                    self.export_gcode();
+                }
+                base_ui::editor::selection_size(self, ui);
+            });
         });
     }
 
@@ -540,6 +591,14 @@ impl App {
                 base_ui::editor::zoom_and_cursor(self, ui);
                 ui.separator();
                 ui.label(RichText::new(&self.device.name).color(theme::text_dim())).on_hover_text(tr("The device of this project"));
+                ui.separator();
+                let (text, color) = if self.machine.connected {
+                    let state = if self.machine.state.is_empty() { tr("Connected").to_string() } else { self.machine.state.clone() };
+                    (state, Color32::from_rgb(0x2e, 0xa0, 0x4f))
+                } else {
+                    (tr("Disconnected").to_string(), theme::text_dim())
+                };
+                ui.label(RichText::new(text).color(color));
             });
         });
     }
@@ -572,7 +631,11 @@ impl App {
             SideTab::Layers => self.layers_panel(ui),
             SideTab::Material => self.material_panel(ui),
             SideTab::Device => {
-                egui::ScrollArea::vertical().id_salt("tab_device").auto_shrink([false, false]).show(ui, |ui| self.device_tab(ui));
+                egui::ScrollArea::vertical().id_salt("tab_device").auto_shrink([false, false]).show(ui, |ui| {
+                    self.device_tab(ui);
+                    ui.separator();
+                    self.machine_section(ui);
+                });
             }
             SideTab::Clipart => self.clipart_panel(ui),
             SideTab::Description => {
@@ -648,6 +711,7 @@ impl App {
         tools_ui::tools_window(ctx, &mut self.tools_win, &mut self.tools);
         self.device_window(ctx);
         self.preview_window(ctx);
+        self.camera_window(ctx);
         self.show_options = show;
         let about = AboutInfo {
             title: "About MillCreator",
@@ -662,6 +726,7 @@ impl App {
 
     fn draw(&mut self, ui: &mut egui::Ui) {
         let ctx = ui.ctx().clone();
+        self.poll_machine();
         #[cfg(target_os = "macos")]
         self.native_menu_frame(&ctx);
         self.title_bar(ui);
@@ -686,7 +751,8 @@ impl App {
         egui::Panel::top("controls").frame(chrome).exact_size(36.0).show(ui, |ui| self.control_bar(ui));
         egui::Panel::bottom("status").frame(chrome).exact_size(26.0).show(ui, |ui| self.status_bar(ui));
         egui::Panel::left("tools").frame(chrome).exact_size(52.0).resizable(false).show(ui, |ui| base_ui::editor::tool_palette(self, ui, None));
-        egui::Panel::right("side").frame(chrome.inner_margin(egui::Margin::same(8))).default_size(410.0).show(ui, |ui| self.side_panel(ui));
+        let side = egui::Panel::right("side").frame(chrome.inner_margin(egui::Margin::same(8))).default_size(410.0).show(ui, |ui| self.side_panel(ui));
+        base_ui::widgets::panel_edge_highlight(ui.ctx(), side.response.rect, base_ui::widgets::Edge::Left);
         egui::Panel::right("arrange_bar").frame(chrome.inner_margin(egui::Margin::symmetric(2, 4))).exact_size(40.0).resizable(false).show(ui, |ui| base_ui::editor::arrange_bar(self, ui));
         egui::CentralPanel::no_frame().show(ui, |ui| self.canvas(ui));
         self.dialogs(&ctx);
@@ -767,6 +833,9 @@ impl EditorHost for App {
     }
     fn layer_color(&self, layer: usize) -> egui::Color32 {
         self.layers.get(layer).map_or(egui::Color32::from_rgb(0x20, 0x20, 0x30), |l| l.color32())
+    }
+    fn paint_over_shapes(&mut self, v: &base_ui::editor::CanvasView) {
+        self.paint_toolpaths(v);
     }
 }
 
