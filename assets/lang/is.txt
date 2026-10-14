@@ -1,0 +1,172 @@
+0|3D-sýn á verkið
+1|3D-sýn á verkið…
+2|Afrit meðal þinna eigin fræsa
+3|Gat í miðju hvers lokaðs forms lagsins, í skrefum af umferðardýpt.
+4|Tilbúinni fræsi er ekki hægt að breyta. Búðu til afrit til að breyta henni.
+5|Um forritið
+6|Bæta við myndavél
+7|Bæta við tæki
+8|Bæta við tæki
+9|Bæta við tæki…
+10|Heimilisfang
+11|Allt svæðið innan línunnar er hreinsað hring fyrir hring niður á dýpt lagsins.
+12|Raða
+13|Aftan til vinstri
+14|Aftan til hægri
+15|Aftur í fyrstu sýn. Tvísmellur á myndina gerir það sama.
+16|Kúlufræsir
+17|Fræsir
+18|Fræsasafn
+19|Fræsasafn…
+20|Fræsir með ávölum hornum (hornradíus)
+21|Myndavél
+22|Nafn myndavélar
+23|Númer myndavélar
+24|Myndavél þessarar tölvu
+25|Snúningur myndavélar
+26|Myndavélar
+27|Ekki er hægt að nota skrána
+28|Ekki er hægt að nota skrána: {}
+29|Veldu fræsi
+30|Veldu vélina sem þú ætlar að vinna með.
+31|Staðfesta eyðingu
+32|Stýring
+33|Afritað í {}
+34|Hornradíus
+35|Ekki tókst að vista
+36|Ekki tókst að vista: {}
+37|Skera innan við línuna
+38|Skera utan við línuna
+39|Skurðir
+40|Skurðir: {} m, um það bil {} mín.
+41|Skurðarþvermál
+42|Skurðarlengd
+43|Eyða þessari myndavél
+44|Dýpt
+45|Tæki
+46|Stillingar tækis
+47|Stillingar tækis…
+48|Bor
+49|Breyta
+50|Breyta…
+51|Gröfturfræsir
+52|Flytja út G-code…
+53|Flytja þennan fræsi út…
+54|Flytja út…
+55|Mötun
+56|Skrá
+57|Endafræsir
+58|Egg
+59|Fylgja línunni
+60|Fremst til vinstri
+61|Fremst til hægri
+62|Almennt
+63|Hjálp
+64|Mesti hraði
+65|Ég á ekkert tæki
+66|Flytja inn LightBurn-verkefni…
+67|Tækið {} var flutt inn
+68|Flytja inn…
+69|Lög
+70|Sleppt
+71|Minnsti hraði
+72|Vél
+73|Núllpunktur vélar (0,0)
+74|Efni
+75|Efni vinnustykkisins
+76|Málmur
+77|Er fræst: tekið með í verkfærabrautir og G-kóða
+78|Fræsing
+79|Hreyfingar í öruggri hæð
+80|Mínir fræsar
+81|Ný
+82|Nýr fræsir
+83|Enginn fræsir
+84|Ekkert tæki enn. Bættu við einu eða vinndu án vélar.
+85|Ekki http- eða https-heimilisfang.
+86|Athugasemdir
+87|Athugasemdir um þessa vél
+88|Ekkert hér ennþá
+89|Ekkert valið
+90|Aðeins er hægt að breyta lit plasts. Efnið og þykkt þess sjást í 3D-sýninni og eru vistuð í verkefninu.
+91|Opnaðu teikningu eða byrjaðu á tómri hönnun.
+92|Opna…
+93|Aðgerð
+94|Heildarlengd
+95|Umferðardýpt
+96|Umferðardýpt (af þvermáli)
+97|Plast
+98|Niðurstunguhraði
+99|Vasi
+100|Framvinda
+101|Eiginleikar
+102|Setja valin form á þetta lag
+103|Lesa tæki úr skrá
+104|Lesa fræsa úr skrá
+105|Tilbúið
+106|Tilbúnir fræsar
+107|Endurstilla sýn
+108|Örugg hæð
+109|Vista
+110|Vista sem…
+111|Vista þetta tæki í skrá
+112|Vista fræsana þína í skrá
+113|Vistað
+114|Tækið var vistað í {}
+115|Vistað: {}
+116|Stillingar
+117|Þvermál skafts
+118|Form á þessu lagi
+119|Sýnd á flipanum Myndavél
+120|Sýnt á vinnusvæðinu
+121|Hraði hreyfinga yfir efninu
+122|Snælda
+123|Snúningshraði snældu
+124|Byrja
+125|Upphafshraði fyrir lag
+126|Hliðarskörun
+127|Hliðarskörun (af þvermáli)
+128|Kveikt
+129|Keilulaga kúlufræsir
+130|Fræsirinn fer innan við línuna svo formið dettur úr: gat eða gluggi.
+131|Fræsirinn fer utan við línuna svo formið verður eftir: hlutur er skorinn úr efninu.
+132|Miðja fræsisins fylgir línunni: gröftur og raufar. Opnar línur virka líka.
+133|Skurðirnir fara út fyrir vinnusvæði tækisins
+134|Tæki þessa verkefnis
+135|Tækinu var bætt við.
+136|Tækið var vistað.
+137|Skráin er of stór
+138|Ekkert að skera: settu form á lög sem hafa fræsi.
+139|Ekkert að sýna ennþá: teiknaðu form og settu þau á lög sem hafa fræsi.
+140|Þykkt
+141|Þessi útgáfa getur ekki notað myndavélar tölvunnar.
+142|Þetta tæki er ekki með kveikt á myndavél. Bættu einni við í stillingum tækisins.
+143|Þetta tæki er ekki á listanum: það kom með verkefninu
+144|Þetta er staðgengilstækið (Dummy): sjálfgefið vinnusvæði og hraði.
+145|Þvermál odds
+146|Of mörg tæki
+147|Gerð
+148|Einingar
+149|V-fræsir
+150|Skoða
+151|Skoðunarvalkostir…
+152|Bið eftir að kveikt er
+153|Bíð eftir myndinni…
+154|Viður, dökkur
+155|Viður, ljós
+156|Viður, miðlungs
+157|Vinndu í verkefni án vélar: einfalt tæki sem heitir Dummy með sjálfgefnu vinnusvæði og hraða
+158|Z er hve djúpt snældan fer niður frá efri hlið efnisins. Örugga hæðin er þar sem snældan hreyfist milli skurða.
+159|fræsum bætt við
+160|fræsum bætt við safnið
+161|t.d. CNC-fræsarinn minn
+162|þetta verkefni var gert fyrir aðra vél: {}
+163|{} umferðir að {} mm
+164|{}: enginn fræsir valinn
+165|{}: ekkert að skera (línan gæti verið of lítil fyrir fræsinn)
+166|{}: opnum línum er sleppt í vasa
+167|{}: opnum línum er sleppt í sniði (notaðu „Fylgja línunni“)
+168|{}: myndir eru ekki fræstar
+169|{}: dýptin er takmörkuð við slag vélarinnar ({} mm)
+170|{}: dýptin {} mm er meiri en þykkt efnisins ({} mm)
+171|{}: {} sn./mín. er utan sviðs snældunnar {}…{} sn./mín.

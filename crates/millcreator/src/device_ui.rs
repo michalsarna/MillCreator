@@ -10,7 +10,8 @@ use base_ui::editor::EditorHost;
 use base_ui::i18n::{tr, trf};
 use base_ui::theme;
 use base_ui::units_ui::{drag_len, fmt_len};
-use base_ui::window::{delete_button_enabled, import_button, popup, save_button_enabled};
+use base_ui::widgets::centered_row;
+use base_ui::window::{delete_button, import_button, popup, save_button_enabled};
 use eframe::egui::{self, Color32, RichText};
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
@@ -73,8 +74,12 @@ impl App {
         idx
     }
 
-    /// The device that is selected on the start screen becomes the device of the project.
+    /// The device that is selected on the start screen becomes the device of the project; without any device it is the
+    /// Dummy.
     pub(crate) fn take_selected_device(&mut self) {
+        if self.devices.is_empty() {
+            self.use_dummy_device();
+        }
         if let Some(d) = self.devices.get(self.start_sel) {
             self.device = d.clone();
             self.active = Some(self.start_sel);
@@ -86,6 +91,7 @@ impl App {
     }
 
     pub(crate) fn start_edit_device(&mut self, idx: usize) {
+        self.confirm_delete = false;
         if let Some(d) = self.devices.get(idx) {
             self.dev_edit = Some(DeviceEdit { idx: Some(idx), draft: d.clone(), page: Page::General, error: String::new() });
         }
@@ -161,12 +167,9 @@ impl App {
         });
         ui.add_space(6.0);
         let has = !self.devices.is_empty();
-        ui.horizontal_wrapped(|ui| {
+        centered_row(ui, "device_buttons_1", |ui| {
             if ui.button(tr("Add device…")).clicked() {
                 self.start_add_device();
-            }
-            if ui.button(tr("I have no device")).on_hover_text(tr("Work on a project without a machine: a plain device called Dummy, with the default work area and speeds")).clicked() {
-                self.use_dummy_device();
             }
             if ui.add_enabled(has, egui::Button::new(tr("Edit…"))).clicked() {
                 self.start_edit_device(self.start_sel);
@@ -174,23 +177,13 @@ impl App {
             if ui.add_enabled(has, egui::Button::new(tr("Duplicate"))).clicked() {
                 self.duplicate_device(self.start_sel);
             }
-            if save_button_enabled(ui, has, &tr("Export…")).on_hover_text(tr("Save this device to a file")).clicked() {
-                self.export_device_dialog(self.start_sel);
-            }
             if import_button(ui, &tr("Import…")).on_hover_text(tr("Read a device from a file")).clicked() {
                 self.import_device_dialog();
             }
-            if self.confirm_delete && has {
-                if base_ui::window::delete_button(ui, &tr("Confirm delete")).clicked() {
-                    self.devices.remove(self.start_sel);
-                    self.confirm_delete = false;
-                    self.active = None;
-                }
-                if ui.button(tr("Cancel")).clicked() {
-                    self.confirm_delete = false;
-                }
-            } else if delete_button_enabled(ui, has, &tr("Delete")).clicked() {
-                self.confirm_delete = true;
+        });
+        centered_row(ui, "device_buttons_2", |ui| {
+            if ui.button(tr("I have no device")).on_hover_text(tr("Work on a project without a machine: a plain device called Dummy, with the default work area and speeds")).clicked() {
+                self.use_dummy_device();
             }
         });
     }
@@ -201,6 +194,10 @@ impl App {
         let mut open = true;
         let mut save = false;
         let mut cancel = false;
+        let mut export = false;
+        let mut ask_delete = false;
+        let mut delete = false;
+        let confirm = self.confirm_delete;
         let new = edit.idx.is_none();
         let title = if new { tr("Add a device") } else { tr("Device settings") };
         popup(ctx, "device_window", &title, [620.0, 540.0], &mut open, |ui| {
@@ -294,9 +291,42 @@ impl App {
                 if ui.button(tr("Cancel")).clicked() {
                     cancel = true;
                 }
+                if !new {
+                    ui.separator();
+                    if save_button_enabled(ui, true, &tr("Export…")).on_hover_text(tr("Save this device to a file")).clicked() {
+                        export = true;
+                    }
+                    if confirm {
+                        if delete_button(ui, &tr("Confirm delete")).clicked() {
+                            delete = true;
+                        }
+                    } else if delete_button(ui, &tr("Delete")).clicked() {
+                        ask_delete = true;
+                    }
+                }
             });
         });
+        if let Some(i) = edit.idx {
+            if export {
+                self.export_device_dialog(i);
+            }
+            if ask_delete {
+                self.confirm_delete = true;
+            }
+            if delete && i < self.devices.len() {
+                self.devices.remove(i);
+                self.confirm_delete = false;
+                self.active = match self.active {
+                    Some(a) if a == i => None,
+                    Some(a) if a > i => Some(a - 1),
+                    other => other,
+                };
+                self.start_sel = self.start_sel.min(self.devices.len().saturating_sub(1));
+                return;
+            }
+        }
         if cancel {
+            self.confirm_delete = false;
             open = false;
         }
         if save {
@@ -540,6 +570,14 @@ mod tests {
         a.take_selected_device();
         assert!(a.device.is_dummy() && a.active == Some(0));
         assert_eq!(a.work_size_mm(), (300.0, 200.0));
+    }
+
+    #[test]
+    fn a_new_project_without_any_device_gets_the_dummy() {
+        let mut a = app();
+        a.devices.clear();
+        a.new_design();
+        assert_eq!((a.screen, a.devices.len(), a.device.is_dummy()), (crate::Screen::Editor, 1, true));
     }
 
     #[test]

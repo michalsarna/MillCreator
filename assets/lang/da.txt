@@ -1,0 +1,172 @@
+0|3D-visning af jobbet
+1|3D-visning af jobbet…
+2|En kopi blandt dine egne fræsere
+3|Et hul i midten af hver lukket form i laget, i trin af trindybden.
+4|En færdig fræser kan ikke ændres. Lav en kopi for at ændre den.
+5|Om
+6|Tilføj et kamera
+7|Tilføj en enhed
+8|Tilføj enhed
+9|Tilføj enhed…
+10|Adresse
+11|Hele området inden for linjen ryddes ring for ring ned til lagets dybde.
+12|Arranger
+13|Bagved til venstre
+14|Bagved til højre
+15|Tilbage til den første visning. Dobbeltklik på billedet gør det samme.
+16|Kuglefræser
+17|Fræser
+18|Fræserbibliotek
+19|Fræserbibliotek…
+20|Hjørneradiusfræser (hjørneradius)
+21|Kamera
+22|Kameranavn
+23|Kameranummer
+24|Kamera på denne computer
+25|Kameradrejning
+26|Kameraer
+27|Filen kan ikke bruges
+28|Filen kan ikke bruges: {}
+29|Vælg en fræser
+30|Vælg den maskine, du vil arbejde med.
+31|Bekræft sletning
+32|Controller
+33|Kopieret til {}
+34|Hjørneradius
+35|Kunne ikke gemme
+36|Kunne ikke gemme: {}
+37|Skær inden for linjen
+38|Skær uden for linjen
+39|Snit
+40|Snit: {} m, ca. {} min
+41|Skærediameter
+42|Skærelængde
+43|Slet dette kamera
+44|Dybde
+45|Enhed
+46|Enhedsindstillinger
+47|Enhedsindstillinger…
+48|Bor
+49|Rediger
+50|Rediger…
+51|Graveringsfræser
+52|Eksporter G-code…
+53|Eksportér denne fræser…
+54|Eksportér…
+55|Fremføring
+56|Filer
+57|Pindfræser
+58|Skær
+59|Følg linjen
+60|Foran til venstre
+61|Foran til højre
+62|Generelt
+63|Hjælp
+64|Højeste hastighed
+65|Jeg har ingen enhed
+66|Importér LightBurn-projekt…
+67|Enheden {} blev importeret
+68|Importér…
+69|Lag
+70|Udeladt
+71|Laveste hastighed
+72|Maskine
+73|Maskinens nulpunkt (0,0)
+74|Materiale
+75|Emnets materiale
+76|Metal
+77|Fræses: medtages i værktøjsbanerne og G-koden
+78|Fræsning
+79|Bevægelser i sikker højde
+80|Mine fræsere
+81|Ny
+82|Ny fræser
+83|Ingen fræser
+84|Ingen enhed endnu. Tilføj en, eller arbejd uden maskine.
+85|Ikke en http- eller https-adresse.
+86|Noter
+87|Noter om denne maskine
+88|Der er intet her endnu
+89|Intet markeret
+90|Kun farven på en plast kan ændres. Materialet og dets tykkelse vises i 3D-visningen og gemmes i projektet.
+91|Åbn en tegning, eller begynd et tomt design.
+92|Åbn…
+93|Operation
+94|Samlet længde
+95|Trindybde
+96|Trindybde (af diameteren)
+97|Plast
+98|Indstiksfremføring
+99|Lomme
+100|Forløb
+101|Egenskaber
+102|Læg de valgte former på dette lag
+103|Læs en enhed fra en fil
+104|Læs fræsere fra en fil
+105|Klar
+106|Færdige fræsere
+107|Nulstil visning
+108|Sikker højde
+109|Gem
+110|Gem som…
+111|Gem denne enhed i en fil
+112|Gem dine fræsere i en fil
+113|Gemt
+114|Enheden blev gemt i {}
+115|{} gemt
+116|Indstillinger
+117|Skaftdiameter
+118|Former på dette lag
+119|Vises på fanen Kamera
+120|Vises i arbejdsområdet
+121|Hastighed for bevægelser over materialet
+122|Spindel
+123|Spindelhastighed
+124|Start
+125|Starthastigheder for et lag
+126|Sideoverlap
+127|Sideoverlap (af diameteren)
+128|Tændt
+129|Konisk kuglefræser
+130|Fræseren går inden for linjen, så formen falder ud: et hul eller et vindue.
+131|Fræseren går uden for linjen, så formen bliver: en del skæres ud af materialet.
+132|Fræserens midte følger linjen: gravering og riller. Åbne linjer virker også.
+133|Snittene går uden for enhedens arbejdsområde
+134|Enheden til dette projekt
+135|Enheden blev tilføjet.
+136|Enheden blev gemt.
+137|Filen er for stor
+138|Der er intet at skære: læg former på lag, der har en fræser.
+139|Der er intet at vise endnu: tegn former og læg dem på lag, der har en fræser.
+140|Tykkelse
+141|Denne version kan ikke bruge computerens kameraer.
+142|Denne enhed har intet tændt kamera. Tilføj et i enhedsindstillingerne.
+143|Denne enhed er ikke på listen: den kom med projektet
+144|Dette er erstatningsenheden (Dummy): standardarbejdsområde og -hastigheder.
+145|Spidsdiameter
+146|For mange enheder
+147|Type
+148|Enheder
+149|V-fræser
+150|Vis
+151|Visningsindstillinger…
+152|Ventetid efter tænding
+153|Venter på billedet…
+154|Træ, mørkt
+155|Træ, lyst
+156|Træ, medium
+157|Arbejd på et projekt uden maskine: en almindelig enhed kaldet Dummy med standardarbejdsområde og -hastigheder
+158|Z er, hvor dybt spindlen går ned fra materialets overside. Den sikre højde er, hvor spindlen bevæger sig mellem snittene.
+159|fræsere tilføjet
+160|fræsere tilføjet til biblioteket
+161|f.eks. Min CNC-fræser
+162|dette projekt er lavet til en anden maskine: {}
+163|{} gennemløb til {} mm
+164|{}: ingen fræser valgt
+165|{}: intet at skære (linjen kan være for lille til fræseren)
+166|{}: åbne linjer udelades i en lomme
+167|{}: åbne linjer udelades i en profil (brug “Følg linjen”)
+168|{}: billeder fræses ikke
+169|{}: dybden er begrænset til maskinens kørselsvej ({} mm)
+170|{}: dybden på {} mm er større end materialets tykkelse ({} mm)
+171|{}: {} omdr./min ligger uden for spindelområdet {}…{} omdr./min

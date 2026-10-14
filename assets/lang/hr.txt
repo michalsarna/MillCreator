@@ -1,0 +1,172 @@
+0|3D prikaz posla
+1|3D prikaz posla…
+2|Kopija među vašim vlastitim glodalima
+3|Rupa u sredini svakog zatvorenog oblika sloja, u koracima dubine prolaza.
+4|Gotovo glodalo se ne može mijenjati. Napravite kopiju da biste ga promijenili.
+5|O programu
+6|Dodaj kameru
+7|Dodaj uređaj
+8|Dodaj uređaj
+9|Dodaj uređaj…
+10|Adresa
+11|Cijelo područje unutar linije čisti se prsten po prsten do dubine sloja.
+12|Razmjesti
+13|Straga lijevo
+14|Straga desno
+15|Natrag na prvi prikaz. Dvostruki klik na sliku radi isto.
+16|Kuglasto glodalo
+17|Glodalo
+18|Biblioteka glodala
+19|Biblioteka glodala…
+20|Glodalo sa zaobljenim kutovima (radijus kuta)
+21|Kamera
+22|Naziv kamere
+23|Broj kamere
+24|Kamera ovog računala
+25|Rotacija kamere
+26|Kamere
+27|Datoteka se ne može koristiti
+28|Datoteka se ne može koristiti: {}
+29|Odaberite glodalo
+30|Odaberite stroj s kojim ćete raditi.
+31|Potvrdi brisanje
+32|Kontroler
+33|Kopirano u {}
+34|Radijus kuta
+35|Spremanje nije uspjelo
+36|Spremanje nije uspjelo: {}
+37|Rezati unutar linije
+38|Rezati izvan linije
+39|Rezovi
+40|Rezovi: {} m, oko {} min
+41|Promjer rezanja
+42|Duljina rezanja
+43|Izbriši ovu kameru
+44|Dubina
+45|Uređaj
+46|Postavke uređaja
+47|Postavke uređaja…
+48|Svrdlo
+49|Uredi
+50|Uredi…
+51|Glodalo za graviranje
+52|Izvezi G-code…
+53|Izvezi ovo glodalo…
+54|Izvezi…
+55|Posmak
+56|Datoteka
+57|Prstasto glodalo
+58|Oštrice
+59|Prati liniju
+60|Naprijed lijevo
+61|Naprijed desno
+62|Općenito
+63|Pomoć
+64|Najveća brzina
+65|Nemam uređaj
+66|Uvezi LightBurn projekt…
+67|Uređaj {} je uvezen
+68|Uvezi…
+69|Slojevi
+70|Izostavljeno
+71|Najmanja brzina
+72|Stroj
+73|Nula stroja (0,0)
+74|Materijal
+75|Materijal obratka
+76|Metal
+77|Glođe se: uključeno u putanje alata i G-kod
+78|Glodanje
+79|Pomaci na sigurnoj visini
+80|Moja glodala
+81|Novo
+82|Novo glodalo
+83|Nema glodala
+84|Još nema uređaja. Dodajte jedan ili radite bez stroja.
+85|Nije http ni https adresa.
+86|Bilješke
+87|Bilješke o ovom stroju
+88|Ovdje još nema ničega
+89|Ništa nije odabrano
+90|Može se promijeniti samo boja plastike. Materijal i njegova debljina prikazuju se u 3D prikazu i spremaju u projekt.
+91|Otvorite crtež ili započnite prazan nacrt.
+92|Otvori…
+93|Operacija
+94|Ukupna duljina
+95|Dubina prolaza
+96|Dubina prolaza (od promjera)
+97|Plastika
+98|Posmak uranjanja
+99|Džep
+100|Napredak
+101|Svojstva
+102|Stavi odabrane oblike na ovaj sloj
+103|Pročitaj uređaj iz datoteke
+104|Pročitaj glodala iz datoteke
+105|Spremno
+106|Gotova glodala
+107|Poništi prikaz
+108|Sigurna visina
+109|Spremi
+110|Spremi kao…
+111|Spremi ovaj uređaj u datoteku
+112|Spremi svoja glodala u datoteku
+113|Spremljeno
+114|Uređaj je spremljen u {}
+115|Spremljeno: {}
+116|Postavke
+117|Promjer drške
+118|Oblici na ovom sloju
+119|Prikazano na kartici Kamera
+120|Prikazano u radnom području
+121|Brzina pomaka iznad materijala
+122|Vreteno
+123|Okretaji vretena
+124|Start
+125|Početne brzine za sloj
+126|Bočno preklapanje
+127|Bočno preklapanje (od promjera)
+128|Uključeno
+129|Konusno kuglasto glodalo
+130|Glodalo ide unutar linije pa oblik ispada: rupa ili prozor.
+131|Glodalo ide izvan linije pa oblik ostaje: dio se izrezuje iz materijala.
+132|Sredina glodala prati liniju: graviranje i utori. Otvorene linije također rade.
+133|Rezovi izlaze izvan radnog područja uređaja
+134|Uređaj ovog projekta
+135|Uređaj je dodan.
+136|Uređaj je spremljen.
+137|Datoteka je prevelika
+138|Nema što rezati: stavite oblike na slojeve koji imaju glodalo.
+139|Još nema što prikazati: nacrtajte oblike i stavite ih na slojeve koji imaju glodalo.
+140|Debljina
+141|Ova verzija ne može koristiti kamere računala.
+142|Ovaj uređaj nema uključenu kameru. Dodajte je u postavkama uređaja.
+143|Ovog uređaja nema na popisu: došao je s projektom
+144|Ovo je zamjenski uređaj (Dummy): zadano radno područje i brzine.
+145|Promjer vrha
+146|Previše uređaja
+147|Vrsta
+148|Jedinice
+149|V-glodalo
+150|Prikaz
+151|Mogućnosti prikaza…
+152|Čekanje nakon uključivanja
+153|Čekanje slike…
+154|Drvo, tamno
+155|Drvo, svijetlo
+156|Drvo, srednje
+157|Radite na projektu bez stroja: običan uređaj naziva Dummy s zadanim radnim područjem i brzinama
+158|Z je koliko duboko vreteno ide od vrha materijala. Sigurna visina je visina na kojoj se vreteno pomiče između rezova.
+159|glodala dodana
+160|glodala dodana u biblioteku
+161|npr. Moja CNC glodalica
+162|ovaj projekt napravljen je za drugi stroj: {}
+163|{} prolaza do {} mm
+164|{}: glodalo nije odabrano
+165|{}: nema što rezati (linija je možda premala za glodalo)
+166|{}: otvorene linije izostavljaju se u džepu
+167|{}: otvorene linije izostavljaju se u profilu (upotrijebite »Prati liniju«)
+168|{}: slike se ne glođu
+169|{}: dubina je ograničena hodom stroja ({} mm)
+170|{}: dubina {} mm veća je od debljine materijala ({} mm)
+171|{}: {} okr/min izvan je raspona vretena {}…{} okr/min

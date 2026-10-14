@@ -42,7 +42,7 @@ impl App {
             Err(e) => trf("Could not save: {}", &[&e]),
         };
         if !prog.warnings.is_empty() {
-            self.status.push_str(&format!(" ({})", prog.warnings.join("; ")));
+            self.status.push_str(&format!(" ({})", prog.warnings.iter().map(|w| w.text()).collect::<Vec<_>>().join("; ")));
         }
     }
 
@@ -75,7 +75,7 @@ impl App {
             let secs = prog.estimate_seconds(self.device.rapid);
             ui.label(RichText::new(trf("Cuts: {} m, about {} min", &[&format!("{:.2}", prog.cut_length() / 1000.0), &format!("{:.1}", secs / 60.0)])).color(theme::text_dim()));
             for w in &prog.warnings {
-                ui.label(RichText::new(format!("• {w}")).color(egui::Color32::from_rgb(0xd0, 0x70, 0x20)));
+                ui.label(RichText::new(format!("• {}", w.text())).color(egui::Color32::from_rgb(0xd0, 0x70, 0x20)));
             }
             match region {
                 Some(region) => {

@@ -1,0 +1,172 @@
+0	3D view of the job
+1	3D view of the job…
+2	A copy among your own bits
+3	A hole at the centre of every closed shape of the layer, in steps of the pass depth.
+4	A ready-made bit cannot be changed. Make a copy to change it.
+5	About
+6	Add a camera
+7	Add a device
+8	Add device
+9	Add device…
+10	Address
+11	All of the area inside the line is cleared, ring after ring, to the depth of the layer.
+12	Arrange
+13	Back left
+14	Back right
+15	Back to the first view. Double click on the picture does the same.
+16	Ball nose
+17	Bit
+18	Bit library
+19	Bit library…
+20	Bull nose (corner radius)
+21	Camera
+22	Camera name
+23	Camera number
+24	Camera of this computer
+25	Camera rotation
+26	Cameras
+27	Cannot use the file
+28	Cannot use the file: {}
+29	Choose a bit
+30	Choose the machine you will work with.
+31	Confirm delete
+32	Controller
+33	Copied to {}
+34	Corner radius
+35	Could not save
+36	Could not save: {}
+37	Cut inside the line
+38	Cut outside the line
+39	Cuts
+40	Cuts: {} m, about {} min
+41	Cutting diameter
+42	Cutting length
+43	Delete this camera
+44	Depth
+45	Device
+46	Device settings
+47	Device settings…
+48	Drill
+49	Edit
+50	Edit…
+51	Engraving bit
+52	Export G-code…
+53	Export this bit…
+54	Export…
+55	Feed
+56	File
+57	Flat end mill
+58	Flutes
+59	Follow the line
+60	Front left
+61	Front right
+62	General
+63	Help
+64	Highest speed
+65	I have no device
+66	Import LightBurn project…
+67	Imported the device {}
+68	Import…
+69	Layers
+70	Left out
+71	Lowest speed
+72	Machine
+73	Machine zero (0,0)
+74	Material
+75	Material of the workpiece
+76	Metal
+77	Milled: taken into the toolpaths and the G-code
+78	Milling
+79	Moves at the safe height
+80	My bits
+81	New
+82	New bit
+83	No bit
+84	No device yet. Add one, or work without a machine.
+85	Not an http or https address.
+86	Notes
+87	Notes about this machine
+88	Nothing here yet
+89	Nothing selected
+90	Only the colour of a plastic can be changed. The material and its thickness are shown in the 3D view and saved in the project.
+91	Open a drawing or start an empty design.
+92	Open…
+93	Operation
+94	Overall length
+95	Pass depth
+96	Pass depth (of the diameter)
+97	Plastic
+98	Plunge feed
+99	Pocket
+100	Progress
+101	Properties
+102	Put the selected shapes on this layer
+103	Read a device from a file
+104	Read bits from a file
+105	Ready
+106	Ready-made bits
+107	Reset view
+108	Safe height
+109	Save
+110	Save as…
+111	Save this device to a file
+112	Save your bits to a file
+113	Saved
+114	Saved the device to {}
+115	Saved {}
+116	Settings
+117	Shank diameter
+118	Shapes on this layer
+119	Shown in the Camera tab
+120	Shown in the work area
+121	Speed of moves above the material
+122	Spindle
+123	Spindle speed
+124	Start
+125	Starting speeds for a layer
+126	Step over
+127	Step over (of the diameter)
+128	Switched on
+129	Tapered ball nose
+130	The bit goes round the inside of the line, so the shape falls out: a hole or a window.
+131	The bit goes round the outside of the line, so the shape stays: a part is cut out of the material.
+132	The centre of the bit follows the line: engraving and grooves. Open lines work too.
+133	The cuts go outside of the work area of the device
+134	The device of this project
+135	The device was added.
+136	The device was saved.
+137	The file is too large
+138	There is nothing to cut: put shapes on layers that have a bit.
+139	There is nothing to show yet: draw shapes and put them on layers that have a bit.
+140	Thickness
+141	This build cannot use the cameras of the computer.
+142	This device has no camera that is switched on. Add one in the device settings.
+143	This device is not in the list: it came with the project
+144	This is the stand-in device (Dummy): the default work area and speeds.
+145	Tip diameter
+146	Too many devices
+147	Type
+148	Units
+149	V-bit
+150	View
+151	View options…
+152	Wait after switching on
+153	Waiting for the picture…
+154	Wood, dark
+155	Wood, light
+156	Wood, medium
+157	Work on a project without a machine: a plain device called Dummy, with the default work area and speeds
+158	Z is how far the spindle goes down from the top of the material. The safe height is where the spindle moves between cuts.
+159	bits added
+160	bits added to the library
+161	e.g. My CNC router
+162	this project was made for a different machine: {}
+163	{} passes to {} mm
+164	{}: no bit chosen
+165	{}: nothing to cut (the line may be too small for the bit)
+166	{}: open lines are left out of a pocket
+167	{}: open lines are left out of a profile (use "Follow the line")
+168	{}: pictures are not milled
+169	{}: the depth is limited to the travel of the machine ({} mm)
+170	{}: the depth of {} mm is more than the thickness of the material ({} mm)
+171	{}: {} rpm is outside the spindle range {}…{} rpm

@@ -1,0 +1,172 @@
+0|Vista 3D do trabalho
+1|Vista 3D do trabalho…
+2|Uma cópia entre as suas próprias fresas
+3|Um furo no centro de cada forma fechada da camada, em passagens da profundidade indicada.
+4|Uma fresa pré-definida não pode ser alterada. Faça uma cópia para a alterar.
+5|Acerca de
+6|Adicionar uma câmara
+7|Adicionar um dispositivo
+8|Adicionar dispositivo
+9|Adicionar dispositivo…
+10|Endereço
+11|Toda a área dentro da linha é desbastada, anel a anel, até à profundidade da camada.
+12|Organizar
+13|Atrás à esquerda
+14|Atrás à direita
+15|Volta à primeira vista. Fazer duplo clique na imagem faz o mesmo.
+16|Fresa de ponta esférica
+17|Fresa
+18|Biblioteca de fresas
+19|Biblioteca de fresas…
+20|Fresa tórica (raio do canto)
+21|Câmara
+22|Nome da câmara
+23|Número da câmara
+24|Câmara deste computador
+25|Rotação da câmara
+26|Câmaras
+27|Não é possível usar o ficheiro
+28|Não é possível usar o ficheiro: {}
+29|Escolha uma fresa
+30|Escolha a máquina com que vai trabalhar.
+31|Confirmar eliminação
+32|Controlador
+33|Copiado para {}
+34|Raio do canto
+35|Não foi possível guardar
+36|Não foi possível guardar: {}
+37|Cortar por dentro da linha
+38|Cortar por fora da linha
+39|Cortes
+40|Cortes: {} m, cerca de {} min
+41|Diâmetro de corte
+42|Comprimento de corte
+43|Eliminar esta câmara
+44|Profundidade
+45|Dispositivo
+46|Definições do dispositivo
+47|Definições do dispositivo…
+48|Broca
+49|Editar
+50|Editar…
+51|Fresa de gravação
+52|Exportar G-code…
+53|Exportar esta fresa…
+54|Exportar…
+55|Avanço
+56|Ficheiro
+57|Fresa de topo plano
+58|Estrias
+59|Seguir a linha
+60|À frente à esquerda
+61|À frente à direita
+62|Geral
+63|Ajuda
+64|Velocidade máxima
+65|Não tenho dispositivo
+66|Importar projeto do LightBurn…
+67|Dispositivo {} importado
+68|Importar…
+69|Camadas
+70|Omitidos
+71|Velocidade mínima
+72|Máquina
+73|Zero da máquina (0,0)
+74|Material
+75|Material da peça
+76|Metal
+77|Fresada: incluída nos percursos e no G-code
+78|Fresagem
+79|Movimentos à altura de segurança
+80|As minhas fresas
+81|Novo
+82|Nova fresa
+83|Sem fresa
+84|Ainda não há dispositivo. Adicione um ou trabalhe sem máquina.
+85|Não é um endereço http ou https.
+86|Notas
+87|Notas sobre esta máquina
+88|Ainda não há nada aqui
+89|Nada selecionado
+90|Só a cor de um plástico pode ser alterada. O material e a sua espessura aparecem na vista 3D e são guardados no projeto.
+91|Abra um desenho ou comece um desenho vazio.
+92|Abrir…
+93|Operação
+94|Comprimento total
+95|Profundidade de passagem
+96|Profundidade de passagem (do diâmetro)
+97|Plástico
+98|Avanço de mergulho
+99|Cavidade
+100|Progresso
+101|Propriedades
+102|Pôr as formas selecionadas nesta camada
+103|Ler um dispositivo de um ficheiro
+104|Ler fresas de um ficheiro
+105|Pronto
+106|Fresas pré-definidas
+107|Repor a vista
+108|Altura de segurança
+109|Guardar
+110|Guardar como…
+111|Guardar este dispositivo num ficheiro
+112|Guardar as suas fresas num ficheiro
+113|Guardado
+114|Dispositivo guardado em {}
+115|{} guardado
+116|Definições
+117|Diâmetro da haste
+118|Formas nesta camada
+119|Mostrada no separador Câmara
+120|Mostrada na área de trabalho
+121|Velocidade dos movimentos acima do material
+122|Fuso
+123|Velocidade do fuso
+124|Iniciar
+125|Velocidades iniciais de uma camada
+126|Sobreposição lateral
+127|Sobreposição lateral (do diâmetro)
+128|Ligada
+129|Fresa cónica de ponta esférica
+130|A fresa passa por dentro da linha, por isso a forma cai: um furo ou uma janela.
+131|A fresa passa por fora da linha, por isso a forma fica: uma peça é cortada do material.
+132|O centro da fresa segue a linha: gravações e ranhuras. As linhas abertas também funcionam.
+133|Os cortes saem da área de trabalho do dispositivo
+134|O dispositivo deste projeto
+135|O dispositivo foi adicionado.
+136|O dispositivo foi guardado.
+137|O ficheiro é demasiado grande
+138|Não há nada para cortar: ponha formas em camadas que tenham fresa.
+139|Ainda não há nada para mostrar: desenhe formas e ponha-as em camadas que tenham fresa.
+140|Espessura
+141|Esta versão não pode usar as câmaras do computador.
+142|Este dispositivo não tem nenhuma câmara ligada. Adicione uma nas definições do dispositivo.
+143|Este dispositivo não está na lista: veio com o projeto
+144|Este é o dispositivo de substituição (Dummy): área de trabalho e velocidades predefinidas.
+145|Diâmetro da ponta
+146|Demasiados dispositivos
+147|Tipo
+148|Unidades
+149|Fresa em V
+150|Ver
+151|Opções de visualização…
+152|Espera depois de ligar
+153|A aguardar a imagem…
+154|Madeira, escura
+155|Madeira, clara
+156|Madeira, média
+157|Trabalhe num projeto sem máquina: um dispositivo simples chamado Dummy, com a área de trabalho e as velocidades predefinidas
+158|Z é quanto o fuso desce a partir do topo do material. A altura de segurança é a altura a que o fuso se move entre cortes.
+159|fresas adicionadas
+160|fresas adicionadas à biblioteca
+161|p. ex. A minha fresadora CNC
+162|este projeto foi feito para outra máquina: {}
+163|{} passagens até {} mm
+164|{}: nenhuma fresa escolhida
+165|{}: nada para cortar (a linha pode ser pequena demais para a fresa)
+166|{}: as linhas abertas são omitidas numa cavidade
+167|{}: as linhas abertas são omitidas num perfil (use «Seguir a linha»)
+168|{}: as imagens não são fresadas
+169|{}: a profundidade está limitada ao curso da máquina ({} mm)
+170|{}: a profundidade de {} mm é maior do que a espessura do material ({} mm)
+171|{}: {} rpm está fora do intervalo do fuso {}…{} rpm

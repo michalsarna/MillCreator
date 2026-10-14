@@ -7,7 +7,7 @@
 ![Dodawanie urządzenia](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/02-add-device.png)
 
 ## Przyciski ekranu startowego
-**Add device…**, **I have no device**, **Edit…**, **Duplicate**, **Export…** (jedno urządzenie jako plik JSON), **Import…** (ściśle sprawdzany: nowszy format, błędna liczba lub plik ponad 2 MB są odrzucane) i **Delete** (prosi o potwierdzenie). Kopia lub importowane urządzenie o zajętej nazwie dostaje numer: `Router (2)`.
+**Add device…**, **Edit…**, **Duplicate** i **Import…** (ściśle sprawdzany: nowszy format, błędna liczba lub plik ponad 2 MB są odrzucane) w pierwszym rzędzie oraz **I have no device** w drugim. **Export…** (jedno urządzenie jako plik JSON) i **Delete** (prosi o potwierdzenie) są w oknie **Edit…**. Kopia lub importowane urządzenie o zajętej nazwie dostaje numer: `Router (2)`.
 
 ## Nie mam urządzenia
 Tworzy jednorazowo zwykłe urządzenie o nazwie **Dummy**: pole robocze 300 × 200 mm, 60 mm skoku w Z, bezpieczna wysokość 5 mm, wrzeciono 1000–24000 obr/min. Zostaje na liście jak każde inne i można je edytować; projekt zapisuje się z nim jako z maszyną.

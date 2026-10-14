@@ -1,0 +1,172 @@
+0|3D zobrazenie úlohy
+1|3D zobrazenie úlohy…
+2|Kópia medzi vašimi vlastnými frézami
+3|Diera v strede každého uzavretého tvaru vrstvy, po krokoch hĺbky prechodu.
+4|Hotovú frézu nemožno zmeniť. Vytvorte kópiu, aby ste ju mohli zmeniť.
+5|O programe
+6|Pridať kameru
+7|Pridať zariadenie
+8|Pridať zariadenie
+9|Pridať zariadenie…
+10|Adresa
+11|Celá plocha vnútri čiary sa vyberá kruh po kruhu do hĺbky vrstvy.
+12|Usporiadať
+13|Vzadu vľavo
+14|Vzadu vpravo
+15|Späť na prvé zobrazenie. Dvojklik na obrázok robí to isté.
+16|Guľová fréza
+17|Fréza
+18|Knižnica fréz
+19|Knižnica fréz…
+20|Fréza so zaoblenými rohmi (polomer rohu)
+21|Kamera
+22|Názov kamery
+23|Číslo kamery
+24|Kamera tohto počítača
+25|Otočenie kamery
+26|Kamery
+27|Súbor sa nedá použiť
+28|Súbor nemožno použiť: {}
+29|Vyberte frézu
+30|Vyberte stroj, s ktorým budete pracovať.
+31|Potvrdiť odstránenie
+32|Riadič
+33|Skopírované do {}
+34|Polomer rohu
+35|Nepodarilo sa uložiť
+36|Nepodarilo sa uložiť: {}
+37|Rezať vnútri čiary
+38|Rezať mimo čiary
+39|Rezy
+40|Rezy: {} m, asi {} min
+41|Rezný priemer
+42|Dĺžka rezu
+43|Odstrániť túto kameru
+44|Hĺbka
+45|Zariadenie
+46|Nastavenia zariadenia
+47|Nastavenia zariadenia…
+48|Vrták
+49|Úpravy
+50|Upraviť…
+51|Rycia fréza
+52|Exportovať G-code…
+53|Exportovať túto frézu…
+54|Exportovať…
+55|Posuv
+56|Súbor
+57|Valcová fréza
+58|Britvy
+59|Sledovať čiaru
+60|Vpredu vľavo
+61|Vpredu vpravo
+62|Všeobecné
+63|Pomocník
+64|Najvyššia rýchlosť
+65|Nemám zariadenie
+66|Importovať projekt LightBurn…
+67|Zariadenie {} bolo importované
+68|Importovať…
+69|Vrstvy
+70|Vynechané
+71|Najnižšia rýchlosť
+72|Stroj
+73|Nula stroja (0,0)
+74|Materiál
+75|Materiál obrobku
+76|Kov
+77|Frézuje sa: zahrnuté do dráh nástroja a G-kódu
+78|Frézovanie
+79|Pohyby v bezpečnej výške
+80|Moje frézy
+81|Nový
+82|Nová fréza
+83|Žiadna fréza
+84|Zatiaľ žiadne zariadenie. Pridajte jedno, alebo pracujte bez stroja.
+85|Nie je to adresa http ani https.
+86|Poznámky
+87|Poznámky k tomuto stroju
+88|Zatiaľ tu nič nie je
+89|Nič nie je vybrané
+90|Zmeniť sa dá iba farba plastu. Materiál a jeho hrúbka sa zobrazujú v 3D zobrazení a ukladajú sa do projektu.
+91|Otvorte kresbu, alebo začnite prázdny návrh.
+92|Otvoriť…
+93|Operácia
+94|Celková dĺžka
+95|Hĺbka prechodu
+96|Hĺbka prechodu (z priemeru)
+97|Plast
+98|Posuv zaborením
+99|Vrecko
+100|Priebeh
+101|Vlastnosti
+102|Dať vybrané tvary na túto vrstvu
+103|Načítať zariadenie zo súboru
+104|Načítať frézy zo súboru
+105|Pripravené
+106|Hotové frézy
+107|Obnoviť pohľad
+108|Bezpečná výška
+109|Uložiť
+110|Uložiť ako…
+111|Uložiť toto zariadenie do súboru
+112|Uložiť vaše frézy do súboru
+113|Uložené
+114|Zariadenie uložené do {}
+115|Uložené: {}
+116|Nastavenia
+117|Priemer stopky
+118|Tvary na tejto vrstve
+119|Zobrazené na karte Kamera
+120|Zobrazené v pracovnej ploche
+121|Rýchlosť pohybov nad materiálom
+122|Vreteno
+123|Otáčky vretena
+124|Štart
+125|Počiatočné rýchlosti pre vrstvu
+126|Bočný presah
+127|Bočný presah (z priemeru)
+128|Zapnuté
+129|Kužeľová guľová fréza
+130|Fréza ide vnútri čiary, takže tvar vypadne: diera alebo okno.
+131|Fréza ide mimo čiary, takže tvar zostane: z materiálu sa vyreže diel.
+132|Stred frézy sleduje čiaru: gravírovanie a drážky. Otvorené čiary fungujú tiež.
+133|Rezy zasahujú mimo pracovnej plochy zariadenia
+134|Zariadenie tohto projektu
+135|Zariadenie bolo pridané.
+136|Zariadenie bolo uložené.
+137|Súbor je príliš veľký
+138|Nie je čo rezať: dajte tvary na vrstvy, ktoré majú frézu.
+139|Zatiaľ nie je čo zobraziť: nakreslite tvary a dajte ich na vrstvy, ktoré majú frézu.
+140|Hrúbka
+141|Táto verzia nemôže používať kamery počítača.
+142|Toto zariadenie nemá zapnutú kameru. Pridajte ju v nastaveniach zariadenia.
+143|Toto zariadenie nie je v zozname: prišlo s projektom
+144|Toto je náhradné zariadenie (Dummy): predvolená pracovná plocha a rýchlosti.
+145|Priemer hrotu
+146|Príliš veľa zariadení
+147|Typ
+148|Jednotky
+149|V-fréza
+150|Zobrazenie
+151|Možnosti zobrazenia…
+152|Čakanie po zapnutí
+153|Čaká sa na obraz…
+154|Drevo, tmavé
+155|Drevo, svetlé
+156|Drevo, stredné
+157|Práca na projekte bez stroja: obyčajné zariadenie s názvom Dummy s predvolenou pracovnou plochou a rýchlosťami
+158|Z je, ako hlboko vreteno ide od hornej plochy materiálu. Bezpečná výška je výška, v ktorej sa vreteno pohybuje medzi rezmi.
+159|frézy pridané
+160|frézy pridané do knižnice
+161|napr. Moja CNC fréza
+162|tento projekt bol vytvorený pre iný stroj: {}
+163|{} prechodov do {} mm
+164|{}: nie je vybraná fréza
+165|{}: nie je čo rezať (čiara môže byť pre frézu príliš malá)
+166|{}: otvorené čiary sa vo vrecku vynechajú
+167|{}: otvorené čiary sa v profile vynechajú (použite „Sledovať čiaru“)
+168|{}: obrázky sa nefrézujú
+169|{}: hĺbka je obmedzená zdvihom stroja ({} mm)
+170|{}: hĺbka {} mm je väčšia ako hrúbka materiálu ({} mm)
+171|{}: {} ot/min je mimo rozsahu vretena {}…{} ot/min

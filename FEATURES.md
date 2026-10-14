@@ -22,5 +22,4 @@ The list is a plan, not a promise.
 * Machine control: connection, jogging, homing, probing, streaming.
 * Tabs, ramps and helical entry, climb / conventional choice, V-carving, 3D relief, tool length offsets, collision checks with clamps.
 * Other controllers than GRBL, post-processor settings.
-* Translations of MillCreator's own texts (the shared ones are translated in baseCreator).
 * A simulation that removes material in the 3D view.

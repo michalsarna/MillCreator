@@ -1,0 +1,172 @@
+0|3D-vy av jobbet
+1|3D-vy av jobbet…
+2|En kopia bland dina egna fräsar
+3|Ett hål i mitten av varje sluten form i lagret, i steg av stegdjupet.
+4|En färdig fräs kan inte ändras. Gör en kopia för att ändra den.
+5|Om
+6|Lägg till en kamera
+7|Lägg till en enhet
+8|Lägg till enhet
+9|Lägg till enhet…
+10|Adress
+11|Hela ytan innanför linjen rensas ring för ring ner till lagrets djup.
+12|Ordna
+13|Bak vänster
+14|Bak höger
+15|Tillbaka till den första vyn. Dubbelklick på bilden gör samma sak.
+16|Kulfräs
+17|Fräs
+18|Fräsbibliotek
+19|Fräsbibliotek…
+20|Hörnradiefräs (hörnradie)
+21|Kamera
+22|Kameranamn
+23|Kameranummer
+24|Kameran på den här datorn
+25|Kamerarotation
+26|Kameror
+27|Filen kan inte användas
+28|Filen kan inte användas: {}
+29|Välj en fräs
+30|Välj den maskin du ska arbeta med.
+31|Bekräfta borttagning
+32|Styrenhet
+33|Kopierad till {}
+34|Hörnradie
+35|Kunde inte spara
+36|Kunde inte spara: {}
+37|Skär innanför linjen
+38|Skär utanför linjen
+39|Skärningar
+40|Skärningar: {} m, cirka {} min
+41|Skärdiameter
+42|Skärlängd
+43|Ta bort den här kameran
+44|Djup
+45|Enhet
+46|Enhetsinställningar
+47|Enhetsinställningar…
+48|Borr
+49|Redigera
+50|Redigera…
+51|Gravyrfräs
+52|Exportera G-code…
+53|Exportera den här fräsen…
+54|Exportera…
+55|Matning
+56|Arkiv
+57|Pinnfräs
+58|Skär
+59|Följ linjen
+60|Fram vänster
+61|Fram höger
+62|Allmänt
+63|Hjälp
+64|Högsta varvtal
+65|Jag har ingen enhet
+66|Importera LightBurn-projekt…
+67|Enheten {} importerades
+68|Importera…
+69|Lager
+70|Utelämnade
+71|Lägsta varvtal
+72|Maskin
+73|Maskinens nollpunkt (0,0)
+74|Material
+75|Arbetsstyckets material
+76|Metall
+77|Fräses: tas med i verktygsbanorna och G-koden
+78|Fräsning
+79|Förflyttningar på säker höjd
+80|Mina fräsar
+81|Ny
+82|Ny fräs
+83|Ingen fräs
+84|Ingen enhet än. Lägg till en eller arbeta utan maskin.
+85|Inte en http- eller https-adress.
+86|Anteckningar
+87|Anteckningar om den här maskinen
+88|Inget här än
+89|Inget markerat
+90|Bara färgen på en plast kan ändras. Materialet och dess tjocklek visas i 3D-vyn och sparas i projektet.
+91|Öppna en ritning eller börja med en tom design.
+92|Öppna…
+93|Operation
+94|Totallängd
+95|Stegdjup
+96|Stegdjup (av diametern)
+97|Plast
+98|Instickmatning
+99|Ficka
+100|Förlopp
+101|Egenskaper
+102|Lägg de markerade formerna på det här lagret
+103|Läs en enhet från en fil
+104|Läs fräsar från en fil
+105|Klar
+106|Färdiga fräsar
+107|Återställ vyn
+108|Säker höjd
+109|Spara
+110|Spara som…
+111|Spara den här enheten i en fil
+112|Spara dina fräsar i en fil
+113|Sparad
+114|Enheten sparades i {}
+115|{} sparad
+116|Inställningar
+117|Skaftdiameter
+118|Former på det här lagret
+119|Visas på fliken Kamera
+120|Visas i arbetsytan
+121|Hastighet för förflyttningar ovanför materialet
+122|Spindel
+123|Spindelvarvtal
+124|Start
+125|Startvärden för ett lager
+126|Sidoöverlapp
+127|Sidoöverlapp (av diametern)
+128|Påslagen
+129|Konisk kulfräs
+130|Fräsen går innanför linjen, så formen faller ut: ett hål eller ett fönster.
+131|Fräsen går utanför linjen, så formen blir kvar: en del skärs ut ur materialet.
+132|Fräsens mitt följer linjen: gravyr och spår. Öppna linjer fungerar också.
+133|Skärningarna går utanför enhetens arbetsyta
+134|Enheten för det här projektet
+135|Enheten lades till.
+136|Enheten sparades.
+137|Filen är för stor
+138|Det finns inget att skära: lägg former på lager som har en fräs.
+139|Det finns inget att visa än: rita former och lägg dem på lager som har en fräs.
+140|Tjocklek
+141|Den här versionen kan inte använda datorns kameror.
+142|Den här enheten har ingen påslagen kamera. Lägg till en i enhetens inställningar.
+143|Den här enheten finns inte i listan: den kom med projektet
+144|Det här är ersättningsenheten (Dummy): standardarbetsyta och standardhastigheter.
+145|Spetsdiameter
+146|För många enheter
+147|Typ
+148|Enheter
+149|V-fräs
+150|Visa
+151|Visningsalternativ…
+152|Väntan efter påslagning
+153|Väntar på bilden…
+154|Trä, mörkt
+155|Trä, ljust
+156|Trä, medel
+157|Arbeta med ett projekt utan maskin: en enkel enhet som heter Dummy med standardarbetsyta och standardhastigheter
+158|Z är hur djupt spindeln går ner från materialets ovansida. Den säkra höjden är där spindeln rör sig mellan skärningarna.
+159|fräsar tillagda
+160|fräsar tillagda i biblioteket
+161|t.ex. Min CNC-fräs
+162|det här projektet gjordes för en annan maskin: {}
+163|{} varv till {} mm
+164|{}: ingen fräs vald
+165|{}: inget att skära (linjen kan vara för liten för fräsen)
+166|{}: öppna linjer utelämnas i en ficka
+167|{}: öppna linjer utelämnas i en profil (använd ”Följ linjen”)
+168|{}: bilder fräses inte
+169|{}: djupet begränsas av maskinens rörelseområde ({} mm)
+170|{}: djupet {} mm är större än materialets tjocklek ({} mm)
+171|{}: {} varv/min ligger utanför spindelns område {}…{} varv/min

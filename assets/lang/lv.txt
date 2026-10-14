@@ -1,0 +1,172 @@
+0|Darba 3D skats
+1|Darba 3D skats…
+2|Kopija starp jūsu pašu frēzēm
+3|Caurums katras slēgtās slāņa formas centrā, ar gājiena dziļuma soļiem.
+4|Gatavu frēzi nevar mainīt. Izveidojiet kopiju, lai to mainītu.
+5|Par programmu
+6|Pievienot kameru
+7|Pievienot ierīci
+8|Pievienot ierīci
+9|Pievienot ierīci…
+10|Adrese
+11|Visa apgabala iekšpuse tiek iztīrīta gredzens pa gredzenam līdz slāņa dziļumam.
+12|Izkārtot
+13|Aizmugurē pa kreisi
+14|Aizmugurē pa labi
+15|Atpakaļ uz pirmo skatu. Dubultklikšķis uz attēla dara to pašu.
+16|Lodveida frēze
+17|Frēze
+18|Frēžu bibliotēka
+19|Frēžu bibliotēka…
+20|Frēze ar noapaļotiem stūriem (stūra rādiuss)
+21|Kamera
+22|Kameras nosaukums
+23|Kameras numurs
+24|Šī datora kamera
+25|Kameras pagriešana
+26|Kameras
+27|Failu nevar izmantot
+28|Failu nevar izmantot: {}
+29|Izvēlieties frēzi
+30|Izvēlieties iekārtu, ar kuru strādāsiet.
+31|Apstiprināt dzēšanu
+32|Kontrolleris
+33|Nokopēts uz {}
+34|Stūra rādiuss
+35|Neizdevās saglabāt
+36|Neizdevās saglabāt: {}
+37|Griezt līnijas iekšpusē
+38|Griezt līnijas ārpusē
+39|Griezumi
+40|Griezumi: {} m, apmēram {} min
+41|Griešanas diametrs
+42|Griešanas garums
+43|Dzēst šo kameru
+44|Dziļums
+45|Ierīce
+46|Ierīces iestatījumi
+47|Ierīces iestatījumi…
+48|Urbis
+49|Rediģēt
+50|Rediģēt…
+51|Gravēšanas frēze
+52|Eksportēt G-code…
+53|Eksportēt šo frēzi…
+54|Eksportēt…
+55|Padeve
+56|Fails
+57|Kātfrēze
+58|Asmeņi
+59|Sekot līnijai
+60|Priekšā pa kreisi
+61|Priekšā pa labi
+62|Vispārīgi
+63|Palīdzība
+64|Lielākais ātrums
+65|Man nav ierīces
+66|Importēt LightBurn projektu…
+67|Ierīce {} importēta
+68|Importēt…
+69|Slāņi
+70|Izlaisti
+71|Mazākais ātrums
+72|Iekārta
+73|Iekārtas nulle (0,0)
+74|Materiāls
+75|Sagataves materiāls
+76|Metāls
+77|Tiek frēzēts: iekļauts instrumenta trajektorijās un G-kodā
+78|Frēzēšana
+79|Kustības drošajā augstumā
+80|Manas frēzes
+81|Jauns
+82|Jauna frēze
+83|Nav frēzes
+84|Vēl nav ierīces. Pievienojiet vienu vai strādājiet bez iekārtas.
+85|Tā nav http vai https adrese.
+86|Piezīmes
+87|Piezīmes par šo iekārtu
+88|Šeit vēl nekā nav
+89|Nekas nav atlasīts
+90|Var mainīt tikai plastmasas krāsu. Materiāls un tā biezums tiek rādīts 3D skatā un saglabāts projektā.
+91|Atveriet zīmējumu vai sāciet tukšu dizainu.
+92|Atvērt…
+93|Darbība
+94|Kopējais garums
+95|Gājiena dziļums
+96|Gājiena dziļums (no diametra)
+97|Plastmasa
+98|Iegremdēšanas padeve
+99|Kabata
+100|Progress
+101|Īpašības
+102|Novietot atlasītās formas uz šī slāņa
+103|Nolasīt ierīci no faila
+104|Nolasīt frēzes no faila
+105|Gatavs
+106|Gatavās frēzes
+107|Atiestatīt skatu
+108|Drošais augstums
+109|Saglabāt
+110|Saglabāt kā…
+111|Saglabāt šo ierīci failā
+112|Saglabāt jūsu frēzes failā
+113|Saglabāts
+114|Ierīce saglabāta: {}
+115|Saglabāts: {}
+116|Iestatījumi
+117|Kāta diametrs
+118|Formas uz šī slāņa
+119|Tiek rādīta cilnē Kamera
+120|Tiek rādīts darba apgabalā
+121|Kustību ātrums virs materiāla
+122|Vārpsta
+123|Vārpstas apgriezieni
+124|Sākt
+125|Slāņa sākuma ātrumi
+126|Sānu pārklājums
+127|Sānu pārklājums (no diametra)
+128|Ieslēgts
+129|Konusveida lodveida frēze
+130|Frēze iet līnijas iekšpusē, tāpēc forma izkrīt: caurums vai logs.
+131|Frēze iet līnijas ārpusē, tāpēc forma paliek: detaļa tiek izgriezta no materiāla.
+132|Frēzes centrs seko līnijai: gravējumi un rievas. Atvērtās līnijas darbojas arī.
+133|Griezumi iziet ārpus ierīces darba apgabala
+134|Šī projekta ierīce
+135|Ierīce pievienota.
+136|Ierīce saglabāta.
+137|Fails ir pārāk liels
+138|Nav ko griezt: novietojiet formas uz slāņiem, kuriem ir frēze.
+139|Vēl nav ko rādīt: uzzīmējiet formas un novietojiet tās uz slāņiem, kuriem ir frēze.
+140|Biezums
+141|Šī versija nevar izmantot datora kameras.
+142|Šai ierīcei nav ieslēgtas kameras. Pievienojiet to ierīces iestatījumos.
+143|Šīs ierīces nav sarakstā: tā nāca līdz ar projektu
+144|Šī ir aizstājējierīce (Dummy): noklusējuma darba apgabals un ātrumi.
+145|Gala diametrs
+146|Pārāk daudz ierīču
+147|Veids
+148|Vienības
+149|V veida frēze
+150|Skats
+151|Skata opcijas…
+152|Gaidīšana pēc ieslēgšanas
+153|Gaida attēlu…
+154|Koks, tumšs
+155|Koks, gaišs
+156|Koks, vidējs
+157|Strādājiet ar projektu bez iekārtas: parasta ierīce ar nosaukumu Dummy ar noklusējuma darba laukumu un ātrumiem
+158|Z ir tas, cik dziļi vārpsta iet no materiāla augšas. Drošais augstums ir augstums, kurā vārpsta pārvietojas starp griezumiem.
+159|frēzes pievienotas
+160|frēzes pievienotas bibliotēkai
+161|piem. Mana CNC frēze
+162|šis projekts izveidots citai iekārtai: {}
+163|{} gājieni līdz {} mm
+164|{}: frēze nav izvēlēta
+165|{}: nav ko griezt (līnija var būt par mazu frēzei)
+166|{}: atvērtās līnijas kabatā tiek izlaistas
+167|{}: atvērtās līnijas profilā tiek izlaistas (izmantojiet „Sekot līnijai”)
+168|{}: attēli netiek frēzēti
+169|{}: dziļums ir ierobežots ar iekārtas gājienu ({} mm)
+170|{}: dziļums {} mm ir lielāks par materiāla biezumu ({} mm)
+171|{}: {} apgr./min ir ārpus vārpstas diapazona {}…{} apgr./min
