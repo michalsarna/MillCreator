@@ -128,4 +128,37 @@ fn render_screenshots() {
         a.open_preview();
     }
     save(&mut h, "18-3d-view-plastic.png");
+    // The plan from above, with the animation controls, and the device pages of the connection and the rotary.
+    {
+        let a = app(&mut h);
+        a.view.top = true;
+        a.view.progress = 0.6;
+    }
+    save(&mut h, "19-preview-from-above.png");
+    {
+        let a = app(&mut h);
+        a.show_3d = false;
+        a.view.top = false;
+        a.view.progress = 1.0;
+        a.toolpaths_on = true;
+        a.side_tab = crate::SideTab::Layers;
+    }
+    save(&mut h, "20-toolpaths-on-the-work-area.png");
+    {
+        let a = app(&mut h);
+        a.toolpaths_on = false;
+        a.start_edit_device(0);
+        a.dev_edit.as_mut().expect("window").page = crate::device_ui::Page::Connection;
+    }
+    save(&mut h, "21-device-connection.png");
+    {
+        let a = app(&mut h);
+        let e = a.dev_edit.as_mut().expect("window");
+        e.page = crate::device_ui::Page::Rotary;
+        e.draft.rotary.enabled = true;
+    }
+    save(&mut h, "22-device-rotary.png");
+    app(&mut h).dev_edit = None;
+    app(&mut h).side_tab = crate::SideTab::Device;
+    save(&mut h, "23-device-tab-machine.png");
 }

@@ -1,172 +1,240 @@
-0|Vista 3D de la feina
-1|Vista 3D de la feina…
-2|Una còpia entre les teves pròpies fresses
-3|Un forat al centre de cada forma tancada de la capa, en passades de la profunditat indicada.
+0|Vista 3D de la feina…
+1|Una còpia entre les teves pròpies fresses
+2|Un forat al centre de cada forma tancada de la capa, en passades de la profunditat indicada.
+3|Un nom de port, o l'identificador USB de fabricant i producte (VID:PID, hexadecimal): s'usa el port que té aquests identificadors.
 4|Una fressa predefinida no es pot canviar. Fes-ne una còpia per canviar-la.
-5|Quant a
-6|Afegeix una càmera
-7|Afegeix un dispositiu
-8|Afegeix un dispositiu
-9|Afegeix un dispositiu…
-10|Adreça
-11|Tota l'àrea dins de la línia es buida, anell rere anell, fins a la profunditat de la capa.
-12|Organitza
-13|Darrere a l'esquerra
-14|Darrere a la dreta
-15|Torna a la primera vista. Fer doble clic a la imatge fa el mateix.
-16|Fressa de punta esfèrica
-17|Fressa
-18|Biblioteca de fresses
-19|Biblioteca de fresses…
-20|Fressa tòrica (radi de cantonada)
-21|Càmera
-22|Nom de la càmera
-23|Número de la càmera
-24|Càmera d'aquest ordinador
-25|Rotació de la càmera
-26|Càmeres
-27|No es pot fer servir el fitxer
-28|No es pot fer servir el fitxer: {}
-29|Tria una fressa
-30|Tria la màquina amb què treballaràs.
-31|Confirma la supressió
-32|Controlador
-33|Copiat a {}
-34|Radi de cantonada
-35|No s'ha pogut desar
-36|No s'ha pogut desar: {}
-37|Tallar dins de la línia
-38|Tallar fora de la línia
-39|Talls
-40|Talls: {} m, uns {} min
-41|Diàmetre de tall
-42|Longitud de tall
-43|Elimina aquesta càmera
-44|Profunditat
-45|Dispositiu
-46|Configuració del dispositiu
-47|Configuració del dispositiu…
-48|Broca
-49|Edita
-50|Edita…
-51|Fressa de gravat
-52|Exporta G-code…
-53|Exporta aquesta fressa…
-54|Exporta…
-55|Avanç
-56|Fitxer
-57|Fressa de punta plana
-58|Talls
-59|Segueix la línia
-60|Davant a l'esquerra
-61|Davant a la dreta
-62|General
-63|Ajuda
-64|Velocitat màxima
-65|No tinc cap dispositiu
-66|Importa un projecte de LightBurn…
-67|Dispositiu {} importat
-68|Importa…
-69|Capes
-70|Omesos
-71|Velocitat mínima
-72|Màquina
-73|Zero de la màquina (0,0)
-74|Material
-75|Material de la peça
-76|Metall
-77|Es fresa: inclosa a les trajectòries i al G-code
-78|Fresatge
-79|Moviments a l'alçada de seguretat
-80|Les meves fresses
-81|Nou
-82|Nova fressa
-83|Cap fressa
-84|Encara no hi ha cap dispositiu. Afegeix-ne un o treballa sense màquina.
-85|No és una adreça http o https.
-86|Notes
-87|Notes sobre aquesta màquina
-88|Encara no hi ha res aquí
-89|No hi ha res seleccionat
-90|Només es pot canviar el color d'un plàstic. El material i el seu gruix es mostren a la vista 3D i es desen al projecte.
-91|Obre un dibuix o comença un disseny buit.
-92|Obre…
-93|Operació
-94|Longitud total
-95|Profunditat de passada
-96|Profunditat de passada (del diàmetre)
-97|Plàstic
-98|Avanç de penetració
-99|Butxaca
-100|Progrés
-101|Propietats
-102|Posa les formes seleccionades en aquesta capa
-103|Llegeix un dispositiu d'un fitxer
-104|Llegeix fresses d'un fitxer
-105|A punt
-106|Fresses predefinides
-107|Restableix la vista
-108|Alçada de seguretat
-109|Desa
-110|Desa com a…
-111|Desa aquest dispositiu en un fitxer
-112|Desa les teves fresses en un fitxer
-113|Desat
-114|Dispositiu desat a {}
-115|{} desat
-116|Configuració
-117|Diàmetre de la cua
-118|Formes d'aquesta capa
-119|Es mostra a la pestanya Càmera
-120|Es mostra a l'àrea de treball
-121|Velocitat dels moviments sobre el material
-122|Eix
-123|Velocitat de l'eix
-124|Inicia
-125|Velocitats inicials d'una capa
-126|Solapament lateral
-127|Solapament lateral (del diàmetre)
-128|Activada
-129|Fressa cònica de punta esfèrica
-130|La fressa va per dins de la línia, així que la forma cau: un forat o una finestra.
-131|La fressa va per fora de la línia, així que la forma queda: es talla una peça del material.
-132|El centre de la fressa segueix la línia: gravats i ranures. Les línies obertes també funcionen.
-133|Els talls surten de l'àrea de treball del dispositiu
-134|El dispositiu d'aquest projecte
-135|S'ha afegit el dispositiu.
-136|S'ha desat el dispositiu.
-137|El fitxer és massa gran
-138|No hi ha res per tallar: posa formes en capes que tinguin fressa.
-139|Encara no hi ha res per mostrar: dibuixa formes i posa-les en capes que tinguin fressa.
-140|Gruix
-141|Aquesta versió no pot fer servir les càmeres de l'ordinador.
-142|Aquest dispositiu no té cap càmera activada. Afegeix-ne una als paràmetres del dispositiu.
-143|Aquest dispositiu no és a la llista: ha vingut amb el projecte
-144|Aquest és el dispositiu substitut (Dummy): àrea de treball i velocitats per defecte.
-145|Diàmetre de la punta
-146|Massa dispositius
-147|Tipus
-148|Unitats
-149|Fressa en V
-150|Visualitza
-151|Opcions de visualització…
-152|Espera després d'engegar
-153|S'espera la imatge…
-154|Fusta, fosca
-155|Fusta, clara
-156|Fusta, mitjana
-157|Treballa en un projecte sense màquina: un dispositiu simple anomenat Dummy, amb l'àrea de treball i les velocitats per defecte
-158|Z és quant baixa l'eix des de la part superior del material. L'alçada de seguretat és on es mou l'eix entre talls.
-159|fresses afegides
-160|fresses afegides a la biblioteca
-161|p. ex. La meva fresadora CNC
-162|aquest projecte es va fer per a una altra màquina: {}
-163|{} passades fins a {} mm
-164|{}: no s'ha triat cap fressa
-165|{}: res per tallar (la línia pot ser massa petita per a la fressa)
-166|{}: les línies obertes s'ometen en una butxaca
-167|{}: les línies obertes s'ometen en un perfil (fes servir «Segueix la línia»)
-168|{}: les imatges no es fresen
-169|{}: la profunditat està limitada al recorregut de la màquina ({} mm)
-170|{}: la profunditat de {} mm és més gran que el gruix del material ({} mm)
-171|{}: {} rpm és fora del rang de l'eix {}…{} rpm
+5|Hi ha un accessori rotatiu connectat
+6|Interromp el treball en curs
+7|Quant a
+8|Afegeix una càmera
+9|Afegeix un dispositiu
+10|Afegeix un dispositiu
+11|Afegeix un dispositiu…
+12|Adreça
+13|Després de connectar
+14|Tota l'àrea dins de la línia es buida, anell rere anell, fins a la profunditat de la capa.
+15|Organitza
+16|Darrere a l'esquerra
+17|Darrere a la dreta
+18|Torna a la primera vista. Fer doble clic a la imatge fa el mateix.
+19|Fressa de punta esfèrica
+20|Velocitat en bauds
+21|Vincula a aquest port
+22|Fressa
+23|Biblioteca de fresses
+24|Biblioteca de fresses…
+25|Dispositiu USB vinculat
+26|Fressa tòrica (radi de cantonada)
+27|Càmera
+28|Nom de la càmera
+29|Número de la càmera
+30|Càmera d'aquest ordinador
+31|Rotació de la càmera
+32|Vista de la càmera
+33|Càmeres
+34|No es pot fer servir el fitxer
+35|No es pot fer servir el fitxer: {}
+36|Tria una fressa
+37|Tria primer un port o un amfitrió als paràmetres del dispositiu.
+38|Tria la màquina amb què treballaràs.
+39|Mandril
+40|Circumferència
+41|Esborra una alarma
+42|Esborra l'alarma ($X)
+43|Esborrar l'alarma omet el homing: useu-ho només quan se sap que el capçal és en un lloc segur.
+44|Confirma la supressió
+45|Connecta
+46|Torna a connectar automàticament
+47|Connecta't primer a la màquina (pestanya Dispositiu)
+48|Connectat
+49|Connexió
+50|Tipus de connexió
+51|Consola
+52|Controlador
+53|Copiat a {}
+54|Radi de cantonada
+55|No s'ha pogut desar
+56|No s'ha pogut desar: {}
+57|El recompte omple la memòria intermèdia del controlador i és ràpid. El simple envia una línia i espera el seu ok: lent, però per a microprogramari que respon malament.
+58|Tallar dins de la línia
+59|Tallar fora de la línia
+60|Talls
+61|Talls: {} m, uns {} min
+62|Diàmetre de tall
+63|Longitud de tall
+64|Elimina aquesta càmera
+65|Profunditat
+66|Dispositiu
+67|Configuració del dispositiu
+68|Configuració del dispositiu…
+69|Desconnecta
+70|Broca
+71|Edita
+72|Edita…
+73|Fressa de gravat
+74|Exporta G-code…
+75|Exporta aquesta fressa…
+76|Exporta…
+77|Avanç
+78|Retenció d'avanç
+79|Fitxer
+80|Fressa de punta plana
+81|Talls
+82|Segueix la línia
+83|Marc
+84|Marc de l'àrea de treball
+85|Des de dalt
+86|Davant a l'esquerra
+87|Davant a la dreta
+88|GRBL 1.1 té tres eixos: l'eix A no està disponible, s'usa Y.
+89|General
+90|Recorre el quadre on es farà la feina
+91|Ajuda
+92|Velocitat màxima
+93|Inici
+94|Fes el homing de la màquina
+95|Amfitrió
+96|No tinc cap dispositiu
+97|Importa un projecte de LightBurn…
+98|Dispositiu {} importat
+99|Importa…
+100|Tipus
+101|Capes
+102|Omesos
+103|Velocitat mínima
+104|Màquina
+105|Zero de la màquina (0,0)
+106|Material
+107|Material de la peça
+108|Metall
+109|Microtrams del motor per a una volta completa del que mou (el mandril o un corró).
+110|Microtrams per volta
+111|Es fresa: inclosa a les trajectòries i al G-code
+112|Fresatge
+113|Moviments a l'alçada de seguretat
+114|Les meves fresses
+115|Nou
+116|Nova fressa
+117|Cap fressa
+118|Encara no hi ha cap dispositiu. Afegeix-ne un o treballa sense màquina.
+119|Cap port
+120|No és una adreça http o https.
+121|Notes
+122|Notes sobre aquesta màquina
+123|Encara no hi ha res aquí
+124|No hi ha res seleccionat
+125|Només es pot canviar el color d'un plàstic. El material i el seu gruix es mostren a la vista 3D i es desen al projecte.
+126|Obre un dibuix o comença un disseny buit.
+127|Obre l'enllaç amb el controlador indicat als paràmetres del dispositiu
+128|Obre la finestra de previsualització
+129|Obre…
+130|Operació
+131|Longitud total
+132|Profunditat de passada
+133|Profunditat de passada (del diàmetre)
+134|Plàstic
+135|Avanç de penetració
+136|Butxaca
+137|Port
+138|Port o identificador USB
+139|Previsualització
+140|Previsualització…
+141|Propietats
+142|Posa les formes seleccionades en aquesta capa
+143|Llegeix un dispositiu d'un fitxer
+144|Llegeix fresses d'un fitxer
+145|A punt
+146|Fresses predefinides
+147|Reconnexió
+148|Actualitza
+149|Recorda els identificadors USB del port triat: si el nom canvia, el port es troba amb ells.
+150|Restableix la vista
+151|Reprèn
+152|Diàmetre del corró
+153|Corrons
+154|Rotatiu
+155|ATURA
+156|Alçada de seguretat
+157|Desa
+158|Desa el G-code
+159|Desa com a…
+160|Desa aquest dispositiu en un fitxer
+161|Desa les teves fresses en un fitxer
+162|Desat
+163|Dispositiu desat a {}
+164|{} desat
+165|Configuració
+166|Diàmetre de la cua
+167|Formes d'aquesta capa
+168|Mostra la imatge en directe de la càmera d'aquesta màquina
+169|Mostra els traçats a l'àrea de treball
+170|Es mostra a la pestanya Càmera
+171|Es mostra a l'àrea de treball
+172|Velocitat dels moviments sobre el material
+173|Eix
+174|Velocitat de l'eix
+175|Inicia
+176|S'inicia el treball: {} línies, ~{}
+177|Velocitats inicials d'una capa
+178|Solapament lateral
+179|Solapament lateral (del diàmetre)
+180|Envia la feina a la màquina connectada
+181|Transmissió
+182|Activada
+183|Port TCP
+184|Fressa cònica de punta esfèrica
+185|La fressa va per dins de la línia, així que la forma cau: un forat o una finestra.
+186|La fressa va per fora de la línia, així que la forma queda: es talla una peça del material.
+187|El centre de la fressa segueix la línia: gravats i ranures. Les línies obertes també funcionen.
+188|El controlador necessita {} passos per mm a l'eix Y ($101).
+189|Els talls surten de l'àrea de treball del dispositiu
+190|El dispositiu d'aquest projecte
+191|S'ha afegit el dispositiu.
+192|S'ha desat el dispositiu.
+193|El dibuix és més alt que el perímetre de la peça ({} mm)
+194|El fitxer és massa gran
+195|La feina ha acabat.
+196|La feina està en marxa.
+197|La circumferència de la peça: el disseny no pot ser més alt.
+198|No hi ha res per tallar: posa formes en capes que tinguin fressa.
+199|No hi ha res per emmarcar: posa formes en capes que tinguin fressa.
+200|Encara no hi ha res per mostrar: dibuixa formes i posa-les en capes que tinguin fressa.
+201|Gruix
+202|Aquesta versió no pot fer servir les càmeres de l'ordinador.
+203|Aquest dispositiu no té cap càmera activada. Afegeix-ne una als paràmetres del dispositiu.
+204|Aquest dispositiu no és a la llista: ha vingut amb el projecte
+205|Aquest és el dispositiu substitut (Dummy): àrea de treball i velocitats per defecte.
+206|Temps {} / {}
+207|Diàmetre de la punta
+208|Massa dispositius
+209|Traçats
+210|Tipus
+211|Desvincula
+212|Unitats
+213|Fressa en V
+214|Visualitza
+215|Opcions de visualització…
+216|Espera després d'engegar
+217|S'espera la imatge…
+218|Quan l'enllaç cau tot sol, torna-ho a provar cada pocs segons fins que premeu Desconnecta.
+219|Amb un accessori rotatiu l'eix Y fa girar la peça: el dibuix no pot ser més alt que el perímetre de la peça. El model és simple (un plat gira el diàmetre de la peça, els corrons mouen la superfície com la seva); una màquina real necessita proves.
+220|Fusta, fosca
+221|Fusta, clara
+222|Fusta, mitjana
+223|Treballa en un projecte sense màquina: un dispositiu simple anomenat Dummy, amb l'àrea de treball i les velocitats per defecte
+224|Diàmetre de la peça
+225|Z és quant baixa l'eix des de la part superior del material. L'alçada de seguretat és on es mou l'eix entre talls.
+226|fresses afegides
+227|fresses afegides a la biblioteca
+228|p. ex. La meva fresadora CNC
+229|cap
+230|aquest projecte es va fer per a una altra màquina: {}
+231|{} passades fins a {} mm
+232|{}: no s'ha triat cap fressa
+233|{}: res per tallar (la línia pot ser massa petita per a la fressa)
+234|{}: les línies obertes s'ometen en una butxaca
+235|{}: les línies obertes s'ometen en un perfil (fes servir «Segueix la línia»)
+236|{}: les imatges no es fresen
+237|{}: la profunditat està limitada al recorregut de la màquina ({} mm)
+238|{}: la profunditat de {} mm és més gran que el gruix del material ({} mm)
+239|{}: {} rpm és fora del rang de l'eix {}…{} rpm

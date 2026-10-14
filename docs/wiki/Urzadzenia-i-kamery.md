@@ -18,10 +18,12 @@ Tworzy jednorazowo zwykłe urządzenie o nazwie **Dummy**: pole robocze 300 × 2
 | General | nazwa, jednostki (mm lub cale; geometria jest zawsze zapisana w mm), zero maszyny (przód lewo, przód prawo, tył lewo, tył prawo) |
 | Machine | pole robocze X i Y, skok w Z, **bezpieczna wysokość** (na której wrzeciono porusza się między cięciami) i prędkość ruchów nad materiałem |
 | Spindle | najniższe i najwyższe obroty oraz czekanie po włączeniu |
+| Connection | port szeregowy lub gniazdo sieciowe, port lub identyfikator USB, prędkość, strumieniowanie, co zrobić po połączeniu |
+| Rotary | obrotnica: rodzaj, średnice, mikrokroki na obrót |
 | Camera | do ośmiu kamer: adres (strumień MJPEG lub zdjęcie JPEG, http / https) albo kamera komputera, obrót 0 / 90 / 180 / 270°, włączona / wyłączona |
 | Notes | dowolny tekst |
 
-Sterownik to GRBL. **MillCreator nie łączy się z maszyną**: urządzenie ją opisuje, żeby ścieżki do niej pasowały.
+Sterownik to GRBL. Strona **Connection** ustawia, jak się z nim połączyć (port szeregowy albo gniazdo sieciowe, prędkość, strumieniowanie z liczeniem bufora lub proste, bazowanie albo kasowanie alarmu po połączeniu), a strona **Rotary** obrotnicę (uchwyt lub rolki, średnica przedmiotu, mikrokroki na obrót; oś Y obraca przedmiot). Karta **Device** edytora ma Connect, Home, Unlock, Pause, Resume, stan i położenie maszyny oraz konsolę.
 
 ## Kamera
 Gdy urządzenie ma włączoną (i poprawną) kamerę, edytor dostaje kartę **Camera** z jej obrazem na żywo. Obrazy z adresu czyta czytnik strumienia z baseCreatora; kamery komputera wymagają kompilacji z `--features camera`. Obrót i korekty obrazu kamery są stosowane.

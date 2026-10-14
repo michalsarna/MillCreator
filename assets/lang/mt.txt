@@ -1,172 +1,240 @@
-0|Veduta 3D tax-xogħol
-1|Veduta 3D tax-xogħol…
-2|Kopja fost il-frieżi tiegħek stess
-3|Toqba fiċ-ċentru ta' kull forma magħluqa tas-saff, f'passi tal-fond tal-passaġġ.
+0|Veduta 3D tax-xogħol…
+1|Kopja fost il-frieżi tiegħek stess
+2|Toqba fiċ-ċentru ta' kull forma magħluqa tas-saff, f'passi tal-fond tal-passaġġ.
+3|Isem ta' port, jew l-ID USB tal-manifattur u tal-prodott (VID:PID, eżadeċimali): jintuża l-port li għandu dawn l-ID.
 4|Friża lesta ma tistax tinbidel. Agħmel kopja biex tbiddilha.
-5|Dwar
-6|Żid kamera
-7|Żid apparat
-8|Żid apparat
-9|Żid tagħmir…
-10|Indirizz
-11|Iż-żona kollha ġewwa l-linja tiġi vojtata ċirku wara ċirku sal-fond tas-saff.
-12|Irranġa
-13|Wara fuq ix-xellug
-14|Wara fuq il-lemin
-15|Lura għall-ewwel veduta. Double click fuq l-istampa jagħmel l-istess.
-16|Friża sferika
-17|Friża
-18|Librerija tal-frieżi
-19|Librerija tal-frieżi…
-20|Friża b'rokna mdawra (raġġ tar-rokna)
-21|Kamera
-22|Isem tal-kamera
-23|Numru tal-kamera
-24|Kamera ta' dan il-kompjuter
-25|Rotazzjoni tal-kamera
-26|Kameras
-27|Il-fajl ma jistax jintuża
-28|Il-fajl ma jistax jintuża: {}
-29|Agħżel friża
-30|Agħżel il-magna li se taħdem biha.
-31|Ikkonferma t-tħassir
-32|Kontrollur
-33|Ikkupjat fi {}
-34|Raġġ tar-rokna
-35|Ma setax jinħażen
-36|Ma setax jinħażen: {}
-37|Aqta' ġewwa l-linja
-38|Aqta' barra l-linja
-39|Qtugħ
-40|Qtugħ: {} m, madwar {} min
-41|Dijametru tal-qtugħ
-42|Tul tal-qtugħ
-43|Neħħi din il-kamera
-44|Fond
-45|Tagħmir
-46|Issettjar tat-tagħmir
-47|Issettjar tat-tagħmir…
-48|Trapan
-49|Editja
-50|Editja…
-51|Friża tal-inċiżjoni
-52|Esporta G-code…
-53|Esporta din il-friża…
-54|Esporta…
-55|Feed
-56|Fajl
-57|Friża ċatta
-58|Xfafar
-59|Segwi l-linja
-60|Quddiem fuq ix-xellug
-61|Quddiem fuq il-lemin
-62|Ġenerali
-63|Għajnuna
-64|L-ogħla veloċità
-65|M'għandi l-ebda apparat
-66|Importa proġett ta' LightBurn…
-67|L-apparat {} ġie impurtat
-68|Importa…
-69|Saffi
-70|Titħalla barra
-71|L-inqas veloċità
-72|Magna
-73|Żero tal-magna (0,0)
-74|Materjal
-75|Materjal tal-biċċa
-76|Metall
-77|Titfriża: inkluża fil-mogħdijiet u l-G-code
-78|Frieżar
-79|Movimenti fl-għoli sigur
-80|Il-frieżi tiegħi
-81|Ġdid
-82|Friża ġdida
-83|L-ebda friża
-84|M'hemm l-ebda apparat għadu. Żid wieħed jew aħdem mingħajr magna.
-85|Mhuwiex indirizz http jew https.
-86|Noti
-87|Noti dwar din il-magna
-88|M'hemm xejn hawn għadu
-89|Xejn magħżul
-90|Il-kulur biss ta' plastik jista' jinbidel. Il-materjal u l-ħxuna tiegħu jidhru fil-veduta 3D u jinħażnu fil-proġett.
-91|Iftaħ disinn jew ibda disinn vojt.
-92|Iftaħ…
-93|Operazzjoni
-94|Tul totali
-95|Fond tal-passaġġ
-96|Fond tal-passaġġ (mid-dijametru)
-97|Plastik
-98|Avanz tal-għaddas
-99|Bwiet
-100|Progress
-101|Proprjetajiet
-102|Poġġi l-forom magħżula fuq dan is-saff
-103|Aqra apparat minn fajl
-104|Aqra frieżi minn fajl
-105|Lest
-106|Frieżi lesti
-107|Irrisettja l-veduta
-108|Għoli sigur
-109|Salva
-110|Salva bħala…
-111|Aħżen dan l-apparat f'fajl
-112|Aħżen il-frieżi tiegħek f'fajl
-113|Maħżun
-114|L-apparat inħażen f'{}
-115|Salvat: {}
-116|Issettjar
-117|Dijametru tal-geddum
-118|Forom fuq dan is-saff
-119|Murija fit-tab Kamera
-120|Murija fiż-żona tax-xogħol
-121|Veloċità tal-movimenti fuq il-materjal
-122|Spindil
-123|Veloċità tal-ispindil
-124|Ibda
-125|Veloċitajiet tal-bidu għal saff
-126|Sovrappożizzjoni laterali
-127|Sovrappożizzjoni laterali (mid-dijametru)
-128|Mixgħul
-129|Friża sferika koniku
-130|Il-friża tmur ġewwa l-linja, għalhekk il-forma taqa': toqba jew tieqa.
-131|Il-friża tmur barra l-linja, għalhekk il-forma tibqa': biċċa tinqata' mill-materjal.
-132|Iċ-ċentru tal-friża jsegwi l-linja: inċiżjonijiet u kanali. Il-linji miftuħin jaħdmu wkoll.
-133|Il-qtugħ imur barra miż-żona tax-xogħol tal-apparat
-134|L-apparat ta' dan il-proġett
-135|L-apparat ġie miżjud.
-136|L-apparat inħażen.
-137|Il-fajl huwa kbir wisq
-138|M'hemm xejn x'taqta': poġġi forom fuq saffi li għandhom friża.
-139|M'hemm xejn x'turi għadu: ipinġi forom u poġġihom fuq saffi li għandhom friża.
-140|Ħxuna
-141|Din il-verżjoni ma tistax tuża l-kameras tal-kompjuter.
-142|Dan l-apparat m'għandu l-ebda kamera mixgħula. Żid waħda fl-issettjar tal-apparat.
-143|Dan l-apparat mhuwiex fil-lista: ġie mal-proġett
-144|Dan huwa l-apparat sostitut (Dummy): żona tax-xogħol u veloċitajiet awtomatiċi.
-145|Dijametru tat-tarf
-146|Apparati wisq
-147|Tip
-148|Unitajiet
-149|Friża V
-150|Dehra
-151|Għażliet tad-dehra…
-152|Stenna wara l-ixgħil
-153|Qed tistenna l-istampa…
-154|Injam, skur
-155|Injam, ċar
-156|Injam, medju
-157|Aħdem fuq proġett mingħajr magna: apparat sempliċi jisimu Dummy, bl-erja tax-xogħol u s-veloċitajiet awtomatiċi
-158|Z huwa kemm l-ispindil jinżel mill-wiċċ ta' fuq tal-materjal. L-għoli sigur huwa fejn jiċċaqlaq l-ispindil bejn il-qtugħ.
-159|frieżi miżjuda
-160|frieżi miżjuda mal-librerija
-161|eż. Ir-router CNC tiegħi
-162|dan il-proġett sar għal magna oħra: {}
-163|{} passaġġi sa {} mm
-164|{}: ma ntgħażlet l-ebda friża
-165|{}: xejn x'taqta' (il-linja tista' tkun żgħira wisq għall-friża)
-166|{}: il-linji miftuħin jitħallew barra f'bwiet
-167|{}: il-linji miftuħin jitħallew barra f'profil (uża “Segwi l-linja”)
-168|{}: l-istampi ma jitfriżawx
-169|{}: il-fond huwa limitat għall-ivvjaġġar tal-magna ({} mm)
-170|{}: il-fond ta' {} mm huwa akbar mill-ħxuna tal-materjal ({} mm)
-171|{}: {} rpm huwa barra mill-medda tal-ispindil {}…{} rpm
+5|Hemm attachment rotatorju konness
+6|Waqqaf ix-xogħol li għaddej
+7|Dwar
+8|Żid kamera
+9|Żid apparat
+10|Żid apparat
+11|Żid tagħmir…
+12|Indirizz
+13|Wara l-konnessjoni
+14|Iż-żona kollha ġewwa l-linja tiġi vojtata ċirku wara ċirku sal-fond tas-saff.
+15|Irranġa
+16|Wara fuq ix-xellug
+17|Wara fuq il-lemin
+18|Lura għall-ewwel veduta. Double click fuq l-istampa jagħmel l-istess.
+19|Friża sferika
+20|Veloċità baud
+21|Qabbad ma' dan il-port
+22|Friża
+23|Librerija tal-frieżi
+24|Librerija tal-frieżi…
+25|Apparat USB marbut
+26|Friża b'rokna mdawra (raġġ tar-rokna)
+27|Kamera
+28|Isem tal-kamera
+29|Numru tal-kamera
+30|Kamera ta' dan il-kompjuter
+31|Rotazzjoni tal-kamera
+32|Vista tal-kamera
+33|Kameras
+34|Il-fajl ma jistax jintuża
+35|Il-fajl ma jistax jintuża: {}
+36|Agħżel friża
+37|Agħżel l-ewwel port jew host fl-issettjar tal-apparat.
+38|Agħżel il-magna li se taħdem biha.
+39|Chuck
+40|Ċirkonferenza
+41|Neħħi allarm
+42|Naddaf l-allarm ($X)
+43|It-tneħħija tal-allarm tbiddel il-homing: uża biss meta r-ras tkun taf li qiegħda f'post sigur.
+44|Ikkonferma t-tħassir
+45|Qabbad
+46|Qabbad mill-ġdid awtomatikament
+47|Qabbad l-ewwel mal-magna (tab Apparat)
+48|Mqabbad
+49|Konnessjoni
+50|Tip ta' konnessjoni
+51|Konsola
+52|Kontrollur
+53|Ikkupjat fi {}
+54|Raġġ tar-rokna
+55|Ma setax jinħażen
+56|Ma setax jinħażen: {}
+57|Il-għadd jimla l-buffer tal-kontrollur u huwa ċkejken. Is-sempliċi jibgħat linja waħda u jistenna l-ok tagħha: bil-mod, imma għal firmware li jwieġeb ħażin.
+58|Aqta' ġewwa l-linja
+59|Aqta' barra l-linja
+60|Qtugħ
+61|Qtugħ: {} m, madwar {} min
+62|Dijametru tal-qtugħ
+63|Tul tal-qtugħ
+64|Neħħi din il-kamera
+65|Fond
+66|Tagħmir
+67|Issettjar tat-tagħmir
+68|Issettjar tat-tagħmir…
+69|Skonnettja
+70|Trapan
+71|Editja
+72|Editja…
+73|Friża tal-inċiżjoni
+74|Esporta G-code…
+75|Esporta din il-friża…
+76|Esporta…
+77|Feed
+78|Żomm l-avanz
+79|Fajl
+80|Friża ċatta
+81|Xfafar
+82|Segwi l-linja
+83|Qafas
+84|Qafas taż-żona tax-xogħol
+85|Minn fuq
+86|Quddiem fuq ix-xellug
+87|Quddiem fuq il-lemin
+88|GRBL 1.1 għandu tliet assi: l-assi A mhux disponibbli, jintuża Y.
+89|Ġenerali
+90|Dur mal-kaxxa fejn se jsir ix-xogħol
+91|Għajnuna
+92|L-ogħla veloċità
+93|Dar
+94|Agħmel homing tal-magna
+95|Host
+96|M'għandi l-ebda apparat
+97|Importa proġett ta' LightBurn…
+98|L-apparat {} ġie impurtat
+99|Importa…
+100|Tip
+101|Saffi
+102|Titħalla barra
+103|L-inqas veloċità
+104|Magna
+105|Żero tal-magna (0,0)
+106|Materjal
+107|Materjal tal-biċċa
+108|Metall
+109|Mikro-passi tal-mutur għal dawra sħiħa ta' dak li jmexxi (il-chuck jew rullu wieħed).
+110|Mikro-passi għal kull dawra
+111|Titfriża: inkluża fil-mogħdijiet u l-G-code
+112|Frieżar
+113|Movimenti fl-għoli sigur
+114|Il-frieżi tiegħi
+115|Ġdid
+116|Friża ġdida
+117|L-ebda friża
+118|M'hemm l-ebda apparat għadu. Żid wieħed jew aħdem mingħajr magna.
+119|L-ebda port
+120|Mhuwiex indirizz http jew https.
+121|Noti
+122|Noti dwar din il-magna
+123|M'hemm xejn hawn għadu
+124|Xejn magħżul
+125|Il-kulur biss ta' plastik jista' jinbidel. Il-materjal u l-ħxuna tiegħu jidhru fil-veduta 3D u jinħażnu fil-proġett.
+126|Iftaħ disinn jew ibda disinn vojt.
+127|Iftaħ il-link mal-kontrollur stabbilit fl-issettjar tal-apparat
+128|Iftaħ it-tieqa tal-previżjoni
+129|Iftaħ…
+130|Operazzjoni
+131|Tul totali
+132|Fond tal-passaġġ
+133|Fond tal-passaġġ (mid-dijametru)
+134|Plastik
+135|Avanz tal-għaddas
+136|Bwiet
+137|Port
+138|Port jew ID USB
+139|Previżjoni
+140|Previżjoni…
+141|Proprjetajiet
+142|Poġġi l-forom magħżula fuq dan is-saff
+143|Aqra apparat minn fajl
+144|Aqra frieżi minn fajl
+145|Lest
+146|Frieżi lesti
+147|Rikonnessjoni
+148|Aġġorna
+149|Ftakar l-ID USB tal-port magħżul: meta ismu jinbidel, il-port jinstab mill-ġdid bihom.
+150|Irrisettja l-veduta
+151|Kompli
+152|Dijametru tar-rullu
+153|Rullijiet
+154|Rotatorju
+155|WAQQAF
+156|Għoli sigur
+157|Salva
+158|Salva l-G-code
+159|Salva bħala…
+160|Aħżen dan l-apparat f'fajl
+161|Aħżen il-frieżi tiegħek f'fajl
+162|Maħżun
+163|L-apparat inħażen f'{}
+164|Salvat: {}
+165|Issettjar
+166|Dijametru tal-geddum
+167|Forom fuq dan is-saff
+168|Juri l-istampa ħajja mill-kamera ta' din il-magna
+169|Juri l-passaġġi fiż-żona tax-xogħol
+170|Murija fit-tab Kamera
+171|Murija fiż-żona tax-xogħol
+172|Veloċità tal-movimenti fuq il-materjal
+173|Spindil
+174|Veloċità tal-ispindil
+175|Ibda
+176|Qed jinbeda x-xogħol: {} linji, ~{}
+177|Veloċitajiet tal-bidu għal saff
+178|Sovrappożizzjoni laterali
+179|Sovrappożizzjoni laterali (mid-dijametru)
+180|Ibgħat ix-xogħol lill-magna mqabbda
+181|Streaming
+182|Mixgħul
+183|Port TCP
+184|Friża sferika koniku
+185|Il-friża tmur ġewwa l-linja, għalhekk il-forma taqa': toqba jew tieqa.
+186|Il-friża tmur barra l-linja, għalhekk il-forma tibqa': biċċa tinqata' mill-materjal.
+187|Iċ-ċentru tal-friża jsegwi l-linja: inċiżjonijiet u kanali. Il-linji miftuħin jaħdmu wkoll.
+188|Il-kontrollur jeħtieġ {} passi għal kull mm fuq l-assi Y ($101).
+189|Il-qtugħ imur barra miż-żona tax-xogħol tal-apparat
+190|L-apparat ta' dan il-proġett
+191|L-apparat ġie miżjud.
+192|L-apparat inħażen.
+193|Id-disinn huwa itwal mill-perimetru tal-biċċa ({} mm)
+194|Il-fajl huwa kbir wisq
+195|Ix-xogħol spiċċa.
+196|Ix-xogħol għaddej.
+197|Iċ-ċirkonferenza tal-biċċa: id-disinn ma jistax ikun itwal.
+198|M'hemm xejn x'taqta': poġġi forom fuq saffi li għandhom friża.
+199|M'hemm xejn x'tqafles: poġġi forom fuq saffi li għandhom friża.
+200|M'hemm xejn x'turi għadu: ipinġi forom u poġġihom fuq saffi li għandhom friża.
+201|Ħxuna
+202|Din il-verżjoni ma tistax tuża l-kameras tal-kompjuter.
+203|Dan l-apparat m'għandu l-ebda kamera mixgħula. Żid waħda fl-issettjar tal-apparat.
+204|Dan l-apparat mhuwiex fil-lista: ġie mal-proġett
+205|Dan huwa l-apparat sostitut (Dummy): żona tax-xogħol u veloċitajiet awtomatiċi.
+206|Ħin {} / {}
+207|Dijametru tat-tarf
+208|Apparati wisq
+209|Passaġġi
+210|Tip
+211|Ħoll ir-rabta
+212|Unitajiet
+213|Friża V
+214|Dehra
+215|Għażliet tad-dehra…
+216|Stenna wara l-ixgħil
+217|Qed tistenna l-istampa…
+218|Meta r-rabta tinqata' waħedha, erġa' pprova kull ftit sekondi sakemm tagħfas Skonnettja.
+219|B'aċċessorju rotanti l-assi Y idawwar il-biċċa: id-disinn ma jistax ikun itwal mill-perimetru tal-biċċa. Il-mudell huwa sempliċi (chuck jdur bid-dijametru tal-biċċa, ir-rollers iċaqilqu l-wiċċ bħal tagħhom); magna vera teħtieġ ittestjar.
+220|Injam, skur
+221|Injam, ċar
+222|Injam, medju
+223|Aħdem fuq proġett mingħajr magna: apparat sempliċi jisimu Dummy, bl-erja tax-xogħol u s-veloċitajiet awtomatiċi
+224|Dijametru tal-biċċa
+225|Z huwa kemm l-ispindil jinżel mill-wiċċ ta' fuq tal-materjal. L-għoli sigur huwa fejn jiċċaqlaq l-ispindil bejn il-qtugħ.
+226|frieżi miżjuda
+227|frieżi miżjuda mal-librerija
+228|eż. Ir-router CNC tiegħi
+229|xejn
+230|dan il-proġett sar għal magna oħra: {}
+231|{} passaġġi sa {} mm
+232|{}: ma ntgħażlet l-ebda friża
+233|{}: xejn x'taqta' (il-linja tista' tkun żgħira wisq għall-friża)
+234|{}: il-linji miftuħin jitħallew barra f'bwiet
+235|{}: il-linji miftuħin jitħallew barra f'profil (uża “Segwi l-linja”)
+236|{}: l-istampi ma jitfriżawx
+237|{}: il-fond huwa limitat għall-ivvjaġġar tal-magna ({} mm)
+238|{}: il-fond ta' {} mm huwa akbar mill-ħxuna tal-materjal ({} mm)
+239|{}: {} rpm huwa barra mill-medda tal-ispindil {}…{} rpm

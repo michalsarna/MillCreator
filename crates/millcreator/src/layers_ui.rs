@@ -40,7 +40,7 @@ impl App {
         let active = self.ed.active_layer.min(self.layers.len().saturating_sub(1));
         let mut pick = None;
         let mut changed = false;
-        egui::ScrollArea::vertical().id_salt("layer_list").max_height(190.0).auto_shrink([false, true]).show(ui, |ui| {
+        base_ui::widgets::list_with_splitter(ui, "layer_list", 190.0, |ui| {
             for (i, l) in self.layers.iter_mut().enumerate() {
                 ui.horizontal(|ui| {
                     let (rect, _) = ui.allocate_exact_size(egui::vec2(14.0, 14.0), egui::Sense::hover());
@@ -62,7 +62,6 @@ impl App {
         if let Some(i) = pick {
             self.ed.active_layer = i;
         }
-        ui.separator();
         let units = self.device.units;
         let lib = &self.tools;
         let li = self.ed.active_layer.min(self.layers.len().saturating_sub(1));

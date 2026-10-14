@@ -1,6 +1,7 @@
 //! A device: the milling machine a project is made for. It holds the size of the work area, the spindle, the speeds,
 //! the safe height and the cameras. The devices are kept in one file; a device can be exported to a file and imported.
 use base_core::camimg::{CameraKind, CameraSource};
+use base_core::machine::{Connection, LinkKind, Rotary};
 use base_core::units::Units;
 use serde::{Deserialize, Serialize};
 
@@ -65,6 +66,12 @@ pub struct Device {
     pub active_camera: usize,
     #[serde(default)]
     pub notes: String,
+    /// How the program reaches the machine (a GRBL controller on a serial port or a network socket).
+    #[serde(default)]
+    pub connection: Connection,
+    /// A rotary attachment that turns the work.
+    #[serde(default)]
+    pub rotary: Rotary,
 }
 
 impl Default for Device {
@@ -81,6 +88,8 @@ impl Default for Device {
             cameras: vec![],
             active_camera: 0,
             notes: String::new(),
+            connection: Connection::default(),
+            rotary: Rotary::default(),
         }
     }
 }
@@ -131,7 +140,23 @@ impl Device {
                 }
             }
         }
+        let c = &self.connection;
+        if c.baud < 300 || c.baud > 4_000_000 || c.host.len() > 253 || c.port.len() > 200 || c.usb_id.len() > 9 || (!c.usb_id.is_empty() && base_core::machine::parse_usb_id(&c.usb_id).is_none()) {
+            return Err("the connection settings are out of range".into());
+        }
+        let r = &self.rotary;
+        if ![r.diameter, r.roller_diameter, r.microsteps_per_rev].iter().all(|v| v.is_finite() && *v > 0.0 && *v <= 1_000_000.0) {
+            return Err("the rotary settings are out of range".into());
+        }
         Ok(())
+    }
+
+    /// Is there somewhere to connect to?
+    pub fn has_target(&self) -> bool {
+        match self.connection.link {
+            LinkKind::Serial => !self.connection.port.trim().is_empty(),
+            LinkKind::Tcp => !self.connection.host.trim().is_empty(),
+        }
     }
 
     /// A free name: the wanted one, or with a number after it.
@@ -241,6 +266,25 @@ mod tests {
         let mut bad = a.clone();
         bad.area.x = 0.0;
         assert_eq!(load_all(&save_all(&[bad, a.clone()])), vec![a]);
+    }
+
+    #[test]
+    fn a_connection_and_a_rotary_are_kept_and_checked() {
+        let mut d = Device::dummy();
+        d.connection.port = "/dev/ttyUSB0".into();
+        d.rotary.enabled = true;
+        d.rotary.diameter = 80.0;
+        assert!(d.has_target() && d.check().is_ok());
+        assert_eq!(import(&export(&d)).unwrap(), d);
+        d.connection.baud = 5;
+        assert!(d.check().is_err());
+        let mut d = Device::dummy();
+        d.rotary.diameter = f64::NAN;
+        assert!(d.check().is_err());
+        // A device file of the earlier version has neither.
+        let old = r#"{"format":1,"device":{"name":"Old","units":"Mm","area":{"x":300.0,"y":200.0,"z":60.0},"origin":"FrontLeft","safe_z":5.0,"rapid":3000.0,"spindle":{"min_rpm":1000.0,"max_rpm":24000.0,"spin_up":2.0}}}"#;
+        let d = import(old).unwrap();
+        assert!(!d.has_target() && !d.rotary.enabled);
     }
 
     #[test]

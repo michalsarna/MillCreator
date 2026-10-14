@@ -6,8 +6,8 @@ Only the newest released version receives security fixes.
 
 | Version | Supported |
 |---------|-----------|
-| v0.2.1 (latest) | yes |
-| v0.2.0 | no, please update |
+| v0.2.2 (latest) | yes |
+| v0.2.1 | no, please update |
 | older | no, please update |
 
 ## Reporting a vulnerability
@@ -28,5 +28,5 @@ that could write unintended G-code, are in scope. Problems in the shared code ar
 
 ## Safety reminder
 
-A milling machine is dangerous. MillCreator writes G-code and does not control the machine; test every job in the air
+A milling machine is dangerous. MillCreator writes G-code and can stream it to a GRBL machine, but has not been tried on a real one; test every job in the air
 first, wear eye and ear protection and never leave a running machine unattended.

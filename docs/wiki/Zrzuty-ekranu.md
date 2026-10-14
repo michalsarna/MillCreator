@@ -75,3 +75,23 @@ Wszystkie obrazy są generowane bez okna z prawdziwego interfejsu (`cargo test -
 ### Plastik w wybranym kolorze
 
 ![Plastik w wybranym kolorze](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/18-3d-view-plastic.png)
+
+### Podgląd z góry, ze sterowaniem animacją
+
+![Podgląd z góry, ze sterowaniem animacją](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/19-preview-from-above.png)
+
+### Przycisk Toolpaths rysuje ścieżki na obszarze roboczym
+
+![Przycisk Toolpaths rysuje ścieżki na obszarze roboczym](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/20-toolpaths-on-the-work-area.png)
+
+### Urządzenie: połączenie ze sterownikiem GRBL
+
+![Urządzenie: połączenie ze sterownikiem GRBL](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/21-device-connection.png)
+
+### Urządzenie: obrotnica
+
+![Urządzenie: obrotnica](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/22-device-rotary.png)
+
+### Karta Device: połączenie, bazowanie, pauza, konsola
+
+![Karta Device: połączenie, bazowanie, pauza, konsola](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/23-device-tab-machine.png)

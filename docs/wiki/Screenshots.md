@@ -75,3 +75,23 @@ All pictures are rendered headlessly from the real interface (`cargo test -p mil
 ### Plastic in a colour of your choice
 
 ![Plastic in a colour of your choice](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/18-3d-view-plastic.png)
+
+### Preview from above, with the animation controls
+
+![Preview from above, with the animation controls](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/19-preview-from-above.png)
+
+### The Toolpaths button draws the paths over the work area
+
+![The Toolpaths button draws the paths over the work area](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/20-toolpaths-on-the-work-area.png)
+
+### Device: the connection to the GRBL controller
+
+![Device: the connection to the GRBL controller](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/21-device-connection.png)
+
+### Device: a rotary attachment
+
+![Device: a rotary attachment](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/22-device-rotary.png)
+
+### Device tab: connect, home, pause, console
+
+![Device tab: connect, home, pause, console](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/23-device-tab-machine.png)

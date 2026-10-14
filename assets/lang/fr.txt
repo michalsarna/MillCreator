@@ -1,172 +1,240 @@
-0|Vue 3D du travail
-1|Vue 3D du travail…
-2|Une copie parmi vos propres fraises
-3|Un trou au centre de chaque forme fermée du calque, par passes de la profondeur de passe.
+0|Vue 3D du travail…
+1|Une copie parmi vos propres fraises
+2|Un trou au centre de chaque forme fermée du calque, par passes de la profondeur de passe.
+3|Un nom de port, ou l'identifiant USB du fabricant et du produit (VID:PID, hexadécimal) : le port qui porte ces identifiants est utilisé.
 4|Une fraise prédéfinie ne peut pas être modifiée. Faites-en une copie pour la modifier.
-5|À propos
-6|Ajouter une caméra
-7|Ajouter un appareil
-8|Ajouter l'appareil
-9|Ajouter un appareil…
-10|Adresse
-11|Toute la zone à l'intérieur de la ligne est dégagée, anneau après anneau, jusqu'à la profondeur du calque.
-12|Disposition
-13|Arrière gauche
-14|Arrière droit
-15|Retour à la première vue. Un double-clic sur l'image fait la même chose.
-16|Fraise à bout sphérique
-17|Fraise
-18|Bibliothèque de fraises
-19|Bibliothèque de fraises…
-20|Fraise torique (rayon d'angle)
-21|Caméra
-22|Nom de la caméra
-23|Numéro de la caméra
-24|Caméra de cet ordinateur
-25|Rotation de la caméra
-26|Caméras
-27|Impossible d'utiliser le fichier
-28|Impossible d'utiliser le fichier : {}
-29|Choisir une fraise
-30|Choisissez la machine avec laquelle vous allez travailler.
-31|Confirmer la suppression
-32|Contrôleur
-33|Copié vers {}
-34|Rayon d'angle
-35|Enregistrement impossible
-36|Enregistrement impossible : {}
-37|Couper à l'intérieur de la ligne
-38|Couper à l'extérieur de la ligne
-39|Coupes
-40|Coupes : {} m, environ {} min
-41|Diamètre de coupe
-42|Longueur de coupe
-43|Supprimer cette caméra
-44|Profondeur
-45|Appareil
-46|Paramètres de l'appareil
-47|Paramètres de l'appareil…
-48|Foret
-49|Édition
-50|Modifier…
-51|Fraise à graver
-52|Exporter en G-code…
-53|Exporter cette fraise…
-54|Exporter…
-55|Avance
-56|Fichier
-57|Fraise à bout plat
-58|Dents
-59|Suivre la ligne
-60|Avant gauche
-61|Avant droit
-62|Général
-63|Aide
-64|Vitesse maximale
-65|Je n'ai pas d'appareil
-66|Importer un projet LightBurn…
-67|Appareil {} importé
-68|Importer…
-69|Calques
-70|Écartés
-71|Vitesse minimale
-72|Machine
-73|Zéro machine (0,0)
-74|Matériau
-75|Matériau de la pièce
-76|Métal
-77|Fraisé : pris en compte dans les parcours et le G-code
-78|Fraisage
-79|Déplacements à la hauteur de sécurité
-80|Mes fraises
-81|Nouveau
-82|Nouvelle fraise
-83|Aucune fraise
-84|Pas encore d'appareil. Ajoutez-en un, ou travaillez sans machine.
-85|Ce n'est pas une adresse http ou https.
-86|Notes
-87|Notes sur cette machine
-88|Rien ici pour l'instant
-89|Aucune sélection
-90|Seule la couleur d'un plastique peut être changée. Le matériau et son épaisseur s'affichent dans la vue 3D et sont enregistrés dans le projet.
-91|Ouvrez un dessin ou commencez une conception vide.
-92|Ouvrir…
-93|Opération
-94|Longueur totale
-95|Profondeur de passe
-96|Profondeur de passe (du diamètre)
-97|Plastique
-98|Avance de plongée
-99|Poche
-100|Progression
-101|Propriétés
-102|Mettre les formes sélectionnées sur ce calque
-103|Lire un appareil depuis un fichier
-104|Lire des fraises depuis un fichier
-105|Prêt
-106|Fraises prédéfinies
-107|Réinitialiser la vue
-108|Hauteur de sécurité
-109|Enregistrer
-110|Enregistrer sous…
-111|Enregistrer cet appareil dans un fichier
-112|Enregistrer vos fraises dans un fichier
-113|Enregistré
-114|Appareil enregistré dans {}
-115|{} enregistré
-116|Paramètres
-117|Diamètre de la queue
-118|Formes sur ce calque
-119|Affichée dans l'onglet Caméra
-120|Affiché dans la zone de travail
-121|Vitesse des déplacements au-dessus du matériau
-122|Broche
-123|Vitesse de la broche
-124|Démarrer
-125|Vitesses de départ pour un calque
-126|Recouvrement latéral
-127|Recouvrement latéral (du diamètre)
-128|Activée
-129|Fraise conique à bout sphérique
-130|La fraise passe à l'intérieur de la ligne, donc la forme tombe : un trou ou une fenêtre.
-131|La fraise passe à l'extérieur de la ligne, donc la forme reste : une pièce est découpée dans le matériau.
-132|Le centre de la fraise suit la ligne : gravure et rainures. Les lignes ouvertes fonctionnent aussi.
-133|Les coupes sortent de la zone de travail de l'appareil
-134|L'appareil de ce projet
-135|L'appareil a été ajouté.
-136|L'appareil a été enregistré.
-137|Le fichier est trop volumineux
-138|Il n'y a rien à couper : mettez des formes sur des calques qui ont une fraise.
-139|Rien à montrer pour l'instant : dessinez des formes et mettez-les sur des calques qui ont une fraise.
-140|Épaisseur
-141|Cette version ne peut pas utiliser les caméras de l'ordinateur.
-142|Cet appareil n'a pas de caméra activée. Ajoutez-en une dans les réglages de l'appareil.
-143|Cet appareil n'est pas dans la liste : il est venu avec le projet
-144|Ceci est l'appareil de remplacement (Dummy) : zone de travail et vitesses par défaut.
-145|Diamètre de la pointe
-146|Trop d'appareils
-147|Type
-148|Unités
-149|Fraise en V
-150|Affichage
-151|Options d'affichage…
-152|Attente après la mise en marche
-153|En attente de l'image…
-154|Bois, foncé
-155|Bois, clair
-156|Bois, moyen
-157|Travaillez sur un projet sans machine : un appareil simple nommé Dummy, avec la zone de travail et les vitesses par défaut
-158|Z indique de combien la broche descend depuis le dessus du matériau. La hauteur de sécurité est celle où la broche se déplace entre les coupes.
-159|fraises ajoutées
-160|fraises ajoutées à la bibliothèque
-161|p. ex. Ma fraiseuse CNC
-162|ce projet a été fait pour une autre machine : {}
-163|{} passes jusqu'à {} mm
-164|{} : aucune fraise choisie
-165|{} : rien à couper (la ligne est peut-être trop petite pour la fraise)
-166|{} : les lignes ouvertes sont écartées d'une poche
-167|{} : les lignes ouvertes sont écartées d'un profil (utilisez « Suivre la ligne »)
-168|{} : les images ne sont pas fraisées
-169|{} : la profondeur est limitée à la course de la machine ({} mm)
-170|{} : la profondeur de {} mm dépasse l'épaisseur du matériau ({} mm)
-171|{} : {} tr/min est hors de la plage de la broche {}…{} tr/min
+5|Un accessoire rotatif est connecté
+6|Interrompre le travail en cours
+7|À propos
+8|Ajouter une caméra
+9|Ajouter un appareil
+10|Ajouter l'appareil
+11|Ajouter un appareil…
+12|Adresse
+13|Après la connexion
+14|Toute la zone à l'intérieur de la ligne est dégagée, anneau après anneau, jusqu'à la profondeur du calque.
+15|Disposition
+16|Arrière gauche
+17|Arrière droit
+18|Retour à la première vue. Un double-clic sur l'image fait la même chose.
+19|Fraise à bout sphérique
+20|Débit en bauds
+21|Lier à ce port
+22|Fraise
+23|Bibliothèque de fraises
+24|Bibliothèque de fraises…
+25|Périphérique USB lié
+26|Fraise torique (rayon d'angle)
+27|Caméra
+28|Nom de la caméra
+29|Numéro de la caméra
+30|Caméra de cet ordinateur
+31|Rotation de la caméra
+32|Vue caméra
+33|Caméras
+34|Impossible d'utiliser le fichier
+35|Impossible d'utiliser le fichier : {}
+36|Choisir une fraise
+37|Choisissez d'abord un port ou un hôte dans les réglages de l'appareil.
+38|Choisissez la machine avec laquelle vous allez travailler.
+39|Mandrin
+40|Circonférence
+41|Effacer une alarme
+42|Effacer l'alarme ($X)
+43|Effacer l'alarme saute la prise d'origine : à n'utiliser que si la tête est sûrement en lieu sûr.
+44|Confirmer la suppression
+45|Connecter
+46|Se reconnecter automatiquement
+47|Connectez-vous d'abord à la machine (onglet Appareil)
+48|Connecté
+49|Connexion
+50|Type de connexion
+51|Console
+52|Contrôleur
+53|Copié vers {}
+54|Rayon d'angle
+55|Enregistrement impossible
+56|Enregistrement impossible : {}
+57|Le comptage remplit le tampon du contrôleur et est rapide. Le simple envoie une ligne et attend son ok : lent, mais pour un micrologiciel qui répond mal.
+58|Couper à l'intérieur de la ligne
+59|Couper à l'extérieur de la ligne
+60|Coupes
+61|Coupes : {} m, environ {} min
+62|Diamètre de coupe
+63|Longueur de coupe
+64|Supprimer cette caméra
+65|Profondeur
+66|Appareil
+67|Paramètres de l'appareil
+68|Paramètres de l'appareil…
+69|Déconnecter
+70|Foret
+71|Édition
+72|Modifier…
+73|Fraise à graver
+74|Exporter en G-code…
+75|Exporter cette fraise…
+76|Exporter…
+77|Avance
+78|Arrêt de l'avance
+79|Fichier
+80|Fraise à bout plat
+81|Dents
+82|Suivre la ligne
+83|Cadre
+84|Cadrage de la zone de travail
+85|Vue de dessus
+86|Avant gauche
+87|Avant droit
+88|GRBL 1.1 a trois axes : l'axe A n'est pas disponible, Y est utilisé.
+89|Général
+90|Faire le tour du cadre où le travail sera fait
+91|Aide
+92|Vitesse maximale
+93|Origine
+94|Référencer la machine
+95|Hôte
+96|Je n'ai pas d'appareil
+97|Importer un projet LightBurn…
+98|Appareil {} importé
+99|Importer…
+100|Type
+101|Calques
+102|Écartés
+103|Vitesse minimale
+104|Machine
+105|Zéro machine (0,0)
+106|Matériau
+107|Matériau de la pièce
+108|Métal
+109|Micropas du moteur pour un tour complet de ce qu'il entraîne (le mandrin ou un rouleau).
+110|Micropas par tour
+111|Fraisé : pris en compte dans les parcours et le G-code
+112|Fraisage
+113|Déplacements à la hauteur de sécurité
+114|Mes fraises
+115|Nouveau
+116|Nouvelle fraise
+117|Aucune fraise
+118|Pas encore d'appareil. Ajoutez-en un, ou travaillez sans machine.
+119|Aucun port
+120|Ce n'est pas une adresse http ou https.
+121|Notes
+122|Notes sur cette machine
+123|Rien ici pour l'instant
+124|Aucune sélection
+125|Seule la couleur d'un plastique peut être changée. Le matériau et son épaisseur s'affichent dans la vue 3D et sont enregistrés dans le projet.
+126|Ouvrez un dessin ou commencez une conception vide.
+127|Ouvrir la liaison avec le contrôleur indiqué dans les réglages de l'appareil
+128|Ouvrir la fenêtre d'aperçu
+129|Ouvrir…
+130|Opération
+131|Longueur totale
+132|Profondeur de passe
+133|Profondeur de passe (du diamètre)
+134|Plastique
+135|Avance de plongée
+136|Poche
+137|Port
+138|Port ou id USB
+139|Aperçu
+140|Aperçu…
+141|Propriétés
+142|Mettre les formes sélectionnées sur ce calque
+143|Lire un appareil depuis un fichier
+144|Lire des fraises depuis un fichier
+145|Prêt
+146|Fraises prédéfinies
+147|Reconnexion
+148|Actualiser
+149|Retient les id USB du port choisi : si son nom change, le port est retrouvé grâce à eux.
+150|Réinitialiser la vue
+151|Reprendre
+152|Diamètre du rouleau
+153|Rouleaux
+154|Rotatif
+155|ARRÊT
+156|Hauteur de sécurité
+157|Enregistrer
+158|Enregistrer le G-code
+159|Enregistrer sous…
+160|Enregistrer cet appareil dans un fichier
+161|Enregistrer vos fraises dans un fichier
+162|Enregistré
+163|Appareil enregistré dans {}
+164|{} enregistré
+165|Paramètres
+166|Diamètre de la queue
+167|Formes sur ce calque
+168|Affiche l'image en direct de la caméra de cette machine
+169|Affiche les trajectoires sur la zone de travail
+170|Affichée dans l'onglet Caméra
+171|Affiché dans la zone de travail
+172|Vitesse des déplacements au-dessus du matériau
+173|Broche
+174|Vitesse de la broche
+175|Démarrer
+176|Démarrage du travail : {} lignes, ~{}
+177|Vitesses de départ pour un calque
+178|Recouvrement latéral
+179|Recouvrement latéral (du diamètre)
+180|Envoyer le travail à la machine connectée
+181|Flux
+182|Activée
+183|Port TCP
+184|Fraise conique à bout sphérique
+185|La fraise passe à l'intérieur de la ligne, donc la forme tombe : un trou ou une fenêtre.
+186|La fraise passe à l'extérieur de la ligne, donc la forme reste : une pièce est découpée dans le matériau.
+187|Le centre de la fraise suit la ligne : gravure et rainures. Les lignes ouvertes fonctionnent aussi.
+188|Le contrôleur a besoin de {} pas par mm sur l'axe Y ($101).
+189|Les coupes sortent de la zone de travail de l'appareil
+190|L'appareil de ce projet
+191|L'appareil a été ajouté.
+192|L'appareil a été enregistré.
+193|Le dessin est plus haut que le tour de la pièce ({} mm)
+194|Le fichier est trop volumineux
+195|Le travail est terminé.
+196|Le travail est en cours.
+197|La circonférence de la pièce : le dessin ne peut pas être plus haut.
+198|Il n'y a rien à couper : mettez des formes sur des calques qui ont une fraise.
+199|Rien à cadrer : mettez des formes sur des calques qui ont une fraise.
+200|Rien à montrer pour l'instant : dessinez des formes et mettez-les sur des calques qui ont une fraise.
+201|Épaisseur
+202|Cette version ne peut pas utiliser les caméras de l'ordinateur.
+203|Cet appareil n'a pas de caméra activée. Ajoutez-en une dans les réglages de l'appareil.
+204|Cet appareil n'est pas dans la liste : il est venu avec le projet
+205|Ceci est l'appareil de remplacement (Dummy) : zone de travail et vitesses par défaut.
+206|Temps {} / {}
+207|Diamètre de la pointe
+208|Trop d'appareils
+209|Trajectoires
+210|Type
+211|Délier
+212|Unités
+213|Fraise en V
+214|Affichage
+215|Options d'affichage…
+216|Attente après la mise en marche
+217|En attente de l'image…
+218|Quand la liaison tombe d'elle-même, réessayer toutes les quelques secondes jusqu'à ce que vous appuyiez sur Déconnecter.
+219|Avec un plateau rotatif, l'axe Y fait tourner la pièce : le dessin ne peut pas être plus haut que le tour de la pièce. Le modèle est simple (un mandrin tourne du diamètre de la pièce, des rouleaux déplacent la surface comme la leur) ; une vraie machine doit être testée.
+220|Bois, foncé
+221|Bois, clair
+222|Bois, moyen
+223|Travaillez sur un projet sans machine : un appareil simple nommé Dummy, avec la zone de travail et les vitesses par défaut
+224|Diamètre de la pièce
+225|Z indique de combien la broche descend depuis le dessus du matériau. La hauteur de sécurité est celle où la broche se déplace entre les coupes.
+226|fraises ajoutées
+227|fraises ajoutées à la bibliothèque
+228|p. ex. Ma fraiseuse CNC
+229|aucun
+230|ce projet a été fait pour une autre machine : {}
+231|{} passes jusqu'à {} mm
+232|{} : aucune fraise choisie
+233|{} : rien à couper (la ligne est peut-être trop petite pour la fraise)
+234|{} : les lignes ouvertes sont écartées d'une poche
+235|{} : les lignes ouvertes sont écartées d'un profil (utilisez « Suivre la ligne »)
+236|{} : les images ne sont pas fraisées
+237|{} : la profondeur est limitée à la course de la machine ({} mm)
+238|{} : la profondeur de {} mm dépasse l'épaisseur du matériau ({} mm)
+239|{} : {} tr/min est hors de la plage de la broche {}…{} tr/min

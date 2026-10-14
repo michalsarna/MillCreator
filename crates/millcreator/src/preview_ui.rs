@@ -5,7 +5,8 @@ use crate::App;
 use base_ui::i18n::{tr, trf};
 use base_ui::theme;
 use base_ui::window::popup;
-use eframe::egui::{self, RichText};
+use base_ui::editor::EditorHost;
+use eframe::egui::{self, Color32, RichText};
 
 impl App {
     /// The toolpaths of the project as it is now.
@@ -15,9 +16,53 @@ impl App {
 
     /// The box of the milled shapes (min x, min y, max x, max y) in the coordinates of the work area, for a project that
     /// has no cuts yet.
-    fn shapes_box(&self) -> Option<[f64; 4]> {
+    pub(crate) fn shapes_box(&self) -> Option<[f64; 4]> {
         let h = self.device.area.y;
         self.scene.shapes.iter().filter_map(|s| s.bounds()).reduce(base_core::geom::Rect::union).map(|b| [b.min.x, h - b.max.y, b.max.x, h - b.min.y])
+    }
+
+    /// The program is made again when the project changed since it was made.
+    pub(crate) fn refresh_program(&mut self) {
+        if self.prog.is_none() || self.prog_rev != self.rev {
+            self.prog = Some(self.make_program());
+            self.prog_rev = self.rev;
+        }
+    }
+
+    /// The toolpaths over the work area (the Toolpaths button): cuts in the colour of their layer, the moves above the
+    /// material in grey.
+    pub(crate) fn paint_toolpaths(&mut self, v: &base_ui::editor::CanvasView) {
+        if !self.toolpaths_on {
+            return;
+        }
+        self.refresh_program();
+        let Some(prog) = self.prog.as_ref() else { return };
+        let h = self.device.area.y;
+        let to_screen = |p: toolpath::P3| self.w2s(v.origin, base_core::geom::Pt::new(p[0], h - p[1]));
+        let many = prog.moves.len() > 100_000;
+        let mut shapes = Vec::with_capacity(prog.moves.len());
+        for m in &prog.moves {
+            let (a, b) = (to_screen(m.from), to_screen(m.to));
+            match m.kind {
+                toolpath::MoveKind::Cut => {
+                    let c = self.layers.get(m.layer).map_or(Color32::RED, |l| l.color32());
+                    shapes.push(egui::Shape::line_segment([a, b], egui::Stroke::new(1.5, c)));
+                }
+                toolpath::MoveKind::Rapid if !many => shapes.push(egui::Shape::line_segment([a, b], egui::Stroke::new(0.6, Color32::from_rgb(0x70, 0x90, 0xc0).gamma_multiply(0.8)))),
+                _ => {}
+            }
+        }
+        v.painter.extend(shapes);
+    }
+
+    /// The live picture of the camera in a window of its own (the Camera view button).
+    pub(crate) fn camera_window(&mut self, ctx: &egui::Context) {
+        if !self.show_camera {
+            return;
+        }
+        let mut open = true;
+        popup(ctx, "camera_window", &tr("Camera view"), [560.0, 440.0], &mut open, |ui| self.camera_tab(ui));
+        self.show_camera = open;
     }
 
     /// Open the 3D window with a fresh program.
@@ -56,23 +101,28 @@ impl App {
         }
         let mut open = true;
         let mut export = false;
-        popup(ctx, "preview_3d", &tr("3D view of the job"), [980.0, 680.0], &mut open, |ui| {
+        popup(ctx, "preview_3d", &tr("Preview"), [980.0, 700.0], &mut open, |ui| {
             let prog = self.prog.as_ref().expect("the program was made above");
             let region = Region::of(prog, self.shapes_box());
             ui.horizontal_wrapped(|ui| {
+                ui.selectable_value(&mut self.view.top, false, "3D");
+                ui.selectable_value(&mut self.view.top, true, tr("From above"));
+                ui.separator();
                 if ui.button(tr("Reset view")).on_hover_text(tr("Back to the first view. Double click on the picture does the same.")).clicked() {
                     self.view.reset();
                 }
                 ui.checkbox(&mut self.view.show_stock, tr("Material"));
                 ui.checkbox(&mut self.view.show_cuts, tr("Cuts"));
                 ui.checkbox(&mut self.view.show_rapids, tr("Moves at the safe height"));
-                ui.label(tr("Progress"));
-                ui.add(egui::Slider::new(&mut self.view.progress, 0.0..=1.0).show_value(false));
                 if ui.button(tr("Export G-code…")).clicked() {
                     export = true;
                 }
             });
+            ui.horizontal(|ui| {
+                self.playback.show(ui, &mut self.view.progress);
+            });
             let secs = prog.estimate_seconds(self.device.rapid);
+            ui.label(RichText::new(trf("Time {} / {}", &[&base_ui::widgets::fmt_time(secs * self.view.progress as f64), &base_ui::widgets::fmt_time(secs)])).strong());
             ui.label(RichText::new(trf("Cuts: {} m, about {} min", &[&format!("{:.2}", prog.cut_length() / 1000.0), &format!("{:.1}", secs / 60.0)])).color(theme::text_dim()));
             for w in &prog.warnings {
                 ui.label(RichText::new(format!("• {}", w.text())).color(egui::Color32::from_rgb(0xd0, 0x70, 0x20)));
@@ -92,6 +142,9 @@ impl App {
             self.export_gcode();
         }
         self.show_3d = open;
+        if !open {
+            self.playback.playing = false;
+        }
     }
 }
 

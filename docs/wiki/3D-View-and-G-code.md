@@ -18,12 +18,13 @@ From the shapes, the layers, the bits and the device the program makes the moves
 
 | Control | What it does |
 |---|---|
+| **3D** / **From above** | the 3D picture, or the plan of the job seen from straight above (it cannot be turned) |
 | drag | turn the view |
 | mouse wheel | zoom |
 | right or middle drag | move the picture |
 | **Reset view** or double click | back to the first view |
 | Material, Cuts, Moves at the safe height | show or hide each part; the blue frame is the safe height |
-| Progress slider | shows the job up to a part of its length, with the bit marked; the cuts drawn are as wide as the bit |
+| Animation | back to the start, play / pause, the progress slider, the speed (×0.25 to ×25) and repeat; the job is shown up to a part of its length, with the bit marked; the cuts drawn are as wide as the bit |
 
 Cuts are drawn in the colour of their layer over a groove as wide as the bit at that depth (a V-bit grows wider with depth). The window shows the length of the cuts, an estimate of the time and the warnings, and makes the program again after every change of the project.
 
