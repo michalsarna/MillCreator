@@ -284,3 +284,62 @@ fn render_screenshots() {
         a.machine.fw.changes.clear();
     }
 }
+
+#[cfg(test)]
+mod multi_select_tests {
+    use super::*;
+    use base_ui::editor::EditorHost;
+    use egui::{Event, Modifiers, PointerButton};
+
+    fn click(h: &mut Shot, pos: egui::Pos2, m: Modifiers) {
+        h.event(Event::ModifiersChanged(m));
+        h.event(Event::PointerMoved(pos));
+        h.run_steps(2);
+        h.event(Event::PointerButton { pos, button: PointerButton::Primary, pressed: true, modifiers: m });
+        h.run_steps(2);
+        h.event(Event::PointerButton { pos, button: PointerButton::Primary, pressed: false, modifiers: m });
+        h.run_steps(3);
+        h.event(Event::ModifiersChanged(Modifiers::NONE));
+        h.run_steps(1);
+    }
+
+    #[test]
+    fn shift_and_ctrl_click_add_to_the_selection_and_take_out_again() {
+        let mut h: Shot = Harness::builder().with_size([1280.0, 800.0]).build_ui_state(
+            |ui, state: &mut Option<App>| {
+                let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
+                a.draw(ui);
+            },
+            None,
+        );
+        h.run_steps(2);
+        {
+            let a = app(&mut h);
+            a.use_dummy_device();
+            a.screen = crate::Screen::Editor;
+            a.new_design();
+            // Two rectangles far apart.
+            a.scene.add(0, base_core::scene::Kind::Rect { w: 30.0, h: 30.0 }, base_core::geom::Xf::translate(40.0, 40.0));
+            a.scene.add(0, base_core::scene::Kind::Rect { w: 30.0, h: 30.0 }, base_core::geom::Xf::translate(160.0, 40.0));
+            a.ed.view.need_fit = false;
+        }
+        h.run_steps(3);
+        let (p1, p2) = {
+            let a = app(&mut h);
+            let o = a.ed.canvas_origin;
+            (a.w2s(o, base_core::geom::Pt::new(55.0, 55.0)), a.w2s(o, base_core::geom::Pt::new(175.0, 55.0)))
+        };
+        // A plain click selects one; a Ctrl / Cmd click adds the other; the same click again takes it out.
+        let add = Modifiers::COMMAND;
+        click(&mut h, p1, Modifiers::NONE);
+        assert_eq!(app(&mut h).ed.sel.len(), 1);
+        click(&mut h, p2, add);
+        assert_eq!(app(&mut h).ed.sel.len(), 2, "Ctrl / Cmd click adds");
+        click(&mut h, p2, add);
+        assert_eq!(app(&mut h).ed.sel.len(), 1, "and takes out again");
+        click(&mut h, p2, Modifiers::SHIFT);
+        assert_eq!(app(&mut h).ed.sel.len(), 2, "Shift still works");
+        click(&mut h, p2, Modifiers::NONE);
+        assert_eq!(app(&mut h).ed.sel.len(), 1, "a plain click replaces the selection");
+    }
+}

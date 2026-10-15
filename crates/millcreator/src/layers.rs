@@ -4,7 +4,8 @@ use crate::tools::Tool;
 use serde::{Deserialize, Serialize};
 
 /// How many layers a project has.
-pub const LAYER_COUNT: usize = 16;
+/// How many layers there are, and their colours: the same in all programs (`base_core::layers`).
+pub use base_core::layers::{LAYER_COUNT, PALETTE};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Operation {
@@ -68,24 +69,6 @@ pub struct MillLayer {
     pub rpm: f64,
 }
 
-pub const PALETTE: [[u8; 3]; LAYER_COUNT] = [
-    [0x1f, 0x77, 0xb4],
-    [0xd6, 0x27, 0x28],
-    [0x2c, 0xa0, 0x2c],
-    [0xff, 0x7f, 0x0e],
-    [0x94, 0x67, 0xbd],
-    [0x8c, 0x56, 0x4b],
-    [0xe3, 0x77, 0xc2],
-    [0x17, 0xbe, 0xcf],
-    [0xbc, 0xbd, 0x22],
-    [0x7f, 0x7f, 0x7f],
-    [0x00, 0x00, 0x8b],
-    [0x8b, 0x00, 0x00],
-    [0x00, 0x64, 0x00],
-    [0xb8, 0x86, 0x0b],
-    [0x4b, 0x00, 0x82],
-    [0x20, 0x20, 0x30],
-];
 
 impl MillLayer {
     /// A layer set up from a bit: its speeds and a pass depth that suits its diameter.
@@ -179,7 +162,7 @@ mod tests {
     use crate::tools::Library;
 
     #[test]
-    fn a_new_project_has_sixteen_layers_set_up_with_bits() {
+    fn a_new_project_has_all_its_layers_set_up_with_bits() {
         let lib = Library::new();
         let l = default_layers(&lib);
         assert_eq!(l.len(), LAYER_COUNT);

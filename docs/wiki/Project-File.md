@@ -5,7 +5,7 @@
 MillCreator saves **`.cre`**, the project file of baseCreator that LightCreator writes too: one JSON file with the drawing, the description and **one section per program**. Each program writes its own section and keeps the sections of the others untouched, so a project passes between programs without losing anything.
 
 MillCreator's section is called `mill`. It holds:
-* the **16 layers** (name, colour, operation, bit, depth, pass depth, step over, feeds, spindle speed),
+* the **64 layers** (name, colour, operation, bit, depth, pass depth, step over, feeds, spindle speed),
 * the **material** (kind, colour, thickness),
 * a **snapshot of the device** (name and the work area),
 * the **bits the layers use**, so the project can be opened where they are not in the library.

@@ -30,7 +30,7 @@ Otwartoźródłowy program do projektowania i przygotowania zadań dla frezarek 
 ## W skrócie
 
 * **Urządzenia:** twoje maszyny (pole robocze, skok w Z, bezpieczna wysokość, zakres wrzeciona, kamery) na jednej liście; **Nie mam urządzenia** daje zastępcze o nazwie Dummy.
-* **Warstwy:** 16 warstw, każda z operacją (cięcie na zewnątrz, cięcie wewnątrz, podążanie za linią, kieszeń, wiercenie), frezem, głębokością, głębokością przejścia, posuwami i obrotami wrzeciona.
+* **Warstwy:** 64 warstwy, każda z operacją (cięcie na zewnątrz, cięcie wewnątrz, podążanie za linią, kieszeń, wiercenie), frezem, głębokością, głębokością przejścia, posuwami i obrotami wrzeciona.
 * **Frezy:** biblioteka gotowych frezów i twoich własnych (wspólna dla wszystkich urządzeń), siedem rodzajów, każdy z rysunkiem pokazującym, gdzie mierzony jest każdy wymiar; import i eksport.
 * **Materiał:** drewno w trzech kolorach, metal, plastik w wybranym kolorze oraz grubość.
 * **Widok 3D:** blok materiału, cięcia i ruchy na bezpiecznej wysokości; obrót, zoom, reset; suwak odtwarza zadanie.
@@ -39,4 +39,4 @@ Otwartoźródłowy program do projektowania i przygotowania zadań dla frezarek 
 
 > ⚠️ **Bezpieczeństwo:** frezarki są niebezpieczne. Nowe zadanie sprawdź najpierw w powietrzu nad materiałem, noś ochronę oczu i słuchu, zamocuj materiał, nigdy nie zostawiaj pracującej maszyny bez nadzoru. Zobacz [Bezpieczeństwo i ograniczenia](Bezpieczenstwo-i-ograniczenia).
 
-Najnowsza wersja: **v0.2.9** · [Wydania](https://github.com/michalsarna/MillCreator/releases) · [Zgłoszenia](https://github.com/michalsarna/MillCreator/issues) · Licencja: [MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) lub [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE), do wyboru
+Najnowsza wersja: **v0.3.0** · [Wydania](https://github.com/michalsarna/MillCreator/releases) · [Zgłoszenia](https://github.com/michalsarna/MillCreator/issues) · Licencja: [MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) lub [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE), do wyboru

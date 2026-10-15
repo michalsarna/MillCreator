@@ -9,7 +9,7 @@ MillCreator to jedna skrzynka binarna, `crates/millcreator`, nad **baseCreatorem
 | `tools`, `tools_ui` | biblioteka frezów: rodzaje, wymiary, gotowe frezy, pliki; okno i rysunki frezów |
 | `materials` | materiał i jego grubość |
 | `device`, `device_ui` | urządzenia, ich pliki, lista na ekranie startowym, okno, karta kamery |
-| `layers`, `layers_ui` | 16 warstw, operacje, przejścia; karty Layers i Material |
+| `layers`, `layers_ui` | 64 warstwy, operacje, przejścia; karty Layers i Material |
 | `toolpath` | od kształtów do ruchów i G-code (używa `base_core::ops` do odsunięć) |
 | `view3d`, `preview_ui` | rzutowanie, rysowanie i sterowanie widokiem 3D; okno i eksport |
 | `section` | sekcja `mill` pliku projektu |

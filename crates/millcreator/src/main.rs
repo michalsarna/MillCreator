@@ -2,6 +2,7 @@
 //! control and status bars, the tool palette, the Properties tab, the colour schemes and the languages come from
 //! baseCreator). It adds devices (with cameras), milling layers, a library of bits, a simple material, toolpaths with a
 //! 3D view and G-code.
+mod autosave_glue;
 mod backup_ui;
 mod device;
 mod device_ui;
@@ -184,6 +185,11 @@ struct App {
     prog: Option<Program>,
     /// Counts the changes of the project; the program is made again when it differs from `prog_rev`.
     rev: u64,
+    /// The list of layers shows all of them (not only those with shapes).
+    show_all_layers: bool,
+    autosave: base_core::autosave::Timer,
+    /// An unsaved project left by an earlier run (offered on the start screen).
+    recovery: Option<base_core::autosave::Found>,
     prog_rev: u64,
     cam: Option<CamState>,
     machine: MachineLink,
@@ -271,6 +277,9 @@ impl App {
             show_3d: false,
             prog: None,
             rev: 0,
+            show_all_layers: false,
+            autosave: Default::default(),
+            recovery: base_core::autosave::find(&data_paths().base, "millcreator"),
             prog_rev: 0,
             cam: None,
             machine: {
@@ -336,6 +345,7 @@ impl App {
         self.layers = layers::default_layers(&self.tools);
         self.stock = Stock::default();
         self.touch_rev();
+        self.autosave_in_sync();
         self.ed.sel.clear();
         self.ed.node_sel.clear();
         self.ed.view.need_fit = true;
@@ -402,6 +412,7 @@ impl App {
                 self.add_recent(&path);
                 // An SVG or PDF is not saved over: the next save asks for a project name.
                 self.path = is_project.then_some(path);
+                self.autosave_in_sync();
             }
             Err(e) => self.status = format!("Could not open {name}: {e}"),
         }
@@ -480,6 +491,8 @@ impl App {
                 self.status = format!("Saved {name}");
                 self.add_recent(&path);
                 self.path = Some(path);
+                // The project has a name now: what was kept for it while it had none is not needed.
+                self.autosave_saved_by_hand();
             }
             Err(e) => self.status = format!("Could not save {name}: {e}"),
         }
@@ -778,6 +791,12 @@ impl App {
             ui.vertical_centered(|ui| {
                 base_ui::start::start_header(ui, self.logo.as_ref(), "MillCreator", VERSION);
                 ui.add_space(18.0);
+                if let Some(found) = self.recovery.clone() {
+                    if let Some(choice) = base_ui::autosave_ui::banner(ui, &found, 460.0) {
+                        self.recovery_choice(choice);
+                    }
+                    ui.add_space(12.0);
+                }
                 let frame = egui::Frame::group(ui.style()).inner_margin(egui::Margin::same(12));
                 frame.show(ui, |ui| {
                     ui.set_width(460.0);
@@ -851,6 +870,7 @@ impl App {
 
     fn draw(&mut self, ui: &mut egui::Ui) {
         let ctx = ui.ctx().clone();
+        self.autosave_tick(&ctx, false);
         self.poll_machine();
         if self.machine.wants_repaint() {
             ctx.request_repaint_after(std::time::Duration::from_millis(250));
@@ -878,6 +898,7 @@ impl App {
         }
         egui::Panel::top("controls").frame(chrome).exact_size(36.0).show(ui, |ui| self.control_bar(ui));
         egui::Panel::bottom("status").frame(chrome).exact_size(26.0).show(ui, |ui| self.status_bar(ui));
+        egui::Panel::bottom("layer_bar").frame(chrome).exact_size(36.0).show(ui, |ui| base_ui::layer_bar::layer_bar(self, ui));
         egui::Panel::left("tools").frame(chrome).exact_size(52.0).resizable(false).show(ui, |ui| base_ui::editor::tool_palette(self, ui, None));
         let side = egui::Panel::right("side").frame(chrome.inner_margin(egui::Margin::same(8))).default_size(410.0).show(ui, |ui| self.side_panel(ui));
         base_ui::widgets::panel_edge_highlight(ui.ctx(), side.response.rect, base_ui::widgets::Edge::Left);
@@ -933,6 +954,13 @@ impl EditorHost for App {
     }
     fn drop_checkpoint(&mut self) {
         self.history.undo.pop();
+    }
+    fn open_shape_generators(&mut self) {
+        self.plugins.gen_open = true;
+    }
+    fn open_online_clipart_search(&mut self, ctx: &egui::Context) {
+        self.side_tab = SideTab::Clipart;
+        base_ui::clipart_ui::ClipGallery::open_online_clipart(self, ctx);
     }
     fn say(&mut self, msg: String) {
         self.status = msg;
@@ -1058,6 +1086,8 @@ impl MenuHost for App {
 
 impl eframe::App for App {
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
+        // Called every half minute and when the program closes: a last chance to keep the work.
+        self.autosave_tick(&egui::Context::default(), true);
         for (k, v) in self.settings_pairs() {
             storage.set_string(k, v);
         }
@@ -1110,6 +1140,9 @@ fn main() -> eframe::Result {
 
 #[cfg(test)]
 mod tests {
+    /// Tests that save or look for the recovery file share one data folder: one at a time.
+    static DATA: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
     use super::*;
     use base_core::geom::Pt;
 
@@ -1137,6 +1170,7 @@ mod tests {
 
     #[test]
     fn a_project_is_saved_and_opened_and_keeps_the_sections_of_other_programs() {
+        let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
         let dir = std::env::temp_dir().join(format!("mc-project-{}", std::process::id()));
         std::fs::create_dir_all(&dir).unwrap();
         // A project made by a laser program: a drawing and a laser section.
@@ -1264,6 +1298,80 @@ mod tests {
     }
 
     #[test]
+    fn an_unnamed_project_is_kept_in_a_recovery_file_and_recovered_after_a_restart() {
+        let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
+        let base = &data_paths().base;
+        base_core::autosave::clear(base, "millcreator");
+        let mut a = app();
+        a.scene = read_scene(SVG).unwrap();
+        let n = a.scene.shapes.len();
+        a.touch_rev();
+        a.autosave_tick(&egui::Context::default(), true);
+        assert_eq!(base_core::autosave::find(base, "millcreator").map(|f| f.shapes), Some(n), "kept while it has no name");
+        // The program is started again: the start screen has the offer; Recover opens it as a project without a name.
+        let mut b = App::build(&egui::Context::default(), None, false);
+        assert_eq!(b.recovery.as_ref().map(|f| f.shapes), Some(n));
+        let recent = b.recent.clone();
+        b.recovery_choice(base_ui::autosave_ui::Recovery::Recover);
+        assert_eq!((b.scene.shapes.len(), b.screen), (n, Screen::Editor));
+        assert!(b.path.is_none() && b.recent == recent);
+        assert!(base_core::autosave::find(base, "millcreator").is_some(), "kept until it is saved");
+        // Saved by hand: the recovery file is gone.
+        b.autosave_saved_by_hand();
+        assert!(base_core::autosave::find(base, "millcreator").is_none());
+        // Discard removes it too.
+        a.touch_rev();
+        a.autosave_tick(&egui::Context::default(), true);
+        let mut c = App::build(&egui::Context::default(), None, false);
+        c.recovery_choice(base_ui::autosave_ui::Recovery::Discard);
+        assert!(base_core::autosave::find(base, "millcreator").is_none() && c.recovery.is_none());
+        a_project_with_a_file_is_saved_to_it_and_not_to_the_recovery_file();
+    }
+
+    fn a_project_with_a_file_is_saved_to_it_and_not_to_the_recovery_file() {
+        let dir = std::env::temp_dir().join(format!("millcreator-autosave-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let file = dir.join("work.cre");
+        base_core::autosave::clear(&data_paths().base, "millcreator");
+        let mut a = app();
+        a.scene = read_scene(SVG).unwrap();
+        a.path = Some(file.clone());
+        a.touch_rev();
+        a.autosave_tick(&egui::Context::default(), true);
+        let text = std::fs::read_to_string(&file).unwrap();
+        assert_eq!(Project::from_json(&text).unwrap().scene.shapes.len(), a.scene.shapes.len());
+        assert!(base_core::autosave::find(&data_paths().base, "millcreator").is_none());
+        // Nothing changed since: nothing is written again.
+        std::fs::remove_file(&file).unwrap();
+        a.autosave_tick(&egui::Context::default(), true);
+        assert!(!file.exists());
+        std::fs::remove_dir_all(dir).ok();
+    }
+
+    #[test]
+    fn a_click_on_a_colour_of_the_bar_moves_the_selected_shapes_to_that_layer() {
+        use base_ui::layer_bar::LayerBarHost;
+        let mut a = app();
+        let first = a.scene.add(0, base_core::scene::Kind::Rect { w: 5.0, h: 5.0 }, base_core::geom::Xf::IDENTITY);
+        let second = a.scene.add(0, base_core::scene::Kind::Rect { w: 5.0, h: 5.0 }, base_core::geom::Xf::translate(20.0, 0.0));
+        let locked = a.scene.add(0, base_core::scene::Kind::Rect { w: 5.0, h: 5.0 }, base_core::geom::Xf::translate(40.0, 0.0));
+        a.scene.shape_mut(locked).unwrap().locked = true;
+        // Nothing selected: the layer only becomes the one new shapes go to.
+        a.click_layer(7);
+        assert_eq!(a.ed.active_layer, 7);
+        assert!(a.scene.shapes.iter().all(|s| s.layer == 0));
+        // With a selection the shapes move (not the locked one), and one undo takes it back.
+        a.ed.sel = vec![first, second, locked];
+        a.click_layer(60);
+        let layer_of = |a: &App, id| a.scene.shape(id).unwrap().layer;
+        assert_eq!((layer_of(&a, first), layer_of(&a, second), layer_of(&a, locked)), (60, 60, 0));
+        assert_eq!(a.layer_total(), 64);
+        let now = a.scene.clone();
+        a.scene = a.history.back(&now).unwrap();
+        assert_eq!(layer_of(&a, first), 0);
+    }
+
+    #[test]
     fn a_broken_project_is_an_error_message_and_changes_nothing() {
         let dir = std::env::temp_dir().join(format!("mc-broken-{}", std::process::id()));
         std::fs::create_dir_all(&dir).unwrap();
@@ -1353,5 +1461,18 @@ mod tests {
         a.finish_pen(false);
         assert_eq!(a.scene.shapes.len(), 3);
         assert!(!a.history.undo.is_empty(), "drawing is undoable");
+    }
+}
+
+impl base_ui::layer_bar::LayerBarHost for App {
+    fn layer_label(&self, layer: usize) -> String {
+        self.layers.get(layer).map(|l| l.name.clone()).unwrap_or_default()
+    }
+    fn layer_total(&self) -> usize {
+        self.layers.len()
+    }
+    fn open_layer_options(&mut self, layer: usize) {
+        self.ed.active_layer = layer;
+        self.side_tab = SideTab::Layers;
     }
 }
