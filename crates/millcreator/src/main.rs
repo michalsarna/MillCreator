@@ -16,6 +16,7 @@ mod preview_ui;
 mod section;
 mod toolpath;
 mod ugs_import;
+mod update_glue;
 mod view3d;
 mod texts;
 mod warn;
@@ -123,6 +124,8 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::OpenRecent(_) | Act::ClearRecent => None,
         Act::Quit => Some("x"),
         Act::ViewOptions => Some("sliders-horizontal"),
+        Act::ProgramOptions => Some("settings"),
+        Act::CheckUpdates => Some("download"),
         Act::DownloadBackup => Some("package"),
         Act::RestoreBackup => Some("package-open"),
         Act::OpenGithub => Some("github"),
@@ -211,6 +214,12 @@ struct App {
     toolpaths_on: bool,
     show_camera: bool,
     show_options: bool,
+    /// When the last Escape was pressed (a second one within half a second selects the select tool).
+    esc_time: f64,
+    /// Look for a newer release when the program starts.
+    check_updates: bool,
+    update: base_ui::dialogs::UpdateState,
+    show_program_options: bool,
     show_about: bool,
     #[cfg(target_os = "macos")]
     native_menu: Option<native_menu::NativeMenu>,
@@ -223,7 +232,11 @@ fn is_import(p: &std::path::Path) -> bool {
 
 impl App {
     fn new(cc: &eframe::CreationContext<'_>) -> App {
-        App::build(&cc.egui_ctx, cc.storage, cfg!(target_os = "macos"))
+        let mut app = App::build(&cc.egui_ctx, cc.storage, cfg!(target_os = "macos"));
+        if app.check_updates {
+            app.update.start(&cc.egui_ctx, &update_glue::CONFIG, false);
+        }
+        app
     }
 
     /// Build the app without a window: used by `new` and by the tests.
@@ -302,6 +315,10 @@ impl App {
             toolpaths_on: false,
             show_camera: false,
             show_options: false,
+            esc_time: -10.0,
+            check_updates: on("check_updates", true),
+            update: Default::default(),
+            show_program_options: false,
             show_about: false,
             #[cfg(target_os = "macos")]
             native_menu: native_menu.then(|| native_menu::install(ctx)),
@@ -321,6 +338,7 @@ impl App {
             ("snap_objects", flag(self.ed.snap_objects)),
             ("devices", self.devices_text()),
             ("tools", self.tools.save_text()),
+            ("check_updates", flag(self.check_updates)),
             ("recent_files", self.recent.iter().map(|p| p.to_string_lossy().into_owned()).collect::<Vec<_>>().join("\n")),
         ]
     }
@@ -602,6 +620,8 @@ impl App {
                 self.delete_selection();
             }
         } else if pressed(egui::Key::Escape) {
+            let now = ctx.input(|i| i.time);
+            self.note_escape(now);
             self.ed.sel.clear();
             self.ed.node_sel.clear();
             self.ed.pen_pts.clear();
@@ -611,6 +631,16 @@ impl App {
                     self.ed.tool = tool;
                 }
             }
+        }
+    }
+
+    /// A second Escape within half a second goes back to the select tool.
+    pub(crate) fn note_escape(&mut self, now: f64) {
+        if now - self.esc_time < 0.5 {
+            self.ed.tool = Tool::Select;
+            self.esc_time = -10.0;
+        } else {
+            self.esc_time = now;
         }
     }
 
@@ -762,7 +792,7 @@ impl App {
                 let job_box = self.job_box();
                 let travel = [self.device.area.x, self.device.area.y, self.device.area.z];
                 egui::ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
-                    let c = ControlCtx { control: &self.device.control, safe_z: self.device.safe_z, tool_diameter: td, job_box, probe: true, travel };
+                    let c = ControlCtx { control: &self.device.control, safe_z: self.device.safe_z, tool_diameter: td, job_box, probe: true, travel, spindle: Some(control_ui::SpindleCtx { min_rpm: self.device.spindle.min_rpm, max_rpm: self.device.spindle.max_rpm }) };
                     if let Some(s) = control_ui::panel(ui, &mut self.machine, &mut self.control_ui, &c) {
                         self.status = s;
                     }
@@ -857,6 +887,9 @@ impl App {
         self.preview_window(ctx);
         self.camera_window(ctx);
         self.show_options = show;
+        self.update.tick(ctx, &update_glue::CONFIG);
+        base_ui::alert_ui::window(ctx, &mut self.machine);
+        self.program_options_window(ctx);
         let about = AboutInfo {
             title: "About MillCreator",
             name: "MillCreator",
@@ -898,11 +931,11 @@ impl App {
         }
         egui::Panel::top("controls").frame(chrome).exact_size(36.0).show(ui, |ui| self.control_bar(ui));
         egui::Panel::bottom("status").frame(chrome).exact_size(26.0).show(ui, |ui| self.status_bar(ui));
-        egui::Panel::bottom("layer_bar").frame(chrome).exact_size(36.0).show(ui, |ui| base_ui::layer_bar::layer_bar(self, ui));
         egui::Panel::left("tools").frame(chrome).exact_size(52.0).resizable(false).show(ui, |ui| base_ui::editor::tool_palette(self, ui, None));
         let side = egui::Panel::right("side").frame(chrome.inner_margin(egui::Margin::same(8))).default_size(410.0).show(ui, |ui| self.side_panel(ui));
         base_ui::widgets::panel_edge_highlight(ui.ctx(), side.response.rect, base_ui::widgets::Edge::Left);
         egui::Panel::right("arrange_bar").frame(chrome.inner_margin(egui::Margin::symmetric(2, 4))).exact_size(40.0).resizable(false).show(ui, |ui| base_ui::editor::arrange_bar(self, ui));
+        egui::Panel::bottom("layer_bar").frame(chrome).exact_size(36.0).show(ui, |ui| base_ui::layer_bar::layer_bar(self, ui));
         egui::CentralPanel::no_frame().show(ui, |ui| self.canvas(ui));
         self.dialogs(&ctx);
     }
@@ -1068,6 +1101,8 @@ impl MenuHost for App {
                 }
             }
             Act::ViewOptions => self.show_options = true,
+            Act::ProgramOptions => self.show_program_options = true,
+            Act::CheckUpdates => self.update.start(ctx, &update_glue::CONFIG, true),
             Act::SetLang(l) => {
                 self.lang = l;
                 i18n::set_lang(l);
@@ -1369,6 +1404,46 @@ mod tests {
         let now = a.scene.clone();
         a.scene = a.history.back(&now).unwrap();
         assert_eq!(layer_of(&a, first), 0);
+    }
+
+    #[test]
+    fn the_look_for_updates_switch_is_on_by_default_and_is_remembered() {
+        let a = app();
+        assert!(a.check_updates);
+        let on = a.settings_pairs().into_iter().find(|(k, _)| *k == "check_updates").map(|(_, v)| v);
+        assert_eq!(on.as_deref(), Some("1"));
+        assert_eq!(update_glue::CONFIG.repo, concat!("michalsarna/", "MillCreator"));
+        assert!(base_ui::dialogs::is_newer("v99.0.0", update_glue::CONFIG.version) && !base_ui::dialogs::is_newer(update_glue::CONFIG.version, update_glue::CONFIG.version));
+    }
+
+    #[test]
+    fn a_second_escape_within_half_a_second_selects_the_select_tool() {
+        let mut a = app();
+        a.ed.tool = Tool::Rect;
+        a.note_escape(10.0);
+        assert_eq!(a.ed.tool, Tool::Rect, "one Escape alone keeps the tool");
+        a.note_escape(10.3);
+        assert_eq!(a.ed.tool, Tool::Select);
+        a.ed.tool = Tool::Star;
+        a.note_escape(10.4);
+        assert_eq!(a.ed.tool, Tool::Star, "the pair was used up");
+        a.note_escape(11.5);
+        assert_eq!(a.ed.tool, Tool::Star, "too late is a new first Escape");
+    }
+
+    #[test]
+    fn the_spindle_speed_is_spread_over_the_range_of_the_controller() {
+        let mut a = app();
+        a.device.spindle.max_rpm = 24000.0;
+        let lines = vec!["G21".to_string(), "M3 S12000".to_string(), "G1 X1".to_string()];
+        // The range of the controller is not known: the speed is the S value.
+        assert_eq!(a.scale_spindle(lines.clone()), lines);
+        // $30 = 1000: half of the top speed is S500.
+        a.machine.fw.values.insert(30, "1000".into());
+        assert_eq!(a.scale_spindle(lines.clone()), vec!["G21", "M3 S500", "G1 X1"]);
+        // $30 equal to the top speed: unchanged.
+        a.machine.fw.values.insert(30, "24000".into());
+        assert_eq!(a.scale_spindle(lines.clone()), lines);
     }
 
     #[test]

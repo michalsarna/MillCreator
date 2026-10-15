@@ -41,13 +41,24 @@ impl App {
         let mut pick = None;
         let mut changed = false;
         let show_all = self.show_all_layers;
+        let mut move_req: Option<(usize, bool)> = None;
+        let order = crate::layers::layer_order(&self.layers);
         base_ui::widgets::list_with_splitter(ui, "layer_list", 190.0, |ui| {
-            for (i, l) in self.layers.iter_mut().enumerate() {
+            for i in order {
                 // Of 64 layers show the ones with shapes and the one being edited (the colour bar has all of them).
                 if !(show_all || counts[i] > 0 || i == active) {
                     continue;
                 }
+                let l = &mut self.layers[i];
                 ui.horizontal(|ui| {
+                    ui.spacing_mut().item_spacing.x = 3.0;
+                    // The layers are done in the order of this list: from the top down.
+                    if ui.add(egui::Button::image(base_ui::icons::slot(Some("chevron-up"), theme::text())).small()).on_hover_text(tr("Earlier in the job")).clicked() {
+                        move_req = Some((i, true));
+                    }
+                    if ui.add(egui::Button::image(base_ui::icons::slot(Some("chevron-down"), theme::text())).small()).on_hover_text(tr("Later in the job")).clicked() {
+                        move_req = Some((i, false));
+                    }
                     let (rect, _) = ui.allocate_exact_size(egui::vec2(14.0, 14.0), egui::Sense::hover());
                     ui.painter().rect_filled(rect, 3.0, l.color32());
                     changed |= ui.checkbox(&mut l.enabled, "").on_hover_text(tr("Milled: taken into the toolpaths and the G-code")).changed();
@@ -64,6 +75,10 @@ impl App {
                 });
             }
         });
+        if let Some((i, up)) = move_req {
+            crate::layers::move_layer(&mut self.layers, i, up);
+            changed = true;
+        }
         ui.checkbox(&mut self.show_all_layers, trf("Show all {} layers", &[&self.layers.len()]));
         if let Some(i) = pick {
             self.ed.active_layer = i;
