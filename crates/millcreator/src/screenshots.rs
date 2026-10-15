@@ -343,3 +343,41 @@ mod multi_select_tests {
         assert_eq!(app(&mut h).ed.sel.len(), 1, "a plain click replaces the selection");
     }
 }
+
+#[cfg(test)]
+mod window_size_tests {
+    use super::*;
+
+    fn rect_of(h: &Shot, id: &'static str) -> Option<egui::Rect> {
+        h.ctx.memory(|m| m.area_rect(egui::Id::new(Some(id))))
+    }
+
+    #[test]
+    fn the_preview_and_the_bit_library_keep_their_size_and_do_not_grow_to_the_screen() {
+        let mut h: Shot = Harness::builder().with_size([1600.0, 1000.0]).build_ui_state(
+            |ui, state: &mut Option<App>| {
+                let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
+                a.draw(ui);
+            },
+            None,
+        );
+        h.run_steps(2);
+        {
+            let a = app(&mut h);
+            a.use_dummy_device();
+            a.screen = crate::Screen::Editor;
+            demo_job(a);
+            a.show_3d = true;
+            a.tools_win.open = true;
+        }
+        let mut seen = vec![];
+        for _ in 0..14 {
+            h.run_steps(1);
+            seen.push((rect_of(&h, "preview_3d").map(|r| (r.width(), r.height())), rect_of(&h, "tool_library").map(|r| (r.width(), r.height()))));
+        }
+        let (first, last) = (seen[2], *seen.last().unwrap());
+        assert_eq!(first, last, "the windows keep their size: {seen:?}");
+        assert!(last.0.is_some() && last.1.is_some(), "both windows are shown");
+        assert!(last.0.unwrap().1 < 800.0 && last.1.unwrap().1 < 800.0, "{seen:?}");
+    }
+}

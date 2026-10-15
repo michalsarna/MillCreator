@@ -89,6 +89,7 @@ impl App {
                         Some(t) => trf("Alarm {}: {}", &[&code, &tr(t)]),
                         None => trf("Alarm {}", &[&code]),
                     };
+                    base_ui::alert_ui::raise_alarm(&mut self.machine, code, &base_core::grbl_codes::alarm(code).map(tr).unwrap_or(""));
                 }
                 Notice::Error { code, line } => {
                     // The errors a check run finds are the program's, not the machine's.
@@ -101,9 +102,14 @@ impl App {
                         Some(n) => trf("Error {} in line {}: {}", &[&code, &(n + 1), &text]),
                         None => trf("Error {}: {}", &[&code, &text]),
                     };
+                    // An error in the middle of a job stops it: the person must see that.
+                    if line.is_some() && !self.machine.checking() {
+                        base_ui::alert_ui::raise_job_stopped(&mut self.machine, &self.status.clone());
+                    }
                 }
                 Notice::Stalled { secs, state } => {
                     self.status = trf("No answer from the controller for {} s while a job is running (state: {}).", &[&secs, &state]);
+                    base_ui::alert_ui::raise_no_answer(&mut self.machine, &self.status.clone());
                 }
                 Notice::Read => {
                     // Something changed in the controller since the copy kept with the device? Say so, and make a new copy.
@@ -192,7 +198,33 @@ impl App {
         }
         let name = self.path.as_ref().and_then(|p| p.file_stem()).map(|s| s.to_string_lossy().into_owned()).unwrap_or_else(|| "untitled".into());
         let lines = link::clean_gcode(&toolpath::to_gcode(&prog, &self.device, &self.layers, &self.tools, &name));
+        let lines = self.scale_spindle(lines);
         Some((lines, prog.estimate_seconds(self.device.rapid)))
+    }
+
+    /// The S values of the program are spindle speeds in rpm; the controller's S runs from 0 to its `$30`. When the controller
+    /// is connected and its range is not the speed range of the device, the S values are spread over it (and the console
+    /// says so once).
+    pub(crate) fn scale_spindle(&mut self, lines: Vec<String>) -> Vec<String> {
+        let max = self.device.spindle.max_rpm;
+        let mut changed = None;
+        let out: Vec<String> = lines
+            .into_iter()
+            .map(|l| {
+                let Some(rest) = l.strip_prefix("M3 S").or_else(|| l.strip_prefix("M4 S")) else { return l };
+                let Ok(rpm) = rest.trim().parse::<f64>() else { return l };
+                let s = self.machine.spindle_s(rpm, max);
+                if (s - rpm).abs() > 0.5 {
+                    changed = Some((rpm, s));
+                    return format!("{} S{}", &l[..2], s);
+                }
+                l
+            })
+            .collect();
+        if let Some((rpm, s)) = changed {
+            self.machine.info(trf("The spindle speed is sent as S{} for {} rpm: the controller's range ($30) is spread over the top speed of the device ({} rpm).", &[&s, &rpm, &max]));
+        }
+        out
     }
 
     /// The G-code the person wrote for the start and the end of every job, with its variables filled in.

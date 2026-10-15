@@ -169,7 +169,7 @@ pub fn position_at(prog: &Program, part: f32) -> (usize, Option<P3>) {
 
 /// The picture, in the space the ui gives. Turns, pans and zooms with the mouse.
 pub fn show(ui: &mut egui::Ui, view: &mut View3d, sc: &Scene3d) {
-    let (rect, resp) = ui.allocate_exact_size(ui.available_size().max(Vec2::splat(120.0)), Sense::click_and_drag());
+    let (rect, resp) = ui.allocate_exact_size(base_ui::window::fill_size(ui).max(Vec2::splat(120.0)), Sense::click_and_drag());
     if resp.dragged_by(egui::PointerButton::Primary) {
         let d = resp.drag_delta();
         view.rotate(d.x, d.y);

@@ -287,6 +287,9 @@ pub fn tools_window(ctx: &egui::Context, win: &mut ToolsWindow, lib: &mut Librar
                 win.select(lib, &id);
             }
         }
+        // Everything in a scroll area of the height that is left: a window whose content fills it exactly (and then has the spacing
+        // of the layout after it) grows by that on every frame, up to the height of the screen.
+        egui::ScrollArea::vertical().id_salt("tool_window").max_height(base_ui::window::fill_size(ui).y).auto_shrink([false, true]).show(ui, |ui| {
         ui.horizontal_top(|ui| {
             // The list.
             ui.vertical(|ui| {
@@ -462,6 +465,7 @@ pub fn tools_window(ctx: &egui::Context, win: &mut ToolsWindow, lib: &mut Librar
         if !win.message.is_empty() {
             ui.label(egui::RichText::new(&win.message).color(Color32::from_rgb(0xd0, 0x50, 0x20)));
         }
+        });
     });
     win.open = open;
 }

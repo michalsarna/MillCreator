@@ -184,11 +184,12 @@ fn centre(p: &Polyline) -> Option<Pt> {
     p.bounds().map(|r| r.center())
 }
 
-/// The toolpaths of every enabled layer, in the order of the layers.
+/// The toolpaths of every enabled layer, in the order the layers are done in (their rank, then their number).
 pub fn generate(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Device, stock: &Stock) -> Program {
     let mut prog = Program::default();
     let mut b = Builder { moves: vec![], at: [0.0, 0.0, dev.safe_z], safe: dev.safe_z, layer: 0, feed: 0.0, plunge: 0.0, dev };
-    for (li, layer) in layers.iter().enumerate() {
+    for li in crate::layers::layer_order(layers) {
+        let layer = &layers[li];
         let mut images = 0;
         let outlines = layer_outlines(scene, li, dev.area.y, &mut images);
         if images > 0 && layer.enabled {
@@ -384,7 +385,8 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
                 }
                 let rpm = l.rpm.clamp(dev.spindle.min_rpm, dev.spindle.max_rpm);
                 if rpm > 0.0 {
-                    g.push_str(&format!("S{} M3\n", num(rpm)));
+                    // `M3 S…` is the way every sender writes it, and what the controllers are tried with.
+                    g.push_str(&format!("M3 S{}\n", num(rpm)));
                     if dev.spindle.spin_up > 0.0 && !spindle_on {
                         g.push_str(&format!("G4 P{}\n", num(dev.spindle.spin_up)));
                     }
@@ -435,6 +437,19 @@ mod tests {
         let pts: Vec<P3> = cuts.flat_map(|m| [m.from, m.to]).collect();
         let f = |i: usize, min: bool| pts.iter().map(|p| p[i]).fold(if min { f64::INFINITY } else { f64::NEG_INFINITY }, |a, b| if min { a.min(b) } else { a.max(b) });
         (f(0, true), f(1, true), f(0, false), f(1, false))
+    }
+
+    #[test]
+    fn layers_are_milled_in_the_order_they_were_moved_to() {
+        let (lib, dev, stock, mut layers) = setup();
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 10.0, 10.0, 40.0);
+        square(&mut scene, 2, 100.0, 10.0, 40.0);
+        let first_layer = |prog: &Program| prog.moves.iter().find(|m| m.kind != MoveKind::Rapid).map(|m| m.layer);
+        assert_eq!(first_layer(&generate(&scene, &layers, &lib, &dev, &stock)), Some(0));
+        crate::layers::move_layer(&mut layers, 2, true);
+        crate::layers::move_layer(&mut layers, 2, true);
+        assert_eq!(first_layer(&generate(&scene, &layers, &lib, &dev, &stock)), Some(2), "the pocket goes first now");
     }
 
     #[test]
@@ -597,7 +612,7 @@ mod tests {
         let prog = generate(&scene, &layers, &lib, &dev, &stock);
         let g = to_gcode(&prog, &dev, &layers, &lib, "job");
         assert!(g.starts_with("(MillCreator: job)\n(Device: Dummy)\nG21 G90 G17\n"), "{g}");
-        assert!(g.contains("S16000 M3\nG4 P2\n"), "{g}");
+        assert!(g.contains("M3 S16000\nG4 P2\n"), "{g}");
         assert!(g.contains(" F900") && g.contains("G1 Z-2 F300"), "{g}");
         assert!(g.trim_end().ends_with("M5\nG0 X0 Y0\nM30"), "{g}");
         let first_cut = g.lines().find(|l| l.starts_with("G1 X")).unwrap();
@@ -621,7 +636,7 @@ mod tests {
         let prog = generate(&scene, &layers, &lib, &dev, &stock);
         let g = to_gcode(&prog, &dev, &layers, &lib, "job");
         assert_eq!(g.matches("M0 (Change the bit to: V-bit 60").count(), 1, "{g}");
-        assert_eq!(g.matches(" M3\n").count(), 2);
+        assert_eq!(g.matches("M3 S").count(), 2);
     }
 
     #[test]

@@ -66,7 +66,10 @@ pub struct MillLayer {
     pub feed: f64,
     /// Feed of the plunge (mm/min).
     pub plunge: f64,
-    pub rpm: f64,
+    pub rpm: f64,    /// Where the layer is in the order the layers are done in (the lower first; equal numbers go by layer). Moving layers
+    /// in the list renumbers them all.
+    #[serde(default)]
+    pub rank: u32,
 }
 
 
@@ -121,6 +124,26 @@ impl MillLayer {
     }
 }
 
+/// The layers in the order they are done in: by their rank, then by their number.
+pub fn layer_order(layers: &[MillLayer]) -> Vec<usize> {
+    let mut o: Vec<usize> = (0..layers.len()).collect();
+    o.sort_by_key(|&i| (layers[i].rank, i));
+    o
+}
+
+/// Move a layer one place earlier (`up`) or later in the order the layers are done in; all the layers get a new rank.
+pub fn move_layer(layers: &mut [MillLayer], layer: usize, up: bool) {
+    let mut o = layer_order(layers);
+    let Some(at) = o.iter().position(|&i| i == layer) else { return };
+    let to = if up { at.checked_sub(1) } else { (at + 1 < o.len()).then_some(at + 1) };
+    if let Some(to) = to {
+        o.swap(at, to);
+    }
+    for (rank, &i) in o.iter().enumerate() {
+        layers[i].rank = rank as u32;
+    }
+}
+
 /// The layers of a new project: the first ones set up for the usual jobs, the others waiting.
 pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
     let bit = |id: &str| tools.get(id).or_else(|| tools.builtin.first()).cloned();
@@ -147,6 +170,7 @@ pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
                 feed: 800.0,
                 plunge: 300.0,
                 rpm: 12000.0,
+                rank: 0,
             };
             match bit(tool) {
                 Some(t) => layer.with_tool(&t),
@@ -197,5 +221,23 @@ mod tests {
         assert_eq!((l.feed, l.rpm), (t.cutting.feed, t.cutting.rpm));
         assert!((l.step_down - 3.0).abs() < 1e-9, "half of 6 mm");
         assert_eq!(l.tool.as_deref(), Some("std-flat-6"));
+    }
+
+    #[test]
+    fn layers_can_be_moved_in_the_order_they_are_done_in() {
+        let lib = crate::tools::Library::new();
+        let mut l = default_layers(&lib);
+        assert_eq!(&layer_order(&l)[..3], &[0, 1, 2]);
+        move_layer(&mut l, 2, true);
+        assert_eq!(&layer_order(&l)[..3], &[0, 2, 1]);
+        move_layer(&mut l, 0, false);
+        assert_eq!(&layer_order(&l)[..3], &[2, 0, 1]);
+        move_layer(&mut l, 2, true);
+        assert_eq!(layer_order(&l)[0], 2, "the first cannot go earlier");
+        let last = layer_order(&l)[l.len() - 1];
+        move_layer(&mut l, last, false);
+        assert_eq!(layer_order(&l)[l.len() - 1], last, "the last cannot go later");
+        // Older projects have no ranks: the order is the numbers.
+        assert_eq!(layer_order(&default_layers(&lib)), (0..l.len()).collect::<Vec<_>>());
     }
 }
