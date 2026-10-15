@@ -9,7 +9,7 @@ MillCreator is one binary crate, `crates/millcreator`, on top of **baseCreator**
 | `tools`, `tools_ui` | the bit library: kinds, dimensions, ready-made bits, files; the window and the pictures of the bits |
 | `materials` | the material and its thickness |
 | `device`, `device_ui` | devices, their files, the start screen list, the window, the camera tab |
-| `layers`, `layers_ui` | the 16 layers, operations, passes; the Layers and Material tabs |
+| `layers`, `layers_ui` | the 64 layers, operations, passes; the Layers and Material tabs |
 | `toolpath` | from shapes to moves and G-code (uses `base_core::ops` for offsets) |
 | `view3d`, `preview_ui` | the projection, drawing and controls of the 3D view; the window and the export |
 | `section` | the `mill` section of the project file |

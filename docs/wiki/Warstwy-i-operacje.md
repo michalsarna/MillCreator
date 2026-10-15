@@ -2,7 +2,7 @@
 
 # Warstwy i operacje
 
-Projekt ma **16 warstw**. Każdy kształt leży na jednej warstwie, a warstwa mówi, co się z nim robi. Kliknij warstwę na karcie **Layers**, by uczynić ją aktywną (nowe kształty trafiają na nią) i edytować ją pod listą.
+Projekt ma **64 warstwy**. Każdy kształt leży na jednej warstwie, a warstwa mówi, co się z nim robi. Kliknij warstwę na karcie **Layers**, by uczynić ją aktywną (nowe kształty trafiają na nią) i edytować ją pod listą.
 
 ![Warstwy](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/05-layers.png)
 

@@ -40,8 +40,13 @@ impl App {
         let active = self.ed.active_layer.min(self.layers.len().saturating_sub(1));
         let mut pick = None;
         let mut changed = false;
+        let show_all = self.show_all_layers;
         base_ui::widgets::list_with_splitter(ui, "layer_list", 190.0, |ui| {
             for (i, l) in self.layers.iter_mut().enumerate() {
+                // Of 64 layers show the ones with shapes and the one being edited (the colour bar has all of them).
+                if !(show_all || counts[i] > 0 || i == active) {
+                    continue;
+                }
                 ui.horizontal(|ui| {
                     let (rect, _) = ui.allocate_exact_size(egui::vec2(14.0, 14.0), egui::Sense::hover());
                     ui.painter().rect_filled(rect, 3.0, l.color32());
@@ -59,6 +64,7 @@ impl App {
                 });
             }
         });
+        ui.checkbox(&mut self.show_all_layers, trf("Show all {} layers", &[&self.layers.len()]));
         if let Some(i) = pick {
             self.ed.active_layer = i;
         }

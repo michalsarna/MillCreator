@@ -7,8 +7,8 @@ Every release on the [Releases page](https://github.com/michalsarna/MillCreator/
 | System | Installer / package | Archive |
 |---|---|---|
 | Windows 10/11 (64-bit) | `millcreator-vX.Y.Z-windows-x86_64-setup.exe` | `millcreator-vX.Y.Z-windows-x86_64.zip` |
-| macOS, Apple silicon (M1 and later) | `millcreator-vX.Y.Z-macos-arm64.dmg` | `millcreator-vX.Y.Z-macos-arm64.tar.gz` |
-| macOS, Intel | `millcreator-vX.Y.Z-macos-x86_64.dmg` | `millcreator-vX.Y.Z-macos-x86_64.tar.gz` |
+| macOS, Apple silicon (M1 and later) | `millcreator-vX.Y.Z-macos-arm64.dmg` | – |
+| macOS, Intel | `millcreator-vX.Y.Z-macos-x86_64.dmg` | – |
 | Debian / Ubuntu and derivatives, x86_64 | `millcreator-vX.Y.Z-linux-amd64.deb` | `millcreator-vX.Y.Z-linux-x86_64.tar.gz` |
 | Debian / Ubuntu and derivatives, ARM64 | `millcreator-vX.Y.Z-linux-arm64.deb` | `millcreator-vX.Y.Z-linux-arm64.tar.gz` |
 | Other Linux | – | the `.tar.gz` above |

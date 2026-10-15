@@ -5,7 +5,7 @@
 MillCreator zapisuje **`.cre`**, plik projektu baseCreatora, który zapisuje też LightCreator: jeden plik JSON z rysunkiem, opisem i **jedną sekcją na program**. Każdy program zapisuje swoją sekcję i zostawia nietknięte sekcje pozostałych, więc projekt przechodzi między programami bez strat.
 
 Sekcja MillCreatora nazywa się `mill`. Zawiera:
-* **16 warstw** (nazwa, kolor, operacja, frez, głębokość, głębokość przejścia, krok boczny, posuwy, obroty),
+* **64 warstwy** (nazwa, kolor, operacja, frez, głębokość, głębokość przejścia, krok boczny, posuwy, obroty),
 * **materiał** (rodzaj, kolor, grubość),
 * **migawkę urządzenia** (nazwa i pole robocze),
 * **frezy używane przez warstwy**, żeby projekt dało się otworzyć tam, gdzie ich nie ma w bibliotece.

@@ -26,7 +26,7 @@ The wiki has the full documentation in English and Polish: <https://github.com/m
 * **Devices:** a list of machines (work area, travel in Z, safe height, spindle range, speeds), each with up to eight
   cameras and a live **Camera** tab; add, edit, duplicate, export and import; **I have no device** makes a stand-in
   called Dummy. The list is kept for every project.
-* **Layers:** 16 layers with an operation (cut outside the line, cut inside, follow the line, pocket, drill), a bit,
+* **Layers:** 64 layers with an operation (cut outside the line, cut inside, follow the line, pocket, drill), a bit,
   depth, pass depth, step over, feeds and spindle speed.
 * **Bit library:** ready-made bits and your own (kept for every device), seven kinds (flat, ball nose, bull nose,
   V-bit, engraving, tapered ball nose, drill), each with a picture that shows the letter of every dimension where it is

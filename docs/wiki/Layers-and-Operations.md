@@ -2,7 +2,7 @@
 
 # Layers and Operations
 
-A project has **16 layers**. Every shape lies on one layer, and the layer says what is done with it. Click a layer in the **Layers** tab to make it the active one (new shapes go to it) and to edit it below the list.
+A project has **64 layers**. Every shape lies on one layer, and the layer says what is done with it. Click a layer in the **Layers** tab to make it the active one (new shapes go to it) and to edit it below the list.
 
 ![Layers](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/05-layers.png)
 

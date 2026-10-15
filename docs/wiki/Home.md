@@ -30,7 +30,7 @@ Open-source software to design and prepare CNC milling jobs, written in Rust. Dr
 ## At a glance
 
 * **Devices:** your machines (work area, travel in Z, safe height, spindle range, cameras) in one list; **I have no device** gives a stand-in called Dummy.
-* **Layers:** 16 layers, each with an operation (cut outside, cut inside, follow the line, pocket, drill), a bit, depth, pass depth, feeds and spindle speed.
+* **Layers:** 64 layers, each with an operation (cut outside, cut inside, follow the line, pocket, drill), a bit, depth, pass depth, feeds and spindle speed.
 * **Bits:** a library of ready-made bits and your own (kept for every device), seven kinds, each with a picture that shows where every dimension is measured; import and export.
 * **Material:** wood in three colours, metal, plastic in a colour you choose, and the thickness.
 * **3D view:** the block of material, the cuts and the moves at the safe height; turn, zoom, reset; a slider plays the job.
@@ -39,4 +39,4 @@ Open-source software to design and prepare CNC milling jobs, written in Rust. Dr
 
 > ⚠️ **Safety:** milling machines are dangerous. Test a new job in the air above the material, wear eye and ear protection, clamp the work, never leave a running machine unattended. See [Safety and Limitations](Safety-and-Limitations).
 
-Latest release: **v0.2.9** · [Releases](https://github.com/michalsarna/MillCreator/releases) · [Issues](https://github.com/michalsarna/MillCreator/issues) · Licence: [MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) or [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE), at your option
+Latest release: **v0.3.0** · [Releases](https://github.com/michalsarna/MillCreator/releases) · [Issues](https://github.com/michalsarna/MillCreator/issues) · Licence: [MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) or [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE), at your option
