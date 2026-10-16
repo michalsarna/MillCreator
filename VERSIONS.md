@@ -2,6 +2,11 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.3.5
+
+* **Properties tab:** when one picture is selected, an *Image* section has the buttons **Adjust image…** and **Trace image…** (shared by all programs), so tracing a picture into outlines does not have to be looked for in the menu.
+* baseCreator v1.5.0.
+
 ## v0.3.4
 
 * **Same shape tools everywhere:** the operations on shapes that LightCreator had (union, intersection, subtract, exclusive or, offset shape, round corners, convert to curves) are now in the shared editor of baseCreator and in the Arrange menu and the right-click menu of every program (Shape operations submenu).
