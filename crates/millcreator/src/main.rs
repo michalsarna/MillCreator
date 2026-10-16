@@ -37,7 +37,7 @@ use base_ui::dialogs::AboutInfo;
 use base_ui::job_ui::StartFrom;
 use base_ui::tls_ui::TlsUi;
 use base_ui::tools_ui::{CalUi, DiagUi};
-use base_ui::editor::{EditorCanvas, EditorCommands, EditorHost, EditorState, Tool};
+use base_ui::editor::{EditorCanvas, EditorCommands, EditorHost, EditorImages, EditorState, Tool};
 use base_ui::i18n::{self, tr, Lang};
 use base_ui::menu::{MenuHost, Menus};
 use base_ui::theme::{self, Scheme};
@@ -414,6 +414,13 @@ impl App {
     }
 
     fn open(&mut self, path: PathBuf) {
+        // A picture goes on the page of the drawing (the import dialog adjusts it, and it can be traced into outlines).
+        if base_ui::editor::is_image_file(&path) {
+            if self.screen == Screen::Start {
+                self.new_design();
+            }
+            return self.open_image_dialog(path);
+        }
         // A LightBurn project or a UGS design is imported into the drawing, not opened.
         if is_import(&path) {
             return self.import_file(path);
@@ -923,6 +930,7 @@ impl App {
     }
 
     fn dialogs(&mut self, ctx: &egui::Context) {
+        self.image_dialogs(ctx);
         let mut show = self.show_options;
         base_ui::editor::view_options_window(self, ctx, &mut show);
         self.clip_dialogs(ctx);
@@ -1238,6 +1246,61 @@ mod tests {
         let mut a = App::build(&egui::Context::default(), None, false);
         a.screen = Screen::Editor;
         a
+    }
+
+    /// A 4 x 4 picture (a black square on white) as a BMP file, made by hand.
+    fn bmp(path: &std::path::Path) {
+        let (w, h) = (4u32, 4u32);
+        let row = (w * 3).div_ceil(4) * 4;
+        let mut b: Vec<u8> = vec![b'B', b'M'];
+        b.extend((54 + row * h).to_le_bytes());
+        b.extend([0u8; 4]);
+        b.extend(54u32.to_le_bytes());
+        b.extend(40u32.to_le_bytes());
+        b.extend(w.to_le_bytes());
+        b.extend(h.to_le_bytes());
+        b.extend(1u16.to_le_bytes());
+        b.extend(24u16.to_le_bytes());
+        b.extend([0u8; 24]);
+        for y in 0..h {
+            let mut line = vec![];
+            for x in 0..w {
+                let dark = (1..3).contains(&x) && (1..3).contains(&y);
+                line.extend(if dark { [0u8, 0, 0] } else { [255u8, 255, 255] });
+            }
+            line.resize(row as usize, 0);
+            b.extend(line);
+        }
+        std::fs::write(path, b).unwrap();
+    }
+
+    #[test]
+    fn a_picture_opens_the_import_dialog_and_can_be_adjusted_and_traced_but_makes_no_toolpath() {
+        use base_ui::editor::EditorImages;
+        use base_ui::menu::StdAct;
+        let dir = std::env::temp_dir().join(format!("mill-image-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let file = dir.join("square.bmp");
+        bmp(&file);
+        let mut a = app();
+        a.open(file.clone());
+        assert!(a.ed.img_dlg.is_some(), "the picture is offered for import");
+        // Without a picture on the page there is nothing to adjust or trace.
+        assert!(!StdAct::AdjustImage.enabled(&a) && !StdAct::TraceImage.enabled(&a));
+        // The picture on the page (what the Import button of the dialog does).
+        let im = base_core::image::ImageData::from_bytes(&std::fs::read(&file).unwrap(), "square.bmp", 40.0).unwrap();
+        a.ed.img_dlg = None;
+        let id = a.scene.add(0, base_core::scene::Kind::Image(im), base_core::geom::Xf::translate(10.0, 10.0));
+        a.ed.sel = vec![id];
+        assert!(StdAct::AdjustImage.enabled(&a) && StdAct::TraceImage.enabled(&a));
+        a.open_trace();
+        assert!(a.ed.trace_dlg.is_some());
+        a.open_adjust();
+        assert!(a.ed.img_dlg.is_some());
+        // A picture is for looking at and tracing: it is not machined.
+        let _ = std::fs::remove_dir_all(&dir);
+        let prog = toolpath::generate(&a.scene, &a.layers, &a.tools, &a.device, &a.stock);
+        assert!(prog.moves.is_empty(), "no cutting for a picture: {} moves", prog.moves.len());
     }
 
     #[test]
