@@ -148,6 +148,43 @@ enum SideTab {
     Camera,
 }
 
+impl SideTab {
+    /// The tabs that are always there, in their first order (the camera comes last and only when the device has one).
+    const IDS: [&'static str; 8] = ["properties", "layers", "material", "device", "control", "console", "clipart", "description"];
+
+    fn id(self) -> &'static str {
+        match self {
+            SideTab::Properties => "properties",
+            SideTab::Layers => "layers",
+            SideTab::Material => "material",
+            SideTab::Device => "device",
+            SideTab::Control => "control",
+            SideTab::Console => "console",
+            SideTab::Clipart => "clipart",
+            SideTab::Description => "description",
+            SideTab::Camera => "camera",
+        }
+    }
+
+    fn from_id(id: &str) -> Option<SideTab> {
+        [SideTab::Properties, SideTab::Layers, SideTab::Material, SideTab::Device, SideTab::Control, SideTab::Console, SideTab::Clipart, SideTab::Description, SideTab::Camera].into_iter().find(|t| t.id() == id)
+    }
+
+    fn label(self) -> String {
+        match self {
+            SideTab::Properties => tr("Properties").to_string(),
+            SideTab::Layers => tr("Layers").to_string(),
+            SideTab::Material => tr("Material").to_string(),
+            SideTab::Device => tr("Device").to_string(),
+            SideTab::Control => tr("Control").to_string(),
+            SideTab::Console => tr("Console").to_string(),
+            SideTab::Clipart => clipart_ui::tab_label().to_string(),
+            SideTab::Description => base_ui::description_ui::tab_label().to_string(),
+            SideTab::Camera => tr("Camera").to_string(),
+        }
+    }
+}
+
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 enum Screen {
     Start,
@@ -166,6 +203,8 @@ struct App {
     recent: Vec<PathBuf>,
     logo: Option<egui::TextureHandle>,
     side_tab: SideTab,
+    /// The order of the tabs of the side panel and whether it is collapsed.
+    tabs: base_ui::side_tabs::SideTabs,
     clip: ClipState,
     /// The free text of the project, kept for the next save.
     description: String,
@@ -273,6 +312,7 @@ impl App {
             recent,
             logo: base_ui::start::load_logo(ctx, ICON_256, "millcreator-logo"),
             side_tab: SideTab::Properties,
+            tabs: base_ui::side_tabs::SideTabs::new(&SideTab::IDS, &saved("tab_order").unwrap_or_default(), saved("side_collapsed").is_some_and(|v| v == "1")),
             clip: ClipState::new(base_core::clipart::Library::open(data_paths().gallery.clone())),
             description: String::new(),
             kept: Project::default(),
@@ -339,6 +379,8 @@ impl App {
             ("devices", self.devices_text()),
             ("tools", self.tools.save_text()),
             ("check_updates", flag(self.check_updates)),
+            ("tab_order", self.tabs.order_string()),
+            ("side_collapsed", flag(self.tabs.collapsed)),
             ("recent_files", self.recent.iter().map(|p| p.to_string_lossy().into_owned()).collect::<Vec<_>>().join("\n")),
         ]
     }
@@ -753,22 +795,27 @@ impl App {
         });
     }
 
+    /// The collapsed side panel: a narrow strip with the names of the tabs; a click on one opens the panel on it.
+    fn side_strip(&mut self, ui: &mut egui::Ui) {
+        let camera = self.device.camera().is_some();
+        let extra: &[&'static str] = if camera { &["camera"] } else { &[] };
+        let label = |id: &str| SideTab::from_id(id).map(SideTab::label).unwrap_or_default();
+        if let Some(t) = self.tabs.strip(ui, self.side_tab.id(), extra, &label).and_then(SideTab::from_id) {
+            self.side_tab = t;
+        }
+    }
+
     /// The tabs of the right panel.
     fn side_panel(&mut self, ui: &mut egui::Ui) {
-        let mut tabs = vec![(SideTab::Properties, tr("Properties")), (SideTab::Layers, tr("Layers")), (SideTab::Material, tr("Material")), (SideTab::Device, tr("Device")), (SideTab::Control, tr("Control")), (SideTab::Console, tr("Console")), (SideTab::Clipart, clipart_ui::tab_label()), (SideTab::Description, base_ui::description_ui::tab_label())];
-        if self.device.camera().is_some() {
-            tabs.push((SideTab::Camera, tr("Camera")));
-        }
-        if self.side_tab == SideTab::Camera && self.device.camera().is_none() {
+        let camera = self.device.camera().is_some();
+        if self.side_tab == SideTab::Camera && !camera {
             self.side_tab = SideTab::Properties;
         }
-        ui.horizontal_wrapped(|ui| {
-            for (tab, label) in tabs {
-                if ui.add(egui::Button::selectable(self.side_tab == tab, RichText::new(label).strong())).clicked() {
-                    self.side_tab = tab;
-                }
-            }
-        });
+        let extra: &[&'static str] = if camera { &["camera"] } else { &[] };
+        let label = |id: &str| SideTab::from_id(id).map(SideTab::label).unwrap_or_default();
+        if let Some(t) = self.tabs.bar(ui, self.side_tab.id(), extra, &label).and_then(SideTab::from_id) {
+            self.side_tab = t;
+        }
         ui.separator();
         match self.side_tab {
             SideTab::Properties => {
@@ -932,7 +979,11 @@ impl App {
         egui::Panel::top("controls").frame(chrome).exact_size(36.0).show(ui, |ui| self.control_bar(ui));
         egui::Panel::bottom("status").frame(chrome).exact_size(26.0).show(ui, |ui| self.status_bar(ui));
         egui::Panel::left("tools").frame(chrome).exact_size(52.0).resizable(false).show(ui, |ui| base_ui::editor::tool_palette(self, ui, None));
-        let side = egui::Panel::right("side").frame(chrome.inner_margin(egui::Margin::same(8))).default_size(410.0).show(ui, |ui| self.side_panel(ui));
+        let side = if self.tabs.collapsed {
+            egui::Panel::right("side_strip").frame(chrome.inner_margin(egui::Margin::same(3))).exact_size(base_ui::side_tabs::STRIP_W).resizable(false).show(ui, |ui| self.side_strip(ui))
+        } else {
+            egui::Panel::right("side").frame(chrome.inner_margin(egui::Margin::same(8))).default_size(410.0).show(ui, |ui| self.side_panel(ui))
+        };
         base_ui::widgets::panel_edge_highlight(ui.ctx(), side.response.rect, base_ui::widgets::Edge::Left);
         egui::Panel::right("arrange_bar").frame(chrome.inner_margin(egui::Margin::symmetric(2, 4))).exact_size(40.0).resizable(false).show(ui, |ui| base_ui::editor::arrange_bar(self, ui));
         egui::Panel::bottom("layer_bar").frame(chrome).exact_size(36.0).show(ui, |ui| base_ui::layer_bar::layer_bar(self, ui));
