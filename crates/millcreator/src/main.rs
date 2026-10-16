@@ -1257,6 +1257,40 @@ mod tests {
         a
     }
 
+    #[test]
+    fn the_shape_operations_of_the_shared_editor_work_here_too() {
+        use base_core::scene::Kind;
+        use base_ui::editor::EditorShapeOps;
+        use base_ui::menu::StdAct;
+        let mut a = app();
+        let r1 = a.scene.add(0, Kind::Rect { w: 20.0, h: 20.0 }, base_core::geom::Xf::translate(10.0, 10.0));
+        let r2 = a.scene.add(0, Kind::Rect { w: 20.0, h: 20.0 }, base_core::geom::Xf::translate(20.0, 10.0));
+        a.ed.sel = vec![r1, r2];
+        a.bool_op(base_core::ops::BoolOp::Union);
+        assert_eq!(a.scene.shapes.len(), 1, "two rectangles became one shape");
+        assert!(matches!(a.scene.shapes[0].kind, Kind::Path(_)));
+        // Offset keeps the original and adds a bigger outline.
+        a.ed.sel = vec![a.scene.shapes[0].id];
+        a.offset_selected(2.0, true);
+        assert_eq!(a.scene.shapes.len(), 2);
+        let width = |i: usize| { let b = a.scene.shapes[i].polys()[0].bounds().unwrap(); b.max.x - b.min.x };
+        let (w0, w1) = (width(0), width(1));
+        assert!(w1 > w0 + 3.0, "{w0} {w1}");
+        // Rounding the corners of a rectangle gives curves, and a shape can be turned into curves.
+        let r = a.scene.add(0, Kind::Rect { w: 30.0, h: 30.0 }, base_core::geom::Xf::translate(100.0, 100.0));
+        a.ed.sel = vec![r];
+        a.round_corners(4.0);
+        assert!(matches!(a.scene.shape(r).unwrap().kind, Kind::Bezier(_)));
+        let e = a.scene.add(0, Kind::Ellipse { w: 10.0, h: 10.0 }, base_core::geom::Xf::translate(0.0, 0.0));
+        a.ed.sel = vec![e];
+        a.to_curves();
+        assert!(matches!(a.scene.shape(e).unwrap().kind, Kind::Bezier(_)));
+        // The windows open from the menu commands.
+        StdAct::OffsetShape.run(&mut a);
+        StdAct::RoundCorners.run(&mut a);
+        assert!(a.ed.show_offset && a.ed.show_round);
+    }
+
     /// A 4 x 4 picture (a black square on white) as a BMP file, made by hand.
     fn bmp(path: &std::path::Path) {
         let (w, h) = (4u32, 4u32);

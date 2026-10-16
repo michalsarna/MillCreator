@@ -386,6 +386,7 @@ mod context_menu_tests {
         if let Ok(p) = std::env::var("SHOT") {
             h.render().unwrap().save(p).unwrap();
         }
+        // (the submenus are looked at on the picture; their labels are not found by the test harness)
         // Duplicate is in the menu and works.
         h.get_by_label("Duplicate").click();
         h.run_steps(4);

@@ -2,6 +2,11 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.3.4
+
+* **Same shape tools everywhere:** the operations on shapes that LightCreator had (union, intersection, subtract, exclusive or, offset shape, round corners, convert to curves) are now in the shared editor of baseCreator and in the Arrange menu and the right-click menu of every program (Shape operations submenu).
+* baseCreator v1.4.0.
+
 ## v0.3.3
 
 * **Links open again:** the download page from the update window, Help → Project page on GitHub and the list of plugins did nothing, because the program was built without the link-opening feature of its GUI library. A test keeps it.
