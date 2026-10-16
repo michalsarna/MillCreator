@@ -1238,6 +1238,15 @@ mod tests {
     static DATA: std::sync::Mutex<()> = std::sync::Mutex::new(());
 
     use super::*;
+
+    /// Without the "links" feature of eframe, open_url silently does nothing: no link of the program (the download page of an
+    /// update, the project page, the list of plugins) would open.
+    #[test]
+    fn eframe_has_the_links_feature_so_that_links_open() {
+        let manifest = include_str!("../Cargo.toml");
+        let eframe = manifest.lines().find(|l| l.starts_with("eframe")).unwrap();
+        assert!(eframe.contains("\"links\""), "{eframe}");
+    }
     use base_core::geom::Pt;
 
     const SVG: &[u8] = br##"<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect x="10" y="10" width="40" height="20" stroke="#ff0000" fill="none"/><circle cx="70" cy="70" r="10"/></svg>"##;
