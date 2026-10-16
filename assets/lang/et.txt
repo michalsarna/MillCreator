@@ -254,3 +254,7 @@
 253|{}: sügavus {} mm on suurem kui materjali paksus ({} mm)
 254|{}: {} p/min on väljaspool spindli vahemikku {}…{} p/min
 255|Impordi UGS-i kujundus…
+256|Esimene läbimine
+257|Alusta madala läbimisega mööda servi
+258|Iga kiht läbib kõigepealt korra servad, mida ta lõikab, ainult nii sügavalt, mis murrab materjali pealispinna puhtalt. Taskud saavad selle ainult oma serva mööda; puurimisel seda pole. See töötab iga freesiga.
+259|Esimese läbimise sügavus

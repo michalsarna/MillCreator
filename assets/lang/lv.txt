@@ -254,3 +254,7 @@
 253|{}: dziļums {} mm ir lielāks par materiāla biezumu ({} mm)
 254|{}: {} apgr./min ir ārpus vārpstas diapazona {}…{} apgr./min
 255|Importēt UGS dizainu…
+256|Pirmā caurbraukšana
+257|Sākt ar seklu caurbraukšanu gar malām
+258|Katrs slānis vispirms vienreiz iet gar malām, kuras griezīs, tikai šādā dziļumā, kas tīri pārlauž materiāla virskārtu. Kabatas to saņem tikai gar savu malu; urbšanai tās nav. Darbojas ar jebkuru frēzi.
+259|Pirmās caurbraukšanas dziļums

@@ -254,3 +254,7 @@
 253|{} : la profondeur de {} mm dépasse l'épaisseur du matériau ({} mm)
 254|{} : {} tr/min est hors de la plage de la broche {}…{} tr/min
 255|Importer un design UGS…
+256|Première passe
+257|Commencer par une passe peu profonde le long des bords
+258|Chaque calque parcourt d'abord une fois les bords qu'il va découper, seulement à cette profondeur, ce qui rompt proprement le dessus du matériau. Les poches ne l'ont que le long de leur bord ; le perçage n'en a pas. Cela fonctionne avec toutes les fraises.
+259|Profondeur de la première passe

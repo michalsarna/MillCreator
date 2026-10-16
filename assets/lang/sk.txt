@@ -254,3 +254,7 @@
 253|{}: hĺbka {} mm je väčšia ako hrúbka materiálu ({} mm)
 254|{}: {} ot/min je mimo rozsahu vretena {}…{} ot/min
 255|Importovať návrh UGS…
+256|Prvý prechod
+257|Začať plytkým prechodom pozdĺž hrán
+258|Každá vrstva najprv raz prejde pozdĺž hrán, ktoré bude rezať, len do tejto hĺbky, čo čisto prerazí vrch materiálu. Vrecká ho dostanú len pozdĺž svojho okraja; vŕtanie ho nemá. Funguje s každou frézou.
+259|Hĺbka prvého prechodu

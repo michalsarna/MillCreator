@@ -254,3 +254,7 @@
 253|{}: hloubka {} mm je větší než tloušťka materiálu ({} mm)
 254|{}: {} ot/min je mimo rozsah vřetene {}…{} ot/min
 255|Importovat návrh UGS…
+256|První průchod
+257|Začít mělkým průchodem podél hran
+258|Každá vrstva nejprve jednou projde podél hran, které bude řezat, jen do této hloubky, což čistě prořízne vrchní část materiálu. Kapsy ho dostanou jen podél svého okraje; vrtání ho nemá. Funguje s každou frézou.
+259|Hloubka prvního průchodu

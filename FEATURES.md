@@ -6,7 +6,7 @@
 * **Layers:** 64 layers with name, colour, operation, bit, depth, pass depth, step over, feeds and spindle speed; switch each on and off, show and hide; put the selected shapes on a layer.
 * **Operations:** cut outside the line, cut inside the line, follow the line (open and closed), pocket, drill with pecks.
 * **Bit library:** ready-made bits and your own, kept for every device; kinds: flat end mill, ball nose, bull nose, V-bit, engraving bit, tapered ball nose, drill; a picture of every kind with the letter of each dimension where it is measured; feeds and speeds as starting points; import and export of bits as JSON; a project carries the bits it uses.
-* **Material:** wood (light, medium, dark), metal, plastic (any colour), thickness.
+* **Material:** wood (light, medium, dark), metal, plastic (any colour), thickness; an optional **first pass** (0.1 mm by default) along the edges of every layer before its normal passes, to break the top of the material cleanly.
 * **Toolpaths:** offsets by the radius of the bit, passes down to the depth, rings for pockets, a safe height, estimate of the length and the time, and warnings.
 * **The machine:** a GRBL controller on a serial port or a network socket (port, baud rate, streaming, homing or clearing an alarm after connecting, reconnecting by itself); Connect, Home, Unlock, Pause / Resume, Frame (the box of the work at the safe height), Start and Stop, a **Console** tab (the traffic with the controller, a line to send a command) and the position; Save G-code on the control bar.
 * **Rotary attachment:** chuck or rollers, workpiece diameter, microsteps per turn; the drawing may not be higher than the way round the workpiece (warning).

@@ -254,3 +254,7 @@
 253|{}: adâncimea de {} mm este mai mare decât grosimea materialului ({} mm)
 254|{}: {} rpm este în afara intervalului axului {}…{} rpm
 255|Importă designul UGS…
+256|Prima trecere
+257|Începe cu o trecere superficială de-a lungul marginilor
+258|Fiecare strat parcurge mai întâi o dată marginile pe care le va tăia, doar la această adâncime, ceea ce sparge curat partea de sus a materialului. Buzunarele o primesc doar de-a lungul marginii lor; la găurire nu există. Funcționează cu orice freză.
+259|Adâncimea primei treceri

@@ -225,6 +225,9 @@ pub fn generate(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Devi
         b.feed = layer.feed;
         b.plunge = layer.plunge;
         let start = b.moves.len();
+        if stock.first_pass && stock.first_pass_depth > 0.0 && stock.first_pass_depth < layer.depth - 1e-9 {
+            first_pass(&mut b, &layer, tool, &outlines, stock.first_pass_depth);
+        }
         run_layer(&mut b, &layer, tool, &outlines, &depths, &mut prog.warnings);
         b.retract();
         if b.moves.len() == start {
@@ -253,6 +256,36 @@ pub fn generate(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Devi
         }
     }
     prog
+}
+
+/// One shallow pass along the edges the layer will cut, before its real passes: the line of a profile, the line itself for
+/// "Follow the line", the outermost ring of a pocket (not its inside), nothing for drilling.
+fn first_pass(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyline], depth: f64) {
+    let r = tool.radius();
+    let depths = [depth];
+    match layer.op {
+        Operation::ProfileOutside | Operation::ProfileInside => {
+            let d = if layer.op == Operation::ProfileOutside { r } else { -r };
+            for ring in ops::offset(&closed_only(outlines), d) {
+                ring_passes(b, &ring, &depths);
+            }
+        }
+        Operation::Pocket => {
+            for ring in ops::offset(&closed_only(outlines), -r) {
+                ring_passes(b, &ring, &depths);
+            }
+        }
+        Operation::OnPath => {
+            for line in outlines {
+                if line.closed {
+                    ring_passes(b, line, &depths);
+                } else {
+                    open_passes(b, line, &depths);
+                }
+            }
+        }
+        Operation::Drill => {}
+    }
 }
 
 fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyline], depths: &[f64], warnings: &mut Vec<Warn>) {
@@ -450,6 +483,72 @@ mod tests {
         crate::layers::move_layer(&mut layers, 2, true);
         crate::layers::move_layer(&mut layers, 2, true);
         assert_eq!(first_layer(&generate(&scene, &layers, &lib, &dev, &stock)), Some(2), "the pocket goes first now");
+    }
+
+    fn cuts_at(prog: &Program, z: f64) -> Vec<&Move> {
+        prog.moves.iter().filter(|m| m.kind == MoveKind::Cut && (m.to[2] + z).abs() < 1e-9).collect()
+    }
+
+    #[test]
+    fn the_first_pass_goes_along_the_edge_only_and_before_the_deeper_passes() {
+        let (lib, dev, mut stock, mut layers) = setup();
+        let mut scene = Scene::default();
+        square(&mut scene, 2, 20.0, 20.0, 40.0);
+        layers[2].depth = 3.0;
+        // Without the first pass nothing is cut at 0.1 mm.
+        let plain = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(cuts_at(&plain, 0.1).is_empty());
+        stock.first_pass = true;
+        stock.first_pass_depth = 0.1;
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let shallow = cuts_at(&prog, 0.1);
+        assert!(!shallow.is_empty(), "a first pass is made");
+        // It is the first thing cut.
+        assert_eq!(prog.moves.iter().find(|m| m.kind == MoveKind::Cut).map(|m| m.to[2]), Some(-0.1));
+        // A pocket gets it along the edge only: one ring, the outermost (the same outline as the outer ring of the pocket).
+        let deeper: Vec<&Move> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut && m.to[2] < -0.1 - 1e-9).collect();
+        assert!(shallow.len() < deeper.len() / 2, "{} shallow, {} deeper", shallow.len(), deeper.len());
+        let xs = |v: &[&Move]| (v.iter().map(|m| m.to[0]).fold(f64::INFINITY, f64::min), v.iter().map(|m| m.to[0]).fold(f64::NEG_INFINITY, f64::max));
+        assert_eq!(xs(&shallow), xs(&deeper), "as wide as the whole pocket");
+        // Nothing changes for the cuts of the layer itself.
+        assert_eq!(deeper.len(), plain.moves.iter().filter(|m| m.kind == MoveKind::Cut).count());
+    }
+
+    #[test]
+    fn the_first_pass_follows_a_profile_and_a_line_and_skips_drilling_and_a_layer_that_is_not_deeper() {
+        let (lib, dev, mut stock, mut layers) = setup();
+        stock.first_pass = true;
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 20.0, 20.0, 40.0);
+        layers[0].depth = 4.0;
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let ring = cuts_at(&prog, 0.1).len();
+        let full = cuts_at(&prog, layers[0].passes()[0]).len();
+        assert!(ring > 0 && ring == full, "the same ring as a deeper pass: {ring} and {full}");
+        // A layer that is not deeper than the first pass gets no extra pass.
+        layers[0].depth = 0.1;
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let once = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).count();
+        stock.first_pass = false;
+        assert_eq!(once, generate(&scene, &layers, &lib, &dev, &stock).moves.iter().filter(|m| m.kind == MoveKind::Cut).count());
+        // Drilling has no first pass.
+        stock.first_pass = true;
+        layers[0].op = Operation::Drill;
+        layers[0].depth = 4.0;
+        let with = generate(&scene, &layers, &lib, &dev, &stock);
+        stock.first_pass = false;
+        assert_eq!(with.moves.len(), generate(&scene, &layers, &lib, &dev, &stock).moves.len());
+    }
+
+    #[test]
+    fn an_old_project_without_the_first_pass_reads_with_it_off() {
+        let old = r#"{"kind":"WoodLight","color":[1,2,3],"thickness":12.0}"#;
+        let s: Stock = serde_json::from_str(old).unwrap();
+        assert!(!s.first_pass);
+        assert_eq!(s.first_pass_depth, 0.1);
+        let mut bad = s.clone();
+        bad.first_pass_depth = -3.0;
+        assert_eq!(bad.sane().first_pass_depth, 0.1);
     }
 
     #[test]

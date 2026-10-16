@@ -254,3 +254,7 @@
 253|{}: la profunditat de {} mm és més gran que el gruix del material ({} mm)
 254|{}: {} rpm és fora del rang de l'eix {}…{} rpm
 255|Importa el disseny d'UGS…
+256|Primera passada
+257|Comença amb una passada poc profunda al llarg de les vores
+258|Cada capa recorre primer una vegada les vores que tallarà, només a aquesta profunditat, cosa que trenca netament la part superior del material. Les butxaques el reben només al llarg de la vora; el foradat no en té. Funciona amb qualsevol fresa.
+259|Profunditat de la primera passada

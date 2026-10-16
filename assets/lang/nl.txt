@@ -254,3 +254,7 @@
 253|{}: de diepte van {} mm is groter dan de dikte van het materiaal ({} mm)
 254|{}: {} tpm valt buiten het spindelbereik {}…{} tpm
 255|UGS-ontwerp importeren…
+256|Eerste gang
+257|Begin met een ondiepe gang langs de randen
+258|Elke laag gaat eerst één keer langs de randen die ze gaat snijden, slechts zo diep, waardoor de bovenkant van het materiaal netjes wordt doorbroken. Uitsparingen krijgen dit alleen langs hun rand; boren heeft het niet. Het werkt met elke frees.
+259|Diepte van de eerste gang

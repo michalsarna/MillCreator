@@ -66,7 +66,8 @@ pub struct MillLayer {
     pub feed: f64,
     /// Feed of the plunge (mm/min).
     pub plunge: f64,
-    pub rpm: f64,    /// Where the layer is in the order the layers are done in (the lower first; equal numbers go by layer). Moving layers
+    pub rpm: f64,
+    /// Where the layer is in the order the layers are done in (the lower first; equal numbers go by layer). Moving layers
     /// in the list renumbers them all.
     #[serde(default)]
     pub rank: u32,

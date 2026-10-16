@@ -254,3 +254,7 @@
 253|{}: tá an doimhneacht {} mm níos mó ná tiús an ábhair ({} mm)
 254|{}: tá {} rpm lasmuigh d'raon na fearsaide {}…{} rpm
 255|Iompórtáil dearadh UGS…
+256|An chéad phas
+257|Tosaigh le pas éadomhain feadh na n-imill
+258|Téann gach ciseal ar dtús uair amháin feadh na n-imill a ghearrfaidh sé, ach chomh domhain seo, rud a bhriseann barr an ábhair go glan. Faigheann pócaí é feadh a n-imill amháin; níl ceann ag druileáil. Oibríonn sé le gach bit.
+259|Doimhneacht an chéad phas
