@@ -2,6 +2,14 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.3.2
+
+* **First pass** (Material tab): an optional shallow pass (0.1 mm by default) along the edges of every layer before its normal passes, to break the top of the material cleanly. A pocket gets it along its edge only, drilling has none; it works with every bit.
+* **Pictures:** File → Import → Import image… (or drop a PNG, JPG, BMP, GIF or WebP file) with the same import dialog as LightCreator; Arrange → Adjust image… and **Trace image…** turn a picture into outlines to mill.
+* **Side panel:** the tabs can be dragged into another order (remembered, also in backups), and a button collapses the panel to a narrow strip with the tab names written vertically; a click on a name opens the panel on that tab.
+* **Layer bar:** more room between the colours and at both ends, so the outline of the first one is not pressed against the arrow.
+* baseCreator v1.2.0.
+
 ## v0.3.1
 
 * **Control tab redesigned:** big position readout with X0/Y0/Z0 next to it, Zero all / Zero X and Y, Go to X0 Y0 / Z to safe height, a separate Move section (XY and Z lines, a text field for any step), speeds in their own section (loaded from the device each time), bigger centred jog buttons, a slimmer Probe section and a spindle test (Switch on / Switch off).
