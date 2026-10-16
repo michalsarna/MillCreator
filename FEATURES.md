@@ -32,3 +32,4 @@ The list is a plan, not a promise.
 * Tabs, ramps and helical entry, climb / conventional choice, V-carving, 3D relief, tool length offsets, collision checks with clamps.
 * Other controllers than GRBL, post-processor settings.
 * A simulation that removes material in the 3D view.
+* **Right-click menu:** on a shape (copy, paste, duplicate, delete, group, lock, flip, turn, arrange, adjust and trace a picture), the same in all programs.

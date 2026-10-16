@@ -345,6 +345,55 @@ mod multi_select_tests {
 }
 
 #[cfg(test)]
+mod context_menu_tests {
+    use super::*;
+    use egui::{Event, Modifiers, PointerButton};
+    use base_ui::editor::EditorHost;
+    use egui_kittest::kittest::Queryable;
+
+    #[test]
+    fn a_right_click_on_a_shape_opens_the_menu_and_its_commands_work() {
+        let mut h: Shot = Harness::builder().with_size([1280.0, 800.0]).build_ui_state(
+            |ui, state: &mut Option<App>| {
+                let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
+                a.draw(ui);
+            },
+            None,
+        );
+        h.run_steps(2);
+        {
+            let a = app(&mut h);
+            a.use_dummy_device();
+            a.screen = crate::Screen::Editor;
+            a.new_design();
+            a.scene.add(0, base_core::scene::Kind::Rect { w: 30.0, h: 30.0 }, base_core::geom::Xf::translate(40.0, 40.0));
+            a.ed.view.need_fit = false;
+        }
+        h.run_steps(3);
+        let at = {
+            let a = app(&mut h);
+            let o = a.ed.canvas_origin;
+            a.w2s(o, base_core::geom::Pt::new(55.0, 55.0))
+        };
+        let button = |pressed| Event::PointerButton { pos: at, button: PointerButton::Secondary, pressed, modifiers: Modifiers::NONE };
+        h.event(Event::PointerMoved(at));
+        h.run_steps(2);
+        h.event(button(true));
+        h.run_steps(2);
+        h.event(button(false));
+        h.run_steps(4);
+        assert_eq!(app(&mut h).ed.sel.len(), 1, "the shape under the pointer is selected");
+        if let Ok(p) = std::env::var("SHOT") {
+            h.render().unwrap().save(p).unwrap();
+        }
+        // Duplicate is in the menu and works.
+        h.get_by_label("Duplicate").click();
+        h.run_steps(4);
+        assert_eq!(app(&mut h).scene.shapes.len(), 2, "Duplicate from the context menu");
+    }
+}
+
+#[cfg(test)]
 mod window_size_tests {
     use super::*;
 
