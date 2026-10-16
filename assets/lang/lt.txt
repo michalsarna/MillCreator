@@ -254,3 +254,7 @@
 253|{}: {} mm gylis didesnis už medžiagos storį ({} mm)
 254|{}: {} aps./min. už verpstės ribų {}…{} aps./min.
 255|Importuoti UGS dizainą…
+256|Pirmas praėjimas
+257|Pradėti negilu praėjimu išilgai kraštų
+258|Kiekvienas sluoksnis pirmiausia vieną kartą nueina išilgai kraštų, kuriuos pjaus, tik tokiu gyliu, kuris švariai pralaužia medžiagos viršų. Kišenės jį gauna tik išilgai savo krašto; gręžimas jo neturi. Veikia su bet kuriuo frezu.
+259|Pirmojo praėjimo gylis

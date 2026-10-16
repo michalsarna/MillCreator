@@ -254,3 +254,7 @@
 253|{}: globina {} mm je večja od debeline materiala ({} mm)
 254|{}: {} vrt/min je zunaj območja vretena {}…{} vrt/min
 255|Uvozi načrt UGS…
+256|Prvi prehod
+257|Začni s plitvim prehodom ob robovih
+258|Vsak sloj najprej enkrat prehodi robove, ki jih bo rezal, le do te globine, kar čisto prebije vrh materiala. Žepi ga dobijo le ob svojem robu; vrtanje ga nima. Deluje s poljubnim rezkarjem.
+259|Globina prvega prehoda

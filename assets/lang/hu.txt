@@ -254,3 +254,7 @@
 253|{}: a(z) {} mm mélység nagyobb az anyag vastagságánál ({} mm)
 254|{}: {} ford./perc a főorsó tartományán kívül van ({}…{} ford./perc)
 255|UGS-terv importálása…
+256|Első menet
+257|Kezdje sekély menettel az élek mentén
+258|Minden réteg először egyszer végigmegy azokon az éleken, amelyeket vágni fog, csak ilyen mélyen, ami tisztán áttöri az anyag tetejét. A zsebek csak a szélük mentén kapják meg; a fúrásnak nincs. Minden maróval működik.
+259|Az első menet mélysége

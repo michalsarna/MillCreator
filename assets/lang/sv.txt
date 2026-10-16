@@ -254,3 +254,7 @@
 253|{}: djupet {} mm är större än materialets tjocklek ({} mm)
 254|{}: {} varv/min ligger utanför spindelns område {}…{} varv/min
 255|Importera UGS-design…
+256|Första varvet
+257|Börja med ett grunt varv längs kanterna
+258|Varje lager går först en gång längs de kanter det ska skära, bara så djupt, vilket bryter materialets ovansida rent. Fickor får det bara längs sin kant; borrning har det inte. Det fungerar med alla fräsar.
+259|Djup på första varvet

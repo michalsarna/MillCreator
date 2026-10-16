@@ -47,6 +47,17 @@ pub struct Stock {
     pub kind: MaterialKind,
     pub color: [u8; 3],
     pub thickness: f64,
+    /// Every layer starts with one shallow pass along the edges it will cut, which breaks the top of the material cleanly
+    /// (veneer, laminate, coating) before the deeper passes.
+    #[serde(default)]
+    pub first_pass: bool,
+    /// How deep that first pass goes (mm).
+    #[serde(default = "default_first_pass_depth")]
+    pub first_pass_depth: f64,
+}
+
+fn default_first_pass_depth() -> f64 {
+    0.1
 }
 
 impl Default for Stock {
@@ -59,7 +70,7 @@ pub const MAX_THICKNESS: f64 = 500.0;
 
 impl Stock {
     pub fn of(kind: MaterialKind) -> Stock {
-        Stock { kind, color: kind.color(), thickness: 10.0 }
+        Stock { kind, color: kind.color(), thickness: 10.0, first_pass: false, first_pass_depth: default_first_pass_depth() }
     }
 
     /// Choose another material: its own colour comes with it (a plastic keeps the colour it has).
@@ -76,6 +87,10 @@ impl Stock {
             self.thickness = 10.0;
         }
         self.thickness = self.thickness.min(MAX_THICKNESS);
+        if !self.first_pass_depth.is_finite() || self.first_pass_depth <= 0.0 {
+            self.first_pass_depth = default_first_pass_depth();
+        }
+        self.first_pass_depth = self.first_pass_depth.min(self.thickness);
         if !self.kind.colour_is_free() {
             self.color = self.kind.color();
         }
@@ -104,9 +119,9 @@ mod tests {
         s.set_kind(MaterialKind::Metal);
         assert_eq!(s.color, MaterialKind::Metal.color());
         // A colour written into the file for a wood is ignored.
-        let wood = Stock { kind: MaterialKind::WoodDark, color: [1, 2, 3], thickness: f64::NAN }.sane();
+        let wood = Stock { kind: MaterialKind::WoodDark, color: [1, 2, 3], thickness: f64::NAN, first_pass: false, first_pass_depth: f64::NAN }.sane();
         assert_eq!((wood.color, wood.thickness), (MaterialKind::WoodDark.color(), 10.0));
-        let plastic = Stock { kind: MaterialKind::Plastic, color: [1, 2, 3], thickness: 1e9 }.sane();
+        let plastic = Stock { kind: MaterialKind::Plastic, color: [1, 2, 3], thickness: 1e9, first_pass: false, first_pass_depth: 0.1 }.sane();
         assert_eq!((plastic.color, plastic.thickness), ([1, 2, 3], MAX_THICKNESS));
     }
 }

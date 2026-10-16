@@ -254,3 +254,7 @@
 253|{}: dubina {} mm veća je od debljine materijala ({} mm)
 254|{}: {} okr/min izvan je raspona vretena {}…{} okr/min
 255|Uvezi UGS dizajn…
+256|Prvi prolaz
+257|Počni plitkim prolazom uz rubove
+258|Svaki sloj prvo jednom prođe uz rubove koje će rezati, samo do ove dubine, što čisto probija vrh materijala. Džepovi ga dobivaju samo uz svoj rub; bušenje ga nema. Radi sa svakom glodalom.
+259|Dubina prvog prolaza

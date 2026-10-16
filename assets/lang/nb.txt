@@ -254,3 +254,7 @@
 253|{}: dybden på {} mm er større enn tykkelsen på materialet ({} mm)
 254|{}: {} o/min er utenfor spindelområdet {}…{} o/min
 255|Importer UGS-design…
+256|Første gjennomgang
+257|Start med en grunn gjennomgang langs kantene
+258|Hvert lag går først én gang langs kantene det skal skjære, bare så dypt, noe som bryter toppen av materialet rent. Lommer får den bare langs kanten; boring har ingen. Den fungerer med alle freser.
+259|Dybde på første gjennomgang

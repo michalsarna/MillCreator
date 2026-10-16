@@ -254,3 +254,7 @@
 253|{}: il-fond ta' {} mm huwa akbar mill-ħxuna tal-materjal ({} mm)
 254|{}: {} rpm huwa barra mill-medda tal-ispindil {}…{} rpm
 255|Importa disinn UGS…
+256|L-ewwel pass
+257|Ibda b'pass baxx tul it-truf
+258|Kull saff l-ewwel jgħaddi darba tul it-truf li se jaqta', biss b'dan il-fond, li jkisser l-uċuħ tal-materjal b'mod nadif. Il-but jirċevuh biss tul it-truf tagħhom; it-tqigħid m'għandux. Jaħdem ma' kull bit.
+259|Il-fond tal-ewwel pass

@@ -254,3 +254,7 @@
 253	{}: the depth of {} mm is more than the thickness of the material ({} mm)
 254	{}: {} rpm is outside the spindle range {}…{} rpm
 255	Import UGS design…
+256	First pass
+257	Start with a shallow pass along the edges
+258	Every layer first goes once along the edges it will cut, only this deep, which breaks the top of the material cleanly. Pockets get it along their edge only; drilling has none. It works with every bit.
+259	Depth of the first pass

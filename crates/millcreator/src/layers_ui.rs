@@ -196,6 +196,15 @@ impl App {
             changed |= drag_len(ui, units, &mut self.stock.thickness, 0.5, Some((0.1, MAX_THICKNESS))).changed();
             ui.end_row();
         });
+        ui.add_space(8.0);
+        ui.label(RichText::new(tr("First pass")).strong());
+        changed |= ui.checkbox(&mut self.stock.first_pass, tr("Start with a shallow pass along the edges")).on_hover_text(tr("Every layer first goes once along the edges it will cut, only this deep, which breaks the top of the material cleanly. Pockets get it along their edge only; drilling has none. It works with every bit.")).changed();
+        ui.add_enabled_ui(self.stock.first_pass, |ui| {
+            ui.horizontal(|ui| {
+                ui.label(tr("Depth of the first pass"));
+                changed |= drag_len(ui, units, &mut self.stock.first_pass_depth, 0.05, Some((0.01, MAX_THICKNESS))).changed();
+            });
+        });
         ui.add_space(4.0);
         ui.label(RichText::new(tr("Only the colour of a plastic can be changed. The material and its thickness are shown in the 3D view and saved in the project.")).color(theme::text_dim()));
         if changed {

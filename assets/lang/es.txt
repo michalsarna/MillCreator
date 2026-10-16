@@ -254,3 +254,7 @@
 253|{}: la profundidad de {} mm es mayor que el grosor del material ({} mm)
 254|{}: {} rpm está fuera del rango del husillo {}…{} rpm
 255|Importar diseño de UGS…
+256|Primera pasada
+257|Empezar con una pasada poco profunda a lo largo de los bordes
+258|Cada capa recorre primero una vez los bordes que va a cortar, solo a esta profundidad, lo que rompe limpiamente la parte superior del material. Los vaciados la reciben solo a lo largo de su borde; el taladrado no la tiene. Funciona con cualquier fresa.
+259|Profundidad de la primera pasada
