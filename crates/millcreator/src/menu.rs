@@ -69,7 +69,7 @@ pub fn menus() -> Menus<Act> {
         ("Milling", vec![Item(Act::ToolLibrary, "Bit library…", None), Sep, Item(Act::Preview3d, "3D view of the job…", key("CmdOrCtrl+Shift+3", "Ctrl+Shift+3")), Item(Act::ExportGcode, "Export G-code…", key("CmdOrCtrl+Shift+G", "Ctrl+Shift+G"))]),
         (
             "Arrange",
-            [std(std_entries::align()), vec![Sep], std(std_entries::place()), vec![Sep], std(std_entries::group()), vec![Sep], std(std_entries::order()), vec![Sep], std(std_entries::nodes()), vec![Sep], std(std_entries::image_tools())].concat(),
+            [std(std_entries::align()), vec![Sep], std(std_entries::place()), vec![Sep], std(std_entries::group()), vec![Sep], std(std_entries::order()), vec![Sep], std(std_entries::nodes()), vec![Sep], std(std_entries::shape_ops()), vec![Sep], std(std_entries::image_tools())].concat(),
         ),
         ("View", [std(std_entries::grid()), std(std_entries::zoom())].concat()),
         (
