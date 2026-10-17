@@ -271,3 +271,7 @@
 270	The rows are cut with a depth that follows the tone of the picture: the darker, the deeper, down to the depth of the layer.
 271	The angle of the rows of the engraving
 272	{}: the program of the picture is too long: the rest was left out (use a bigger step over)
+273	3D relief
+274	A relief: black is the deepest, white is left uncut. Passes of the pass depth down to the full depth, and the shape of the bit is taken into account. The model can be exported as STL.
+275	Export relief as STL…
+276	There is no relief to export: put a picture on a layer with the Picture operation and the 3D relief method.

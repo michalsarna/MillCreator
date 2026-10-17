@@ -271,3 +271,7 @@
 270|Ir-ringieli jiġu mfresati b'fond li jsegwi t-ton tal-istampa: iktar ma hu skur, iktar fond, sal-fond tas-saff.
 271|L-angolu tar-ringieli tan-naqx
 272|{}: il-programm tal-istampa twil wisq: il-bqija tħalla barra (uża pass akbar)
+273|Rilief 3D
+274|Rilief: l-iswed huwa l-iktar fond, l-abjad jibqa' mhux mmiss. Passaġġi tal-fond tal-passaġġ sal-fond sħiħ, filwaqt li titqies il-forma tal-frieża. Il-mudell jista' jiġi esportat bħala STL.
+275|Esporta r-rilief bħala STL…
+276|M'hemm l-ebda rilief x'jiġi esportat: poġġi stampa fuq saff bl-operazzjoni Stampa u l-metodu Rilief 3D.

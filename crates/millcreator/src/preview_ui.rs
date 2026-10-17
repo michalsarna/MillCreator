@@ -95,6 +95,42 @@ impl App {
         }
     }
 
+    /// The picture a relief can be made of: the selected one on a layer that engraves it as a relief, else the first such picture.
+    pub(crate) fn relief_picture(&self) -> Option<&base_core::scene::Shape> {
+        use base_core::scene::Kind;
+        let picks = |id: Option<u64>| {
+            self.scene.shapes.iter().find(|s| matches!(s.kind, Kind::Image(_)) && id.map_or(true, |i| s.id == i) && self.layers.get(s.layer).is_some_and(|l| l.op == crate::layers::Operation::Picture && l.picture == crate::layers::PictureMethod::Relief))
+        };
+        self.ed.sel.iter().find_map(|id| picks(Some(*id))).or_else(|| picks(None))
+    }
+
+    /// The relief of that picture as an STL model.
+    pub(crate) fn relief_model(&self) -> Option<Vec<u8>> {
+        use base_core::scene::Kind;
+        let shape = self.relief_picture()?;
+        let Kind::Image(im) = &shape.kind else { return None };
+        let layer = &self.layers[shape.layer];
+        let tool = layer.tool.as_deref().and_then(|id| self.tools.get(id))?;
+        let step = (tool.dims.diameter * layer.step_over_pct / 100.0).max(0.05);
+        // The model is not turned by the scan angle: it is the picture as it lies.
+        let map = crate::relief::HeightMap::of(shape, im, step, 0.0, layer.depth)?;
+        Some(crate::relief::stl(&map, self.stock.thickness))
+    }
+
+    /// Milling > Export relief as STL…
+    pub(crate) fn export_relief(&mut self) {
+        let Some(bytes) = self.relief_model() else {
+            self.status = tr("There is no relief to export: put a picture on a layer with the Picture operation and the 3D relief method.").to_string();
+            return;
+        };
+        let name = self.path.as_ref().and_then(|p| p.file_stem()).map(|s| s.to_string_lossy().into_owned()).unwrap_or_else(|| "relief".into());
+        let Some(p) = rfd::FileDialog::new().add_filter("STL", &["stl"]).set_file_name(format!("{name}.stl")).save_file() else { return };
+        self.status = match std::fs::write(&p, bytes) {
+            Ok(()) => trf("Saved {}", &[&p.display()]),
+            Err(e) => trf("Could not save: {}", &[&e]),
+        };
+    }
+
     pub(crate) fn preview_window(&mut self, ctx: &egui::Context) {
         if !self.show_3d {
             return;

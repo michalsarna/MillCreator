@@ -271,3 +271,7 @@
 270|Raderna fräses med ett djup som följer bildens ton: ju mörkare, desto djupare, ner till lagrets djup.
 271|Vinkeln på graveringens rader
 272|{}: bildens program är för långt: resten utelämnades (använd ett större steg)
+273|3D-relief
+274|Ett relief: svart är djupast, vitt lämnas orört. Varv med varvdjupet ner till fullt djup, och fräsens form tas med i beräkningen. Modellen kan exporteras som STL.
+275|Exportera relief som STL…
+276|Det finns inget relief att exportera: lägg en bild på ett lager med operationen Bild och metoden 3D-relief.

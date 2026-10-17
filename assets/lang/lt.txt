@@ -271,3 +271,7 @@
 270|Eilutės frezuojamos gyliu, kuris seka paveikslėlio toną: kuo tamsiau, tuo giliau, iki sluoksnio gylio.
 271|Graviravimo eilučių kampas
 272|{}: paveikslėlio programa per ilga: likusi dalis praleista (naudokite didesnį žingsnį)
+273|3D reljefas
+274|Reljefas: juoda giliausia, balta lieka neliesta. Praėjimai gylio per praėjimą žingsniais iki visiško gylio, atsižvelgiant į frezos formą. Modelį galima eksportuoti kaip STL.
+275|Eksportuoti reljefą kaip STL…
+276|Nėra reljefo eksportui: padėkite paveikslėlį ant sluoksnio su operacija Paveikslėlis ir metodu 3D reljefas.

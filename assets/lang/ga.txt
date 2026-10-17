@@ -271,3 +271,7 @@
 270|Meilltear na sraitheanna le doimhneacht a leanann ton an phictiúir: dá dorcha, is doimhne, go doimhneacht an chiseal.
 271|Uillinn shraitheanna an ghreanta
 272|{}: tá clár an phictiúir rófhada: fágadh an chuid eile ar lár (úsáid céim níos mó)
+273|Faoiseamh 3D
+274|Faoiseamh: is é an dubh an ceann is doimhne, fágtar an bán gan teagmháil. Pasanna de dhoimhneacht an phasa go dtí an doimhneacht iomlán, agus cuirtear cruth an mhilleáin san áireamh. Is féidir an tsamhail a onnmhairiú mar STL.
+275|Onnmhairigh an faoiseamh mar STL…
+276|Níl aon fhaoiseamh le honnmhairiú: cuir pictiúr ar chiseal leis an oibríocht Pictiúr agus an modh Faoiseamh 3D.

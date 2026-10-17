@@ -271,3 +271,7 @@
 270|Vrstice se rezkajo z globino, ki sledi tonu slike: temneje ko je, globlje je, do globine sloja.
 271|Kot vrstic graviranja
 272|{}: program slike je predolg: preostanek je izpuščen (uporabite večji korak)
+273|3D relief
+274|Relief: črna je najgloblja, bela ostane nedotaknjena. Prehodi z globino prehoda do polne globine, upošteva se oblika rezkarja. Model lahko izvozite kot STL.
+275|Izvozi relief kot STL…
+276|Ni reliefa za izvoz: postavite sliko na sloj z operacijo Slika in metodo 3D relief.

@@ -271,3 +271,7 @@
 270|Les files es fresen amb una profunditat que segueix el to de la imatge: com més fosc, més profund, fins a la profunditat de la capa.
 271|L'angle de les files del gravat
 272|{}: el programa de la imatge és massa llarg: la resta s'ha omès (useu un pas més gran)
+273|Relleu 3D
+274|Un relleu: el negre és el més profund, el blanc queda sense tocar. Passades de la profunditat de passada fins a la profunditat total, tenint en compte la forma de la fresa. El model es pot exportar com a STL.
+275|Exporta el relleu com a STL…
+276|No hi ha cap relleu per exportar: poseu una imatge en una capa amb l'operació Imatge i el mètode Relleu 3D.
