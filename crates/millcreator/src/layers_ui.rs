@@ -1,5 +1,5 @@
 //! The Layers tab (what is done with the shapes of each layer) and the Material tab.
-use crate::layers::{MillLayer, Operation};
+use crate::layers::{MillLayer, Operation, PictureMethod};
 use crate::materials::{MaterialKind, MAX_THICKNESS};
 use crate::App;
 use base_ui::editor::EditorHost;
@@ -18,6 +18,28 @@ impl App {
             }
         }
         n
+    }
+
+    /// The layers that hold pictures, from a drawing that was just opened or started: they were set up by the person who made it.
+    pub(crate) fn reset_picture_layers(&mut self) {
+        self.picture_layers = self.picture_layer_set();
+    }
+
+    fn picture_layer_set(&self) -> std::collections::HashSet<usize> {
+        self.scene.shapes.iter().filter(|s| matches!(s.kind, base_core::scene::Kind::Image(_))).map(|s| s.layer).collect()
+    }
+
+    /// A picture put on a layer switches the layer to the Picture operation (once: afterwards the person decides).
+    pub(crate) fn sync_picture_layers(&mut self) {
+        let now = self.picture_layer_set();
+        for &l in &now {
+            if self.picture_layers.insert(l) {
+                if let Some(layer) = self.layers.get_mut(l) {
+                    layer.op = Operation::Picture;
+                }
+            }
+        }
+        self.picture_layers.retain(|l| now.contains(l));
     }
 
     /// Put the selected shapes on a layer.
@@ -131,9 +153,30 @@ impl App {
                     ui.label(tr("Pass depth"));
                     changed |= drag_len(ui, units, &mut l.step_down, 0.05, Some((0.01, 1000.0))).changed();
                     ui.end_row();
-                    if l.op == Operation::Pocket {
+                    if l.op == Operation::Pocket || l.op == Operation::Picture {
                         ui.label(tr("Step over"));
                         changed |= ui.add(egui::DragValue::new(&mut l.step_over_pct).range(1.0..=100.0).suffix(" %")).changed();
+                        ui.end_row();
+                    }
+                    if l.op == Operation::Picture {
+                        ui.label(tr("Picture method"));
+                        egui::ComboBox::from_id_salt("layer_picture").selected_text(tr(l.picture.label())).width(200.0).show_ui(ui, |ui| {
+                            for m in PictureMethod::ALL {
+                                changed |= ui.selectable_value(&mut l.picture, m, tr(m.label())).on_hover_text(tr(m.hint())).changed();
+                            }
+                        });
+                        ui.end_row();
+                        if l.picture.dithers() {
+                            ui.label(tr("Dithering"));
+                            egui::ComboBox::from_id_salt("layer_dither").selected_text(tr(l.dither.label())).width(200.0).show_ui(ui, |ui| {
+                                for d in base_core::raster::Dither::ALL {
+                                    changed |= ui.selectable_value(&mut l.dither, d, tr(d.label())).on_hover_text(tr(d.hint())).changed();
+                                }
+                            });
+                            ui.end_row();
+                        }
+                        ui.label(tr("Scan angle"));
+                        changed |= ui.add(egui::DragValue::new(&mut l.scan_angle).range(-360.0..=360.0).suffix(" °")).on_hover_text(tr("The angle of the rows of the engraving")).changed();
                         ui.end_row();
                     }
                     ui.label(tr("Feed"));

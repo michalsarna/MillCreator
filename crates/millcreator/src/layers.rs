@@ -19,10 +19,49 @@ pub enum Operation {
     Pocket,
     /// A hole at the centre of every closed shape.
     Drill,
+    /// A picture on the layer is engraved (see `PictureMethod`).
+    Picture,
+}
+
+/// How a picture is engraved.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum PictureMethod {
+    /// The picture is dithered; every dark cell is a hole (a plunge to the depth of the layer).
+    Dots,
+    /// The picture is dithered; every row is cut at the depth of the layer where the picture is dark.
+    #[default]
+    Rows,
+    /// Rows again, but the depth follows the tone: the darker, the deeper (down to the depth of the layer).
+    Depth,
+}
+
+impl PictureMethod {
+    pub const ALL: [PictureMethod; 3] = [PictureMethod::Rows, PictureMethod::Dots, PictureMethod::Depth];
+
+    pub fn label(self) -> &'static str {
+        match self {
+            PictureMethod::Rows => "Dithered rows",
+            PictureMethod::Dots => "Dots",
+            PictureMethod::Depth => "Depth by tone",
+        }
+    }
+
+    pub fn hint(self) -> &'static str {
+        match self {
+            PictureMethod::Rows => "The picture is dithered and each row is cut at the depth of the layer where it is dark. The dithering method is chosen below.",
+            PictureMethod::Dots => "A hole to the depth of the layer for every dark cell of the dithered picture.",
+            PictureMethod::Depth => "The rows are cut with a depth that follows the tone of the picture: the darker, the deeper, down to the depth of the layer.",
+        }
+    }
+
+    /// Does the method dither the picture?
+    pub fn dithers(self) -> bool {
+        self != PictureMethod::Depth
+    }
 }
 
 impl Operation {
-    pub const ALL: [Operation; 5] = [Operation::ProfileOutside, Operation::ProfileInside, Operation::OnPath, Operation::Pocket, Operation::Drill];
+    pub const ALL: [Operation; 6] = [Operation::ProfileOutside, Operation::ProfileInside, Operation::OnPath, Operation::Pocket, Operation::Drill, Operation::Picture];
 
     pub fn label(self) -> &'static str {
         match self {
@@ -31,6 +70,7 @@ impl Operation {
             Operation::OnPath => "Follow the line",
             Operation::Pocket => "Pocket",
             Operation::Drill => "Drill",
+            Operation::Picture => "Picture",
         }
     }
 
@@ -41,6 +81,7 @@ impl Operation {
             Operation::OnPath => "The centre of the bit follows the line: engraving and grooves. Open lines work too.",
             Operation::Pocket => "All of the area inside the line is cleared, ring after ring, to the depth of the layer.",
             Operation::Drill => "A hole at the centre of every closed shape of the layer, in steps of the pass depth.",
+            Operation::Picture => "A picture on the layer is engraved: rows or dots by the dithered picture, or rows whose depth follows the tone.",
         }
     }
 }
@@ -67,6 +108,14 @@ pub struct MillLayer {
     /// Feed of the plunge (mm/min).
     pub plunge: f64,
     pub rpm: f64,
+    /// A picture on the layer (`Operation::Picture`): how it is engraved, with which dithering, and the angle of the rows.
+    /// The distance of the rows is the step over of the bit.
+    #[serde(default)]
+    pub picture: PictureMethod,
+    #[serde(default)]
+    pub dither: base_core::raster::Dither,
+    #[serde(default)]
+    pub scan_angle: f64,
     /// Where the layer is in the order the layers are done in (the lower first; equal numbers go by layer). Moving layers
     /// in the list renumbers them all.
     #[serde(default)]
@@ -115,7 +164,7 @@ impl MillLayer {
     /// Is every number of the layer usable?
     pub fn check(&self) -> Result<(), String> {
         let ok = |v: f64, lo: f64, hi: f64| v.is_finite() && v >= lo && v <= hi;
-        if !ok(self.depth, 0.0, 1000.0) || !ok(self.step_down, 0.01, 1000.0) || !ok(self.step_over_pct, 1.0, 100.0) || !ok(self.feed, 1.0, 100_000.0) || !ok(self.plunge, 1.0, 100_000.0) || !ok(self.rpm, 0.0, 1_000_000.0) {
+        if !ok(self.depth, 0.0, 1000.0) || !ok(self.step_down, 0.01, 1000.0) || !ok(self.step_over_pct, 1.0, 100.0) || !ok(self.feed, 1.0, 100_000.0) || !ok(self.plunge, 1.0, 100_000.0) || !ok(self.rpm, 0.0, 1_000_000.0) || !ok(self.scan_angle, -360.0, 360.0) {
             return Err(format!("layer {}: a number is out of range", self.name));
         }
         if self.name.len() > 120 {
@@ -171,6 +220,9 @@ pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
                 feed: 800.0,
                 plunge: 300.0,
                 rpm: 12000.0,
+                picture: PictureMethod::default(),
+                dither: base_core::raster::Dither::default(),
+                scan_angle: 0.0,
                 rank: 0,
             };
             match bit(tool) {

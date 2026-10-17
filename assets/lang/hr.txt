@@ -258,3 +258,16 @@
 257|Počni plitkim prolazom uz rubove
 258|Svaki sloj prvo jednom prođe uz rubove koje će rezati, samo do ove dubine, što čisto probija vrh materijala. Džepovi ga dobivaju samo uz svoj rub; bušenje ga nema. Radi sa svakom glodalom.
 259|Dubina prvog prolaza
+260|Slika
+261|Rasterirani redovi
+262|Točke
+263|Način crtanja slike
+264|Rasteriranje
+265|Kut skeniranja
+266|Slika na sloju se gravira: redovi ili točke prema raster slici ili redovi čija dubina prati ton.
+267|Dubina prema tonu
+268|Slika se rasterira, a svaki se red glođe na dubinu sloja gdje je tamna. Metoda rasteriranja bira se ispod.
+269|Rupa do dubine sloja za svaku tamnu ćeliju rasterirane slike.
+270|Redovi se glođu dubinom koja prati ton slike: što tamnije, to dublje, do dubine sloja.
+271|Kut redova graviranja
+272|{}: program slike je predug: ostatak je izostavljen (upotrijebite veći korak)

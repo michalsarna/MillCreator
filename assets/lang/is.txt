@@ -258,3 +258,16 @@
 257|Byrja á grunnri umferð meðfram brúnunum
 258|Hvert lag fer fyrst einu sinni meðfram brúnunum sem það sker, aðeins svona djúpt, sem brýtur yfirborð efnisins hreint. Holur fá það aðeins meðfram brún sinni; borun hefur það ekki. Virkar með öllum fræsum.
 259|Dýpt fyrstu umferðar
+260|Mynd
+261|Rastaðar raðir
+262|Punktar
+263|Aðferð myndar
+264|Röstun
+265|Skönnunarhorn
+266|Mynd á laginu er grafin: raðir eða punktar eftir rastaðri mynd, eða raðir þar sem dýptin fylgir tóninum.
+267|Dýpt eftir tón
+268|Myndin er rösuð og hver röð er fræst í dýpt lagsins þar sem hún er dökk. Rösturnaraðferðina velur þú hér fyrir neðan.
+269|Gat niður á dýpt lagsins fyrir hvern dökkan reit rastaðrar myndar.
+270|Raðirnar eru fræstar með dýpt sem fylgir tón myndarinnar: því dekkra, því dýpra, niður á dýpt lagsins.
+271|Horn raða grafningarinnar
+272|{}: forrit myndarinnar er of langt: afgangurinn var sleppt (notaðu stærra skref)

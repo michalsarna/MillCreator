@@ -258,3 +258,16 @@
 257|Commencer par une passe peu profonde le long des bords
 258|Chaque calque parcourt d'abord une fois les bords qu'il va découper, seulement à cette profondeur, ce qui rompt proprement le dessus du matériau. Les poches ne l'ont que le long de leur bord ; le perçage n'en a pas. Cela fonctionne avec toutes les fraises.
 259|Profondeur de la première passe
+260|Image
+261|Rangées tramées
+262|Points
+263|Méthode de l'image
+264|Tramage
+265|Angle de balayage
+266|Une image sur le calque est gravée : rangées ou points d'après l'image tramée, ou rangées dont la profondeur suit le ton.
+267|Profondeur selon le ton
+268|L'image est tramée et chaque rangée est fraisée à la profondeur du calque là où elle est sombre. La méthode de tramage se choisit ci-dessous.
+269|Un trou à la profondeur du calque pour chaque cellule sombre de l'image tramée.
+270|Les rangées sont fraisées avec une profondeur qui suit le ton de l'image : plus c'est sombre, plus c'est profond, jusqu'à la profondeur du calque.
+271|L'angle des rangées de la gravure
+272|{} : le programme de l'image est trop long : le reste a été omis (utilisez un pas plus grand)

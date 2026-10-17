@@ -258,3 +258,16 @@
 257	Start with a shallow pass along the edges
 258	Every layer first goes once along the edges it will cut, only this deep, which breaks the top of the material cleanly. Pockets get it along their edge only; drilling has none. It works with every bit.
 259	Depth of the first pass
+260	Picture
+261	Dithered rows
+262	Dots
+263	Picture method
+264	Dithering
+265	Scan angle
+266	A picture on the layer is engraved: rows or dots by the dithered picture, or rows whose depth follows the tone.
+267	Depth by tone
+268	The picture is dithered and each row is cut at the depth of the layer where it is dark. The dithering method is chosen below.
+269	A hole to the depth of the layer for every dark cell of the dithered picture.
+270	The rows are cut with a depth that follows the tone of the picture: the darker, the deeper, down to the depth of the layer.
+271	The angle of the rows of the engraving
+272	{}: the program of the picture is too long: the rest was left out (use a bigger step over)

@@ -258,3 +258,16 @@
 257|Ibda b'pass baxx tul it-truf
 258|Kull saff l-ewwel jgħaddi darba tul it-truf li se jaqta', biss b'dan il-fond, li jkisser l-uċuħ tal-materjal b'mod nadif. Il-but jirċevuh biss tul it-truf tagħhom; it-tqigħid m'għandux. Jaħdem ma' kull bit.
 259|Il-fond tal-ewwel pass
+260|Stampa
+261|Ringieli rastrati
+262|Tikek
+263|Il-metodu tal-istampa
+264|Rastrar
+265|Angolu tal-iskannjar
+266|Stampa fuq is-saff tiġi mnaqqxa: ringieli jew tikek skont l-istampa rastrata, jew ringieli li l-fond tagħhom isegwi t-ton.
+267|Fond skont it-ton
+268|L-istampa tiġi rastrata u kull ringiela tiġi mfresata fil-fond tas-saff fejn hija skura. Il-metodu tar-rastrar jintgħażel hawn taħt.
+269|Toqba sal-fond tas-saff għal kull ċellola skura tal-istampa rastrata.
+270|Ir-ringieli jiġu mfresati b'fond li jsegwi t-ton tal-istampa: iktar ma hu skur, iktar fond, sal-fond tas-saff.
+271|L-angolu tar-ringieli tan-naqx
+272|{}: il-programm tal-istampa twil wisq: il-bqija tħalla barra (uża pass akbar)

@@ -258,3 +258,16 @@
 257|Börja med ett grunt varv längs kanterna
 258|Varje lager går först en gång längs de kanter det ska skära, bara så djupt, vilket bryter materialets ovansida rent. Fickor får det bara längs sin kant; borrning har det inte. Det fungerar med alla fräsar.
 259|Djup på första varvet
+260|Bild
+261|Rastrerade rader
+262|Punkter
+263|Bildmetod
+264|Rastrering
+265|Skanningsvinkel
+266|En bild på lagret graveras: rader eller punkter efter den rastrerade bilden, eller rader vars djup följer tonen.
+267|Djup efter ton
+268|Bilden rastreras, och varje rad fräses till lagrets djup där den är mörk. Rastreringsmetoden väljs nedan.
+269|Ett hål till lagrets djup för varje mörk cell i den rastrerade bilden.
+270|Raderna fräses med ett djup som följer bildens ton: ju mörkare, desto djupare, ner till lagrets djup.
+271|Vinkeln på graveringens rader
+272|{}: bildens program är för långt: resten utelämnades (använd ett större steg)

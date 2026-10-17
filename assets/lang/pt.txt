@@ -258,3 +258,16 @@
 257|Começar com uma passagem rasa ao longo das arestas
 258|Cada camada percorre primeiro uma vez as arestas que vai cortar, apenas a esta profundidade, o que quebra limpamente o topo do material. As cavidades só a recebem ao longo da sua aresta; a furação não tem. Funciona com qualquer fresa.
 259|Profundidade da primeira passagem
+260|Imagem
+261|Filas tramadas
+262|Pontos
+263|Método da imagem
+264|Tramagem
+265|Ângulo de varrimento
+266|Uma imagem na camada é gravada: filas ou pontos conforme a imagem tramada, ou filas cuja profundidade segue o tom.
+267|Profundidade conforme o tom
+268|A imagem é tramada e cada fila é fresada à profundidade da camada onde é escura. O método de tramagem escolhe-se abaixo.
+269|Um furo até à profundidade da camada para cada célula escura da imagem tramada.
+270|As filas são fresadas com uma profundidade que segue o tom da imagem: quanto mais escuro, mais fundo, até à profundidade da camada.
+271|O ângulo das filas da gravação
+272|{}: o programa da imagem é demasiado longo: o resto foi omitido (use um passo maior)

@@ -258,3 +258,16 @@
 257|Începe cu o trecere superficială de-a lungul marginilor
 258|Fiecare strat parcurge mai întâi o dată marginile pe care le va tăia, doar la această adâncime, ceea ce sparge curat partea de sus a materialului. Buzunarele o primesc doar de-a lungul marginii lor; la găurire nu există. Funcționează cu orice freză.
 259|Adâncimea primei treceri
+260|Imagine
+261|Rânduri tramate
+262|Puncte
+263|Metoda imaginii
+264|Tramare
+265|Unghi de scanare
+266|O imagine de pe strat este gravată: rânduri sau puncte după imaginea tramată, ori rânduri a căror adâncime urmează tonul.
+267|Adâncime după ton
+268|Imaginea este tramată, iar fiecare rând este frezat la adâncimea stratului acolo unde este închis la culoare. Metoda de tramare se alege mai jos.
+269|O gaură până la adâncimea stratului pentru fiecare celulă închisă la culoare a imaginii tramate.
+270|Rândurile sunt frezate cu o adâncime care urmează tonul imaginii: cu cât mai închis, cu atât mai adânc, până la adâncimea stratului.
+271|Unghiul rândurilor gravării
+272|{}: programul imaginii este prea lung: restul a fost omis (folosiți un pas mai mare)

@@ -258,3 +258,16 @@
 257|Tosaigh le pas éadomhain feadh na n-imill
 258|Téann gach ciseal ar dtús uair amháin feadh na n-imill a ghearrfaidh sé, ach chomh domhain seo, rud a bhriseann barr an ábhair go glan. Faigheann pócaí é feadh a n-imill amháin; níl ceann ag druileáil. Oibríonn sé le gach bit.
 259|Doimhneacht an chéad phas
+260|Pictiúr
+261|Sraitheanna tráthaithe
+262|Poncanna
+263|Modh an phictiúir
+264|Tráthú
+265|Uillinn scanta
+266|Greanntar pictiúr ar an gciseal: sraitheanna nó poncanna de réir an phictiúir thráthaithe, nó sraitheanna a leanann a ndoimhneacht an ton.
+267|Doimhneacht de réir tona
+268|Déantar an pictiúr a tráthú agus meilltear gach sraith go doimhneacht an chiseal san áit a bhfuil sí dorcha. Roghnaítear modh an tráthaithe thíos.
+269|Poll go doimhneacht an chiseal do gach cill dhorcha den phictiúr thráthaithe.
+270|Meilltear na sraitheanna le doimhneacht a leanann ton an phictiúir: dá dorcha, is doimhne, go doimhneacht an chiseal.
+271|Uillinn shraitheanna an ghreanta
+272|{}: tá clár an phictiúir rófhada: fágadh an chuid eile ar lár (úsáid céim níos mó)

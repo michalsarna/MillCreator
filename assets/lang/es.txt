@@ -258,3 +258,16 @@
 257|Empezar con una pasada poco profunda a lo largo de los bordes
 258|Cada capa recorre primero una vez los bordes que va a cortar, solo a esta profundidad, lo que rompe limpiamente la parte superior del material. Los vaciados la reciben solo a lo largo de su borde; el taladrado no la tiene. Funciona con cualquier fresa.
 259|Profundidad de la primera pasada
+260|Imagen
+261|Filas tramadas
+262|Puntos
+263|Método de la imagen
+264|Tramado
+265|Ángulo de barrido
+266|Una imagen en la capa se graba: filas o puntos según la imagen tramada, o filas cuya profundidad sigue el tono.
+267|Profundidad según el tono
+268|La imagen se trama y cada fila se fresa a la profundidad de la capa donde es oscura. El método de tramado se elige abajo.
+269|Un agujero hasta la profundidad de la capa por cada celda oscura de la imagen tramada.
+270|Las filas se fresan con una profundidad que sigue el tono de la imagen: cuanto más oscuro, más profundo, hasta la profundidad de la capa.
+271|El ángulo de las filas del grabado
+272|{}: el programa de la imagen es demasiado largo: el resto se omitió (use un paso mayor)

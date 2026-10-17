@@ -258,3 +258,16 @@
 257|Comença amb una passada poc profunda al llarg de les vores
 258|Cada capa recorre primer una vegada les vores que tallarà, només a aquesta profunditat, cosa que trenca netament la part superior del material. Les butxaques el reben només al llarg de la vora; el foradat no en té. Funciona amb qualsevol fresa.
 259|Profunditat de la primera passada
+260|Imatge
+261|Files tramades
+262|Punts
+263|Mètode de la imatge
+264|Tramat
+265|Angle d'escaneig
+266|Una imatge a la capa es grava: files o punts segons la imatge tramada, o files amb una profunditat que segueix el to.
+267|Profunditat segons el to
+268|La imatge es trama i cada fila es fresa a la profunditat de la capa on és fosca. El mètode de tramat es tria a sota.
+269|Un forat a la profunditat de la capa per a cada cel·la fosca de la imatge tramada.
+270|Les files es fresen amb una profunditat que segueix el to de la imatge: com més fosc, més profund, fins a la profunditat de la capa.
+271|L'angle de les files del gravat
+272|{}: el programa de la imatge és massa llarg: la resta s'ha omès (useu un pas més gran)

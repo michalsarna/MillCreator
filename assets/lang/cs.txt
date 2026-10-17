@@ -258,3 +258,16 @@
 257|Začít mělkým průchodem podél hran
 258|Každá vrstva nejprve jednou projde podél hran, které bude řezat, jen do této hloubky, což čistě prořízne vrchní část materiálu. Kapsy ho dostanou jen podél svého okraje; vrtání ho nemá. Funguje s každou frézou.
 259|Hloubka prvního průchodu
+260|Obrázek
+261|Rastrované řádky
+262|Tečky
+263|Způsob kreslení obrázku
+264|Rastrování
+265|Úhel skenování
+266|Obrázek na vrstvě se gravíruje: řádky nebo tečky podle rastrovaného obrázku, nebo řádky, jejichž hloubka sleduje tón.
+267|Hloubka podle tónu
+268|Obrázek se rastruje a každý řádek se frézuje do hloubky vrstvy tam, kde je tmavý. Způsob rastrování zvolíte níže.
+269|Otvor do hloubky vrstvy pro každou tmavou buňku rastrovaného obrázku.
+270|Řádky se frézují do hloubky, která sleduje tón obrázku: čím tmavší, tím hlouběji, až do hloubky vrstvy.
+271|Úhel řádků gravírování
+272|{}: program obrázku je příliš dlouhý: zbytek byl vynechán (použijte větší krok)
