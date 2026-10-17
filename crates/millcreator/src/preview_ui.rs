@@ -4,7 +4,7 @@ use crate::view3d::{self, Region, Scene3d};
 use crate::App;
 use base_ui::i18n::{tr, trf};
 use base_ui::theme;
-use base_ui::window::popup;
+use base_ui::window::{popup, popup_with};
 use base_ui::editor::EditorHost;
 use eframe::egui::{self, Color32, RichText};
 
@@ -140,7 +140,16 @@ impl App {
             self.prog_rev = self.rev;
         }
         let mut open = true;
-        popup(ctx, "preview_3d", &tr("Preview"), [980.0, 700.0], &mut open, |ui| {
+        let mut fit = None;
+        let tools = |ui: &mut egui::Ui| {
+            // Icons are added right to left: the work area button is the one on the left.
+            for (what, icon, tip) in [(view3d::Fit::Elements, "expand", "Fit all objects"), (view3d::Fit::Area, "scan", "Fit work area")] {
+                if base_ui::widgets::icon_button(ui, icon, &tr(tip), true, 22.0) {
+                    fit = Some(what);
+                }
+            }
+        };
+        popup_with(ctx, "preview_3d", &tr("Preview"), [980.0, 700.0], &mut open, tools, |ui| {
             let prog = self.prog.as_ref().expect("the program was made above");
             let region = Region::of(prog, self.shapes_box());
             ui.horizontal_wrapped(|ui| {
@@ -149,12 +158,6 @@ impl App {
                 ui.separator();
                 if ui.button(tr("Reset view")).on_hover_text(tr("Back to the first view. Double click on the picture does the same.")).clicked() {
                     self.view.reset();
-                }
-                if ui.button(tr("Fit to the work area")).on_hover_text(tr("Zoom so that the whole work area of the machine is seen")).clicked() {
-                    self.view.fit = Some(view3d::Fit::Area);
-                }
-                if ui.button(tr("Fit to the elements")).on_hover_text(tr("Zoom so that all the cuts fill the window")).clicked() {
-                    self.view.fit = Some(view3d::Fit::Elements);
                 }
                 ui.checkbox(&mut self.view.show_stock, tr("Material"));
                 ui.checkbox(&mut self.view.show_cuts, tr("Cuts"));
@@ -180,6 +183,9 @@ impl App {
                 }
             }
         });
+        if fit.is_some() {
+            self.view.fit = fit;
+        }
         self.show_3d = open;
         if !open {
             self.playback.playing = false;
