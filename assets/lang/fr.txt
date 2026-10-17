@@ -271,3 +271,7 @@
 270|Les rangées sont fraisées avec une profondeur qui suit le ton de l'image : plus c'est sombre, plus c'est profond, jusqu'à la profondeur du calque.
 271|L'angle des rangées de la gravure
 272|{} : le programme de l'image est trop long : le reste a été omis (utilisez un pas plus grand)
+273|Relief 3D
+274|Un relief : le noir est le plus profond, le blanc reste intact. Passes de la profondeur de passe jusqu'à la pleine profondeur, en tenant compte de la forme de la fraise. Le modèle peut être exporté en STL.
+275|Exporter le relief en STL…
+276|Il n'y a pas de relief à exporter : placez une image sur un calque avec l'opération Image et la méthode Relief 3D.

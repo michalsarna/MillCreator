@@ -271,3 +271,7 @@
 270|As filas são fresadas com uma profundidade que segue o tom da imagem: quanto mais escuro, mais fundo, até à profundidade da camada.
 271|O ângulo das filas da gravação
 272|{}: o programa da imagem é demasiado longo: o resto foi omitido (use um passo maior)
+273|Relevo 3D
+274|Um relevo: o preto é o mais fundo, o branco fica intacto. Passagens da profundidade de passagem até à profundidade total, tendo em conta a forma da fresa. O modelo pode ser exportado como STL.
+275|Exportar o relevo como STL…
+276|Não há relevo para exportar: coloque uma imagem numa camada com a operação Imagem e o método Relevo 3D.

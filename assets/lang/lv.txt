@@ -271,3 +271,7 @@
 270|Rindas tiek frēzētas ar dziļumu, kas seko attēla tonim: jo tumšāks, jo dziļāk, līdz slāņa dziļumam.
 271|Gravēšanas rindu leņķis
 272|{}: attēla programma ir pārāk gara: pārējais izlaists (izmantojiet lielāku soli)
+273|3D reljefs
+274|Reljefs: melns ir dziļākais, baltais paliek neskarts. Gājieni ar gājiena dziļumu līdz pilnam dziļumam, ņemot vērā frēzes formu. Modeli var eksportēt kā STL.
+275|Eksportēt reljefu kā STL…
+276|Nav reljefa, ko eksportēt: novietojiet attēlu slānī ar darbību Attēls un metodi 3D reljefs.

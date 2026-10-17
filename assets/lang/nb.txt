@@ -271,3 +271,7 @@
 270|Radene freses med en dybde som følger tonen i bildet: jo mørkere, desto dypere, ned til lagets dybde.
 271|Vinkelen på graveringens rader
 272|{}: bildets program er for langt: resten ble utelatt (bruk et større steg)
+273|3D-relieff
+274|Et relieff: svart er dypest, hvitt blir urørt. Gjennomganger med gjennomgangsdybden ned til full dybde, og freserens form tas hensyn til. Modellen kan eksporteres som STL.
+275|Eksporter relieff som STL…
+276|Det er ikke noe relieff å eksportere: legg et bilde på et lag med operasjonen Bilde og metoden 3D-relieff.

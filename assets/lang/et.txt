@@ -271,3 +271,7 @@
 270|Read freesitakse sügavusega, mis järgib pildi tooni: mida tumedam, seda sügavam, kuni kihi sügavuseni.
 271|Graveeringu ridade nurk
 272|{}: pildi programm on liiga pikk: ülejäänu jäeti välja (kasuta suuremat sammu)
+273|3D-reljeef
+274|Reljeef: must on kõige sügavam, valge jääb puutumata. Läbimised läbimissügavusega kuni täissügavuseni, freesi kuju arvestatakse. Mudeli saab eksportida STL-ina.
+275|Ekspordi reljeef STL-ina…
+276|Eksporditavat reljeefi pole: pane pilt kihile, mille toiming on Pilt ja meetod 3D-reljeef.

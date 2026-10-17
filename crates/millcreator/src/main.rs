@@ -13,6 +13,7 @@ mod materials;
 mod menu;
 mod plugins_glue;
 mod preview_ui;
+mod relief;
 mod section;
 mod toolpath;
 mod ugs_import;
@@ -121,6 +122,7 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::CheckProgram => Some("check"),
         Act::Preview3d => Some("eye"),
         Act::ExportGcode => Some("file-code"),
+        Act::ExportRelief => Some("file-output"),
         Act::OpenRecent(_) | Act::ClearRecent => None,
         Act::Quit => Some("x"),
         Act::ViewOptions => Some("sliders-horizontal"),
@@ -1103,6 +1105,7 @@ impl MenuHost for App {
         match a {
             Act::Std(s) => self.screen == Screen::Editor && s.enabled(self),
             Act::Save | Act::SaveAs | Act::Preview3d | Act::ExportGcode => self.screen == Screen::Editor,
+            Act::ExportRelief => self.screen == Screen::Editor && self.relief_picture().is_some(),
             _ => true,
         }
     }
@@ -1154,6 +1157,7 @@ impl MenuHost for App {
             Act::CheckProgram => self.check_program(),
             Act::Preview3d => self.open_preview(),
             Act::ExportGcode => self.export_gcode(),
+            Act::ExportRelief => self.export_relief(),
             Act::OpenRecent(i) => {
                 if let Some(p) = self.recent.get(i as usize).cloned() {
                     self.open(p);
@@ -1271,6 +1275,27 @@ mod tests {
         a.reset_picture_layers();
         a.sync_picture_layers();
         assert_eq!(a.layers[2].op, layers::Operation::Pocket);
+    }
+
+    #[test]
+    fn the_relief_of_a_picture_is_exported_as_a_closed_stl_model_only_when_there_is_one() {
+        let mut a = app();
+        assert!(a.relief_picture().is_none() && a.relief_model().is_none(), "nothing to export");
+        let gray: Vec<u8> = (0..64).map(|i| ((i % 8) * 255 / 7) as u8).collect();
+        let im = base_core::image::ImageData { name: "t".into(), px_w: 8, px_h: 8, gray, w: 30.0, h: 20.0, invert: false };
+        let id = a.scene.add(3, base_core::scene::Kind::Image(im), base_core::geom::Xf::translate(10.0, 10.0));
+        a.sync_picture_layers();
+        assert_eq!(a.layers[3].op, layers::Operation::Picture);
+        assert!(a.relief_picture().is_none(), "rows are not a relief");
+        a.layers[3].picture = layers::PictureMethod::Relief;
+        a.layers[3].step_over_pct = 20.0;
+        assert_eq!(a.relief_picture().map(|s| s.id), Some(id));
+        let stl = a.relief_model().expect("a model");
+        let n = u32::from_le_bytes([stl[80], stl[81], stl[82], stl[83]]) as usize;
+        assert!(n > 100 && stl.len() == 84 + 50 * n, "{n} triangles in {} bytes", stl.len());
+        assert!(a.act_enabled(menu::Act::ExportRelief));
+        a.layers[3].picture = layers::PictureMethod::Rows;
+        assert!(!a.act_enabled(menu::Act::ExportRelief));
     }
 
     /// Without the "links" feature of eframe, open_url silently does nothing: no link of the program (the download page of an

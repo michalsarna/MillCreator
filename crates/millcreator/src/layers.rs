@@ -33,16 +33,19 @@ pub enum PictureMethod {
     Rows,
     /// Rows again, but the depth follows the tone: the darker, the deeper (down to the depth of the layer).
     Depth,
+    /// A 3D relief: roughing passes down to the full depth, with the shape of the bit taken into account (a drop cutter).
+    Relief,
 }
 
 impl PictureMethod {
-    pub const ALL: [PictureMethod; 3] = [PictureMethod::Rows, PictureMethod::Dots, PictureMethod::Depth];
+    pub const ALL: [PictureMethod; 4] = [PictureMethod::Rows, PictureMethod::Dots, PictureMethod::Depth, PictureMethod::Relief];
 
     pub fn label(self) -> &'static str {
         match self {
             PictureMethod::Rows => "Dithered rows",
             PictureMethod::Dots => "Dots",
             PictureMethod::Depth => "Depth by tone",
+            PictureMethod::Relief => "3D relief",
         }
     }
 
@@ -51,12 +54,13 @@ impl PictureMethod {
             PictureMethod::Rows => "The picture is dithered and each row is cut at the depth of the layer where it is dark. The dithering method is chosen below.",
             PictureMethod::Dots => "A hole to the depth of the layer for every dark cell of the dithered picture.",
             PictureMethod::Depth => "The rows are cut with a depth that follows the tone of the picture: the darker, the deeper, down to the depth of the layer.",
+            PictureMethod::Relief => "A relief: black is the deepest, white is left uncut. Passes of the pass depth down to the full depth, and the shape of the bit is taken into account. The model can be exported as STL.",
         }
     }
 
     /// Does the method dither the picture?
     pub fn dithers(self) -> bool {
-        self != PictureMethod::Depth
+        matches!(self, PictureMethod::Rows | PictureMethod::Dots)
     }
 }
 

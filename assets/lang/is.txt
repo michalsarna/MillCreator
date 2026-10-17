@@ -271,3 +271,7 @@
 270|Raðirnar eru fræstar með dýpt sem fylgir tón myndarinnar: því dekkra, því dýpra, niður á dýpt lagsins.
 271|Horn raða grafningarinnar
 272|{}: forrit myndarinnar er of langt: afgangurinn var sleppt (notaðu stærra skref)
+273|3D upphleyping
+274|Upphleyping: svart er dýpst, hvítt er látið óhreyft. Umferðir af umferðardýpt niður á fulla dýpt, og lögun fræsarans er tekin með í reikninginn. Hægt er að flytja líkanið út sem STL.
+275|Flytja upphleypinguna út sem STL…
+276|Engin upphleyping til að flytja út: settu mynd á lag með aðgerðinni Mynd og aðferðinni 3D upphleyping.

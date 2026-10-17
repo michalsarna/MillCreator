@@ -271,3 +271,7 @@
 270|Riadky sa frézujú do hĺbky, ktorá sleduje tón obrázka: čím tmavšie, tým hlbšie, až do hĺbky vrstvy.
 271|Uhol riadkov gravírovania
 272|{}: program obrázka je príliš dlhý: zvyšok bol vynechaný (použite väčší krok)
+273|3D reliéf
+274|Reliéf: čierna je najhlbšia, biela zostane nedotknutá. Prechody s hĺbkou prechodu až do plnej hĺbky, s ohľadom na tvar frézy. Model možno exportovať ako STL.
+275|Exportovať reliéf ako STL…
+276|Nie je čo exportovať: dajte obrázok na vrstvu s operáciou Obrázok a metódou 3D reliéf.

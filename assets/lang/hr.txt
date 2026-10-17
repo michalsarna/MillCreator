@@ -271,3 +271,7 @@
 270|Redovi se glođu dubinom koja prati ton slike: što tamnije, to dublje, do dubine sloja.
 271|Kut redova graviranja
 272|{}: program slike je predug: ostatak je izostavljen (upotrijebite veći korak)
+273|3D reljef
+274|Reljef: crno je najdublje, bijelo ostaje netaknuto. Prolazi dubine prolaza do pune dubine, uz uzimanje u obzir oblika glodala. Model se može izvesti kao STL.
+275|Izvezi reljef kao STL…
+276|Nema reljefa za izvoz: stavite sliku na sloj s operacijom Slika i metodom 3D reljef.

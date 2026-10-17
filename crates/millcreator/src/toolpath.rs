@@ -163,6 +163,9 @@ const MAX_MOVES: usize = 3_000_000;
 /// Returns false when the program got too long and the rest was left out.
 fn engrave_picture(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shape, im: &ImageData, area_y: f64, depth: f64) -> bool {
     let step = (tool.dims.diameter * layer.step_over_pct / 100.0).max(0.05);
+    if layer.picture == PictureMethod::Relief {
+        return relief_passes(b, layer, tool, shape, im, area_y, depth, step);
+    }
     let mode = if layer.picture == PictureMethod::Depth { raster::Dither::Grayscale } else { layer.dither };
     let Some(g) = raster::sample(shape, im, step, layer.scan_angle, mode) else { return true };
     let at = |p: Pt| -> (f64, f64) {
@@ -214,6 +217,7 @@ fn engrave_picture(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shap
                     cut_any = true;
                 }
             }
+            PictureMethod::Relief => {}
             PictureMethod::Depth => {
                 for &c in &cols {
                     let level = g.at(c, r) as f64;
@@ -244,6 +248,34 @@ fn engrave_picture(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shap
         }
         if b.moves.len() > MAX_MOVES {
             return false;
+        }
+    }
+    true
+}
+
+/// A picture as a relief: passes down to the full depth (the last one is the relief itself), rows `step` apart, the bit kept out
+/// of the relief everywhere under its body. Returns false when the program got too long.
+fn relief_passes(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shape, im: &ImageData, area_y: f64, depth: f64, step: f64) -> bool {
+    let Some(map) = crate::relief::HeightMap::of(shape, im, step, layer.scan_angle, depth) else { return true };
+    let tips = crate::relief::tip_heights(&map, tool);
+    for limit in crate::relief::pass_limits(depth, layer.step_down) {
+        let mut k = 0usize;
+        for r in 0..map.grid.rows {
+            let runs = crate::relief::row_runs(&map, &tips, r, limit, k % 2 == 1, area_y);
+            if runs.is_empty() {
+                continue;
+            }
+            k += 1;
+            for run in runs {
+                let Some(first) = run.first() else { continue };
+                b.dive(first[0], first[1], first[2]);
+                for q in run.iter().skip(1) {
+                    b.cut_to(q[0], q[1], q[2]);
+                }
+            }
+            if b.moves.len() > MAX_MOVES {
+                return false;
+            }
         }
     }
     true
@@ -940,5 +972,30 @@ mod tests {
         let both = generate(&scene, &layers, &lib, &dev, &stock);
         assert!(both.bounds.unwrap().1[0] > 100.0, "the rectangle is followed too");
         assert!(!both.warnings.iter().any(|w| w.to_string().contains("pictures are not milled")));
+    }
+
+    #[test]
+    fn a_relief_is_cut_in_passes_down_to_the_full_depth_and_never_deeper() {
+        let (lib, dev, stock, _) = setup();
+        let mut g = Scene::default();
+        // A picture of 40 x 20 mm, dark on the left and light on the right.
+        picture(&mut g, 3, 20.0, 20.0, 40.0, 20.0, true);
+        let mut layers = engraving(PictureMethod::Relief);
+        layers[3].tool = Some("std-ball-3".into());
+        layers[3].depth = 1.0;
+        layers[3].step_down = 1.0;
+        let one = generate(&g, &layers, &lib, &dev, &stock);
+        assert!(one.warnings.is_empty(), "{:?}", one.warnings);
+        let cuts = |p: &Program| p.moves.iter().filter(|m| m.kind == MoveKind::Cut).count();
+        assert!(cuts(&one) > 0);
+        let zs: Vec<f64> = one.moves.iter().filter(|m| m.kind != MoveKind::Rapid).flat_map(|m| [m.from[2], m.to[2]]).filter(|z| *z < 1.0).collect();
+        assert!(zs.iter().all(|z| *z >= -1.0 - 1e-9), "not deeper than the layer");
+        assert!(zs.iter().any(|z| *z < -0.5), "the dark side is deep");
+        // With a pass depth of 0.25 there are four passes: more cuts, and the first pass is shallow.
+        layers[3].step_down = 0.25;
+        let four = generate(&g, &layers, &lib, &dev, &stock);
+        assert!(cuts(&four) > cuts(&one) * 2, "{} against {}", cuts(&four), cuts(&one));
+        let first_cuts: Vec<f64> = four.moves.iter().filter(|m| m.kind == MoveKind::Cut).take(5).map(|m| m.to[2]).collect();
+        assert!(first_cuts.iter().all(|z| *z >= -0.25 - 1e-9), "the first pass is at most 0.25 deep: {first_cuts:?}");
     }
 }

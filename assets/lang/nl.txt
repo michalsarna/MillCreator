@@ -271,3 +271,7 @@
 270|De rijen worden gefreesd met een diepte die de toon van de afbeelding volgt: hoe donkerder, hoe dieper, tot de diepte van de laag.
 271|De hoek van de gravurerijen
 272|{}: het programma van de afbeelding is te lang: de rest is weggelaten (gebruik een grotere stap)
+273|3D-reliëf
+274|Een reliëf: zwart is het diepst, wit blijft ongemoeid. Gangen van de gangdiepte tot de volle diepte, met rekening voor de vorm van de frees. Het model kan als STL worden geëxporteerd.
+275|Reliëf exporteren als STL…
+276|Er is geen reliëf om te exporteren: leg een afbeelding op een laag met de bewerking Afbeelding en de methode 3D-reliëf.

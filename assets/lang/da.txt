@@ -271,3 +271,7 @@
 270|Rækkerne fræses med en dybde, der følger billedets tone: jo mørkere, jo dybere, ned til lagets dybde.
 271|Vinklen på graveringens rækker
 272|{}: billedets program er for langt: resten blev udeladt (brug et større overlap)
+273|3D-relief
+274|Et relief: sort er dybest, hvidt forbliver urørt. Gennemløb af gennemløbsdybden ned til den fulde dybde, og fræserens form tages i betragtning. Modellen kan eksporteres som STL.
+275|Eksportér relief som STL…
+276|Der er intet relief at eksportere: læg et billede på et lag med operationen Billede og metoden 3D-relief.
