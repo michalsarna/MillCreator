@@ -275,3 +275,7 @@
 274	A relief: black is the deepest, white is left uncut. Passes of the pass depth down to the full depth, and the shape of the bit is taken into account. The model can be exported as STL.
 275	Export relief as STL…
 276	There is no relief to export: put a picture on a layer with the Picture operation and the 3D relief method.
+277	Fit to the work area
+278	Fit to the elements
+279	Zoom so that the whole work area of the machine is seen
+280	Zoom so that all the cuts fill the window

@@ -275,3 +275,7 @@
 274|Un relief: negrul este cel mai adânc, albul rămâne neatins. Treceri de adâncimea de trecere până la adâncimea completă, ținând cont de forma frezei. Modelul poate fi exportat ca STL.
 275|Exportă relieful ca STL…
 276|Nu există relief de exportat: puneți o imagine pe un strat cu operația Imagine și metoda Relief 3D.
+277|Potrivește la zona de lucru
+278|Potrivește la elemente
+279|Mărește astfel încât să se vadă întreaga zonă de lucru a mașinii
+280|Mărește astfel încât toate tăieturile să umple fereastra

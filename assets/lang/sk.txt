@@ -275,3 +275,7 @@
 274|Reliéf: čierna je najhlbšia, biela zostane nedotknutá. Prechody s hĺbkou prechodu až do plnej hĺbky, s ohľadom na tvar frézy. Model možno exportovať ako STL.
 275|Exportovať reliéf ako STL…
 276|Nie je čo exportovať: dajte obrázok na vrstvu s operáciou Obrázok a metódou 3D reliéf.
+277|Prispôsobiť pracovnej ploche
+278|Prispôsobiť prvkom
+279|Priblížiť tak, aby bola vidieť celá pracovná plocha stroja
+280|Priblížiť tak, aby všetky rezy vyplnili okno

@@ -275,3 +275,7 @@
 274|Un relief : le noir est le plus profond, le blanc reste intact. Passes de la profondeur de passe jusqu'à la pleine profondeur, en tenant compte de la forme de la fraise. Le modèle peut être exporté en STL.
 275|Exporter le relief en STL…
 276|Il n'y a pas de relief à exporter : placez une image sur un calque avec l'opération Image et la méthode Relief 3D.
+277|Ajuster à la zone de travail
+278|Ajuster aux éléments
+279|Zoomer pour voir toute la zone de travail de la machine
+280|Zoomer pour que toutes les coupes remplissent la fenêtre

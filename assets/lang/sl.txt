@@ -275,3 +275,7 @@
 274|Relief: črna je najgloblja, bela ostane nedotaknjena. Prehodi z globino prehoda do polne globine, upošteva se oblika rezkarja. Model lahko izvozite kot STL.
 275|Izvozi relief kot STL…
 276|Ni reliefa za izvoz: postavite sliko na sloj z operacijo Slika in metodo 3D relief.
+277|Prilagodi delovnemu območju
+278|Prilagodi elementom
+279|Povečaj tako, da se vidi celotno delovno območje stroja
+280|Povečaj tako, da vsi rezi zapolnijo okno

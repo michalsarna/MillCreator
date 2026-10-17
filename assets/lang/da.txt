@@ -275,3 +275,7 @@
 274|Et relief: sort er dybest, hvidt forbliver urørt. Gennemløb af gennemløbsdybden ned til den fulde dybde, og fræserens form tages i betragtning. Modellen kan eksporteres som STL.
 275|Eksportér relief som STL…
 276|Der er intet relief at eksportere: læg et billede på et lag med operationen Billede og metoden 3D-relief.
+277|Tilpas arbejdsområdet
+278|Tilpas elementerne
+279|Zoom, så hele maskinens arbejdsområde ses
+280|Zoom, så alle skærene fylder vinduet
