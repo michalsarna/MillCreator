@@ -17,6 +17,10 @@ impl App {
         if let Some(s) = plugins_ui::generator_window(ctx, &mut self.plugins, area) {
             self.add_plugin_shapes(s, "the generator");
         }
+        // An importer with a form and a preview (an STL model, for example) waits in its own window.
+        if let Some((name, s)) = plugins_ui::import_window(ctx, &mut self.plugins) {
+            self.add_plugin_shapes(s, &name);
+        }
     }
 
     /// Pictures and bits that plugins bring join the gallery and the library (once).
@@ -60,7 +64,7 @@ impl App {
     pub(crate) fn import_with_plugin_dialog(&mut self) {
         let area = self.work_size_mm();
         match self.plugins.import_dialog(area) {
-            Some((p, r)) => self.finish_plugin_import(p, r),
+            Some((p, start)) => self.start_plugin_import(p, start),
             None => self.status = "No plugin reads files: install one in the Plugins window".into(),
         }
     }
@@ -69,11 +73,24 @@ impl App {
     pub(crate) fn try_plugin_import(&mut self, path: &std::path::Path) -> bool {
         let area = self.work_size_mm();
         match self.plugins.import_file(path, area) {
-            Some(r) => {
-                self.finish_plugin_import(path.to_path_buf(), r);
+            Some(start) => {
+                self.start_plugin_import(path.to_path_buf(), start);
                 true
             }
             None => false,
+        }
+    }
+
+    /// The importer made the shapes at once, or opened its window (the shapes come from `plugin_windows` then).
+    fn start_plugin_import(&mut self, path: PathBuf, start: plugins_ui::ImportStart) {
+        match start {
+            plugins_ui::ImportStart::Done(r) => self.finish_plugin_import(path, r),
+            plugins_ui::ImportStart::Window => {
+                // The window needs the editor behind it; the shapes are put in when Import is pressed.
+                if self.screen == Screen::Start {
+                    self.new_design();
+                }
+            }
         }
     }
 
