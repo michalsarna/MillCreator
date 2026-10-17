@@ -258,3 +258,16 @@
 257|Start med et fladt gennemløb langs kanterne
 258|Hvert lag kører først én gang langs de kanter, det skal skære, kun så dybt, hvilket brydes toppen af materialet rent. Lommer får det kun langs deres kant; boring har det ikke. Det virker med alle fræsere.
 259|Dybde af første gennemløb
+260|Billede
+261|Rastrerede rækker
+262|Prikker
+263|Billedmetode
+264|Rastrering
+265|Scanningsvinkel
+266|Et billede på laget graveres: rækker eller prikker efter det rastrerede billede eller rækker, hvis dybde følger tonen.
+267|Dybde efter tone
+268|Billedet rastreres, og hver række fræses til lagets dybde, hvor det er mørkt. Rastreringsmetoden vælges nedenfor.
+269|Et hul til lagets dybde for hver mørk celle i det rastrerede billede.
+270|Rækkerne fræses med en dybde, der følger billedets tone: jo mørkere, jo dybere, ned til lagets dybde.
+271|Vinklen på graveringens rækker
+272|{}: billedets program er for langt: resten blev udeladt (brug et større overlap)

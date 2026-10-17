@@ -258,3 +258,16 @@
 257|Začni s plitvim prehodom ob robovih
 258|Vsak sloj najprej enkrat prehodi robove, ki jih bo rezal, le do te globine, kar čisto prebije vrh materiala. Žepi ga dobijo le ob svojem robu; vrtanje ga nima. Deluje s poljubnim rezkarjem.
 259|Globina prvega prehoda
+260|Slika
+261|Rastrske vrstice
+262|Pike
+263|Način slike
+264|Rastriranje
+265|Kot skeniranja
+266|Slika na sloju se graviira: vrstice ali pike po rastrirani sliki ali vrstice, katerih globina sledi tonu.
+267|Globina po tonu
+268|Slika se rastrira, vsaka vrstica pa se rezka do globine sloja tam, kjer je temna. Metodo rastriranja izberete spodaj.
+269|Luknja do globine sloja za vsako temno celico rastrirane slike.
+270|Vrstice se rezkajo z globino, ki sledi tonu slike: temneje ko je, globlje je, do globine sloja.
+271|Kot vrstic graviranja
+272|{}: program slike je predolg: preostanek je izpuščen (uporabite večji korak)

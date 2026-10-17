@@ -258,3 +258,16 @@
 257|Sākt ar seklu caurbraukšanu gar malām
 258|Katrs slānis vispirms vienreiz iet gar malām, kuras griezīs, tikai šādā dziļumā, kas tīri pārlauž materiāla virskārtu. Kabatas to saņem tikai gar savu malu; urbšanai tās nav. Darbojas ar jebkuru frēzi.
 259|Pirmās caurbraukšanas dziļums
+260|Attēls
+261|Rastrētas rindas
+262|Punkti
+263|Attēla zīmēšanas veids
+264|Rastrēšana
+265|Skenēšanas leņķis
+266|Attēls uz slāņa tiek gravēts: rindas vai punkti pēc rastrētā attēla vai rindas, kuru dziļums seko tonim.
+267|Dziļums pēc toņa
+268|Attēls tiek rastrēts, un katra rinda tiek frēzēta slāņa dziļumā tur, kur tā ir tumša. Rastrēšanas metodi izvēlas zemāk.
+269|Caurums līdz slāņa dziļumam katrai rastrētā attēla tumšajai šūnai.
+270|Rindas tiek frēzētas ar dziļumu, kas seko attēla tonim: jo tumšāks, jo dziļāk, līdz slāņa dziļumam.
+271|Gravēšanas rindu leņķis
+272|{}: attēla programma ir pārāk gara: pārējais izlaists (izmantojiet lielāku soli)

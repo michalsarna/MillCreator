@@ -258,3 +258,16 @@
 257|Begin met een ondiepe gang langs de randen
 258|Elke laag gaat eerst één keer langs de randen die ze gaat snijden, slechts zo diep, waardoor de bovenkant van het materiaal netjes wordt doorbroken. Uitsparingen krijgen dit alleen langs hun rand; boren heeft het niet. Het werkt met elke frees.
 259|Diepte van de eerste gang
+260|Afbeelding
+261|Gerasterde rijen
+262|Stippen
+263|Methode voor de afbeelding
+264|Rasteren
+265|Scanhoek
+266|Een afbeelding op de laag wordt gegraveerd: rijen of stippen naar de gerasterde afbeelding, of rijen waarvan de diepte de toon volgt.
+267|Diepte naar toon
+268|De afbeelding wordt gerasterd en elke rij wordt op de diepte van de laag gefreesd waar hij donker is. De rastermethode kies je hieronder.
+269|Een gat tot de diepte van de laag voor elke donkere cel van de gerasterde afbeelding.
+270|De rijen worden gefreesd met een diepte die de toon van de afbeelding volgt: hoe donkerder, hoe dieper, tot de diepte van de laag.
+271|De hoek van de gravurerijen
+272|{}: het programma van de afbeelding is te lang: de rest is weggelaten (gebruik een grotere stap)

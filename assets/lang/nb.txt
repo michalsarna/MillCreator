@@ -258,3 +258,16 @@
 257|Start med en grunn gjennomgang langs kantene
 258|Hvert lag går først én gang langs kantene det skal skjære, bare så dypt, noe som bryter toppen av materialet rent. Lommer får den bare langs kanten; boring har ingen. Den fungerer med alle freser.
 259|Dybde på første gjennomgang
+260|Bilde
+261|Rastrerte rader
+262|Prikker
+263|Bildemetode
+264|Rastrering
+265|Skannevinkel
+266|Et bilde på laget graveres: rader eller prikker etter det rastrerte bildet, eller rader der dybden følger tonen.
+267|Dybde etter tone
+268|Bildet rastreres, og hver rad freses til lagets dybde der det er mørkt. Rastreringsmetoden velges nedenfor.
+269|Et hull til lagets dybde for hver mørke celle i det rastrerte bildet.
+270|Radene freses med en dybde som følger tonen i bildet: jo mørkere, desto dypere, ned til lagets dybde.
+271|Vinkelen på graveringens rader
+272|{}: bildets program er for langt: resten ble utelatt (bruk et større steg)

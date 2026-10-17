@@ -258,3 +258,16 @@
 257|Alusta madala läbimisega mööda servi
 258|Iga kiht läbib kõigepealt korra servad, mida ta lõikab, ainult nii sügavalt, mis murrab materjali pealispinna puhtalt. Taskud saavad selle ainult oma serva mööda; puurimisel seda pole. See töötab iga freesiga.
 259|Esimese läbimise sügavus
+260|Pilt
+261|Rastreeritud read
+262|Punktid
+263|Pildi joonistamise viis
+264|Rastreerimine
+265|Skaneerimisnurk
+266|Kihi pilt graveeritakse: read või punktid rastreeritud pildi järgi või read, mille sügavus järgib tooni.
+267|Sügavus tooni järgi
+268|Pilt rastreeritakse ja iga rida freesitakse kihi sügavuseni seal, kus see on tume. Rastreerimise meetod valitakse allpool.
+269|Auk kihi sügavuseni iga rastreeritud pildi tumeda lahtri jaoks.
+270|Read freesitakse sügavusega, mis järgib pildi tooni: mida tumedam, seda sügavam, kuni kihi sügavuseni.
+271|Graveeringu ridade nurk
+272|{}: pildi programm on liiga pikk: ülejäänu jäeti välja (kasuta suuremat sammu)

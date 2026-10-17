@@ -258,3 +258,16 @@
 257|Kezdje sekély menettel az élek mentén
 258|Minden réteg először egyszer végigmegy azokon az éleken, amelyeket vágni fog, csak ilyen mélyen, ami tisztán áttöri az anyag tetejét. A zsebek csak a szélük mentén kapják meg; a fúrásnak nincs. Minden maróval működik.
 259|Az első menet mélysége
+260|Kép
+261|Raszterezett sorok
+262|Pontok
+263|A kép módszere
+264|Raszterezés
+265|Pásztázási szög
+266|A rétegen lévő képet gravírozza: sorok vagy pontok a raszterezett kép szerint, vagy olyan sorok, amelyek mélysége követi a tónust.
+267|Mélység tónus szerint
+268|A képet raszterezi, és minden sort a réteg mélységéig marja ott, ahol sötét. A raszterezési módszert lent választhatja.
+269|Egy lyuk a réteg mélységéig a raszterezett kép minden sötét cellájához.
+270|A sorokat a kép tónusát követő mélységgel marja: minél sötétebb, annál mélyebb, egészen a réteg mélységéig.
+271|A gravírozás soraink szöge
+272|{}: a kép programja túl hosszú: a többit kihagytuk (használjon nagyobb lépést)

@@ -8,6 +8,10 @@ A project has **64 layers**. Every shape lies on one layer, and the layer says w
 
 In the list: the tick takes the layer into the toolpaths and the G-code, the eye shows it in the work area, and the number is how many shapes lie on it.
 
+### Pictures
+
+A picture put on a layer switches that layer to the **Picture** operation (once; you can change it back). The layer then engraves the picture in one go at its **Depth** (use a shallow depth: the rows and the dots are many), by the **Picture method**: **Dithered rows** (the picture is dithered and each row is cut where it is dark), **Dots** (a hole for every dark cell) or **Depth by tone** (the rows are cut with a depth that follows the tone: the darker, the deeper, down to the depth of the layer). For the first two you choose the **Dithering** (threshold, Floyd–Steinberg, Jarvis, Stucki, Atkinson, ordered). The rows are the **Step over** of the bit apart (a percent of its diameter) and run at the **Scan angle**. Other shapes on the same layer are followed as lines. On a layer with another operation a picture is only shown (a warning says it is not milled).
+
 ## Settings of a layer
 | Setting | Meaning |
 |---|---|
@@ -28,6 +32,7 @@ In the list: the tick takes the layer into the toolpaths and the G-code, the eye
 | **Follow the line** | the centre of the bit follows the line (engraving, grooves); open lines work too; at deeper passes the bit comes back along the line |
 | **Pocket** | clears all of the area inside the line, ring after ring, from the outside in |
 | **Drill** | a hole at the centre of every closed shape, in pecks of the pass depth |
+| **Picture** | a picture on the layer is engraved (see Pictures above) |
 
 Shapes of one layer form one region (even-odd): a shape inside another one is a hole of it. Put shapes that should be cut separately on separate layers. Open lines are left out of a profile and a pocket (the program says so). Pictures are never milled.
 

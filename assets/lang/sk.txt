@@ -258,3 +258,16 @@
 257|Začať plytkým prechodom pozdĺž hrán
 258|Každá vrstva najprv raz prejde pozdĺž hrán, ktoré bude rezať, len do tejto hĺbky, čo čisto prerazí vrch materiálu. Vrecká ho dostanú len pozdĺž svojho okraja; vŕtanie ho nemá. Funguje s každou frézou.
 259|Hĺbka prvého prechodu
+260|Obrázok
+261|Rastrované riadky
+262|Bodky
+263|Spôsob kreslenia obrázka
+264|Rastrovanie
+265|Uhol skenovania
+266|Obrázok na vrstve sa gravíruje: riadky alebo bodky podľa rastrovaného obrázka, alebo riadky, ktorých hĺbka sleduje tón.
+267|Hĺbka podľa tónu
+268|Obrázok sa rastruje a každý riadok sa frézuje do hĺbky vrstvy tam, kde je tmavý. Spôsob rastrovania zvolíte nižšie.
+269|Otvor do hĺbky vrstvy pre každú tmavú bunku rastrovaného obrázka.
+270|Riadky sa frézujú do hĺbky, ktorá sleduje tón obrázka: čím tmavšie, tým hlbšie, až do hĺbky vrstvy.
+271|Uhol riadkov gravírovania
+272|{}: program obrázka je príliš dlhý: zvyšok bol vynechaný (použite väčší krok)

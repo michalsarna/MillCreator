@@ -258,3 +258,16 @@
 257|Pradėti negilu praėjimu išilgai kraštų
 258|Kiekvienas sluoksnis pirmiausia vieną kartą nueina išilgai kraštų, kuriuos pjaus, tik tokiu gyliu, kuris švariai pralaužia medžiagos viršų. Kišenės jį gauna tik išilgai savo krašto; gręžimas jo neturi. Veikia su bet kuriuo frezu.
 259|Pirmojo praėjimo gylis
+260|Paveikslėlis
+261|Rastruotos eilutės
+262|Taškai
+263|Paveikslėlio metodas
+264|Rastravimas
+265|Skenavimo kampas
+266|Sluoksnio paveikslėlis graviruojamas: eilutės arba taškai pagal rastruotą paveikslėlį arba eilutės, kurių gylis seka toną.
+267|Gylis pagal toną
+268|Paveikslėlis rastruojamas, o kiekviena eilutė frezuojama sluoksnio gyliu ten, kur ji tamsi. Rastravimo metodą pasirenkate žemiau.
+269|Skylė iki sluoksnio gylio kiekvienam tamsiam rastruoto paveikslėlio langeliui.
+270|Eilutės frezuojamos gyliu, kuris seka paveikslėlio toną: kuo tamsiau, tuo giliau, iki sluoksnio gylio.
+271|Graviravimo eilučių kampas
+272|{}: paveikslėlio programa per ilga: likusi dalis praleista (naudokite didesnį žingsnį)

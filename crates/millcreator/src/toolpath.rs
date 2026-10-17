@@ -3,13 +3,15 @@
 //! The moves are in the coordinates of the work area: X to the right, Y away from you (the drawing is turned over, as
 //! the scene counts Y downwards), Z = 0 at the top of the material and negative below it.
 use crate::device::{Device, Origin};
-use crate::layers::{MillLayer, Operation};
+use crate::layers::{MillLayer, Operation, PictureMethod};
 use crate::materials::Stock;
 use crate::tools::{Library, Tool};
 use crate::warn::Warn;
 use base_core::geom::{Polyline, Pt};
+use base_core::image::ImageData;
 use base_core::ops;
-use base_core::scene::{Kind, Scene};
+use base_core::raster;
+use base_core::scene::{Kind, Scene, Shape};
 
 pub type P3 = [f64; 3];
 
@@ -127,12 +129,15 @@ fn is_hole(rings: &[Polyline], i: usize) -> bool {
     rings.iter().enumerate().filter(|(j, r)| *j != i && r.closed && r.contains(p)).count() % 2 == 1
 }
 
-/// The outlines of the shapes of a layer in the coordinates of the work area.
-fn layer_outlines(scene: &Scene, layer: usize, area_y: f64, images: &mut usize) -> Vec<Polyline> {
+/// The outlines of the shapes of a layer in the coordinates of the work area. Pictures are not outlines; they are counted
+/// when the layer does not engrave them (`count_pictures`).
+fn layer_outlines(scene: &Scene, layer: usize, area_y: f64, images: &mut usize, count_pictures: bool) -> Vec<Polyline> {
     let mut out = vec![];
     for s in scene.shapes.iter().filter(|s| s.layer == layer) {
         if matches!(s.kind, Kind::Image(_)) {
-            *images += 1;
+            if count_pictures {
+                *images += 1;
+            }
             continue;
         }
         for p in s.polys() {
@@ -144,6 +149,104 @@ fn layer_outlines(scene: &Scene, layer: usize, area_y: f64, images: &mut usize) 
         }
     }
     out
+}
+
+/// The pictures on a layer.
+fn layer_pictures(scene: &Scene, layer: usize) -> Vec<(&Shape, &ImageData)> {
+    scene.shapes.iter().filter(|s| s.layer == layer).filter_map(|s| if let Kind::Image(im) = &s.kind { Some((s, im)) } else { None }).collect()
+}
+
+/// The most moves a program may have: a picture with a very fine step makes millions.
+const MAX_MOVES: usize = 3_000_000;
+
+/// Engrave a picture: dots, rows, or rows whose depth follows the tone. The distance of the rows is the step over of the bit.
+/// Returns false when the program got too long and the rest was left out.
+fn engrave_picture(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shape, im: &ImageData, area_y: f64, depth: f64) -> bool {
+    let step = (tool.dims.diameter * layer.step_over_pct / 100.0).max(0.05);
+    let mode = if layer.picture == PictureMethod::Depth { raster::Dither::Grayscale } else { layer.dither };
+    let Some(g) = raster::sample(shape, im, step, layer.scan_angle, mode) else { return true };
+    let at = |p: Pt| -> (f64, f64) {
+        let q = g.rot.apply(p);
+        (q.x, area_y - q.y)
+    };
+    let mut k = 0usize;
+    for r in 0..g.rows {
+        // Every second row is cut the other way round, so the bit does not travel back with nothing to do.
+        let cols: Vec<usize> = if k % 2 == 0 { (0..g.cols).collect() } else { (0..g.cols).rev().collect() };
+        let mut started = false;
+        let mut cut_any = false;
+        let y = g.min.y + (r as f64 + 0.5) * g.step;
+        match layer.picture {
+            PictureMethod::Dots => {
+                for &c in &cols {
+                    if g.at(c, r) >= 0.5 {
+                        let (x, yy) = at(g.centre(c, r));
+                        b.dive(x, yy, -depth);
+                        cut_any = true;
+                    }
+                }
+            }
+            PictureMethod::Rows => {
+                // Runs of dark cells, in the order of the row.
+                let mut c = 0;
+                let mut runs: Vec<(usize, usize)> = vec![];
+                while c < g.cols {
+                    if g.at(c, r) < 0.5 {
+                        c += 1;
+                        continue;
+                    }
+                    let s = c;
+                    while c < g.cols && g.at(c, r) >= 0.5 {
+                        c += 1;
+                    }
+                    runs.push((s, c));
+                }
+                if k % 2 == 1 {
+                    runs.reverse();
+                }
+                for (s, e) in runs {
+                    let (a, z) = (Pt::new(g.min.x + s as f64 * g.step, y), Pt::new(g.min.x + e as f64 * g.step, y));
+                    let (a, z) = if k % 2 == 1 { (z, a) } else { (a, z) };
+                    let (x0, y0) = at(a);
+                    let (x1, y1) = at(z);
+                    b.dive(x0, y0, -depth);
+                    b.cut_to(x1, y1, -depth);
+                    cut_any = true;
+                }
+            }
+            PictureMethod::Depth => {
+                for &c in &cols {
+                    let level = g.at(c, r) as f64;
+                    if level < 0.02 {
+                        if started {
+                            b.retract();
+                            started = false;
+                        }
+                        continue;
+                    }
+                    let z = -(depth * level.min(1.0)).max(0.01);
+                    let (x, yy) = at(g.centre(c, r));
+                    if started {
+                        b.cut_to(x, yy, z);
+                    } else {
+                        b.dive(x, yy, z);
+                        started = true;
+                    }
+                    cut_any = true;
+                }
+                if started {
+                    b.retract();
+                }
+            }
+        }
+        if cut_any {
+            k += 1;
+        }
+        if b.moves.len() > MAX_MOVES {
+            return false;
+        }
+    }
+    true
 }
 
 fn closed_only(polys: &[Polyline]) -> Vec<Polyline> {
@@ -191,11 +294,13 @@ pub fn generate(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Devi
     for li in crate::layers::layer_order(layers) {
         let layer = &layers[li];
         let mut images = 0;
-        let outlines = layer_outlines(scene, li, dev.area.y, &mut images);
+        let picture_layer = layer.op == Operation::Picture;
+        let outlines = layer_outlines(scene, li, dev.area.y, &mut images, !picture_layer);
         if images > 0 && layer.enabled {
             prog.warnings.push(Warn::new("{}: pictures are not milled", &[&layer.name]));
         }
-        if !layer.enabled || outlines.is_empty() {
+        let pictures = if picture_layer { layer_pictures(scene, li) } else { vec![] };
+        if !layer.enabled || (outlines.is_empty() && pictures.is_empty()) {
             continue;
         }
         if let Err(e) = layer.check() {
@@ -229,6 +334,14 @@ pub fn generate(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Devi
             first_pass(&mut b, &layer, tool, &outlines, stock.first_pass_depth);
         }
         run_layer(&mut b, &layer, tool, &outlines, &depths, &mut prog.warnings);
+        // A picture is engraved at the depth of the layer in one go (a shallow depth: the dots and the rows are many).
+        let full = depths.last().copied().unwrap_or(layer.depth);
+        for (shape, im) in &pictures {
+            if !engrave_picture(&mut b, &layer, tool, shape, im, dev.area.y, full) {
+                prog.warnings.push(Warn::new("{}: the program of the picture is too long: the rest was left out (use a bigger step over)", &[&layer.name]));
+                break;
+            }
+        }
         b.retract();
         if b.moves.len() == start {
             prog.warnings.push(Warn::new("{}: nothing to cut (the line may be too small for the bit)", &[&layer.name]));
@@ -284,7 +397,7 @@ fn first_pass(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyl
                 }
             }
         }
-        Operation::Drill => {}
+        Operation::Drill | Operation::Picture => {}
     }
 }
 
@@ -330,6 +443,16 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
                 for d in depths.iter().skip(1) {
                     b.retract();
                     b.dive(c.x, c.y, -d);
+                }
+            }
+        }
+        // The pictures of the layer are engraved by the caller; the other shapes on it are followed as lines.
+        Operation::Picture => {
+            for line in outlines {
+                if line.closed {
+                    ring_passes(b, line, depths);
+                } else {
+                    open_passes(b, line, depths);
                 }
             }
         }
@@ -748,5 +871,74 @@ mod tests {
         let ta = generate(&a, &layers, &lib, &dev, &stock).estimate_seconds(dev.rapid);
         let tb = generate(&b, &layers, &lib, &dev, &stock).estimate_seconds(dev.rapid);
         assert!(ta > 0.0 && tb > ta);
+    }
+
+    /// A picture of `w` x `h` mm at (x, y): black everywhere, or a gradient from black (left) to white (right).
+    fn picture(scene: &mut Scene, layer: usize, x: f64, y: f64, w: f64, h: f64, gradient: bool) {
+        let gray: Vec<u8> = (0..64).map(|i| if gradient { ((i % 8) * 255 / 7) as u8 } else { 0 }).collect();
+        let im = base_core::image::ImageData { name: "t".into(), px_w: 8, px_h: 8, gray, w, h, invert: false };
+        scene.add(layer, Kind::Image(im), Xf::translate(x, y));
+    }
+
+    fn engraving(method: PictureMethod) -> Vec<MillLayer> {
+        let (_, _, _, mut layers) = setup();
+        layers[3].op = Operation::Picture;
+        layers[3].picture = method;
+        layers[3].dither = base_core::raster::Dither::Threshold;
+        layers[3].depth = 0.5;
+        layers[3].step_over_pct = 10.0;
+        layers[3].scan_angle = 0.0;
+        layers
+    }
+
+    #[test]
+    fn a_picture_is_engraved_as_rows_dots_or_rows_with_a_depth_that_follows_the_tone() {
+        let (lib, dev, stock, _) = setup();
+        let mut scene = Scene::default();
+        picture(&mut scene, 3, 20.0, 20.0, 20.0, 10.0, false);
+        // The rows are a tenth of the diameter of the bit apart.
+        let tool_d = lib.get(engraving(PictureMethod::Rows)[3].tool.as_deref().unwrap()).unwrap().dims.diameter * 0.1;
+        let cuts = |p: &Program| p.moves.iter().filter(|m| m.kind == MoveKind::Cut).count();
+        // Rows: a cut for every row of the picture, all at the depth of the layer.
+        let rows = generate(&scene, &engraving(PictureMethod::Rows), &lib, &dev, &stock);
+        assert!(rows.warnings.is_empty(), "{:?}", rows.warnings);
+        let n = (10.0 / tool_d).round() as usize;
+        assert_eq!(cuts(&rows), n, "a row for every {tool_d} mm of 10");
+        assert!(rows.moves.iter().filter(|m| m.kind == MoveKind::Cut).all(|m| (m.to[2] + 0.5).abs() < 1e-9));
+        // Dots: a plunge to the depth for every dark cell and no cutting along.
+        let dots = generate(&scene, &engraving(PictureMethod::Dots), &lib, &dev, &stock);
+        assert_eq!(cuts(&dots), 0);
+        let plunges = dots.moves.iter().filter(|m| m.kind == MoveKind::Plunge && (m.to[2] + 0.5).abs() < 1e-9).count();
+        assert_eq!(plunges, n * (20.0 / tool_d).round() as usize);
+        // Depth by tone: the gradient is deep where it is dark (left) and shallow where it is light.
+        let mut g = Scene::default();
+        picture(&mut g, 3, 20.0, 20.0, 20.0, 10.0, true);
+        let depth = generate(&g, &engraving(PictureMethod::Depth), &lib, &dev, &stock);
+        let zs: Vec<f64> = depth.moves.iter().filter(|m| m.kind == MoveKind::Cut).map(|m| m.to[2]).collect();
+        assert!(zs.iter().any(|z| *z < -0.4) && zs.iter().any(|z| *z > -0.15), "deep and shallow: {zs:?}");
+        assert!(zs.iter().all(|z| *z <= 0.0 && *z >= -0.5 - 1e-9));
+        // A white (light) picture gives nothing, and says so.
+        let mut w = Scene::default();
+        let im = base_core::image::ImageData { name: "w".into(), px_w: 2, px_h: 2, gray: vec![255; 4], w: 10.0, h: 10.0, invert: false };
+        w.add(3, Kind::Image(im), Xf::translate(10.0, 10.0));
+        let none = generate(&w, &engraving(PictureMethod::Rows), &lib, &dev, &stock);
+        assert!(none.moves.is_empty() && none.warnings.iter().any(|x| x.to_string().contains("nothing to cut")), "{:?}", none.warnings);
+    }
+
+    #[test]
+    fn a_picture_on_another_operation_is_not_milled_and_a_picture_layer_follows_the_lines_on_it_too() {
+        let (lib, dev, stock, layers) = setup();
+        let mut scene = Scene::default();
+        picture(&mut scene, 3, 20.0, 20.0, 20.0, 10.0, false);
+        let p = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(p.warnings.iter().any(|w| w.to_string().contains("pictures are not milled")), "{:?}", p.warnings);
+        // A line and a picture on one picture layer: both are cut.
+        let mut layers = engraving(PictureMethod::Rows);
+        layers[3].depth = 1.0;
+        scene.add(3, Kind::Rect { w: 5.0, h: 5.0 }, Xf::translate(100.0, 100.0));
+        layers[3].step_down = 1.0;
+        let both = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(both.bounds.unwrap().1[0] > 100.0, "the rectangle is followed too");
+        assert!(!both.warnings.iter().any(|w| w.to_string().contains("pictures are not milled")));
     }
 }
