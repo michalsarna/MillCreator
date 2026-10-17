@@ -275,3 +275,7 @@
 274|Un relieve: el negro es lo más profundo, el blanco queda sin tocar. Pasadas de la profundidad de pasada hasta la profundidad total, teniendo en cuenta la forma de la fresa. El modelo se puede exportar como STL.
 275|Exportar el relieve como STL…
 276|No hay ningún relieve que exportar: ponga una imagen en una capa con la operación Imagen y el método Relieve 3D.
+277|Ajustar al área de trabajo
+278|Ajustar a los elementos
+279|Ampliar para ver toda el área de trabajo de la máquina
+280|Ampliar para que todos los cortes llenen la ventana

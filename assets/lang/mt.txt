@@ -275,3 +275,7 @@
 274|Rilief: l-iswed huwa l-iktar fond, l-abjad jibqa' mhux mmiss. Passaġġi tal-fond tal-passaġġ sal-fond sħiħ, filwaqt li titqies il-forma tal-frieża. Il-mudell jista' jiġi esportat bħala STL.
 275|Esporta r-rilief bħala STL…
 276|M'hemm l-ebda rilief x'jiġi esportat: poġġi stampa fuq saff bl-operazzjoni Stampa u l-metodu Rilief 3D.
+277|Adatta għall-qasam tax-xogħol
+278|Adatta għall-elementi
+279|Zoom biex jidher il-qasam kollu tax-xogħol tal-magna
+280|Zoom biex il-qtugħ kollu jimla t-tieqa

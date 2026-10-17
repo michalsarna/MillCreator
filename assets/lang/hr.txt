@@ -275,3 +275,7 @@
 274|Reljef: crno je najdublje, bijelo ostaje netaknuto. Prolazi dubine prolaza do pune dubine, uz uzimanje u obzir oblika glodala. Model se može izvesti kao STL.
 275|Izvezi reljef kao STL…
 276|Nema reljefa za izvoz: stavite sliku na sloj s operacijom Slika i metodom 3D reljef.
+277|Prilagodi radnom području
+278|Prilagodi elementima
+279|Zumiraj tako da se vidi cijelo radno područje stroja
+280|Zumiraj tako da svi rezovi ispune prozor

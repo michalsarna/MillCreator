@@ -275,3 +275,7 @@
 274|Ett relief: svart är djupast, vitt lämnas orört. Varv med varvdjupet ner till fullt djup, och fräsens form tas med i beräkningen. Modellen kan exporteras som STL.
 275|Exportera relief som STL…
 276|Det finns inget relief att exportera: lägg en bild på ett lager med operationen Bild och metoden 3D-relief.
+277|Anpassa till arbetsytan
+278|Anpassa till elementen
+279|Zooma så att maskinens hela arbetsyta syns
+280|Zooma så att alla skär fyller fönstret

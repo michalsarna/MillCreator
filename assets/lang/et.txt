@@ -275,3 +275,7 @@
 274|Reljeef: must on kõige sügavam, valge jääb puutumata. Läbimised läbimissügavusega kuni täissügavuseni, freesi kuju arvestatakse. Mudeli saab eksportida STL-ina.
 275|Ekspordi reljeef STL-ina…
 276|Eksporditavat reljeefi pole: pane pilt kihile, mille toiming on Pilt ja meetod 3D-reljeef.
+277|Sobita tööalale
+278|Sobita elementidele
+279|Suumi nii, et kogu masina tööala oleks näha
+280|Suumi nii, et kõik lõiked täidaksid akna

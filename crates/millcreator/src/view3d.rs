@@ -59,11 +59,22 @@ pub struct View3d {
     pub progress: f32,
     /// Looked at from straight above: the plan of the job. It cannot be turned.
     pub top: bool,
+    /// Asked for by a button, done by the next picture (which knows the size of its window).
+    pub fit: Option<Fit>,
+}
+
+/// What the view is fitted to.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum Fit {
+    /// The whole work area of the machine.
+    Area,
+    /// The cuts of the program (the shapes when there are none yet).
+    Elements,
 }
 
 impl Default for View3d {
     fn default() -> View3d {
-        View3d { yaw: START_YAW, pitch: START_PITCH, zoom: 1.0, pan: Vec2::ZERO, show_cuts: true, show_rapids: true, show_stock: true, progress: 1.0, top: false }
+        View3d { yaw: START_YAW, pitch: START_PITCH, zoom: 1.0, pan: Vec2::ZERO, show_cuts: true, show_rapids: true, show_stock: true, progress: 1.0, top: false, fit: None }
     }
 }
 
@@ -186,9 +197,45 @@ pub fn show(ui: &mut egui::Ui, view: &mut View3d, sc: &Scene3d) {
     if resp.double_clicked() {
         view.reset();
     }
+    if let Some(f) = view.fit.take() {
+        let area = [0.0, 0.0, sc.dev.area.x, sc.dev.area.y];
+        let r = sc.region;
+        let (lo, hi) = match f {
+            Fit::Area => ([area[0], area[1]], [area[2], area[3]]),
+            Fit::Elements => (r.min, r.max),
+        };
+        fit_to(view, rect, sc, lo, hi);
+    }
     let painter = ui.painter_at(rect);
     painter.rect_filled(rect, 4.0, if ui.visuals().dark_mode { Color32::from_rgb(0x1c, 0x1e, 0x24) } else { Color32::from_rgb(0xe9, 0xec, 0xf1) });
     draw(&painter, rect, view, sc);
+}
+
+/// Zoom and pan so that the box `lo`..`hi` (X and Y, from the material's top down to the safe height) fills `rect`.
+pub fn fit_to(view: &mut View3d, rect: Rect, sc: &Scene3d, lo: [f64; 2], hi: [f64; 2]) {
+    let r = sc.region;
+    let [w, h] = r.size();
+    let t = sc.stock.thickness;
+    let radius = ((w * w + h * h + (t + sc.dev.safe_z).powi(2)).sqrt()) / 2.0;
+    let target = [r.centre()[0], r.centre()[1], -t / 2.0];
+    // The picture at zoom 1 and no pan: its points are a fixed multiple of their distance from the middle of the window.
+    let base = View3d { zoom: 1.0, pan: Vec2::ZERO, fit: None, ..view.clone() };
+    let pj = Projector::new(&base, target, radius, rect);
+    let (mut min, mut max) = (Pos2::new(f32::MAX, f32::MAX), Pos2::new(f32::MIN, f32::MIN));
+    for x in [lo[0], hi[0]] {
+        for y in [lo[1], hi[1]] {
+            for z in [-t, 0.0] {
+                let p = pj.project([x, y, z]);
+                min = min.min(p);
+                max = max.max(p);
+            }
+        }
+    }
+    let (bw, bh) = ((max.x - min.x).max(1.0), (max.y - min.y).max(1.0));
+    let zoom = (rect.width() / bw).min(rect.height() / bh) * 0.92;
+    let offset = (min + (max - min) / 2.0) - rect.center();
+    view.zoom = zoom.clamp(0.2, 40.0);
+    view.pan = -offset * view.zoom;
 }
 
 /// Draw the model into `rect`.

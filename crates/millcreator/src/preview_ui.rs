@@ -150,6 +150,12 @@ impl App {
                 if ui.button(tr("Reset view")).on_hover_text(tr("Back to the first view. Double click on the picture does the same.")).clicked() {
                     self.view.reset();
                 }
+                if ui.button(tr("Fit to the work area")).on_hover_text(tr("Zoom so that the whole work area of the machine is seen")).clicked() {
+                    self.view.fit = Some(view3d::Fit::Area);
+                }
+                if ui.button(tr("Fit to the elements")).on_hover_text(tr("Zoom so that all the cuts fill the window")).clicked() {
+                    self.view.fit = Some(view3d::Fit::Elements);
+                }
                 ui.checkbox(&mut self.view.show_stock, tr("Material"));
                 ui.checkbox(&mut self.view.show_cuts, tr("Cuts"));
                 ui.checkbox(&mut self.view.show_rapids, tr("Moves at the safe height"));
@@ -201,5 +207,16 @@ mod tests {
         out.textures_delta.clear();
         assert!(!a.prog.as_ref().unwrap().is_empty(), "the new shape is milled");
         assert_eq!(a.prog_rev, a.rev);
+        // The two fits: the whole work area shows more than the small shape, so it zooms less.
+        let mut zoom_of = |fit| {
+            a.view.fit = Some(fit);
+            let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.preview_window(ui.ctx()));
+            out.textures_delta.clear();
+            assert!(a.view.fit.is_none(), "the request is done by the picture");
+            a.view.zoom
+        };
+        let area = zoom_of(crate::view3d::Fit::Area);
+        let elements = zoom_of(crate::view3d::Fit::Elements);
+        assert!(elements > area, "{elements} > {area}");
     }
 }

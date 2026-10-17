@@ -275,3 +275,7 @@
 274|Upphleyping: svart er dýpst, hvítt er látið óhreyft. Umferðir af umferðardýpt niður á fulla dýpt, og lögun fræsarans er tekin með í reikninginn. Hægt er að flytja líkanið út sem STL.
 275|Flytja upphleypinguna út sem STL…
 276|Engin upphleyping til að flytja út: settu mynd á lag með aðgerðinni Mynd og aðferðinni 3D upphleyping.
+277|Laga að vinnusvæðinu
+278|Laga að hlutunum
+279|Súmma svo allt vinnusvæði vélarinnar sjáist
+280|Súmma svo allir skurðir fylli gluggann

@@ -275,3 +275,7 @@
 274|Un relleu: el negre és el més profund, el blanc queda sense tocar. Passades de la profunditat de passada fins a la profunditat total, tenint en compte la forma de la fresa. El model es pot exportar com a STL.
 275|Exporta el relleu com a STL…
 276|No hi ha cap relleu per exportar: poseu una imatge en una capa amb l'operació Imatge i el mètode Relleu 3D.
+277|Ajusta a l'àrea de treball
+278|Ajusta als elements
+279|Amplia perquè es vegi tota l'àrea de treball de la màquina
+280|Amplia perquè tots els talls omplin la finestra

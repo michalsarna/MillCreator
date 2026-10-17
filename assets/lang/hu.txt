@@ -275,3 +275,7 @@
 274|Dombormű: a fekete a legmélyebb, a fehér érintetlen marad. A fogásmélységű menetek a teljes mélységig, a maró alakját figyelembe véve. A modell STL-ként exportálható.
 275|Dombormű exportálása STL-ként…
 276|Nincs exportálható dombormű: tegyen egy képet olyan rétegre, amelynek művelete Kép, módszere pedig 3D dombormű.
+277|Illesztés a munkaterülethez
+278|Illesztés az elemekhez
+279|Nagyítás úgy, hogy a gép teljes munkaterülete látszódjon
+280|Nagyítás úgy, hogy az összes vágás kitöltse az ablakot

@@ -275,3 +275,7 @@
 274|Reljefas: juoda giliausia, balta lieka neliesta. Praėjimai gylio per praėjimą žingsniais iki visiško gylio, atsižvelgiant į frezos formą. Modelį galima eksportuoti kaip STL.
 275|Eksportuoti reljefą kaip STL…
 276|Nėra reljefo eksportui: padėkite paveikslėlį ant sluoksnio su operacija Paveikslėlis ir metodu 3D reljefas.
+277|Priderinti prie darbo srities
+278|Priderinti prie elementų
+279|Padidinti taip, kad matytųsi visa staklių darbo sritis
+280|Padidinti taip, kad visi pjūviai užpildytų langą

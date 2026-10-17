@@ -275,3 +275,7 @@
 274|Et relieff: svart er dypest, hvitt blir urørt. Gjennomganger med gjennomgangsdybden ned til full dybde, og freserens form tas hensyn til. Modellen kan eksporteres som STL.
 275|Eksporter relieff som STL…
 276|Det er ikke noe relieff å eksportere: legg et bilde på et lag med operasjonen Bilde og metoden 3D-relieff.
+277|Tilpass arbeidsområdet
+278|Tilpass elementene
+279|Zoom slik at hele maskinens arbeidsområde vises
+280|Zoom slik at alle skjærene fyller vinduet

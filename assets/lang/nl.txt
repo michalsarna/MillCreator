@@ -275,3 +275,7 @@
 274|Een reliëf: zwart is het diepst, wit blijft ongemoeid. Gangen van de gangdiepte tot de volle diepte, met rekening voor de vorm van de frees. Het model kan als STL worden geëxporteerd.
 275|Reliëf exporteren als STL…
 276|Er is geen reliëf om te exporteren: leg een afbeelding op een laag met de bewerking Afbeelding en de methode 3D-reliëf.
+277|Aanpassen aan werkgebied
+278|Aanpassen aan elementen
+279|Zoom zo dat het hele werkgebied van de machine zichtbaar is
+280|Zoom zo dat alle sneden het venster vullen
