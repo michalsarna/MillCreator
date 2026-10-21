@@ -2,7 +2,7 @@
 
 # Bezpieczeństwo i ograniczenia
 
-> ⚠️ Frezarka może cię zranić i zniszczyć pracę, frez i siebie. Program jest młody i **autor nie uruchamiał go na maszynie**. Używasz go na własne ryzyko.
+> ⚠️ Frezarka może cię zranić i zniszczyć pracę, frez i siebie. Program jest młody i **był testowany na TwoTrees TTC450Pro i na niej działa, ale nie na innych maszynach**. Używasz go na własne ryzyko.
 
 * **Najpierw w powietrzu:** podnieś maszynę tak, żeby frez niczego nie dotknął, uruchom G-code i obserwuj ścieżkę. Dopiero potem tanim kawałkiem.
 * Noś ochronę oczu i słuchu, zamocuj materiał, trzymaj rękę blisko przycisku stop, nigdy nie zostawiaj pracującej maszyny bez nadzoru.
@@ -11,7 +11,7 @@
 * **Co jest testowane:** geometria ścieżek (odległość od linii, przejścia, bezpieczna wysokość), biblioteka frezów z jej sprawdzaniem i plikami, pliki urządzeń, plik projektu i tekst G-code, automatycznymi testami przy każdej zmianie. Obrazy w tej wiki generuje sam program.
 
 ## Czego nie robi
-* Może **połączyć się z maszyną GRBL i przesłać zadanie** (Connect, Home, Frame, Start, Stop), ale **nic z tego nie było sprawdzone na prawdziwej maszynie**. Zaczynaj z wyłączonym wrzecionem i frezem w powietrzu i bądź przy maszynie; Stop przerywa miękkim resetem.
+* Może **połączyć się z maszyną GRBL i przesłać zadanie** (Connect, Home, Frame, Start, Stop); sprawdzone na TwoTrees TTC450Pro, **nie na innych maszynach**. Zaczynaj z wyłączonym wrzecionem i frezem w powietrzu i bądź przy maszynie; Stop przerywa miękkim resetem.
 * Frame obchodzi obrys pracy na bezpiecznej wysokości przy wyłączonym wrzecionie: sprawdź, czy ta wysokość naprawdę jest wolna.
 * Brak przesuwania ręcznego (jog) i sondowania.
 * Brak mostków, najazdów skośnych i spiralnych (frez wchodzi prosto w dół), wyboru współbieżnie / przeciwbieżnie, V-carvingu, reliefu 3D, korekcji długości narzędzia i sprawdzania kolizji z zaciskami.

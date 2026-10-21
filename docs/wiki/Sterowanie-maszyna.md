@@ -2,7 +2,7 @@
 
 # Sterowanie maszyną
 
-MillCreator steruje maszyną z GRBL z karty **Sterowanie** i z menu **Machine**. Wszystko to pochodzi z baseCreatora, więc MillCreator, PenCreator i LightCreator działają tak samo. **Nic z tego nie było jeszcze próbowane na prawdziwej maszynie**: próbuj z podniesionym narzędziem albo bez pisaka i miej rękę przy zatrzymaniu.
+MillCreator steruje maszyną z GRBL z karty **Sterowanie** i z menu **Machine**. Wszystko to pochodzi z baseCreatora, więc MillCreator, PenCreator i LightCreator działają tak samo. **Sprawdzane tylko na TwoTrees TTC450Pro**: próbuj z podniesionym narzędziem albo bez pisaka i miej rękę przy zatrzymaniu.
 
 ## Odczyt maszyny
 

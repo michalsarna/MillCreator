@@ -2,7 +2,7 @@
 
 # Machine control
 
-MillCreator drives a GRBL machine from the **Control** tab and the **Machine** menu. All of it comes from baseCreator, so MillCreator, PenCreator and LightCreator behave the same. **Nothing here has been tried on a real machine yet**: test with the tool lifted or no pen, and keep a hand on the stop.
+MillCreator drives a GRBL machine from the **Control** tab and the **Machine** menu. All of it comes from baseCreator, so MillCreator, PenCreator and LightCreator behave the same. **Tested on a TwoTrees TTC450Pro only**: test with the tool lifted or no pen, and keep a hand on the stop.
 
 ## Reading the machine
 

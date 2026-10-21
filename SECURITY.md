@@ -33,5 +33,5 @@ that could write unintended G-code, are in scope. Problems in the shared code ar
 
 ## Safety reminder
 
-A milling machine is dangerous. MillCreator writes G-code and can stream it to a GRBL machine, but has not been tried on a real one; test every job in the air
+A milling machine is dangerous. MillCreator writes G-code and can stream it to a GRBL machine, and has been tested on a TwoTrees TTC450Pro, but not on other machines; test every job in the air
 first, wear eye and ear protection and never leave a running machine unattended.
