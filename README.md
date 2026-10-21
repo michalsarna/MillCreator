@@ -7,9 +7,8 @@ look at the job in 3D and write G-code. It is the sibling of [LightCreator](http
 (laser) and shares its core and interface code through [baseCreator](https://github.com/michalsarna/baseCreator),
 pinned to a tag in `crates/millcreator/Cargo.toml`.
 
-> ⚠️ A milling machine is dangerous and this program has not been run on a machine by its author. It writes G-code and
-> can **stream it to a GRBL machine** (connect, home, frame, start, stop), but none of this has been tried on a real
-> machine. Test every job in the air first. See the wiki page *Safety and Limitations*.
+> ⚠️ A milling machine is dangerous and this program has been tested on a TwoTrees TTC450Pro and works there, but not on other machines. It writes G-code and
+> can **stream it to a GRBL machine** (connect, home, frame, start, stop). Test every job in the air first. See the wiki page *Safety and Limitations*.
 
 ## Screenshots
 
