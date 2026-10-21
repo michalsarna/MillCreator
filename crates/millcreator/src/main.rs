@@ -1688,7 +1688,11 @@ mod tests {
 
     #[test]
     fn the_clipart_tab_draws() {
-        let mut h = egui_kittest::Harness::builder().with_size([1280.0, 800.0]).build_ui_state(
+        let mut h = egui_kittest::Harness::builder().with_accessibility_check(false).with_context_setup(|ctx| {
+            // The app was built on another context: this one needs the fonts and the icons (menu images) too.
+            base_ui::fonts::install(ctx);
+            base_ui::icons::install(ctx);
+        }).with_size([1280.0, 800.0]).build_ui_state(
             |ui, a: &mut App| {
                 a.screen = Screen::Editor;
                 a.side_tab = SideTab::Clipart;
@@ -1703,7 +1707,11 @@ mod tests {
     fn the_description_tab_draws_the_text_of_the_project_and_it_is_saved() {
         let mut app = App::build(&egui::Context::default(), None, false);
         app.description = "Birch plywood 3 mm".into();
-        let mut h = egui_kittest::Harness::builder().with_size([1280.0, 800.0]).build_ui_state(
+        let mut h = egui_kittest::Harness::builder().with_accessibility_check(false).with_context_setup(|ctx| {
+            // The app was built on another context: this one needs the fonts and the icons (menu images) too.
+            base_ui::fonts::install(ctx);
+            base_ui::icons::install(ctx);
+        }).with_size([1280.0, 800.0]).build_ui_state(
             |ui, a: &mut App| {
                 a.screen = Screen::Editor;
                 a.side_tab = SideTab::Description;
