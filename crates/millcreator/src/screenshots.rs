@@ -43,7 +43,7 @@ fn app(h: &mut Shot) -> &mut App {
 #[test]
 #[ignore = "writes docs/screenshots; run explicitly"]
 fn render_screenshots() {
-    let mut h: Shot = Harness::builder().with_size([1280.0, 800.0]).build_ui_state(
+    let mut h: Shot = Harness::builder().with_accessibility_check(false).with_size([1280.0, 800.0]).build_ui_state(
         |ui, state: &mut Option<App>| {
             let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
             a.draw(ui);
@@ -305,7 +305,7 @@ mod multi_select_tests {
 
     #[test]
     fn shift_and_ctrl_click_add_to_the_selection_and_take_out_again() {
-        let mut h: Shot = Harness::builder().with_size([1280.0, 800.0]).build_ui_state(
+        let mut h: Shot = Harness::builder().with_accessibility_check(false).with_size([1280.0, 800.0]).build_ui_state(
             |ui, state: &mut Option<App>| {
                 let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
                 a.draw(ui);
@@ -353,7 +353,7 @@ mod context_menu_tests {
 
     #[test]
     fn a_right_click_on_a_shape_opens_the_menu_and_its_commands_work() {
-        let mut h: Shot = Harness::builder().with_size([1280.0, 800.0]).build_ui_state(
+        let mut h: Shot = Harness::builder().with_accessibility_check(false).with_size([1280.0, 800.0]).build_ui_state(
             |ui, state: &mut Option<App>| {
                 let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
                 a.draw(ui);
@@ -399,12 +399,12 @@ mod window_size_tests {
     use super::*;
 
     fn rect_of(h: &Shot, id: &'static str) -> Option<egui::Rect> {
-        h.ctx.memory(|m| m.area_rect(egui::Id::new(Some(id))))
+        h.ctx.memory(|m| m.area_rect(egui::Id::unique(Some(id))))
     }
 
     #[test]
     fn the_preview_and_the_bit_library_keep_their_size_and_do_not_grow_to_the_screen() {
-        let mut h: Shot = Harness::builder().with_size([1600.0, 1000.0]).build_ui_state(
+        let mut h: Shot = Harness::builder().with_accessibility_check(false).with_size([1600.0, 1000.0]).build_ui_state(
             |ui, state: &mut Option<App>| {
                 let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
                 a.draw(ui);
@@ -449,7 +449,7 @@ mod plugin_import_window_tests {
         std::fs::write(p.join("read.rhai"), "fn read(text, ctx) { rect(0.0, 0.0, ctx.p.w, 5.0) }").unwrap();
         let file = base.join("a.frm");
         std::fs::write(&file, "x").unwrap();
-        let mut h: Shot = Harness::builder().with_size([1280.0, 800.0]).build_ui_state(
+        let mut h: Shot = Harness::builder().with_accessibility_check(false).with_size([1280.0, 800.0]).build_ui_state(
             |ui, state: &mut Option<App>| {
                 let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
                 a.draw(ui);
