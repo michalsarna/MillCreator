@@ -93,6 +93,18 @@ impl View3d {
         self.pitch = (self.pitch + dy * 0.01).clamp(MIN_PITCH, MAX_PITCH);
     }
 
+    /// Look at the model from a direction of the world (from the model to the eye), as the navigation cube asks. The camera cannot
+    /// go below the horizon or straight above (the plan has its own button), so those are as near as it goes.
+    pub fn look_from(&mut self, d: [f32; 3]) {
+        if self.top {
+            return;
+        }
+        self.pitch = d[2].clamp(-1.0, 1.0).asin().clamp(MIN_PITCH, MAX_PITCH);
+        if d[0].hypot(d[1]) > 1e-4 {
+            self.yaw = d[0].atan2(-d[1]).rem_euclid(std::f32::consts::TAU);
+        }
+    }
+
     pub fn zoom_by(&mut self, factor: f32) {
         self.zoom = (self.zoom * factor).clamp(0.2, 40.0);
     }
@@ -209,6 +221,15 @@ pub fn show(ui: &mut egui::Ui, view: &mut View3d, sc: &Scene3d) {
     let painter = ui.painter_at(rect);
     painter.rect_filled(rect, 4.0, if ui.visuals().dark_mode { Color32::from_rgb(0x1c, 0x1e, 0x24) } else { Color32::from_rgb(0xe9, 0xec, 0xf1) });
     draw(&painter, rect, view, sc);
+    // The navigation cube (the plan from above cannot be turned).
+    if !view.top {
+        let (eye, right, up) = view.axes();
+        match base_ui::navicube::show(ui, rect, &[right, up, eye]) {
+            Some(base_ui::navicube::Nav::LookFrom(d)) => view.look_from(d),
+            Some(base_ui::navicube::Nav::Home) => view.reset(),
+            None => {}
+        }
+    }
 }
 
 /// Zoom and pan so that the box `lo`..`hi` (X and Y, from the material's top down to the safe height) fills `rect`.
@@ -350,6 +371,35 @@ mod tests {
         let r = Region::of(&none, Some([10.0, 10.0, 30.0, 20.0])).unwrap();
         assert!((r.size()[0] - 22.0).abs() < 1e-9 && (r.size()[1] - 11.0).abs() < 1e-9);
         assert!(Region::of(&none, None).is_none());
+    }
+
+    #[test]
+    fn the_navigation_cube_sets_the_camera_from_a_direction() {
+        let mut v = View3d::default();
+        // From the front: the eye is at -Y, low.
+        v.look_from([0.0, -1.0, 0.0]);
+        assert!(v.yaw.abs() < 1e-5 && v.pitch == MIN_PITCH);
+        // From the right-hand side (+X) the yaw is a quarter turn.
+        v.look_from([1.0, 0.0, 0.0]);
+        assert!((v.yaw - std::f32::consts::FRAC_PI_2).abs() < 1e-5);
+        // From a corner above: a pitch of about 35 degrees.
+        v.look_from([0.577, -0.577, 0.577]);
+        assert!((v.pitch - 0.6155).abs() < 1e-3 && v.yaw > 0.0);
+        // The camera of the picture agrees with the cube: the direction to the eye is the one that was asked for.
+        let (eye, _, _) = v.axes();
+        for (got, want) in eye.iter().zip([0.57735, -0.57735, 0.57735]) {
+            assert!((got - want).abs() < 0.01, "{eye:?}");
+        }
+        // From straight above or below it goes as far as the camera does and keeps the yaw.
+        let yaw = v.yaw;
+        v.look_from([0.0, 0.0, 1.0]);
+        assert_eq!((v.yaw, v.pitch), (yaw, MAX_PITCH));
+        v.look_from([0.0, 0.0, -1.0]);
+        assert_eq!(v.pitch, MIN_PITCH);
+        // The plan is not turned.
+        let mut plan = View3d { top: true, ..View3d::default() };
+        plan.look_from([1.0, 0.0, 0.0]);
+        assert_eq!((plan.yaw, plan.pitch), (START_YAW, START_PITCH));
     }
 
     #[test]
