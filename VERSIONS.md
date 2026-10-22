@@ -2,6 +2,15 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.3.6
+
+* **Pictures are engraved:** the *Picture* operation of a layer (dithered rows, dots, depth by tone) with the dithering methods of baseCreator; a picture put on a layer switches it to that operation.
+* **3D relief:** a picture as a depth map cut in passes, with the shape of the bit taken into account, and the carved piece exported as STL.
+* **Preview:** *Fit to the work area* and *Fit to the elements*, as icons in the title line (like in LightCreator).
+* **Plugins:** the import window has a form, a preview and a 3D view (for example the STL projection plugin); the generator window has a preview and pictures; PDF / Illustrator import can use the layers of the file. Plugins can import a KiCad board, Gerber, EAGLE and EasyEDA boards (outline, isolation, holes) from the official list.
+* The Device tab uses the shared XY jog pad; the About window shows the baseCreator version.
+* egui / eframe 0.37; baseCreator v1.15.0.
+
 ## v0.3.5
 
 * **Properties tab:** when one picture is selected, an *Image* section has the buttons **Adjust image…** and **Trace image…** (shared by all programs), so tracing a picture into outlines does not have to be looked for in the menu.
