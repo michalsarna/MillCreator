@@ -483,3 +483,36 @@ mod plugin_import_window_tests {
         let _ = std::fs::remove_dir_all(&base);
     }
 }
+
+/// Writes `examples/plaque.cre` (the demo job above as a project) and `examples/plaque.nc` (its G-code).
+/// `cargo test -p millcreator write_examples -- --ignored --nocapture`
+#[test]
+#[ignore = "writes examples/; run explicitly"]
+fn write_examples() {
+    let mut h: Shot = Harness::builder().with_accessibility_check(false).with_size([1280.0, 800.0]).build_ui_state(
+        |ui, state: &mut Option<App>| {
+            let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
+            a.draw(ui);
+        },
+        None,
+    );
+    h.run_steps(2);
+    {
+        let a = app(&mut h);
+        a.devices.clear();
+        let mut router = crate::device::Device::dummy();
+        router.name = "Desktop router 300 × 200".into();
+        a.devices.push(router);
+        a.use_dummy_device();
+        a.start_sel = 0;
+        demo_job(a);
+    }
+    h.run_steps(3);
+    let a = app(&mut h);
+    let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../examples");
+    std::fs::write(dir.join("plaque.cre"), a.to_project().to_json()).expect("write project");
+    let prog = a.make_program();
+    assert!(!prog.is_empty(), "the demo job makes toolpaths");
+    let text = crate::toolpath::to_gcode(&prog, &a.device, &a.layers, &a.tools, "plaque");
+    std::fs::write(dir.join("plaque.nc"), a.postprocessed(text).expect("no postprocessor")).expect("write G-code");
+}

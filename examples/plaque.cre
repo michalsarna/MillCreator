@@ -1,0 +1,1806 @@
+{
+  "format": 1,
+  "description": "Plaque, birch plywood 10 mm.\nCut out last, so the part is held until then.",
+  "scene": {
+    "shapes": [
+      {
+        "id": 1,
+        "layer": 0,
+        "kind": {
+          "Rect": {
+            "w": 150.0,
+            "h": 90.0
+          }
+        },
+        "xf": {
+          "a": 1.0,
+          "b": 0.0,
+          "c": 0.0,
+          "d": 1.0,
+          "e": 75.0,
+          "f": 55.0
+        },
+        "group": null,
+        "locked": false
+      },
+      {
+        "id": 2,
+        "layer": 4,
+        "kind": {
+          "Ellipse": {
+            "w": 6.0,
+            "h": 6.0
+          }
+        },
+        "xf": {
+          "a": 1.0,
+          "b": 0.0,
+          "c": 0.0,
+          "d": 1.0,
+          "e": 82.0,
+          "f": 62.0
+        },
+        "group": null,
+        "locked": false
+      },
+      {
+        "id": 3,
+        "layer": 4,
+        "kind": {
+          "Ellipse": {
+            "w": 6.0,
+            "h": 6.0
+          }
+        },
+        "xf": {
+          "a": 1.0,
+          "b": 0.0,
+          "c": 0.0,
+          "d": 1.0,
+          "e": 212.0,
+          "f": 62.0
+        },
+        "group": null,
+        "locked": false
+      },
+      {
+        "id": 4,
+        "layer": 4,
+        "kind": {
+          "Ellipse": {
+            "w": 6.0,
+            "h": 6.0
+          }
+        },
+        "xf": {
+          "a": 1.0,
+          "b": 0.0,
+          "c": 0.0,
+          "d": 1.0,
+          "e": 82.0,
+          "f": 128.0
+        },
+        "group": null,
+        "locked": false
+      },
+      {
+        "id": 5,
+        "layer": 4,
+        "kind": {
+          "Ellipse": {
+            "w": 6.0,
+            "h": 6.0
+          }
+        },
+        "xf": {
+          "a": 1.0,
+          "b": 0.0,
+          "c": 0.0,
+          "d": 1.0,
+          "e": 212.0,
+          "f": 128.0
+        },
+        "group": null,
+        "locked": false
+      },
+      {
+        "id": 6,
+        "layer": 2,
+        "kind": {
+          "Rect": {
+            "w": 56.0,
+            "h": 36.0
+          }
+        },
+        "xf": {
+          "a": 1.0,
+          "b": 0.0,
+          "c": 0.0,
+          "d": 1.0,
+          "e": 95.0,
+          "f": 82.0
+        },
+        "group": null,
+        "locked": false
+      },
+      {
+        "id": 7,
+        "layer": 3,
+        "kind": {
+          "Bezier": [
+            {
+              "nodes": [
+                {
+                  "p": {
+                    "x": 22.0,
+                    "y": 0.0
+                  },
+                  "hin": {
+                    "x": 22.0,
+                    "y": 0.0
+                  },
+                  "hout": {
+                    "x": 22.0,
+                    "y": 0.0
+                  },
+                  "smooth": false
+                },
+                {
+                  "p": {
+                    "x": 27.819073997695483,
+                    "y": 13.990731755688019
+                  },
+                  "hin": {
+                    "x": 27.819073997695483,
+                    "y": 13.990731755688019
+                  },
+                  "hout": {
+                    "x": 27.819073997695483,
+                    "y": 13.990731755688019
+                  },
+                  "smooth": false
+                },
+                {
+                  "p": {
+                    "x": 42.92324335849338,
+                    "y": 15.201626123751158
+                  },
+                  "hin": {
+                    "x": 42.92324335849338,
+                    "y": 15.201626123751158
+                  },
+                  "hout": {
+                    "x": 42.92324335849338,
+                    "y": 15.201626123751158
+                  },
+                  "smooth": false
+                },
+                {
+                  "p": {
+                    "x": 31.41545951132202,
+                    "y": 25.05926824431198
+                  },
+                  "hin": {
+                    "x": 31.41545951132202,
+                    "y": 25.05926824431198
+                  },
+                  "hout": {
+                    "x": 31.41545951132202,
+                    "y": 25.05926824431198
+                  },
+                  "smooth": false
+                },
+                {
+                  "p": {
+                    "x": 34.93127555043441,
+                    "y": 39.798373876248846
+                  },
+                  "hin": {
+                    "x": 34.93127555043441,
+                    "y": 39.798373876248846
+                  },
+                  "hout": {
+                    "x": 34.93127555043441,
+                    "y": 39.798373876248846
+                  },
+                  "smooth": false
+                },
+                {
+                  "p": {
+                    "x": 22.0,
+                    "y": 31.9
+                  },
+                  "hin": {
+                    "x": 22.0,
+                    "y": 31.9
+                  },
+                  "hout": {
+                    "x": 22.0,
+                    "y": 31.9
+                  },
+                  "smooth": false
+                },
+                {
+                  "p": {
+                    "x": 9.068724449565593,
+                    "y": 39.798373876248846
+                  },
+                  "hin": {
+                    "x": 9.068724449565593,
+                    "y": 39.798373876248846
+                  },
+                  "hout": {
+                    "x": 9.068724449565593,
+                    "y": 39.798373876248846
+                  },
+                  "smooth": false
+                },
+                {
+                  "p": {
+                    "x": 12.58454048867798,
+                    "y": 25.05926824431198
+                  },
+                  "hin": {
+                    "x": 12.58454048867798,
+                    "y": 25.05926824431198
+                  },
+                  "hout": {
+                    "x": 12.58454048867798,
+                    "y": 25.05926824431198
+                  },
+                  "smooth": false
+                },
+                {
+                  "p": {
+                    "x": 1.0767566415066199,
+                    "y": 15.20162612375116
+                  },
+                  "hin": {
+                    "x": 1.0767566415066199,
+                    "y": 15.20162612375116
+                  },
+                  "hout": {
+                    "x": 1.0767566415066199,
+                    "y": 15.20162612375116
+                  },
+                  "smooth": false
+                },
+                {
+                  "p": {
+                    "x": 16.180926002304513,
+                    "y": 13.99073175568802
+                  },
+                  "hin": {
+                    "x": 16.180926002304513,
+                    "y": 13.99073175568802
+                  },
+                  "hout": {
+                    "x": 16.180926002304513,
+                    "y": 13.99073175568802
+                  },
+                  "smooth": false
+                }
+              ],
+              "closed": true
+            }
+          ]
+        },
+        "xf": {
+          "a": 1.0,
+          "b": 0.0,
+          "c": 0.0,
+          "d": 1.0,
+          "e": 165.0,
+          "f": 78.0
+        },
+        "group": null,
+        "locked": false
+      }
+    ],
+    "next_id": 8,
+    "next_group": 1
+  },
+  "sections": {
+    "mill": {
+      "format": 1,
+      "layers": [
+        {
+          "color": [
+            32,
+            32,
+            48
+          ],
+          "depth": 10.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Cut out",
+          "op": "ProfileOutside",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            214,
+            39,
+            40
+          ],
+          "depth": 10.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Holes and windows",
+          "op": "ProfileInside",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            31,
+            119,
+            180
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Pocket",
+          "op": "Pocket",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            44,
+            160,
+            44
+          ],
+          "depth": 1.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 700.0,
+          "name": "Engrave",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 250.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 6.0,
+          "step_over_pct": 40.0,
+          "tool": "std-v-60",
+          "visible": true
+        },
+        {
+          "color": [
+            255,
+            127,
+            14
+          ],
+          "depth": 10.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 200.0,
+          "name": "Drill",
+          "op": "Drill",
+          "picture": "Rows",
+          "plunge": 120.0,
+          "rank": 0,
+          "rpm": 8000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5,
+          "step_over_pct": 40.0,
+          "tool": "std-drill-3",
+          "visible": true
+        },
+        {
+          "color": [
+            148,
+            103,
+            189
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 6",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            140,
+            86,
+            75
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 7",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            227,
+            119,
+            194
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 8",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            23,
+            190,
+            207
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 9",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            188,
+            189,
+            34
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 10",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            127,
+            127,
+            127
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 11",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            0,
+            0,
+            139
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 12",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            139,
+            0,
+            0
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 13",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            0,
+            100,
+            0
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 14",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            184,
+            134,
+            11
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 15",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            75,
+            0,
+            130
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 16",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            132,
+            132,
+            141
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 17",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            232,
+            136,
+            137
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 18",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            132,
+            180,
+            214
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 19",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            139,
+            203,
+            139
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 20",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            255,
+            185,
+            122
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 21",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            196,
+            171,
+            219
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 22",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            192,
+            162,
+            156
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 23",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            240,
+            180,
+            221
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 24",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            127,
+            219,
+            229
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 25",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            218,
+            219,
+            133
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 26",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            185,
+            185,
+            185
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 27",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            115,
+            115,
+            191
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 28",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            191,
+            115,
+            115
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 29",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            115,
+            170,
+            115
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 30",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            216,
+            188,
+            121
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 31",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            156,
+            115,
+            186
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 32",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            193,
+            193,
+            197
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 33",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            244,
+            195,
+            195
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 34",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            192,
+            217,
+            234
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 35",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            196,
+            228,
+            196
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 36",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            255,
+            219,
+            188
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 37",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            225,
+            212,
+            237
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 38",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            223,
+            208,
+            205
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 39",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            247,
+            217,
+            238
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 40",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            190,
+            237,
+            242
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 41",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            236,
+            237,
+            193
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 42",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            219,
+            219,
+            219
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 43",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            184,
+            184,
+            223
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 44",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            223,
+            184,
+            184
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 45",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            184,
+            212,
+            184
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 46",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            235,
+            221,
+            187
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 47",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            205,
+            184,
+            220
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 48",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            20,
+            20,
+            30
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 49",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            133,
+            24,
+            25
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 50",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            19,
+            74,
+            112
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 51",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            27,
+            99,
+            27
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 52",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            158,
+            79,
+            9
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 53",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            92,
+            64,
+            117
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 54",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            87,
+            53,
+            46
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 55",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            141,
+            74,
+            120
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 56",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            14,
+            118,
+            128
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 57",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            117,
+            117,
+            21
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 58",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            79,
+            79,
+            79
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 59",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            0,
+            0,
+            86
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 60",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            86,
+            0,
+            0
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 61",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            0,
+            62,
+            0
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 62",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            114,
+            83,
+            7
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 63",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        },
+        {
+          "color": [
+            46,
+            0,
+            81
+          ],
+          "depth": 3.0,
+          "dither": "FloydSteinberg",
+          "enabled": true,
+          "feed": 900.0,
+          "name": "Layer 64",
+          "op": "OnPath",
+          "picture": "Rows",
+          "plunge": 300.0,
+          "rank": 0,
+          "rpm": 16000.0,
+          "scan_angle": 0.0,
+          "step_down": 1.5875,
+          "step_over_pct": 40.0,
+          "tool": "std-flat-3",
+          "visible": true
+        }
+      ],
+      "machine": {
+        "name": "Desktop router 300 × 200",
+        "x": 300.0,
+        "y": 200.0,
+        "z": 60.0
+      },
+      "stock": {
+        "color": [
+          227,
+          197,
+          143
+        ],
+        "first_pass": false,
+        "first_pass_depth": 0.1,
+        "kind": "WoodLight",
+        "thickness": 10.0
+      },
+      "tools": [
+        {
+          "cutting": {
+            "feed": 900.0,
+            "flutes": 2,
+            "plunge": 300.0,
+            "rpm": 16000.0,
+            "step_down_pct": 50.0,
+            "step_over_pct": 40.0
+          },
+          "dims": {
+            "angle": 60.0,
+            "corner": 0.5,
+            "cut_length": 12.0,
+            "diameter": 3.175,
+            "overall": 38.0,
+            "shank": 3.175,
+            "tip": 0.2
+          },
+          "id": "std-flat-3",
+          "kind": "FlatEnd",
+          "name": "Flat 3.175 mm (1/8\")",
+          "notes": ""
+        },
+        {
+          "cutting": {
+            "feed": 700.0,
+            "flutes": 2,
+            "plunge": 250.0,
+            "rpm": 16000.0,
+            "step_down_pct": 50.0,
+            "step_over_pct": 40.0
+          },
+          "dims": {
+            "angle": 60.0,
+            "corner": 0.5,
+            "cut_length": 12.0,
+            "diameter": 12.0,
+            "overall": 40.0,
+            "shank": 6.0,
+            "tip": 0.2
+          },
+          "id": "std-v-60",
+          "kind": "VBit",
+          "name": "V-bit 60°",
+          "notes": ""
+        },
+        {
+          "cutting": {
+            "feed": 200.0,
+            "flutes": 2,
+            "plunge": 120.0,
+            "rpm": 8000.0,
+            "step_down_pct": 50.0,
+            "step_over_pct": 40.0
+          },
+          "dims": {
+            "angle": 118.0,
+            "corner": 0.5,
+            "cut_length": 20.0,
+            "diameter": 3.0,
+            "overall": 50.0,
+            "shank": 3.0,
+            "tip": 0.2
+          },
+          "id": "std-drill-3",
+          "kind": "Drill",
+          "name": "Drill 3 mm",
+          "notes": ""
+        }
+      ]
+    }
+  }
+}

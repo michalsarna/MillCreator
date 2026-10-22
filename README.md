@@ -57,6 +57,10 @@ What is not there: tabs, ramps, V-carving, 3D relief, collision checks. See [FEA
 
 Ready-made packages for Windows, macOS and Linux are on the [Releases page](https://github.com/michalsarna/MillCreator/releases); see [INSTALL.md](INSTALL.md).
 
+## Examples
+
+[`examples/`](examples) has a small badge (`badge.svg`) to import, a plaque to mill as a project (`plaque.cre`: the outline cut out, four holes drilled, a pocket and an engraved star, with a bit for each layer; open it with *File → Open*) and the G-code the program makes from it (`plaque.nc`, GRBL). `cargo test -p millcreator write_examples -- --ignored` writes the last two again.
+
 ## Building
 
 ```sh
