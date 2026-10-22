@@ -10,6 +10,7 @@ mod layers;
 mod layers_ui;
 mod machine_ui;
 mod materials;
+mod gcode_view_glue;
 mod menu;
 mod plugins_glue;
 mod preview_ui;
@@ -111,6 +112,7 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::Open => Some("folder-open"),
         Act::Save | Act::SaveAs => Some("save"),
         Act::ImportLightburn | Act::ImportUgsd | Act::ImportPlugin => Some("file-input"),
+        Act::ViewGcode => Some("eye"),
         Act::Plugins => Some("package-open"),
         Act::GenerateShape => Some("shapes"),
         Act::ToolLibrary => Some("package"),
@@ -249,6 +251,8 @@ struct App {
     plugins: base_ui::plugins_ui::PluginsUi,
     /// What the postprocessor of the last export said, for the status bar.
     post_note: Option<String>,
+    /// The G-code file shown in place of the work area (File > View G-code file…).
+    gcode_view: Option<base_ui::gcode_view_ui::GcodeViewer>,
     start_from: StartFrom,
     start_lines: Vec<String>,
     /// A job that waits for the check run to find nothing wrong.
@@ -354,6 +358,7 @@ impl App {
             diag_gcode: None,
             plugins: base_ui::plugins_ui::PluginsUi::new("millcreator", &data_paths().base),
             post_note: None,
+            gcode_view: None,
             start_from: StartFrom::default(),
             start_lines: vec![],
             after_check: None,
@@ -431,6 +436,13 @@ impl App {
         // A LightBurn project or a UGS design is imported into the drawing, not opened.
         if is_import(&path) {
             return self.import_file(path);
+        }
+        // A G-code file is shown, not opened (unless a plugin reads that extension).
+        if base_ui::gcode_view_ui::is_gcode(&path) && !self.plugin_reads(&path) {
+            if self.screen == Screen::Start {
+                self.take_selected_device();
+            }
+            return self.open_gcode(path);
         }
         if self.try_plugin_import(&path) {
             return;
@@ -1004,7 +1016,11 @@ impl App {
         base_ui::widgets::panel_edge_highlight(ui.ctx(), side.response.rect, base_ui::widgets::Edge::Left);
         egui::Panel::right("arrange_bar").frame(chrome.inner_margin(egui::Margin::symmetric(2, 4))).exact_size(40.0).resizable(false).show(ui, |ui| base_ui::editor::arrange_bar(self, ui));
         egui::Panel::bottom("layer_bar").frame(chrome).exact_size(36.0).show(ui, |ui| base_ui::layer_bar::layer_bar(self, ui));
-        egui::CentralPanel::no_frame().show(ui, |ui| self.canvas(ui));
+        egui::CentralPanel::no_frame().show(ui, |ui| {
+            if !self.gcode_view_panel(ui) {
+                self.canvas(ui)
+            }
+        });
         self.dialogs(&ctx);
     }
 }
@@ -1137,6 +1153,7 @@ impl MenuHost for App {
             Act::SaveAs => self.save(true),
             Act::ImportLightburn => self.import_lightburn_dialog(),
             Act::ImportUgsd => self.import_ugsd_dialog(),
+            Act::ViewGcode => self.view_gcode_dialog(),
             Act::ImportPlugin => self.import_with_plugin_dialog(),
             Act::Plugins => self.plugins.open = true,
             Act::GenerateShape => self.plugins.gen_open = true,
