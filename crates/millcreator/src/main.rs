@@ -439,9 +439,6 @@ impl App {
         }
         // A G-code file is shown, not opened (unless a plugin reads that extension).
         if base_ui::gcode_view_ui::is_gcode(&path) && !self.plugin_reads(&path) {
-            if self.screen == Screen::Start {
-                self.take_selected_device();
-            }
             return self.open_gcode(path);
         }
         if self.try_plugin_import(&path) {
@@ -997,7 +994,14 @@ impl App {
         base_ui::window::window_edge_drag(&ctx);
         self.handle_drops(&ctx);
         if self.screen == Screen::Start {
-            self.start_screen(ui);
+            // A G-code file opened from the start screen takes the whole window; closing it returns here.
+            if self.gcode_view.is_some() {
+                egui::CentralPanel::no_frame().show(ui, |ui| {
+                    self.gcode_view_panel(ui);
+                });
+            } else {
+                self.start_screen(ui);
+            }
             self.dialogs(&ctx);
             return;
         }

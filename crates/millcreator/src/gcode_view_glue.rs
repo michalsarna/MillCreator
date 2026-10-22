@@ -41,8 +41,10 @@ mod tests {
         let p = dir.join("job.nc");
         std::fs::write(&p, "G21 G90\nG0 X0 Y0\nG1 X10 Y0 F500\nG1 X10 Y10\n").unwrap();
         let shapes = a.scene.shapes.len();
+        assert_eq!(a.screen, crate::Screen::Start);
         a.open(p);
         assert!(a.gcode_view.is_some(), "the viewer opened");
+        assert_eq!(a.screen, crate::Screen::Start, "from the start screen the editor is not entered");
         assert_eq!(a.scene.shapes.len(), shapes, "the drawing is not touched");
         // A file without moves is refused with a line for the status bar.
         let q = dir.join("empty.nc");
