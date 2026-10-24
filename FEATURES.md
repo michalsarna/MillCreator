@@ -12,7 +12,7 @@
 * **Toolpaths:** offsets by the radius of the bit, passes down to the depth, rings for pockets, a safe height, estimate of the length and the time, and warnings.
 * **The machine:** a GRBL controller on a serial port or a network socket (port, baud rate, streaming, homing or clearing an alarm after connecting, reconnecting by itself); Connect, Home, Unlock, Pause / Resume, Frame (the box of the work at the safe height), Start and Stop, a **Console** tab (the traffic with the controller, a line to send a command) and the position; Save G-code on the control bar.
 * **Rotary attachment:** chuck or rollers, workpiece diameter, microsteps per turn; the drawing may not be higher than the way round the workpiece (warning).
-* **Toolpaths button:** the paths drawn over the work area; **Camera view** window of the live camera.
+* **Toolpaths button** (in the Control tab, with Preview… and Camera view): the paths drawn over the work area; **Camera view** window of the live camera. The bar over the work area keeps only the editing controls, the size of the selection and **Save G-code**; START, STOP, From line… and Frame are in the Control tab.
 * **3D view:** block of the material, cuts as wide as the bit, moves at the safe height, turn, zoom, move, reset, from above as a plan, an animation (play, pause, speed ×0.25 to ×25, repeat) with a progress slider and the bit marked; the shown area is 10 % larger than the project.
 * **G-code** for GRBL: spindle and wait, rapid and cutting moves with feeds, the zero of the machine, a stop to change the bit (`M0`).
 * **Project file** `.cre` (shared with LightCreator): the drawing, the description and the `mill` section; the sections of other programs are kept as they were.
