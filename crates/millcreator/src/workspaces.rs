@@ -210,8 +210,10 @@ impl App {
         base_core::autosave::clear_slot(&crate::data_paths().base, APP, self.slot);
         let n = self.tabs_state.parked.len();
         if n <= 1 {
+            // The last tab: what is in it is saved or given up by now. The drawing is cleared (so the exit saves nothing)
+            // and the program closes.
             self.new_design();
-            self.screen = Screen::Start;
+            self.close_program = true;
             return;
         }
         let at = self.tabs_state.active;
@@ -238,13 +240,18 @@ impl App {
             }
             Some(TabAction::Close(i)) => {
                 self.switch_to(i);
-                if self.is_dirty() {
-                    self.tabs_state.closing = true;
-                } else {
-                    self.close_shown_tab();
-                }
+                self.close_tab_request();
             }
             None => {}
+        }
+    }
+
+    /// Close the shown tab, asking first when it has unsaved work (the cross of the tab, and Ctrl+W).
+    pub fn close_tab_request(&mut self) {
+        if self.is_dirty() {
+            self.tabs_state.closing = true;
+        } else {
+            self.close_shown_tab();
         }
     }
 
@@ -278,6 +285,11 @@ impl App {
     /// The questions about unsaved work: when the program is closed, tab by tab (`doc_tabs::quit_tick`), and when one tab is
     /// closed by its cross.
     pub fn close_dialogs(&mut self, ctx: &egui::Context) {
+        if self.close_program {
+            self.close_program = false;
+            self.allow_close = true;
+            ctx.send_viewport_cmd(egui::ViewportCommand::Close);
+        }
         if self.quitting {
             match doc_tabs::quit_tick(self, ctx, crate::SAVE_GREEN) {
                 doc_tabs::Quit::Done => {

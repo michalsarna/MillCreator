@@ -323,6 +323,19 @@ impl App {
         self.machine.line(line);
     }
 
+    /// Home, Unlock, Pause and Resume, 2 × 2 with icons: in the Device tab under the machine and at the top of the Control tab.
+    pub(crate) fn quick_row(&mut self, ui: &mut egui::Ui) {
+        use base_ui::control_ui::Quick;
+        let moves = self.machine.connected && !self.machine.job_running();
+        match base_ui::control_ui::quick_buttons(ui, moves, self.machine.connected) {
+            Some(Quick::Home) => self.machine.home(),
+            Some(Quick::Unlock) => self.machine.unlock(),
+            Some(Quick::Pause) => self.pause_job(),
+            Some(Quick::Resume) => self.resume_job(),
+            None => {}
+        }
+    }
+
     /// The Connection part of the Device tab: connect, the state, the positions and the buttons that need the link.
     pub(crate) fn machine_section(&mut self, ui: &mut egui::Ui) {
         ui.label(RichText::new(tr("Machine")).strong());
@@ -344,21 +357,10 @@ impl App {
             let p = self.machine.pos;
             ui.label(RichText::new(format!("X {:.3}   Y {:.3}   Z {:.3}", p[0], p[1], p[2])).monospace());
         }
-        ui.horizontal_wrapped(|ui| {
-            let idle = self.machine.connected && !self.machine.job_running();
-            if ui.add_enabled(idle, egui::Button::new(tr("Home"))).clicked() {
-                self.machine.home();
-            }
-            if ui.add_enabled(idle, egui::Button::new(tr("Unlock"))).on_hover_text(tr("Clear an alarm ($X)")).clicked() {
-                self.machine.unlock();
-            }
-            if ui.add_enabled(self.machine.connected, egui::Button::new(tr("Pause"))).on_hover_text(tr("Feed hold")).clicked() {
-                self.pause_job();
-            }
-            if ui.add_enabled(self.machine.connected, egui::Button::new(tr("Resume"))).clicked() {
-                self.resume_job();
-            }
-        });
+        ui.add_space(4.0);
+        ui.separator();
+        ui.add_space(4.0);
+        self.quick_row(ui);
         if self.machine.job_running() {
             let (d, t) = self.machine.progress;
             ui.add(egui::ProgressBar::new(d as f32 / t.max(1) as f32).text(format!("{d} / {t}")));
