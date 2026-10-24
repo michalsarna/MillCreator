@@ -323,6 +323,62 @@ impl App {
         self.machine.line(line);
     }
 
+    /// START, wide: streams the job to the machine (it was in the bar over the work area).
+    pub(crate) fn start_button(&mut self, ui: &mut egui::Ui) {
+        let can = self.can_start();
+        let go = egui::Button::new(RichText::new(tr("Start").to_uppercase()).color(Color32::WHITE).strong()).fill(theme::accent());
+        let tip = if can { tr("Stream the job to the connected machine") } else { tr("Connect to the machine first (Device tab)") };
+        if ui.add_enabled_ui(can, |ui| ui.add_sized([ui.available_width(), 40.0], go)).inner.on_hover_text(tip).on_disabled_hover_text(tip).clicked() {
+            self.start_job();
+        }
+    }
+
+    /// From line… and Frame, in a row of two (they were in the bar over the work area).
+    pub(crate) fn job_buttons(&mut self, ui: &mut egui::Ui) {
+        let half = ((ui.available_width() - ui.spacing().item_spacing.x) / 2.0).max(60.0);
+        let running = self.machine.job_running();
+        egui::Grid::new("job_buttons").num_columns(2).show(ui, |ui| {
+            if ui.add_enabled(self.can_start(), egui::Button::new(RichText::new(tr("From line…")).size(15.0)).min_size(egui::vec2(half, 32.0))).on_hover_text(tr("Start the job at a line of the program")).clicked() {
+                let ctx = ui.ctx().clone();
+                base_ui::menu::MenuHost::run_act(self, &ctx, crate::menu::Act::StartFrom);
+            }
+            let tip = if self.machine.connected { tr("Go round the box where the work will be done") } else { tr("Connect to the machine first (Device tab)") };
+            if ui.add_enabled(self.machine.connected && !running, egui::Button::new(RichText::new(tr("Frame")).size(15.0)).min_size(egui::vec2(half, 32.0))).on_hover_text(tip).on_disabled_hover_text(tip).clicked() {
+                self.frame_job();
+            }
+            ui.end_row();
+        });
+        ui.add_space(4.0);
+        ui.separator();
+        ui.add_space(4.0);
+    }
+
+    /// What was in the bar over the work area and shows or hides something: the toolpaths, the preview and the camera.
+    pub(crate) fn view_buttons(&mut self, ui: &mut egui::Ui) {
+        ui.add_space(4.0);
+        ui.separator();
+        ui.add_space(4.0);
+        ui.horizontal_wrapped(|ui| {
+            // Green while the toolpaths are shown on the work area, grey otherwise.
+            let on = self.toolpaths_on;
+            let (fill, ink) = if on { (Color32::from_rgb(0x2e, 0xa0, 0x4f), Color32::WHITE) } else { (theme::panel_dark(), theme::text_dim()) };
+            let btn = egui::Button::image_and_text(base_ui::icons::slot(Some("route"), ink), RichText::new(tr("Toolpaths")).color(ink)).fill(fill);
+            if ui.add(btn).on_hover_text(tr("Show the toolpaths on the work area")).clicked() {
+                self.toolpaths_on = !self.toolpaths_on;
+            }
+            if base_ui::widgets::window_toggle(ui, &tr("Preview…"), &tr("Open the preview window"), self.show_3d, self.screen == crate::Screen::Editor) {
+                if self.show_3d {
+                    self.show_3d = false;
+                } else {
+                    self.open_preview();
+                }
+            }
+            if self.device.camera().is_some() && base_ui::widgets::window_toggle(ui, &tr("Camera view"), &tr("Show the live camera picture of this machine"), self.show_camera, true) {
+                self.show_camera = !self.show_camera;
+            }
+        });
+    }
+
     /// Home, Unlock, Pause and Resume, 2 × 2 with icons: in the Device tab under the machine and at the top of the Control tab.
     pub(crate) fn quick_row(&mut self, ui: &mut egui::Ui) {
         use base_ui::control_ui::Quick;

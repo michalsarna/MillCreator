@@ -645,5 +645,19 @@ mod control_layout_tests {
         app(&mut h).machine.state = "Run".into();
         h.run_steps(3);
         assert!(!h.get_by_label("STOP").accesskit_node().is_disabled());
+        // What was in the bar over the work area is in this tab: START, From line… and Frame in a row of two, and the views.
+        assert!(h.query_by_label("START").is_some());
+        assert_eq!(y(&h, "From line…"), y(&h, "Frame"));
+        assert!(y(&h, "STOP") < y(&h, "Frame") && y(&h, "Frame") < y(&h, "Position"));
+        for view in ["Toolpaths", "Preview…"] {
+            assert!(h.query_by_label(view).is_some(), "{view} is in the Control tab");
+        }
+        // And the bar keeps only Save G-code: with another tab shown none of them is on the screen.
+        app(&mut h).side_tab = crate::SideTab::Properties;
+        h.run_steps(3);
+        assert!(h.query_by_label("Save G-code").is_some());
+        for gone in ["START", "Frame", "From line…", "Toolpaths", "Preview…"] {
+            assert!(h.query_by_label(gone).is_none(), "{gone} left the bar");
+        }
     }
 }

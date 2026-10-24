@@ -44,7 +44,7 @@ use base_ui::editor::{EditorCanvas, EditorCommands, EditorHost, EditorImages, Ed
 use base_ui::i18n::{self, tr, Lang};
 use base_ui::menu::{MenuHost, Menus};
 use base_ui::theme::{self, Scheme};
-use base_ui::widgets::{icon_button_ink, window_toggle};
+use base_ui::widgets::icon_button_ink;
 use device::Device;
 use device_ui::{CamState, DeviceEdit};
 use layers::MillLayer;
@@ -784,45 +784,7 @@ impl App {
             ui.separator();
             base_ui::editor::grid_toggles(self, ui);
             ui.separator();
-            // Green while the toolpaths are shown on the work area, grey otherwise.
-            let on = self.toolpaths_on;
-            let (fill, ink) = if on { (Color32::from_rgb(0x2e, 0xa0, 0x4f), Color32::WHITE) } else { (theme::panel_dark(), theme::text_dim()) };
-            let btn = egui::Button::image_and_text(base_ui::icons::slot(Some("route"), ink), RichText::new(tr("Toolpaths")).color(ink)).fill(fill);
-            if ui.add(btn).on_hover_text(tr("Show the toolpaths on the work area")).clicked() {
-                self.toolpaths_on = !self.toolpaths_on;
-            }
-            if window_toggle(ui, &tr("Preview…"), &tr("Open the preview window"), self.show_3d, self.screen == Screen::Editor) {
-                if self.show_3d {
-                    self.show_3d = false;
-                } else {
-                    self.open_preview();
-                }
-            }
-            if self.device.camera().is_some() && window_toggle(ui, &tr("Camera view"), &tr("Show the live camera picture of this machine"), self.show_camera, true) {
-                self.show_camera = !self.show_camera;
-            }
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                let running = self.machine.job_running();
-                if running {
-                    let stop = egui::Button::new(RichText::new(format!("   {}   ", tr("STOP").to_uppercase())).color(Color32::WHITE).strong()).fill(Color32::from_rgb(0xc0, 0x30, 0x30));
-                    if ui.add(stop).on_hover_text(tr("Abort the running job")).clicked() {
-                        self.abort_job();
-                    }
-                } else {
-                    let go = egui::Button::new(RichText::new(format!("   {}   ", tr("Start").to_uppercase())).color(Color32::WHITE).strong()).fill(theme::accent());
-                    let tip = if self.can_start() { tr("Stream the job to the connected machine") } else { tr("Connect to the machine first (Device tab)") };
-                    if ui.add_enabled(self.can_start(), go).on_hover_text(tip).clicked() {
-                        self.start_job();
-                    }
-                }
-                if ui.add_enabled(self.can_start(), egui::Button::new(tr("From line…"))).on_hover_text(tr("Start the job at a line of the program")).clicked() {
-                    let ctx = ui.ctx().clone();
-                    self.run_act(&ctx, Act::StartFrom);
-                }
-                let tip = if self.machine.connected { tr("Go round the box where the work will be done") } else { tr("Connect to the machine first (Device tab)") };
-                if ui.add_enabled(self.machine.connected && !running, egui::Button::new(tr("Frame"))).on_hover_text(tip).clicked() {
-                    self.frame_job();
-                }
                 if base_ui::window::save_button(ui, &tr("Save G-code")).clicked() {
                     self.export_gcode();
                 }
@@ -896,6 +858,8 @@ impl App {
                 egui::ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
                     self.quick_row(ui);
                     ui.add_space(4.0);
+                    self.start_button(ui);
+                    ui.add_space(4.0);
                     // STOP is live only while the machine works (a job, a jog, homing, a held move).
                     if control_ui::stop_button(ui, self.machine.working()) {
                         self.abort_job();
@@ -903,10 +867,12 @@ impl App {
                     ui.add_space(4.0);
                     ui.separator();
                     ui.add_space(4.0);
+                    self.job_buttons(ui);
                     let c = ControlCtx { control: &self.device.control, safe_z: self.device.safe_z, tool_diameter: td, job_box, probe: true, travel, spindle: Some(control_ui::SpindleCtx { min_rpm: self.device.spindle.min_rpm, max_rpm: self.device.spindle.max_rpm }), zeroing: true, z_axis: true, hold_to_move: true };
                     if let Some(s) = control_ui::panel(ui, &mut self.machine, &mut self.control_ui, &c) {
                         self.status = s;
                     }
+                    self.view_buttons(ui);
                 });
             }
             SideTab::Console => {
