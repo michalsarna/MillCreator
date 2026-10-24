@@ -285,6 +285,41 @@ fn render_screenshots() {
     }
 }
 
+/// The tabs of open drawings: three of them, one with unsaved work.
+#[test]
+#[ignore = "writes docs/screenshots; run explicitly"]
+fn render_tabs() {
+    let mut h: Shot = Harness::builder().with_accessibility_check(false).with_size([1280.0, 800.0]).build_ui_state(
+        |ui, state: &mut Option<App>| {
+            let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
+            a.draw(ui);
+        },
+        None,
+    );
+    h.run_steps(2);
+    {
+        let a = app(&mut h);
+        a.devices.clear();
+        let mut router = crate::device::Device::dummy();
+        router.name = "Desktop router 300 × 200".into();
+        a.devices.push(router);
+        a.use_dummy_device();
+        a.start_sel = 0;
+        demo_job(a);
+        // A project of its own in the second tab, and a third tab with a new drawing that is not saved.
+        let examples = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../examples");
+        a.open(examples.join("plaque.cre").canonicalize().unwrap());
+        a.new_tab();
+        a.scene.add(0, base_core::scene::Kind::Rect { w: 60.0, h: 40.0 }, base_core::geom::Xf::translate(100.0, 80.0));
+        a.touch_rev();
+        a.ed.view.need_fit = true;
+        // Keep local paths out of the picture.
+        a.status = "Ready".into();
+    }
+    h.run_steps(4);
+    save(&mut h, "37-tabs.png");
+}
+
 #[cfg(test)]
 mod multi_select_tests {
     use super::*;
@@ -515,4 +550,50 @@ fn write_examples() {
     assert!(!prog.is_empty(), "the demo job makes toolpaths");
     let text = crate::toolpath::to_gcode(&prog, &a.device, &a.layers, &a.tools, "plaque");
     std::fs::write(dir.join("plaque.nc"), a.postprocessed(text).expect("no postprocessor")).expect("write G-code");
+}
+
+/// The bar of the tabs answers to the pointer: "+" makes a tab, a click on a tab shows it, the cross closes it.
+#[cfg(test)]
+mod tab_click_tests {
+    use super::*;
+    use egui::{Event, Modifiers, PointerButton};
+
+    fn click(h: &mut Shot, pos: egui::Pos2) {
+        h.event(Event::PointerMoved(pos));
+        h.run_steps(2);
+        h.event(Event::PointerButton { pos, button: PointerButton::Primary, pressed: true, modifiers: Modifiers::NONE });
+        h.run_steps(2);
+        h.event(Event::PointerButton { pos, button: PointerButton::Primary, pressed: false, modifiers: Modifiers::NONE });
+        h.run_steps(3);
+    }
+
+    #[test]
+    fn the_plus_the_tab_and_the_cross_work() {
+        let mut h: Shot = Harness::builder().with_accessibility_check(false).with_size([1280.0, 800.0]).build_ui_state(
+            |ui, state: &mut Option<App>| {
+                let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
+                a.draw(ui);
+            },
+            None,
+        );
+        h.run_steps(2);
+        {
+            let a = app(&mut h);
+            a.devices.clear();
+            a.devices.push(crate::device::Device::dummy());
+            a.use_dummy_device();
+            a.new_design();
+        }
+        h.run_steps(3);
+        // One tab, "Untitled" (about 86 px wide from x = 8), then the plus.
+        click(&mut h, egui::pos2(107.0, 125.0));
+        assert_eq!(app(&mut h).tab_count(), 2, "the plus makes a tab");
+        assert_eq!(app(&mut h).tabs_state.active, 1);
+        // The first tab is shown by a click on its name.
+        click(&mut h, egui::pos2(40.0, 125.0));
+        assert_eq!(app(&mut h).tabs_state.active, 0);
+        // The cross of a tab without unsaved work closes it at once.
+        click(&mut h, egui::pos2(81.0, 125.0));
+        assert_eq!(app(&mut h).tab_count(), 1, "the cross closes the tab");
+    }
 }

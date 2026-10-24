@@ -20,6 +20,7 @@ mod toolpath;
 mod ugs_import;
 mod update_glue;
 mod view3d;
+mod workspaces;
 mod texts;
 mod warn;
 mod tools;
@@ -237,8 +238,18 @@ struct App {
     /// The list of layers shows all of them (not only those with shapes).
     show_all_layers: bool,
     autosave: base_core::autosave::Timer,
+    /// The revision at the last save by hand, open or new; `rev` differing from it is unsaved work (see `is_dirty`).
+    saved_rev: u64,
+    /// The tabs of open drawings (the shown one is the live fields above), and the number of the recovery file of the shown one.
+    tabs_state: workspaces::Tabs,
+    slot: usize,
+    /// The program is being closed: every tab with unsaved work is asked about in turn.
+    quitting: bool,
+    allow_close: bool,
+    /// When the tabs that are not shown were last written.
+    parked_saved_at: std::time::Instant,
     /// An unsaved project left by an earlier run (offered on the start screen).
-    recovery: Option<base_core::autosave::Found>,
+    recovery: Vec<base_core::autosave::Found>,
     prog_rev: u64,
     cam: Option<CamState>,
     machine: MachineLink,
@@ -342,7 +353,13 @@ impl App {
             picture_layers: Default::default(),
             show_all_layers: false,
             autosave: Default::default(),
-            recovery: base_core::autosave::find(&data_paths().base, "millcreator"),
+            saved_rev: 0,
+            tabs_state: Default::default(),
+            slot: 0,
+            quitting: false,
+            allow_close: false,
+            parked_saved_at: std::time::Instant::now(),
+            recovery: base_core::autosave::find_all(&data_paths().base, "millcreator"),
             prog_rev: 0,
             cam: None,
             machine: {
@@ -459,6 +476,10 @@ impl App {
         });
         match read {
             Ok((scene, file)) => {
+                // A drawing goes into a tab of its own (a blank tab is used as it is); a project that is open is shown.
+                if !self.tab_for_file(&path, is_project) {
+                    return;
+                }
                 // The milling part of the project: layers, material and the bits it uses (they join the library).
                 let loaded = match &file {
                     Some(p) => section::load(p, &mut self.tools),
@@ -671,13 +692,13 @@ impl App {
                     self.group_selection();
                 }
             } else if !native && pressed(egui::Key::N) {
-                self.new_design();
+                self.new_tab();
             } else if !native && pressed(egui::Key::S) {
                 self.save(shift);
             } else if !native && pressed(egui::Key::O) {
                 self.open_dialog();
             } else if !native && pressed(egui::Key::Q) {
-                ctx.send_viewport_cmd(egui::ViewportCommand::Close);
+                self.request_close(ctx);
             }
         } else if pressed(egui::Key::Delete) || pressed(egui::Key::Backspace) {
             if self.ed.tool == Tool::Node && !self.ed.node_sel.is_empty() {
@@ -735,7 +756,8 @@ impl App {
             title.push_str(&format!("  —  {}", name.to_string_lossy()));
         }
         if base_ui::window::title_bar(ui, &title, self.logo.as_ref()) {
-            ui.ctx().send_viewport_cmd(egui::ViewportCommand::Close);
+            let ctx = ui.ctx().clone();
+            self.request_close(&ctx);
         }
     }
 
@@ -892,8 +914,8 @@ impl App {
             ui.vertical_centered(|ui| {
                 base_ui::start::start_header(ui, self.logo.as_ref(), "MillCreator", VERSION);
                 ui.add_space(18.0);
-                if let Some(found) = self.recovery.clone() {
-                    if let Some(choice) = base_ui::autosave_ui::banner(ui, &found, 460.0) {
+                if !self.recovery.is_empty() {
+                    if let Some(choice) = base_ui::autosave_ui::banner_all(ui, &self.recovery.clone(), 460.0) {
                         self.recovery_choice(choice);
                     }
                     ui.add_space(12.0);
@@ -952,6 +974,7 @@ impl App {
     }
 
     fn dialogs(&mut self, ctx: &egui::Context) {
+        self.close_dialogs(ctx);
         self.image_dialogs(ctx);
         let mut show = self.show_options;
         base_ui::editor::view_options_window(self, ctx, &mut show);
@@ -993,6 +1016,7 @@ impl App {
         #[cfg(target_os = "macos")]
         base_ui::window::window_edge_drag(&ctx);
         self.handle_drops(&ctx);
+        self.close_requested_tick(&ctx);
         if self.screen == Screen::Start {
             // A G-code file opened from the start screen takes the whole window; closing it returns here.
             if self.gcode_view.is_some() {
@@ -1015,6 +1039,7 @@ impl App {
             egui::Panel::top("menu").frame(chrome).show(ui, |ui| base_ui::menu::menu_bar(self, ui));
         }
         egui::Panel::top("controls").frame(chrome).exact_size(36.0).show(ui, |ui| self.control_bar(ui));
+        egui::Panel::top("doc_tabs").frame(chrome.inner_margin(egui::Margin::symmetric(8, 2))).exact_size(30.0).show(ui, |ui| self.doc_tab_bar(ui));
         egui::Panel::bottom("status").frame(chrome).exact_size(26.0).show(ui, |ui| self.status_bar(ui));
         egui::Panel::left("tools").frame(chrome).exact_size(52.0).resizable(false).show(ui, |ui| base_ui::editor::tool_palette(self, ui, None));
         let side = if self.tabs.collapsed {
@@ -1156,7 +1181,9 @@ impl MenuHost for App {
     }
     fn run_act(&mut self, ctx: &egui::Context, a: Act) {
         match a {
-            Act::New => self.new_design(),
+            Act::New => {
+                self.new_tab();
+            }
             Act::Open => self.open_dialog(),
             Act::Save => self.save(false),
             Act::SaveAs => self.save(true),
@@ -1190,7 +1217,7 @@ impl MenuHost for App {
                 }
             }
             Act::ClearRecent => self.recent.clear(),
-            Act::Quit => ctx.send_viewport_cmd(egui::ViewportCommand::Close),
+            Act::Quit => self.request_close(ctx),
             Act::Std(s) => {
                 if self.screen == Screen::Editor {
                     s.run(self)
@@ -1587,7 +1614,7 @@ mod tests {
         assert_eq!(base_core::autosave::find(base, "millcreator").map(|f| f.shapes), Some(n), "kept while it has no name");
         // The program is started again: the start screen has the offer; Recover opens it as a project without a name.
         let mut b = App::build(&egui::Context::default(), None, false);
-        assert_eq!(b.recovery.as_ref().map(|f| f.shapes), Some(n));
+        assert_eq!(b.recovery.first().map(|f| f.shapes), Some(n));
         let recent = b.recent.clone();
         b.recovery_choice(base_ui::autosave_ui::Recovery::Recover);
         assert_eq!((b.scene.shapes.len(), b.screen), (n, Screen::Editor));
@@ -1601,7 +1628,7 @@ mod tests {
         a.autosave_tick(&egui::Context::default(), true);
         let mut c = App::build(&egui::Context::default(), None, false);
         c.recovery_choice(base_ui::autosave_ui::Recovery::Discard);
-        assert!(base_core::autosave::find(base, "millcreator").is_none() && c.recovery.is_none());
+        assert!(base_core::autosave::find(base, "millcreator").is_none() && c.recovery.is_empty());
         a_project_with_a_file_is_saved_to_it_and_not_to_the_recovery_file();
     }
 
@@ -1786,6 +1813,169 @@ mod tests {
         a.finish_pen(false);
         assert_eq!(a.scene.shapes.len(), 3);
         assert!(!a.history.undo.is_empty(), "drawing is undoable");
+    }
+
+    fn drawn(a: &mut App, svg_times: usize) {
+        for _ in 0..svg_times {
+            let more = read_scene(SVG).unwrap();
+            let last = layers::LAYER_COUNT - 1;
+            a.scene.append(more, last);
+        }
+        a.touch_rev();
+    }
+
+    #[test]
+    fn a_new_tab_is_a_new_drawing_and_each_tab_keeps_its_own() {
+        let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
+        let mut a = app();
+        drawn(&mut a, 1);
+        let one = a.scene.shapes.len();
+        assert!(a.new_tab());
+        assert_eq!(a.tab_count(), 2);
+        assert_eq!(a.scene.shapes.len(), 0, "the new tab is empty");
+        drawn(&mut a, 2);
+        assert!(a.new_tab());
+        drawn(&mut a, 3);
+        a.switch_to(0);
+        assert_eq!(a.scene.shapes.len(), one);
+        a.switch_to(1);
+        assert_eq!(a.scene.shapes.len(), 2 * one);
+        a.switch_to(2);
+        assert_eq!(a.scene.shapes.len(), 3 * one);
+        assert_eq!(a.tabs_state.active, 2);
+    }
+
+    #[test]
+    fn there_are_at_most_ten_tabs() {
+        let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
+        let mut a = app();
+        for _ in 1..doc_tabs_max() {
+            assert!(a.new_tab());
+        }
+        assert_eq!(a.tab_count(), doc_tabs_max());
+        assert!(!a.new_tab(), "the eleventh is refused");
+        assert_eq!(a.tab_count(), doc_tabs_max());
+        assert!(a.status.contains("10"), "{}", a.status);
+    }
+
+    fn doc_tabs_max() -> usize {
+        base_ui::doc_tabs::MAX_TABS
+    }
+
+    #[test]
+    fn what_was_made_for_one_tab_is_not_taken_for_another() {
+        let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
+        let mut a = app();
+        drawn(&mut a, 1);
+        a.new_tab();
+        drawn(&mut a, 2);
+        let r = a.rev;
+        a.switch_to(0);
+        assert!(a.prog.is_none(), "the toolpaths of the other tab are dropped");
+        assert_ne!(a.rev, r, "the revision is a new number in every tab shown");
+    }
+
+    #[test]
+    fn unsaved_work_is_per_tab_and_closing_asks_about_each() {
+        use base_ui::doc_tabs::{quit_answer, quit_prepare, Answer, Quit, TabHost};
+        let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
+        let mut a = app();
+        a.autosave_in_sync();
+        assert!(!a.any_dirty(), "an empty drawing is nothing to save");
+        drawn(&mut a, 1);
+        a.new_tab();
+        a.new_tab();
+        drawn(&mut a, 2);
+        a.switch_to(0);
+        assert!(a.is_dirty() && a.any_dirty());
+        assert!(a.tab_dirty(0) && !a.tab_dirty(1) && a.tab_dirty(2));
+        let ctx = egui::Context::default();
+        a.request_close(&ctx);
+        assert!(a.quitting && !a.allow_close);
+        assert_eq!(quit_prepare(&mut a), Quit::Asking);
+        assert_eq!(a.tabs_state.active, 0);
+        // Discard it: it is closed and the next one with work is shown.
+        assert_eq!(quit_answer(&mut a, Answer::Discard), Quit::Asking);
+        assert_eq!(a.tab_count(), 2);
+        assert!(a.is_dirty());
+        // Cancel: the program stays, and the tab keeps its work.
+        assert_eq!(quit_answer(&mut a, Answer::Cancel), Quit::Stopped);
+        assert_eq!(a.tab_count(), 2);
+        assert!(a.any_dirty());
+    }
+
+    #[test]
+    fn a_project_that_is_open_is_shown_not_opened_again() {
+        let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
+        let mut a = app();
+        let dir = std::env::temp_dir().join(format!("millcreator-tabs-files-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let mk = |n: &str| {
+            let f = dir.join(n);
+            let mut p = Project::new(read_scene(SVG).unwrap());
+            p.description = n.into();
+            std::fs::write(&f, p.to_json()).unwrap();
+            f
+        };
+        let (f1, f2) = (mk("one.cre"), mk("two.cre"));
+        a.open(f1.clone());
+        assert_eq!(a.tab_count(), 1, "a blank tab is used for the first file");
+        a.open(f2.clone());
+        assert_eq!(a.tab_count(), 2);
+        a.open(f1.clone());
+        assert_eq!(a.tab_count(), 2, "one.cre is open already");
+        assert_eq!(a.tabs_state.active, 0);
+        assert_eq!(a.description, "one.cre");
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn closing_the_last_tab_returns_to_the_start_screen() {
+        let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
+        let mut a = app();
+        a.new_tab();
+        a.close_shown_tab();
+        assert_eq!(a.tab_count(), 1);
+        assert_eq!(a.screen, Screen::Editor);
+        a.close_shown_tab();
+        assert_eq!(a.tab_count(), 1);
+        assert_eq!(a.screen, Screen::Start);
+    }
+
+    #[test]
+    fn tabs_that_are_not_shown_are_kept_in_their_own_recovery_files_and_recovered_each_in_a_tab() {
+        let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
+        let base = &data_paths().base;
+        for s in 0..base_core::autosave::SLOTS {
+            base_core::autosave::clear_slot(base, "millcreator", s);
+        }
+        let mut a = app();
+        drawn(&mut a, 1);
+        let one = a.scene.shapes.len();
+        a.new_tab();
+        drawn(&mut a, 2);
+        assert!(a.parked_need_autosave());
+        a.autosave_tick(&egui::Context::default(), true);
+        assert!(!a.parked_need_autosave());
+        assert_eq!(base_core::autosave::find_all(base, "millcreator").len(), 2, "every unsaved tab has its file");
+        // The program is started again: Recover opens each of them in a tab.
+        let mut b = App::build(&egui::Context::default(), None, false);
+        assert_eq!(b.recovery.len(), 2);
+        b.recovery_choice(base_ui::autosave_ui::Recovery::Recover);
+        assert_eq!((b.tab_count(), b.screen), (2, Screen::Editor));
+        let mut shapes = vec![b.scene.shapes.len()];
+        b.switch_to(0);
+        shapes.push(b.scene.shapes.len());
+        shapes.sort();
+        assert_eq!(shapes, vec![one, 2 * one]);
+        assert!(b.any_dirty(), "still unsaved work");
+        assert_eq!(base_core::autosave::find_all(base, "millcreator").len(), 2, "the files stay until the work is saved");
+        // Closing a tab removes its file.
+        b.close_shown_tab();
+        assert_eq!(base_core::autosave::find_all(base, "millcreator").len(), 1);
+        for s in 0..base_core::autosave::SLOTS {
+            base_core::autosave::clear_slot(base, "millcreator", s);
+        }
     }
 }
 
