@@ -597,3 +597,53 @@ mod tab_click_tests {
         assert_eq!(app(&mut h).tab_count(), 1, "the cross closes the tab");
     }
 }
+
+/// The order and the grids of the Control tab, and STOP, which is live only while the machine works.
+#[cfg(test)]
+mod control_layout_tests {
+    use super::*;
+    use egui_kittest::kittest::{NodeT, Queryable};
+
+    fn y(h: &Shot, label: &str) -> f32 {
+        h.get_by_label(label).rect().top()
+    }
+
+    #[test]
+    fn the_control_tab_has_its_sections_in_order_and_its_buttons_in_grids() {
+        let mut h: Shot = Harness::builder().with_accessibility_check(false).with_size([1280.0, 1400.0]).build_ui_state(
+            |ui, state: &mut Option<App>| {
+                let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
+                a.draw(ui);
+            },
+            None,
+        );
+        h.run_steps(2);
+        {
+            let a = app(&mut h);
+            a.devices.clear();
+            a.devices.push(crate::device::Device::dummy());
+            a.use_dummy_device();
+            a.new_design();
+            a.side_tab = crate::SideTab::Control;
+            a.machine.connected = true;
+        }
+        h.run_steps(4);
+        // Position, then the zero buttons, then Move above the jog buttons, Speed under them, then Probe and Spindle.
+        let order = ["Position", "Move", "Speed", "Probe", "Spindle"];
+        for w in order.windows(2) {
+            assert!(y(&h, w[0]) < y(&h, w[1]), "{} must be above {}", w[0], w[1]);
+        }
+        // The four zero buttons are a grid of 2 × 2.
+        assert_eq!(y(&h, "Zero all"), y(&h, "Zero X and Y"));
+        assert_eq!(y(&h, "Go to X0 Y0"), y(&h, "Z to safe height"));
+        assert!(y(&h, "Zero all") < y(&h, "Go to X0 Y0"));
+        // The spindle switches are a row of two, under the speed that is chosen.
+        assert_eq!(y(&h, "Switch on"), y(&h, "Switch off"));
+        assert!(y(&h, "Spindle speed") < y(&h, "Switch on"));
+        // STOP: not live while nothing works, live at work.
+        assert!(h.get_by_label("STOP").accesskit_node().is_disabled());
+        app(&mut h).machine.state = "Run".into();
+        h.run_steps(3);
+        assert!(!h.get_by_label("STOP").accesskit_node().is_disabled());
+    }
+}
