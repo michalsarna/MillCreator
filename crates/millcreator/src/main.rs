@@ -896,6 +896,11 @@ impl App {
                 egui::ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
                     self.quick_row(ui);
                     ui.add_space(4.0);
+                    // STOP is live only while the machine works (a job, a jog, homing, a held move).
+                    if control_ui::stop_button(ui, self.machine.working()) {
+                        self.abort_job();
+                    }
+                    ui.add_space(4.0);
                     ui.separator();
                     ui.add_space(4.0);
                     let c = ControlCtx { control: &self.device.control, safe_z: self.device.safe_z, tool_diameter: td, job_box, probe: true, travel, spindle: Some(control_ui::SpindleCtx { min_rpm: self.device.spindle.min_rpm, max_rpm: self.device.spindle.max_rpm }), zeroing: true, z_axis: true, hold_to_move: true };
@@ -1950,7 +1955,7 @@ mod tests {
         a.new_tab();
         assert_eq!((a.tab_count(), a.tabs_state.active), (3, 2));
         let ctx = egui::Context::default();
-        let mut press = |a: &mut App, key: egui::Key| {
+        let press = |a: &mut App, key: egui::Key| {
             let ev = egui::Event::Key { key, physical_key: Some(key), pressed: true, repeat: false, modifiers: egui::Modifiers::COMMAND };
             let mut out = ctx.run_ui(egui::RawInput { events: vec![ev], ..Default::default() }, |ui| a.shortcuts(ui.ctx()));
             out.textures_delta.clear();
