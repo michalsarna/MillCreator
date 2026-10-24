@@ -40,3 +40,5 @@ All pictures are rendered headlessly from the real UI (`cargo test -p millcreato
 | Control tab in Polish | Calibration in Polish |
 | ![Tool length sensor: where it is, the reference tool, every other tool](screenshots/35-tool-length-sensor.png) | ![Settings of the controller: what changed since the copy kept with the device](screenshots/36-firmware-copies.png) |
 | Tool length sensor: where it is, the reference tool, every other tool | Settings of the controller: what changed since the copy kept with the device |
+| ![Tabs of open drawings](screenshots/37-tabs.png) | |
+| Tabs: File → New and Open make a tab (up to 10); a dot marks a drawing with unsaved work, closing the program asks about each of them | |
