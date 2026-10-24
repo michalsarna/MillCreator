@@ -245,6 +245,8 @@ struct App {
     slot: usize,
     /// The program is being closed: every tab with unsaved work is asked about in turn.
     quitting: bool,
+    /// The last tab was closed: the program closes too.
+    close_program: bool,
     allow_close: bool,
     /// When the tabs that are not shown were last written.
     parked_saved_at: std::time::Instant,
@@ -357,6 +359,7 @@ impl App {
             tabs_state: Default::default(),
             slot: 0,
             quitting: false,
+            close_program: false,
             allow_close: false,
             parked_saved_at: std::time::Instant::now(),
             recovery: base_core::autosave::find_all(&data_paths().base, "millcreator"),
@@ -662,6 +665,12 @@ impl App {
         if ctx.egui_wants_keyboard_input() {
             return;
         }
+        // Ctrl+1 … Ctrl+0 show a tab, Ctrl+W closes the shown one.
+        match base_ui::doc_tabs::shortcut(ctx) {
+            Some(base_ui::doc_tabs::TabKey::Select(i)) => self.switch_to(i),
+            Some(base_ui::doc_tabs::TabKey::Close) => self.close_tab_request(),
+            None => {}
+        }
         let (cmd, shift) = ctx.input(|i| (i.modifiers.command, i.modifiers.shift));
         let pressed = |k: egui::Key| ctx.input(|i| i.key_pressed(k));
         if cmd {
@@ -885,7 +894,11 @@ impl App {
                 let job_box = self.job_box();
                 let travel = [self.device.area.x, self.device.area.y, self.device.area.z];
                 egui::ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
-                    let c = ControlCtx { control: &self.device.control, safe_z: self.device.safe_z, tool_diameter: td, job_box, probe: true, travel, spindle: Some(control_ui::SpindleCtx { min_rpm: self.device.spindle.min_rpm, max_rpm: self.device.spindle.max_rpm }) };
+                    self.quick_row(ui);
+                    ui.add_space(4.0);
+                    ui.separator();
+                    ui.add_space(4.0);
+                    let c = ControlCtx { control: &self.device.control, safe_z: self.device.safe_z, tool_diameter: td, job_box, probe: true, travel, spindle: Some(control_ui::SpindleCtx { min_rpm: self.device.spindle.min_rpm, max_rpm: self.device.spindle.max_rpm }), zeroing: true, z_axis: true, hold_to_move: true };
                     if let Some(s) = control_ui::panel(ui, &mut self.machine, &mut self.control_ui, &c) {
                         self.status = s;
                     }
@@ -1930,16 +1943,60 @@ mod tests {
     }
 
     #[test]
-    fn closing_the_last_tab_returns_to_the_start_screen() {
+    fn ctrl_digits_show_the_tabs_and_ctrl_w_closes_the_shown_one() {
         let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
         let mut a = app();
         a.new_tab();
+        a.new_tab();
+        assert_eq!((a.tab_count(), a.tabs_state.active), (3, 2));
+        let ctx = egui::Context::default();
+        let mut press = |a: &mut App, key: egui::Key| {
+            let ev = egui::Event::Key { key, physical_key: Some(key), pressed: true, repeat: false, modifiers: egui::Modifiers::COMMAND };
+            let mut out = ctx.run_ui(egui::RawInput { events: vec![ev], ..Default::default() }, |ui| a.shortcuts(ui.ctx()));
+            out.textures_delta.clear();
+        };
+        press(&mut a, egui::Key::Num1);
+        assert_eq!(a.tabs_state.active, 0);
+        press(&mut a, egui::Key::Num2);
+        assert_eq!(a.tabs_state.active, 1);
+        press(&mut a, egui::Key::Num9);
+        assert_eq!(a.tabs_state.active, 1, "there is no ninth tab");
+        press(&mut a, egui::Key::W);
+        assert_eq!(a.tab_count(), 2, "Ctrl+W closes the shown tab (it has no unsaved work)");
+        drawn(&mut a, 1);
+        press(&mut a, egui::Key::W);
+        assert!(a.tabs_state.closing && a.tab_count() == 2, "a tab with unsaved work is asked about first");
+    }
+
+    #[test]
+    fn closing_the_last_tab_closes_the_program_and_leaves_nothing_to_recover() {
+        use base_ui::doc_tabs::TabHost;
+        let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
+        let base = &data_paths().base;
+        for s in 0..base_core::autosave::SLOTS {
+            base_core::autosave::clear_slot(base, "millcreator", s);
+        }
+        let mut a = app();
+        // Two tabs: closing the first leaves one, the program stays.
+        a.new_tab();
         a.close_shown_tab();
-        assert_eq!(a.tab_count(), 1);
-        assert_eq!(a.screen, Screen::Editor);
+        assert_eq!((a.tab_count(), a.close_program), (1, false));
+        // The last tab holds work that was written to its recovery file; it is given up.
+        drawn(&mut a, 1);
+        let ctx = egui::Context::default();
+        a.autosave_tick(&ctx, true);
+        assert_eq!(base_core::autosave::find_all(base, "millcreator").len(), 1);
+        a.discard_active();
         a.close_shown_tab();
-        assert_eq!(a.tab_count(), 1);
-        assert_eq!(a.screen, Screen::Start);
+        assert!(a.close_program, "the last tab closed: the program closes");
+        // The program asks the window to close, and what it does on the way out saves nothing.
+        let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.close_dialogs(ui.ctx()));
+        out.textures_delta.clear();
+        let closing = out.viewport_output.values().any(|v| v.commands.iter().any(|c| matches!(c, egui::ViewportCommand::Close)));
+        assert!(closing && a.allow_close);
+        a.autosave_tick(&ctx, true);
+        assert!(!a.any_dirty());
+        assert!(base_core::autosave::find_all(base, "millcreator").is_empty(), "nothing the person gave up comes back");
     }
 
     #[test]
