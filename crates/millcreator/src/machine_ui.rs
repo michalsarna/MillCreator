@@ -333,18 +333,23 @@ impl App {
         }
     }
 
-    /// From line… and Frame, in a row of two (they were in the bar over the work area).
+    /// Frame (always the left one) and From line…, in a row of two with icons.
     pub(crate) fn job_buttons(&mut self, ui: &mut egui::Ui) {
         let half = ((ui.available_width() - ui.spacing().item_spacing.x) / 2.0).max(60.0);
         let running = self.machine.job_running();
+        let tip = if self.machine.connected { tr("Go round the box where the work will be done") } else { tr("Connect to the machine first (Device tab)") };
+        let frame_on = self.machine.connected && !running;
+        let from_on = self.can_start();
+        let ink = |on: bool| if on { theme::text() } else { theme::text_dim() };
         egui::Grid::new("job_buttons").num_columns(2).show(ui, |ui| {
-            if ui.add_enabled(self.can_start(), egui::Button::new(RichText::new(tr("From line…")).size(15.0)).min_size(egui::vec2(half, 32.0))).on_hover_text(tr("Start the job at a line of the program")).clicked() {
+            let frame = egui::Button::image_and_text(base_ui::icons::slot(Some("square-dashed"), ink(frame_on)), RichText::new(tr("Frame")).size(15.0)).min_size(egui::vec2(half, 32.0));
+            if ui.add_enabled(frame_on, frame).on_hover_text(tip).on_disabled_hover_text(tip).clicked() {
+                self.frame_job();
+            }
+            let from = egui::Button::image_and_text(base_ui::icons::slot(Some("play"), ink(from_on)), RichText::new(tr("From line…")).size(15.0)).min_size(egui::vec2(half, 32.0));
+            if ui.add_enabled(from_on, from).on_hover_text(tr("Start the job at a line of the program")).clicked() {
                 let ctx = ui.ctx().clone();
                 base_ui::menu::MenuHost::run_act(self, &ctx, crate::menu::Act::StartFrom);
-            }
-            let tip = if self.machine.connected { tr("Go round the box where the work will be done") } else { tr("Connect to the machine first (Device tab)") };
-            if ui.add_enabled(self.machine.connected && !running, egui::Button::new(RichText::new(tr("Frame")).size(15.0)).min_size(egui::vec2(half, 32.0))).on_hover_text(tip).on_disabled_hover_text(tip).clicked() {
-                self.frame_job();
             }
             ui.end_row();
         });
@@ -353,30 +358,25 @@ impl App {
         ui.add_space(4.0);
     }
 
-    /// What was in the bar over the work area and shows or hides something: the toolpaths, the preview and the camera.
+    /// What shows or hides something and stands in the bar over the work area: the toolpaths, the preview and the camera.
     pub(crate) fn view_buttons(&mut self, ui: &mut egui::Ui) {
-        ui.add_space(4.0);
-        ui.separator();
-        ui.add_space(4.0);
-        ui.horizontal_wrapped(|ui| {
-            // Green while the toolpaths are shown on the work area, grey otherwise.
-            let on = self.toolpaths_on;
-            let (fill, ink) = if on { (Color32::from_rgb(0x2e, 0xa0, 0x4f), Color32::WHITE) } else { (theme::panel_dark(), theme::text_dim()) };
-            let btn = egui::Button::image_and_text(base_ui::icons::slot(Some("route"), ink), RichText::new(tr("Toolpaths")).color(ink)).fill(fill);
-            if ui.add(btn).on_hover_text(tr("Show the toolpaths on the work area")).clicked() {
-                self.toolpaths_on = !self.toolpaths_on;
+        // Green while the toolpaths are shown on the work area, grey otherwise.
+        let on = self.toolpaths_on;
+        let (fill, ink) = if on { (Color32::from_rgb(0x2e, 0xa0, 0x4f), Color32::WHITE) } else { (theme::panel_dark(), theme::text_dim()) };
+        let btn = egui::Button::image_and_text(base_ui::icons::slot(Some("route"), ink), RichText::new(tr("Toolpaths")).color(ink)).fill(fill);
+        if ui.add(btn).on_hover_text(tr("Show the toolpaths on the work area")).clicked() {
+            self.toolpaths_on = !self.toolpaths_on;
+        }
+        if base_ui::widgets::window_toggle(ui, &tr("Preview…"), &tr("Open the preview window"), self.show_3d, self.screen == crate::Screen::Editor) {
+            if self.show_3d {
+                self.show_3d = false;
+            } else {
+                self.open_preview();
             }
-            if base_ui::widgets::window_toggle(ui, &tr("Preview…"), &tr("Open the preview window"), self.show_3d, self.screen == crate::Screen::Editor) {
-                if self.show_3d {
-                    self.show_3d = false;
-                } else {
-                    self.open_preview();
-                }
-            }
-            if self.device.camera().is_some() && base_ui::widgets::window_toggle(ui, &tr("Camera view"), &tr("Show the live camera picture of this machine"), self.show_camera, true) {
-                self.show_camera = !self.show_camera;
-            }
-        });
+        }
+        if self.device.camera().is_some() && base_ui::widgets::window_toggle(ui, &tr("Camera view"), &tr("Show the live camera picture of this machine"), self.show_camera, true) {
+            self.show_camera = !self.show_camera;
+        }
     }
 
     /// Home, Unlock, Pause and Resume, 2 × 2 with icons: in the Device tab under the machine and at the top of the Control tab.
