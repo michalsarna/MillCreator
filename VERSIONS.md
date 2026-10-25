@@ -2,6 +2,15 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.3.8
+
+* **Tabs of open drawings:** *New* opens a new tab (at most 10) instead of replacing the drawing; each tab has its own undo, view and file, a dot marks unsaved work, **Ctrl+1…9** (0 = the last) switch tabs and **Ctrl+W** closes one. Closing the program goes through the tabs one by one and asks about each unsaved one; every tab has its own recovery file; closing the last tab closes the program.
+* **Control tab:** Home, Unlock, Pause and Resume in a block of 2 × 2 with coloured icons (also in the Device tab), START and a **STOP** that is live only while the machine works, **Frame** and **From line…** with icons, the Zero buttons in a grid of 2 × 2, Move above the jog buttons, Speed under them, Probe before Spindle, and the spindle Switch on / Switch off in a row of two under the chosen speed.
+* The bar over the work area keeps the editing controls, Toolpaths, Preview…, Camera view, the size of the selection and **Save G-code**.
+* The ring round the active layer colour is no longer cut off; the Generate shape… and Import windows of plugins keep their height instead of growing to the height of the program window.
+* `Fit work area` / `Fit all` moved to **Ctrl+Shift+0** / **Ctrl+Shift+9** (Ctrl+0…9 switch tabs).
+* baseCreator v1.20.1.
+
 ## v0.3.7
 
 * **G-code viewer:** *File → View G-code file…*, a dropped `.nc` / `.gcode` / `.tap` file, or the **View G-code file…** button on the start screen (no project is started; closing the viewer returns to the start screen) shows the toolpath: flat, or in 3D when Z changes, with zoom, pan, rotation, **Reset view**, hidden rapid moves, colour by height, size, cutting length and a time estimate.
