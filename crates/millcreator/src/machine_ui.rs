@@ -38,6 +38,7 @@ impl App {
             self.status = tr("Choose a port or a host in the device settings first.").to_string();
             return;
         };
+        self.machine.set_grbl_version(self.device.connection.grbl_version);
         self.machine.connect(target, self.device.connection.streaming);
     }
 
