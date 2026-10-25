@@ -65,6 +65,20 @@ const UNDO_STEPS: usize = 100;
 const ICON_256: &[u8] = include_bytes!("../../../assets/icons/icon-256.png");
 const ICON_512: &[u8] = include_bytes!("../../../assets/icons/icon-512.png");
 
+// Easter egg: around a holiday the program wears a festive icon (see `base_ui::seasonal`).
+const FESTIVE: base_ui::seasonal::Variants = base_ui::seasonal::Variants {
+    christmas: (include_bytes!("../../../assets/icons/seasonal/christmas-256.png"), include_bytes!("../../../assets/icons/seasonal/christmas-512.png")),
+    new_years_eve: (include_bytes!("../../../assets/icons/seasonal/newyear-256.png"), include_bytes!("../../../assets/icons/seasonal/newyear-512.png")),
+    halloween: (include_bytes!("../../../assets/icons/seasonal/halloween-256.png"), include_bytes!("../../../assets/icons/seasonal/halloween-512.png")),
+    easter: (include_bytes!("../../../assets/icons/seasonal/easter-256.png"), include_bytes!("../../../assets/icons/seasonal/easter-512.png")),
+};
+
+/// The 256 px and 512 px logo of the day; the tests (and so the screenshots) always get the normal one.
+fn app_icon() -> base_ui::seasonal::Icon {
+    let normal = (ICON_256, ICON_512);
+    if cfg!(test) { normal } else { base_ui::seasonal::icon_today(&FESTIVE, normal) }
+}
+
 /// Read an SVG or PDF (by its content) into a new scene. Every outline becomes one shape on layer 0.
 fn read_scene(data: &[u8]) -> Result<Scene, String> {
     let is_pdf = data.windows(5).take(1024).any(|w| w == b"%PDF-");
@@ -332,7 +346,7 @@ impl App {
             screen: Screen::Start,
             path: None,
             recent,
-            logo: base_ui::start::load_logo(ctx, ICON_256, "millcreator-logo"),
+            logo: base_ui::start::load_logo(ctx, app_icon().0, "millcreator-logo"),
             side_tab: SideTab::Properties,
             tabs: base_ui::side_tabs::SideTabs::new(&SideTab::IDS, &saved("tab_order").unwrap_or_default(), saved("side_collapsed").is_some_and(|v| v == "1")),
             clip: ClipState::new(base_core::clipart::Library::open(data_paths().gallery.clone())),
@@ -1261,7 +1275,7 @@ fn main() -> eframe::Result {
         .with_min_inner_size([900.0, 560.0])
         // The application draws its own flat, square frame, as LightCreator does.
         .with_decorations(false);
-    if let Some(icon) = base_ui::start::window_icon(ICON_512) {
+    if let Some(icon) = base_ui::start::window_icon(app_icon().1) {
         viewport = viewport.with_icon(icon);
     }
     let opts = eframe::NativeOptions { viewport, persistence_path: Some(data_paths().settings.clone()), ..Default::default() };
@@ -1270,7 +1284,7 @@ fn main() -> eframe::Result {
         opts,
         Box::new(|cc| {
             #[cfg(target_os = "macos")]
-            native_menu::set_dock_icon(ICON_512);
+            native_menu::set_dock_icon(app_icon().1);
             let mut app = App::new(cc);
             if let Some(p) = std::env::args().nth(1) {
                 app.open(p.into());
@@ -2017,5 +2031,22 @@ impl base_ui::layer_bar::LayerBarHost for App {
     fn open_layer_options(&mut self, layer: usize) {
         self.ed.active_layer = layer;
         self.side_tab = SideTab::Layers;
+    }
+}
+
+#[cfg(test)]
+mod festive_icon_tests {
+    use super::*;
+
+    #[test]
+    fn every_festive_icon_decodes_at_its_size() {
+        let v = &FESTIVE;
+        for (name, (small, big)) in [("christmas", v.christmas), ("new year", v.new_years_eve), ("halloween", v.halloween), ("easter", v.easter)] {
+            let small = base_ui::start::window_icon(small).unwrap_or_else(|| panic!("{name} 256 does not decode"));
+            let big = base_ui::start::window_icon(big).unwrap_or_else(|| panic!("{name} 512 does not decode"));
+            assert_eq!((small.width, small.height), (256, 256), "{name}");
+            assert_eq!((big.width, big.height), (512, 512), "{name}");
+        }
+        assert_eq!(app_icon(), (ICON_256, ICON_512), "tests always get the normal icon");
     }
 }
