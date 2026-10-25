@@ -784,6 +784,7 @@ impl App {
             ui.separator();
             base_ui::editor::grid_toggles(self, ui);
             ui.separator();
+            self.view_buttons(ui);
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                 if base_ui::window::save_button(ui, &tr("Save G-code")).clicked() {
                     self.export_gcode();
@@ -872,7 +873,6 @@ impl App {
                     if let Some(s) = control_ui::panel(ui, &mut self.machine, &mut self.control_ui, &c) {
                         self.status = s;
                     }
-                    self.view_buttons(ui);
                 });
             }
             SideTab::Console => {
