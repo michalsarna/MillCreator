@@ -83,7 +83,7 @@ pub fn menus() -> Menus<Act> {
                 Item(Act::Plugins, base_ui::plugins_ui::MENU_PLUGINS, None),
                 Sep,
                 Sub("Language", Lang::ALL.iter().map(|l| Item(Act::SetLang(*l), l.name(), None)).collect()),
-                Sub("Colour scheme", Scheme::ALL.iter().map(|s| Item(Act::SetScheme(*s), s.label(), None)).collect()),
+                Sub("Colour scheme", Scheme::available().iter().map(|s| Item(Act::SetScheme(*s), s.label(), None)).collect()),
             ],
         ),
         ("Help", help),

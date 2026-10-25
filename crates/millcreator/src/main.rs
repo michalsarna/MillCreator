@@ -321,7 +321,7 @@ impl App {
         texts::register();
         let saved = |k: &str| storage.and_then(|st| st.get_string(k));
         let lang = saved("lang").and_then(|c| Lang::from_code(&c)).unwrap_or(Lang::En);
-        let scheme = saved("scheme").and_then(|c| Scheme::from_id(&c)).unwrap_or(Scheme::LightDark);
+        let scheme = Scheme::from_saved(saved("scheme").as_deref());
         i18n::set_lang(lang);
         base_ui::fonts::install(ctx);
         base_ui::icons::install(ctx);
