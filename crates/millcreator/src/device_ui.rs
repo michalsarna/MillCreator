@@ -3,7 +3,7 @@
 use crate::device::{self, Device, Origin, DUMMY_NAME, MAX_DEVICES};
 use crate::App;
 use base_core::camimg::{CameraKind, CameraSource};
-use base_core::machine::{LinkKind, RotaryKind, Streaming};
+use base_core::machine::{GrblVersion, LinkKind, RotaryKind, Streaming};
 use base_core::units::Units;
 use base_ui::camera::{self, rotate_rgb};
 use base_ui::camera_stream::{self, Msg};
@@ -399,6 +399,15 @@ impl App {
                                     ui.label(RichText::new(tr("Clearing the alarm skips homing: use it only when the head is known to stand in a safe place.")).color(Color32::from_rgb(0xe8, 0x8a, 0x1f)));
                                 }
                             });
+                            ui.end_row();
+                            ui.label(tr("GRBL version"));
+                            egui::ComboBox::from_id_salt("grbl_dialect").selected_text(tr(d.connection.grbl_version.label())).show_ui(ui, |ui| {
+                                for k in GrblVersion::ALL {
+                                    ui.selectable_value(&mut d.connection.grbl_version, k, tr(k.label()));
+                                }
+                            })
+                            .response
+                            .on_hover_text(tr("Older GRBL (0.9) reports positions in another format and has no jog command: the program moves the head with ordinary moves instead."));
                             ui.end_row();
                             ui.label(tr("Streaming"));
                             egui::ComboBox::from_id_salt("streaming").selected_text(tr(d.connection.streaming.label())).show_ui(ui, |ui| {

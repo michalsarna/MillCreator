@@ -53,6 +53,8 @@ Every device keeps copies of the settings of its controller (`$$`). One is made 
 
 ## Alarms and errors
 
+**GRBL versions.** Choose the version of the board under *GRBL version* on the device's Connection page: **1.1 or newer** (the default; also grblHAL and FluidNC), **1.0**, **0.9**, **0.8** or **0.7 or older**. GRBL 0.8, 0.9 and 1.0 report the position as `<Idle,MPos:…,WPos:…>` and have no `$J=` jog command, so the program jogs with ordinary `G91` / `G1` moves; such a jog cannot be cancelled halfway, it runs to the end of its step. GRBL 0.7 has no real-time commands at all: no status report (so no position), no Pause, Resume, Home or Unlock, and Stop only drops the lines not yet sent while the board finishes what it already has; that firmware also cuts lines longer than 49 characters. The spindle (`M3 S…`) works the same with every version.
+
 When GRBL says `ALARM:n` or `error:n`, the console gets a line under it that explains it, and the status bar shows it. The explanations are in the 30 languages of the program.
 
 > ⚠️ Probing, jogging and the pauses send real moves. Keep the stop within reach.

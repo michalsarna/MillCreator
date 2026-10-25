@@ -34,7 +34,7 @@ The wiki has the full documentation in English and Polish: <https://github.com/m
 * **Preview:** a window with the block of material, the cuts and the moves at the safe height, in 3D (turn / zoom /
   reset) or from above as a plan, with an animation (play, pause, speed, repeat); the shown area is 10 % larger than the
   project. The **Toolpaths** button of the control bar draws the paths over the work area.
-* **The machine:** a GRBL controller on a serial port or a network socket (set in the device: port, baud rate, streaming,
+* **The machine:** a GRBL controller on a serial port or a network socket (set in the device: port, baud rate, the GRBL version from 0.7 to 1.1 and newer, streaming,
   homing after connecting); **Connect**, **Home**, **Frame** (the tool goes round the box of the work at the safe
   height), **Start** (also **From line…** and a check of the program in the controller's check mode) and **Stop** of
   the job, **Save G-code**, pause and resume, a console. The **Control** tab has the work and machine position, zero

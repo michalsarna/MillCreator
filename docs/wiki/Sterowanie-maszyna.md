@@ -53,6 +53,8 @@ Każde urządzenie przechowuje kopie ustawień swojego kontrolera (`$$`). Pierws
 
 ## Alarmy i błędy
 
+**Wersje GRBL.** Wersję płyty wybierasz w polu *GRBL version* na stronie Połączenie urządzenia: **1.1 lub nowszy** (domyślnie; także grblHAL i FluidNC), **1.0**, **0.9**, **0.8** albo **0.7 lub starszy**. GRBL 0.8, 0.9 i 1.0 podają położenie jako `<Idle,MPos:…,WPos:…>` i nie mają polecenia `$J=`, więc program przesuwa głowicę zwykłymi ruchami `G91` / `G1`; takiego ruchu nie da się przerwać w połowie, kończy się na końcu swojego kroku. GRBL 0.7 nie ma żadnych poleceń czasu rzeczywistego: nie ma raportu stanu (więc i położenia), Pauzy, Wznowienia, bazowania ani odblokowania, a Stop tylko porzuca wiersze, które jeszcze nie poszły, bo płyta dokończy to, co już ma; ten firmware ucina też wiersze dłuższe niż 49 znaków. Wrzeciono (`M3 S…`) działa tak samo w każdej wersji.
+
 Gdy GRBL powie `ALARM:n` albo `error:n`, konsola dostaje pod spodem wiersz z wyjaśnieniem, a pasek stanu je pokazuje. Wyjaśnienia są w 30 językach programu.
 
 > ⚠️ Sondowanie, przesuw i pauzy wysyłają prawdziwe ruchy. Miej zatrzymanie w zasięgu ręki.
