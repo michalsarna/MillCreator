@@ -289,12 +289,15 @@ pub fn tools_window(ctx: &egui::Context, win: &mut ToolsWindow, lib: &mut Librar
         }
         // Everything in a scroll area of the height that is left: a window whose content fills it exactly (and then has the spacing
         // of the layout after it) grows by that on every frame, up to the height of the screen.
-        egui::ScrollArea::vertical().id_salt("tool_window").max_height(base_ui::window::fill_size(ui).y).auto_shrink([false, true]).show(ui, |ui| {
+        let total = base_ui::window::fill_size(ui).y;
+        egui::ScrollArea::vertical().id_salt("tool_window").max_height(total).auto_shrink([false, true]).show(ui, |ui| {
         ui.horizontal_top(|ui| {
             // The list.
             ui.vertical(|ui| {
                 ui.set_width(250.0);
-                egui::ScrollArea::vertical().id_salt("tool_list").max_height(410.0).auto_shrink([false, false]).show(ui, |ui| {
+                // The list and the right part fill the window; the buttons under the list stay at its foot.
+                let list_h = base_ui::window::height_above(ui, "tool_left", total);
+                egui::ScrollArea::vertical().id_salt("tool_list").max_height(list_h).min_scrolled_height(list_h).auto_shrink([false, false]).show(ui, |ui| {
                     let mut pick = None;
                     for (title, user) in [(tr("Ready-made bits"), false), (tr("My bits"), true)] {
                         ui.label(egui::RichText::new(title).strong().color(theme::text_dim()));
@@ -314,71 +317,73 @@ pub fn tools_window(ctx: &egui::Context, win: &mut ToolsWindow, lib: &mut Librar
                         win.select(lib, &id);
                     }
                 });
-                ui.add_space(4.0);
-                ui.horizontal_wrapped(|ui| {
-                    if ui.button(tr("New bit")).clicked() {
-                        let t = Tool::new("", &lib.free_name(&tr("New bit")), ToolKind::FlatEnd, Dims::default());
-                        if let Ok(id) = lib.add(t) {
-                            win.changed = true;
-                            win.select(lib, &id);
-                        }
-                    }
-                    let can_copy = win.selected.is_some();
-                    if ui.add_enabled(can_copy, egui::Button::new(tr("Copy"))).on_hover_text(tr("A copy among your own bits")).clicked() {
-                        if let Some(t) = win.selected.as_deref().and_then(|id| lib.get(id)).cloned() {
-                            let mut c = t;
-                            c.name = lib.free_name(&c.name);
-                            if let Ok(id) = lib.add(c) {
+                base_ui::window::bottom(ui, "tool_left", |ui| {
+                    ui.add_space(4.0);
+                    ui.horizontal_wrapped(|ui| {
+                        if ui.button(tr("New bit")).clicked() {
+                            let t = Tool::new("", &lib.free_name(&tr("New bit")), ToolKind::FlatEnd, Dims::default());
+                            if let Ok(id) = lib.add(t) {
                                 win.changed = true;
                                 win.select(lib, &id);
                             }
                         }
-                    }
-                    let mine = win.selected.as_deref().is_some_and(|id| lib.user.iter().any(|t| t.id == id));
-                    if delete_button_enabled(ui, mine, &tr("Delete")).clicked() {
-                        if let Some(id) = win.selected.take() {
-                            lib.remove(&id);
-                            win.draft = None;
-                            win.changed = true;
+                        let can_copy = win.selected.is_some();
+                        if ui.add_enabled(can_copy, egui::Button::new(tr("Copy"))).on_hover_text(tr("A copy among your own bits")).clicked() {
+                            if let Some(t) = win.selected.as_deref().and_then(|id| lib.get(id)).cloned() {
+                                let mut c = t;
+                                c.name = lib.free_name(&c.name);
+                                if let Ok(id) = lib.add(c) {
+                                    win.changed = true;
+                                    win.select(lib, &id);
+                                }
+                            }
                         }
-                    }
-                });
-                ui.horizontal_wrapped(|ui| {
-                    if import_button(ui, &tr("Import…")).on_hover_text(tr("Read bits from a file")).clicked() {
-                        if let Some(p) = rfd::FileDialog::new().add_filter("MillCreator bits", &["json"]).pick_file() {
-                            win.message = match std::fs::metadata(&p) {
-                                Ok(m) if m.len() > crate::tools::MAX_FILE => tr("The file is too large").to_string(),
-                                _ => match std::fs::read_to_string(&p).map_err(|e| e.to_string()).and_then(|t| lib.import(&t)) {
-                                    Ok((n, problems)) => {
-                                        win.changed |= n > 0;
-                                        let mut m = format!("{} {}", n, tr("bits added"));
-                                        if !problems.is_empty() {
-                                            m.push_str(&format!(". {}: {}", tr("Left out"), problems.join("; ")));
+                        let mine = win.selected.as_deref().is_some_and(|id| lib.user.iter().any(|t| t.id == id));
+                        if delete_button_enabled(ui, mine, &tr("Delete")).clicked() {
+                            if let Some(id) = win.selected.take() {
+                                lib.remove(&id);
+                                win.draft = None;
+                                win.changed = true;
+                            }
+                        }
+                    });
+                    ui.horizontal_wrapped(|ui| {
+                        if import_button(ui, &tr("Import…")).on_hover_text(tr("Read bits from a file")).clicked() {
+                            if let Some(p) = rfd::FileDialog::new().add_filter("MillCreator bits", &["json"]).pick_file() {
+                                win.message = match std::fs::metadata(&p) {
+                                    Ok(m) if m.len() > crate::tools::MAX_FILE => tr("The file is too large").to_string(),
+                                    _ => match std::fs::read_to_string(&p).map_err(|e| e.to_string()).and_then(|t| lib.import(&t)) {
+                                        Ok((n, problems)) => {
+                                            win.changed |= n > 0;
+                                            let mut m = format!("{} {}", n, tr("bits added"));
+                                            if !problems.is_empty() {
+                                                m.push_str(&format!(". {}: {}", tr("Left out"), problems.join("; ")));
+                                            }
+                                            m
                                         }
-                                        m
-                                    }
-                                    Err(e) => format!("{}: {e}", tr("Cannot use the file")),
-                                },
-                            };
+                                        Err(e) => format!("{}: {e}", tr("Cannot use the file")),
+                                    },
+                                };
+                            }
                         }
-                    }
-                    let any = !lib.user.is_empty();
-                    if save_button_enabled(ui, any, &tr("Export…")).on_hover_text(tr("Save your bits to a file")).clicked() {
-                        if let Some(p) = rfd::FileDialog::new().add_filter("MillCreator bits", &["json"]).set_file_name("bits.json").save_file() {
-                            win.message = match std::fs::write(&p, lib.export(None)) {
-                                Ok(()) => format!("{} {}", tr("Saved"), p.display()),
-                                Err(e) => format!("{}: {e}", tr("Could not save")),
-                            };
+                        let any = !lib.user.is_empty();
+                        if save_button_enabled(ui, any, &tr("Export…")).on_hover_text(tr("Save your bits to a file")).clicked() {
+                            if let Some(p) = rfd::FileDialog::new().add_filter("MillCreator bits", &["json"]).set_file_name("bits.json").save_file() {
+                                win.message = match std::fs::write(&p, lib.export(None)) {
+                                    Ok(()) => format!("{} {}", tr("Saved"), p.display()),
+                                    Err(e) => format!("{}: {e}", tr("Could not save")),
+                                };
+                            }
                         }
-                    }
-                    if ui.add_enabled(win.selected.is_some(), egui::Button::new(tr("Export this bit…"))).clicked() {
-                        if let (Some(id), Some(p)) = (win.selected.clone(), rfd::FileDialog::new().add_filter("MillCreator bits", &["json"]).set_file_name("bit.json").save_file()) {
-                            win.message = match std::fs::write(&p, lib.export(Some(&[id]))) {
-                                Ok(()) => format!("{} {}", tr("Saved"), p.display()),
-                                Err(e) => format!("{}: {e}", tr("Could not save")),
-                            };
+                        if ui.add_enabled(win.selected.is_some(), egui::Button::new(tr("Export this bit…"))).clicked() {
+                            if let (Some(id), Some(p)) = (win.selected.clone(), rfd::FileDialog::new().add_filter("MillCreator bits", &["json"]).set_file_name("bit.json").save_file()) {
+                                win.message = match std::fs::write(&p, lib.export(Some(&[id]))) {
+                                    Ok(()) => format!("{} {}", tr("Saved"), p.display()),
+                                    Err(e) => format!("{}: {e}", tr("Could not save")),
+                                };
+                            }
                         }
-                    }
+                    });
                 });
             });
             ui.separator();
@@ -398,7 +403,8 @@ pub fn tools_window(ctx: &egui::Context, win: &mut ToolsWindow, lib: &mut Librar
                 if !editable {
                     ui.label(egui::RichText::new(tr("A ready-made bit cannot be changed. Make a copy to change it.")).color(theme::text_dim()));
                 }
-                egui::ScrollArea::vertical().id_salt("tool_edit").max_height(330.0).auto_shrink([false, false]).show(ui, |ui| {
+                let edit_h = (total - ui.min_rect().height() - ui.spacing().item_spacing.y).max(120.0);
+                egui::ScrollArea::vertical().id_salt("tool_edit").max_height(edit_h).min_scrolled_height(edit_h).auto_shrink([false, false]).show(ui, |ui| {
                     egui::Grid::new("tool_grid").num_columns(3).spacing([10.0, 5.0]).show(ui, |ui| {
                         ui.label("");
                         ui.label(tr("Name"));
