@@ -192,6 +192,7 @@ impl App {
     }
 
     pub fn switch_to(&mut self, i: usize) {
+        self.cam_ws_shown = false;
         self.ensure_tabs();
         if i == self.tabs_state.active || i >= self.tabs_state.parked.len() {
             return;
@@ -233,14 +234,21 @@ impl App {
     pub fn doc_tab_bar(&mut self, ui: &mut egui::Ui) {
         self.ensure_tabs();
         let infos = self.tab_infos();
-        match doc_tabs::tab_bar(ui, &infos, self.tabs_state.active) {
+        let extra = self.camera_work_tab().then(|| doc_tabs::ExtraTab { title: crate::i18n::tr("Camera view").to_string(), shown: self.cam_ws_shown });
+        match doc_tabs::tab_bar_with(ui, &infos, self.tabs_state.active, extra.as_ref()) {
             Some(TabAction::Select(i)) => self.switch_to(i),
             Some(TabAction::New) => {
+                self.cam_ws_shown = false;
                 self.new_tab();
             }
             Some(TabAction::Close(i)) => {
                 self.switch_to(i);
                 self.close_tab_request();
+            }
+            Some(TabAction::Extra) => self.cam_ws_shown = true,
+            Some(TabAction::CloseExtra) => {
+                self.show_camera = false;
+                self.cam_ws_shown = false;
             }
             None => {}
         }
