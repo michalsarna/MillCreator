@@ -4,7 +4,7 @@ use crate::view3d::{self, Region, Scene3d};
 use crate::App;
 use base_ui::i18n::{tr, trf};
 use base_ui::theme;
-use base_ui::window::{popup, popup_with};
+use base_ui::window::popup_with;
 use base_ui::editor::EditorHost;
 use eframe::egui::{self, Color32, RichText};
 
@@ -61,7 +61,13 @@ impl App {
             return;
         }
         let mut open = true;
-        popup(ctx, "camera_window", &tr("Camera view"), [560.0, 440.0], &mut open, |ui| self.camera_tab(ui));
+        let mut fit = std::mem::take(&mut self.cam_fit);
+        base_ui::window::popup_fit(ctx, "camera_window", &tr("Camera view"), [560.0, 440.0], &mut open, &mut fit, |ui, fit| {
+            std::mem::swap(&mut self.cam_fit, fit);
+            self.camera_tab(ui);
+            std::mem::swap(&mut self.cam_fit, fit);
+        });
+        self.cam_fit = fit;
         self.show_camera = open;
     }
 

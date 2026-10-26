@@ -646,15 +646,14 @@ impl App {
             }
         }
         ui.label(RichText::new(&cam.name).strong());
+        let mut picture = None;
         match &st.tex {
             Some(t) => {
                 let size = t.size_vec2();
-                // Fitted to the window, up as well as down; the line of a stream error under it is left out of the height, or the
-                // window would grow by that on every frame.
-                let line = ui.text_style_height(&egui::TextStyle::Body) + ui.spacing().item_spacing.y;
-                let under = ui.spacing().item_spacing.y + if st.error.is_empty() { 0.0 } else { line };
-                let scale = (ui.available_width().max(60.0) / size.x).min((ui.available_height() - under).max(60.0) / size.y);
-                ui.add(egui::Image::new(egui::load::SizedTexture::new(t.id(), size * scale)));
+                // Fitted to the window, up as well as down; what stands under the picture is left out of the height (the last
+                // frame measured it), and what the window has left over is the window's to give back (`FitWindow`).
+                let (scale, slack_x) = base_ui::window::fit_picture(ui, size, self.cam_fit.under(24.0));
+                picture = Some((ui.add(egui::Image::new(egui::load::SizedTexture::new(t.id(), size * scale))).rect, slack_x));
             }
             None => {
                 ui.label(RichText::new(tr("Waiting for the picture…")).color(theme::text_dim()));
@@ -662,6 +661,10 @@ impl App {
         }
         if !st.error.is_empty() {
             ui.label(RichText::new(&st.error).color(Color32::from_rgb(0xd0, 0x50, 0x20)));
+        }
+        match picture {
+            Some((rect, slack_x)) => self.cam_fit.measure(ui, rect, slack_x),
+            None => self.cam_fit.slack = egui::Vec2::ZERO,
         }
         ctx.request_repaint_after(std::time::Duration::from_millis(120));
     }
@@ -855,6 +858,27 @@ mod tests {
         }
         assert!((rects[3].height() - rects[7].height()).abs() < 1.0, "the window grew: {rects:?}");
         assert!(rects[7].width() > 900.0 && rects[7].height() > 500.0, "{:?}", rects[7]);
+    }
+
+    #[test]
+    fn the_camera_window_shrinks_to_the_shape_of_the_picture() {
+        let ctx = egui::Context::default();
+        let mut a = App::build(&ctx, None, false);
+        a.device.cameras = vec![CameraSource::url("c", "http://127.0.0.1:9/none.mjpg", 1)];
+        a.device.active_camera = 0;
+        a.show_camera = true;
+        for i in 0..14 {
+            let input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(1600.0, 1200.0))), ..Default::default() };
+            let mut out = ctx.run_ui(input, |ui| a.camera_window(ui.ctx()));
+            out.textures_delta.clear();
+            if i == 0 {
+                a.cam.as_mut().expect("the camera state").tex = Some(ctx.load_texture("t", egui::ColorImage::from_rgb([320, 180], &vec![0u8; 320 * 180 * 3]), egui::TextureOptions::LINEAR));
+            }
+        }
+        let [w, h] = a.cam_fit.size_or([0.0, 0.0]);
+        assert!(w > 0.0, "the window was never fitted");
+        // The window opens 560 x 440; a 16:9 picture needs less than that in height, and no less than a wide window.
+        assert!(h < 420.0 && w / h > 1.35, "{w} x {h}");
     }
 
     #[test]
