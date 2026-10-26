@@ -233,7 +233,7 @@ impl App {
         let machine = &mut self.machine;
         let new = edit.idx.is_none();
         let title = if new { tr("Add a device") } else { tr("Device settings") };
-        popup(ctx, "device_window", &title, [620.0, 540.0], &mut open, |ui| {
+        popup(ctx, "device_window", &title, [640.0, 560.0], &mut open, |ui| {
             ui.horizontal(|ui| {
                 for p in Page::ALL {
                     if ui.add(egui::Button::selectable(edit.page == p, RichText::new(tr(p.label())).strong())).clicked() {
@@ -243,7 +243,9 @@ impl App {
             });
             ui.separator();
             let units = edit.draft.units;
-            egui::ScrollArea::vertical().id_salt("device_page").max_height((ui.ctx().content_rect().height() - 220.0).clamp(160.0, 420.0)).auto_shrink([false, true]).show(ui, |ui| {
+            // The page fills the window down to the buttons, which stay at its foot.
+            let body_h = base_ui::window::height_above(ui, "device_window", base_ui::window::fill_size(ui).y);
+            egui::ScrollArea::vertical().id_salt("device_page").max_height(body_h).min_scrolled_height(body_h).auto_shrink([false, false]).show(ui, |ui| {
                 let d = &mut edit.draft;
                 match edit.page {
                     Page::General => {
@@ -457,32 +459,33 @@ impl App {
                     }
                 }
             });
-            ui.add_space(6.0);
-            if !edit.error.is_empty() {
-                ui.label(RichText::new(&edit.error).color(Color32::from_rgb(0xd0, 0x50, 0x20)));
-            }
-            ui.horizontal(|ui| {
-                let label = if new { tr("Add device") } else { tr("Save") };
-                let go = egui::Button::new(RichText::new(label).color(Color32::WHITE).strong()).fill(Color32::from_rgb(0x2e, 0xa0, 0x4f));
-                if ui.add_enabled(!edit.draft.name.trim().is_empty(), go).clicked() {
-                    save = true;
+            base_ui::window::footer(ui, "device_window", |ui| {
+                if !edit.error.is_empty() {
+                    ui.label(RichText::new(&edit.error).color(Color32::from_rgb(0xd0, 0x50, 0x20)));
                 }
-                if ui.button(tr("Cancel")).clicked() {
-                    cancel = true;
-                }
-                if !new {
-                    ui.separator();
-                    if save_button_enabled(ui, true, &tr("Export…")).on_hover_text(tr("Save this device to a file")).clicked() {
-                        export = true;
+                ui.horizontal(|ui| {
+                    let label = if new { tr("Add device") } else { tr("Save") };
+                    let go = egui::Button::new(RichText::new(label).color(Color32::WHITE).strong()).fill(Color32::from_rgb(0x2e, 0xa0, 0x4f));
+                    if ui.add_enabled(!edit.draft.name.trim().is_empty(), go).clicked() {
+                        save = true;
                     }
-                    if confirm {
-                        if delete_button(ui, &tr("Confirm delete")).clicked() {
-                            delete = true;
+                    if ui.button(tr("Cancel")).clicked() {
+                        cancel = true;
+                    }
+                    if !new {
+                        ui.separator();
+                        if save_button_enabled(ui, true, &tr("Export…")).on_hover_text(tr("Save this device to a file")).clicked() {
+                            export = true;
                         }
-                    } else if delete_button(ui, &tr("Delete")).clicked() {
-                        ask_delete = true;
+                        if confirm {
+                            if delete_button(ui, &tr("Confirm delete")).clicked() {
+                                delete = true;
+                            }
+                        } else if delete_button(ui, &tr("Delete")).clicked() {
+                            ask_delete = true;
+                        }
                     }
-                }
+                });
             });
         });
         if refresh_ports {
@@ -654,14 +657,7 @@ impl App {
                 _ => st.tex = Some(ctx.load_texture("camera-view", img, egui::TextureOptions::LINEAR)),
             }
         }
-        ui.horizontal(|ui| {
-            ui.label(RichText::new(&cam.name).strong());
-            if base_ui::doc_tabs::work_tab_toggle(ui, self.cam_ws) {
-                self.cam_ws = !self.cam_ws;
-                self.show_camera = true;
-                self.cam_ws_shown = self.cam_ws;
-            }
-        });
+        ui.label(RichText::new(&cam.name).strong());
         let mut picture = None;
         match &st.tex {
             Some(t) => {
@@ -894,47 +890,21 @@ mod tests {
     }
 
     #[test]
-    fn the_camera_can_be_pinned_as_a_tab_of_the_work_area() {
+    fn the_camera_is_a_tab_of_the_work_area_that_a_drawing_tab_replaces() {
         let ctx = egui::Context::default();
         let mut a = App::build(&ctx, None, false);
         a.device.cameras = vec![CameraSource::url("c", "http://127.0.0.1:9/none.mjpg", 1)];
         a.device.active_camera = 0;
+        assert!(!a.camera_work_tab(), "no tab until the view is opened");
         a.show_camera = true;
-        assert!(!a.camera_work_tab(), "a window until it is pinned");
-        a.cam_ws = true;
         a.cam_ws_shown = true;
         assert!(a.camera_work_tab());
-        // The window of the camera makes way for the tab.
-        let mut out = ctx.run_ui(Default::default(), |ui| a.camera_window(ui.ctx()));
-        out.textures_delta.clear();
-        assert!(a.cam.is_none(), "nothing drew the camera");
         // A drawing tab is picked: the drawing is back, the tab stays in the bar.
         a.switch_to(0);
         assert!(!a.cam_ws_shown && a.camera_work_tab());
         // The close cross of the tab ends the view.
         a.show_camera = false;
         assert!(!a.camera_work_tab());
-    }
-
-    #[test]
-    fn the_camera_window_shrinks_to_the_shape_of_the_picture() {
-        let ctx = egui::Context::default();
-        let mut a = App::build(&ctx, None, false);
-        a.device.cameras = vec![CameraSource::url("c", "http://127.0.0.1:9/none.mjpg", 1)];
-        a.device.active_camera = 0;
-        a.show_camera = true;
-        for i in 0..14 {
-            let input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(1600.0, 1200.0))), ..Default::default() };
-            let mut out = ctx.run_ui(input, |ui| a.camera_window(ui.ctx()));
-            out.textures_delta.clear();
-            if i == 0 {
-                a.cam.as_mut().expect("the camera state").tex = Some(ctx.load_texture("t", egui::ColorImage::from_rgb([320, 180], &vec![0u8; 320 * 180 * 3]), egui::TextureOptions::LINEAR));
-            }
-        }
-        let [w, h] = a.cam_fit.size_or([0.0, 0.0]);
-        assert!(w > 0.0, "the window was never fitted");
-        // The window opens 560 x 440; a 16:9 picture needs less than that in height, and no less than a wide window.
-        assert!(h < 420.0 && w / h > 1.35, "{w} x {h}");
     }
 
     #[test]

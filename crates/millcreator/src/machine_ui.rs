@@ -377,7 +377,7 @@ impl App {
         }
         if self.device.camera().is_some() && base_ui::widgets::window_toggle(ui, &tr("Camera view"), &tr("Show the live camera picture of this machine"), self.show_camera, true) {
             self.show_camera = !self.show_camera;
-            self.cam_ws_shown = self.show_camera && self.cam_ws;
+            self.cam_ws_shown = self.show_camera;
         }
     }
 

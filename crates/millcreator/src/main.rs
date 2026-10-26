@@ -292,8 +292,7 @@ struct App {
     /// The toolpaths are drawn over the work area.
     toolpaths_on: bool,
     show_camera: bool,
-    /// The camera view is pinned as a tab of the work area, and that tab is the one shown (in place of the drawing).
-    cam_ws: bool,
+    /// The camera view is a tab of the work area, and that tab is the one shown (in place of the drawing).
     cam_ws_shown: bool,
     show_options: bool,
     /// When the last Escape was pressed (a second one within half a second selects the select tool).
@@ -408,7 +407,6 @@ impl App {
             playback: base_ui::playback::Playback::default(),
             toolpaths_on: false,
             show_camera: false,
-            cam_ws: false,
             cam_ws_shown: false,
             show_options: false,
             esc_time: -10.0,
@@ -994,7 +992,6 @@ impl App {
         self.device_window(ctx);
         self.machine_windows(ctx);
         self.preview_window(ctx);
-        self.camera_window(ctx);
         self.show_options = show;
         self.update.tick(ctx, &update_glue::CONFIG);
         base_ui::alert_ui::window(ctx, &mut self.machine);
