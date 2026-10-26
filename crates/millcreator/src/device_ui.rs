@@ -596,7 +596,16 @@ impl App {
     // ───────────── camera ─────────────
 
     /// The Camera tab: the live picture of the active camera of the device.
+    /// Stop the camera stream when the last frame did not draw it (the window and the tabs that show it are closed or hidden):
+    /// nobody takes its frames then. It starts again when the picture is drawn.
+    pub(crate) fn drop_idle_camera(&mut self) {
+        if !std::mem::take(&mut self.cam_drawn) {
+            self.cam = None;
+        }
+    }
+
     pub(crate) fn camera_tab(&mut self, ui: &mut egui::Ui) {
+        self.cam_drawn = true;
         let Some(cam) = self.device.camera().cloned() else {
             ui.label(RichText::new(tr("This device has no camera that is switched on. Add one in the device settings.")).color(theme::text_dim()));
             self.cam = None;
@@ -865,6 +874,23 @@ mod tests {
         }
         assert!((rects[3].height() - rects[7].height()).abs() < 1.0, "the window grew: {rects:?}");
         assert!(rects[7].width() > 900.0 && rects[7].height() > 500.0, "{:?}", rects[7]);
+    }
+
+    #[test]
+    fn a_camera_stream_that_is_not_drawn_is_stopped_and_started_again_when_it_is() {
+        let ctx = egui::Context::default();
+        let mut a = App::build(&ctx, None, false);
+        a.device.cameras = vec![CameraSource::url("c", "http://127.0.0.1:9/none.mjpg", 1)];
+        a.device.active_camera = 0;
+        let mut out = ctx.run_ui(Default::default(), |ui| a.camera_tab(ui));
+        out.textures_delta.clear();
+        a.drop_idle_camera();
+        assert!(a.cam.is_some(), "drawn in the last frame: it keeps running");
+        a.drop_idle_camera();
+        assert!(a.cam.is_none(), "not drawn since: stopped");
+        let mut out = ctx.run_ui(Default::default(), |ui| a.camera_tab(ui));
+        out.textures_delta.clear();
+        assert!(a.cam.is_some(), "drawn again: started");
     }
 
     #[test]
