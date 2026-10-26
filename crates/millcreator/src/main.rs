@@ -268,6 +268,8 @@ struct App {
     recovery: Vec<base_core::autosave::Found>,
     prog_rev: u64,
     cam: Option<CamState>,
+    /// Was the camera picture drawn in the last frame? A stream nobody looks at is stopped (its frames would pile up).
+    cam_drawn: bool,
     /// The camera window shrinks to the picture.
     cam_fit: base_ui::window::FitWindow,
     machine: MachineLink,
@@ -384,6 +386,7 @@ impl App {
             recovery: base_core::autosave::find_all(&data_paths().base, "millcreator"),
             prog_rev: 0,
             cam: None,
+            cam_drawn: false,
             cam_fit: Default::default(),
             machine: {
                 let mut m = MachineLink::new(ctx);
@@ -1008,6 +1011,7 @@ impl App {
     }
 
     fn draw(&mut self, ui: &mut egui::Ui) {
+        self.drop_idle_camera();
         let ctx = ui.ctx().clone();
         self.autosave_tick(&ctx, false);
         self.sync_picture_layers();
