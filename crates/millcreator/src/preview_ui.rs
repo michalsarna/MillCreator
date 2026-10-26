@@ -55,9 +55,21 @@ impl App {
         v.painter.extend(shapes);
     }
 
+    /// Is the camera view a tab of the work area (so that the bar of the tabs has one for it)?
+    pub(crate) fn camera_work_tab(&self) -> bool {
+        self.show_camera && self.cam_ws && self.device.camera().is_some()
+    }
+
+    /// The camera view in the work area, in place of the drawing.
+    pub(crate) fn camera_work_panel(&mut self, ui: &mut egui::Ui) {
+        egui::ScrollArea::vertical().id_salt("camera_work_area").auto_shrink([false, false]).show(ui, |ui| {
+            egui::Frame::new().inner_margin(8).show(ui, |ui| self.camera_tab(ui));
+        });
+    }
+
     /// The live picture of the camera in a window of its own (the Camera view button).
     pub(crate) fn camera_window(&mut self, ctx: &egui::Context) {
-        if !self.show_camera {
+        if !self.show_camera || self.cam_ws {
             return;
         }
         let mut open = true;

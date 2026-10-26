@@ -290,6 +290,9 @@ struct App {
     /// The toolpaths are drawn over the work area.
     toolpaths_on: bool,
     show_camera: bool,
+    /// The camera view is pinned as a tab of the work area, and that tab is the one shown (in place of the drawing).
+    cam_ws: bool,
+    cam_ws_shown: bool,
     show_options: bool,
     /// When the last Escape was pressed (a second one within half a second selects the select tool).
     esc_time: f64,
@@ -402,6 +405,8 @@ impl App {
             playback: base_ui::playback::Playback::default(),
             toolpaths_on: false,
             show_camera: false,
+            cam_ws: false,
+            cam_ws_shown: false,
             show_options: false,
             esc_time: -10.0,
             check_updates: on("check_updates", true),
@@ -1052,7 +1057,9 @@ impl App {
         egui::Panel::right("arrange_bar").frame(chrome.inner_margin(egui::Margin::symmetric(2, 4))).exact_size(40.0).resizable(false).show(ui, |ui| base_ui::editor::arrange_bar(self, ui));
         egui::Panel::bottom("layer_bar").frame(chrome).exact_size(36.0).show(ui, |ui| base_ui::layer_bar::layer_bar(self, ui));
         egui::CentralPanel::no_frame().show(ui, |ui| {
-            if !self.gcode_view_panel(ui) {
+            if self.camera_work_tab() && self.cam_ws_shown {
+                self.camera_work_panel(ui);
+            } else if !self.gcode_view_panel(ui) {
                 self.canvas(ui)
             }
         });

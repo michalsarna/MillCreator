@@ -645,7 +645,14 @@ impl App {
                 _ => st.tex = Some(ctx.load_texture("camera-view", img, egui::TextureOptions::LINEAR)),
             }
         }
-        ui.label(RichText::new(&cam.name).strong());
+        ui.horizontal(|ui| {
+            ui.label(RichText::new(&cam.name).strong());
+            if base_ui::doc_tabs::work_tab_toggle(ui, self.cam_ws) {
+                self.cam_ws = !self.cam_ws;
+                self.show_camera = true;
+                self.cam_ws_shown = self.cam_ws;
+            }
+        });
         let mut picture = None;
         match &st.tex {
             Some(t) => {
@@ -858,6 +865,29 @@ mod tests {
         }
         assert!((rects[3].height() - rects[7].height()).abs() < 1.0, "the window grew: {rects:?}");
         assert!(rects[7].width() > 900.0 && rects[7].height() > 500.0, "{:?}", rects[7]);
+    }
+
+    #[test]
+    fn the_camera_can_be_pinned_as_a_tab_of_the_work_area() {
+        let ctx = egui::Context::default();
+        let mut a = App::build(&ctx, None, false);
+        a.device.cameras = vec![CameraSource::url("c", "http://127.0.0.1:9/none.mjpg", 1)];
+        a.device.active_camera = 0;
+        a.show_camera = true;
+        assert!(!a.camera_work_tab(), "a window until it is pinned");
+        a.cam_ws = true;
+        a.cam_ws_shown = true;
+        assert!(a.camera_work_tab());
+        // The window of the camera makes way for the tab.
+        let mut out = ctx.run_ui(Default::default(), |ui| a.camera_window(ui.ctx()));
+        out.textures_delta.clear();
+        assert!(a.cam.is_none(), "nothing drew the camera");
+        // A drawing tab is picked: the drawing is back, the tab stays in the bar.
+        a.switch_to(0);
+        assert!(!a.cam_ws_shown && a.camera_work_tab());
+        // The close cross of the tab ends the view.
+        a.show_camera = false;
+        assert!(!a.camera_work_tab());
     }
 
     #[test]
