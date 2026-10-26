@@ -649,8 +649,11 @@ impl App {
         match &st.tex {
             Some(t) => {
                 let size = t.size_vec2();
-                let w = ui.available_width();
-                let scale = w / size.x;
+                // Fitted to the window, up as well as down; the line of a stream error under it is left out of the height, or the
+                // window would grow by that on every frame.
+                let line = ui.text_style_height(&egui::TextStyle::Body) + ui.spacing().item_spacing.y;
+                let under = ui.spacing().item_spacing.y + if st.error.is_empty() { 0.0 } else { line };
+                let scale = (ui.available_width().max(60.0) / size.x).min((ui.available_height() - under).max(60.0) / size.y);
                 ui.add(egui::Image::new(egui::load::SizedTexture::new(t.id(), size * scale)));
             }
             None => {
@@ -829,6 +832,29 @@ mod tests {
             a.camera_tab(ui);
         });
         out.textures_delta.clear();
+    }
+
+    #[test]
+    fn the_camera_picture_is_fitted_to_the_window_up_as_well_as_down_and_the_window_keeps_its_size() {
+        let ctx = egui::Context::default();
+        let mut a = App::build(&ctx, None, false);
+        a.device.cameras = vec![CameraSource::url("c", "http://127.0.0.1:9/none.mjpg", 1)];
+        a.device.active_camera = 0;
+        let mut rects = vec![];
+        for i in 0..8 {
+            let input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(1600.0, 1200.0))), ..Default::default() };
+            let mut shown = None;
+            let mut out = ctx.run_ui(input, |ui| {
+                shown = egui::Window::new("cam").default_size([1000.0, 800.0]).resizable(true).show(ui.ctx(), |ui| a.camera_tab(ui)).map(|r| r.response.rect);
+            });
+            out.textures_delta.clear();
+            if i == 0 {
+                a.cam.as_mut().expect("the camera state").tex = Some(ctx.load_texture("t", egui::ColorImage::from_rgb([320, 180], &vec![0u8; 320 * 180 * 3]), egui::TextureOptions::LINEAR));
+            }
+            rects.push(shown.expect("the window"));
+        }
+        assert!((rects[3].height() - rects[7].height()).abs() < 1.0, "the window grew: {rects:?}");
+        assert!(rects[7].width() > 900.0 && rects[7].height() > 500.0, "{:?}", rects[7]);
     }
 
     #[test]
