@@ -883,7 +883,7 @@ impl App {
                     ui.separator();
                     ui.add_space(4.0);
                     self.job_buttons(ui);
-                    let c = ControlCtx { control: &self.device.control, safe_z: self.device.safe_z, tool_diameter: td, job_box, probe: true, travel, spindle: Some(control_ui::SpindleCtx { min_rpm: self.device.spindle.min_rpm, max_rpm: self.device.spindle.max_rpm }), zeroing: true, z_axis: true, hold_to_move: true };
+                    let c = ControlCtx { control: &self.device.control, safe_z: self.device.safe_z, tool_diameter: td, job_box, probe: true, travel, spindle: Some(control_ui::SpindleCtx { min_rpm: self.device.spindle.min_rpm, max_rpm: self.device.spindle.max_rpm }), zeroing: true, z_axis: true, hold_to_move: self.device.connection.grbl_version == base_core::machine::GrblVersion::Grbl11 };
                     if let Some(s) = control_ui::panel(ui, &mut self.machine, &mut self.control_ui, &c) {
                         self.status = s;
                     }
