@@ -120,6 +120,14 @@ impl App {
         self.dev_edit = Some(DeviceEdit { idx: None, draft: Device { name: String::new(), ..Device::default() }, page: Page::General, error: String::new() });
     }
 
+    /// The settings of the active device (a device that came with the project is edited as a copy).
+    pub(crate) fn open_device_settings(&mut self) {
+        match self.active {
+            Some(i) => self.start_edit_device(i),
+            None => self.dev_edit = Some(DeviceEdit { idx: None, draft: self.device.clone(), page: Page::General, error: String::new() }),
+        }
+    }
+
     pub(crate) fn start_edit_device(&mut self, idx: usize) {
         self.confirm_delete = false;
         if let Some(d) = self.devices.get(idx) {
@@ -578,12 +586,9 @@ impl App {
             row(ui, "Cameras", d.cameras.len().to_string());
         });
         ui.add_space(8.0);
-        if let Some(i) = self.active {
-            if ui.button(tr("Device settings…")).clicked() {
-                self.start_edit_device(i);
-            }
-        } else if ui.button(tr("Device settings…")).on_hover_text(tr("This device is not in the list: it came with the project")).clicked() {
-            self.dev_edit = Some(DeviceEdit { idx: None, draft: d.clone(), page: Page::General, error: String::new() });
+        let tip = if self.active.is_some() { String::new() } else { tr("This device is not in the list: it came with the project").to_string() };
+        if ui.button(tr("Device settings…")).on_hover_text(tip).clicked() {
+            self.open_device_settings();
         }
         if d.is_dummy() {
             ui.add_space(6.0);
@@ -806,6 +811,21 @@ mod tests {
         let e = a.dev_edit.take().unwrap();
         a.commit_device(&e);
         assert_eq!(a.device.safe_z, 8.0);
+    }
+
+    #[test]
+    fn the_machine_menu_opens_the_settings_of_the_device_even_when_it_came_with_the_project() {
+        let mut a = app();
+        a.devices.clear();
+        a.active = None;
+        a.open_device_settings();
+        assert!(a.dev_edit.as_ref().is_some_and(|e| e.idx.is_none()));
+        a.dev_edit = None;
+        a.devices = vec![Device::dummy()];
+        a.active = Some(0);
+        a.open_device_settings();
+        assert_eq!(a.dev_edit.as_ref().and_then(|e| e.idx), Some(0));
+        assert!(crate::menu::menus().iter().any(|(m, items)| *m == "Machine" && items.iter().any(|i| matches!(i, base_ui::menu::Entry::Item(crate::menu::Act::DeviceSettings, ..)))));
     }
 
     #[test]
