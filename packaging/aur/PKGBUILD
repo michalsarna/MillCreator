@@ -1,0 +1,23 @@
+# Maintainer: Michał Sarna <michalsarna at users dot noreply dot github dot com>
+pkgname=millcreator-bin
+pkgver=0.4.0
+pkgrel=1
+pkgdesc="CNC milling software with toolpaths, 3D view and G-code"
+arch=('x86_64' 'aarch64')
+url="https://github.com/michalsarna/MillCreator"
+license=('MIT OR Apache-2.0')
+depends=('glibc' 'gcc-libs' 'libgl' 'libxkbcommon-x11')
+optdepends=('wayland: native Wayland session support')
+provides=('millcreator')
+conflicts=('millcreator')
+options=('!strip' '!debug')
+source_x86_64=("$url/releases/download/v$pkgver/millcreator-v$pkgver-linux-amd64.deb")
+source_aarch64=("$url/releases/download/v$pkgver/millcreator-v$pkgver-linux-arm64.deb")
+sha256sums_x86_64=('f6e76602771e10a663df993bd94bd557dc46cef1a7bf10ee28f28b1f59eab0f4')
+sha256sums_aarch64=('c755b4ffb322cb91253d00a666a6acc6cd2443fd683f369692319b3217b1b745')
+
+package() {
+  bsdtar -xf data.tar.* -C "$pkgdir"
+  install -dm755 "$pkgdir/usr/share/licenses/$pkgname"
+  mv "$pkgdir/usr/share/doc/millcreator/LICENSE" "$pkgdir/usr/share/doc/millcreator/LICENSE-APACHE" "$pkgdir/usr/share/licenses/$pkgname/"
+}
