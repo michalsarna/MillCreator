@@ -2,6 +2,16 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.4.1
+
+* **Cut one element at a time, or only the selection:** two options in the Control tab, under Frame / From line… (this session only, not saved; they can be used together). **One element at a time** cuts each element, a group (even over several layers) or a shape that is in no group, completely, with all its layers and all their passes, before the next one, the nearest element to the machine's zero first; it is meant for layers that use the same bit (with different bits the bit is still changed at every switch). **Selection only** cuts just the shapes that are selected on the work area when the G-code is saved or the job is started. Both change the G-code, the preview and the estimate, and Frame follows the selection.
+* **Machine menu:** *Device settings…* opens the settings of the device, like the button of the Device tab.
+* **Camera view:** a tab of the work area next to the drawings (there is no floating window); the picture is fitted to the window up as well as down, in steps of 0.01 so that it does not tremble. A stream that is not drawn is stopped.
+* **Windows:** the pop-up windows are moved only by their title line (the pointer is a hand there, a normal one over the icons) and no longer stick to the pointer after a click. The buttons of the device window and of the other dialogs stand at the foot of the window under a line, and the lists of the bit library and the other windows fill their window.
+* **Jogging:** jog, jog cancel, Home, Unlock, Pause and Resume follow the GRBL version of the Connection page; hold to move is only for GRBL 1.1 and newer.
+* The tests run the generated jobs against the real GRBL firmware (a simulator) in CI.
+* baseCreator v1.30.0.
+
 ## v0.4.0
 
 * **GRBL versions:** the Connection page of the device has a *GRBL version* choice: 1.1 or newer (the default), 1.0, 0.9, 0.8 or 0.7 or older. The older boards report the position in their own format and have no `$J=` jog (the program jogs with ordinary moves); GRBL 0.7 has no real-time commands (no status, Pause, Home or Unlock) and cuts lines longer than 49 characters. A servo pen lift (`M3 S…`) works with every version.

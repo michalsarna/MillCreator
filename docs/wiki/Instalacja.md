@@ -13,6 +13,18 @@ Każde wydanie na [stronie Releases](https://github.com/michalsarna/MillCreator/
 | Debian / Ubuntu i pochodne, ARM64 | `millcreator-vX.Y.Z-linux-arm64.deb` | `millcreator-vX.Y.Z-linux-arm64.tar.gz` |
 | Inny Linux | – | `.tar.gz` powyżej |
 
+## Menedżery pakietów
+
+Wydanie jest też dostępne przez menedżery pakietów, które instalują najnowszą wersję i ją aktualizują:
+
+| System | Polecenie |
+|---|---|
+| macOS (Homebrew) | `brew install --cask michalsarna/tap/millcreator` (potem `brew upgrade`) |
+| Windows (Scoop) | `scoop bucket add creator https://github.com/michalsarna/scoop-bucket`, potem `scoop install millcreator` (potem `scoop update millcreator`) |
+| Windows (winget) | `winget install MichalSarna.MillCreator`, gdy Microsoft przyjmie pakiet do swojego katalogu (zgłoszony, czeka na przegląd) |
+
+Cask Homebrew i manifest Scoop same podążają za każdym wydaniem. Aplikacja na macOS nie jest notaryzowana, więc przy pierwszym uruchomieniu zobacz uwagę w części *macOS* poniżej. Pakiet dla Arch Linuxa (AUR) jest przygotowany, ale jeszcze nieopublikowany.
+
 ## Windows
 Uruchom instalator `-setup.exe` (wpis w menu Start i dezinstalator w *Ustawienia → Aplikacje*) albo rozpakuj `.zip` gdziekolwiek i uruchom `millcreator.exe`. Instalator nie jest podpisany, więc Windows SmartScreen może ostrzec: *Więcej informacji → Uruchom mimo to*.
 
