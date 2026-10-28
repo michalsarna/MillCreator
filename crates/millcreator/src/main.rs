@@ -11,6 +11,8 @@ mod layers_ui;
 mod machine_ui;
 mod materials;
 mod gcode_view_glue;
+#[cfg(test)]
+mod grbl_sim_tests;
 mod menu;
 mod plugins_glue;
 mod preview_ui;
