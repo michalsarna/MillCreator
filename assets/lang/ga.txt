@@ -279,3 +279,8 @@
 278|Oiriúnaigh do na heilimintí
 279|Zúmáil ionas go bhfeicfear limistéar oibre iomlán an mheaisín
 280|Zúmáil ionas go líonfaidh gach gearradh an fhuinneog
+281|Eilimint amháin ag an am
+282|Gearrtar gach eilimint (grúpa, nó cruth gan ghrúpa) ina hiomláine, lena sraitheanna agus a gcuid pasanna uile, sula dtagann an chéad cheann eile; téann an ceann is gaire ar dtús. As: sraith i ndiaidh sraithe, pas i ndiaidh pas.
+283|Roghnúchán amháin
+284|Ní ghearrtar ach na cruthanna atá roghnaithe sa limistéar oibre nuair a shábháiltear an G-code nó nuair a thosaítear an jab.
+285|Faic le gearradh: níl aon rud roghnaithe

@@ -279,3 +279,8 @@
 278|Potrivește la elemente
 279|Mărește astfel încât să se vadă întreaga zonă de lucru a mașinii
 280|Mărește astfel încât toate tăieturile să umple fereastra
+281|Câte un element
+282|Fiecare element (un grup sau o formă fără grup) este frezat complet, cu toate straturile și trecerile, înainte de următorul; cel mai apropiat merge primul. Oprit: strat după strat, trecere după trecere.
+283|Doar selecția
+284|Se frezează doar formele selectate în zona de lucru în momentul salvării G-code sau al pornirii lucrării.
+285|Nimic de frezat: nimic nu este selectat

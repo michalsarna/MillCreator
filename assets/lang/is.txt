@@ -279,3 +279,8 @@
 278|Laga að hlutunum
 279|Súmma svo allt vinnusvæði vélarinnar sjáist
 280|Súmma svo allir skurðir fylli gluggann
+281|Einn hlutur í einu
+282|Hver hlutur (hópur eða form án hóps) er skorinn í heild, með öllum lögum og ferðum, áður en sá næsti kemur; sá næsti í nágrenninu fyrst. Slökkt: lag fyrir lag, ferð fyrir ferð.
+283|Aðeins valið
+284|Aðeins formin sem eru valin á vinnusvæðinu þegar G-kóðinn er vistaður eða verkið ræst eru skorin.
+285|Ekkert að skera: ekkert er valið

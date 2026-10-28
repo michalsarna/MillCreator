@@ -319,10 +319,93 @@ fn centre(p: &Polyline) -> Option<Pt> {
     p.bounds().map(|r| r.center())
 }
 
+/// What the program asks of a job beyond the project (an option of the Control tab, never saved).
+#[derive(Clone, Copy, Debug, Default)]
+pub struct JobOptions {
+    /// Cut the elements one after the other: all the layers (and their passes) of an element, a group or a single shape that
+    /// is in none, before the next one, the nearest element first. Off: a layer after a layer. The layers of an element are
+    /// meant to use the same bit; with different bits the bit is changed (M0) at every switch.
+    pub one_by_one: bool,
+}
+
 /// The toolpaths of every enabled layer, in the order the layers are done in (their rank, then their number).
+#[cfg(test)]
 pub fn generate(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Device, stock: &Stock) -> Program {
+    generate_with(scene, layers, tools, dev, stock, JobOptions::default())
+}
+
+/// The elements of the scene in the order they are cut one by one: groups (even over several layers) and single shapes, each next
+/// one the nearest to where the head was left (it starts at the machine's zero). Each element is a scene of its own shapes.
+fn elements_by_distance(scene: &Scene, dev: &Device) -> Vec<Scene> {
+    let mut elements: Vec<(Option<u64>, Vec<Shape>)> = vec![];
+    for s in &scene.shapes {
+        match s.group.and_then(|g| elements.iter().position(|(k, _)| *k == Some(g))) {
+            Some(i) => elements[i].1.push(s.clone()),
+            None => elements.push((s.group, vec![s.clone()])),
+        }
+    }
+    let (next_id, next_group) = scene.counters();
+    let center = |e: &[Shape]| -> Pt {
+        match e.iter().filter_map(|s| s.bounds()).reduce(base_core::geom::Rect::union) {
+            Some(b) => Pt::new((b.min.x + b.max.x) / 2.0, (b.min.y + b.max.y) / 2.0),
+            None => Pt::new(0.0, 0.0),
+        }
+    };
+    let mut left: Vec<(Pt, Vec<Shape>)> = elements.into_iter().map(|(_, e)| (center(&e), e)).collect();
+    // The machine's zero is the bottom left of the work area; the scene counts from the top.
+    let (mut at, mut out) = (Pt::new(0.0, dev.area.y), vec![]);
+    while !left.is_empty() {
+        let next = (0..left.len()).min_by(|&a, &b| {
+            let d = |i: usize| (left[i].0.x - at.x).powi(2) + (left[i].0.y - at.y).powi(2);
+            d(a).total_cmp(&d(b))
+        });
+        let (c, e) = left.remove(next.unwrap_or(0));
+        at = c;
+        out.push(Scene::from_parts(e, next_id, next_group));
+    }
+    out
+}
+
+/// The toolpaths as `generate` makes them, with what the program asks of the job (`JobOptions`).
+pub fn generate_with(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Device, stock: &Stock, opts: JobOptions) -> Program {
     let mut prog = Program::default();
     let mut b = Builder { moves: vec![], at: [0.0, 0.0, dev.safe_z], safe: dev.safe_z, layer: 0, feed: 0.0, plunge: 0.0, dev };
+    if opts.one_by_one {
+        for element in elements_by_distance(scene, dev) {
+            run_layers(&mut b, &mut prog, &element, layers, tools, dev, stock);
+        }
+        // Every element repeats the warnings of its layers: say each one once.
+        let mut seen = std::collections::HashSet::new();
+        prog.warnings.retain(|w| seen.insert(w.to_string()));
+    } else {
+        run_layers(&mut b, &mut prog, scene, layers, tools, dev, stock);
+    }
+    prog.moves = b.moves;
+    // The machine is already above the first cut when the program starts: no move comes from the corner of the table.
+    if let Some(first) = prog.moves.first_mut() {
+        if first.kind == MoveKind::Rapid && first.from == [0.0, 0.0, dev.safe_z] {
+            first.from = first.to;
+        }
+    }
+    prog.bounds = bounds(&prog.moves);
+    if dev.rotary.enabled {
+        if let Some((lo, hi)) = prog.bounds {
+            let round = dev.rotary.circumference();
+            if hi[1] - lo[1] > round + 1e-6 {
+                prog.warnings.push(Warn::new("The drawing is higher than the way round the workpiece ({} mm)", &[&format!("{round:.1}")]));
+            }
+        }
+    }
+    if let Some((lo, hi)) = prog.bounds {
+        if lo[0] < -1e-6 || lo[1] < -1e-6 || hi[0] > dev.area.x + 1e-6 || hi[1] > dev.area.y + 1e-6 {
+            prog.warnings.push(Warn::new("The cuts go outside of the work area of the device", &[]));
+        }
+    }
+    prog
+}
+
+/// The layers of `scene` one after the other, in the order of their rank, into `b`.
+fn run_layers(b: &mut Builder, prog: &mut Program, scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Device, stock: &Stock) {
     for li in crate::layers::layer_order(layers) {
         let layer = &layers[li];
         let mut images = 0;
@@ -363,13 +446,13 @@ pub fn generate(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Devi
         b.plunge = layer.plunge;
         let start = b.moves.len();
         if stock.first_pass && stock.first_pass_depth > 0.0 && stock.first_pass_depth < layer.depth - 1e-9 {
-            first_pass(&mut b, &layer, tool, &outlines, stock.first_pass_depth);
+            first_pass(b, &layer, tool, &outlines, stock.first_pass_depth);
         }
-        run_layer(&mut b, &layer, tool, &outlines, &depths, &mut prog.warnings);
+        run_layer(b, &layer, tool, &outlines, &depths, &mut prog.warnings);
         // A picture is engraved at the depth of the layer in one go (a shallow depth: the dots and the rows are many).
         let full = depths.last().copied().unwrap_or(layer.depth);
         for (shape, im) in &pictures {
-            if !engrave_picture(&mut b, &layer, tool, shape, im, dev.area.y, full) {
+            if !engrave_picture(b, &layer, tool, shape, im, dev.area.y, full) {
                 prog.warnings.push(Warn::new("{}: the program of the picture is too long: the rest was left out (use a bigger step over)", &[&layer.name]));
                 break;
             }
@@ -379,29 +462,8 @@ pub fn generate(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Devi
             prog.warnings.push(Warn::new("{}: nothing to cut (the line may be too small for the bit)", &[&layer.name]));
         }
     }
-    prog.moves = b.moves;
-    // The machine is already above the first cut when the program starts: no move comes from the corner of the table.
-    if let Some(first) = prog.moves.first_mut() {
-        if first.kind == MoveKind::Rapid && first.from == [0.0, 0.0, dev.safe_z] {
-            first.from = first.to;
-        }
-    }
-    prog.bounds = bounds(&prog.moves);
-    if dev.rotary.enabled {
-        if let Some((lo, hi)) = prog.bounds {
-            let round = dev.rotary.circumference();
-            if hi[1] - lo[1] > round + 1e-6 {
-                prog.warnings.push(Warn::new("The drawing is higher than the way round the workpiece ({} mm)", &[&format!("{round:.1}")]));
-            }
-        }
-    }
-    if let Some((lo, hi)) = prog.bounds {
-        if lo[0] < -1e-6 || lo[1] < -1e-6 || hi[0] > dev.area.x + 1e-6 || hi[1] > dev.area.y + 1e-6 {
-            prog.warnings.push(Warn::new("The cuts go outside of the work area of the device", &[]));
-        }
-    }
-    prog
 }
+
 
 /// One shallow pass along the edges the layer will cut, before its real passes: the line of a profile, the line itself for
 /// "Follow the line", the outermost ring of a pocket (not its inside), nothing for drilling.
@@ -877,6 +939,61 @@ mod tests {
         let x: f64 = g.lines().find(|l| l.starts_with("G1 X")).unwrap().split('X').nth(1).unwrap().split(' ').next().unwrap().parse().unwrap();
         assert!(x < 0.0, "{x}");
         assert!(g.trim_end().ends_with("G0 X-300 Y-200\nM30"), "{g}");
+    }
+
+    /// The cuts of a program as a list of (square, layer): the squares are 10 to 40 wide and 200 apart (x = 0, 200 ...), one entry
+    /// for each stretch of cuts on the same square and layer.
+    fn cut_order(prog: &Program) -> Vec<(usize, usize)> {
+        let mut out: Vec<(usize, usize)> = vec![];
+        for m in prog.moves.iter().filter(|m| m.kind == MoveKind::Cut) {
+            let at = ((m.from[0] + m.to[0]) / 2.0 / 200.0).round() as usize * 2;
+            if out.last() != Some(&(at, m.layer)) {
+                out.push((at, m.layer));
+            }
+        }
+        out
+    }
+
+    #[test]
+    fn one_by_one_cuts_all_layers_of_an_element_before_the_next_and_the_nearest_element_first() {
+        let (lib, dev, stock, mut layers) = setup();
+        layers[0].depth = 2.0;
+        layers[0].step_down = 1.0;
+        layers[1].depth = 2.0;
+        layers[1].step_down = 2.0;
+        // Two groups, each a square on layer 0 (cut out) and a smaller one on layer 1 (inside); the far one is drawn first.
+        let mut scene = Scene::default();
+        for x in [200.0, 0.0] {
+            let outer = scene.add(0, Kind::Rect { w: 40.0, h: 40.0 }, Xf::translate(x, 10.0));
+            let inner = scene.add(1, Kind::Rect { w: 20.0, h: 20.0 }, Xf::translate(x + 10.0, 20.0));
+            let g = scene.new_group_id();
+            for s in scene.shapes.iter_mut().filter(|s| s.id == outer || s.id == inner) {
+                s.group = Some(g);
+            }
+        }
+        // A layer after a layer, as before.
+        let by_layer = cut_order(&generate(&scene, &layers, &lib, &dev, &stock));
+        assert_eq!(by_layer.iter().map(|c| c.1).collect::<Vec<_>>(), vec![0, 0, 1, 1], "{by_layer:?}");
+        // One by one: the group at x = 0 (nearest to the machine's zero) completely, then the other.
+        let one = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions { one_by_one: true });
+        assert_eq!(cut_order(&one), vec![(0, 0), (0, 1), (2, 0), (2, 1)]);
+        // The same work in another order, and the warnings of the layers are said once.
+        let plain = generate(&scene, &layers, &lib, &dev, &stock);
+        assert_eq!(one.moves.iter().filter(|m| m.kind == MoveKind::Cut).count(), plain.moves.iter().filter(|m| m.kind == MoveKind::Cut).count());
+        assert_eq!(one.warnings.len(), plain.warnings.len());
+    }
+
+    #[test]
+    fn single_shapes_that_are_in_no_group_are_elements_of_their_own() {
+        let (lib, dev, stock, mut layers) = setup();
+        layers[0].depth = 2.0;
+        layers[0].step_down = 2.0;
+        let mut scene = Scene::default();
+        for x in [400.0, 0.0, 200.0] {
+            scene.add(0, Kind::Rect { w: 40.0, h: 40.0 }, Xf::translate(x, 10.0));
+        }
+        let one = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions { one_by_one: true });
+        assert_eq!(cut_order(&one).iter().map(|c| c.0).collect::<Vec<_>>(), vec![0, 2, 4], "nearest first, not as they were drawn");
     }
 
     #[test]

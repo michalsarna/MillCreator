@@ -279,3 +279,8 @@
 278|Prilagodi elementima
 279|Zumiraj tako da se vidi cijelo radno područje stroja
 280|Zumiraj tako da svi rezovi ispune prozor
+281|Element po element
+282|Svaki element (grupa ili oblik bez grupe) reže se u cijelosti, sa svim slojevima i prolazima, prije sljedećeg; najbliži ide prvi. Isključeno: sloj po sloj, prolaz po prolaz.
+283|Samo odabir
+284|Režu se samo oblici koji su odabrani na radnoj površini pri spremanju G-koda ili pokretanju posla.
+285|Nema što rezati: ništa nije odabrano

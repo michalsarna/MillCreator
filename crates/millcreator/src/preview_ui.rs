@@ -11,7 +11,29 @@ use eframe::egui::{self, Color32, RichText};
 impl App {
     /// The toolpaths of the project as it is now.
     pub(crate) fn make_program(&self) -> Program {
-        toolpath::generate(&self.scene, &self.layers, &self.tools, &self.device, &self.stock)
+        toolpath::generate_with(&self.job_scene(), &self.layers, &self.tools, &self.device, &self.stock, toolpath::JobOptions { one_by_one: self.one_by_one })
+    }
+
+    /// What the job is made of: the whole drawing, or with "Selection only" the shapes that are selected now.
+    pub(crate) fn job_scene(&self) -> std::borrow::Cow<'_, base_core::scene::Scene> {
+        if self.selection_only {
+            let (next_id, next_group) = self.scene.counters();
+            let shapes = self.scene.shapes.iter().filter(|s| self.ed.sel.contains(&s.id)).cloned().collect();
+            std::borrow::Cow::Owned(base_core::scene::Scene::from_parts(shapes, next_id, next_group))
+        } else {
+            std::borrow::Cow::Borrowed(&self.scene)
+        }
+    }
+
+    /// Changes whenever the project or what the job makes of it changes: the key of the program that is kept.
+    pub(crate) fn job_stamp(&self) -> u64 {
+        use std::hash::{Hash, Hasher};
+        let mut h = std::collections::hash_map::DefaultHasher::new();
+        (self.rev, self.one_by_one, self.selection_only).hash(&mut h);
+        if self.selection_only {
+            self.ed.sel.hash(&mut h);
+        }
+        h.finish()
     }
 
     /// The box of the milled shapes (min x, min y, max x, max y) in the coordinates of the work area, for a project that
@@ -23,9 +45,9 @@ impl App {
 
     /// The program is made again when the project changed since it was made.
     pub(crate) fn refresh_program(&mut self) {
-        if self.prog.is_none() || self.prog_rev != self.rev {
+        if self.prog.is_none() || self.prog_rev != self.job_stamp() {
             self.prog = Some(self.make_program());
-            self.prog_rev = self.rev;
+            self.prog_rev = self.job_stamp();
         }
     }
 
@@ -70,7 +92,7 @@ impl App {
     /// Open the 3D window with a fresh program.
     pub(crate) fn open_preview(&mut self) {
         self.prog = Some(self.make_program());
-        self.prog_rev = self.rev;
+        self.prog_rev = self.job_stamp();
         self.show_3d = true;
     }
 
@@ -78,7 +100,7 @@ impl App {
     pub(crate) fn export_gcode(&mut self) {
         let prog = self.make_program();
         if prog.is_empty() {
-            self.status = tr("There is nothing to cut: put shapes on layers that have a bit.").to_string();
+            self.status = self.nothing_to_cut();
             return;
         }
         let name = self.path.as_ref().and_then(|p| p.file_stem()).map(|s| s.to_string_lossy().into_owned()).unwrap_or_else(|| "untitled".into());
@@ -137,9 +159,9 @@ impl App {
         if !self.show_3d {
             return;
         }
-        if self.prog.is_none() || self.prog_rev != self.rev {
+        if self.prog.is_none() || self.prog_rev != self.job_stamp() {
             self.prog = Some(self.make_program());
-            self.prog_rev = self.rev;
+            self.prog_rev = self.job_stamp();
         }
         let mut open = true;
         let mut fit = None;
@@ -214,7 +236,7 @@ mod tests {
         let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.preview_window(ui.ctx()));
         out.textures_delta.clear();
         assert!(!a.prog.as_ref().unwrap().is_empty(), "the new shape is milled");
-        assert_eq!(a.prog_rev, a.rev);
+        assert_eq!(a.prog_rev, a.job_stamp());
         // The two fits: the whole work area shows more than the small shape, so it zooms less.
         let mut zoom_of = |fit| {
             a.view.fit = Some(fit);

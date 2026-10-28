@@ -279,3 +279,8 @@
 278|Tilpas elementerne
 279|Zoom, så hele maskinens arbejdsområde ses
 280|Zoom, så alle skærene fylder vinduet
+281|Ét element ad gangen
+282|Hvert element (en gruppe eller en form uden gruppe) skæres helt, med alle lag og gennemløb, før det næste; det nærmeste kommer først. Fra: lag for lag, gennemløb for gennemløb.
+283|Kun markering
+284|Kun de former, der er markeret på arbejdsområdet, når G-koden gemmes eller jobbet startes, skæres.
+285|Intet at skære: intet er markeret

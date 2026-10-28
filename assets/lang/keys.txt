@@ -279,3 +279,8 @@
 278	Fit to the elements
 279	Zoom so that the whole work area of the machine is seen
 280	Zoom so that all the cuts fill the window
+281	One element at a time
+282	Each element (a group, or a shape that is in none) is cut completely, all its layers and all their passes, before the next one; the nearest element goes first. Off: layer after layer, pass after pass.
+283	Selection only
+284	Only the shapes that are selected on the work area when the G-code is saved or the job is started are cut.
+285	There is nothing to cut: nothing is selected

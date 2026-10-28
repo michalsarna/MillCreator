@@ -279,3 +279,8 @@
 278|Prilagodi elementom
 279|Povečaj tako, da se vidi celotno delovno območje stroja
 280|Povečaj tako, da vsi rezi zapolnijo okno
+281|En element naenkrat
+282|Vsak element (skupina ali oblika brez skupine) se izreže v celoti, z vsemi plastmi in prehodi, preden pride naslednji; najbližji je prvi. Izklopljeno: plast za plastjo, prehod za prehodom.
+283|Samo izbira
+284|Izrežejo se samo oblike, ki so izbrane na delovnem območju ob shranjevanju G-kode ali zagonu opravila.
+285|Ni kaj rezati: nič ni izbrano

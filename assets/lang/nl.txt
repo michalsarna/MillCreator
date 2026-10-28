@@ -279,3 +279,8 @@
 278|Aanpassen aan elementen
 279|Zoom zo dat het hele werkgebied van de machine zichtbaar is
 280|Zoom zo dat alle sneden het venster vullen
+281|Element voor element
+282|Elk element (een groep of een vorm zonder groep) wordt helemaal gefreesd, met al zijn lagen en doorgangen, vóór het volgende; het dichtstbijzijnde eerst. Uit: laag na laag, doorgang na doorgang.
+283|Alleen selectie
+284|Alleen de vormen die op het werkvlak zijn geselecteerd op het moment dat de G-code wordt opgeslagen of de taak start, worden gefreesd.
+285|Niets te frezen: niets is geselecteerd

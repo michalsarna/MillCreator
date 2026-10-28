@@ -279,3 +279,8 @@
 278|Priderinti prie elementų
 279|Padidinti taip, kad matytųsi visa staklių darbo sritis
 280|Padidinti taip, kad visi pjūviai užpildytų langą
+281|Po vieną elementą
+282|Kiekvienas elementas (grupė arba forma be grupės) išfrezuojamas visas, su visais sluoksniais ir praėjimais, prieš kitą; artimiausias pirmas. Išjungta: sluoksnis po sluoksnio, praėjimas po praėjimo.
+283|Tik pažymėta
+284|Frezuojamos tik tos formos, kurios darbo srityje pažymėtos G kodo išsaugojimo ar užduoties pradžios metu.
+285|Nėra ką frezuoti: nieko nepažymėta
