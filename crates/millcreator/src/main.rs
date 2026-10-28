@@ -247,7 +247,7 @@ struct App {
     view: View3d,
     show_3d: bool,
     prog: Option<Program>,
-    /// Counts the changes of the project; the program is made again when it differs from `prog_rev`.
+    /// Counts the changes of the project; the program is made again when `job_stamp` differs from `prog_rev`.
     rev: u64,
     /// The layers that hold pictures and were switched to the Picture operation already (so that a person who changes the
     /// operation of such a layer is not overruled).
@@ -270,6 +270,10 @@ struct App {
     /// An unsaved project left by an earlier run (offered on the start screen).
     recovery: Vec<base_core::autosave::Found>,
     prog_rev: u64,
+    /// Options of a job, in the Control tab (this session only): cut the elements one after the other, and cut only what is
+    /// selected when the G-code is saved or the job started.
+    one_by_one: bool,
+    selection_only: bool,
     cam: Option<CamState>,
     /// Was the camera picture drawn in the last frame? A stream nobody looks at is stopped (its frames would pile up).
     cam_drawn: bool,
@@ -387,6 +391,8 @@ impl App {
             parked_saved_at: std::time::Instant::now(),
             recovery: base_core::autosave::find_all(&data_paths().base, "millcreator"),
             prog_rev: 0,
+            one_by_one: false,
+            selection_only: false,
             cam: None,
             cam_drawn: false,
             cam_fit: Default::default(),
@@ -1788,6 +1794,46 @@ mod tests {
         h.run_steps(3);
         assert_eq!(h.state().description, "Birch plywood 3 mm");
         assert_eq!(h.state().to_project().description, "Birch plywood 3 mm");
+    }
+
+    #[test]
+    fn the_job_options_are_in_the_control_tab_and_change_what_is_made() {
+        use egui_kittest::kittest::Queryable;
+        let mut app = App::build(&egui::Context::default(), None, false);
+        for x in [100.0, 10.0] {
+            app.scene.add(0, Kind::Rect { w: 30.0, h: 30.0 }, Xf::translate(x, 20.0));
+        }
+        app.touch_rev();
+        let mut h = egui_kittest::Harness::builder().with_accessibility_check(false).with_context_setup(|ctx| {
+            base_ui::fonts::install(ctx);
+            base_ui::icons::install(ctx);
+        }).with_size([420.0, 1000.0]).build_ui_state(
+            |ui, a: &mut App| {
+                a.screen = Screen::Editor;
+                a.side_tab = SideTab::Control;
+                a.draw(ui);
+            },
+            app,
+        );
+        h.run_steps(3);
+        for w in ["One element at a time", "Selection only"] {
+            assert!(h.query_by_label(w).is_some(), "{w} is in the Control tab");
+        }
+        let a = h.state_mut();
+        let all = a.make_program().moves.len();
+        let stamp = a.job_stamp();
+        // Selection only: just the shape that is selected; nothing selected gives nothing, and says why.
+        a.selection_only = true;
+        assert_ne!(stamp, a.job_stamp(), "the program kept is made again");
+        assert!(a.make_program().is_empty());
+        assert_eq!(a.nothing_to_cut(), "There is nothing to cut: nothing is selected");
+        a.ed.sel = vec![a.scene.shapes[0].id];
+        let one = a.make_program().moves.len();
+        assert!(one > 0 && one < all, "{one} of {all}");
+        // Both together work as well, and the options are not part of the project.
+        a.one_by_one = true;
+        assert_eq!(a.make_program().moves.len(), one);
+        assert!(!a.to_project().description.contains("one_by_one"));
     }
 
     #[test]

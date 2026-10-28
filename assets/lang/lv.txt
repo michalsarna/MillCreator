@@ -279,3 +279,8 @@
 278|Pielāgot elementiem
 279|Tuvināt tā, lai būtu redzama visa iekārtas darba zona
 280|Tuvināt tā, lai visi griezumi aizpilda logu
+281|Pa vienam elementam
+282|Katrs elements (grupa vai forma bez grupas) tiek izfrēzēts pilnībā, ar visiem slāņiem un gājieniem, pirms nākamā; tuvākais pirmais. Izslēgts: slānis pa slānim, gājiens pa gājienam.
+283|Tikai atlase
+284|Tiek frēzētas tikai tās formas, kas darba laukā ir atlasītas brīdī, kad tiek saglabāts G-kods vai sākts darbs.
+285|Nav ko frēzēt: nekas nav atlasīts

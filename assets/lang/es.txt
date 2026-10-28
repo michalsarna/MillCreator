@@ -279,3 +279,8 @@
 278|Ajustar a los elementos
 279|Ampliar para ver toda el área de trabajo de la máquina
 280|Ampliar para que todos los cortes llenen la ventana
+281|Un elemento cada vez
+282|Cada elemento (un grupo, o una forma sin grupo) se fresa entero, con todas sus capas y pasadas, antes del siguiente; el más cercano va primero. Desactivado: capa tras capa, pasada tras pasada.
+283|Solo la selección
+284|Solo se fresan las formas seleccionadas en el área de trabajo en el momento de guardar el G-code o iniciar el trabajo.
+285|Nada que fresar: no hay nada seleccionado

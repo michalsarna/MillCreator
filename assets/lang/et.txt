@@ -279,3 +279,8 @@
 278|Sobita elementidele
 279|Suumi nii, et kogu masina tööala oleks näha
 280|Suumi nii, et kõik lõiked täidaksid akna
+281|Üks element korraga
+282|Iga element (rühm või rühmata kuju) lõigatakse tervikuna, kõigi kihtide ja läbimistega, enne järgmist; lähim on esimene. Väljas: kiht kihi haaval, läbimine läbimise haaval.
+283|Ainult valik
+284|Lõigatakse ainult need kujud, mis on tööalal valitud G-koodi salvestamise või töö alustamise hetkel.
+285|Pole midagi lõigata: midagi pole valitud

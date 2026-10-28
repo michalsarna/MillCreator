@@ -13,7 +13,7 @@ use crate::device::Device;
 use crate::layers::default_layers;
 use crate::materials::Stock;
 use crate::tools::Library;
-use crate::toolpath::{generate, to_gcode};
+use crate::toolpath::{generate_with, to_gcode, JobOptions};
 use base_core::geom::{Polyline, Pt, Xf};
 use base_core::scene::{Kind, Scene};
 use base_ui::link::{clean_gcode, Cmd};
@@ -21,12 +21,19 @@ use base_ui::sim_test::Session;
 
 /// The G-code the program sends for `scene` (the first layer 2 mm deep in one pass, the engraving layer 1 mm).
 fn job_of(scene: &Scene) -> Vec<String> {
+    job_with(scene, JobOptions::default())
+}
+
+/// The same with the options of the Control tab.
+fn job_with(scene: &Scene, opts: JobOptions) -> Vec<String> {
     let (lib, dev, stock) = (Library::new(), Device::dummy(), Stock::default());
     let mut layers = default_layers(&lib);
     layers[0].depth = 2.0;
     layers[0].step_down = 2.0;
+    layers[1].depth = 2.0;
+    layers[1].step_down = 2.0;
     layers[3].depth = 1.0;
-    let prog = generate(scene, &layers, &lib, &dev, &stock);
+    let prog = generate_with(scene, &layers, &lib, &dev, &stock, opts);
     clean_gcode(&to_gcode(&prog, &dev, &layers, &lib, "sim"))
 }
 
@@ -73,6 +80,29 @@ fn grbl_sim_the_bit_change_stops_the_job_and_it_goes_on_when_told() {
     assert!(s.seen.progress.0 < n, "{:?}", s.seen.progress);
     s.link.send(Cmd::Continue);
     s.wait("job finished", 120.0, |v| v.progress == (n, n));
+    s.wait_idle_at(0.0, 0.0, 60.0);
+    assert!(s.errors().is_empty(), "GRBL rejected lines: {:?}", s.errors_described());
+}
+
+#[test]
+#[ignore = "needs grbl-sim: tools/grbl-sim/build.sh of baseCreator"]
+fn grbl_sim_one_element_at_a_time_runs_with_the_same_bit() {
+    let mut s = Session::connect();
+    s.wait_banner();
+    s.fast_machine(&[]);
+    // Two groups, each a square cut out (layer 0) and a smaller one inside it (layer 1, the same bit as layer 0).
+    let mut scene = Scene::default();
+    for x in [20.0, 100.0] {
+        let outer = scene.add(0, Kind::Rect { w: 40.0, h: 40.0 }, Xf::translate(x, 20.0));
+        let inner = scene.add(1, Kind::Rect { w: 20.0, h: 20.0 }, Xf::translate(x + 10.0, 30.0));
+        let g = scene.new_group_id();
+        for sh in scene.shapes.iter_mut().filter(|sh| sh.id == outer || sh.id == inner) {
+            sh.group = Some(g);
+        }
+    }
+    let job = job_with(&scene, JobOptions { one_by_one: true });
+    assert!(!job.iter().any(|l| l.starts_with("M0")), "the same bit all through: no stop for a bit change");
+    s.run_job(job, 240.0);
     s.wait_idle_at(0.0, 0.0, 60.0);
     assert!(s.errors().is_empty(), "GRBL rejected lines: {:?}", s.errors_described());
 }

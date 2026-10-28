@@ -279,3 +279,8 @@
 278|Tilpass elementene
 279|Zoom slik at hele maskinens arbeidsområde vises
 280|Zoom slik at alle skjærene fyller vinduet
+281|Ett element om gangen
+282|Hvert element (en gruppe eller en form uten gruppe) freses helt, med alle lag og gjennomganger, før det neste; det nærmeste først. Av: lag for lag, gjennomgang for gjennomgang.
+283|Bare utvalget
+284|Bare formene som er valgt i arbeidsområdet når G-koden lagres eller jobben startes, freses.
+285|Ingenting å frese: ingenting er valgt

@@ -279,3 +279,8 @@
 278|Ajusta als elements
 279|Amplia perquè es vegi tota l'àrea de treball de la màquina
 280|Amplia perquè tots els talls omplin la finestra
+281|Un element cada vegada
+282|Cada element (un grup o una forma sense grup) es talla sencer, amb totes les capes i passades, abans del següent; el més proper va primer. Desactivat: capa rere capa, passada rere passada.
+283|Només la selecció
+284|Només es tallen les formes seleccionades a l'àrea de treball en desar el G-code o en iniciar la tasca.
+285|No hi ha res a tallar: no hi ha res seleccionat

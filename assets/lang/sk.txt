@@ -279,3 +279,8 @@
 278|Prispôsobiť prvkom
 279|Priblížiť tak, aby bola vidieť celá pracovná plocha stroja
 280|Priblížiť tak, aby všetky rezy vyplnili okno
+281|Prvok po prvku
+282|Každý prvok (skupina alebo tvar bez skupiny) sa vyreže celý, so všetkými vrstvami a prechodmi, než príde ďalší; najbližší ide prvý. Vypnuté: vrstva po vrstve, prechod po prechode.
+283|Iba výber
+284|Vyrezávajú sa iba tvary vybrané na pracovnej ploche v okamihu uloženia G-kódu alebo spustenia úlohy.
+285|Nie je čo vyrezať: nič nie je vybrané

@@ -279,3 +279,8 @@
 278|Illesztés az elemekhez
 279|Nagyítás úgy, hogy a gép teljes munkaterülete látszódjon
 280|Nagyítás úgy, hogy az összes vágás kitöltse az ablakot
+281|Egy elem egyszerre
+282|Minden elem (csoport vagy csoport nélküli alakzat) teljes egészében kimarásra kerül, az összes rétegével és áthaladásával, mielőtt a következő jönne; a legközelebbi az első. Kikapcsolva: réteg rétegre, áthaladás áthaladásra.
+283|Csak a kijelölés
+284|Csak azok az alakzatok kerülnek kimarásra, amelyek a G-kód mentésekor vagy a munka indításakor ki vannak jelölve a munkaterületen.
+285|Nincs mit kimarni: semmi sincs kijelölve

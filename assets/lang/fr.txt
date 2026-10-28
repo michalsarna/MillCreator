@@ -279,3 +279,8 @@
 278|Ajuster aux éléments
 279|Zoomer pour voir toute la zone de travail de la machine
 280|Zoomer pour que toutes les coupes remplissent la fenêtre
+281|Un élément à la fois
+282|Chaque élément (un groupe, ou une forme sans groupe) est usiné en entier, avec tous ses calques et toutes leurs passes, avant le suivant ; le plus proche passe en premier. Désactivé : calque après calque, passe après passe.
+283|Sélection seulement
+284|Seules les formes sélectionnées dans la zone de travail au moment de l'enregistrement du G-code ou du démarrage du travail sont usinées.
+285|Rien à usiner : rien n'est sélectionné
