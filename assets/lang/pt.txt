@@ -328,3 +328,29 @@
 327|Clique no contorno para adicionar uma ponte, arraste uma ponte para a mover, clique numa ponte para a remover. Um anel com pontes colocadas à mão só tem essas.
 328|Limpar as pontes colocadas à mão
 329|Importar DXF…
+330|Faceamento
+331|Mandrilagem
+332|Chanfro
+333|Ranhura com cantos dogbone
+334|A face superior do material é aplanada sobre a caixa das formas da camada; a fresa passa um pouco da borda.
+335|Um furo redondo maior do que a fresa: a fresa desce em espiral à volta e depois dá uma volta à profundidade total.
+336|A borda das formas é chanfrada: uma fresa em V segue a linha à profundidade que dá ao chanfro a largura pedida.
+337|A fresa segue o interior da linha e entra em cada canto vivo, para que uma fresa redonda deixe espaço para uma peça quadrada.
+338|Anéis
+339|Trama
+340|Antes
+341|Depois
+342|Padrão do rebaixo
+343|Ângulo do raster
+344|Passagem de contorno
+345|Resto da camada
+346|Excesso
+347|Largura do chanfro
+348|Trocoides
+349|Diâmetro da trocoide
+350|Passo da trocoide
+351|Semicírculos
+352|{}: um chanfro precisa de uma fresa em V ou de gravação
+353|{}: a camada do rebaixo de resto não tem fresa
+354|{}: a fresa do rebaixo de resto tem de ser menor do que a da camada de que continua
+355|{}: nada para aplanar: desenhe uma forma que dê o tamanho da superfície

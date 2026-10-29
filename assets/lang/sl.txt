@@ -328,3 +328,29 @@
 327|Kliknite na obris za dodajanje mostička, povlecite mostiček za premik, kliknite mostiček za odstranitev. Obroč z ročno postavljenimi mostički dobi samo te.
 328|Počisti ročno postavljene mostičke
 329|Uvozi DXF…
+330|Poravnava površine
+331|Povečanje izvrtine
+332|Posnetje
+333|Utor z vogali dogbone
+334|Zgornja stran materiala se poravna čez okvir oblik sloja; rezkar malo preseže rob.
+335|Okrogla izvrtina, večja od rezkarja: rezkar se v spirali spušča okoli nje in nato enkrat obide na polni globini.
+336|Rob oblik se posname: V-rezkar sledi črti v globini, ki da posnetju zahtevano širino.
+337|Rezkar gre znotraj črte in v vsak oster kot, da okrogel rezkar pusti prostor za oglat del.
+338|Obroči
+339|Raster
+340|Pred
+341|Po
+342|Vzorec žepa
+343|Kot rastra
+344|Prehod po obrisu
+345|Ostanek sloja
+346|Previs
+347|Širina posnetja
+348|Trohoide
+349|Premer trohoide
+350|Korak trohoide
+351|Polkrogi
+352|{}: za posnetje je potreben V-rezkar ali graver
+353|{}: sloj ostanka žepa nima rezkarja
+354|{}: rezkar ostanka žepa mora biti manjši od rezkarja sloja, od katerega prevzame
+355|{}: ni kaj poravnati: narišite obliko, ki določa velikost površine

@@ -116,7 +116,7 @@ impl Path {
             let t = if l2 > 1e-12 { (((p.x - a.x) * dx + (p.y - a.y) * dy) / l2).clamp(0.0, 1.0) } else { 0.0 };
             let q = Pt::new(a.x + dx * t, a.y + dy * t);
             let d = q.dist(p);
-            if best.map_or(true, |(_, bd)| d < bd) {
+            if best.is_none_or(|(_, bd)| d < bd) {
                 best = Some((self.cum[i] + t * l2.sqrt(), d));
             }
         }

@@ -328,3 +328,29 @@
 327|Haz clic en el contorno para añadir un puente, arrastra un puente para moverlo, haz clic en un puente para quitarlo. Un anillo con puentes colocados a mano solo tiene esos.
 328|Borrar los puentes colocados a mano
 329|Importar DXF…
+330|Careado
+331|Mandrinado
+332|Chaflán
+333|Ranura con esquinas dogbone
+334|La cara superior del material se aplana sobre el recuadro de las formas de la capa; la fresa se pasa un poco del borde.
+335|Un agujero redondo más grande que la fresa: la fresa baja en espiral alrededor y luego da una vuelta a la profundidad total.
+336|El borde de las formas se achaflana: una fresa en V sigue la línea a la profundidad que da al chaflán el ancho pedido.
+337|La fresa va por el interior de la línea y entra en cada esquina viva, para que una fresa redonda deje sitio a una pieza cuadrada.
+338|Anillos
+339|Trama
+340|Antes
+341|Después
+342|Patrón del vaciado
+343|Ángulo de la trama
+344|Pasada por el contorno
+345|Resto de la capa
+346|Sobrepaso
+347|Ancho del chaflán
+348|Trocoides
+349|Diámetro de la trocoide
+350|Paso de la trocoide
+351|Semicírculos
+352|{}: un chaflán necesita una fresa en V o de grabado
+353|{}: la capa del vaciado de resto no tiene fresa
+354|{}: la fresa del vaciado de resto debe ser más pequeña que la de la capa de la que continúa
+355|{}: nada que aplanar: dibuja una forma que dé el tamaño de la superficie

@@ -47,7 +47,7 @@ pub fn nearest(shape: &Shape, p: Pt) -> Option<(f64, f64)> {
         let l2 = dx * dx + dy * dy;
         let t = if l2 > 1e-12 { (((p.x - a.x) * dx + (p.y - a.y) * dy) / l2).clamp(0.0, 1.0) } else { 0.0 };
         let d = Pt::new(a.x + dx * t, a.y + dy * t).dist(p);
-        if best.map_or(true, |(_, bd)| d < bd) {
+        if best.is_none_or(|(_, bd)| d < bd) {
             best = Some(((walked + t * l2.sqrt()) / total, d));
         }
         walked += l2.sqrt();

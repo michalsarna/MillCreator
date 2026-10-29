@@ -328,3 +328,29 @@
 327|Klicka på konturen för att lägga till en brygga, dra en brygga för att flytta den, klicka på en brygga för att ta bort den. En ring med handplacerade bryggor får bara dem.
 328|Rensa handplacerade bryggor
 329|Importera DXF…
+330|Planfräsning
+331|Uppborrning
+332|Fasning
+333|Spår med dogbone-hörn
+334|Materialets ovansida planfräses över lagrets formers ruta; frästen går lite över kanten.
+335|Ett runt hål som är större än frästen: frästen går ner runt det i en spiral och sedan ett varv på fullt djup.
+336|Formernas kant fasas: en V-fräs följer linjen på det djup som ger fasen önskad bredd.
+337|Frästen går innanför linjen och in i varje vasst hörn, så att en rund fräs lämnar plats för en kantig del.
+338|Ringar
+339|Raster
+340|Före
+341|Efter
+342|Fickmönster
+343|Rastervinkel
+344|Konturvarv
+345|Rest av lager
+346|Överhäng
+347|Fasens bredd
+348|Trochoider
+349|Trochoidens diameter
+350|Trochoidens steg
+351|Halvcirklar
+352|{}: en fas kräver en V-fräs eller gravyrstål
+353|{}: lagret för restfickan har ingen fräs
+354|{}: restfickans fräs måste vara mindre än frästen i lagret den tar över från
+355|{}: inget att planfräsa: rita en form som anger ytans storlek

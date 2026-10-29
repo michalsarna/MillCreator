@@ -328,3 +328,29 @@
 327|Klikk på konturen for å legge til en bro, dra en bro for å flytte den, klikk på en bro for å fjerne den. En ring med manuelt plasserte broer får bare dem.
 328|Fjern manuelt plasserte broer
 329|Importer DXF…
+330|Planfresing
+331|Utboring
+332|Skråkant
+333|Spor med dogbone-hjørner
+334|Oversiden av materialet planfreses over boksen av lagets former; frøsen går litt over kanten.
+335|Et rundt hull som er større enn frøsen: frøsen går ned rundt det i en spiral og deretter én gang rundt på full dybde.
+336|Kanten på formene fases: en V-frøs følger linjen på den dybden som gir fasen ønsket bredde.
+337|Frøsen går innenfor linjen og inn i hvert skarpe hjørne, slik at en rund fres levner plass til en kantet del.
+338|Ringer
+339|Raster
+340|Før
+341|Etter
+342|Lommemønster
+343|Rastervinkel
+344|Konturpass
+345|Rest av lag
+346|Overheng
+347|Fasebredde
+348|Trokoider
+349|Trokoidens diameter
+350|Trokoidens steg
+351|Halvsirkler
+352|{}: en fase krever en V-fres eller gravørbit
+353|{}: laget for restlommen har ingen fres
+354|{}: frøsen i restlommen må være mindre enn frøsen i laget den overtar fra
+355|{}: ingenting å planfrese: tegn en form som gir størrelsen på flaten

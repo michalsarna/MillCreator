@@ -1,5 +1,5 @@
 //! The Layers tab (what is done with the shapes of each layer) and the Material tab.
-use crate::layers::{CutDir, Entry, MillLayer, Operation, PictureMethod, TabKind};
+use crate::layers::{CutDir, Entry, MillLayer, OutlinePass, Operation, PictureMethod, PocketPattern, TabKind};
 use crate::materials::{MaterialKind, MAX_THICKNESS};
 use crate::App;
 use base_ui::editor::EditorHost;
@@ -110,6 +110,7 @@ impl App {
         let li = self.ed.active_layer.min(self.layers.len().saturating_sub(1));
         let mut assign = false;
         let mut open_library = false;
+        let layer_names: Vec<String> = self.layers.iter().enumerate().map(|(i, l)| if l.name.is_empty() { format!("{}", i + 1) } else { l.name.clone() }).collect();
         let mut edit_tabs = self.tab_edit;
         {
             let l = &mut self.layers[li];
@@ -154,7 +155,7 @@ impl App {
                     ui.label(tr("Pass depth"));
                     changed |= drag_len(ui, units, &mut l.step_down, 0.05, Some((0.01, 1000.0))).changed();
                     ui.end_row();
-                    if l.op == Operation::Pocket || l.op == Operation::Picture {
+                    if matches!(l.op, Operation::Pocket | Operation::Picture | Operation::Face) {
                         ui.label(tr("Step over"));
                         changed |= ui.add(egui::DragValue::new(&mut l.step_over_pct).range(1.0..=100.0).suffix(" %")).changed();
                         ui.end_row();
@@ -180,7 +181,67 @@ impl App {
                         changed |= ui.add(egui::DragValue::new(&mut l.scan_angle).range(-360.0..=360.0).suffix(" °")).on_hover_text(tr("The angle of the rows of the engraving")).changed();
                         ui.end_row();
                     }
-                    let walls = matches!(l.op, Operation::ProfileOutside | Operation::ProfileInside | Operation::Pocket);
+                    if matches!(l.op, Operation::Pocket | Operation::Face) {
+                        ui.label(tr("Pocket pattern"));
+                        egui::ComboBox::from_id_salt("layer_pattern").selected_text(tr(l.pattern.label())).width(200.0).show_ui(ui, |ui| {
+                            for pt in PocketPattern::ALL {
+                                changed |= ui.selectable_value(&mut l.pattern, pt, tr(pt.label())).changed();
+                            }
+                        });
+                        ui.end_row();
+                        if l.pattern == PocketPattern::Raster {
+                            ui.label(tr("Raster angle"));
+                            changed |= ui.add(egui::DragValue::new(&mut l.raster_angle).range(-360.0..=360.0).suffix(" °")).changed();
+                            ui.end_row();
+                        }
+                    }
+                    if l.op == Operation::Pocket {
+                        ui.label(tr("Outline pass"));
+                        egui::ComboBox::from_id_salt("layer_outline").selected_text(tr(l.outline.label())).width(200.0).show_ui(ui, |ui| {
+                            for o in OutlinePass::ALL {
+                                changed |= ui.selectable_value(&mut l.outline, o, tr(o.label())).changed();
+                            }
+                        });
+                        ui.end_row();
+                        ui.label(tr("Rest of layer"));
+                        let shown = l.rest_of.and_then(|i| layer_names.get(i)).cloned().unwrap_or_else(|| tr("None").to_string());
+                        egui::ComboBox::from_id_salt("layer_rest").selected_text(shown).width(200.0).show_ui(ui, |ui| {
+                            changed |= ui.selectable_value(&mut l.rest_of, None, tr("None")).changed();
+                            for (i, n) in layer_names.iter().enumerate() {
+                                if i != li {
+                                    changed |= ui.selectable_value(&mut l.rest_of, Some(i), n).changed();
+                                }
+                            }
+                        });
+                        ui.end_row();
+                    }
+                    if l.op == Operation::Face {
+                        ui.label(tr("Overhang"));
+                        changed |= drag_len(ui, units, &mut l.overhang, 0.1, Some((0.0, 1000.0))).changed();
+                        ui.end_row();
+                    }
+                    if l.op == Operation::Chamfer {
+                        ui.label(tr("Chamfer width"));
+                        changed |= drag_len(ui, units, &mut l.chamfer, 0.1, Some((0.0, 1000.0))).changed();
+                        ui.end_row();
+                    }
+                    if l.op == Operation::OnPath {
+                        ui.label(tr("Trochoids"));
+                        changed |= ui.checkbox(&mut l.trochoid.enabled, "").changed();
+                        ui.end_row();
+                        if l.trochoid.enabled {
+                            ui.label(tr("Trochoid diameter"));
+                            changed |= drag_len(ui, units, &mut l.trochoid.diameter, 0.1, Some((0.1, 1000.0))).changed();
+                            ui.end_row();
+                            ui.label(tr("Trochoid step"));
+                            changed |= drag_len(ui, units, &mut l.trochoid.step, 0.05, Some((0.05, 1000.0))).changed();
+                            ui.end_row();
+                            ui.label("");
+                            changed |= ui.checkbox(&mut l.trochoid.half, tr("Half circles")).changed();
+                            ui.end_row();
+                        }
+                    }
+                    let walls = matches!(l.op, Operation::ProfileOutside | Operation::ProfileInside | Operation::Pocket | Operation::Bore | Operation::DogboneSlot);
                     if walls {
                         ui.label(tr("Direction"));
                         egui::ComboBox::from_id_salt("layer_dir").selected_text(tr(l.direction.label())).width(200.0).show_ui(ui, |ui| {

@@ -15,7 +15,6 @@
 * Frame obchodzi obrys pracy na bezpiecznej wysokości przy wyłączonym wrzecionie: sprawdź, czy ta wysokość naprawdę jest wolna.
 * Brak V-carvingu, korekcji długości narzędzia i sprawdzania kolizji z zaciskami. Mostki rozmieszcza program (równomiernie) albo Ty ręcznie na obszarze roboczym.
 * Rampy, helisy, mostki i wybór współbieżnie / przeciwbieżnie są sprawdzone na geometrii i na firmware GRBL w symulatorze, **nie na prawdziwej maszynie**: nowe ustawienie wypróbuj najpierw na odpadzie i z wyłączonym wrzecionem. Mostek trzyma część tylko wtedy, gdy jest dość wysoki: program ostrzega, gdy jest tak wysoki jak cięcie. Helisa potrzebuje miejsca: tam, gdzie się nie mieści, używana jest rampa po konturze.
-* Kieszeń zostawia cienki pasek pośrodku, gdy jej szerokość nie jest wielokrotnością kroku bocznego.
 * Kształt poza polem roboczym jest zgłaszany, ale nie przesuwany.
 * Obrazy nie są frezowane. Tekst jest frezowany jako obrys (linia za nim idzie).
 * Widok 3D pokazuje materiał sfrezowany do miejsca, do którego doszedł suwak (siatka, gęstsza przy małym zadaniu); to obraz do oglądania, nie pomiar.
