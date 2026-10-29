@@ -286,3 +286,12 @@
 285|Inget att fräsa: inget är markerat
 286|Exportera den frästa biten som STL…
 287|Inget att exportera: jobbet har inga snitt ännu.
+288|G-kod
+289|Arbetskoordinater
+290|Programmets nollpunkt
+291|Programmet väljer detta arbetskoordinatsystem (G54 … G59, vars nollpunkt ställs in på maskinen, t.ex. genom att vidröra materialet) och räknar från nollpunkten nedan, angiven i arbetsområdets koordinater. Inget: programmet räknar från maskinens nollpunkt.
+292|Egen G-kod läggs till i varje program, ett kommando per rad (högst 20 rader).
+293|I början av programmet
+294|Vid varje fräsbyte
+295|Vid varje byte av operation
+296|I slutet av programmet

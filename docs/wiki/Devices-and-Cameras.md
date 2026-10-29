@@ -15,9 +15,10 @@ Makes, once, a plain device called **Dummy**: a 300 × 200 mm work area with 60 
 ## Device settings
 | Page | What it holds |
 |---|---|
-| General | name, units (mm or inch; geometry is always stored in mm), machine zero (front left, front right, back left, back right) |
+| General | name, units (mm or inch; geometry is always stored in mm), machine zero (front left, front right, back left, back right), **work coordinates** (none, or G54 … G59) and the **zero of the program** |
 | Machine | work area X and Y, travel in Z, **safe height** (where the spindle moves between cuts) and the speed of moves above the material |
 | Spindle | lowest and highest speed, and the wait after switching on |
+| G-code | **own G-code** for the start of the program, every change of the bit, every change of the operation (a new layer) and the end of the program (see below) |
 | Connection | serial port or network socket, port or USB id, baud rate, streaming, what to do after connecting |
 | Rotary | a rotary attachment: kind, diameters, microsteps per turn |
 | Camera | up to eight cameras: an address (MJPEG stream or JPEG snapshot, http / https) or a camera of the computer, a rotation of 0 / 90 / 180 / 270°, on / off |
@@ -30,3 +31,7 @@ When the device has a camera that is switched on (and valid), the editor gets a 
 
 ## In the project
 The project keeps a snapshot of the device it was made for (name and the three sizes of the work area). When it is opened for a device whose work area differs, the status bar says so.
+
+**Own G-code (page G-code).** Four boxes, one command per line (at most 20 lines of 100 characters; control characters are refused): *At the start of the program* (after the header and the work coordinate word), *At every change of the bit* (also when the first bit is taken; after the pause for the change and before the spindle starts, for example `T1 M6` or a coolant command), *At every change of the operation* (a new layer; after its comment, before the bit is looked at) and *At the end of the program* (after the head is back at the zero, before `M30`). The lines go into every G-code the program makes: the file, the job that is sent, the dry run. They are the machine's own commands, so the program does not check them: try a new line without a bit in the machine first.
+
+**Work coordinates (G54 … G59) and the zero of the program (page General).** By default the program counts from the machine zero (the corner chosen as *Machine zero*), as before. When you choose **G54 … G59**, the program starts with that word (so the machine uses the work coordinate system whose zero you set on it, for example by touching the material) and every X and Y is counted from the **zero of the program**: a point of the work area given as X, Y (the work area is counted from the corner of the machine zero). With zero 0, 0 the numbers are the same as without a code, only the word is added. The frame (*Frame*), the dry run and the job all use it, and so do the return to the zero at the end and the own G-code. Z is not changed: it is counted from the top of the material.

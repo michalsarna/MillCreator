@@ -573,7 +573,12 @@ pub fn frame_gcode(b: [f64; 4], dev: &Device) -> String {
     let corner = |x: f64, y: f64| machine_xy(dev, x, y);
     let (x0, y0) = corner(b[0], b[1]);
     let (x1, y1) = corner(b[2], b[3]);
-    let mut g = String::from("G21 G90\nM5\n");
+    let mut g = String::from("G21 G90\n");
+    if let Some(w) = dev.wcs.word() {
+        g.push_str(&w);
+        g.push_str("\n");
+    }
+    g.push_str("M5\n");
     g.push_str(&format!("G0 Z{}\nG0 X{} Y{}\n", num(dev.safe_z), num(x0), num(y0)));
     for (x, y) in [(x1, y0), (x1, y1), (x0, y1), (x0, y0)] {
         g.push_str(&format!("G1 X{} Y{} F{}\n", num(x), num(y), num(feed)));
@@ -583,11 +588,21 @@ pub fn frame_gcode(b: [f64; 4], dev: &Device) -> String {
 
 /// The machine zero of the device: the coordinates of a point of the work area as the machine counts them.
 pub fn machine_xy(dev: &Device, x: f64, y: f64) -> (f64, f64) {
-    match dev.origin {
+    let (x, y) = match dev.origin {
         Origin::FrontLeft => (x, y),
         Origin::FrontRight => (x - dev.area.x, y),
         Origin::BackLeft => (x, y - dev.area.y),
         Origin::BackRight => (x - dev.area.x, y - dev.area.y),
+    };
+    // The zero of the program (a work coordinate system with its own zero) moves everything the other way.
+    (x - dev.wcs.x, y - dev.wcs.y)
+}
+
+/// The lines of a block of own G-code, each with a newline.
+fn custom(g: &mut String, text: &str) {
+    for l in crate::device::CustomGcode::lines(text) {
+        g.push_str(l);
+        g.push('\n');
     }
 }
 
@@ -607,6 +622,11 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
     let clean = |s: &str| s.chars().filter(|c| c.is_alphanumeric() || *c == ' ' || *c == '-' || *c == '_' || *c == '.').collect::<String>();
     g.push_str(&format!("(MillCreator: {})\n(Device: {})\n", clean(program_name), clean(&dev.name)));
     g.push_str("G21 G90 G17\n");
+    if let Some(w) = dev.wcs.word() {
+        g.push_str(&w);
+        g.push_str("\n");
+    }
+    custom(&mut g, &dev.gcode.start);
     let mut feed = f64::NAN;
     let mut layer = usize::MAX;
     let mut tool_id: Option<String> = None;
@@ -620,6 +640,7 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
             layer = m.layer;
             if let Some(l) = layers.get(layer) {
                 g.push_str(&format!("(Layer: {})\n", clean(&l.name)));
+                custom(&mut g, &dev.gcode.operation_change);
                 if tool_id != l.tool {
                     if spindle_on {
                         g.push_str(&format!("G0 Z{}\nM5\n", num(dev.safe_z)));
@@ -632,6 +653,7 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
                     }
                     tool_id = l.tool.clone();
                     spindle_on = false;
+                    custom(&mut g, &dev.gcode.tool_change);
                 }
                 let rpm = l.rpm.clamp(dev.spindle.min_rpm, dev.spindle.max_rpm);
                 if rpm > 0.0 {
@@ -660,7 +682,9 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
     }
     g.push_str(&format!("G0 Z{}\nM5\n", num(dev.safe_z)));
     let (hx, hy) = machine_xy(dev, 0.0, 0.0);
-    g.push_str(&format!("G0 X{} Y{}\nM30\n", num(hx), num(hy)));
+    g.push_str(&format!("G0 X{} Y{}\n", num(hx), num(hy)));
+    custom(&mut g, &dev.gcode.end);
+    g.push_str("M30\n");
     g
 }
 
@@ -939,6 +963,40 @@ mod tests {
         let x: f64 = g.lines().find(|l| l.starts_with("G1 X")).unwrap().split('X').nth(1).unwrap().split(' ').next().unwrap().parse().unwrap();
         assert!(x < 0.0, "{x}");
         assert!(g.trim_end().ends_with("G0 X-300 Y-200\nM30"), "{g}");
+    }
+
+    #[test]
+    fn own_gcode_and_the_work_coordinate_system_are_written_where_they_belong() {
+        let (lib, mut dev, stock, mut layers) = setup();
+        layers[0].depth = 1.0;
+        layers[0].step_down = 1.0;
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 50.0, 50.0, 40.0);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let plain = to_gcode(&prog, &dev, &layers, &lib, "job");
+        assert!(!plain.contains("G54") && !plain.contains("M8"), "nothing is added by default: {plain}");
+        dev.gcode = crate::device::CustomGcode { start: "M8\n\n  G4 P1 ".into(), end: "M9".into(), tool_change: "T1 M6".into(), operation_change: "(next)".into() };
+        dev.wcs = crate::device::Wcs { code: 55, x: 10.0, y: 20.0 };
+        let g = to_gcode(&prog, &dev, &layers, &lib, "job");
+        assert!(g.contains("G21 G90 G17\nG55\nM8\nG4 P1\n"), "the word, then the own start lines: {g}");
+        let layer = g.find("(Layer:").unwrap();
+        assert!(g[layer..].contains("(next)\n") && g.find("(next)").unwrap() < g.find("T1 M6").unwrap() && g.find("T1 M6").unwrap() < g.find("M3 S").unwrap(), "operation, bit, then the spindle: {g}");
+        assert!(g.trim_end().ends_with("G0 X-10 Y-20\nM9\nM30"), "the end lines come before M30, the head returns to the zero of the program: {g}");
+        // The zero of the program moves every number, in the frame as well.
+        let x = |text: &str| -> f64 { text.lines().find(|l| l.starts_with("G1 X")).unwrap().split('X').nth(1).unwrap().split(' ').next().unwrap().parse().unwrap() };
+        assert!((x(&plain) - x(&g) - 10.0).abs() < 1e-9);
+        let f = frame_gcode([0.0, 0.0, 10.0, 10.0], &dev);
+        assert!(f.starts_with("G21 G90\nG55\nM5\n") && f.contains("G0 X-10 Y-20"), "{f}");
+        // Checked: too long, too many lines, a control character, a wrong word.
+        dev.gcode.start = "x".repeat(101);
+        assert!(dev.check().is_err());
+        dev.gcode.start = (0..21).map(|i| format!("G4 P{i}")).collect::<Vec<_>>().join("\n");
+        assert!(dev.check().is_err());
+        dev.gcode.start = "M8\u{7}".into();
+        assert!(dev.check().is_err());
+        dev.gcode.start.clear();
+        dev.wcs.code = 53;
+        assert!(dev.check().is_err());
     }
 
     /// The cuts of a program as a list of (square, layer): the squares are 10 to 40 wide and 200 apart (x = 0, 200 ...), one entry

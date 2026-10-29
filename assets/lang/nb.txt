@@ -286,3 +286,12 @@
 285|Ingenting å frese: ingenting er valgt
 286|Eksporter den frest delen som STL…
 287|Ingenting å eksportere: jobben har ingen kutt ennå.
+288|G-kode
+289|Arbeidskoordinater
+290|Programmets nullpunkt
+291|Programmet velger dette arbeidskoordinatsystemet (G54 … G59, hvis nullpunkt settes på maskinen, f.eks. ved å berøre materialet) og teller fra nullpunktet nedenfor, oppgitt i arbeidsområdets koordinater. Ingen: programmet teller fra maskinens nullpunkt.
+292|Egen G-kode legges til hvert program, én kommando per linje (maks. 20 linjer).
+293|I starten av programmet
+294|Ved hvert fresebytte
+295|Ved hvert skifte av operasjon
+296|På slutten av programmet

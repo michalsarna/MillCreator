@@ -286,3 +286,12 @@
 285|Rien à usiner : rien n'est sélectionné
 286|Exporter la pièce fraisée en STL…
 287|Rien à exporter : le travail n'a pas encore de coupes.
+288|G-code
+289|Coordonnées de travail
+290|Zéro du programme
+291|Le programme choisit ce système de coordonnées de travail (G54 … G59, dont le zéro est réglé sur la machine, par exemple en touchant la matière) et compte à partir du zéro ci-dessous, donné dans les coordonnées de la zone de travail. Aucun : le programme compte à partir du zéro machine.
+292|Votre propre G-code est ajouté à chaque programme, une commande par ligne (20 lignes au plus).
+293|Au début du programme
+294|À chaque changement de fraise
+295|À chaque changement d'opération
+296|À la fin du programme

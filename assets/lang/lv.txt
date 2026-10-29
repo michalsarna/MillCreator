@@ -286,3 +286,12 @@
 285|Nav ko frēzēt: nekas nav atlasīts
 286|Eksportēt frēzēto detaļu kā STL…
 287|Nav ko eksportēt: darbam vēl nav griezumu.
+288|G kods
+289|Darba koordinātes
+290|Programmas nulle
+291|Programma izvēlas šo darba koordinātu sistēmu (G54 … G59, kuras nulli iestata uz mašīnas, piemēram, pieskaroties materiālam) un skaita no zemāk norādītās nulles darba zonas koordinātēs. Nav: programma skaita no mašīnas nulles.
+292|Jūsu G kods tiek pievienots katrai programmai, viena komanda rindā (ne vairāk kā 20 rindu).
+293|Programmas sākumā
+294|Katras frēzes maiņas laikā
+295|Katras operācijas maiņas laikā
+296|Programmas beigās

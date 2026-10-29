@@ -286,3 +286,12 @@
 285|Niets te frezen: niets is geselecteerd
 286|Gefreesd stuk exporteren als STL…
 287|Niets om te exporteren: de taak heeft nog geen sneden.
+288|G-code
+289|Werkcoördinaten
+290|Nulpunt van het programma
+291|Het programma kiest dit werkcoördinatensysteem (G54 … G59, waarvan het nulpunt op de machine wordt ingesteld, bijvoorbeeld door het materiaal aan te raken) en telt vanaf het onderstaande nulpunt, opgegeven in de coördinaten van het werkgebied. Geen: het programma telt vanaf het machinenulpunt.
+292|Eigen G-code wordt aan elk programma toegevoegd, één opdracht per regel (maximaal 20 regels).
+293|Aan het begin van het programma
+294|Bij elke frezenwissel
+295|Bij elke wissel van bewerking
+296|Aan het einde van het programma

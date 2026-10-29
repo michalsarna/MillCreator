@@ -286,3 +286,12 @@
 285|Xejn x'taqta': xejn mhu magħżul
 286|Esporta l-biċċa maħduma bħala STL…
 287|Xejn x'tesporta: il-ħidma għad m'għandhiex qtugħ.
+288|G-code
+289|Koordinati tax-xogħol
+290|Żero tal-programm
+291|Il-programm jagħżel din is-sistema ta' koordinati tax-xogħol (G54 … G59, li ż-żero tagħha jiġi ssettjat fuq il-magna, pereżempju billi tmiss il-materjal) u jgħodd miż-żero hawn taħt, f'koordinati taż-żona tax-xogħol. L-ebda waħda: il-programm jgħodd miż-żero tal-magna.
+292|G-code tiegħek stess jiżdied ma' kull programm, kmand wieħed f'kull linja (massimu 20 linja).
+293|Fil-bidu tal-programm
+294|Maċ-ċaqliq kollu tal-frieża
+295|Maċ-ċaqliq kollu tal-operazzjoni
+296|Fl-aħħar tal-programm

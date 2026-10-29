@@ -286,3 +286,12 @@
 285|No hi ha res a tallar: no hi ha res seleccionat
 286|Exporta la peça fresada com a STL…
 287|No hi ha res per exportar: el treball encara no té talls.
+288|G-code
+289|Coordenades de treball
+290|Zero del programa
+291|El programa tria aquest sistema de coordenades de treball (G54 … G59, el zero del qual s'estableix a la màquina, per exemple tocant el material) i compta des del zero de sota, en coordenades de l'àrea de treball. Cap: el programa compta des del zero de la màquina.
+292|El G-code propi s'afegeix a cada programa, una ordre per línia (com a màxim 20 línies).
+293|A l'inici del programa
+294|A cada canvi de fresa
+295|A cada canvi d'operació
+296|Al final del programa

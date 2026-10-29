@@ -50,6 +50,59 @@ impl Origin {
     }
 }
 
+/// Own G-code that is added to every program: lines of the machine's own language, one command per line.
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+pub struct CustomGcode {
+    /// After the header of the program.
+    #[serde(default)]
+    pub start: String,
+    /// At the end of the program, after the spindle has stopped and the head is back at the machine zero.
+    #[serde(default)]
+    pub end: String,
+    /// At every change of the bit (and when the first bit is taken), before the spindle starts.
+    #[serde(default)]
+    pub tool_change: String,
+    /// At every change of the operation (a new layer), before the bit is looked at.
+    #[serde(default)]
+    pub operation_change: String,
+}
+
+impl CustomGcode {
+    /// The lines of a text, without the empty ones.
+    pub fn lines(text: &str) -> Vec<&str> {
+        text.lines().map(str::trim).filter(|l| !l.is_empty()).collect()
+    }
+
+    fn check(&self) -> Result<(), String> {
+        for t in [&self.start, &self.end, &self.tool_change, &self.operation_change] {
+            if t.lines().count() > 20 || t.lines().any(|l| l.len() > 100 || l.chars().any(char::is_control)) {
+                return Err("the own G-code has too many lines, a line that is too long or a control character".into());
+            }
+        }
+        Ok(())
+    }
+}
+
+/// The work coordinate system of the program: the word that selects it (G54 … G59) and where the zero of the program lies, in
+/// the coordinates of the work area. Without a code the program counts from the machine zero, as it always did.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Serialize, Deserialize)]
+pub struct Wcs {
+    /// 0 = none (the machine coordinates), otherwise 54 … 59.
+    #[serde(default)]
+    pub code: u8,
+    #[serde(default)]
+    pub x: f64,
+    #[serde(default)]
+    pub y: f64,
+}
+
+impl Wcs {
+    /// The word of the program (`G54` …), or `None`.
+    pub fn word(&self) -> Option<String> {
+        (54..=59).contains(&self.code).then(|| format!("G{}", self.code))
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Device {
     pub name: String,
@@ -76,6 +129,12 @@ pub struct Device {
     /// Jogging, probe, macros, statistics and maintenance of the machine.
     #[serde(default)]
     pub control: Control,
+    /// Own G-code at the start and the end of the program and at the changes of the bit and of the operation.
+    #[serde(default)]
+    pub gcode: CustomGcode,
+    /// The work coordinate system the program is written for.
+    #[serde(default)]
+    pub wcs: Wcs,
 }
 
 impl Default for Device {
@@ -95,6 +154,8 @@ impl Default for Device {
             connection: Connection::default(),
             rotary: Rotary::default(),
             control: Control::default(),
+            gcode: CustomGcode::default(),
+            wcs: Wcs::default(),
         }
     }
 }
@@ -152,6 +213,10 @@ impl Device {
         let r = &self.rotary;
         if ![r.diameter, r.roller_diameter, r.microsteps_per_rev].iter().all(|v| v.is_finite() && *v > 0.0 && *v <= 1_000_000.0) {
             return Err("the rotary settings are out of range".into());
+        }
+        self.gcode.check()?;
+        if !(self.wcs.code == 0 || (54..=59).contains(&self.wcs.code)) || !ok(self.wcs.x, -100_000.0, 100_000.0) || !ok(self.wcs.y, -100_000.0, 100_000.0) {
+            return Err("the work coordinate system is out of range".into());
         }
         self.control.check()?;
         Ok(())

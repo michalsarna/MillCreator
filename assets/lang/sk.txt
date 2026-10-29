@@ -286,3 +286,12 @@
 285|Nie je čo vyrezať: nič nie je vybrané
 286|Exportovať vyfrézovaný diel ako STL…
 287|Nie je čo exportovať: úloha zatiaľ nemá žiadne rezy.
+288|G-kód
+289|Pracovné súradnice
+290|Nula programu
+291|Program zvolí tento pracovný súradnicový systém (G54 … G59, ktorého nula sa nastavuje na stroji, napr. dotykom materiálu) a počíta od nuly uvedenej nižšie v súradniciach pracovnej plochy. Žiadny: program počíta od nuly stroja.
+292|Vlastný G-kód sa pridáva ku každému programu, jeden príkaz na riadok (najviac 20 riadkov).
+293|Na začiatku programu
+294|Pri každej výmene frézy
+295|Pri každej zmene operácie
+296|Na konci programu

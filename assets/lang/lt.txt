@@ -286,3 +286,12 @@
 285|Nėra ką frezuoti: nieko nepažymėta
 286|Eksportuoti frezuotą detalę kaip STL…
 287|Nėra ką eksportuoti: darbe dar nėra pjūvių.
+288|G kodas
+289|Darbo koordinatės
+290|Programos nulis
+291|Programa pasirenka šią darbo koordinačių sistemą (G54 … G59, kurios nulis nustatomas staklėse, pvz., paliečiant medžiagą) ir skaičiuoja nuo žemiau nurodyto nulio darbo srities koordinatėmis. Nėra: programa skaičiuoja nuo staklių nulio.
+292|Jūsų G kodas pridedamas prie kiekvienos programos, po vieną komandą eilutėje (daugiausia 20 eilučių).
+293|Programos pradžioje
+294|Keičiant kiekvieną frezą
+295|Keičiant kiekvieną operaciją
+296|Programos pabaigoje
