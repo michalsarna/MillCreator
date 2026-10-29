@@ -168,7 +168,7 @@ impl App {
         let (done, _) = view3d::position_at(prog, self.view.progress);
         let moves = &prog.moves[..done.min(prog.moves.len())];
         let tool_of = |layer: usize| self.layers.get(layer).and_then(|l| l.tool.as_deref()).and_then(|id| self.tools.get(id)).cloned();
-        let (cols, rows, step, z) = crate::relief::carved_surface(moves, tool_of, (region.min, region.max), self.stock.thickness);
+        let (cols, rows, step, z) = crate::relief::carved_surface(moves, tool_of, (region.min, region.max), self.stock.thickness, crate::relief::Limits::EXPORT);
         if z.iter().all(|h| *h == 0.0) {
             return None;
         }
@@ -259,7 +259,20 @@ impl App {
         }
         match region {
             Some(region) => {
-                let sc = Scene3d { prog, region, stock: &self.stock, dev: &self.device, layers: &self.layers, tools: &self.tools };
+                // The carved stock is made again only when the program, the slider or the stock changed.
+                let done = view3d::position_at(prog, self.view.progress).0.min(prog.moves.len());
+                let bits = |v: f64| v.to_bits();
+                let key = (self.prog_rev, done, [bits(region.min[0]), bits(region.min[1]), bits(region.max[0]), bits(region.max[1]), bits(self.stock.thickness)]);
+                if self.view.show_stock && self.surface.as_ref().map(|s| s.key) != Some(key) {
+                    let tool_of = |layer: usize| self.layers.get(layer).and_then(|l| l.tool.as_deref()).and_then(|id| self.tools.get(id)).cloned();
+                    self.surface = view3d::Surface::of(key, &prog.moves[..done], tool_of, region, self.stock.thickness);
+                    if self.surface.is_none() {
+                        // Nothing is cut: remember that by a surface that is not there (no key to compare), so it is not tried again each frame.
+                        self.surface_none = Some(key);
+                    }
+                }
+                let surface = if self.surface_none == Some(key) { None } else { self.surface.as_ref() };
+                let sc = Scene3d { surface, prog, region, stock: &self.stock, dev: &self.device, layers: &self.layers };
                 view3d::show(ui, &mut self.view, &sc);
             }
             None => {

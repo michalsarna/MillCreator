@@ -249,6 +249,9 @@ struct App {
     layers: Vec<MillLayer>,
     stock: Stock,
     view: View3d,
+    /// The stock with the cuts as the 3D view draws it, and the key for which it was found empty.
+    surface: Option<view3d::Surface>,
+    surface_none: Option<(u64, usize, [u64; 5])>,
     show_3d: bool,
     prog: Option<Program>,
     /// Counts the changes of the project; the program is made again when `job_stamp` differs from `prog_rev`.
@@ -386,6 +389,8 @@ impl App {
             tools_win: ToolsWindow::default(),
             stock: Stock::default(),
             view: View3d::default(),
+            surface: None,
+            surface_none: None,
             show_3d: false,
             prog: None,
             rev: 0,

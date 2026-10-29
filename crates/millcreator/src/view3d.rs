@@ -5,7 +5,6 @@ use crate::device::Device;
 use crate::layers::MillLayer;
 use crate::materials::Stock;
 use crate::toolpath::{MoveKind, Program, P3};
-use crate::tools::Library;
 use egui::{epaint::PathStroke, Color32, Pos2, Rect, Sense, Shape, Stroke, Vec2};
 
 /// How much larger than the project the shown area is.
@@ -132,9 +131,6 @@ impl Projector {
         let fit = area.width().min(area.height()) / (2.0 * radius.max(1.0) as f32) * 0.92;
         Projector { right, up, target: [target[0] as f32, target[1] as f32, target[2] as f32], scale: fit * v.zoom, centre: area.center() + v.pan }
     }
-    pub fn scale(&self) -> f32 {
-        self.scale
-    }
     pub fn project(&self, p: P3) -> Pos2 {
         let d = [p[0] as f32 - self.target[0], p[1] as f32 - self.target[1], p[2] as f32 - self.target[2]];
         let dot = |a: &[f32; 3]| a[0] * d[0] + a[1] * d[1] + a[2] * d[2];
@@ -160,14 +156,56 @@ fn faces(min: P3, max: P3) -> [([P3; 4], [f32; 3], f32); 6] {
     ]
 }
 
+/// The stock after the cuts as the picture shows it: the heights of a grid (row 0 at the largest y, 0 = the top of the stock, down
+/// to the thickness) and how light each point is.
+pub struct Surface {
+    /// What it was made for; it is made again when this changes.
+    pub key: (u64, usize, [u64; 5]),
+    pub cols: usize,
+    pub rows: usize,
+    pub step: f64,
+    pub lo: [f64; 2],
+    pub top: f64,
+    pub z: Vec<f64>,
+    /// 0..1 light of every point, from the slope and the depth.
+    pub light: Vec<f32>,
+}
+
+impl Surface {
+    /// The surface of the stock with the cuts of `moves`; `None` when nothing is cut.
+    pub fn of(key: (u64, usize, [u64; 5]), moves: &[crate::toolpath::Move], tool_of: impl Fn(usize) -> Option<crate::tools::Tool>, region: Region, thickness: f64) -> Option<Surface> {
+        let (cols, rows, step, z) = crate::relief::carved_surface(moves, tool_of, (region.min, region.max), thickness, crate::relief::Limits::VIEW);
+        if z.iter().all(|h| *h == 0.0) {
+            return None;
+        }
+        let at = |c: i64, r: i64| z[(r.clamp(0, rows as i64 - 1) as usize) * cols + c.clamp(0, cols as i64 - 1) as usize];
+        // A light from the upper left in front: the slope of the surface and the depth give the shade.
+        let light_dir = [-0.35f64, -0.45, 0.82];
+        let mut light = Vec::with_capacity(z.len());
+        for r in 0..rows as i64 {
+            for c in 0..cols as i64 {
+                let dzdx = (at(c + 1, r) - at(c - 1, r)) / (2.0 * step);
+                // Rows go down the picture, so up in y is the row before.
+                let dzdy = (at(c, r - 1) - at(c, r + 1)) / (2.0 * step);
+                let n = [-dzdx, -dzdy, 1.0];
+                let len = (n[0] * n[0] + n[1] * n[1] + 1.0).sqrt();
+                let lit = ((n[0] * light_dir[0] + n[1] * light_dir[1] + n[2] * light_dir[2]) / len).max(0.0);
+                let depth = (-at(c, r) / thickness.max(0.1)).clamp(0.0, 1.0);
+                light.push(((0.45 + 0.55 * lit) * (1.0 - 0.3 * depth)) as f32);
+            }
+        }
+        Some(Surface { key, cols, rows, step, lo: region.min, top: region.min[1] + rows as f64 * step, z, light })
+    }
+}
+
 /// What the 3D window needs from the project.
 pub struct Scene3d<'a> {
+    pub surface: Option<&'a Surface>,
     pub prog: &'a Program,
     pub region: Region,
     pub stock: &'a Stock,
     pub dev: &'a Device,
     pub layers: &'a [MillLayer],
-    pub tools: &'a Library,
 }
 
 /// The point of the program after `part` (0..=1) of its length, and the moves that are done by then.
@@ -259,6 +297,30 @@ pub fn fit_to(view: &mut View3d, rect: Rect, sc: &Scene3d, lo: [f64; 2], hi: [f6
     view.pan = -offset * view.zoom;
 }
 
+/// The surface as a mesh of triangles, the far ones first (a height field is drawn correctly from any side that way).
+fn draw_surface(painter: &egui::Painter, pj: &Projector, s: &Surface, color: [u8; 3], eye: [f32; 3]) {
+    let at = |c: usize, r: usize| [s.lo[0] + (c as f64 + 0.5) * s.step, s.top - (r as f64 + 0.5) * s.step, s.z[r * s.cols + c]];
+    let mut mesh = egui::epaint::Mesh::default();
+    mesh.vertices.reserve(s.cols * s.rows);
+    for r in 0..s.rows {
+        for c in 0..s.cols {
+            mesh.colored_vertex(pj.project(at(c, r)), shade(color, s.light[r * s.cols + c]));
+        }
+    }
+    // The far side first: the columns and rows are walked from the side the eye is not on.
+    let cs: Vec<usize> = if eye[0] > 0.0 { (0..s.cols - 1).collect() } else { (0..s.cols - 1).rev().collect() };
+    let rs: Vec<usize> = if eye[1] > 0.0 { (0..s.rows - 1).rev().collect() } else { (0..s.rows - 1).collect() };
+    for r in rs {
+        for c in cs.iter().copied() {
+            let i = (r * s.cols + c) as u32;
+            let w = s.cols as u32;
+            mesh.add_triangle(i, i + 1, i + w);
+            mesh.add_triangle(i + 1, i + w + 1, i + w);
+        }
+    }
+    painter.add(Shape::mesh(mesh));
+}
+
 /// Draw the model into `rect`.
 pub fn draw(painter: &egui::Painter, rect: Rect, view: &View3d, sc: &Scene3d) {
     let r = sc.region;
@@ -280,23 +342,15 @@ pub fn draw(painter: &egui::Painter, rect: Rect, view: &View3d, sc: &Scene3d) {
             let pts: Vec<Pos2> = corners.iter().map(|c| pj.project(*c)).collect();
             painter.add(Shape::convex_polygon(pts, shade(sc.stock.color, light), Stroke::new(1.0, shade(sc.stock.color, light * 0.6))));
         }
+        // The cuts made so far, carved into the top of the stock (the whole top when nothing is cut yet).
+        if let Some(s) = sc.surface {
+            draw_surface(painter, &pj, s, sc.stock.color, eye);
+        }
     }
     let (done, here) = position_at(sc.prog, view.progress);
     let cut_color = |layer: usize| sc.layers.get(layer).map(|l| l.color32()).unwrap_or(Color32::RED);
-    let groove = |layer: usize, z: f64| {
-        let tool = sc.layers.get(layer).and_then(|l| l.tool.as_deref()).and_then(|id| sc.tools.get(id));
-        tool.map_or(1.0, |tl| tl.cut_width(-z))
-    };
     if view.show_cuts {
-        // The grooves first (as wide as the bit), then the centre lines in the colour of the layer.
-        let dark = shade(sc.stock.color, 0.28);
-        for m in sc.prog.moves.iter().take(done) {
-            if m.kind == MoveKind::Rapid || m.to[2] > 0.0 {
-                continue;
-            }
-            let wd = (groove(m.layer, m.to[2]) as f32 * pj.scale()).clamp(1.5, 400.0);
-            painter.line_segment([pj.project(m.from), pj.project(m.to)], Stroke::new(wd, dark));
-        }
+        // The paths of the bit in the colour of the layer, over the carved stock.
         for m in sc.prog.moves.iter().take(done) {
             if m.kind == MoveKind::Rapid || m.to[2] > 0.0 {
                 continue;
@@ -343,6 +397,7 @@ pub fn draw(painter: &egui::Painter, rect: Rect, view: &View3d, sc: &Scene3d) {
 mod tests {
     use super::*;
     use crate::layers::default_layers;
+    use crate::tools::Library;
     use crate::toolpath::generate;
     use base_core::geom::Xf;
     use base_core::scene::{Kind, Scene};
@@ -489,9 +544,9 @@ mod tests {
 
     #[test]
     fn the_picture_is_drawn_for_a_job() {
-        let (prog, dev, stock, layers, lib) = job();
+        let (prog, dev, stock, layers, _lib) = job();
         let region = Region::of(&prog, None).unwrap();
-        let sc = Scene3d { prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, tools: &lib };
+        let sc = Scene3d { surface: None, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers };
         let ctx = egui::Context::default();
         let mut view = View3d::default();
         view.progress = 0.5;
