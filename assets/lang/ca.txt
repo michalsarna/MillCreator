@@ -284,3 +284,5 @@
 283|Només la selecció
 284|Només es tallen les formes seleccionades a l'àrea de treball en desar el G-code o en iniciar la tasca.
 285|No hi ha res a tallar: no hi ha res seleccionat
+286|Exporta la peça fresada com a STL…
+287|No hi ha res per exportar: el treball encara no té talls.

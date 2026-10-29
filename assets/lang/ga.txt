@@ -284,3 +284,5 @@
 283|Roghnúchán amháin
 284|Ní ghearrtar ach na cruthanna atá roghnaithe sa limistéar oibre nuair a shábháiltear an G-code nó nuair a thosaítear an jab.
 285|Faic le gearradh: níl aon rud roghnaithe
+286|Easpórtáil an píosa mílleáilte mar STL…
+287|Níl aon rud le easpórtáil: níl aon ghearradh sa tasc go fóill.

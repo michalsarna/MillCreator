@@ -284,3 +284,5 @@
 283|Iba výber
 284|Vyrezávajú sa iba tvary vybrané na pracovnej ploche v okamihu uloženia G-kódu alebo spustenia úlohy.
 285|Nie je čo vyrezať: nič nie je vybrané
+286|Exportovať vyfrézovaný diel ako STL…
+287|Nie je čo exportovať: úloha zatiaľ nemá žiadne rezy.

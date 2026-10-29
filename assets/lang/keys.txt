@@ -284,3 +284,5 @@
 283	Selection only
 284	Only the shapes that are selected on the work area when the G-code is saved or the job is started are cut.
 285	There is nothing to cut: nothing is selected
+286	Export the milled piece as STL…
+287	Nothing to export: the job has no cuts yet.

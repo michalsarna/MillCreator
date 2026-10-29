@@ -284,3 +284,5 @@
 283|Bare utvalget
 284|Bare formene som er valgt i arbeidsområdet når G-koden lagres eller jobben startes, freses.
 285|Ingenting å frese: ingenting er valgt
+286|Eksporter den frest delen som STL…
+287|Ingenting å eksportere: jobben har ingen kutt ennå.

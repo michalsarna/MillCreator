@@ -284,3 +284,5 @@
 283|Samo odabir
 284|Režu se samo oblici koji su odabrani na radnoj površini pri spremanju G-koda ili pokretanju posla.
 285|Nema što rezati: ništa nije odabrano
+286|Izvezi izglodani komad kao STL…
+287|Nema što izvesti: posao još nema rezova.

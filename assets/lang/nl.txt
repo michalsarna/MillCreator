@@ -284,3 +284,5 @@
 283|Alleen selectie
 284|Alleen de vormen die op het werkvlak zijn geselecteerd op het moment dat de G-code wordt opgeslagen of de taak start, worden gefreesd.
 285|Niets te frezen: niets is geselecteerd
+286|Gefreesd stuk exporteren als STL…
+287|Niets om te exporteren: de taak heeft nog geen sneden.

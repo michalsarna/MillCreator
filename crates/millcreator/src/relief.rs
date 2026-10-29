@@ -42,7 +42,7 @@ impl HeightMap {
 
 /// How far the cutting surface of the bit rises above its tip at the distance `d` from the axis; `None` where the bit has no
 /// cutting surface (outside of its radius).
-fn rise(tool: &Tool, d: f64) -> Option<f64> {
+pub(crate) fn rise(tool: &Tool, d: f64) -> Option<f64> {
     let r = tool.radius();
     if d > r + 1e-9 {
         return None;
@@ -162,13 +162,17 @@ fn simplify(pts: Vec<[f64; 3]>) -> Vec<[f64; 3]> {
 /// material (the surface at 0 is the top of the stock; the model stands on z = 0 and is `thickness` high where uncut). The model
 /// is in millimetres, x to the right and y up, from the lower left corner of the picture.
 pub fn stl(map: &HeightMap, thickness: f64) -> Vec<u8> {
-    let g = &map.grid;
-    let (cols, rows) = (g.cols, g.rows);
+    stl_of(map.grid.cols, map.grid.rows, map.grid.step, |c, r| map.at(c, r), thickness)
+}
+
+/// [`stl`] for any surface: `height(c, r)` is the height of the cell in column `c` and row `r` (row 0 is the top of the picture, so
+/// the largest y), 0 or less, in mm.
+pub fn stl_of(cols: usize, rows: usize, step: f64, height: impl Fn(usize, usize) -> f64, thickness: f64) -> Vec<u8> {
     let thickness = thickness.max(0.1);
     // The picture is turned over for the model: its top is the larger y.
-    let vx = |c: usize| (c as f64 + 0.5) * g.step;
-    let vy = |r: usize| (rows - 1 - r) as f64 * g.step + 0.5 * g.step;
-    let top = |c: usize, r: usize| [vx(c), vy(r), thickness + map.at(c, r)];
+    let vx = |c: usize| (c as f64 + 0.5) * step;
+    let vy = |r: usize| (rows - 1 - r) as f64 * step + 0.5 * step;
+    let top = |c: usize, r: usize| [vx(c), vy(r), thickness + height(c, r)];
     let mut tris: Vec<[[f64; 3]; 3]> = vec![];
     // The top surface: two triangles for every four neighbouring points (counter-clockwise seen from above).
     for r in 0..rows.saturating_sub(1) {
@@ -386,5 +390,80 @@ mod tests {
         }
         // The pit (z 3) lies at the small x and the large y of the model, whose middle is at 4.5.
         assert!(k > 0.0 && sx / k < 4.5 && sy / k > 4.5, "{} {}", sx / k, sy / k);
+    }
+}
+
+/// The surface of the stock after the cuts of `moves`: every cutting move sweeps the bit along its line (the tip at the height of the
+/// move, the cutting surface of the bit above it) and lowers the cells under it. `area` is the box (lowest and highest corner, x and
+/// y) the model covers. Returns (columns, rows, step, heights) with row 0 at the largest y, heights 0 (the top of the stock) or
+/// less and never below `-thickness`. The step is made larger when the sweep would take too long.
+pub fn carved_surface(moves: &[crate::toolpath::Move], tool_of: impl Fn(usize) -> Option<Tool>, area: ([f64; 2], [f64; 2]), thickness: f64) -> (usize, usize, f64, Vec<f64>) {
+    use crate::toolpath::MoveKind;
+    let (lo, hi) = area;
+    let (w, h) = ((hi[0] - lo[0]).max(0.5), (hi[1] - lo[1]).max(0.5));
+    let cuts: Vec<(&crate::toolpath::Move, Tool)> = moves.iter().filter(|m| m.kind != MoveKind::Rapid && m.from[2].min(m.to[2]) < 0.0).filter_map(|m| tool_of(m.layer).map(|t| (m, t))).collect();
+    let smallest = cuts.iter().map(|(_, t)| t.radius()).fold(f64::MAX, f64::min);
+    let mut step = if smallest.is_finite() { (smallest / 2.0).max(0.05) } else { 0.5 };
+    // The grid stays small enough, and so does the work of the sweep (samples along the moves times the cells under the bit).
+    let work = |step: f64| -> f64 { cuts.iter().map(|(m, t)| (m.length() / step * 2.0 + 1.0) * std::f64::consts::PI * (t.radius() / step).powi(2)).sum() };
+    while (w / step) * (h / step) > MAX_CELLS as f64 || work(step) > MAX_WORK as f64 {
+        step *= 1.25;
+    }
+    let (cols, rows) = (((w / step).ceil() as usize).max(2), ((h / step).ceil() as usize).max(2));
+    let mut z = vec![0.0f64; cols * rows];
+    let floor = -thickness.max(0.1);
+    // The cell (c, r) has its centre at x = lo + (c + 0.5) * step and y = hi_grid - (r + 0.5) * step, the top of the grid at lo y + rows * step.
+    let top = lo[1] + rows as f64 * step;
+    for (m, tool) in cuts {
+        let reach = (tool.radius() / step).ceil() as i64;
+        let n = ((m.length() / (step / 2.0)).ceil() as usize).max(1);
+        for i in 0..=n {
+            let t = i as f64 / n as f64;
+            let p = [m.from[0] + (m.to[0] - m.from[0]) * t, m.from[1] + (m.to[1] - m.from[1]) * t, m.from[2] + (m.to[2] - m.from[2]) * t];
+            if p[2] >= 0.0 {
+                continue;
+            }
+            let (c0, r0) = (((p[0] - lo[0]) / step - 0.5).round() as i64, ((top - p[1]) / step - 0.5).round() as i64);
+            for dr in -reach..=reach {
+                for dc in -reach..=reach {
+                    let (c, r) = (c0 + dc, r0 + dr);
+                    if c < 0 || r < 0 || c >= cols as i64 || r >= rows as i64 {
+                        continue;
+                    }
+                    let (x, y) = (lo[0] + (c as f64 + 0.5) * step, top - (r as f64 + 0.5) * step);
+                    let d = ((x - p[0]).powi(2) + (y - p[1]).powi(2)).sqrt();
+                    if let Some(up) = rise(&tool, d) {
+                        let cell = &mut z[r as usize * cols + c as usize];
+                        *cell = cell.min((p[2] + up).max(floor));
+                    }
+                }
+            }
+        }
+    }
+    (cols, rows, step, z)
+}
+
+#[cfg(test)]
+mod carve_tests {
+    use super::*;
+    use crate::toolpath::{Move, MoveKind};
+
+    fn cut(from: [f64; 3], to: [f64; 3]) -> Move {
+        Move { kind: MoveKind::Cut, from, to, layer: 0, feed: 500.0 }
+    }
+
+    #[test]
+    fn a_groove_is_as_wide_and_deep_as_the_bit_and_the_model_is_closed() {
+        let tool = Tool::new("t", "T", ToolKind::FlatEnd, crate::tools::Dims { diameter: 3.0, ..Default::default() });
+        let r = tool.radius();
+        let moves = [cut([10.0, 20.0, -2.0], [30.0, 20.0, -2.0])];
+        let (cols, rows, step, z) = carved_surface(&moves, |_| Some(tool.clone()), ([0.0, 0.0], [40.0, 40.0]), 5.0);
+        let at = |x: f64, y: f64| z[(((40.0 - y) / step) as usize).min(rows - 1) * cols + ((x / step) as usize).min(cols - 1)];
+        assert_eq!(at(20.0, 20.0), -2.0);
+        assert_eq!(at(20.0, 20.0 + r + 3.0 * step), 0.0, "beside the groove the stock is whole");
+        assert_eq!(at(5.0, 20.0), 0.0);
+        let bytes = stl_of(cols, rows, step, |c, r| z[r * cols + c], 5.0);
+        let n = u32::from_le_bytes([bytes[80], bytes[81], bytes[82], bytes[83]]) as usize;
+        assert!(n > 100 && bytes.len() == 84 + 50 * n);
     }
 }

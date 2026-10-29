@@ -284,3 +284,5 @@
 283|Aðeins valið
 284|Aðeins formin sem eru valin á vinnusvæðinu þegar G-kóðinn er vistaður eða verkið ræst eru skorin.
 285|Ekkert að skera: ekkert er valið
+286|Flytja út fræsta stykkið sem STL…
+287|Ekkert til að flytja út: verkið hefur engin skurð enn.

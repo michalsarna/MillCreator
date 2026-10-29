@@ -284,3 +284,5 @@
 283|Tik pažymėta
 284|Frezuojamos tik tos formos, kurios darbo srityje pažymėtos G kodo išsaugojimo ar užduoties pradžios metu.
 285|Nėra ką frezuoti: nieko nepažymėta
+286|Eksportuoti frezuotą detalę kaip STL…
+287|Nėra ką eksportuoti: darbe dar nėra pjūvių.

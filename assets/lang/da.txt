@@ -284,3 +284,5 @@
 283|Kun markering
 284|Kun de former, der er markeret på arbejdsområdet, når G-koden gemmes eller jobbet startes, skæres.
 285|Intet at skære: intet er markeret
+286|Eksportér det fræsede emne som STL…
+287|Intet at eksportere: opgaven har endnu ingen snit.

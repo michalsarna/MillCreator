@@ -284,3 +284,5 @@
 283|Csak a kijelölés
 284|Csak azok az alakzatok kerülnek kimarásra, amelyek a G-kód mentésekor vagy a munka indításakor ki vannak jelölve a munkaterületen.
 285|Nincs mit kimarni: semmi sincs kijelölve
+286|A mart darab exportálása STL-ként…
+287|Nincs mit exportálni: a munkának még nincsenek vágásai.

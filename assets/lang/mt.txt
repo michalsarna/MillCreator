@@ -284,3 +284,5 @@
 283|Is-għażla biss
 284|Jinqatgħu biss il-forom magħżula fl-erja tax-xogħol meta jinħażen il-G-code jew jibda x-xogħol.
 285|Xejn x'taqta': xejn mhu magħżul
+286|Esporta l-biċċa maħduma bħala STL…
+287|Xejn x'tesporta: il-ħidma għad m'għandhiex qtugħ.
