@@ -295,3 +295,32 @@
 294|Iga freesi vahetusel
 295|Iga operatsiooni vahetusel
 296|Programmi lõpus
+297|Suund
+298|Nagu joonistatud
+299|Päripidi
+300|Vastupidi
+301|Varu
+302|Viimistluskäik
+303|Sisenemine
+304|Sukeldumine
+305|Siksak-ramp
+306|Ramp piki kontuuri
+307|Heeliks
+308|Rambi nurk
+309|Rambi etteanne
+310|0 = sukeldumise etteanne
+311|Sillad
+312|Silla tüüp
+313|Täis
+314|Osaline
+315|Ramp
+316|Silla laius
+317|Silla kõrgus
+318|Silla kalle
+319|Sildade vahe
+320|Vähim ja enim sildu
+321|Aukudel sildu pole
+322|{}: kuskil ei mahtunud heeliks: seal kasutati kontuuri ramp
+323|{}: mõned rõngad on kõigi oma sildade jaoks liiga lühikesed: neil on vähem
+324|{}: rambi nurk {}° on järsk (üle 45°)
+325|{}: sillad on lõike sama kõrged: detail ei lõigata lahti

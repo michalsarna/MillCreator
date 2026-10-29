@@ -295,3 +295,32 @@
 294|Vid varje fräsbyte
 295|Vid varje byte av operation
 296|I slutet av programmet
+297|Riktning
+298|Som ritat
+299|Medfräsning
+300|Motfräsning
+301|Överskott
+302|Efterbehandlingsvarv
+303|Ingång
+304|Nedstick
+305|Sicksack-ramp
+306|Ramp längs konturen
+307|Helix
+308|Rampvinkel
+309|Rampmatning
+310|0 = nedstickmatningen
+311|Bryggor
+312|Bryggtyp
+313|Hel
+314|Delvis
+315|Ramp
+316|Bryggbredd
+317|Bryggans höjd
+318|Bryggans lutning
+319|Bryggavstånd
+320|Minst och flest bryggor
+321|Inga bryggor vid hål
+322|{}: en helix fick inte plats någonstans: där användes rampen längs konturen
+323|{}: vissa ringar är för korta för alla sina bryggor: de har färre
+324|{}: rampvinkeln på {}° är brant (mer än 45°)
+325|{}: bryggorna är lika höga som snittet: delen skärs inte loss

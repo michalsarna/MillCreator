@@ -27,6 +27,10 @@ Inne kształty na tej samej warstwie są prowadzone jak linie. Na warstwie z inn
 | Step over | dla kieszeni: odstęp między pierścieniami jako część średnicy |
 | Feed, Plunge feed | mm/min w materiale i przy zagłębianiu |
 | Spindle speed | obr/min; wartość poza zakresem urządzenia jest zgłaszana |
+| Direction | dla profilu i kieszeni: **As drawn** (jak program robił dotąd), **Climb** (współbieżnie) albo **Conventional** (przeciwbieżnie). Przy wrzecionie w prawo cięcie współbieżne trzyma materiał po lewej stronie freza (przeciwnie do ruchu wskazówek wokół części, zgodnie z ruchem wskazówek w kieszeni); kontury otworów części idą w drugą stronę |
+| Stock to leave, Finishing pass | przejścia do głębokości zostają tak daleko od linii; z *Finishing pass* jedno dodatkowe przejście na pełnej głębokości zdejmuje resztę wzdłuż prawdziwej linii |
+| Entry | jak frez wchodzi w dół: **Plunge** (prosto w dół z posuwem wbicia), **Zigzag ramp** (tam i z powrotem wzdłuż pierwszego odcinka drogi), **Ramp along the contour** (w dół w trakcie okrążania) albo **Helix** (w kieszeni, po okręgu, który się mieści; w innych miejscach rampa po konturze). **Ramp angle** to nachylenie w stopniach; **Ramp feed** to posuw na rampie (0 = *Ramp feed* freza z biblioteki, a gdy go nie ma, posuw wbicia). Rampa stromsza niż 45° jest zgłaszana |
+| Tabs | **Full** (frez unosi się nad materiał), **Partial** (do wysokości mostka) albo **Ramp** (częściowy ze skosem, *Tab slope*); *Tab width* to szerokość mostka przy części (do tego dochodzi frez), *Tab height* liczy się od dna cięcia. Rozmieszczone są równomiernie: jeden na każdy *Tab spacing* konturu, nie mniej i nie więcej niż podane liczby, bez mostków na otworach części przy włączonym *No tabs on holes*. Unoszone są tylko przejścia poniżej wierzchu mostka. Dla profili i „Follow the line” na liniach zamkniętych |
 
 ## Operacje
 | Operacja | Co robi frez |

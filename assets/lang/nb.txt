@@ -295,3 +295,32 @@
 294|Ved hvert fresebytte
 295|Ved hvert skifte av operasjon
 296|På slutten av programmet
+297|Retning
+298|Som tegnet
+299|Medløps
+300|Motløps
+301|Overmål
+302|Sluttpass
+303|Innføring
+304|Nedstikk
+305|Sikksakk-rampe
+306|Rampe langs konturen
+307|Heliks
+308|Rampevinkel
+309|Rampemating
+310|0 = nedstikksmatingen
+311|Broer
+312|Brutype
+313|Full
+314|Delvis
+315|Rampe
+316|Bro-bredde
+317|Bro-høyde
+318|Brohelning
+319|Bro-avstand
+320|Færrest og flest broer
+321|Ingen broer på hull
+322|{}: en helix passet ikke et sted: der ble rampen langs konturen brukt
+323|{}: noen ringer er for korte for alle brøene sine: de har færre
+324|{}: rampevinkelen på {}° er bratt (over 45°)
+325|{}: brøene er like høye som kuttet: delen skjæres ikke fri

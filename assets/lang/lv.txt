@@ -295,3 +295,32 @@
 294|Katras frēzes maiņas laikā
 295|Katras operācijas maiņas laikā
 296|Programmas beigās
+297|Virziens
+298|Kā zīmēts
+299|Sakrītošs
+300|Pretējs
+301|Atstājamais materiāls
+302|Apdares gājiens
+303|Ieeja
+304|Iegremdēšana
+305|Zigzaga rampa
+306|Rampa gar kontūru
+307|Spirāle
+308|Rampas leņķis
+309|Rampas padeve
+310|0 = iegremdēšanas padeve
+311|Tilti
+312|Tilta veids
+313|Pilns
+314|Daļējs
+315|Rampa
+316|Tilta platums
+317|Tilta augstums
+318|Tilta slīpums
+319|Tiltu atstarpe
+320|Vismaz un visvairāk tiltu
+321|Bez tiltiem uz caurumiem
+322|{}: kaut kur spirāle neietilpa: tur izmantota rampa gar kontūru
+323|{}: daži gredzeni ir pārāk īsi visiem saviem tiltiem: tiem ir mazāk
+324|{}: rampas leņķis {}° ir stāvs (vairāk nekā 45°)
+325|{}: tilti ir tikpat augsti kā griezums: detaļa netiks atdalīta

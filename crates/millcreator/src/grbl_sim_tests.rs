@@ -106,3 +106,44 @@ fn grbl_sim_one_element_at_a_time_runs_with_the_same_bit() {
     s.wait_idle_at(0.0, 0.0, 60.0);
     assert!(s.errors().is_empty(), "GRBL rejected lines: {:?}", s.errors_described());
 }
+
+/// A job with ramps, a helix, tabs, climb milling and a finishing pass: layer 0 (cut out) with tabs and a ramp, layer 2 (pocket) with a helix.
+fn job_with_entries(entry: crate::layers::Entry) -> Vec<String> {
+    use crate::layers::{CutDir, TabKind, Tabs};
+    let (lib, dev, stock) = (Library::new(), Device::dummy(), Stock::default());
+    let mut layers = default_layers(&lib);
+    layers[0].depth = 4.0;
+    layers[0].step_down = 2.0;
+    layers[0].direction = CutDir::Climb;
+    layers[0].leave = 0.3;
+    layers[0].entry = entry;
+    layers[0].ramp_angle = 4.0;
+    layers[0].tabs = Tabs { enabled: true, kind: TabKind::Ramp, length: 5.0, height: 1.5, spacing: 60.0, ..Tabs::default() };
+    layers[2].depth = 2.0;
+    layers[2].step_down = 1.0;
+    layers[2].direction = CutDir::Conventional;
+    layers[2].entry = crate::layers::Entry::Helix;
+    layers[2].ramp_angle = 5.0;
+    let mut scene = Scene::default();
+    square(&mut scene, 0, 60.0, 60.0, 50.0);
+    square(&mut scene, 2, 10.0, 10.0, 30.0);
+    let prog = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions::default());
+    clean_gcode(&to_gcode(&prog, &dev, &layers, &lib, "sim"))
+}
+
+#[test]
+#[ignore = "needs grbl-sim: tools/grbl-sim/build.sh of baseCreator"]
+fn grbl_sim_ramps_a_helix_tabs_and_a_finishing_pass_are_accepted_and_end_at_zero() {
+    for entry in [crate::layers::Entry::RampContour, crate::layers::Entry::RampZigzag] {
+        let mut s = Session::connect();
+        s.wait_banner();
+        s.fast_machine(&[]);
+        let job = job_with_entries(entry);
+        assert!(job.iter().filter(|l| l.starts_with("G1 X") && l.contains(" Z")).count() > 20, "ramps are moves in X, Y and Z: {job:?}");
+        s.run_job(job, 240.0);
+        s.wait_idle_at(0.0, 0.0, 60.0);
+        assert!(s.parser_state().contains("M5"), "the spindle is off");
+        assert!(s.errors().is_empty(), "{entry:?}: GRBL rejected lines: {:?}", s.errors_described());
+    }
+}
+

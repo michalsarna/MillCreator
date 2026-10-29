@@ -295,3 +295,32 @@
 294|Při každé výměně frézy
 295|Při každé změně operace
 296|Na konci programu
+297|Směr
+298|Jak je nakresleno
+299|Sousledné
+300|Nesousledné
+301|Přídavek
+302|Dokončovací průchod
+303|Vstup
+304|Zanoření
+305|Rampa cik-cak
+306|Rampa po obrysu
+307|Šroubovice
+308|Úhel rampy
+309|Posuv rampy
+310|0 = posuv zanoření
+311|Můstky
+312|Typ můstku
+313|Plný
+314|Částečný
+315|Rampa
+316|Šířka můstku
+317|Výška můstku
+318|Sklon můstku
+319|Rozestup můstků
+320|Nejméně a nejvíce můstků
+321|Žádné můstky u otvorů
+322|{}: někde se šroubovice nevešla: tam byla použita rampa po obrysu
+323|{}: některé okruhy jsou příliš krátké pro všechny své můstky: mají jich méně
+324|{}: úhel rampy {}° je strmý (více než 45°)
+325|{}: můstky jsou stejně vysoké jako řez: díl se neodřízne

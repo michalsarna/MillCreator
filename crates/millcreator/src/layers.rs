@@ -23,6 +23,111 @@ pub enum Operation {
     Picture,
 }
 
+/// Which way the bit goes round a profile or a pocket (for a spindle that turns clockwise).
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum CutDir {
+    /// As the rings come out of the program (what it always did).
+    #[default]
+    AsDrawn,
+    /// The bit turns with the feed: the material is on the left of the way of the bit.
+    Climb,
+    /// The bit turns against the feed: the material is on the right.
+    Conventional,
+}
+
+impl CutDir {
+    pub const ALL: [CutDir; 3] = [CutDir::AsDrawn, CutDir::Climb, CutDir::Conventional];
+    pub fn label(self) -> &'static str {
+        match self {
+            CutDir::AsDrawn => "As drawn",
+            CutDir::Climb => "Climb",
+            CutDir::Conventional => "Conventional",
+        }
+    }
+}
+
+/// How the bit goes down into the material.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum Entry {
+    /// Straight down, at the plunge feed.
+    #[default]
+    Plunge,
+    /// Down in a zigzag along the first part of the way, at the ramp angle.
+    RampZigzag,
+    /// Down along the contour itself, at the ramp angle.
+    RampContour,
+    /// Down in a helix (a pocket, where it fits; otherwise the ramp along the contour).
+    Helix,
+}
+
+impl Entry {
+    pub const ALL: [Entry; 4] = [Entry::Plunge, Entry::RampZigzag, Entry::RampContour, Entry::Helix];
+    pub fn label(self) -> &'static str {
+        match self {
+            Entry::Plunge => "Plunge",
+            Entry::RampZigzag => "Zigzag ramp",
+            Entry::RampContour => "Ramp along the contour",
+            Entry::Helix => "Helix",
+        }
+    }
+}
+
+/// What a tab (bridge) of a profile is like.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum TabKind {
+    /// The bit rises above the material: the tab is as high as the material.
+    Full,
+    /// The bit rises to the height of the tab.
+    #[default]
+    Partial,
+    /// As partial, with a slope up and down.
+    Ramp,
+}
+
+impl TabKind {
+    pub const ALL: [TabKind; 3] = [TabKind::Full, TabKind::Partial, TabKind::Ramp];
+    pub fn label(self) -> &'static str {
+        match self {
+            TabKind::Full => "Full",
+            TabKind::Partial => "Partial",
+            TabKind::Ramp => "Ramp",
+        }
+    }
+}
+
+/// Tabs (bridges) that hold a part in the material while it is cut out.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct Tabs {
+    pub enabled: bool,
+    pub kind: TabKind,
+    /// The width of a tab at the part, along the profile (mm).
+    pub length: f64,
+    /// The height of a tab above the bottom of the cut (mm); a full tab is as high as the material.
+    pub height: f64,
+    /// The slope of a ramp tab (degrees from the horizontal).
+    pub slope: f64,
+    /// The tabs are spread evenly, `spacing` mm apart, at least `min` and at most `max` on a ring.
+    pub spacing: f64,
+    pub min: u32,
+    pub max: u32,
+    /// Rings that are holes (of a part) get no tabs.
+    pub skip_inner: bool,
+}
+
+impl Default for Tabs {
+    fn default() -> Tabs {
+        Tabs { enabled: false, kind: TabKind::Partial, length: 5.0, height: 2.0, slope: 45.0, spacing: 60.0, min: 2, max: 8, skip_inner: true }
+    }
+}
+
+fn three() -> f64 {
+    3.0
+}
+
+fn yes() -> bool {
+    true
+}
+
 /// How a picture is engraved.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub enum PictureMethod {
@@ -124,6 +229,25 @@ pub struct MillLayer {
     /// in the list renumbers them all.
     #[serde(default)]
     pub rank: u32,
+    /// Which way a profile or a pocket is milled (climb or conventional).
+    #[serde(default)]
+    pub direction: CutDir,
+    /// The material left on the walls by the passes down to the depth (mm); a finishing pass takes it off.
+    #[serde(default)]
+    pub leave: f64,
+    /// With material left, one more pass at the full depth along the real line.
+    #[serde(default = "yes")]
+    pub finish: bool,
+    /// How the bit goes down, the slope of the ramp or the helix (degrees) and its feed (0 = the plunge feed).
+    #[serde(default)]
+    pub entry: Entry,
+    #[serde(default = "three")]
+    pub ramp_angle: f64,
+    #[serde(default)]
+    pub ramp_feed: f64,
+    /// Tabs of a profile.
+    #[serde(default)]
+    pub tabs: Tabs,
 }
 
 
@@ -168,8 +292,12 @@ impl MillLayer {
     /// Is every number of the layer usable?
     pub fn check(&self) -> Result<(), String> {
         let ok = |v: f64, lo: f64, hi: f64| v.is_finite() && v >= lo && v <= hi;
-        if !ok(self.depth, 0.0, 1000.0) || !ok(self.step_down, 0.01, 1000.0) || !ok(self.step_over_pct, 1.0, 100.0) || !ok(self.feed, 1.0, 100_000.0) || !ok(self.plunge, 1.0, 100_000.0) || !ok(self.rpm, 0.0, 1_000_000.0) || !ok(self.scan_angle, -360.0, 360.0) {
+        if !ok(self.depth, 0.0, 1000.0) || !ok(self.step_down, 0.01, 1000.0) || !ok(self.step_over_pct, 1.0, 100.0) || !ok(self.feed, 1.0, 100_000.0) || !ok(self.plunge, 1.0, 100_000.0) || !ok(self.rpm, 0.0, 1_000_000.0) || !ok(self.scan_angle, -360.0, 360.0) || !ok(self.leave, 0.0, 100.0) || !ok(self.ramp_angle, 0.1, 89.0) || !ok(self.ramp_feed, 0.0, 100_000.0) {
             return Err(format!("layer {}: a number is out of range", self.name));
+        }
+        let t = &self.tabs;
+        if !ok(t.length, 0.1, 1000.0) || !ok(t.height, 0.0, 1000.0) || !ok(t.slope, 5.0, 89.0) || !ok(t.spacing, 1.0, 100_000.0) || t.min > 100 || t.max > 100 || t.min > t.max {
+            return Err(format!("layer {}: a number of the tabs is out of range", self.name));
         }
         if self.name.len() > 120 {
             return Err("a layer name is too long".into());
@@ -228,6 +356,13 @@ pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
                 dither: base_core::raster::Dither::default(),
                 scan_angle: 0.0,
                 rank: 0,
+                direction: CutDir::default(),
+                leave: 0.0,
+                finish: true,
+                entry: Entry::default(),
+                ramp_angle: 3.0,
+                ramp_feed: 0.0,
+                tabs: Tabs::default(),
             };
             match bit(tool) {
                 Some(t) => layer.with_tool(&t),

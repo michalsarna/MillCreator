@@ -295,3 +295,32 @@
 294|Bij elke frezenwissel
 295|Bij elke wissel van bewerking
 296|Aan het einde van het programma
+297|Richting
+298|Zoals getekend
+299|Meelopend
+300|Tegenlopend
+301|Overmaat
+302|Afwerkgang
+303|Ingang
+304|Insteken
+305|Zigzag-helling
+306|Helling langs de contour
+307|Helix
+308|Hellingshoek
+309|Hellingsvoeding
+310|0 = de insteekvoeding
+311|Brugjes
+312|Type brug
+313|Volledig
+314|Gedeeltelijk
+315|Helling
+316|Brugbreedte
+317|Brughoogte
+318|Brughelling
+319|Brugafstand
+320|Minste en meeste brugjes
+321|Geen brugjes bij gaten
+322|{}: een helix paste ergens niet: daar is de helling langs de contour gebruikt
+323|{}: sommige ringen zijn te kort voor al hun brugjes: ze hebben er minder
+324|{}: de hellingshoek van {}° is steil (meer dan 45°)
+325|{}: de brugjes zijn even hoog als de snede: het deel wordt niet losgesneden

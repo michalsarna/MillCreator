@@ -27,6 +27,10 @@ Other shapes on the same layer are followed as lines. On a layer with another op
 | Step over | for a pocket: the distance between rings, as a part of the diameter |
 | Feed, plunge feed | mm/min in the material and for the plunge |
 | Spindle speed | rpm; a value outside the range of the device is reported |
+| Direction | for a profile or a pocket: **As drawn** (what the program always did), **Climb** or **Conventional**. With a clockwise spindle a climb cut keeps the material on the left of the bit (counter-clockwise round a part, clockwise in a pocket); the rings of a hole of a part go the other way round |
+| Stock to leave, Finishing pass | the passes down to the depth stay this far from the line; with *Finishing pass* one more pass at the full depth takes the rest off along the real line |
+| Entry | how the bit goes down: **Plunge** (straight down at the plunge feed), **Zigzag ramp** (back and forth along the first part of the way), **Ramp along the contour** (down while going round) or **Helix** (in a pocket, on a circle that fits; otherwise the ramp along the contour). **Ramp angle** is the slope in degrees; **Ramp feed** is the feed there (0 = the feed of the bit's *Ramp feed* in the Bit Library, or else the plunge feed). A ramp steeper than 45° is reported |
+| Tabs | **Full** (the bit rises above the material), **Partial** (to the height of the tab) or **Ramp** (partial with a slope, *Tab slope*); *Tab width* is the width of a tab at the part (the bit is added), *Tab height* is measured from the bottom of the cut. They are spread evenly: one for every *Tab spacing* of the ring, at least and at most the numbers given, none on a hole of a part when *No tabs on holes* is on. Only the passes below the top of a tab are raised. For profiles and for "Follow the line" on closed lines |
 
 ## Operations
 | Operation | What the bit does |

@@ -13,10 +13,10 @@
 ## Czego nie robi
 * Może **połączyć się z maszyną GRBL i przesłać zadanie** (Connect, Home, Frame, Start, Stop); sprawdzone na TwoTrees TTC450Pro, **nie na innych maszynach**. Zaczynaj z wyłączonym wrzecionem i frezem w powietrzu i bądź przy maszynie; Stop przerywa miękkim resetem.
 * Frame obchodzi obrys pracy na bezpiecznej wysokości przy wyłączonym wrzecionie: sprawdź, czy ta wysokość naprawdę jest wolna.
-* Brak przesuwania ręcznego (jog) i sondowania.
-* Brak mostków, najazdów skośnych i spiralnych (frez wchodzi prosto w dół), wyboru współbieżnie / przeciwbieżnie, V-carvingu, reliefu 3D, korekcji długości narzędzia i sprawdzania kolizji z zaciskami.
+* Brak V-carvingu, korekcji długości narzędzia i sprawdzania kolizji z zaciskami. Mostki rozmieszcza program (równomiernie); nie można ich jeszcze przesuwać ręcznie.
+* Rampy, helisy, mostki i wybór współbieżnie / przeciwbieżnie są sprawdzone na geometrii i na firmware GRBL w symulatorze, **nie na prawdziwej maszynie**: nowe ustawienie wypróbuj najpierw na odpadzie i z wyłączonym wrzecionem. Mostek trzyma część tylko wtedy, gdy jest dość wysoki: program ostrzega, gdy jest tak wysoki jak cięcie. Helisa potrzebuje miejsca: tam, gdzie się nie mieści, używana jest rampa po konturze.
 * Kieszeń zostawia cienki pasek pośrodku, gdy jej szerokość nie jest wielokrotnością kroku bocznego.
 * Kształt poza polem roboczym jest zgłaszany, ale nie przesuwany.
 * Obrazy nie są frezowane. Tekst jest frezowany jako obrys (linia za nim idzie).
-* Widok 3D rysuje linie na bloku; nie usuwa materiału.
+* Widok 3D pokazuje materiał sfrezowany do miejsca, do którego doszedł suwak (siatka, gęstsza przy małym zadaniu); to obraz do oglądania, nie pomiar.
 * Czas jest szacunkiem.

@@ -33,6 +33,14 @@ pub(crate) fn demo_job(a: &mut App) {
     a.scene.add(3, Kind::Bezier(vec![Contour::star(5, 0.45, 44.0, 44.0)]), Xf::translate(165.0, 78.0));
     a.description = "Plaque, birch plywood 10 mm.\nCut out last, so the part is held until then.".into();
     a.layers[0].name = "Cut out".into();
+    // The plaque is cut out with four tabs (ramped), going down along the contour, climb milling and a finishing pass; the pocket goes down in a helix.
+    a.layers[0].direction = crate::layers::CutDir::Climb;
+    a.layers[0].leave = 0.2;
+    a.layers[0].entry = crate::layers::Entry::RampContour;
+    a.layers[0].ramp_angle = 3.0;
+    a.layers[0].tabs = crate::layers::Tabs { enabled: true, kind: crate::layers::TabKind::Ramp, length: 6.0, height: 2.0, spacing: 90.0, min: 4, max: 4, ..Default::default() };
+    a.layers[2].entry = crate::layers::Entry::Helix;
+    a.layers[2].ramp_angle = 5.0;
     a.touch_rev();
 }
 

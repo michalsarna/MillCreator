@@ -295,3 +295,32 @@
 294	At every change of the bit
 295	At every change of the operation
 296	At the end of the program
+297	Direction
+298	As drawn
+299	Climb
+300	Conventional
+301	Stock to leave
+302	Finishing pass
+303	Entry
+304	Plunge
+305	Zigzag ramp
+306	Ramp along the contour
+307	Helix
+308	Ramp angle
+309	Ramp feed
+310	0 = the plunge feed
+311	Tabs
+312	Tab type
+313	Full
+314	Partial
+315	Ramp
+316	Tab width
+317	Tab height
+318	Tab slope
+319	Tab spacing
+320	Fewest and most tabs
+321	No tabs on holes
+322	{}: a helix did not fit somewhere: the ramp along the contour was used there
+323	{}: some rings are too short for all their tabs: they have fewer
+324	{}: the ramp angle of {}° is steep (more than 45°)
+325	{}: the tabs are as high as the cut: the part is not cut free

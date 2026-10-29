@@ -295,3 +295,32 @@
 294|Ag gach athrú buille
 295|Ag gach athrú oibríochta
 296|Ag deireadh an chláir
+297|Treo
+298|Mar a tarraingíodh
+299|Síos
+300|Gnáth
+301|Stoc le fágáil
+302|Pas críochnúcháin
+303|Iontráil
+304|Tum
+305|Fána ciseach
+306|Fána feadh na comhrian
+307|Helix
+308|Uillinn na fána
+309|Beathú fána
+310|0 = beathú an tuim
+311|Droichid
+312|Cineál droichid
+313|Iomlán
+314|Páirteach
+315|Fána
+316|Leithead droichid
+317|Airde droichid
+318|Fána droichid
+319|Spásáil droichead
+320|Íosmhéid agus uasmhéid droichead
+321|Gan droichid ar poill
+322|{}: níor oir helix in áit éigin: baineadh úsáid as an bhfána feadh na comhrian ansin
+323|{}: tá roinnt fáinní róghearr dá ndroichid go léir: tá níos lú acu
+324|{}: tá uillinn na fána {}° géar (os cionn 45°)
+325|{}: tá na droichid chomh hard leis an ngearradh: ní ghearrfar an chuid saor

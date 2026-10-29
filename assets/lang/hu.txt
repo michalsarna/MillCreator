@@ -295,3 +295,32 @@
 294|Minden marószerszám-csere után
 295|Minden művelet váltásakor
 296|A program végén
+297|Irány
+298|Ahogy rajzolva van
+299|Egyenirányú
+300|Ellenirányú
+301|Ráhagyás
+302|Simító menet
+303|Belépés
+304|Merülés
+305|Cikcakk rámpa
+306|Rámpa a kontúr mentén
+307|Spirál
+308|Rámpa szöge
+309|Rámpa előtolás
+310|0 = a merülési előtolás
+311|Hidak
+312|A híd típusa
+313|Teljes
+314|Részleges
+315|Rámpa
+316|A híd szélessége
+317|A híd magassága
+318|A híd lejtése
+319|A hidak távolsága
+320|A hidak legkisebb és legnagyobb száma
+321|Nincs híd a lyukaknál
+322|{}: valahol nem fért el a spirál: ott a kontúr menti rámpát használtuk
+323|{}: egyes gyűrűk túl rövidek az összes hídjukhoz: kevesebb van rajtuk
+324|{}: a rámpa {}°-os szöge meredek (több mint 45°)
+325|{}: a hidak olyan magasak, mint a vágás: az alkatrész nem válik le

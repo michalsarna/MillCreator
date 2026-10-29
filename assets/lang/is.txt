@@ -295,3 +295,32 @@
 294|Við hver skipti á fræsi
 295|Við hverja breytingu á aðgerð
 296|Í lok forritsins
+297|Stefna
+298|Eins og teiknað
+299|Meðfræsing
+300|Mótfræsing
+301|Eftirskilið efni
+302|Frágangspassi
+303|Innkoma
+304|Niðurstunga
+305|Sikksakk-ramp
+306|Ramp eftir útlínunni
+307|Skrúfulína
+308|Hallahorn rampa
+309|Rampumatun
+310|0 = niðurstungumatun
+311|Brýr
+312|Tegund brúar
+313|Heill
+314|Að hluta
+315|Ramp
+316|Breidd brúar
+317|Hæð brúar
+318|Halli brúar
+319|Bil milli brúa
+320|Fæstar og flestar brýr
+321|Engar brýr á götum
+322|{}: skrúfulína komst ekki fyrir einhvers staðar: þar var rampur eftir útlínunni notaður
+323|{}: sumir hringir eru of stuttir fyrir allar brýr sínar: þeir hafa færri
+324|{}: hallahorn rampsins {}° er bratt (meira en 45°)
+325|{}: brýrnar eru jafn háar og skurðurinn: hlutinn losnar ekki

@@ -295,3 +295,32 @@
 294|Ob vsaki zamenjavi rezkarja
 295|Ob vsaki spremembi operacije
 296|Na koncu programa
+297|Smer
+298|Kot narisano
+299|Sočasno
+300|Nasprotno
+301|Dodatek
+302|Končni prehod
+303|Vstop
+304|Potop
+305|Cikcak rampa
+306|Klančina po obrisu
+307|Vijačnica
+308|Kot klančine
+309|Podajanje klančine
+310|0 = podajanje potopa
+311|Mostički
+312|Vrsta mostička
+313|Poln
+314|Delen
+315|Klančina
+316|Širina mostička
+317|Višina mostička
+318|Naklon mostička
+319|Razmik mostičkov
+320|Najmanj in največ mostičkov
+321|Brez mostičkov na luknjah
+322|{}: nekje se vijačnica ni prilegala: tam je bila uporabljena klančina po obrisu
+323|{}: nekateri obroči so prekratki za vse svoje mostičke: imajo jih manj
+324|{}: kot klančine {}° je strm (več kot 45°)
+325|{}: mostički so enako visoki kot rez: kos se ne odreže

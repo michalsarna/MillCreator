@@ -166,11 +166,14 @@ pub struct Cutting {
     /// How far the next ring or line is, as a part of the diameter (percent).
     pub step_over_pct: f64,
     pub flutes: u32,
+    /// Feed of a ramp or a helix going down, mm/min (0 = the plunge feed).
+    #[serde(default)]
+    pub ramp: f64,
 }
 
 impl Default for Cutting {
     fn default() -> Cutting {
-        Cutting { feed: 800.0, plunge: 300.0, rpm: 12000.0, step_down_pct: 50.0, step_over_pct: 40.0, flutes: 2 }
+        Cutting { feed: 800.0, plunge: 300.0, rpm: 12000.0, step_down_pct: 50.0, step_over_pct: 40.0, flutes: 2, ramp: 0.0 }
     }
 }
 

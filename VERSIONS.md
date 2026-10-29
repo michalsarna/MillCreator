@@ -2,6 +2,11 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.4.3 (not released yet)
+
+* **Safe profiles:** a layer chooses the **direction** of a profile or a pocket (as drawn, climb or conventional), **stock to leave** with a **finishing pass** at the full depth, how the bit goes **down** (plunge, zigzag ramp, ramp along the contour or helix, with the ramp angle and a ramp feed, which a bit of the library can give) and **tabs** (full, partial or ramp, spread evenly, none on holes). Warnings for a ramp steeper than 45°, tabs as high as the cut and a helix that does not fit. Older projects open as before.
+* The tests run ramps, tabs, a helix and a finishing pass against the real GRBL firmware (a simulator).
+
 ## v0.4.2
 
 * **3D view:** **Material** shows the stock as it is milled: the cuts made so far (up to the slider) are carved into its top with the real shape of each bit; **Cuts** only adds the paths of the bit over it. The view can be exported as an **STL** model of the milled piece (an icon in the title line and a button in the options row; the cuts done up to the slider).
