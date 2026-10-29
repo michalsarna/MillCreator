@@ -295,3 +295,32 @@
 294|A cada canvi de fresa
 295|A cada canvi d'operació
 296|Al final del programa
+297|Direcció
+298|Tal com està dibuixat
+299|De pujada
+300|Convencional
+301|Sobreespessor
+302|Passada d'acabat
+303|Entrada
+304|Penetració
+305|Rampa en ziga-zaga
+306|Rampa al llarg del contorn
+307|Hèlix
+308|Angle de la rampa
+309|Avanç de rampa
+310|0 = l'avanç de penetració
+311|Ponts
+312|Tipus de pont
+313|Complet
+314|Parcial
+315|Rampa
+316|Amplada del pont
+317|Alçada del pont
+318|Pendent del pont
+319|Distància entre ponts
+320|Mínim i màxim de ponts
+321|Sense ponts als forats
+322|{}: en algun lloc l'hèlix no cabia: s'hi ha usat la rampa al llarg del contorn
+323|{}: alguns anells són massa curts per a tots els seus ponts: en tenen menys
+324|{}: l'angle de la rampa de {}° és pronunciat (més de 45°)
+325|{}: els ponts són tan alts com el tall: la peça no se separa

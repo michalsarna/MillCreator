@@ -295,3 +295,32 @@
 294|La fiecare schimbare a frezei
 295|La fiecare schimbare a operației
 296|La sfârșitul programului
+297|Direcție
+298|Cum e desenat
+299|În avans
+300|Convențional
+301|Adaos
+302|Trecere de finisare
+303|Intrare
+304|Plonjare
+305|Rampă în zigzag
+306|Rampă pe contur
+307|Elice
+308|Unghiul rampei
+309|Avans în rampă
+310|0 = avansul de plonjare
+311|Punți
+312|Tip de punte
+313|Complet
+314|Parțial
+315|Rampă
+316|Lățimea punții
+317|Înălțimea punții
+318|Panta punții
+319|Distanța dintre punți
+320|Cel puțin și cel mult punți
+321|Fără punți pe găuri
+322|{}: undeva elicea nu a încăput: acolo s-a folosit rampa pe contur
+323|{}: unele inele sunt prea scurte pentru toate punțile lor: au mai puține
+324|{}: unghiul rampei de {}° este abrupt (peste 45°)
+325|{}: punțile sunt la fel de înalte ca tăierea: piesa nu se desprinde

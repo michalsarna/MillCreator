@@ -34,4 +34,4 @@ Każdy rodzaj freza jest narysowany w przekroju z **literą każdego wymiaru tam
 * Projekt niesie frezy, których używają jego warstwy (zobacz [Plik projektu](Plik-projektu)). Otwarty tam, gdzie ich brakuje, dodaje je do **My bits**, a pasek stanu o tym mówi.
 
 ## Prędkości startowe
-Każdy frez ma posuw, posuw wejścia, obroty, głębokość przejścia (procent średnicy), krok boczny (procent) i liczbę ostrzy. Warstwa bierze je po wyborze freza. Wartości gotowych frezów to ostrożne punkty wyjścia dla miękkiego drewna i plastiku: **dopasuj je do swojej maszyny, materiału i freza**.
+Każdy frez ma posuw, posuw wejścia, **posuw rampy** (dla rampy lub helisy w dół; 0 = posuw wejścia), obroty, głębokość przejścia (procent średnicy), krok boczny (procent) i liczbę ostrzy. Warstwa bierze je po wyborze freza. Wartości gotowych frezów to ostrożne punkty wyjścia dla miękkiego drewna i plastiku: **dopasuj je do swojej maszyny, materiału i freza**.

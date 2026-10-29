@@ -295,3 +295,32 @@
 294|Keičiant kiekvieną frezą
 295|Keičiant kiekvieną operaciją
 296|Programos pabaigoje
+297|Kryptis
+298|Kaip nupiešta
+299|Sutampantis
+300|Priešinis
+301|Atsargos
+302|Apdailos perėjimas
+303|Įėjimas
+304|Įsmeigimas
+305|Zigzago rampa
+306|Rampa išilgai kontūro
+307|Spiralė
+308|Rampos kampas
+309|Rampos pastūma
+310|0 = įsmeigimo pastūma
+311|Tiltai
+312|Tilto tipas
+313|Pilnas
+314|Dalinis
+315|Rampa
+316|Tilto plotis
+317|Tilto aukštis
+318|Tilto nuolydis
+319|Tiltų atstumas
+320|Mažiausiai ir daugiausiai tiltų
+321|Be tiltų ant skylių
+322|{}: kai kur spiralė netilpo: ten naudota rampa išilgai kontūro
+323|{}: kai kurie žiedai per trumpi visiems savo tiltams: jų mažiau
+324|{}: rampos kampas {}° yra staigus (daugiau nei 45°)
+325|{}: tiltai tokie pat aukšti kaip pjūvis: detalė nebus atskirta

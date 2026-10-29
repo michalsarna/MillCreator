@@ -295,3 +295,32 @@
 294|Ved hvert fræserskift
 295|Ved hvert skift af operation
 296|I slutningen af programmet
+297|Retning
+298|Som tegnet
+299|Medløb
+300|Modløb
+301|Overmål
+302|Efterbehandlingsgang
+303|Indgang
+304|Nedstik
+305|Zigzag-rampe
+306|Rampe langs konturen
+307|Helix
+308|Rampevinkel
+309|Rampefremføring
+310|0 = nedstiksfremføringen
+311|Broer
+312|Brotype
+313|Fuld
+314|Delvis
+315|Rampe
+316|Brobredde
+317|Brohøjde
+318|Broens hældning
+319|Afstand mellem broer
+320|Færrest og flest broer
+321|Ingen broer ved huller
+322|{}: en helix passede ikke et sted: der blev rampen langs konturen brugt
+323|{}: nogle ringe er for korte til alle deres broer: de har færre
+324|{}: rampevinklen på {}° er stejl (over 45°)
+325|{}: broerne er lige så høje som snittet: emnet skæres ikke fri

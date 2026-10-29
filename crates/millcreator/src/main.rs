@@ -10,6 +10,7 @@ mod layers;
 mod layers_ui;
 mod machine_ui;
 mod materials;
+mod passes;
 mod gcode_view_glue;
 #[cfg(test)]
 mod grbl_sim_tests;

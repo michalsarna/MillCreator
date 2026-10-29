@@ -430,7 +430,7 @@ pub fn tools_window(ctx: &egui::Context, win: &mut ToolsWindow, lib: &mut Librar
                     ui.label(egui::RichText::new(tr("Starting speeds for a layer")).strong());
                     egui::Grid::new("tool_cut").num_columns(2).spacing([10.0, 5.0]).show(ui, |ui| {
                         let c: &mut Cutting = &mut draft.cutting;
-                        let rows: [(&str, &mut f64, &str, f64, f64); 5] = [("Feed", &mut c.feed, " mm/min", 1.0, 100000.0), ("Plunge feed", &mut c.plunge, " mm/min", 1.0, 100000.0), ("Spindle speed", &mut c.rpm, " rpm", 1.0, 1000000.0), ("Pass depth (of the diameter)", &mut c.step_down_pct, " %", 1.0, 400.0), ("Step over (of the diameter)", &mut c.step_over_pct, " %", 1.0, 100.0)];
+                        let rows: [(&str, &mut f64, &str, f64, f64); 6] = [("Feed", &mut c.feed, " mm/min", 1.0, 100000.0), ("Plunge feed", &mut c.plunge, " mm/min", 1.0, 100000.0), ("Ramp feed", &mut c.ramp, " mm/min", 0.0, 100000.0), ("Spindle speed", &mut c.rpm, " rpm", 1.0, 1000000.0), ("Pass depth (of the diameter)", &mut c.step_down_pct, " %", 1.0, 400.0), ("Step over (of the diameter)", &mut c.step_over_pct, " %", 1.0, 100.0)];
                         for (label, v, suffix, lo, hi) in rows {
                             ui.label(tr(label));
                             ui.add_enabled_ui(editable, |ui| {

@@ -295,3 +295,32 @@
 294|En cada cambio de fresa
 295|En cada cambio de operación
 296|Al final del programa
+297|Dirección
+298|Como se dibujó
+299|Concordante
+300|Convencional
+301|Sobrematerial
+302|Pasada de acabado
+303|Entrada
+304|Penetración
+305|Rampa en zigzag
+306|Rampa a lo largo del contorno
+307|Hélice
+308|Ángulo de la rampa
+309|Avance de rampa
+310|0 = el avance de penetración
+311|Puentes
+312|Tipo de puente
+313|Completo
+314|Parcial
+315|Rampa
+316|Ancho del puente
+317|Altura del puente
+318|Pendiente del puente
+319|Separación de puentes
+320|Mínimo y máximo de puentes
+321|Sin puentes en agujeros
+322|{}: en algún lugar no cabía la hélice: allí se usó la rampa a lo largo del contorno
+323|{}: algunos anillos son demasiado cortos para todos sus puentes: tienen menos
+324|{}: el ángulo de la rampa de {}° es pronunciado (más de 45°)
+325|{}: los puentes son tan altos como el corte: la pieza no se separa

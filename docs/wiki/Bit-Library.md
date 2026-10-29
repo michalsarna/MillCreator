@@ -34,4 +34,4 @@ Every kind of bit is drawn in section with the **letter of each dimension where 
 * A project carries the bits its layers use (see [Project File](Project-File)). Opened where they are missing, they are added to **My bits** and the status bar says so.
 
 ## Starting speeds
-Each bit has a feed, plunge feed, spindle speed, a pass depth (percent of the diameter), a step over (percent) and the number of flutes. A layer takes them when the bit is chosen. The figures of the ready-made bits are cautious starting points for soft wood and plastic: **adjust them to your machine, material and cutter**.
+Each bit has a feed, plunge feed, **ramp feed** (for a ramp or a helix going down; 0 = the plunge feed), spindle speed, a pass depth (percent of the diameter), a step over (percent) and the number of flutes. A layer takes them when the bit is chosen. The figures of the ready-made bits are cautious starting points for soft wood and plastic: **adjust them to your machine, material and cutter**.

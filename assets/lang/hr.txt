@@ -295,3 +295,32 @@
 294|Pri svakoj zamjeni glodala
 295|Pri svakoj promjeni operacije
 296|Na kraju programa
+297|Smjer
+298|Kako je nacrtano
+299|Istosmjerno
+300|Protusmjerno
+301|Dodatak
+302|Završni prolaz
+303|Ulaz
+304|Zarezivanje
+305|Rampa cik-cak
+306|Rampa po konturi
+307|Spirala
+308|Kut rampe
+309|Posmak rampe
+310|0 = posmak zarezivanja
+311|Mostići
+312|Vrsta mostića
+313|Puni
+314|Djelomični
+315|Rampa
+316|Širina mostića
+317|Visina mostića
+318|Nagib mostića
+319|Razmak mostića
+320|Najmanje i najviše mostića
+321|Bez mostića na otvorima
+322|{}: negdje se spirala nije mogla smjestiti: tamo je korištena rampa po konturi
+323|{}: neki prstenovi su prekratki za sve svoje mostiće: imaju ih manje
+324|{}: kut rampe od {}° je strm (više od 45°)
+325|{}: mostići su visoki kao rez: dio se neće odrezati

@@ -514,6 +514,13 @@ mod tests {
         a.devices = vec![a.device.clone()];
         a.active = Some(0);
         crate::screenshots::demo_job(&mut a);
+        // The tests below look at the first lines of the job in the console, which keeps the last 4000: a short job (no ramps, no tabs).
+        for l in a.layers.iter_mut() {
+            l.entry = crate::layers::Entry::Plunge;
+            l.tabs.enabled = false;
+            l.leave = 0.0;
+        }
+        a.touch_rev();
         a.connect_machine();
         assert!(until(&mut a, 3.0, |a| a.machine.connected), "connected");
         a

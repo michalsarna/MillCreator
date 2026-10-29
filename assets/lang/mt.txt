@@ -295,3 +295,32 @@
 294|Maċ-ċaqliq kollu tal-frieża
 295|Maċ-ċaqliq kollu tal-operazzjoni
 296|Fl-aħħar tal-programm
+297|Direzzjoni
+298|Kif tpoġġa
+299|Konkordanti
+300|Konvenzjonali
+301|Materjal li jibqa'
+302|Passata tat-tlestija
+303|Dħul
+304|Tuffa
+305|Rampa zigzag
+306|Rampa tul il-kontorn
+307|Elika
+308|Angolu tar-rampa
+309|Feed tar-rampa
+310|0 = il-feed tat-tuffa
+311|Pontijiet
+312|Tip ta' pont
+313|Sħiħ
+314|Parzjali
+315|Rampa
+316|Wisa' tal-pont
+317|Għoli tal-pont
+318|Inklinazzjoni tal-pont
+319|Distanza bejn il-pontijiet
+320|L-inqas u l-aktar pontijiet
+321|L-ebda pont fuq it-toqob
+322|{}: x'imkien l-elika ma daħlitx: hemmhekk intużat ir-rampa tul il-kontorn
+323|{}: xi ċrieki huma qosra wisq għall-pontijiet kollha tagħhom: għandhom inqas
+324|{}: l-angolu tar-rampa ta' {}° huwa wieqaf (aktar minn 45°)
+325|{}: il-pontijiet għoljin daqs il-qtugħ: il-biċċa ma tinqatax ħielsa

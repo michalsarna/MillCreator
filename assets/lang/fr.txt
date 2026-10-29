@@ -295,3 +295,32 @@
 294|À chaque changement de fraise
 295|À chaque changement d'opération
 296|À la fin du programme
+297|Sens
+298|Comme dessiné
+299|En avalant
+300|En opposition
+301|Surépaisseur
+302|Passe de finition
+303|Entrée
+304|Plongée
+305|Rampe en zigzag
+306|Rampe le long du contour
+307|Hélice
+308|Angle de la rampe
+309|Avance en rampe
+310|0 = l'avance de plongée
+311|Ponts
+312|Type de pont
+313|Complet
+314|Partiel
+315|Rampe
+316|Largeur du pont
+317|Hauteur du pont
+318|Pente du pont
+319|Espacement des ponts
+320|Minimum et maximum de ponts
+321|Pas de ponts sur les trous
+322|{} : une hélice ne tenait pas à un endroit : la rampe le long du contour y a été utilisée
+323|{} : certains anneaux sont trop courts pour tous leurs ponts : ils en ont moins
+324|{} : l'angle de rampe de {}° est raide (plus de 45°)
+325|{} : les ponts sont aussi hauts que la découpe : la pièce n'est pas détachée

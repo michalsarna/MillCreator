@@ -78,18 +78,18 @@ impl Program {
 }
 
 /// The part of the program that is being built: it knows where the spindle is.
-struct Builder<'a> {
-    moves: Vec<Move>,
-    at: P3,
-    safe: f64,
-    layer: usize,
-    feed: f64,
-    plunge: f64,
-    dev: &'a Device,
+pub(crate) struct Builder<'a> {
+    pub(crate) moves: Vec<Move>,
+    pub(crate) at: P3,
+    pub(crate) safe: f64,
+    pub(crate) layer: usize,
+    pub(crate) feed: f64,
+    pub(crate) plunge: f64,
+    pub(crate) dev: &'a Device,
 }
 
 impl Builder<'_> {
-    fn push(&mut self, kind: MoveKind, to: P3, feed: f64) {
+    pub(crate) fn push(&mut self, kind: MoveKind, to: P3, feed: f64) {
         if self.at == to {
             return;
         }
@@ -97,7 +97,7 @@ impl Builder<'_> {
         self.at = to;
     }
     /// Up to the safe height.
-    fn retract(&mut self) {
+    pub(crate) fn retract(&mut self) {
         if self.at[2] < self.safe {
             let to = [self.at[0], self.at[1], self.safe];
             let kind = if self.at[2] < 0.0 { MoveKind::Plunge } else { MoveKind::Rapid };
@@ -105,7 +105,7 @@ impl Builder<'_> {
         }
     }
     /// To a point above the material and down to `z` (negative).
-    fn dive(&mut self, x: f64, y: f64, z: f64) {
+    pub(crate) fn dive(&mut self, x: f64, y: f64, z: f64) {
         self.retract();
         self.push(MoveKind::Rapid, [x, y, self.safe], self.dev.rapid);
         // Fast to just above the surface, then at the plunge feed.
@@ -114,17 +114,17 @@ impl Builder<'_> {
         }
         self.push(MoveKind::Plunge, [x, y, z], self.plunge);
     }
-    fn cut_to(&mut self, x: f64, y: f64, z: f64) {
+    pub(crate) fn cut_to(&mut self, x: f64, y: f64, z: f64) {
         self.push(MoveKind::Cut, [x, y, z], self.feed);
     }
-    fn down_to(&mut self, z: f64) {
+    pub(crate) fn down_to(&mut self, z: f64) {
         let [x, y, _] = self.at;
         self.push(MoveKind::Plunge, [x, y, z], self.plunge);
     }
 }
 
 /// A closed shape of the layer with holes, as rings: is the ring inside an odd number of the others?
-fn is_hole(rings: &[Polyline], i: usize) -> bool {
+pub(crate) fn is_hole(rings: &[Polyline], i: usize) -> bool {
     let Some(p) = rings[i].pts.first().copied() else { return false };
     rings.iter().enumerate().filter(|(j, r)| *j != i && r.closed && r.contains(p)).count() % 2 == 1
 }
@@ -496,7 +496,20 @@ fn first_pass(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyl
 }
 
 fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyline], depths: &[f64], warnings: &mut Vec<Warn>) {
+    use crate::passes::{self, Notes, Plan};
     let r = tool.radius();
+    let plan = Plan::of(layer, tool.dims.diameter, tool.cutting.ramp);
+    let mut notes = Notes::default();
+    let full = depths.last().copied().unwrap_or(layer.depth);
+    // The rings of a profile or a pocket, turned the way the layer asks for, each with its role (a hole of a part or not).
+    let go_rings = |b: &mut Builder, rings: Vec<Polyline>, depths: &[f64], notes: &mut Notes| {
+        let rings = passes::oriented(rings, layer.op, layer.direction);
+        let hole = passes::roles(&rings);
+        let holes: Vec<Polyline> = rings.iter().zip(&hole).filter(|(_, h)| **h).map(|(r, _)| r.clone()).collect();
+        for (i, (ring, hole)) in rings.iter().zip(&hole).enumerate() {
+            passes::ring_passes(b, ring, depths, &plan, *hole, &holes, i > 0, notes);
+        }
+    };
     match layer.op {
         Operation::ProfileOutside | Operation::ProfileInside => {
             let closed = closed_only(outlines);
@@ -504,8 +517,11 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
                 warnings.push(Warn::new("{}: open lines are left out of a profile (use \"Follow the line\")", &[&layer.name]));
             }
             let d = if layer.op == Operation::ProfileOutside { r } else { -r };
-            for ring in ops::offset(&closed, d) {
-                ring_passes(b, &ring, depths);
+            let left = layer.leave.max(0.0);
+            go_rings(b, ops::offset(&closed, d + d.signum() * left), depths, &mut notes);
+            // The material that was left on the wall comes off in one more pass at the full depth.
+            if left > 0.0 && layer.finish {
+                go_rings(b, ops::offset(&closed, d), &[full], &mut notes);
             }
         }
         Operation::Pocket => {
@@ -513,18 +529,20 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
             if closed.len() < outlines.len() {
                 warnings.push(Warn::new("{}: open lines are left out of a pocket", &[&layer.name]));
             }
-            let inner = ops::offset(&closed, -r);
+            let left = layer.leave.max(0.0);
+            let inner = ops::offset(&closed, -(r + left));
             let step = (tool.dims.diameter * layer.step_over_pct / 100.0).max(0.05);
-            for ring in ops::inset_rings(&inner, step, 500) {
-                ring_passes(b, &ring, depths);
+            go_rings(b, ops::inset_rings(&inner, step, 500), depths, &mut notes);
+            if left > 0.0 && layer.finish {
+                go_rings(b, ops::offset(&closed, -r), &[full], &mut notes);
             }
         }
-        Operation::OnPath => {
+        Operation::OnPath | Operation::Picture => {
             for line in outlines {
                 if line.closed {
-                    ring_passes(b, line, depths);
+                    passes::ring_passes(b, line, depths, &plan, false, &[], false, &mut notes);
                 } else {
-                    open_passes(b, line, depths);
+                    passes::open_passes(b, line, depths, &plan);
                 }
             }
         }
@@ -540,16 +558,18 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
                 }
             }
         }
-        // The pictures of the layer are engraved by the caller; the other shapes on it are followed as lines.
-        Operation::Picture => {
-            for line in outlines {
-                if line.closed {
-                    ring_passes(b, line, depths);
-                } else {
-                    open_passes(b, line, depths);
-                }
-            }
-        }
+    }
+    if notes.helix_fallback {
+        warnings.push(Warn::new("{}: a helix did not fit somewhere: the ramp along the contour was used there", &[&layer.name]));
+    }
+    if notes.tabs_fewer {
+        warnings.push(Warn::new("{}: some rings are too short for all their tabs: they have fewer", &[&layer.name]));
+    }
+    if layer.entry != crate::layers::Entry::Plunge && layer.ramp_angle > 45.0 {
+        warnings.push(Warn::new("{}: the ramp angle of {}° is steep (more than 45°)", &[&layer.name, &layer.ramp_angle]));
+    }
+    if layer.tabs.enabled && layer.tabs.height >= layer.depth - 1e-9 && layer.tabs.kind != crate::layers::TabKind::Full {
+        warnings.push(Warn::new("{}: the tabs are as high as the cut: the part is not cut free", &[&layer.name]));
     }
 }
 
@@ -997,6 +1017,171 @@ mod tests {
         dev.gcode.start.clear();
         dev.wcs.code = 53;
         assert!(dev.check().is_err());
+    }
+
+    use crate::layers::{CutDir, Entry, TabKind};
+
+    /// The path the centre of the bit takes at the deepest pass of layer 0, as (x, y, z) of the cut moves.
+    fn lowest_cuts(prog: &Program, depth: f64) -> Vec<P3> {
+        prog.moves.iter().filter(|m| m.kind == MoveKind::Cut && (m.to[2] + depth).abs() < 1e-9).map(|m| m.to).collect()
+    }
+
+    /// Twice the signed area of the polyline of the points (positive: counter-clockwise).
+    fn turn(pts: &[P3]) -> f64 {
+        (0..pts.len()).map(|i| (pts[i][0] * pts[(i + 1) % pts.len()][1]) - (pts[(i + 1) % pts.len()][0] * pts[i][1])).sum()
+    }
+
+    fn square_job(layers: &mut [MillLayer], depth: f64, step: f64, size: f64) -> Scene {
+        layers[0].depth = depth;
+        layers[0].step_down = step;
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 50.0, 50.0, size);
+        scene
+    }
+
+    #[test]
+    fn climb_and_conventional_turn_a_profile_the_other_way_and_a_hole_against_the_part() {
+        let (lib, dev, stock, mut layers) = setup();
+        let scene = square_job(&mut layers, 2.0, 2.0, 40.0);
+        let mut ccw = |dir: CutDir, layers: &mut [MillLayer]| {
+            layers[0].direction = dir;
+            let prog = generate(&scene, layers, &lib, &dev, &stock);
+            turn(&lowest_cuts(&prog, 2.0)) > 0.0
+        };
+        // A part cut out, climb, clockwise spindle: the bit goes counter-clockwise round it.
+        assert!(ccw(CutDir::Climb, &mut layers));
+        assert!(!ccw(CutDir::Conventional, &mut layers));
+        // The same square as a pocket (the material is outside): the other way round.
+        layers[0].op = Operation::Pocket;
+        layers[0].step_over_pct = 100.0;
+        let prog = {
+            layers[0].direction = CutDir::Climb;
+            generate(&scene, &layers, &lib, &dev, &stock)
+        };
+        let first_ring: Vec<P3> = lowest_cuts(&prog, 2.0).into_iter().take(5).collect();
+        assert!(turn(&first_ring[..4]) < 0.0, "climbing a pocket goes clockwise");
+        // As drawn is what it always was.
+        layers[0].op = Operation::ProfileOutside;
+        layers[0].direction = CutDir::AsDrawn;
+        let plain = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(plain.moves.len() > 4);
+    }
+
+    #[test]
+    fn stock_to_leave_is_taken_off_in_a_finishing_pass_at_the_full_depth() {
+        let (lib, dev, stock, mut layers) = setup();
+        let scene = square_job(&mut layers, 4.0, 2.0, 40.0);
+        let r = lib.get(layers[0].tool.as_deref().unwrap()).unwrap().radius();
+        let rough = generate(&scene, &layers, &lib, &dev, &stock);
+        let (x0, ..) = xy_bounds(&rough);
+        layers[0].leave = 0.5;
+        let with = generate(&scene, &layers, &lib, &dev, &stock);
+        let cuts: Vec<&Move> = with.moves.iter().filter(|m| m.kind == MoveKind::Cut).collect();
+        // The passes down to the depth stay 0.5 mm further from the part ...
+        let rough_x = cuts.iter().filter(|m| m.to[2] > -4.0 + 1e-9).map(|m| m.to[0]).fold(f64::INFINITY, f64::min);
+        assert!((rough_x - (x0 - 0.5)).abs() < 0.05, "{rough_x} vs {x0}");
+        // ... and the last pass is at the full depth on the real line.
+        let last: Vec<&&Move> = cuts.iter().rev().take(5).collect();
+        assert!(last.iter().all(|m| (m.to[2] + 4.0).abs() < 1e-9));
+        let fin_x = cuts.iter().rev().take(5).map(|m| m.to[0]).fold(f64::INFINITY, f64::min);
+        assert!((fin_x - (50.0 - r)).abs() < 0.05, "{fin_x}");
+        // Without the finishing pass there is none.
+        layers[0].finish = false;
+        let without = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(without.moves.len() < with.moves.len());
+    }
+
+    #[test]
+    fn a_ramp_goes_down_at_its_angle_and_ends_at_the_full_depth_without_cutting_deeper() {
+        let (lib, dev, stock, mut layers) = setup();
+        let scene = square_job(&mut layers, 3.0, 1.5, 40.0);
+        for entry in [Entry::RampContour, Entry::RampZigzag, Entry::Helix] {
+            layers[0].entry = entry;
+            layers[0].ramp_angle = 5.0;
+            layers[0].ramp_feed = 123.0;
+            let prog = generate(&scene, &layers, &lib, &dev, &stock);
+            let cuts: Vec<&Move> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).collect();
+            assert!(cuts.iter().all(|m| m.to[2] >= -3.0 - 1e-9), "{entry:?}: never deeper than the layer");
+            // Every sloping cut has the slope that was asked for (the helix has one all the way).
+            let sloped: Vec<&&Move> = cuts.iter().filter(|m| (m.to[2] - m.from[2]).abs() > 1e-6).collect();
+            assert!(!sloped.is_empty(), "{entry:?}");
+            for m in sloped.iter().filter(|m| m.feed == 123.0) {
+                let run = ((m.to[0] - m.from[0]).powi(2) + (m.to[1] - m.from[1]).powi(2)).sqrt();
+                if run > 1e-6 {
+                    let slope = ((m.to[2] - m.from[2]).abs() / run).atan().to_degrees();
+                    assert!(slope < 5.0 + 0.6, "{entry:?}: {slope}° is steeper than the ramp");
+                }
+            }
+            assert!(cuts.iter().any(|m| (m.to[2] + 3.0).abs() < 1e-9), "{entry:?}: reaches the depth");
+            assert!(prog.moves.iter().filter(|m| m.kind == MoveKind::Plunge && m.to[2] < 0.0).count() == 0, "{entry:?}: no plunge into the material");
+        }
+    }
+
+    #[test]
+    fn a_helix_that_does_not_fit_falls_back_to_the_ramp_with_a_warning() {
+        let (lib, dev, stock, mut layers) = setup();
+        layers[2].depth = 2.0;
+        layers[2].step_down = 2.0;
+        layers[2].entry = Entry::Helix;
+        layers[2].ramp_angle = 10.0;
+        let mut scene = Scene::default();
+        // A pocket 1.2 mm wide with a 3 mm bit in it cannot hold a helix; a big pocket can.
+        scene.add(2, Kind::Rect { w: 4.0, h: 30.0 }, Xf::translate(10.0, 10.0));
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(prog.warnings.iter().any(|w| w.to_string().contains("helix did not fit")), "{:?}", prog.warnings.iter().map(|w| w.to_string()).collect::<Vec<_>>());
+        let mut big = Scene::default();
+        big.add(2, Kind::Rect { w: 40.0, h: 40.0 }, Xf::translate(10.0, 10.0));
+        let prog = generate(&big, &layers, &lib, &dev, &stock);
+        assert!(!prog.warnings.iter().any(|w| w.to_string().contains("helix did not fit")));
+    }
+
+    #[test]
+    fn tabs_hold_the_part_and_only_the_passes_below_their_top_are_raised() {
+        let (lib, dev, stock, mut layers) = setup();
+        let scene = square_job(&mut layers, 6.0, 2.0, 100.0);
+        layers[0].tabs = crate::layers::Tabs { enabled: true, kind: TabKind::Partial, length: 6.0, height: 2.0, spacing: 100.0, min: 2, max: 8, skip_inner: true, ..Default::default() };
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let cuts: Vec<&Move> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).collect();
+        assert!(cuts.iter().all(|m| m.to[2] >= -6.0 - 1e-9));
+        // The pass at 4 mm and above never touch the tabs (their top is at 4 mm); the last pass is raised to it in the tabs.
+        let at_tab_top = cuts.iter().filter(|m| (m.to[2] + 4.0).abs() < 1e-9 && m.from[2] < -4.0 + 1e-6).count();
+        assert!(at_tab_top >= 2, "the bit rises to the top of the tab at least twice (two tabs on 400 mm): {at_tab_top}");
+        let length_at = |prog: &Program| -> f64 { prog.moves.iter().filter(|m| m.kind == MoveKind::Cut && (m.to[2] + 6.0).abs() < 1e-9 && (m.from[2] + 6.0).abs() < 1e-9).map(|m| m.length()).sum() };
+        let with_tabs = length_at(&prog);
+        let without = {
+            layers[0].tabs.enabled = false;
+            let p = generate(&scene, &layers, &lib, &dev, &stock);
+            length_at(&p)
+        };
+        // Two tabs, each as wide as 6 mm and the bit: that much of the deepest pass is raised.
+        assert!(without - with_tabs > 2.0 * 6.0, "{without} - {with_tabs}");
+        // A full tab goes above the material; a ramp tab rises on a slope.
+        layers[0].tabs.enabled = true;
+        layers[0].tabs.kind = TabKind::Full;
+        let full = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(full.moves.iter().any(|m| m.kind == MoveKind::Cut && m.to[2] > 0.0));
+        layers[0].tabs.kind = TabKind::Ramp;
+        let ramp = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(ramp.moves.iter().any(|m| m.kind == MoveKind::Cut && m.to[2] < m.from[2] - 1e-6 && (m.to[2] - m.from[2]).abs() > 0.3 && m.from[2] > m.to[2]), "slopes down");
+        assert!(ramp.moves.iter().all(|m| m.to[2] >= -6.0 - 1e-9));
+        // Tabs as high as the cut: a warning.
+        layers[0].tabs.kind = TabKind::Partial;
+        layers[0].tabs.height = 6.0;
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(prog.warnings.iter().any(|w| w.to_string().contains("tabs are as high as the cut")));
+    }
+
+    #[test]
+    fn an_old_layer_without_the_new_settings_loads_with_the_old_behaviour() {
+        let lib = Library::new();
+        let l = default_layers(&lib).remove(0);
+        let mut v = serde_json::to_value(&l).unwrap();
+        for k in ["direction", "leave", "finish", "entry", "ramp_angle", "ramp_feed", "tabs"] {
+            v.as_object_mut().unwrap().remove(k);
+        }
+        let back: MillLayer = serde_json::from_value(v).unwrap();
+        assert_eq!((back.direction, back.leave, back.finish, back.entry, back.tabs.enabled), (CutDir::AsDrawn, 0.0, true, Entry::Plunge, false));
+        assert_eq!(back, l);
     }
 
     /// The cuts of a program as a list of (square, layer): the squares are 10 to 40 wide and 200 apart (x = 0, 200 ...), one entry

@@ -295,3 +295,32 @@
 294|Pri každej výmene frézy
 295|Pri každej zmene operácie
 296|Na konci programu
+297|Smer
+298|Ako je nakreslené
+299|Súbežné
+300|Protismerné
+301|Prídavok
+302|Dokončovací prechod
+303|Vstup
+304|Zanorenie
+305|Cik-cak rampa
+306|Rampa po obryse
+307|Špirála
+308|Uhol rampy
+309|Posuv rampy
+310|0 = posuv zanorenia
+311|Mostíky
+312|Typ mostíka
+313|Plný
+314|Čiastočný
+315|Rampa
+316|Šírka mostíka
+317|Výška mostíka
+318|Sklon mostíka
+319|Rozostup mostíkov
+320|Najmenej a najviac mostíkov
+321|Bez mostíkov na otvoroch
+322|{}: špirála sa niekde nezmestila: tam sa použila rampa po obryse
+323|{}: niektoré okruhy sú príliš krátke pre všetky svoje mostíky: majú ich menej
+324|{}: uhol rampy {}° je strmý (viac ako 45°)
+325|{}: mostíky sú rovnako vysoké ako rez: diel sa neodreže
