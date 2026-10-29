@@ -193,6 +193,7 @@ impl App {
 
     pub fn switch_to(&mut self, i: usize) {
         self.cam_ws_shown = false;
+        self.pv_tab_shown = false;
         self.ensure_tabs();
         if i == self.tabs_state.active || i >= self.tabs_state.parked.len() {
             return;
@@ -234,19 +235,34 @@ impl App {
     pub fn doc_tab_bar(&mut self, ui: &mut egui::Ui) {
         self.ensure_tabs();
         let infos = self.tab_infos();
-        let extra = self.camera_work_tab().then(|| doc_tabs::ExtraTab { title: crate::i18n::tr("Camera view").to_string(), shown: self.cam_ws_shown });
-        match doc_tabs::tab_bar_with(ui, &infos, self.tabs_state.active, extra.as_ref()) {
+        let mut extras = vec![];
+        if self.camera_work_tab() {
+            extras.push(doc_tabs::ExtraTab { id: "camera", title: crate::i18n::tr("Camera view").to_string(), shown: self.cam_ws_shown });
+        }
+        if self.preview_work_tab() {
+            extras.push(doc_tabs::ExtraTab { id: "preview", title: crate::i18n::tr("Preview").to_string(), shown: self.pv_tab_shown });
+        }
+        match doc_tabs::tab_bar_with(ui, &infos, self.tabs_state.active, &extras) {
             Some(TabAction::Select(i)) => self.switch_to(i),
             Some(TabAction::New) => {
                 self.cam_ws_shown = false;
+                self.pv_tab_shown = false;
                 self.new_tab();
             }
             Some(TabAction::Close(i)) => {
                 self.switch_to(i);
                 self.close_tab_request();
             }
-            Some(TabAction::Extra) => self.cam_ws_shown = true,
-            Some(TabAction::CloseExtra) => {
+            Some(TabAction::Extra("preview")) => {
+                self.pv_tab_shown = true;
+                self.cam_ws_shown = false;
+            }
+            Some(TabAction::Extra(_)) => {
+                self.cam_ws_shown = true;
+                self.pv_tab_shown = false;
+            }
+            Some(TabAction::CloseExtra("preview")) => self.preview_close(),
+            Some(TabAction::CloseExtra(_)) => {
                 self.show_camera = false;
                 self.cam_ws_shown = false;
             }

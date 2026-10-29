@@ -301,6 +301,10 @@ struct App {
     show_camera: bool,
     /// The camera view is a tab of the work area, and that tab is the one shown (in place of the drawing).
     cam_ws_shown: bool,
+    /// The preview is a tab of the work area (and not a window) while it is open, and that tab is the shown one.
+    preview_tab: bool,
+    pv_tab_shown: bool,
+    pv_tab_seen: bool,
     show_options: bool,
     /// When the last Escape was pressed (a second one within half a second selects the select tool).
     esc_time: f64,
@@ -417,6 +421,9 @@ impl App {
             toolpaths_on: false,
             show_camera: false,
             cam_ws_shown: false,
+            preview_tab: false,
+            pv_tab_shown: false,
+            pv_tab_seen: false,
             show_options: false,
             esc_time: -10.0,
             check_updates: on("check_updates", true),
@@ -1069,6 +1076,8 @@ impl App {
         egui::CentralPanel::no_frame().show(ui, |ui| {
             if self.camera_work_tab() && self.cam_ws_shown {
                 self.camera_work_panel(ui);
+            } else if self.pv_tab_shown && self.preview_work_tab() {
+                self.preview_work_panel(ui);
             } else if !self.gcode_view_panel(ui) {
                 self.canvas(ui)
             }
