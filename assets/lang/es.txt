@@ -327,3 +327,4 @@
 326|Colocar puentes a mano
 327|Haz clic en el contorno para añadir un puente, arrastra un puente para moverlo, haz clic en un puente para quitarlo. Un anillo con puentes colocados a mano solo tiene esos.
 328|Borrar los puentes colocados a mano
+329|Importar DXF…

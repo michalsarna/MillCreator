@@ -327,3 +327,4 @@
 326	Place tabs by hand
 327	Click on the outline to add a tab, drag a tab to move it, click a tab to take it away. A ring that has tabs placed by hand gets only those.
 328	Clear hand-placed tabs
+329	Import DXF…

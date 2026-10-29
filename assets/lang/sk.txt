@@ -327,3 +327,4 @@
 326|Umiestniť mostíky ručne
 327|Kliknutím na obrys pridáte mostík, ťahaním ho presuniete, kliknutím na mostík ho odstránite. Okruh s ručne umiestnenými mostíkmi dostane len tie.
 328|Vymazať ručne umiestnené mostíky
+329|Importovať DXF…

@@ -327,3 +327,4 @@
 326|Novietot tiltus ar roku
 327|Noklikšķiniet uz kontūras, lai pievienotu tiltu, velciet tiltu, lai to pārvietotu, noklikšķiniet uz tilta, lai to noņemtu. Gredzens ar ar roku novietotiem tiltiem saņem tikai tos.
 328|Notīrīt ar roku novietotos tiltus
+329|Importēt DXF…

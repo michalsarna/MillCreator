@@ -327,3 +327,4 @@
 326|Placer broer manuelt
 327|Klik på konturen for at tilføje en bro, træk en bro for at flytte den, klik på en bro for at fjerne den. En ring med manuelt placerede broer får kun dem.
 328|Ryd manuelt placerede broer
+329|Importér DXF…

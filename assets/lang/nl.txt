@@ -327,3 +327,4 @@
 326|Brugjes met de hand plaatsen
 327|Klik op de contour om een brugje toe te voegen, sleep een brugje om het te verplaatsen, klik op een brugje om het te verwijderen. Een ring met met de hand geplaatste brugjes krijgt alleen die.
 328|Met de hand geplaatste brugjes wissen
+329|DXF importeren…

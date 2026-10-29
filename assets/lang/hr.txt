@@ -327,3 +327,4 @@
 326|Postavi mostiće ručno
 327|Kliknite na konturu za dodavanje mostića, povucite mostić za premještanje, kliknite mostić za uklanjanje. Prsten s ručno postavljenim mostićima dobiva samo njih.
 328|Obriši ručno postavljene mostiće
+329|Uvezi DXF…

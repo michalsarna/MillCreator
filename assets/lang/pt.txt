@@ -327,3 +327,4 @@
 326|Colocar pontes à mão
 327|Clique no contorno para adicionar uma ponte, arraste uma ponte para a mover, clique numa ponte para a remover. Um anel com pontes colocadas à mão só tem essas.
 328|Limpar as pontes colocadas à mão
+329|Importar DXF…

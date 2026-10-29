@@ -327,3 +327,4 @@
 326|Statyti tiltus rankiniu būdu
 327|Spustelėkite kontūrą, kad pridėtumėte tiltą, vilkite tiltą, kad jį perkeltumėte, spustelėkite tiltą, kad jį pašalintumėte. Žiedas su rankiniu būdu pastatytais tiltais gauna tik juos.
 328|Išvalyti rankiniu būdu pastatytus tiltus
+329|Importuoti DXF…

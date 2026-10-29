@@ -13,6 +13,7 @@ pub enum Act {
     Save,
     SaveAs,
     ImportLightburn,
+    ImportDxf,
     ImportUgsd,
     ImportPlugin,
     ViewGcode,
@@ -57,7 +58,7 @@ fn std(entries: Vec<Entry<StdAct>>) -> Vec<Entry<Act>> {
 /// Top-level menus: (English title, entries). The macOS app menu (About, Quit) is added by `native_menu`.
 pub fn menus() -> Menus<Act> {
     use Entry::{Item, Recent, Sep, Sub};
-    let mut file = vec![Item(Act::New, "New", key("CmdOrCtrl+N", "Ctrl+N")), Item(Act::Open, "Open…", key("CmdOrCtrl+O", "Ctrl+O")), Recent, Sep, Item(Act::Save, "Save", key("CmdOrCtrl+S", "Ctrl+S")), Item(Act::SaveAs, "Save as…", key("CmdOrCtrl+Shift+S", "Ctrl+Shift+S")), Sep, Sub("Import", [std(std_entries::import_image()), vec![Item(Act::ImportLightburn, "Import LightBurn project…", None), Item(Act::ImportUgsd, "Import UGS design…", None), Item(Act::ImportPlugin, base_ui::plugins_ui::MENU_IMPORT, None), Item(Act::GenerateShape, base_ui::plugins_ui::MENU_GENERATE, None)]].concat()), Item(Act::ViewGcode, base_ui::gcode_view_ui::MENU_VIEW, None)];
+    let mut file = vec![Item(Act::New, "New", key("CmdOrCtrl+N", "Ctrl+N")), Item(Act::Open, "Open…", key("CmdOrCtrl+O", "Ctrl+O")), Recent, Sep, Item(Act::Save, "Save", key("CmdOrCtrl+S", "Ctrl+S")), Item(Act::SaveAs, "Save as…", key("CmdOrCtrl+Shift+S", "Ctrl+Shift+S")), Sep, Sub("Import", [std(std_entries::import_image()), vec![Item(Act::ImportDxf, "Import DXF…", None), Item(Act::ImportLightburn, "Import LightBurn project…", None), Item(Act::ImportUgsd, "Import UGS design…", None), Item(Act::ImportPlugin, base_ui::plugins_ui::MENU_IMPORT, None), Item(Act::GenerateShape, base_ui::plugins_ui::MENU_GENERATE, None)]].concat()), Sub("Export", std(std_entries::export_selection())), Item(Act::ViewGcode, base_ui::gcode_view_ui::MENU_VIEW, None)];
     let mut help = vec![Item(Act::OpenGithub, "Project page on GitHub", None), Sep, Item(Act::DownloadBackup, base_ui::backup_ui::DOWNLOAD, None), Item(Act::RestoreBackup, base_ui::backup_ui::RESTORE, None), Sep, Item(Act::CheckUpdates, "Check for updates…", None)];
     if !cfg!(target_os = "macos") {
         file.push(Sep);

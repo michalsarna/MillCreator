@@ -327,3 +327,4 @@
 326|Umístit můstky ručně
 327|Kliknutím na obrys přidáte můstek, tažením ho přesunete, kliknutím na můstek ho odstraníte. Okruh s ručně umístěnými můstky dostane jen ty.
 328|Smazat ručně umístěné můstky
+329|Importovat DXF…
