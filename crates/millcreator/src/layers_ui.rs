@@ -110,6 +110,7 @@ impl App {
         let li = self.ed.active_layer.min(self.layers.len().saturating_sub(1));
         let mut assign = false;
         let mut open_library = false;
+        let mut edit_tabs = self.tab_edit;
         {
             let l = &mut self.layers[li];
             egui::ScrollArea::vertical().id_salt("layer_edit").auto_shrink([false, false]).show(ui, |ui| {
@@ -250,6 +251,15 @@ impl App {
                             ui.label("");
                             changed |= ui.checkbox(&mut l.tabs.skip_inner, tr("No tabs on holes")).changed();
                             ui.end_row();
+                            ui.label("");
+                            ui.horizontal(|ui| {
+                                ui.toggle_value(&mut edit_tabs, tr("Place tabs by hand")).on_hover_text(tr("Click on the outline to add a tab, drag a tab to move it, click a tab to take it away. A ring that has tabs placed by hand gets only those."));
+                                if !l.tabs.manual.is_empty() && ui.button(tr("Clear hand-placed tabs")).clicked() {
+                                    l.tabs.manual.clear();
+                                    changed = true;
+                                }
+                            });
+                            ui.end_row();
                         }
                     }
                     ui.label(tr("Feed"));
@@ -272,6 +282,7 @@ impl App {
                 ui.label(RichText::new(trf("{} passes to {} mm", &[&passes, &l.depth])).color(theme::text_dim()));
             });
         }
+        self.tab_edit = edit_tabs;
         if open_library {
             self.tools_win.open = true;
         }

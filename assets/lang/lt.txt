@@ -324,3 +324,6 @@
 323|{}: kai kurie žiedai per trumpi visiems savo tiltams: jų mažiau
 324|{}: rampos kampas {}° yra staigus (daugiau nei 45°)
 325|{}: tiltai tokie pat aukšti kaip pjūvis: detalė nebus atskirta
+326|Statyti tiltus rankiniu būdu
+327|Spustelėkite kontūrą, kad pridėtumėte tiltą, vilkite tiltą, kad jį perkeltumėte, spustelėkite tiltą, kad jį pašalintumėte. Žiedas su rankiniu būdu pastatytais tiltais gauna tik juos.
+328|Išvalyti rankiniu būdu pastatytus tiltus

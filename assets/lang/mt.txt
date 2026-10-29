@@ -324,3 +324,6 @@
 323|{}: xi ċrieki huma qosra wisq għall-pontijiet kollha tagħhom: għandhom inqas
 324|{}: l-angolu tar-rampa ta' {}° huwa wieqaf (aktar minn 45°)
 325|{}: il-pontijiet għoljin daqs il-qtugħ: il-biċċa ma tinqatax ħielsa
+326|Poġġi l-pontijiet bl-idejn
+327|Ikklikkja fuq il-kontorn biex iżżid pont, kaxkar pont biex tmexxih, ikklikkja fuq pont biex tneħħih. Ċirku b'pontijiet imqiegħda bl-idejn jieħu dawk biss.
+328|Neħħi l-pontijiet imqiegħda bl-idejn

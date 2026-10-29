@@ -324,3 +324,6 @@
 323|{}: sommige ringen zijn te kort voor al hun brugjes: ze hebben er minder
 324|{}: de hellingshoek van {}° is steil (meer dan 45°)
 325|{}: de brugjes zijn even hoog als de snede: het deel wordt niet losgesneden
+326|Brugjes met de hand plaatsen
+327|Klik op de contour om een brugje toe te voegen, sleep een brugje om het te verplaatsen, klik op een brugje om het te verwijderen. Een ring met met de hand geplaatste brugjes krijgt alleen die.
+328|Met de hand geplaatste brugjes wissen

@@ -324,3 +324,6 @@
 323|{}: mõned rõngad on kõigi oma sildade jaoks liiga lühikesed: neil on vähem
 324|{}: rambi nurk {}° on järsk (üle 45°)
 325|{}: sillad on lõike sama kõrged: detail ei lõigata lahti
+326|Aseta sillad käsitsi
+327|Klõpsa piirjoonel silla lisamiseks, lohista silda liigutamiseks, klõpsa sillal selle eemaldamiseks. Käsitsi paigutatud sildadega rõngas saab ainult need.
+328|Tühjenda käsitsi paigutatud sillad

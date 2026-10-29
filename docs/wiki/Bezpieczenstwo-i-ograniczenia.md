@@ -13,7 +13,7 @@
 ## Czego nie robi
 * Może **połączyć się z maszyną GRBL i przesłać zadanie** (Connect, Home, Frame, Start, Stop); sprawdzone na TwoTrees TTC450Pro, **nie na innych maszynach**. Zaczynaj z wyłączonym wrzecionem i frezem w powietrzu i bądź przy maszynie; Stop przerywa miękkim resetem.
 * Frame obchodzi obrys pracy na bezpiecznej wysokości przy wyłączonym wrzecionie: sprawdź, czy ta wysokość naprawdę jest wolna.
-* Brak V-carvingu, korekcji długości narzędzia i sprawdzania kolizji z zaciskami. Mostki rozmieszcza program (równomiernie); nie można ich jeszcze przesuwać ręcznie.
+* Brak V-carvingu, korekcji długości narzędzia i sprawdzania kolizji z zaciskami. Mostki rozmieszcza program (równomiernie) albo Ty ręcznie na obszarze roboczym.
 * Rampy, helisy, mostki i wybór współbieżnie / przeciwbieżnie są sprawdzone na geometrii i na firmware GRBL w symulatorze, **nie na prawdziwej maszynie**: nowe ustawienie wypróbuj najpierw na odpadzie i z wyłączonym wrzecionem. Mostek trzyma część tylko wtedy, gdy jest dość wysoki: program ostrzega, gdy jest tak wysoki jak cięcie. Helisa potrzebuje miejsca: tam, gdzie się nie mieści, używana jest rampa po konturze.
 * Kieszeń zostawia cienki pasek pośrodku, gdy jej szerokość nie jest wielokrotnością kroku bocznego.
 * Kształt poza polem roboczym jest zgłaszany, ale nie przesuwany.

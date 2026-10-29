@@ -324,3 +324,6 @@
 323|{}: algunos anillos son demasiado cortos para todos sus puentes: tienen menos
 324|{}: el ángulo de la rampa de {}° es pronunciado (más de 45°)
 325|{}: los puentes son tan altos como el corte: la pieza no se separa
+326|Colocar puentes a mano
+327|Haz clic en el contorno para añadir un puente, arrastra un puente para moverlo, haz clic en un puente para quitarlo. Un anillo con puentes colocados a mano solo tiene esos.
+328|Borrar los puentes colocados a mano

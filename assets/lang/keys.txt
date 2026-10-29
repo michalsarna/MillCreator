@@ -324,3 +324,6 @@
 323	{}: some rings are too short for all their tabs: they have fewer
 324	{}: the ramp angle of {}° is steep (more than 45°)
 325	{}: the tabs are as high as the cut: the part is not cut free
+326	Place tabs by hand
+327	Click on the outline to add a tab, drag a tab to move it, click a tab to take it away. A ring that has tabs placed by hand gets only those.
+328	Clear hand-placed tabs

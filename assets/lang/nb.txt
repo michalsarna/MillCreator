@@ -324,3 +324,6 @@
 323|{}: noen ringer er for korte for alle brøene sine: de har færre
 324|{}: rampevinkelen på {}° er bratt (over 45°)
 325|{}: brøene er like høye som kuttet: delen skjæres ikke fri
+326|Plasser broer for hånd
+327|Klikk på konturen for å legge til en bro, dra en bro for å flytte den, klikk på en bro for å fjerne den. En ring med manuelt plasserte broer får bare dem.
+328|Fjern manuelt plasserte broer

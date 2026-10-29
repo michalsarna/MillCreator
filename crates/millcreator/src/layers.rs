@@ -95,6 +95,13 @@ impl TabKind {
     }
 }
 
+/// A tab placed by hand: on the outline of a shape, `at` of the way round it (0 … 1).
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
+pub struct ManualTab {
+    pub shape: u64,
+    pub at: f64,
+}
+
 /// Tabs (bridges) that hold a part in the material while it is cut out.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Tabs {
@@ -112,11 +119,14 @@ pub struct Tabs {
     pub max: u32,
     /// Rings that are holes (of a part) get no tabs.
     pub skip_inner: bool,
+    /// Tabs placed by hand on the work area. A ring that has some of them near it gets those and no others.
+    #[serde(default)]
+    pub manual: Vec<ManualTab>,
 }
 
 impl Default for Tabs {
     fn default() -> Tabs {
-        Tabs { enabled: false, kind: TabKind::Partial, length: 5.0, height: 2.0, slope: 45.0, spacing: 60.0, min: 2, max: 8, skip_inner: true }
+        Tabs { enabled: false, kind: TabKind::Partial, length: 5.0, height: 2.0, slope: 45.0, spacing: 60.0, min: 2, max: 8, skip_inner: true, manual: vec![] }
     }
 }
 

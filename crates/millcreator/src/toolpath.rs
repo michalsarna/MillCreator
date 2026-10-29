@@ -448,7 +448,9 @@ fn run_layers(b: &mut Builder, prog: &mut Program, scene: &Scene, layers: &[Mill
         if stock.first_pass && stock.first_pass_depth > 0.0 && stock.first_pass_depth < layer.depth - 1e-9 {
             first_pass(b, &layer, tool, &outlines, stock.first_pass_depth);
         }
-        run_layer(b, &layer, tool, &outlines, &depths, &mut prog.warnings);
+        // The tabs placed by hand on this layer, where they lie on the toolpath's side of the page (y turned over).
+        let anchors: Vec<Pt> = layer.tabs.manual.iter().filter_map(|t| scene.shape(t.shape).filter(|s| s.layer == li).and_then(|s| crate::handtabs::point_on(s, t.at))).map(|p| Pt::new(p.x, dev.area.y - p.y)).collect();
+        run_layer(b, &layer, tool, &outlines, &depths, anchors, &mut prog.warnings);
         // A picture is engraved at the depth of the layer in one go (a shallow depth: the dots and the rows are many).
         let full = depths.last().copied().unwrap_or(layer.depth);
         for (shape, im) in &pictures {
@@ -495,10 +497,12 @@ fn first_pass(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyl
     }
 }
 
-fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyline], depths: &[f64], warnings: &mut Vec<Warn>) {
+fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyline], depths: &[f64], anchors: Vec<Pt>, warnings: &mut Vec<Warn>) {
     use crate::passes::{self, Notes, Plan};
     let r = tool.radius();
-    let plan = Plan::of(layer, tool.dims.diameter, tool.cutting.ramp);
+    let mut plan = Plan::of(layer, tool.dims.diameter, tool.cutting.ramp);
+    plan.anchors = anchors;
+    plan.reach = if layer.op == Operation::OnPath { 0.0 } else { r + layer.leave.max(0.0) };
     let mut notes = Notes::default();
     let full = depths.last().copied().unwrap_or(layer.depth);
     // The rings of a profile or a pocket, turned the way the layer asks for, each with its role (a hole of a part or not).

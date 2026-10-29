@@ -324,3 +324,6 @@
 323|{} : certains anneaux sont trop courts pour tous leurs ponts : ils en ont moins
 324|{} : l'angle de rampe de {}° est raide (plus de 45°)
 325|{} : les ponts sont aussi hauts que la découpe : la pièce n'est pas détachée
+326|Placer les ponts à la main
+327|Cliquez sur le contour pour ajouter un pont, faites glisser un pont pour le déplacer, cliquez sur un pont pour le supprimer. Un anneau avec des ponts placés à la main n'a que ceux-là.
+328|Effacer les ponts placés à la main

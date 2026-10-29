@@ -324,3 +324,6 @@
 323|{}: neki prstenovi su prekratki za sve svoje mostiće: imaju ih manje
 324|{}: kut rampe od {}° je strm (više od 45°)
 325|{}: mostići su visoki kao rez: dio se neće odrezati
+326|Postavi mostiće ručno
+327|Kliknite na konturu za dodavanje mostića, povucite mostić za premještanje, kliknite mostić za uklanjanje. Prsten s ručno postavljenim mostićima dobiva samo njih.
+328|Obriši ručno postavljene mostiće
