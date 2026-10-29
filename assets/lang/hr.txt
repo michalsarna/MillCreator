@@ -328,3 +328,29 @@
 327|Kliknite na konturu za dodavanje mostića, povucite mostić za premještanje, kliknite mostić za uklanjanje. Prsten s ručno postavljenim mostićima dobiva samo njih.
 328|Obriši ručno postavljene mostiće
 329|Uvezi DXF…
+330|Poravnavanje površine
+331|Proširivanje provrta
+332|Skošenje
+333|Utor s dogbone kutovima
+334|Gornja površina materijala poravnava se preko okvira oblika sloja; glodalo malo izlazi preko ruba.
+335|Okrugli provrt veći od glodala: glodalo se spiralno spušta oko njega, a zatim jednom obiđe na punoj dubini.
+336|Rub oblika se skošava: V-glodalo prati liniju na dubini koja daje traženu širinu skošenja.
+337|Glodalo ide unutar linije i u svaki oštri kut, kako bi okruglo glodalo ostavilo mjesta za kutni dio.
+338|Prstenovi
+339|Raster
+340|Prije
+341|Poslije
+342|Uzorak džepa
+343|Kut rastera
+344|Prolaz po konturi
+345|Ostatak sloja
+346|Prelaz
+347|Širina skošenja
+348|Trohoide
+349|Promjer trohoide
+350|Korak trohoide
+351|Polukrugovi
+352|{}: za skošenje treba V-glodalo ili graver
+353|{}: sloj ostatka džepa nema glodalo
+354|{}: glodalo ostatka mora biti manje od glodala sloja koji nastavlja
+355|{}: nema što poravnati: nacrtajte oblik koji daje veličinu površine

@@ -328,3 +328,29 @@
 327|Klik på konturen for at tilføje en bro, træk en bro for at flytte den, klik på en bro for at fjerne den. En ring med manuelt placerede broer får kun dem.
 328|Ryd manuelt placerede broer
 329|Importér DXF…
+330|Planfræsning
+331|Uddrejning
+332|Affasning
+333|Not med dogbone-hjørner
+334|Materialets overside planfræses over kassen af lagets former; fræseren går lidt over kanten.
+335|Et rundt hul, der er større end fræseren: fræseren går ned rundt om det i en spiral og derefter én gang rundt i fuld dybde.
+336|Formernes kant affases: en V-fræser følger linjen i den dybde, der gør affasningen så bred som ønsket.
+337|Fræseren går inde i linjen og ind i hvert skarpt hjørne, så en rund fræser levner plads til en firkantet del.
+338|Ringe
+339|Raster
+340|Før
+341|Efter
+342|Lommemønster
+343|Rastervinkel
+344|Konturgang
+345|Rest af lag
+346|Overhæng
+347|Affasningens bredde
+348|Trochoider
+349|Trochoidens diameter
+350|Trochoidens trin
+351|Halvcirkler
+352|{}: en affasning kræver en V-fræser eller et graveringsværktøj
+353|{}: lagets restlomme har ingen fræser
+354|{}: restlommens fræser skal være mindre end fræseren i det lag, den overtager fra
+355|{}: intet at planfræse: tegn en form, der giver fladens størrelse

@@ -328,3 +328,29 @@
 327|Cliceáil ar an gcomhrian chun droichead a chur leis, tarraing droichead chun é a bhogadh, cliceáil ar dhroichead chun é a bhaint. Ní bhíonn ach iad sin ag fáinne a bhfuil droichid curtha de láimh air.
 328|Glan droichid a cuireadh de láimh
 329|Iompórtáil DXF…
+330|Aghaidh
+331|Poll mór
+332|Slánú
+333|Sliotán le cúinní dogbone
+334|Déantar barr an ábhair a mhínú thar bosca fhoirmeacha an chiseal; téann an buille beagán thar an gcoirnéal.
+335|Poll cruinn níos mó ná an buille: téann an buille síos timpeall air i bhfithiseán agus ansin uair amháin timpeall ag an doimhneacht iomlán.
+336|Déantar imeall na bhfoirmeacha a shlánú: leanann buille V an líne ag an doimhneacht a thugann an leithead iarrtha don slánú.
+337|Leanann an buille taobh istigh den líne agus téann isteach i ngach cúinne géar, ionas go bhfágfaidh buille cruinn spás do chuid cheathairchearnach.
+338|Fáinní
+339|Rastar
+340|Roimh
+341|Ina
+342|Patrún na pócaire
+343|Uillinn an rastair
+344|Pas comhrian
+345|Fuílleach na sraithe
+346|Ródhéanamh
+347|Leithead an slánaithe
+348|Trachóidigh
+349|Trastomhas na trachóide
+350|Céim na trachóide
+351|Leathchiorcail
+352|{}: tá buille V nó greanta ag teastáil le haghaidh slánaithe
+353|{}: níl buille ag an gciseal don phóca fuílligh
+354|{}: ní mór don bhuille sa phóca fuílligh a bheith níos lú ná buille na sraithe a leanann sé
+355|{}: níl aon rud le mínú: tarraing cruth a thugann méid an dromchla

@@ -328,3 +328,29 @@
 327|Fes clic al contorn per afegir un pont, arrossega'l per moure'l, fes clic sobre un pont per treure'l. Un anell amb ponts col·locats a mà només en té aquests.
 328|Esborra els ponts col·locats a mà
 329|Importa DXF…
+330|Planejat
+331|Mandrinat
+332|Xamfrà
+333|Ranura amb cantonades dogbone
+334|La superfície del material s'aplana sobre el requadre de les formes de la capa; la fresa surt una mica de la vora.
+335|Un forat rodó més gran que la fresa: la fresa baixa en espiral al voltant i després fa una volta a la profunditat total.
+336|La vora de les formes es bisella: una fresa en V segueix la línia a la profunditat que dona l'amplada demanada.
+337|La fresa va per l'interior de la línia i entra a cada cantonada viva, de manera que una fresa rodona deixi lloc a una peça quadrada.
+338|Anells
+339|Ràster
+340|Abans
+341|Després
+342|Patró de la cavitat
+343|Angle del ràster
+344|Passada pel contorn
+345|Resta de la capa
+346|Sobreeixida
+347|Amplada del xamfrà
+348|Trocoides
+349|Diàmetre de la trocoide
+350|Pas de la trocoide
+351|Semicercles
+352|{}: un xamfrà necessita una fresa en V o de gravar
+353|{}: la capa del buidatge de resta no té fresa
+354|{}: la fresa del buidatge de resta ha de ser més petita que la de la capa de què continua
+355|{}: res a aplanar: dibuixa una forma que doni la mida de la superfície

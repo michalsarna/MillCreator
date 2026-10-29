@@ -21,6 +21,14 @@ pub enum Operation {
     Drill,
     /// A picture on the layer is engraved (see `PictureMethod`).
     Picture,
+    /// The top of the material is planed over the box of the shapes of the layer.
+    Face,
+    /// A hole bigger than the bit is cut by going down round it in a spiral.
+    Bore,
+    /// The edge of a shape is chamfered with a V-bit.
+    Chamfer,
+    /// The inside of a slot or a hole, with a notch at every sharp corner so that a round bit can reach into it.
+    DogboneSlot,
 }
 
 /// Which way the bit goes round a profile or a pocket (for a spindle that turns clockwise).
@@ -69,6 +77,64 @@ impl Entry {
             Entry::RampContour => "Ramp along the contour",
             Entry::Helix => "Helix",
         }
+    }
+}
+
+/// How a pocket is cleared.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum PocketPattern {
+    /// Ring after ring, from the outside in.
+    #[default]
+    Rings,
+    /// Parallel lines at an angle, back and forth.
+    Raster,
+}
+
+impl PocketPattern {
+    pub const ALL: [PocketPattern; 2] = [PocketPattern::Rings, PocketPattern::Raster];
+    pub fn label(self) -> &'static str {
+        match self {
+            PocketPattern::Rings => "Rings",
+            PocketPattern::Raster => "Raster",
+        }
+    }
+}
+
+/// A pass along the wall of a pocket.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum OutlinePass {
+    #[default]
+    None,
+    Before,
+    After,
+}
+
+impl OutlinePass {
+    pub const ALL: [OutlinePass; 3] = [OutlinePass::None, OutlinePass::Before, OutlinePass::After];
+    pub fn label(self) -> &'static str {
+        match self {
+            OutlinePass::None => "None",
+            OutlinePass::Before => "Before",
+            OutlinePass::After => "After",
+        }
+    }
+}
+
+/// Trochoidal milling: the bit goes along the line in loops, so that it cuts a slot wider than itself with a light load.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct Trochoid {
+    pub enabled: bool,
+    /// The diameter of the loops (mm): the slot is this plus the diameter of the bit wide.
+    pub diameter: f64,
+    /// How far the loops advance along the line with every turn (mm).
+    pub step: f64,
+    /// Half circles swinging to and fro instead of full circles.
+    pub half: bool,
+}
+
+impl Default for Trochoid {
+    fn default() -> Trochoid {
+        Trochoid { enabled: false, diameter: 3.0, step: 1.0, half: false }
     }
 }
 
@@ -130,6 +196,10 @@ impl Default for Tabs {
     }
 }
 
+fn one() -> f64 {
+    1.0
+}
+
 fn three() -> f64 {
     3.0
 }
@@ -180,7 +250,7 @@ impl PictureMethod {
 }
 
 impl Operation {
-    pub const ALL: [Operation; 6] = [Operation::ProfileOutside, Operation::ProfileInside, Operation::OnPath, Operation::Pocket, Operation::Drill, Operation::Picture];
+    pub const ALL: [Operation; 10] = [Operation::ProfileOutside, Operation::ProfileInside, Operation::OnPath, Operation::Pocket, Operation::Drill, Operation::Picture, Operation::Face, Operation::Bore, Operation::Chamfer, Operation::DogboneSlot];
 
     pub fn label(self) -> &'static str {
         match self {
@@ -190,6 +260,10 @@ impl Operation {
             Operation::Pocket => "Pocket",
             Operation::Drill => "Drill",
             Operation::Picture => "Picture",
+            Operation::Face => "Face",
+            Operation::Bore => "Bore",
+            Operation::Chamfer => "Chamfer",
+            Operation::DogboneSlot => "Dogbone slot",
         }
     }
 
@@ -201,6 +275,10 @@ impl Operation {
             Operation::Pocket => "All of the area inside the line is cleared, ring after ring, to the depth of the layer.",
             Operation::Drill => "A hole at the centre of every closed shape of the layer, in steps of the pass depth.",
             Operation::Picture => "A picture on the layer is engraved: rows or dots by the dithered picture, or rows whose depth follows the tone.",
+            Operation::Face => "The top of the material is planed over the box of the shapes of the layer; the bit goes a little over the edge.",
+            Operation::Bore => "A round hole bigger than the bit: the bit goes down round it in a spiral and then once round at the full depth.",
+            Operation::Chamfer => "The edge of the shapes is chamfered: a V-bit follows the line at the depth that makes the chamfer as wide as asked.",
+            Operation::DogboneSlot => "The bit goes round the inside of the line and into every sharp corner, so that a round bit leaves room for a square part.",
         }
     }
 }
@@ -258,6 +336,24 @@ pub struct MillLayer {
     /// Tabs of a profile.
     #[serde(default)]
     pub tabs: Tabs,
+    /// How a pocket (and a face) is cleared, the angle of the lines of a raster, and a pass along the wall.
+    #[serde(default)]
+    pub pattern: PocketPattern,
+    #[serde(default)]
+    pub raster_angle: f64,
+    #[serde(default)]
+    pub outline: OutlinePass,
+    /// A rest pocket: only what the bit of this layer (a pocket with a bigger bit) could not reach is cleared.
+    #[serde(default)]
+    pub rest_of: Option<usize>,
+    /// How far over the edge of the box the edge of the bit goes when a surface is planed (mm).
+    #[serde(default)]
+    pub overhang: f64,
+    /// The width of a chamfer on the surface (mm).
+    #[serde(default = "one")]
+    pub chamfer: f64,
+    #[serde(default)]
+    pub trochoid: Trochoid,
 }
 
 
@@ -302,7 +398,7 @@ impl MillLayer {
     /// Is every number of the layer usable?
     pub fn check(&self) -> Result<(), String> {
         let ok = |v: f64, lo: f64, hi: f64| v.is_finite() && v >= lo && v <= hi;
-        if !ok(self.depth, 0.0, 1000.0) || !ok(self.step_down, 0.01, 1000.0) || !ok(self.step_over_pct, 1.0, 100.0) || !ok(self.feed, 1.0, 100_000.0) || !ok(self.plunge, 1.0, 100_000.0) || !ok(self.rpm, 0.0, 1_000_000.0) || !ok(self.scan_angle, -360.0, 360.0) || !ok(self.leave, 0.0, 100.0) || !ok(self.ramp_angle, 0.1, 89.0) || !ok(self.ramp_feed, 0.0, 100_000.0) {
+        if !ok(self.depth, 0.0, 1000.0) || !ok(self.step_down, 0.01, 1000.0) || !ok(self.step_over_pct, 1.0, 100.0) || !ok(self.feed, 1.0, 100_000.0) || !ok(self.plunge, 1.0, 100_000.0) || !ok(self.rpm, 0.0, 1_000_000.0) || !ok(self.scan_angle, -360.0, 360.0) || !ok(self.leave, 0.0, 100.0) || !ok(self.ramp_angle, 0.1, 89.0) || !ok(self.ramp_feed, 0.0, 100_000.0) || !ok(self.raster_angle, -360.0, 360.0) || !ok(self.overhang, 0.0, 1000.0) || !ok(self.chamfer, 0.0, 1000.0) || !ok(self.trochoid.diameter, 0.1, 1000.0) || !ok(self.trochoid.step, 0.05, 1000.0) {
             return Err(format!("layer {}: a number is out of range", self.name));
         }
         let t = &self.tabs;
@@ -373,6 +469,13 @@ pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
                 ramp_angle: 3.0,
                 ramp_feed: 0.0,
                 tabs: Tabs::default(),
+                pattern: PocketPattern::default(),
+                raster_angle: 0.0,
+                outline: OutlinePass::default(),
+                rest_of: None,
+                overhang: 0.0,
+                chamfer: 1.0,
+                trochoid: Trochoid::default(),
             };
             match bit(tool) {
                 Some(t) => layer.with_tool(&t),

@@ -3,6 +3,7 @@
 //! baseCreator). It adds devices (with cameras), milling layers, a library of bits, a simple material, toolpaths with a
 //! 3D view and G-code.
 mod autosave_glue;
+mod clear;
 mod backup_ui;
 mod device;
 mod device_ui;

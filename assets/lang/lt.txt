@@ -328,3 +328,29 @@
 327|Spustelėkite kontūrą, kad pridėtumėte tiltą, vilkite tiltą, kad jį perkeltumėte, spustelėkite tiltą, kad jį pašalintumėte. Žiedas su rankiniu būdu pastatytais tiltais gauna tik juos.
 328|Išvalyti rankiniu būdu pastatytus tiltus
 329|Importuoti DXF…
+330|Paviršiaus frezavimas
+331|Skylės plėtimas
+332|Nuosklauda
+333|Griovelis su dogbone kampais
+334|Medžiagos viršus nufrezuojamas sluoksnio formų rėmelio plote; frezas šiek tiek išeina už krašto.
+335|Apvali skylė, didesnė už frezą: frezas spirale leidžiasi aplink ją, o tada vieną kartą apeina visu gyliu.
+336|Formų kraštas nuožulinamas: V formos frezas seka liniją tokiu gyliu, kad nuožulos plotis būtų pageidaujamas.
+337|Frezas eina linijos viduje ir į kiekvieną aštrų kampą, kad apvalus frezas paliktų vietos kampuotai detalei.
+338|Žiedai
+339|Rastras
+340|Prieš
+341|Po
+342|Kišenės šablonas
+343|Rastro kampas
+344|Kontūro perėjimas
+345|Sluoksnio likutis
+346|Išsikišimas
+347|Nuožulos plotis
+348|Trochoidai
+349|Trochoidos skersmuo
+350|Trochoidos žingsnis
+351|Pusračiai
+352|{}: nuožulai reikia V formos arba graviravimo freza
+353|{}: likučio kišenės sluoksnis neturi freza
+354|{}: likučio kišenės frezas turi būti mažesnis už sluoksnio, iš kurio perima, frezą
+355|{}: nėra ką frezuoti: nubrėžkite formą, nustatančią paviršiaus dydį

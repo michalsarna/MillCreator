@@ -328,3 +328,29 @@
 327|Cliquez sur le contour pour ajouter un pont, faites glisser un pont pour le déplacer, cliquez sur un pont pour le supprimer. Un anneau avec des ponts placés à la main n'a que ceux-là.
 328|Effacer les ponts placés à la main
 329|Importer un DXF…
+330|Surfaçage
+331|Alésage
+332|Chanfrein
+333|Rainure avec coins dogbone
+334|La face supérieure de la matière est surfacée sur le cadre des formes du calque ; la fraise dépasse un peu du bord.
+335|Un trou rond plus grand que la fraise : la fraise descend en spirale autour, puis fait un tour à pleine profondeur.
+336|Le bord des formes est chanfreiné : une fraise en V suit la ligne à la profondeur qui donne la largeur demandée.
+337|La fraise suit l'intérieur de la ligne et entre dans chaque angle vif, pour qu'une fraise ronde laisse la place à une pièce carrée.
+338|Anneaux
+339|Trame
+340|Avant
+341|Après
+342|Motif de la poche
+343|Angle de la trame
+344|Passe de contour
+345|Reste du calque
+346|Débordement
+347|Largeur du chanfrein
+348|Trochoïdes
+349|Diamètre de la trochoïde
+350|Pas de la trochoïde
+351|Demi-cercles
+352|{} : un chanfrein demande une fraise en V ou de gravure
+353|{} : le calque de la poche de reprise n'a pas de fraise
+354|{} : la fraise de la reprise doit être plus petite que celle du calque qu'elle reprend
+355|{} : rien à surfacer : dessinez une forme qui donne la taille de la surface

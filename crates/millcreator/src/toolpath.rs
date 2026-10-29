@@ -437,9 +437,23 @@ fn run_layers(b: &mut Builder, prog: &mut Program, scene: &Scene, layers: &[Mill
         if layer.rpm > dev.spindle.max_rpm || layer.rpm < dev.spindle.min_rpm {
             prog.warnings.push(Warn::new("{}: {} rpm is outside the spindle range {}…{} rpm", &[&layer.name, &layer.rpm, &dev.spindle.min_rpm, &dev.spindle.max_rpm]));
         }
+        // A chamfer is as deep as its width asks for with this V-bit.
+        if layer.op == Operation::Chamfer {
+            match crate::clear::chamfer_depth(tool, layer.chamfer) {
+                Some(d) => layer.depth = d,
+                None => prog.warnings.push(Warn::new("{}: a chamfer needs a V-bit or an engraving bit", &[&layer.name])),
+            }
+        }
         let depths = layer.passes();
         if depths.is_empty() {
             continue;
+        }
+        // A rest pocket: the radius of the bit of the layer whose leftovers it clears.
+        let rest_r = layer.rest_of.filter(|_| layer.op == Operation::Pocket).and_then(|i| layers.get(i)).and_then(|l| l.tool.as_deref()).and_then(|id| tools.get(id)).map(|t| t.radius());
+        if layer.op == Operation::Pocket && layer.rest_of.is_some() && rest_r.is_none() {
+            prog.warnings.push(Warn::new("{}: the layer of the rest pocket has no bit", &[&layer.name]));
+        } else if rest_r.is_some_and(|rb| rb <= tool.radius()) {
+            prog.warnings.push(Warn::new("{}: the bit of a rest pocket has to be smaller than the bit of the layer it takes over from", &[&layer.name]));
         }
         b.layer = li;
         b.feed = layer.feed;
@@ -450,7 +464,7 @@ fn run_layers(b: &mut Builder, prog: &mut Program, scene: &Scene, layers: &[Mill
         }
         // The tabs placed by hand on this layer, where they lie on the toolpath's side of the page (y turned over).
         let anchors: Vec<Pt> = layer.tabs.manual.iter().filter_map(|t| scene.shape(t.shape).filter(|s| s.layer == li).and_then(|s| crate::handtabs::point_on(s, t.at))).map(|p| Pt::new(p.x, dev.area.y - p.y)).collect();
-        run_layer(b, &layer, tool, &outlines, &depths, anchors, &mut prog.warnings);
+        run_layer(b, &layer, tool, &outlines, &depths, anchors, rest_r, &mut prog.warnings);
         // A picture is engraved at the depth of the layer in one go (a shallow depth: the dots and the rows are many).
         let full = depths.last().copied().unwrap_or(layer.depth);
         for (shape, im) in &pictures {
@@ -473,7 +487,7 @@ fn first_pass(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyl
     let r = tool.radius();
     let depths = [depth];
     match layer.op {
-        Operation::ProfileOutside | Operation::ProfileInside => {
+        Operation::ProfileOutside | Operation::ProfileInside | Operation::Bore | Operation::DogboneSlot => {
             let d = if layer.op == Operation::ProfileOutside { r } else { -r };
             for ring in ops::offset(&closed_only(outlines), d) {
                 ring_passes(b, &ring, &depths);
@@ -484,7 +498,7 @@ fn first_pass(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyl
                 ring_passes(b, &ring, &depths);
             }
         }
-        Operation::OnPath => {
+        Operation::OnPath | Operation::Chamfer => {
             for line in outlines {
                 if line.closed {
                     ring_passes(b, line, &depths);
@@ -493,29 +507,52 @@ fn first_pass(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyl
                 }
             }
         }
-        Operation::Drill | Operation::Picture => {}
+        Operation::Drill | Operation::Picture | Operation::Face => {}
     }
 }
 
-fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyline], depths: &[f64], anchors: Vec<Pt>, warnings: &mut Vec<Warn>) {
+fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyline], depths: &[f64], anchors: Vec<Pt>, rest_r: Option<f64>, warnings: &mut Vec<Warn>) {
+    use crate::layers::{OutlinePass, PocketPattern};
     use crate::passes::{self, Notes, Plan};
     let r = tool.radius();
+    // A bore and a dogbone slot are inside profiles; a bore goes down in a spiral along the hole.
+    let inner_profile = matches!(layer.op, Operation::ProfileInside | Operation::Bore | Operation::DogboneSlot);
     let mut plan = Plan::of(layer, tool.dims.diameter, tool.cutting.ramp);
+    if layer.op == Operation::Bore && layer.entry == crate::layers::Entry::Plunge {
+        plan.entry = crate::layers::Entry::RampContour;
+    }
     plan.anchors = anchors;
-    plan.reach = if layer.op == Operation::OnPath { 0.0 } else { r + layer.leave.max(0.0) };
+    plan.reach = if matches!(layer.op, Operation::OnPath | Operation::Chamfer) { 0.0 } else { r + layer.leave.max(0.0) };
     let mut notes = Notes::default();
     let full = depths.last().copied().unwrap_or(layer.depth);
+    // The role of the rings for the direction: a bore and a dogbone slot are inside profiles.
+    let role_op = if inner_profile { Operation::ProfileInside } else { layer.op };
     // The rings of a profile or a pocket, turned the way the layer asks for, each with its role (a hole of a part or not).
     let go_rings = |b: &mut Builder, rings: Vec<Polyline>, depths: &[f64], notes: &mut Notes| {
-        let rings = passes::oriented(rings, layer.op, layer.direction);
+        let mut rings = passes::oriented(rings, role_op, layer.direction);
         let hole = passes::roles(&rings);
+        if layer.op == Operation::DogboneSlot {
+            rings = rings.iter().zip(&hole).map(|(ring, hole)| crate::clear::dogbone(ring, r, *hole)).collect();
+        }
         let holes: Vec<Polyline> = rings.iter().zip(&hole).filter(|(_, h)| **h).map(|(r, _)| r.clone()).collect();
         for (i, (ring, hole)) in rings.iter().zip(&hole).enumerate() {
             passes::ring_passes(b, ring, depths, &plan, *hole, &holes, i > 0, notes);
         }
     };
+    // Clear a region (where the centre of the bit may go) by rings or by a raster, every depth in turn.
+    let step = (tool.dims.diameter * layer.step_over_pct / 100.0).max(0.05);
+    let clear_region = |b: &mut Builder, region: Vec<Polyline>, notes: &mut Notes| match layer.pattern {
+        PocketPattern::Rings => go_rings(b, crate::clear::rings_with_middle(&region, step), depths, notes),
+        PocketPattern::Raster => {
+            for d in depths {
+                for path in crate::clear::raster_paths(&region, layer.raster_angle, step) {
+                    passes::open_passes(b, &path, &[*d], &plan);
+                }
+            }
+        }
+    };
     match layer.op {
-        Operation::ProfileOutside | Operation::ProfileInside => {
+        Operation::ProfileOutside | Operation::ProfileInside | Operation::Bore | Operation::DogboneSlot => {
             let closed = closed_only(outlines);
             if closed.len() < outlines.len() {
                 warnings.push(Warn::new("{}: open lines are left out of a profile (use \"Follow the line\")", &[&layer.name]));
@@ -534,16 +571,49 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
                 warnings.push(Warn::new("{}: open lines are left out of a pocket", &[&layer.name]));
             }
             let left = layer.leave.max(0.0);
-            let inner = ops::offset(&closed, -(r + left));
-            let step = (tool.dims.diameter * layer.step_over_pct / 100.0).max(0.05);
-            go_rings(b, ops::inset_rings(&inner, step, 500), depths, &mut notes);
+            let walls = ops::offset(&closed, -r);
+            if layer.outline == OutlinePass::Before {
+                go_rings(b, walls.clone(), depths, &mut notes);
+            }
+            // The region the centre of the bit moves in; for a rest pocket only what the bigger bit left.
+            let region = match rest_r {
+                Some(rb) if rb > r => crate::clear::rest_region(&closed, rb, r),
+                _ => ops::offset(&closed, -(r + left)),
+            };
+            clear_region(b, region, &mut notes);
+            if layer.outline == OutlinePass::After {
+                go_rings(b, walls.clone(), depths, &mut notes);
+            }
             if left > 0.0 && layer.finish {
-                go_rings(b, ops::offset(&closed, -r), &[full], &mut notes);
+                go_rings(b, walls, &[full], &mut notes);
             }
         }
-        Operation::OnPath | Operation::Picture => {
+        Operation::Face => {
+            // The box of everything on the layer, planed in one go.
+            let mut lo = Pt::new(f64::INFINITY, f64::INFINITY);
+            let mut hi = Pt::new(f64::NEG_INFINITY, f64::NEG_INFINITY);
+            for p in outlines.iter().flat_map(|o| &o.pts) {
+                lo = Pt::new(lo.x.min(p.x), lo.y.min(p.y));
+                hi = Pt::new(hi.x.max(p.x), hi.y.max(p.y));
+            }
+            if lo.x.is_finite() && hi.x - lo.x > 1e-6 && hi.y - lo.y > 1e-6 {
+                let region = crate::clear::face_region(base_core::geom::Rect { min: lo, max: hi }, layer.overhang, r);
+                clear_region(b, region, &mut notes);
+            } else {
+                warnings.push(Warn::new("{}: nothing to plane: draw a shape that gives the size of the surface", &[&layer.name]));
+            }
+        }
+        Operation::OnPath | Operation::Chamfer | Operation::Picture => {
             for line in outlines {
-                if line.closed {
+                // Trochoids: the bit loops along the line, the slot is the loops plus the bit wide.
+                let looped;
+                let (line, ring) = if layer.trochoid.enabled && layer.op == Operation::OnPath {
+                    looped = crate::clear::trochoid(line, layer.trochoid.diameter, layer.trochoid.step, layer.trochoid.half);
+                    (&looped, false)
+                } else {
+                    (line, line.closed)
+                };
+                if ring {
                     passes::ring_passes(b, line, depths, &plan, false, &[], false, &mut notes);
                 } else {
                     passes::open_passes(b, line, depths, &plan);
@@ -1173,6 +1243,225 @@ mod tests {
         layers[0].tabs.height = 6.0;
         let prog = generate(&scene, &layers, &lib, &dev, &stock);
         assert!(prog.warnings.iter().any(|w| w.to_string().contains("tabs are as high as the cut")));
+    }
+
+    fn cut_points(prog: &Program) -> Vec<P3> {
+        prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).flat_map(|m| [m.from, m.to]).collect()
+    }
+
+    fn with_tool(layers: &mut [MillLayer], li: usize, lib: &Library, id: &str) {
+        let t = lib.get(id).unwrap().clone();
+        layers[li].use_tool(&t);
+    }
+
+    #[test]
+    fn a_pocket_by_raster_runs_lines_at_the_angle_inside_the_walls_and_the_outline_pass_comes_where_asked() {
+        use crate::layers::{OutlinePass, PocketPattern};
+        let (lib, dev, stock, mut layers) = setup();
+        layers[2].depth = 2.0;
+        layers[2].step_down = 2.0;
+        layers[2].pattern = PocketPattern::Raster;
+        layers[2].raster_angle = 90.0;
+        let mut scene = Scene::default();
+        square(&mut scene, 2, 50.0, 50.0, 40.0);
+        let r = lib.get(layers[2].tool.as_deref().unwrap()).unwrap().radius();
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let pts = cut_points(&prog);
+        assert!(!pts.is_empty());
+        // The bit never goes nearer to the wall than its radius, and the lines are along y (the angle 90°).
+        let (x0, y0, x1, y1) = xy_bounds(&prog);
+        assert!(x0 >= 50.0 - 0.0 + r - 1e-6 && x1 <= 90.0 - r + 1e-6, "{x0} {x1}");
+        let (top, bottom) = (dev.area.y - 90.0 + r, dev.area.y - 50.0 - r);
+        assert!(y0 >= top - 1e-6 && y1 <= bottom + 1e-6 && y1 - y0 > 30.0, "{y0} {y1}");
+        let along_y = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut && (m.to[0] - m.from[0]).abs() < 1e-9 && (m.to[1] - m.from[1]).abs() > 5.0).count();
+        assert!(along_y >= 5, "{along_y}");
+        // The raster is cheaper than going round and round, and the outline pass adds the wall.
+        let plain = generate(&scene, &layers, &lib, &dev, &stock).moves.len();
+        layers[2].outline = OutlinePass::Before;
+        let with = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(with.moves.len() > plain);
+        // Before: the first cut is on the wall (at the radius from it).
+        let first = with.moves.iter().find(|m| m.kind == MoveKind::Cut).unwrap();
+        let on_wall = |p: P3| (p[0] - (50.0 + r)).abs() < 1e-6 || (p[0] - (90.0 - r)).abs() < 1e-6 || (p[1] - (dev.area.y - 90.0 + r)).abs() < 1e-6 || (p[1] - (dev.area.y - 50.0 - r)).abs() < 1e-6;
+        assert!(on_wall(first.to), "{:?}", first.to);
+    }
+
+    #[test]
+    fn a_rest_pocket_clears_only_what_the_bigger_bit_left() {
+        let (lib, dev, stock, mut layers) = setup();
+        for li in [2, 3] {
+            layers[li].op = Operation::Pocket;
+            layers[li].depth = 2.0;
+            layers[li].step_down = 2.0;
+        }
+        with_tool(&mut layers, 2, &lib, "std-flat-6");
+        with_tool(&mut layers, 3, &lib, "std-flat-3");
+        layers[3].rest_of = Some(2);
+        let mut scene = Scene::default();
+        square(&mut scene, 2, 50.0, 50.0, 40.0);
+        square(&mut scene, 3, 50.0, 50.0, 40.0);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let rest: Vec<P3> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut && m.layer == 3).flat_map(|m| [m.from, m.to]).collect();
+        assert!(!rest.is_empty(), "{:?}", prog.warnings.iter().map(|w| w.to_string()).collect::<Vec<_>>());
+        // The middle of the square (x 70, y 70 in the page; the toolpath has y turned over) was cleared by the big bit.
+        let mid = |p: &P3| (p[0] - 70.0).abs() < 6.0 && (p[1] - (dev.area.y - 70.0)).abs() < 6.0;
+        assert!(!rest.iter().any(mid), "the small bit stays at the corners");
+        // Without the rest it clears everything.
+        layers[3].rest_of = None;
+        let all = generate(&scene, &layers, &lib, &dev, &stock);
+        let whole: Vec<P3> = all.moves.iter().filter(|m| m.kind == MoveKind::Cut && m.layer == 3).flat_map(|m| [m.from, m.to]).collect();
+        assert!(whole.iter().any(mid) && whole.len() > rest.len());
+        // A rest pocket that takes over from a smaller bit is said to be wrong.
+        layers[3].rest_of = Some(3);
+        with_tool(&mut layers, 3, &lib, "std-flat-3");
+        let wrong = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(wrong.warnings.iter().any(|w| w.to_string().contains("has to be smaller")));
+    }
+
+    #[test]
+    fn a_face_planes_the_box_of_the_shapes_and_goes_over_the_edge() {
+        let (lib, dev, stock, mut layers) = setup();
+        layers[2].op = Operation::Face;
+        layers[2].depth = 0.5;
+        layers[2].step_down = 0.5;
+        layers[2].overhang = 4.0;
+        let r = lib.get(layers[2].tool.as_deref().unwrap()).unwrap().radius();
+        let mut scene = Scene::default();
+        square(&mut scene, 2, 50.0, 50.0, 40.0);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let (x0, _, x1, _) = xy_bounds(&prog);
+        // The edge of the bit goes 4 mm over: the centre is 4 - r over the edge of the box.
+        assert!((x0 - (50.0 - (4.0 - r))).abs() < 1e-6 && (x1 - (90.0 + (4.0 - r))).abs() < 1e-6, "{x0} {x1}");
+        assert!(prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).all(|m| (m.to[2] + 0.5).abs() < 1e-9));
+        // A face without shapes has nothing to plane: said so.
+        let empty = Scene::default();
+        let none = generate(&empty, &layers, &lib, &dev, &stock);
+        assert!(none.is_empty());
+    }
+
+    #[test]
+    fn a_bore_goes_down_round_the_hole_in_a_spiral_and_never_plunges_into_the_material() {
+        let (lib, dev, stock, mut layers) = setup();
+        layers[1].op = Operation::Bore;
+        layers[1].depth = 6.0;
+        layers[1].step_down = 6.0;
+        layers[1].ramp_angle = 4.0;
+        let r = lib.get(layers[1].tool.as_deref().unwrap()).unwrap().radius();
+        let mut scene = Scene::default();
+        scene.add(1, Kind::Ellipse { w: 20.0, h: 20.0 }, Xf::translate(100.0, 100.0));
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let cuts: Vec<&Move> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).collect();
+        assert!(cuts.iter().any(|m| m.to[2] < m.from[2] - 1e-6), "sloping cuts: the spiral");
+        assert!(prog.moves.iter().filter(|m| m.kind == MoveKind::Plunge && m.to[2] < 0.0).count() == 0);
+        // Every point is at the radius of the hole less the radius of the bit from its middle.
+        let cy = dev.area.y - 110.0;
+        for m in &cuts {
+            let d = ((m.to[0] - 110.0).powi(2) + (m.to[1] - cy).powi(2)).sqrt();
+            assert!((d - (10.0 - r)).abs() < 0.05, "{d}");
+        }
+        assert!(cuts.iter().any(|m| (m.to[2] + 6.0).abs() < 1e-9));
+    }
+
+    #[test]
+    fn a_chamfer_follows_the_edge_at_the_depth_of_its_width_with_a_v_bit_and_complains_about_others() {
+        let (lib, dev, stock, mut layers) = setup();
+        layers[3].op = Operation::Chamfer;
+        layers[3].chamfer = 1.5;
+        layers[3].step_down = 5.0;
+        // The V-bit of the first layers is 60°; the depth of a 1.5 mm chamfer is 1.5 / tan 30°.
+        let tool = lib.get(layers[3].tool.as_deref().unwrap()).unwrap().clone();
+        let want = crate::clear::chamfer_depth(&tool, 1.5).unwrap();
+        let mut scene = Scene::default();
+        square(&mut scene, 3, 50.0, 50.0, 40.0);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let deepest = prog.moves.iter().map(|m| m.to[2]).fold(0.0, f64::min);
+        assert!((deepest + want).abs() < 1e-6, "{deepest} {want}");
+        // The centre of the bit follows the line itself.
+        let (x0, _, x1, _) = xy_bounds(&prog);
+        assert!((x0 - 50.0).abs() < 1e-6 && (x1 - 90.0).abs() < 1e-6);
+        with_tool(&mut layers, 3, &lib, "std-flat-3");
+        let flat = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(flat.warnings.iter().any(|w| w.to_string().contains("needs a V-bit")));
+    }
+
+    #[test]
+    fn a_dogbone_slot_goes_into_every_corner_so_that_the_edge_of_the_bit_reaches_it() {
+        let (lib, dev, stock, mut layers) = setup();
+        layers[1].op = Operation::DogboneSlot;
+        layers[1].depth = 2.0;
+        layers[1].step_down = 2.0;
+        let r = lib.get(layers[1].tool.as_deref().unwrap()).unwrap().radius();
+        let mut scene = Scene::default();
+        scene.add(1, Kind::Rect { w: 30.0, h: 10.0 }, Xf::translate(50.0, 50.0));
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let cy = |y: f64| dev.area.y - y;
+        for (cx, y) in [(50.0, 50.0), (80.0, 50.0), (50.0, 60.0), (80.0, 60.0)] {
+            let near = cut_points(&prog).iter().map(|p| ((p[0] - cx).powi(2) + (p[1] - cy(y)).powi(2)).sqrt()).fold(f64::INFINITY, f64::min);
+            assert!((near - r).abs() < 1e-6, "the centre comes to a radius from the corner ({cx}, {y}): {near}");
+        }
+        // Without the notches (the plain inside profile) it stays a radius times the square root of two away.
+        layers[1].op = Operation::ProfileInside;
+        let plain = generate(&scene, &layers, &lib, &dev, &stock);
+        let near = cut_points(&plain).iter().map(|p| ((p[0] - 50.0).powi(2) + (p[1] - cy(50.0)).powi(2)).sqrt()).fold(f64::INFINITY, f64::min);
+        assert!((near - r * 2f64.sqrt()).abs() < 1e-6, "{near}");
+    }
+
+    #[test]
+    fn a_trochoid_slot_is_as_wide_as_its_loops_and_the_bit_and_the_pocket_leaves_no_strip() {
+        let (lib, dev, stock, mut layers) = setup();
+        layers[3].op = Operation::OnPath;
+        with_tool(&mut layers, 3, &lib, "std-flat-3");
+        layers[3].depth = 2.0;
+        layers[3].step_down = 2.0;
+        layers[3].trochoid = crate::layers::Trochoid { enabled: true, diameter: 4.0, step: 1.5, half: false };
+        let mut scene = Scene::default();
+        scene.add(3, Kind::Path(vec![Polyline::new(vec![Pt::new(20.0, 100.0), Pt::new(80.0, 100.0)], false)]), Xf::IDENTITY);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let (x0, y0, x1, y1) = xy_bounds(&prog);
+        let cy = dev.area.y - 100.0;
+        assert!(y0 >= cy - 2.0 - 1e-6 && y1 <= cy + 2.0 + 1e-6 && y1 - y0 > 3.5, "{y0} {y1}");
+        assert!(x0 >= 18.0 && x1 <= 82.0 && x1 > 78.0);
+        assert!(prog.moves.len() > 500, "many small moves: {}", prog.moves.len());
+        // A pocket whose width is not a multiple of the step over: the middle is cleared (a ring runs along it).
+        layers[2].depth = 2.0;
+        layers[2].step_down = 2.0;
+        let mut pocket = Scene::default();
+        pocket.add(2, Kind::Rect { w: 11.0, h: 40.0 }, Xf::translate(50.0, 50.0));
+        let p = generate(&pocket, &layers, &lib, &dev, &stock);
+        let mid_x = 50.0 + 11.0 / 2.0;
+        assert!(cut_points(&p).iter().any(|q| (q[0] - mid_x).abs() < 0.8), "something runs near the middle line x = {mid_x}");
+    }
+
+    #[test]
+    fn no_operation_cuts_deeper_than_its_layer_or_moves_fast_below_the_safe_height() {
+        use crate::layers::{PocketPattern, Entry};
+        let (lib, dev, stock, base) = setup();
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 50.0, 50.0, 40.0);
+        scene.add(0, Kind::Ellipse { w: 12.0, h: 12.0 }, Xf::translate(60.0, 60.0));
+        for op in Operation::ALL {
+            for pattern in PocketPattern::ALL {
+                let mut layers = base.clone();
+                layers[0].op = op;
+                layers[0].depth = 3.0;
+                layers[0].step_down = 1.0;
+                layers[0].pattern = pattern;
+                layers[0].entry = Entry::RampContour;
+                layers[0].chamfer = 1.0;
+                layers[0].trochoid = crate::layers::Trochoid { enabled: true, ..Default::default() };
+                if op == Operation::Chamfer {
+                    with_tool(&mut layers, 0, &lib, "std-v-60");
+                }
+                let prog = generate(&scene, &layers, &lib, &dev, &stock);
+                let depth = if op == Operation::Chamfer { crate::clear::chamfer_depth(lib.get("std-v-60").unwrap(), 1.0).unwrap() } else { 3.0 };
+                for m in &prog.moves {
+                    assert!(m.to[2] >= -depth - 1e-9 && m.from[2] >= -depth - 1e-9, "{op:?}: {m:?}");
+                    if m.kind == MoveKind::Rapid {
+                        assert!(m.from[2] >= 1.0 - 1e-9 && m.to[2] >= 1.0 - 1e-9, "{op:?}: a fast move in the material: {m:?}");
+                    }
+                }
+            }
+        }
     }
 
     #[test]

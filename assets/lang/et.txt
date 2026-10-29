@@ -328,3 +328,29 @@
 327|Klõpsa piirjoonel silla lisamiseks, lohista silda liigutamiseks, klõpsa sillal selle eemaldamiseks. Käsitsi paigutatud sildadega rõngas saab ainult need.
 328|Tühjenda käsitsi paigutatud sillad
 329|Impordi DXF…
+330|Pinna frääsimine
+331|Puurimine suuremaks
+332|Faasimine
+333|Soon dogbone-nurkadega
+334|Materjali pealispind freesitakse tasandi kujundite kasti ulatuses; freesi läheb veidi üle serva.
+335|Ümar auk, mis on freesist suurem: freesi laskub ümber selle spiraalselt ja teeb siis ühe ringi täissügavusel.
+336|Kujundite serv faasitakse: V-freesi järgib joont sügavusel, mis teeb faasi soovitud laiuseks.
+337|Freesi liigub joone sees ja igasse teravasse nurka, et ümar freesi jätaks ruumi nurgelisele detailile.
+338|Rõngad
+339|Rastr
+340|Enne
+341|Pärast
+342|Taskumuster
+343|Rastri nurk
+344|Kontuurikäik
+345|Kihi jääk
+346|Ülekäik
+347|Faasi laius
+348|Trohhoidid
+349|Trohhoidi läbimõõt
+350|Trohhoidi samm
+351|Poolringid
+352|{}: faasi jaoks on vaja V-freesi või graveerijat
+353|{}: jääktasku kihil pole freesi
+354|{}: jääktasku freesi peab olema väiksem kui kihi freesi, mille tööd see jätkab
+355|{}: pole midagi tasandada: joonista kujund, mis annab pinna suuruse

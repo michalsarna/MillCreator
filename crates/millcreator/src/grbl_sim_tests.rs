@@ -147,3 +147,69 @@ fn grbl_sim_ramps_a_helix_tabs_and_a_finishing_pass_are_accepted_and_end_at_zero
     }
 }
 
+/// A job with the operations of stage 3: a raster pocket with an outline pass, a face, a bore, a chamfer, a dogbone slot and a trochoid slot.
+fn job_with_operations(chamfer_only: bool) -> Vec<String> {
+    use crate::layers::{OutlinePass, Operation, PocketPattern, Trochoid};
+    let (lib, dev, stock) = (Library::new(), Device::dummy(), Stock::default());
+    let mut layers = default_layers(&lib);
+    let tool = |id: &str| lib.get(id).unwrap().clone();
+    // 0: a face; 1: a bore; 2: a raster pocket with an outline pass; 3: a chamfer; 5: a dogbone slot; 6: a trochoid slot. All with one bit
+    // (a bit change stops the job at an M0), so the chamfer, which needs a V-bit, is a job of its own (`chamfer_only`).
+    for l in layers.iter_mut() {
+        l.use_tool(&tool("std-flat-3"));
+    }
+    layers[3].use_tool(&tool("std-v-60"));
+    layers[0].op = Operation::Face;
+    layers[0].depth = 0.5;
+    layers[0].step_down = 0.5;
+    layers[0].overhang = 1.0;
+    layers[1].op = Operation::Bore;
+    layers[1].depth = 2.0;
+    layers[1].step_down = 2.0;
+    layers[2].depth = 1.5;
+    layers[2].step_down = 1.5;
+    layers[2].pattern = PocketPattern::Raster;
+    layers[2].raster_angle = 30.0;
+    layers[2].outline = OutlinePass::After;
+    layers[3].op = Operation::Chamfer;
+    layers[3].chamfer = 1.0;
+    layers[5].op = Operation::DogboneSlot;
+    layers[5].depth = 2.0;
+    layers[5].step_down = 2.0;
+    layers[5].use_tool(&tool("std-flat-3"));
+    layers[6].op = Operation::OnPath;
+    layers[6].depth = 1.0;
+    layers[6].step_down = 1.0;
+    layers[6].use_tool(&tool("std-flat-3"));
+    layers[6].trochoid = Trochoid { enabled: true, diameter: 4.0, step: 2.0, half: false };
+    let mut scene = Scene::default();
+    square(&mut scene, 0, 10.0, 10.0, 40.0);
+    scene.add(1, Kind::Ellipse { w: 14.0, h: 14.0 }, Xf::translate(70.0, 20.0));
+    square(&mut scene, 2, 10.0, 70.0, 30.0);
+    square(&mut scene, 3, 60.0, 60.0, 25.0);
+    scene.add(5, Kind::Rect { w: 30.0, h: 8.0 }, Xf::translate(100.0, 10.0));
+    scene.add(6, Kind::Path(vec![Polyline::new(vec![Pt::new(100.0, 40.0), Pt::new(140.0, 40.0)], false)]), Xf::IDENTITY);
+    for (i, l) in layers.iter_mut().enumerate() {
+        l.enabled = (i == 3) == chamfer_only;
+    }
+    let prog = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions::default());
+    clean_gcode(&to_gcode(&prog, &dev, &layers, &lib, "sim"))
+}
+
+#[test]
+#[ignore = "needs grbl-sim: tools/grbl-sim/build.sh of baseCreator"]
+fn grbl_sim_the_new_operations_are_accepted_and_end_at_zero_with_the_spindle_off() {
+    let mut s = Session::connect();
+    s.wait_banner();
+    s.fast_machine(&[]);
+    for chamfer_only in [true, false] {
+        let job = job_with_operations(chamfer_only);
+        assert!(job.len() > if chamfer_only { 10 } else { 500 }, "{} lines", job.len());
+        assert!(!job.iter().any(|l| l.starts_with("M0")), "one bit: no pause");
+        s.run_job(job, 900.0);
+        s.wait_idle_at(0.0, 0.0, 120.0);
+        assert!(s.parser_state().contains("M5"), "the spindle is off");
+        assert!(s.errors().is_empty(), "GRBL rejected lines: {:?}", s.errors_described());
+    }
+}
+

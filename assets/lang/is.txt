@@ -328,3 +328,29 @@
 327|Smelltu á útlínuna til að bæta við brú, dragðu brú til að færa hana, smelltu á brú til að fjarlægja hana. Hringur með handvirkt settum brúm fær aðeins þær.
 328|Hreinsa handvirkt settar brýr
 329|Flytja inn DXF…
+330|Planfræsing
+331|Útvíkkun gats
+332|Skáskurður
+333|Rauf með dogbone-hornum
+334|Efra yfirborð efnisins er plönuð yfir kassa laga formanna; fræsinn fer örlítið út fyrir brúnina.
+335|Hringlaga gat sem er stærra en fræsinn: fræsinn fer niður í spíral og fer síðan einn hring á fullu dýpi.
+336|Brún formanna er skábrýnd: V-fræsir fylgir línunni á því dýpi sem gefur skáskurðinum umbeðna breidd.
+337|Fræsinn fer inn í línuna og í hvert skarpt horn, svo að kringlóttur fræsir skilji eftir pláss fyrir ferkantaðan hlut.
+338|Hringir
+339|Raster
+340|Á undan
+341|Á eftir
+342|Mynstur vasa
+343|Horn rasters
+344|Útlínuferð
+345|Afgangur lags
+346|Yfirhang
+347|Breidd skáskurðar
+348|Trókoíðar
+349|Þvermál trókoíðu
+350|Skref trókoíðu
+351|Hálfhringir
+352|{}: skáskurður krefst V-fræsa eða grafara
+353|{}: lag afgangsvasans hefur engan fræs
+354|{}: fræsir afgangsvasans verður að vera minni en fræsir lagsins sem hann tekur við af
+355|{}: ekkert að plana: teiknaðu form sem gefur stærð flatarins

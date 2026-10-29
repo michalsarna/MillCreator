@@ -328,3 +328,29 @@
 327|Kattintson a kontúrra híd hozzáadásához, húzzon egy hidat az áthelyezéséhez, kattintson egy hídra az eltávolításához. A kézzel elhelyezett hidakkal rendelkező gyűrű csak azokat kapja.
 328|A kézzel elhelyezett hidak törlése
 329|DXF importálása…
+330|Síkmarás
+331|Furatfúrás
+332|Letörés
+333|Dogbone sarkú horony
+334|Az anyag felső felületét a réteg alakzatainak keretén belül síkra marja; a maró kissé túlmegy a szélen.
+335|A marónál nagyobb kerek furat: a maró spirálisan lefelé halad körülötte, majd egyszer körbemegy teljes mélységben.
+336|Az alakzatok éle letörésre kerül: a V-maró a vonalat olyan mélységben követi, hogy a letörés a kért szélességű legyen.
+337|A maró a vonal belsejében halad és minden éles sarokba bemegy, hogy egy kerek maró helyet hagyjon a szögletes alkatrésznek.
+338|Gyűrűk
+339|Raszter
+340|Előtte
+341|Utána
+342|Zseb mintája
+343|Raszter szöge
+344|Kontúrmenet
+345|A réteg maradéka
+346|Túlnyúlás
+347|Letörés szélessége
+348|Trochoidok
+349|A trochoid átmérője
+350|A trochoid lépése
+351|Félkörök
+352|{}: a letöréshez V-maró vagy gravírozó kell
+353|{}: a maradék zseb rétegének nincs marója
+354|{}: a maradék zseb marójának kisebbnek kell lennie annak a rétegnek a marójánál, amelytől átveszi
+355|{}: nincs mit síkra marni: rajzoljon egy alakzatot, amely megadja a felület méretét

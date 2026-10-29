@@ -328,3 +328,29 @@
 327|Kliknutím na obrys pridáte mostík, ťahaním ho presuniete, kliknutím na mostík ho odstránite. Okruh s ručne umiestnenými mostíkmi dostane len tie.
 328|Vymazať ručne umiestnené mostíky
 329|Importovať DXF…
+330|Planovanie
+331|Vyvŕtanie
+332|Skosenie
+333|Drážka s rohmi dogbone
+334|Horná strana materiálu sa zarovná cez obdĺžnik tvarov vrstvy; fréza prejde kúsok cez okraj.
+335|Okrúhly otvor väčší ako fréza: fréza klesá okolo neho špirálou a potom raz obíde v plnej hĺbke.
+336|Hrana tvarov sa zrazí: V-fréza sleduje čiaru v hĺbke, pri ktorej je zrazenie také široké, ako sa žiada.
+337|Fréza ide vnútri čiary a do každého ostrého rohu, aby okrúhla fréza nechala miesto pre hranatý diel.
+338|Prstence
+339|Raster
+340|Pred
+341|Po
+342|Vzor vrecka
+343|Uhol rastra
+344|Prechod po obryse
+345|Zvyšok vrstvy
+346|Presah
+347|Šírka zrazenia
+348|Trochoidy
+349|Priemer trochoidy
+350|Krok trochoidy
+351|Polkruhy
+352|{}: na zrazenie treba V-frézu alebo rydlo
+353|{}: vrstva zvyškového vrecka nemá frézu
+354|{}: fréza zvyškového vrecka musí byť menšia ako fréza vrstvy, od ktorej preberá
+355|{}: nie je čo zarovnávať: nakreslite tvar, ktorý určí veľkosť plochy

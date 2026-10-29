@@ -328,3 +328,29 @@
 327|Noklikšķiniet uz kontūras, lai pievienotu tiltu, velciet tiltu, lai to pārvietotu, noklikšķiniet uz tilta, lai to noņemtu. Gredzens ar ar roku novietotiem tiltiem saņem tikai tos.
 328|Notīrīt ar roku novietotos tiltus
 329|Importēt DXF…
+330|Virsmas frēzēšana
+331|Urbuma paplašināšana
+332|Nofrēze
+333|Rievas ar dogbone stūriem
+334|Materiāla virsma tiek nofrēzēta slāņa formu rāmja robežās; frēze nedaudz iziet pāri malai.
+335|Apaļš caurums, kas lielāks par frēzi: frēze spirāli nolaižas ap to un tad vienu reizi apiet pilnā dziļumā.
+336|Formu mala tiek nofrēzēta: V formas frēze seko līnijai tādā dziļumā, lai nofrēze būtu prasītajā platumā.
+337|Frēze iet pa līnijas iekšpusi un katrā asā stūrī, lai apaļa frēze atstātu vietu kantainai detaļai.
+338|Gredzeni
+339|Rastrs
+340|Pirms
+341|Pēc
+342|Kabatas raksts
+343|Rastra leņķis
+344|Kontūras gājiens
+345|Slāņa atlikums
+346|Pārsniegums
+347|Nofrēzes platums
+348|Trohoīdas
+349|Trohoīdas diametrs
+350|Trohoīdas solis
+351|Pusapļi
+352|{}: nofrēzei vajadzīga V formas vai gravēšanas frēze
+353|{}: atlikuma kabatas slānim nav frēzes
+354|{}: atlikuma kabatas frēzei jābūt mazākai par tā slāņa frēzi, no kura tā pārņem
+355|{}: nav ko frēzēt: uzzīmējiet formu, kas nosaka virsmas izmēru

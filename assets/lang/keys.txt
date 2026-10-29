@@ -328,3 +328,29 @@
 327	Click on the outline to add a tab, drag a tab to move it, click a tab to take it away. A ring that has tabs placed by hand gets only those.
 328	Clear hand-placed tabs
 329	Import DXF…
+330	Face
+331	Bore
+332	Chamfer
+333	Dogbone slot
+334	The top of the material is planed over the box of the shapes of the layer; the bit goes a little over the edge.
+335	A round hole bigger than the bit: the bit goes down round it in a spiral and then once round at the full depth.
+336	The edge of the shapes is chamfered: a V-bit follows the line at the depth that makes the chamfer as wide as asked.
+337	The bit goes round the inside of the line and into every sharp corner, so that a round bit leaves room for a square part.
+338	Rings
+339	Raster
+340	Before
+341	After
+342	Pocket pattern
+343	Raster angle
+344	Outline pass
+345	Rest of layer
+346	Overhang
+347	Chamfer width
+348	Trochoids
+349	Trochoid diameter
+350	Trochoid step
+351	Half circles
+352	{}: a chamfer needs a V-bit or an engraving bit
+353	{}: the layer of the rest pocket has no bit
+354	{}: the bit of a rest pocket has to be smaller than the bit of the layer it takes over from
+355	{}: nothing to plane: draw a shape that gives the size of the surface

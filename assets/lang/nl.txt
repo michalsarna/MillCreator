@@ -328,3 +328,29 @@
 327|Klik op de contour om een brugje toe te voegen, sleep een brugje om het te verplaatsen, klik op een brugje om het te verwijderen. Een ring met met de hand geplaatste brugjes krijgt alleen die.
 328|Met de hand geplaatste brugjes wissen
 329|DXF importeren…
+330|Vlakfrezen
+331|Uitboren
+332|Afschuining
+333|Gleuf met dogbone-hoeken
+334|De bovenkant van het materiaal wordt vlakgefreesd over het vak van de vormen van de laag; de frees gaat iets over de rand.
+335|Een rond gat dat groter is dan de frees: de frees gaat er in een spiraal omheen naar beneden en maakt dan één ronde op volle diepte.
+336|De rand van de vormen wordt afgeschuind: een V-frees volgt de lijn op de diepte die de afschuining zo breed maakt als gevraagd.
+337|De frees gaat aan de binnenkant van de lijn en in elke scherpe hoek, zodat een ronde frees ruimte laat voor een hoekig deel.
+338|Ringen
+339|Raster
+340|Ervoor
+341|Erna
+342|Zakpatroon
+343|Rasterhoek
+344|Contourgang
+345|Restant van laag
+346|Overstek
+347|Breedte van de afschuining
+348|Trochoïden
+349|Diameter van de trochoïde
+350|Stap van de trochoïde
+351|Halve cirkels
+352|{}: voor een afschuining is een V-frees of graveerfrees nodig
+353|{}: de laag van de restzak heeft geen frees
+354|{}: de frees van een restzak moet kleiner zijn dan die van de laag waarvan hij overneemt
+355|{}: niets om vlak te frezen: teken een vorm die de grootte van het oppervlak aangeeft

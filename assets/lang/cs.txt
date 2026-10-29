@@ -328,3 +328,29 @@
 327|Kliknutím na obrys přidáte můstek, tažením ho přesunete, kliknutím na můstek ho odstraníte. Okruh s ručně umístěnými můstky dostane jen ty.
 328|Smazat ručně umístěné můstky
 329|Importovat DXF…
+330|Planování
+331|Vyvrtávání
+332|Zkosení
+333|Drážka s rohy dogbone
+334|Horní strana materiálu se zarovná přes obdélník tvarů vrstvy; fréza přejede kousek přes okraj.
+335|Kulatý otvor větší než fréza: fréza sjíždí kolem něj spirálou a pak jednou objede v plné hloubce.
+336|Hrana tvarů se zkosí: V-fréza sleduje čáru v hloubce, při které je zkosení tak široké, jak je požadováno.
+337|Fréza jede uvnitř čáry a do každého ostrého rohu, aby kulatá fréza nechala místo pro hranatý díl.
+338|Prstence
+339|Raster
+340|Před
+341|Po
+342|Vzor kapsy
+343|Úhel rastru
+344|Průchod po obrysu
+345|Zbytek vrstvy
+346|Přesah
+347|Šířka zkosení
+348|Trochoidy
+349|Průměr trochoidy
+350|Krok trochoidy
+351|Půlkruhy
+352|{}: pro zkosení je třeba V-fréza nebo rydlo
+353|{}: vrstva zbytkové kapsy nemá frézu
+354|{}: fréza zbytkové kapsy musí být menší než fréza vrstvy, ze které přebírá
+355|{}: není co zarovnávat: nakreslete tvar, který určí velikost plochy

@@ -328,3 +328,29 @@
 327|Ikklikkja fuq il-kontorn biex iżżid pont, kaxkar pont biex tmexxih, ikklikkja fuq pont biex tneħħih. Ċirku b'pontijiet imqiegħda bl-idejn jieħu dawk biss.
 328|Neħħi l-pontijiet imqiegħda bl-idejn
 329|Importa DXF…
+330|Wiċċ
+331|Titqib kbir
+332|Xamfru
+333|Qasma b'rkejjen dogbone
+334|Il-wiċċ ta' fuq tal-materjal jiġi ċċattat fuq il-kaxxa tal-forom tas-saff; il-frieża toħroġ ftit fuq il-ġenb.
+335|Toqba tonda akbar mill-frieża: il-frieża tinżel madwarha fi spirali u mbagħad taħdem darba waħda fil-fond sħiħ.
+336|It-tarf tal-forom jinqata' bi xamfru: frieża V issegwi l-linja fil-fond li jagħti l-wisa' mitluba.
+337|Il-frieża timxi ġewwa l-linja u f'kull rokna wieqfa, biex frieża tonda tħalli spazju għal biċċa kwadra.
+338|Ċrieki
+339|Raster
+340|Qabel
+341|Wara
+342|Mudell tal-but
+343|Angolu tar-raster
+344|Passata tal-kontorn
+345|Fdal tas-saff
+346|Eċċess
+347|Wisa' tax-xamfru
+348|Trokojdi
+349|Dijametru tat-trokojde
+350|Pass tat-trokojde
+351|Nofs ċrieki
+352|{}: xamfru jeħtieġ frieża V jew tal-inċiżjoni
+353|{}: is-saff tal-but tal-fdal m'għandux frieża
+354|{}: il-frieża tal-but tal-fdal trid tkun iżgħar minn dik tas-saff li minnu tkompli
+355|{}: xejn x'iċċattja: ixpjega forma li tagħti d-daqs tal-wiċċ
