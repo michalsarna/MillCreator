@@ -2,6 +2,18 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.4.2
+
+* **3D view:** **Material** shows the stock as it is milled: the cuts made so far (up to the slider) are carved into its top with the real shape of each bit; **Cuts** only adds the paths of the bit over it. The view can be exported as an **STL** model of the milled piece (an icon in the title line and a button in the options row; the cuts done up to the slider).
+* **Own G-code:** a new page *G-code* in the device settings, with lines for the start of the program, every change of the bit, every change of the operation and the end of the program.
+* **Work coordinates:** the device settings (page General) choose **G54 … G59** and the **zero of the program** (X, Y); the program starts with the word and counts from that zero, also the frame.
+* **Preview as a tab:** the preview window has a button in its title line that pins it as a tab of the work area, next to the drawings and the camera view, and a button in the tab that makes it a window again.
+* **Plugins:** every plugin that has something to set (a G-code postprocessor, for example *G-code tools*) has a tab of its own in the right-hand panel; the postprocessor is no longer chosen in the Plugins window. The official plugins are translated into Polish, German, Italian, Finnish, Chinese and Hindi.
+* **Import / Adjust image:** the dialog follows the size of the window, with the buttons at the bottom, and a new **Levels** column: a histogram of the greys with two sliders for the range.
+* **Trace image:** the dialog follows the size of the window; the preview zooms with the scroll wheel, moves by dragging and shows the whole picture again on a double click.
+* **Tool palette:** when the window is too low for it (Full HD with the taskbar showing), the buttons grow smaller instead of the palette scrolling.
+* Updated dependencies. baseCreator v1.34.1.
+
 ## v0.4.1
 
 * **Cut one element at a time, or only the selection:** two options in the Control tab, under Frame / From line… (this session only, not saved; they can be used together). **One element at a time** cuts each element, a group (even over several layers) or a shape that is in no group, completely, with all its layers and all their passes, before the next one, the nearest element to the machine's zero first; it is meant for layers that use the same bit (with different bits the bit is still changed at every switch). **Selection only** cuts just the shapes that are selected on the work area when the G-code is saved or the job is started. Both change the G-code, the preview and the estimate, and Frame follows the selection.
