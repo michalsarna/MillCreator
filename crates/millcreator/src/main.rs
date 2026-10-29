@@ -94,6 +94,27 @@ fn read_scene(data: &[u8]) -> Result<Scene, String> {
     Ok(scene)
 }
 
+/// The shapes of a DXF drawing as a scene: every layer of the DXF goes to a layer of the project that has no shapes yet (in the order
+/// of the DXF); when there are more layers than free ones, the rest goes to the last layer. The second value says where they went.
+fn dxf_scene(outlines: Vec<base_core::svg::Outline>, used: &std::collections::HashSet<usize>) -> (Scene, Option<String>) {
+    let mut free: Vec<usize> = (0..layers::LAYER_COUNT).filter(|i| !used.contains(i)).collect();
+    if free.is_empty() {
+        free.push(layers::LAYER_COUNT - 1);
+    }
+    let names = base_core::svg::layer_names(&outlines);
+    let mut scene = Scene::default();
+    for o in outlines {
+        let at = o.layer.as_ref().and_then(|l| names.iter().position(|n| n == l)).unwrap_or(0);
+        let layer = free[at.min(free.len() - 1)];
+        scene.add(layer, Kind::Bezier(o.contours), Xf::IDENTITY);
+    }
+    let note = (names.len() > 1).then(|| {
+        let spread = names.iter().enumerate().map(|(i, n)| format!("{n} → {}", free[i.min(free.len() - 1)] + 1)).collect::<Vec<_>>().join(", ");
+        format!("layers: {spread}")
+    });
+    (scene, note)
+}
+
 /// Undo and redo of whole scenes.
 #[derive(Default)]
 struct History {
@@ -130,7 +151,7 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::New => Some("file-plus"),
         Act::Open => Some("folder-open"),
         Act::Save | Act::SaveAs => Some("save"),
-        Act::ImportLightburn | Act::ImportUgsd | Act::ImportPlugin => Some("file-input"),
+        Act::ImportLightburn | Act::ImportDxf | Act::ImportUgsd | Act::ImportPlugin => Some("file-input"),
         Act::ViewGcode => Some("eye"),
         Act::Plugins => Some("package-open"),
         Act::GenerateShape => Some("shapes"),
@@ -331,9 +352,9 @@ struct App {
     native_menu: Option<native_menu::NativeMenu>,
 }
 
-/// A file that is imported into the drawing: a LightBurn project or a UGS design.
+/// A file that is imported into the drawing: a LightBurn project, a UGS design or a DXF drawing.
 fn is_import(p: &std::path::Path) -> bool {
-    p.extension().is_some_and(|e| ["lbrn2", "lbrn", "ugsd"].iter().any(|x| e.eq_ignore_ascii_case(x)))
+    p.extension().is_some_and(|e| ["lbrn2", "lbrn", "ugsd", "dxf"].iter().any(|x| e.eq_ignore_ascii_case(x)))
 }
 
 impl App {
@@ -592,10 +613,20 @@ impl App {
         }
         let name = path.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
         let is_ugsd = path.extension().is_some_and(|e| e.eq_ignore_ascii_case("ugsd"));
+        let is_dxf = path.extension().is_some_and(|e| e.eq_ignore_ascii_case("dxf"));
         let area_h = self.work_size().1;
         let max_rpm = self.device.spindle.max_rpm;
         let last = layers::LAYER_COUNT - 1;
+        // A DXF drawing: its layers go to the layers of the project that have no shapes yet, one after the other.
+        let used_layers: std::collections::HashSet<usize> = self.scene.shapes.iter().map(|s| s.layer).collect();
         let read = std::fs::read(&path).map_err(|e| e.to_string()).and_then(|d| {
+            if is_dxf {
+                let dxf = base_core::dxf::parse(&d, area_h)?;
+                let (scene, note) = dxf_scene(dxf.outlines, &used_layers);
+                let mut warnings = dxf.warnings;
+                warnings.extend(note);
+                return Ok((scene, warnings, None));
+            }
             let text = String::from_utf8(d).map_err(|_| "this is not a text file".to_string())?;
             if is_ugsd {
                 let imp = base_core::ugsd::import(&text, area_h, layers::LAYER_COUNT)?;
@@ -665,7 +696,7 @@ impl App {
     }
 
     fn open_dialog(&mut self) {
-        if let Some(p) = rfd::FileDialog::new().add_filter("Project, SVG, PDF, Illustrator", &[project::EXTENSION, "svg", "pdf", "ai", "ugsd"]).pick_file() {
+        if let Some(p) = rfd::FileDialog::new().add_filter("Project, SVG, PDF, Illustrator, DXF", &[project::EXTENSION, "svg", "pdf", "ai", "ugsd", "dxf"]).pick_file() {
             self.open(p);
         }
     }
@@ -673,6 +704,13 @@ impl App {
     /// File > Import > Import LightBurn project…: the shapes of the project come over as a new, unsaved drawing.
     fn import_lightburn_dialog(&mut self) {
         if let Some(p) = rfd::FileDialog::new().add_filter("LightBurn", &["lbrn2", "lbrn"]).pick_file() {
+            self.open(p);
+        }
+    }
+
+    /// File > Import > Import DXF…: the lines, arcs and curves of the drawing are added to the drawing.
+    fn import_dxf_dialog(&mut self) {
+        if let Some(p) = rfd::FileDialog::new().add_filter("DXF", &["dxf"]).pick_file() {
             self.open(p);
         }
     }
@@ -1277,6 +1315,7 @@ impl MenuHost for App {
             Act::Save => self.save(false),
             Act::SaveAs => self.save(true),
             Act::ImportLightburn => self.import_lightburn_dialog(),
+            Act::ImportDxf => self.import_dxf_dialog(),
             Act::ImportUgsd => self.import_ugsd_dialog(),
             Act::ViewGcode => self.view_gcode_dialog(),
             Act::ImportPlugin => self.import_with_plugin_dialog(),
@@ -1591,6 +1630,27 @@ mod tests {
         std::fs::write(&svg, SVG).unwrap();
         a.open(svg);
         assert!(a.path.is_none());
+        std::fs::remove_dir_all(dir).ok();
+    }
+
+    #[test]
+    fn a_dxf_drawing_is_imported_with_its_layers_on_the_free_layers_of_the_project() {
+        let dir = std::env::temp_dir().join(format!("mc-dxf-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let file = dir.join("part.dxf");
+        let dxf = "0\nSECTION\n2\nHEADER\n9\n$INSUNITS\n70\n4\n0\nENDSEC\n0\nSECTION\n2\nENTITIES\n0\nLINE\n8\nOUTLINE\n10\n0\n20\n0\n11\n40\n21\n0\n0\nLINE\n8\nOUTLINE\n10\n40\n20\n0\n11\n40\n21\n20\n0\nLINE\n8\nOUTLINE\n10\n40\n20\n20\n11\n0\n21\n20\n0\nLINE\n8\nOUTLINE\n10\n0\n20\n20\n11\n0\n21\n0\n0\nCIRCLE\n8\nHOLES\n10\n20\n20\n10\n40\n3\n0\nENDSEC\n0\nEOF\n";
+        std::fs::write(&file, dxf).unwrap();
+        let mut a = app();
+        a.scene = Scene::default();
+        // Layer 1 (the second) has a shape already: the DXF layers take the free ones, the first and the third.
+        a.scene.add(1, Kind::Rect { w: 5.0, h: 5.0 }, base_core::geom::Xf::IDENTITY);
+        a.open(file);
+        let on = |l: usize| a.scene.shapes.iter().filter(|s| s.layer == l).count();
+        assert_eq!((on(0), on(1), on(2)), (1, 1, 1), "{}", a.status);
+        assert!(a.status.contains("Imported 2 shapes") && a.status.contains("OUTLINE → 1") && a.status.contains("HOLES → 3"), "{}", a.status);
+        // The four lines are one closed path.
+        let outline = a.scene.shapes.iter().find(|s| s.layer == 0).unwrap();
+        assert!(matches!(&outline.kind, Kind::Bezier(cs) if cs.len() == 1 && cs[0].closed), "{:?}", outline.kind);
         std::fs::remove_dir_all(dir).ok();
     }
 

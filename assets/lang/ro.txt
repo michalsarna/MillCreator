@@ -327,3 +327,4 @@
 326|Plasează punțile manual
 327|Faceți clic pe contur pentru a adăuga o punte, trageți o punte pentru a o muta, faceți clic pe o punte pentru a o elimina. Un inel cu punți plasate manual primește doar acelea.
 328|Șterge punțile plasate manual
+329|Importă DXF…

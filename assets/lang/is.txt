@@ -327,3 +327,4 @@
 326|Setja brýr handvirkt
 327|Smelltu á útlínuna til að bæta við brú, dragðu brú til að færa hana, smelltu á brú til að fjarlægja hana. Hringur með handvirkt settum brúm fær aðeins þær.
 328|Hreinsa handvirkt settar brýr
+329|Flytja inn DXF…

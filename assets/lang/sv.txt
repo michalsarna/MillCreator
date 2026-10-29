@@ -327,3 +327,4 @@
 326|Placera bryggor för hand
 327|Klicka på konturen för att lägga till en brygga, dra en brygga för att flytta den, klicka på en brygga för att ta bort den. En ring med handplacerade bryggor får bara dem.
 328|Rensa handplacerade bryggor
+329|Importera DXF…

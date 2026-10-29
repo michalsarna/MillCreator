@@ -327,3 +327,4 @@
 326|Col·loca els ponts a mà
 327|Fes clic al contorn per afegir un pont, arrossega'l per moure'l, fes clic sobre un pont per treure'l. Un anell amb ponts col·locats a mà només en té aquests.
 328|Esborra els ponts col·locats a mà
+329|Importa DXF…

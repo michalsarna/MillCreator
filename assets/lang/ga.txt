@@ -327,3 +327,4 @@
 326|Cuir droichid de láimh
 327|Cliceáil ar an gcomhrian chun droichead a chur leis, tarraing droichead chun é a bhogadh, cliceáil ar dhroichead chun é a bhaint. Ní bhíonn ach iad sin ag fáinne a bhfuil droichid curtha de láimh air.
 328|Glan droichid a cuireadh de láimh
+329|Iompórtáil DXF…

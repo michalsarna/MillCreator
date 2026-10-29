@@ -327,3 +327,4 @@
 326|Placer les ponts à la main
 327|Cliquez sur le contour pour ajouter un pont, faites glisser un pont pour le déplacer, cliquez sur un pont pour le supprimer. Un anneau avec des ponts placés à la main n'a que ceux-là.
 328|Effacer les ponts placés à la main
+329|Importer un DXF…

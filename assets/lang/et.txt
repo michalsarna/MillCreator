@@ -327,3 +327,4 @@
 326|Aseta sillad käsitsi
 327|Klõpsa piirjoonel silla lisamiseks, lohista silda liigutamiseks, klõpsa sillal selle eemaldamiseks. Käsitsi paigutatud sildadega rõngas saab ainult need.
 328|Tühjenda käsitsi paigutatud sillad
+329|Impordi DXF…

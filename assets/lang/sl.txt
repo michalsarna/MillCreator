@@ -327,3 +327,4 @@
 326|Ročno postavi mostičke
 327|Kliknite na obris za dodajanje mostička, povlecite mostiček za premik, kliknite mostiček za odstranitev. Obroč z ročno postavljenimi mostički dobi samo te.
 328|Počisti ročno postavljene mostičke
+329|Uvozi DXF…
