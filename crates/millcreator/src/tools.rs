@@ -198,6 +198,7 @@ impl Tool {
     /// The width of the cut at `depth` below the surface, in mm: the width of the groove this bit makes when it goes
     /// that deep. A flat or ball bit cuts its diameter (a ball nose less near the surface of a shallow cut); a V-bit
     /// and the pointed bits get wider with depth up to their diameter.
+    #[cfg(test)]
     pub fn cut_width(&self, depth: f64) -> f64 {
         let d = self.dims.diameter.max(0.0);
         let depth = depth.max(0.0);

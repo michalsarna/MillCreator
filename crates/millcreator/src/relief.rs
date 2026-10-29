@@ -397,7 +397,21 @@ mod tests {
 /// move, the cutting surface of the bit above it) and lowers the cells under it. `area` is the box (lowest and highest corner, x and
 /// y) the model covers. Returns (columns, rows, step, heights) with row 0 at the largest y, heights 0 (the top of the stock) or
 /// less and never below `-thickness`. The step is made larger when the sweep would take too long.
-pub fn carved_surface(moves: &[crate::toolpath::Move], tool_of: impl Fn(usize) -> Option<Tool>, area: ([f64; 2], [f64; 2]), thickness: f64) -> (usize, usize, f64, Vec<f64>) {
+/// How fine the sweep of [`carved_surface`] may be: the most cells and the most steps of work.
+#[derive(Clone, Copy)]
+pub struct Limits {
+    pub cells: usize,
+    pub work: f64,
+}
+
+impl Limits {
+    /// For a model that is exported: as fine as the bit allows.
+    pub const EXPORT: Limits = Limits { cells: MAX_CELLS, work: MAX_WORK as f64 };
+    /// For the picture of the 3D view, which is made again whenever the slider moves.
+    pub const VIEW: Limits = Limits { cells: 90_000, work: 40_000_000.0 };
+}
+
+pub fn carved_surface(moves: &[crate::toolpath::Move], tool_of: impl Fn(usize) -> Option<Tool>, area: ([f64; 2], [f64; 2]), thickness: f64, limits: Limits) -> (usize, usize, f64, Vec<f64>) {
     use crate::toolpath::MoveKind;
     let (lo, hi) = area;
     let (w, h) = ((hi[0] - lo[0]).max(0.5), (hi[1] - lo[1]).max(0.5));
@@ -406,7 +420,7 @@ pub fn carved_surface(moves: &[crate::toolpath::Move], tool_of: impl Fn(usize) -
     let mut step = if smallest.is_finite() { (smallest / 2.0).max(0.05) } else { 0.5 };
     // The grid stays small enough, and so does the work of the sweep (samples along the moves times the cells under the bit).
     let work = |step: f64| -> f64 { cuts.iter().map(|(m, t)| (m.length() / step * 2.0 + 1.0) * std::f64::consts::PI * (t.radius() / step).powi(2)).sum() };
-    while (w / step) * (h / step) > MAX_CELLS as f64 || work(step) > MAX_WORK as f64 {
+    while (w / step) * (h / step) > limits.cells as f64 || work(step) > limits.work {
         step *= 1.25;
     }
     let (cols, rows) = (((w / step).ceil() as usize).max(2), ((h / step).ceil() as usize).max(2));
@@ -457,7 +471,7 @@ mod carve_tests {
         let tool = Tool::new("t", "T", ToolKind::FlatEnd, crate::tools::Dims { diameter: 3.0, ..Default::default() });
         let r = tool.radius();
         let moves = [cut([10.0, 20.0, -2.0], [30.0, 20.0, -2.0])];
-        let (cols, rows, step, z) = carved_surface(&moves, |_| Some(tool.clone()), ([0.0, 0.0], [40.0, 40.0]), 5.0);
+        let (cols, rows, step, z) = carved_surface(&moves, |_| Some(tool.clone()), ([0.0, 0.0], [40.0, 40.0]), 5.0, Limits::EXPORT);
         let at = |x: f64, y: f64| z[(((40.0 - y) / step) as usize).min(rows - 1) * cols + ((x / step) as usize).min(cols - 1)];
         assert_eq!(at(20.0, 20.0), -2.0);
         assert_eq!(at(20.0, 20.0 + r + 3.0 * step), 0.0, "beside the groove the stock is whole");

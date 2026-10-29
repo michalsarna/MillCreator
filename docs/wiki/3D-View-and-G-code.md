@@ -24,9 +24,9 @@ From the shapes, the layers, the bits and the device the program makes the moves
 | right or middle drag | move the picture |
 | **Reset view** or double click | back to the first view |
 | Material, Cuts, Moves at the safe height | show or hide each part; the blue frame is the safe height |
-| Animation | back to the start, play / pause, the progress slider, the speed (×0.25 to ×25) and repeat; the job is shown up to a part of its length, with the bit marked; the cuts drawn are as wide as the bit |
+| Animation | back to the start, play / pause, the progress slider, the speed (×0.25 to ×25) and repeat; the job is shown up to a part of its length, with the bit marked; the material shows the cuts made so far |
 
-Cuts are drawn in the colour of their layer over a groove as wide as the bit at that depth (a V-bit grows wider with depth). The window shows the length of the cuts, an estimate of the time and the warnings, and makes the program again after every change of the project.
+**Material** is the stock as it is milled: the grooves of the bits are carved into its top, as far as the slider has got, with the real shape of each bit (a V-bit gets wider with depth). **Cuts** adds only the paths of the bit, in the colour of their layer, over it. The window shows the length of the cuts, an estimate of the time and the warnings, and makes the program again after every change of the project.
 
 ![Turned view](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/17-3d-view-turned.png)
 
