@@ -181,8 +181,8 @@ checksum = "f2032f911046de80f0a198e0901378627c33f59ea0ac00e363d481118bd70a53"
 
 [[package]]
 name = "base-core"
-version = "1.32.0"
-source = "git+https://github.com/michalsarna/baseCreator?tag=v1.32.0#3e528c90b39bbb62f03dadfb59ce6e2af5d2432b"
+version = "1.33.0"
+source = "git+https://github.com/michalsarna/baseCreator?tag=v1.33.0#bfde46d690b8a599ddbaddd42af60452afd0ae64"
 dependencies = [
  "base64 0.23.1",
  "i_overlay",
@@ -195,14 +195,14 @@ dependencies = [
  "serde_json",
  "sha2",
  "ttf-parser",
- "usvg 0.48.1",
+ "usvg 0.49.0",
  "zip",
 ]
 
 [[package]]
 name = "base-ui"
-version = "1.32.0"
-source = "git+https://github.com/michalsarna/baseCreator?tag=v1.32.0#3e528c90b39bbb62f03dadfb59ce6e2af5d2432b"
+version = "1.33.0"
+source = "git+https://github.com/michalsarna/baseCreator?tag=v1.33.0#bfde46d690b8a599ddbaddd42af60452afd0ae64"
 dependencies = [
  "base-core",
  "egui",
@@ -213,7 +213,7 @@ dependencies = [
  "objc2 0.6.5",
  "objc2-app-kit 0.3.2",
  "objc2-foundation 0.3.2",
- "resvg 0.48.1",
+ "resvg 0.49.0",
  "rfd",
  "serde",
  "serde_json",
@@ -2089,9 +2089,9 @@ checksum = "f9f8bd3e56ce4dfc153cf470fffbfa98c7620958b312ca5c3a4b8d5181fd13c6"
 
 [[package]]
 name = "lopdf"
-version = "0.45.0"
+version = "0.46.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bfffda0fe1ab0157e1a13c14bebd3f28671f2fccb7922f0722ec53926e6922d3"
+checksum = "d43f64cb8c0d673ff84245a6de9e0172c0cc05dc5dd9d263660b5b4a02b6c4ae"
 dependencies = [
  "aes",
  "bitflags 2.13.2",
@@ -3250,9 +3250,9 @@ dependencies = [
 
 [[package]]
 name = "resvg"
-version = "0.48.1"
+version = "0.49.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "67e3803f97b999e80cbf7c6ecdd07a8102204d92e1633cf48783720c521196bd"
+checksum = "1572844b6727a1bf842190e9947641a68ac44bed83f50afb4bd1407a2564bee8"
 dependencies = [
  "bytemuck",
  "log",
@@ -3260,7 +3260,7 @@ dependencies = [
  "rgb",
  "svgtypes 0.16.1",
  "tiny-skia 0.12.0",
- "usvg 0.48.1",
+ "usvg 0.49.0",
 ]
 
 [[package]]
@@ -4218,9 +4218,9 @@ dependencies = [
 
 [[package]]
 name = "usvg"
-version = "0.48.1"
+version = "0.49.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "977d0a4abdef933f424a99fe09f95576e089b90aebc6f016a3bc813762493e91"
+checksum = "d09b73ee83641d390ad7ffd9000f347b16eb128e437675b6ff277ea5c7fcf22c"
 dependencies = [
  "base64 0.23.1",
  "data-url",
