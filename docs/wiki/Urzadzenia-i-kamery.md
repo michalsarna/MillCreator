@@ -15,9 +15,10 @@ Tworzy jednorazowo zwykłe urządzenie o nazwie **Dummy**: pole robocze 300 × 2
 ## Ustawienia urządzenia
 | Strona | Co zawiera |
 |---|---|
-| General | nazwa, jednostki (mm lub cale; geometria jest zawsze zapisana w mm), zero maszyny (przód lewo, przód prawo, tył lewo, tył prawo) |
+| General | nazwa, jednostki (mm lub cale; geometria jest zawsze zapisana w mm), zero maszyny (przód lewo, przód prawo, tył lewo, tył prawo), **współrzędne robocze** (brak albo G54 … G59) i **zero programu** |
 | Machine | pole robocze X i Y, skok w Z, **bezpieczna wysokość** (na której wrzeciono porusza się między cięciami) i prędkość ruchów nad materiałem |
 | Spindle | najniższe i najwyższe obroty oraz czekanie po włączeniu |
+| G-code | **własny G-code** na początku programu, przy każdej zmianie freza, przy każdej zmianie operacji (nowej warstwy) i na końcu programu (patrz niżej) |
 | Connection | port szeregowy lub gniazdo sieciowe, port lub identyfikator USB, prędkość, strumieniowanie, co zrobić po połączeniu |
 | Rotary | obrotnica: rodzaj, średnice, mikrokroki na obrót |
 | Camera | do ośmiu kamer: adres (strumień MJPEG lub zdjęcie JPEG, http / https) albo kamera komputera, obrót 0 / 90 / 180 / 270°, włączona / wyłączona |
@@ -30,3 +31,7 @@ Gdy urządzenie ma włączoną (i poprawną) kamerę, edytor dostaje kartę **Ca
 
 ## W projekcie
 Projekt zapisuje migawkę urządzenia, dla którego powstał (nazwa i trzy rozmiary pola roboczego). Gdy otwiera się go dla urządzenia o innym polu roboczym, pasek stanu o tym mówi.
+
+**Własny G-code (strona G-code).** Cztery pola, jedno polecenie w wierszu (najwyżej 20 wierszy po 100 znaków; znaki sterujące są odrzucane): *Na początku programu* (po nagłówku i słowie współrzędnych roboczych), *Przy każdej zmianie freza* (także przy pierwszym frezie; po pauzie na wymianę, przed włączeniem wrzeciona, np. `T1 M6` albo polecenie chłodzenia), *Przy każdej zmianie operacji* (nowa warstwa; po jej komentarzu, przed obsługą freza) i *Na końcu programu* (po powrocie głowicy do zera, przed `M30`). Wiersze trafiają do każdego G-code, który program tworzy: plik, wysyłane zadanie, przebieg próbny. To własne polecenia maszyny, więc program ich nie sprawdza: nową linię wypróbuj najpierw na maszynie bez freza.
+
+**Współrzędne robocze (G54 … G59) i zero programu (strona General).** Domyślnie program liczy od zera maszyny (narożnik wybrany jako *Machine zero*), jak dotąd. Gdy wybierzesz **G54 … G59**, program zaczyna się tym słowem (maszyna używa więc układu współrzędnych roboczych, którego zero ustawiłeś na niej, np. dotykając materiału), a każde X i Y jest liczone od **zera programu**: punktu pola roboczego podanego jako X, Y (pole robocze liczone od narożnika zera maszyny). Przy zerze 0, 0 liczby są takie same jak bez kodu, dochodzi tylko słowo. Korzystają z tego obrys (*Frame*), przebieg próbny i zadanie, a także powrót do zera na końcu i własny G-code. Z nie zmienia się: jest liczone od wierzchu materiału.

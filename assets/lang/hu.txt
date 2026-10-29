@@ -286,3 +286,12 @@
 285|Nincs mit kimarni: semmi sincs kijelölve
 286|A mart darab exportálása STL-ként…
 287|Nincs mit exportálni: a munkának még nincsenek vágásai.
+288|G-kód
+289|Munkakoordináták
+290|A program nullpontja
+291|A program ezt a munkakoordináta-rendszert választja (G54 … G59, amelynek nullpontját a gépen állítják be, például az anyag megérintésével), és az alább megadott nullponttól számol, a munkaterület koordinátáiban. Nincs: a program a gép nullpontjától számol.
+292|A saját G-kód minden programhoz hozzáadódik, soronként egy parancs (legfeljebb 20 sor).
+293|A program elején
+294|Minden marószerszám-csere után
+295|Minden művelet váltásakor
+296|A program végén

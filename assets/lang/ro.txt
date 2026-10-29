@@ -286,3 +286,12 @@
 285|Nimic de frezat: nimic nu este selectat
 286|Exportă piesa frezată ca STL…
 287|Nimic de exportat: lucrarea nu are încă tăieturi.
+288|G-code
+289|Coordonate de lucru
+290|Zeroul programului
+291|Programul alege acest sistem de coordonate de lucru (G54 … G59, al cărui zero se setează pe mașină, de exemplu atingând materialul) și numără de la zeroul de mai jos, dat în coordonatele zonei de lucru. Niciunul: programul numără de la zeroul mașinii.
+292|G-code-ul propriu se adaugă la fiecare program, o comandă pe linie (cel mult 20 de linii).
+293|La începutul programului
+294|La fiecare schimbare a frezei
+295|La fiecare schimbare a operației
+296|La sfârșitul programului

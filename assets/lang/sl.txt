@@ -286,3 +286,12 @@
 285|Ni kaj rezati: nič ni izbrano
 286|Izvozi frezani kos kot STL…
 287|Ni kaj izvoziti: opravilo še nima rezov.
+288|G-koda
+289|Delovne koordinate
+290|Ničla programa
+291|Program izbere ta delovni koordinatni sistem (G54 … G59, katerega ničla se nastavi na stroju, npr. z dotikom materiala) in šteje od spodaj navedene ničle v koordinatah delovnega območja. Noben: program šteje od ničle stroja.
+292|Lastna G-koda se doda vsakemu programu, en ukaz na vrstico (največ 20 vrstic).
+293|Na začetku programa
+294|Ob vsaki zamenjavi rezkarja
+295|Ob vsaki spremembi operacije
+296|Na koncu programa

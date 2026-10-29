@@ -286,3 +286,12 @@
 285|Pole midagi lõigata: midagi pole valitud
 286|Ekspordi freesitud detail STL-ina…
 287|Pole midagi eksportida: tööl pole veel lõikeid.
+288|G-kood
+289|Töökoordinaadid
+290|Programmi nullpunkt
+291|Programm valib selle töökoordinaatsüsteemi (G54 … G59, mille nulli seatakse masinal, nt materjali puudutades) ja loeb allolevast nullist töötsooni koordinaatides. Puudub: programm loeb masina nullist.
+292|Oma G-kood lisatakse igale programmile, üks käsk rea kohta (kuni 20 rida).
+293|Programmi alguses
+294|Iga freesi vahetusel
+295|Iga operatsiooni vahetusel
+296|Programmi lõpus

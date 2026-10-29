@@ -168,6 +168,8 @@ enum SideTab {
     Clipart,
     Description,
     Camera,
+    /// The tab of a plugin with settings (which one: `App::plugin_tab`).
+    Plugin,
 }
 
 impl SideTab {
@@ -185,6 +187,7 @@ impl SideTab {
             SideTab::Clipart => "clipart",
             SideTab::Description => "description",
             SideTab::Camera => "camera",
+            SideTab::Plugin => "plugin",
         }
     }
 
@@ -203,6 +206,7 @@ impl SideTab {
             SideTab::Clipart => clipart_ui::tab_label().to_string(),
             SideTab::Description => base_ui::description_ui::tab_label().to_string(),
             SideTab::Camera => tr("Camera").to_string(),
+            SideTab::Plugin => String::new(),
         }
     }
 }
@@ -287,6 +291,8 @@ struct App {
     diag: DiagUi,
     diag_gcode: Option<String>,
     plugins: base_ui::plugins_ui::PluginsUi,
+    /// The id of the plugin tab that is shown while `side_tab` is `SideTab::Plugin`.
+    plugin_tab: &'static str,
     /// What the postprocessor of the last export said, for the status bar.
     post_note: Option<String>,
     /// The G-code file shown in place of the work area (File > View G-code file…).
@@ -411,6 +417,7 @@ impl App {
             cal: CalUi::default(),
             diag: DiagUi::default(),
             diag_gcode: None,
+            plugin_tab: "",
             plugins: base_ui::plugins_ui::PluginsUi::new("millcreator", &data_paths().base),
             post_note: None,
             gcode_view: None,
@@ -852,26 +859,59 @@ impl App {
         });
     }
 
+    /// The ids of the tabs that exist only sometimes: the camera view, and the tab of every plugin that has settings.
+    fn extra_tabs(&self) -> Vec<&'static str> {
+        self.device.camera().is_some().then_some("camera").into_iter().chain(self.plugins.side_tabs().into_iter().map(|(id, _)| id)).collect()
+    }
+
+    /// The label of a tab, also of a tab of a plugin.
+    fn tab_label(&self, id: &str) -> String {
+        if base_ui::plugins_ui::PluginsUi::is_side_tab(id) {
+            return self.plugins.side_tab_label(id);
+        }
+        SideTab::from_id(id).map(SideTab::label).unwrap_or_default()
+    }
+
+    /// The id of the tab that is shown (of the plugin tab, when one is).
+    fn shown_tab_id(&self) -> &'static str {
+        if self.side_tab == SideTab::Plugin {
+            self.plugin_tab
+        } else {
+            self.side_tab.id()
+        }
+    }
+
+    /// A click on the tab `id`.
+    fn pick_side_tab(&mut self, id: &'static str) {
+        if base_ui::plugins_ui::PluginsUi::is_side_tab(id) {
+            self.plugin_tab = id;
+            self.side_tab = SideTab::Plugin;
+        } else if let Some(t) = SideTab::from_id(id) {
+            self.side_tab = t;
+        }
+    }
+
     /// The collapsed side panel: a narrow strip with the names of the tabs; a click on one opens the panel on it.
     fn side_strip(&mut self, ui: &mut egui::Ui) {
-        let camera = self.device.camera().is_some();
-        let extra: &[&'static str] = if camera { &["camera"] } else { &[] };
-        let label = |id: &str| SideTab::from_id(id).map(SideTab::label).unwrap_or_default();
-        if let Some(t) = self.tabs.strip(ui, self.side_tab.id(), extra, &label).and_then(SideTab::from_id) {
-            self.side_tab = t;
+        let extra = self.extra_tabs();
+        let labels: std::collections::HashMap<&str, String> = SideTab::IDS.iter().copied().chain(extra.iter().copied()).map(|id| (id, self.tab_label(id))).collect();
+        let label = |id: &str| labels.get(id).cloned().unwrap_or_default();
+        if let Some(t) = self.tabs.strip(ui, self.shown_tab_id(), &extra, &label) {
+            self.pick_side_tab(t);
         }
     }
 
     /// The tabs of the right panel.
     fn side_panel(&mut self, ui: &mut egui::Ui) {
-        let camera = self.device.camera().is_some();
-        if self.side_tab == SideTab::Camera && !camera {
+        let extra = self.extra_tabs();
+        // A tab that is gone (no camera, the plugin removed or switched off) gives way to the first one.
+        if self.side_tab == SideTab::Camera && !extra.contains(&"camera") || self.side_tab == SideTab::Plugin && !extra.contains(&self.plugin_tab) {
             self.side_tab = SideTab::Properties;
         }
-        let extra: &[&'static str] = if camera { &["camera"] } else { &[] };
-        let label = |id: &str| SideTab::from_id(id).map(SideTab::label).unwrap_or_default();
-        if let Some(t) = self.tabs.bar(ui, self.side_tab.id(), extra, &label).and_then(SideTab::from_id) {
-            self.side_tab = t;
+        let labels: std::collections::HashMap<&str, String> = SideTab::IDS.iter().copied().chain(extra.iter().copied()).map(|id| (id, self.tab_label(id))).collect();
+        let label = |id: &str| labels.get(id).cloned().unwrap_or_default();
+        if let Some(t) = self.tabs.bar(ui, self.shown_tab_id(), &extra, &label) {
+            self.pick_side_tab(t);
         }
         ui.separator();
         match self.side_tab {
@@ -924,6 +964,12 @@ impl App {
                 if base_ui::description_ui::panel(ui, &mut self.description) {
                     self.touch_rev();
                 }
+            }
+            SideTab::Plugin => {
+                let id = self.plugin_tab;
+                egui::ScrollArea::vertical().id_salt("tab_plugin").auto_shrink([false, false]).show(ui, |ui| {
+                    self.plugins.side_tab_ui(ui, id);
+                });
             }
             SideTab::Camera => {
                 egui::ScrollArea::vertical().id_salt("tab_camera").auto_shrink([false, false]).show(ui, |ui| self.camera_tab(ui));
@@ -1614,6 +1660,26 @@ mod tests {
         assert_eq!(a.postprocessed("G21\nM5\n".into()).unwrap(), "N1 G21\nN2 M5\n");
         a.plugins.post = None;
         assert_eq!(a.postprocessed("G21\n".into()).unwrap(), "G21\n");
+        std::fs::remove_dir_all(base).ok();
+    }
+
+    #[test]
+    fn a_plugin_with_a_postprocessor_has_a_tab_that_goes_when_the_plugin_does() {
+        let base = scratch_plugins("tab");
+        let mut a = app();
+        a.plugins = base_ui::plugins_ui::PluginsUi::new("millcreator", &base);
+        assert_eq!(a.extra_tabs(), ["plugin:my-tools"]);
+        assert_eq!(a.tab_label("plugin:my-tools"), "My tools");
+        a.pick_side_tab("plugin:my-tools");
+        assert_eq!((a.side_tab, a.shown_tab_id()), (SideTab::Plugin, "plugin:my-tools"));
+        let ctx = egui::Context::default();
+        let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.side_panel(ui));
+        out.textures_delta.clear();
+        assert_eq!(a.side_tab, SideTab::Plugin, "the tab is drawn");
+        a.plugins.registry.set_enabled("my-tools", false).unwrap();
+        let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.side_panel(ui));
+        out.textures_delta.clear();
+        assert_eq!(a.side_tab, SideTab::Properties);
         std::fs::remove_dir_all(base).ok();
     }
 

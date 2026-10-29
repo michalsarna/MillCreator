@@ -286,3 +286,12 @@
 285|Faic le gearradh: níl aon rud roghnaithe
 286|Easpórtáil an píosa mílleáilte mar STL…
 287|Níl aon rud le easpórtáil: níl aon ghearradh sa tasc go fóill.
+288|G-code
+289|Comhordanáidí oibre
+290|Nialas an chláir
+291|Roghnaíonn an clár an córas comhordanáidí oibre seo (G54 … G59, a socraítear a nialas ar an meaisín, mar shampla trí theagmháil leis an ábhar) agus comhaireann sé ón nialas thíos, i gcomhordanáidí an limistéir oibre. Ceann ar bith: comhaireann an clár ó nialas an mheaisín.
+292|Cuirtear do G-code féin le gach clár, ordú amháin in aghaidh na líne (20 líne ar a mhéad).
+293|Ag tús an chláir
+294|Ag gach athrú buille
+295|Ag gach athrú oibríochta
+296|Ag deireadh an chláir

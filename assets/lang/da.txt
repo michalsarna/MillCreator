@@ -286,3 +286,12 @@
 285|Intet at skære: intet er markeret
 286|Eksportér det fræsede emne som STL…
 287|Intet at eksportere: opgaven har endnu ingen snit.
+288|G-kode
+289|Arbejdskoordinater
+290|Programmets nulpunkt
+291|Programmet vælger dette arbejdskoordinatsystem (G54 … G59, hvis nulpunkt sættes på maskinen, f.eks. ved at røre materialet) og tæller fra nulpunktet nedenfor, angivet i arbejdsområdets koordinater. Ingen: programmet tæller fra maskinens nulpunkt.
+292|Egen G-kode tilføjes til hvert program, én kommando pr. linje (højst 20 linjer).
+293|I begyndelsen af programmet
+294|Ved hvert fræserskift
+295|Ved hvert skift af operation
+296|I slutningen af programmet

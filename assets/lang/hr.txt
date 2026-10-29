@@ -286,3 +286,12 @@
 285|Nema što rezati: ništa nije odabrano
 286|Izvezi izglodani komad kao STL…
 287|Nema što izvesti: posao još nema rezova.
+288|G-kod
+289|Radne koordinate
+290|Nula programa
+291|Program bira ovaj radni koordinatni sustav (G54 … G59, čija se nula postavlja na stroju, npr. dodirom materijala) i računa od nule navedene ispod, u koordinatama radnog područja. Nijedan: program računa od nule stroja.
+292|Vlastiti G-kod dodaje se svakom programu, jedna naredba po retku (najviše 20 redaka).
+293|Na početku programa
+294|Pri svakoj zamjeni glodala
+295|Pri svakoj promjeni operacije
+296|Na kraju programa

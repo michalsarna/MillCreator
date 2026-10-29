@@ -286,3 +286,12 @@
 285|Ekkert að skera: ekkert er valið
 286|Flytja út fræsta stykkið sem STL…
 287|Ekkert til að flytja út: verkið hefur engin skurð enn.
+288|G-kóði
+289|Vinnuhnit
+290|Núllpunktur forritsins
+291|Forritið velur þetta vinnuhnitakerfi (G54 … G59, sem núllpunkturinn er stilltur á vélinni, t.d. með því að snerta efnið) og telur frá núllpunktinum hér að neðan, gefnum í hnitum vinnusvæðisins. Ekkert: forritið telur frá núllpunkti vélarinnar.
+292|Eigin G-kóði er bætt við hvert forrit, ein skipun í línu (í mesta lagi 20 línur).
+293|Í upphafi forritsins
+294|Við hver skipti á fræsi
+295|Við hverja breytingu á aðgerð
+296|Í lok forritsins

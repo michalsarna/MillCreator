@@ -286,3 +286,12 @@
 285|Nada para fresar: nada está selecionado
 286|Exportar a peça fresada como STL…
 287|Nada para exportar: o trabalho ainda não tem cortes.
+288|G-code
+289|Coordenadas de trabalho
+290|Zero do programa
+291|O programa escolhe este sistema de coordenadas de trabalho (G54 … G59, cujo zero é definido na máquina, por exemplo tocando o material) e conta a partir do zero abaixo, dado nas coordenadas da área de trabalho. Nenhum: o programa conta a partir do zero da máquina.
+292|O G-code próprio é adicionado a cada programa, um comando por linha (no máximo 20 linhas).
+293|No início do programa
+294|A cada troca de fresa
+295|A cada mudança de operação
+296|No fim do programa

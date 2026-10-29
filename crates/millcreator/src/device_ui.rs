@@ -20,6 +20,7 @@ pub enum Page {
     General,
     Machine,
     Spindle,
+    Gcode,
     Connection,
     Camera,
     Rotary,
@@ -31,12 +32,13 @@ pub enum Page {
 }
 
 impl Page {
-    const ALL: [Page; 11] = [Page::General, Page::Machine, Page::Spindle, Page::Connection, Page::Camera, Page::Rotary, Page::Jog, Page::Probe, Page::Macros, Page::Maintenance, Page::Notes];
+    const ALL: [Page; 12] = [Page::General, Page::Machine, Page::Spindle, Page::Gcode, Page::Connection, Page::Camera, Page::Rotary, Page::Jog, Page::Probe, Page::Macros, Page::Maintenance, Page::Notes];
     fn label(self) -> &'static str {
         match self {
             Page::General => "General",
             Page::Machine => "Machine",
             Page::Spindle => "Spindle",
+            Page::Gcode => "G-code",
             Page::Connection => "Connection",
             Page::Rotary => "Rotary",
             Page::Jog => "Jogging",
@@ -295,6 +297,29 @@ impl App {
                                 }
                             });
                             ui.end_row();
+                            ui.label(tr("Work coordinates"));
+                            let shown = d.wcs.word().unwrap_or_else(|| tr("None").to_string());
+                            egui::ComboBox::from_id_salt("dev_wcs").selected_text(shown).show_ui(ui, |ui| {
+                                ui.selectable_value(&mut d.wcs.code, 0, tr("None"));
+                                for c in 54..=59u8 {
+                                    ui.selectable_value(&mut d.wcs.code, c, format!("G{c}"));
+                                }
+                            })
+                            .response
+                            .on_hover_text(tr("The program selects this work coordinate system (G54 … G59, whose zero is set on the machine, for example by touching the material) and counts from the zero below, given in the coordinates of the work area. None: the program counts from the machine zero."));
+                            ui.end_row();
+                            ui.add_enabled_ui(d.wcs.code != 0, |ui| {
+                                ui.label(tr("Zero of the program"));
+                            });
+                            ui.add_enabled_ui(d.wcs.code != 0, |ui| {
+                                ui.horizontal(|ui| {
+                                    ui.label("X");
+                                    drag_len(ui, units, &mut d.wcs.x, 1.0, Some((-100000.0, 100000.0)));
+                                    ui.label("Y");
+                                    drag_len(ui, units, &mut d.wcs.y, 1.0, Some((-100000.0, 100000.0)));
+                                });
+                            });
+                            ui.end_row();
                         });
                     }
                     Page::Machine => {
@@ -342,6 +367,22 @@ impl App {
                             ui.label(tr("Wait after switching on"));
                             ui.add(egui::DragValue::new(&mut d.spindle.spin_up).range(0.0..=600.0).suffix(" s"));
                             ui.end_row();
+                        });
+                    }
+                    Page::Gcode => {
+                        ui.label(RichText::new(tr("Own G-code is added to every program, one command per line (at most 20 lines).")).color(theme::text_dim()));
+                        ui.add_space(4.0);
+                        egui::Grid::new("dev_gcode").num_columns(2).spacing([12.0, 8.0]).show(ui, |ui| {
+                            for (label, text) in [
+                                (tr("At the start of the program"), &mut d.gcode.start),
+                                (tr("At every change of the bit"), &mut d.gcode.tool_change),
+                                (tr("At every change of the operation"), &mut d.gcode.operation_change),
+                                (tr("At the end of the program"), &mut d.gcode.end),
+                            ] {
+                                ui.label(label);
+                                ui.add(egui::TextEdit::multiline(text).font(egui::TextStyle::Monospace).desired_rows(3).desired_width(320.0));
+                                ui.end_row();
+                            }
                         });
                     }
                     Page::Connection => {
