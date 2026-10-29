@@ -147,12 +147,40 @@ impl App {
             self.status = tr("There is no relief to export: put a picture on a layer with the Picture operation and the 3D relief method.").to_string();
             return;
         };
-        let name = self.path.as_ref().and_then(|p| p.file_stem()).map(|s| s.to_string_lossy().into_owned()).unwrap_or_else(|| "relief".into());
+        self.save_stl(bytes, "relief");
+    }
+
+    /// Ask where to put the STL model and write it.
+    fn save_stl(&mut self, bytes: Vec<u8>, fallback: &str) {
+        let name = self.path.as_ref().and_then(|p| p.file_stem()).map(|s| s.to_string_lossy().into_owned()).unwrap_or_else(|| fallback.into());
         let Some(p) = rfd::FileDialog::new().add_filter("STL", &["stl"]).set_file_name(format!("{name}.stl")).save_file() else { return };
         self.status = match std::fs::write(&p, bytes) {
             Ok(()) => trf("Saved {}", &[&p.display()]),
             Err(e) => trf("Could not save: {}", &[&e]),
         };
+    }
+
+    /// The milled piece as the 3D view shows it (the cuts done up to the slider) as an STL model: the stock with the grooves of
+    /// the bits in it. `None` when no cut has been made yet.
+    pub(crate) fn view_model(&self) -> Option<Vec<u8>> {
+        let prog = self.prog.as_ref()?;
+        let region = Region::of(prog, self.shapes_box())?;
+        let (done, _) = view3d::position_at(prog, self.view.progress);
+        let moves = &prog.moves[..done.min(prog.moves.len())];
+        let tool_of = |layer: usize| self.layers.get(layer).and_then(|l| l.tool.as_deref()).and_then(|id| self.tools.get(id)).cloned();
+        let (cols, rows, step, z) = crate::relief::carved_surface(moves, tool_of, (region.min, region.max), self.stock.thickness);
+        if z.iter().all(|h| *h == 0.0) {
+            return None;
+        }
+        Some(crate::relief::stl_of(cols, rows, step, |c, r| z[r * cols + c], self.stock.thickness))
+    }
+
+    /// The button of the preview: Export the milled piece as STL.
+    pub(crate) fn export_view(&mut self) {
+        match self.view_model() {
+            Some(bytes) => self.save_stl(bytes, "milled"),
+            None => self.status = tr("Nothing to export: the job has no cuts yet.").to_string(),
+        }
     }
 
     pub(crate) fn preview_window(&mut self, ctx: &egui::Context) {
@@ -179,13 +207,18 @@ impl App {
         let mut open = true;
         let mut fit = None;
         let mut pin = false;
+        let mut stl = false;
         let tools = |ui: &mut egui::Ui| {
             pin = base_ui::doc_tabs::pin_as_tab_button(ui);
+            stl = Self::preview_stl_button(ui);
             fit = Self::preview_fit_buttons(ui);
         };
         popup_with(ctx, "preview_3d", &tr("Preview"), [980.0, 700.0], &mut open, tools, |ui| self.preview_body(ui));
         if fit.is_some() {
             self.view.fit = fit;
+        }
+        if stl {
+            self.export_view();
         }
         self.show_3d = open;
         if pin {
@@ -232,6 +265,11 @@ impl App {
         }
     }
 
+    /// The button that exports the view as an STL model.
+    fn preview_stl_button(ui: &mut egui::Ui) -> bool {
+        base_ui::widgets::icon_button(ui, "download", &tr("Export the milled piece as STL…"), true, 22.0)
+    }
+
     /// The two buttons that fit the picture. Icons are added right to left: the work area button is the one on the left.
     fn preview_fit_buttons(ui: &mut egui::Ui) -> Option<view3d::Fit> {
         let mut fit = None;
@@ -247,6 +285,7 @@ impl App {
     pub(crate) fn preview_work_panel(&mut self, ui: &mut egui::Ui) {
         self.refresh_program();
         let mut fit = None;
+        let mut stl = false;
         ui.horizontal(|ui| {
             ui.spacing_mut().item_spacing.x = 4.0;
             ui.label(RichText::new(tr("Preview")).strong());
@@ -254,9 +293,13 @@ impl App {
                 if base_ui::doc_tabs::back_to_window_button(ui) {
                     self.preview_pin(false);
                 }
+                stl = Self::preview_stl_button(ui);
                 fit = Self::preview_fit_buttons(ui);
             });
         });
+        if stl {
+            self.export_view();
+        }
         if fit.is_some() {
             self.view.fit = fit;
         }
@@ -353,5 +396,23 @@ mod tests {
         let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.preview_window(ui.ctx()));
         out.textures_delta.clear();
         assert!(a.preview_work_tab() && a.pv_tab_shown && !a.cam_ws_shown);
+    }
+
+    #[test]
+    fn the_view_is_exported_as_a_closed_stl_with_the_cuts_done_up_to_the_slider() {
+        let ctx = egui::Context::default();
+        let mut a = App::build(&ctx, None, false);
+        a.scene.add(0, Kind::Rect { w: 30.0, h: 30.0 }, Xf::translate(20.0, 20.0));
+        a.touch_rev();
+        a.open_preview();
+        assert!(!a.prog.as_ref().unwrap().is_empty());
+        a.view.progress = 0.0;
+        assert!(a.view_model().is_none(), "nothing is cut at the start");
+        a.view.progress = 1.0;
+        let stl = a.view_model().expect("the whole job is cut");
+        let n = u32::from_le_bytes([stl[80], stl[81], stl[82], stl[83]]) as usize;
+        assert!(n > 100 && stl.len() == 84 + 50 * n);
+        a.view.progress = 0.5;
+        assert!(a.view_model().is_some(), "half of the job has cuts too");
     }
 }

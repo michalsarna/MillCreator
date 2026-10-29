@@ -284,3 +284,5 @@
 283|Ainult valik
 284|Lõigatakse ainult need kujud, mis on tööalal valitud G-koodi salvestamise või töö alustamise hetkel.
 285|Pole midagi lõigata: midagi pole valitud
+286|Ekspordi freesitud detail STL-ina…
+287|Pole midagi eksportida: tööl pole veel lõikeid.

@@ -284,3 +284,5 @@
 283|Samo izbira
 284|Izrežejo se samo oblike, ki so izbrane na delovnem območju ob shranjevanju G-kode ali zagonu opravila.
 285|Ni kaj rezati: nič ni izbrano
+286|Izvozi frezani kos kot STL…
+287|Ni kaj izvoziti: opravilo še nima rezov.

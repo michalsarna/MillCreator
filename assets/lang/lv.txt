@@ -284,3 +284,5 @@
 283|Tikai atlase
 284|Tiek frēzētas tikai tās formas, kas darba laukā ir atlasītas brīdī, kad tiek saglabāts G-kods vai sākts darbs.
 285|Nav ko frēzēt: nekas nav atlasīts
+286|Eksportēt frēzēto detaļu kā STL…
+287|Nav ko eksportēt: darbam vēl nav griezumu.

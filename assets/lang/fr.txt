@@ -284,3 +284,5 @@
 283|Sélection seulement
 284|Seules les formes sélectionnées dans la zone de travail au moment de l'enregistrement du G-code ou du démarrage du travail sont usinées.
 285|Rien à usiner : rien n'est sélectionné
+286|Exporter la pièce fraisée en STL…
+287|Rien à exporter : le travail n'a pas encore de coupes.

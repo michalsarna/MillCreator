@@ -284,3 +284,5 @@
 283|Solo la selección
 284|Solo se fresan las formas seleccionadas en el área de trabajo en el momento de guardar el G-code o iniciar el trabajo.
 285|Nada que fresar: no hay nada seleccionado
+286|Exportar la pieza fresada como STL…
+287|No hay nada que exportar: el trabajo aún no tiene cortes.

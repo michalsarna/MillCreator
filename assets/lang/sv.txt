@@ -284,3 +284,5 @@
 283|Endast markering
 284|Endast de former som är markerade i arbetsytan när G-koden sparas eller jobbet startas fräses.
 285|Inget att fräsa: inget är markerat
+286|Exportera den frästa biten som STL…
+287|Inget att exportera: jobbet har inga snitt ännu.
