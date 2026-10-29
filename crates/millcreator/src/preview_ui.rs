@@ -233,6 +233,7 @@ impl App {
     fn preview_body(&mut self, ui: &mut egui::Ui) {
         let prog = self.prog.as_ref().expect("the program was made above");
         let region = Region::of(prog, self.shapes_box());
+        let mut stl = false;
         ui.horizontal_wrapped(|ui| {
             ui.selectable_value(&mut self.view.top, false, "3D");
             ui.selectable_value(&mut self.view.top, true, tr("From above"));
@@ -243,6 +244,9 @@ impl App {
             ui.checkbox(&mut self.view.show_stock, tr("Material"));
             ui.checkbox(&mut self.view.show_cuts, tr("Cuts"));
             ui.checkbox(&mut self.view.show_rapids, tr("Moves at the safe height"));
+            ui.separator();
+            let btn = egui::Button::image_and_text(base_ui::icons::slot(Some("download"), theme::text()), tr("Export the milled piece as STL…"));
+            stl = ui.add(btn).clicked();
         });
         ui.horizontal(|ui| {
             self.playback.show(ui, &mut self.view.progress);
@@ -262,6 +266,9 @@ impl App {
                 ui.add_space(30.0);
                 ui.label(RichText::new(tr("There is nothing to show yet: draw shapes and put them on layers that have a bit.")).color(theme::text_dim()));
             }
+        }
+        if stl {
+            self.export_view();
         }
     }
 
