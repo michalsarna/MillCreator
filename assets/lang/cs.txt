@@ -324,3 +324,6 @@
 323|{}: některé okruhy jsou příliš krátké pro všechny své můstky: mají jich méně
 324|{}: úhel rampy {}° je strmý (více než 45°)
 325|{}: můstky jsou stejně vysoké jako řez: díl se neodřízne
+326|Umístit můstky ručně
+327|Kliknutím na obrys přidáte můstek, tažením ho přesunete, kliknutím na můstek ho odstraníte. Okruh s ručně umístěnými můstky dostane jen ty.
+328|Smazat ručně umístěné můstky

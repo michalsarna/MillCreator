@@ -13,7 +13,7 @@
 ## What it does not do
 * It can **connect to a GRBL machine and stream the job** (Connect, Home, Frame, Start, Stop); this was tried on a TwoTrees TTC450Pro, **not on other machines**. Start with the spindle off and the bit in the air, and stay at the machine; the Stop button aborts with a soft reset.
 * Frame goes round the box of the work at the safe height with the spindle off: check that the safe height is really clear.
-* No V-carving, no tool length offsets and no collision check with clamps. Tabs are placed by the program (evenly); they cannot be moved by hand yet.
+* No V-carving, no tool length offsets and no collision check with clamps. Tabs are placed by the program (evenly) or by hand on the work area.
 * Ramps, helices, tabs and the climb / conventional choice are tested on the geometry and against the GRBL firmware in a simulator, **not on a real machine**: try a new setting on a scrap, with the spindle off first. A tab holds a part only if it is high enough: the program warns when it is as high as the cut. A helix needs room: where it does not fit, the ramp along the contour is used.
 * The pocket leaves a thin strip in the middle when its width is not a multiple of the step over.
 * A shape outside the work area is reported, but not moved.

@@ -4,7 +4,7 @@ Each release gets the next version number. Newest first.
 
 ## v0.4.3 (not released yet)
 
-* **Safe profiles:** a layer chooses the **direction** of a profile or a pocket (as drawn, climb or conventional), **stock to leave** with a **finishing pass** at the full depth, how the bit goes **down** (plunge, zigzag ramp, ramp along the contour or helix, with the ramp angle and a ramp feed, which a bit of the library can give) and **tabs** (full, partial or ramp, spread evenly, none on holes). Warnings for a ramp steeper than 45°, tabs as high as the cut and a helix that does not fit. Older projects open as before.
+* **Safe profiles:** a layer chooses the **direction** of a profile or a pocket (as drawn, climb or conventional), **stock to leave** with a **finishing pass** at the full depth, how the bit goes **down** (plunge, zigzag ramp, ramp along the contour or helix, with the ramp angle and a ramp feed, which a bit of the library can give) and **tabs** (full, partial or ramp, spread evenly, none on holes, or placed, moved and removed by hand on the work area). Warnings for a ramp steeper than 45°, tabs as high as the cut and a helix that does not fit. Older projects open as before.
 * The tests run ramps, tabs, a helix and a finishing pass against the real GRBL firmware (a simulator).
 
 ## v0.4.2

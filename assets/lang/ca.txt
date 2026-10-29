@@ -324,3 +324,6 @@
 323|{}: alguns anells són massa curts per a tots els seus ponts: en tenen menys
 324|{}: l'angle de la rampa de {}° és pronunciat (més de 45°)
 325|{}: els ponts són tan alts com el tall: la peça no se separa
+326|Col·loca els ponts a mà
+327|Fes clic al contorn per afegir un pont, arrossega'l per moure'l, fes clic sobre un pont per treure'l. Un anell amb ponts col·locats a mà només en té aquests.
+328|Esborra els ponts col·locats a mà

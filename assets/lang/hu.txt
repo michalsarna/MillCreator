@@ -324,3 +324,6 @@
 323|{}: egyes gyűrűk túl rövidek az összes hídjukhoz: kevesebb van rajtuk
 324|{}: a rámpa {}°-os szöge meredek (több mint 45°)
 325|{}: a hidak olyan magasak, mint a vágás: az alkatrész nem válik le
+326|Hidak kézi elhelyezése
+327|Kattintson a kontúrra híd hozzáadásához, húzzon egy hidat az áthelyezéséhez, kattintson egy hídra az eltávolításához. A kézzel elhelyezett hidakkal rendelkező gyűrű csak azokat kapja.
+328|A kézzel elhelyezett hidak törlése

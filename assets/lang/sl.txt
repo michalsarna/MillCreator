@@ -324,3 +324,6 @@
 323|{}: nekateri obroči so prekratki za vse svoje mostičke: imajo jih manj
 324|{}: kot klančine {}° je strm (več kot 45°)
 325|{}: mostički so enako visoki kot rez: kos se ne odreže
+326|Ročno postavi mostičke
+327|Kliknite na obris za dodajanje mostička, povlecite mostiček za premik, kliknite mostiček za odstranitev. Obroč z ročno postavljenimi mostički dobi samo te.
+328|Počisti ročno postavljene mostičke

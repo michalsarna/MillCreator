@@ -324,3 +324,6 @@
 323|{}: sumir hringir eru of stuttir fyrir allar brýr sínar: þeir hafa færri
 324|{}: hallahorn rampsins {}° er bratt (meira en 45°)
 325|{}: brýrnar eru jafn háar og skurðurinn: hlutinn losnar ekki
+326|Setja brýr handvirkt
+327|Smelltu á útlínuna til að bæta við brú, dragðu brú til að færa hana, smelltu á brú til að fjarlægja hana. Hringur með handvirkt settum brúm fær aðeins þær.
+328|Hreinsa handvirkt settar brýr

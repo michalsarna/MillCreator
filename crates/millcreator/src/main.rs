@@ -12,6 +12,7 @@ mod machine_ui;
 mod materials;
 mod passes;
 mod gcode_view_glue;
+mod handtabs;
 #[cfg(test)]
 mod grbl_sim_tests;
 mod menu;
@@ -250,6 +251,9 @@ struct App {
     layers: Vec<MillLayer>,
     stock: Stock,
     view: View3d,
+    /// The tabs of the layer being edited are placed on the work area by hand (not saved), and what a press is doing.
+    tab_edit: bool,
+    hand_tab_drag: handtabs::Editing,
     /// The stock with the cuts as the 3D view draws it, and the key for which it was found empty.
     surface: Option<view3d::Surface>,
     surface_none: Option<(u64, usize, [u64; 5])>,
@@ -390,6 +394,8 @@ impl App {
             tools_win: ToolsWindow::default(),
             stock: Stock::default(),
             view: View3d::default(),
+            tab_edit: false,
+            hand_tab_drag: handtabs::Editing::default(),
             surface: None,
             surface_none: None,
             show_3d: false,
@@ -1222,6 +1228,10 @@ impl EditorHost for App {
     }
     fn paint_over_shapes(&mut self, v: &base_ui::editor::CanvasView) {
         self.paint_toolpaths(v);
+        self.paint_hand_tabs(v);
+    }
+    fn pointer_claimed(&mut self, resp: &egui::Response, origin: egui::Pos2, _press: Option<egui::Pos2>, hover: Option<egui::Pos2>) -> bool {
+        self.hand_tabs_pointer(resp, origin, hover)
     }
 }
 

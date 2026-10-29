@@ -27,6 +27,10 @@ pub(crate) struct Plan {
     pub angle: f64,
     pub ramp_feed: f64,
     pub tabs: Option<Tabs>,
+    /// Where tabs were placed by hand (in the coordinates of the toolpaths) and how far from the line of the shape the bit goes: a ring
+    /// with an anchor within that distance (and a little more) gets a tab at the nearest point of the ring, and no others.
+    pub anchors: Vec<Pt>,
+    pub reach: f64,
     /// A pocket (the only place for a helix: the bit goes down in the area that is cleared anyway).
     pub pocket: bool,
     /// The depth of the layer and the diameter of the bit (a tab is as wide as the part and the bit).
@@ -37,7 +41,7 @@ pub(crate) struct Plan {
 impl Plan {
     pub fn of(layer: &MillLayer, diameter: f64, ramp_default: f64) -> Plan {
         let tabs = (layer.tabs.enabled && matches!(layer.op, Operation::ProfileOutside | Operation::ProfileInside | Operation::OnPath)).then(|| layer.tabs.clone());
-        Plan { entry: layer.entry, angle: layer.ramp_angle.clamp(0.1, 89.0), ramp_feed: if layer.ramp_feed > 0.0 { layer.ramp_feed } else if ramp_default > 0.0 { ramp_default } else { layer.plunge }, tabs, pocket: layer.op == Operation::Pocket, depth: layer.depth, diameter }
+        Plan { entry: layer.entry, angle: layer.ramp_angle.clamp(0.1, 89.0), ramp_feed: if layer.ramp_feed > 0.0 { layer.ramp_feed } else if ramp_default > 0.0 { ramp_default } else { layer.plunge }, tabs, anchors: vec![], reach: 0.0, pocket: layer.op == Operation::Pocket, depth: layer.depth, diameter }
     }
 }
 
@@ -101,6 +105,24 @@ impl Path {
         Pt::new(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t)
     }
 
+    /// The point of the ring nearest to `p`: how far along the ring it is, and how far from `p`.
+    fn nearest(&self, p: Pt) -> Option<(f64, f64)> {
+        let n = self.pts.len();
+        let mut best: Option<(f64, f64)> = None;
+        for i in 0..n {
+            let (a, b) = (self.pts[i], self.pts[(i + 1) % n]);
+            let (dx, dy) = (b.x - a.x, b.y - a.y);
+            let l2 = dx * dx + dy * dy;
+            let t = if l2 > 1e-12 { (((p.x - a.x) * dx + (p.y - a.y) * dy) / l2).clamp(0.0, 1.0) } else { 0.0 };
+            let q = Pt::new(a.x + dx * t, a.y + dy * t);
+            let d = q.dist(p);
+            if best.map_or(true, |(_, bd)| d < bd) {
+                best = Some((self.cum[i] + t * l2.sqrt(), d));
+            }
+        }
+        best
+    }
+
     /// Where the vertices lie between `from` and `to`, going round as often as needed.
     fn vertices_between(&self, from: f64, to: f64) -> Vec<f64> {
         let mut out = vec![];
@@ -127,11 +149,17 @@ struct Tab {
 
 /// The tabs of a ring of length `len`: evenly spread, between `min` and `max`, none for a hole when they are skipped, fewer when
 /// the ring is too short to keep half of it uncut.
-fn tab_places(t: &Tabs, len: f64, hole: bool, diameter: f64, notes: &mut Notes) -> Vec<Tab> {
+fn tab_places(t: &Tabs, path: &Path, hole: bool, diameter: f64, anchors: &[Pt], reach: f64, notes: &mut Notes) -> Vec<Tab> {
+    let len = path.len;
+    let width = t.length + diameter;
+    // Tabs placed by hand near this ring are the ones it gets.
+    let by_hand: Vec<Tab> = anchors.iter().filter_map(|a| path.nearest(*a)).filter(|(_, d)| *d <= reach + 0.5).map(|(s, _)| Tab { centre: s, half: width / 2.0 }).collect();
+    if !by_hand.is_empty() {
+        return by_hand;
+    }
     if hole && t.skip_inner {
         return vec![];
     }
-    let width = t.length + diameter;
     let mut n = ((len / t.spacing).round() as u32).clamp(t.min, t.max.max(t.min));
     let room = (len * 0.5 / width).floor() as u32;
     if n > room {
@@ -266,7 +294,7 @@ pub(crate) fn ring_passes(b: &mut Builder, ring: &Polyline, depths: &[f64], plan
         return;
     }
     let tabs = match &plan.tabs {
-        Some(t) => tab_places(t, path.len, hole, plan.diameter, notes),
+        Some(t) => tab_places(t, &path, hole, plan.diameter, &plan.anchors, plan.reach, notes),
         None => vec![],
     };
     let ride = Ride { path: &path, tabs: &tabs, plan };

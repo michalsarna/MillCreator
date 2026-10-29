@@ -324,3 +324,6 @@
 323|{}: tá roinnt fáinní róghearr dá ndroichid go léir: tá níos lú acu
 324|{}: tá uillinn na fána {}° géar (os cionn 45°)
 325|{}: tá na droichid chomh hard leis an ngearradh: ní ghearrfar an chuid saor
+326|Cuir droichid de láimh
+327|Cliceáil ar an gcomhrian chun droichead a chur leis, tarraing droichead chun é a bhogadh, cliceáil ar dhroichead chun é a bhaint. Ní bhíonn ach iad sin ag fáinne a bhfuil droichid curtha de láimh air.
+328|Glan droichid a cuireadh de láimh

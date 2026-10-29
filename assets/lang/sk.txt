@@ -324,3 +324,6 @@
 323|{}: niektoré okruhy sú príliš krátke pre všetky svoje mostíky: majú ich menej
 324|{}: uhol rampy {}° je strmý (viac ako 45°)
 325|{}: mostíky sú rovnako vysoké ako rez: diel sa neodreže
+326|Umiestniť mostíky ručne
+327|Kliknutím na obrys pridáte mostík, ťahaním ho presuniete, kliknutím na mostík ho odstránite. Okruh s ručne umiestnenými mostíkmi dostane len tie.
+328|Vymazať ručne umiestnené mostíky
