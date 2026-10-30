@@ -1193,6 +1193,10 @@ impl ClipHost for App {
 }
 
 impl EditorHost for App {
+    fn bone_radius_default(&self) -> f64 {
+        // The radius of the bit of the layer that is being edited.
+        self.layers.get(self.ed.active_layer).and_then(|l| l.tool.as_deref()).and_then(|id| self.tools.get(id)).map_or(1.5, |t| t.radius())
+    }
     fn ed(&self) -> &EditorState {
         &self.ed
     }
