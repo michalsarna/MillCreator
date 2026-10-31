@@ -2,7 +2,7 @@
 
 Each release gets the next version number. Newest first.
 
-## v0.4.3 (not released yet)
+## v0.5.0
 
 * **Safe profiles:** a layer chooses the **direction** of a profile or a pocket (as drawn, climb or conventional), **stock to leave** with a **finishing pass** at the full depth, how the bit goes **down** (plunge, zigzag ramp, ramp along the contour or helix, with the ramp angle and a ramp feed, which a bit of the library can give) and **tabs** (full, partial or ramp, spread evenly, none on holes, or placed, moved and removed by hand on the work area). Warnings for a ramp steeper than 45°, tabs as high as the cut and a helix that does not fit. Older projects open as before.
 * **DXF import:** File → Import → Import DXF… (also Open and drag and drop): lines, polylines with bulges, arcs, circles, ellipses, splines and blocks, in millimetres by the unit of the file, with the layers of the DXF on the free layers of the project; lines that meet become closed paths. **Auto-join paths…**, **Close path with tolerance…** and **Export selection as SVG / DXF…** in the shape operations.
@@ -13,7 +13,7 @@ Each release gets the next version number. Newest first.
 * **Design tools:** grid and circular **arrays**, **copy along a path**, **text on a path**, **trim by shape**, **remove duplicates**, **break apart**, **simplify**, **serial text** (counting or from a CSV file), **QR** and **Code 39** codes, **nesting** by boxes and a **Measure…** window, after *Dogbone / T-bone corners…* in the Arrange menu. baseCreator v1.38.0.
 * **Project setup:** after File → New (and File → Project setup…) a window asks for the size and thickness of the material, where the zero of X and Y is on it (a corner or the centre), whether Z counts from the bottom, and whether the work area is the material. It is saved with the project.
 * **Layer presets:** save the way of cutting of a layer under a name and put it on any layer.
-* **Controllers:** **Duet / RepRapFirmware** over HTTP (send and start, state, stop; no jogging) and **Smoothieware** as a firmware choice. New official plugin **G-code dialects** (Mach3 / Mach4 / UCCNC, LinuxCNC). baseCreator v1.39.1.
+* **Controllers:** **Duet / RepRapFirmware** over HTTP (send and start, state, stop; no jogging) and **Smoothieware** as a firmware choice. New official plugin **G-code dialects** (Mach3 / Mach4 / UCCNC, LinuxCNC). baseCreator v1.39.2.
 * The tests run ramps, tabs, a helix and a finishing pass against the real GRBL firmware (a simulator).
 
 ## v0.4.2
