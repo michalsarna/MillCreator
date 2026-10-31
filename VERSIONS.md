@@ -2,6 +2,10 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.5.2 (not released yet)
+
+* **Camera:** **RTSP** streams (decoded by ffmpeg, which the packages bring), **Take a photo**, **Record video** (Motion-JPEG AVI) and a **time-lapse** every N seconds or after each layer of the job, all into a folder you choose; a recording goes on while the camera view is closed. baseCreator v1.41.0.
+
 ## v0.5.1
 
 * **Colours:** the background and the work-area colours of the view options work (they did nothing here) and are saved, also in a backup.

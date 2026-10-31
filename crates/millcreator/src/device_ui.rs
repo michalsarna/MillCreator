@@ -5,8 +5,6 @@ use crate::App;
 use base_core::camimg::{CameraKind, CameraSource};
 use base_core::machine::{GrblVersion, LinkKind, RotaryKind, Streaming};
 use base_core::units::Units;
-use base_ui::camera::{self, rotate_rgb};
-use base_ui::camera_stream::{self, Msg};
 use base_ui::editor::EditorHost;
 use base_ui::i18n::{tr, trf};
 use base_ui::theme;
@@ -60,24 +58,8 @@ pub struct DeviceEdit {
     pub error: String,
 }
 
-/// The live picture of a camera.
-pub struct CamState {
-    key: String,
-    url: Option<camera_stream::StreamWorker>,
-    local: Option<camera::Worker>,
-    pub tex: Option<egui::TextureHandle>,
-    /// The last frame as it is shown (size and RGB), for putting it under the drawing as a background picture.
-    pub last: Option<(usize, usize, Vec<u8>)>,
-    pub error: String,
-}
-
-impl CamState {
-    /// A state that has seen one frame of the given size (for the tests of what uses it).
-    #[cfg(test)]
-    pub fn for_test(w: usize, h: usize) -> CamState {
-        CamState { key: String::new(), url: None, local: None, tex: None, last: Some((w, h, vec![200; w * h * 3])), error: String::new() }
-    }
-}
+/// The live picture of a camera (shared with the other programs).
+pub type CamState = base_ui::camera_feed::CamFeed;
 
 /// Take what the controller reports into the draft of a device: the travel, the spindle speeds and the speed of moves.
 fn apply_suggestion(d: &mut Device, s: &base_core::firmware::Suggestion) {
@@ -674,12 +656,38 @@ impl App {
     // ───────────── camera ─────────────
 
     /// The Camera tab: the live picture of the active camera of the device.
-    /// Stop the camera stream when the last frame did not draw it (the window and the tabs that show it are closed or hidden):
-    /// nobody takes its frames then. It starts again when the picture is drawn.
-    pub(crate) fn drop_idle_camera(&mut self) {
-        if !std::mem::take(&mut self.cam_drawn) {
+    /// Stop the camera stream when the last frame did not draw it (the window and the tabs that show it are closed or hidden) and nothing is
+    /// being recorded: nobody takes its frames then. It starts again when the picture is drawn. Returns whether the last frame drew it.
+    pub(crate) fn drop_idle_camera(&mut self) -> bool {
+        let drawn = std::mem::take(&mut self.cam_drawn);
+        if !drawn && !self.cam_rec.active() {
             self.cam = None;
         }
+        drawn
+    }
+
+    /// Keep the picture of the camera up to date and give every new one to the recorder (a recording goes on when no view shows the
+    /// camera). True when a new picture came.
+    pub(crate) fn camera_pump(&mut self, ctx: &egui::Context) -> bool {
+        let Some(cam) = self.device.camera().cloned() else {
+            self.cam = None;
+            return false;
+        };
+        if !self.cam.as_ref().is_some_and(|c| c.is_for(&cam)) {
+            self.cam = Some(base_ui::camera_feed::CamFeed::start(ctx, &cam));
+        }
+        let now = std::time::Instant::now();
+        let mut got = false;
+        if let Some(feed) = self.cam.as_mut() {
+            got = feed.pump(ctx, &cam);
+            if got {
+                if let Some((w, h, rgb)) = feed.last.clone() {
+                    self.cam_rec.feed(now, w as u32, h as u32, rgb);
+                }
+            }
+        }
+        self.cam_rec.tick(now);
+        got
     }
 
     pub(crate) fn camera_tab(&mut self, ui: &mut egui::Ui) {
@@ -690,52 +698,11 @@ impl App {
             return;
         };
         let ctx = ui.ctx().clone();
-        let key = format!("{:?}", cam.kind);
-        if self.cam.as_ref().map(|c| c.key.as_str()) != Some(key.as_str()) {
-            let mut st = CamState { key, url: None, local: None, tex: None, last: None, error: String::new() };
-            match &cam.kind {
-                CameraKind::Url(u) => st.url = Some(camera_stream::spawn(u.clone(), ctx.clone())),
-                CameraKind::Local(i) if camera::SUPPORTED => st.local = Some(camera::spawn(*i, cam.image.prefer_yuyv, ctx.clone())),
-                CameraKind::Local(_) => st.error = tr("This build cannot use the cameras of the computer.").to_string(),
-            }
-            self.cam = Some(st);
-        }
-        let Some(st) = self.cam.as_mut() else { return };
-        let mut latest: Option<(u32, u32, Vec<u8>)> = None;
-        if let Some(w) = &st.url {
-            while let Ok(m) = w.rx.try_recv() {
-                match m {
-                    Msg::Frame(f) => {
-                        st.error.clear();
-                        latest = Some((f.w, f.h, f.rgb));
-                    }
-                    Msg::Error(e) => st.error = e,
-                }
-            }
-        }
-        if let Some(w) = &st.local {
-            while let Ok(m) = w.rx.try_recv() {
-                match m {
-                    Ok(f) => {
-                        st.error.clear();
-                        latest = Some((f.w, f.h, f.rgb));
-                    }
-                    Err(e) => st.error = e,
-                }
-            }
-        }
-        if let Some((w, h, rgb)) = latest {
-            let (w, h, rgb) = process_frame(&cam, rgb, w, h);
-            let img = egui::ColorImage::from_rgb([w as usize, h as usize], &rgb);
-            match &mut st.tex {
-                Some(t) if t.size() == [w as usize, h as usize] => t.set(img, egui::TextureOptions::LINEAR),
-                _ => st.tex = Some(ctx.load_texture("camera-view", img, egui::TextureOptions::LINEAR)),
-            }
-            st.last = Some((w as usize, h as usize, rgb));
-        }
+        self.camera_pump(&ctx);
+        let (tex, error) = self.cam.as_ref().map_or((None, String::new()), |f| (f.tex.clone(), f.error.clone()));
         ui.label(RichText::new(&cam.name).strong());
         let mut picture = None;
-        match &st.tex {
+        match &tex {
             Some(t) => {
                 let size = t.size_vec2();
                 // Fitted to the window, up as well as down; what stands under the picture is left out of the height (the last
@@ -747,23 +714,19 @@ impl App {
                 ui.label(RichText::new(tr("Waiting for the picture…")).color(theme::text_dim()));
             }
         }
-        if !st.error.is_empty() {
-            ui.label(RichText::new(&st.error).color(Color32::from_rgb(0xd0, 0x50, 0x20)));
+        if !error.is_empty() {
+            ui.label(RichText::new(&error).color(Color32::from_rgb(0xd0, 0x50, 0x20)));
         }
         match picture {
             Some((rect, slack_x)) => self.cam_fit.measure(ui, rect, slack_x),
             None => self.cam_fit.slack = egui::Vec2::ZERO,
         }
+        // Photos, video and time-lapse, with their folder.
+        ui.add_space(4.0);
+        ui.separator();
+        self.cam_rec.controls(ui);
         ctx.request_repaint_after(std::time::Duration::from_millis(120));
     }
-}
-
-/// The picture of a camera as it is shown: lens correction, adjustments and the turn.
-pub fn process_frame(cam: &CameraSource, rgb: Vec<u8>, w: u32, h: u32) -> (u32, u32, Vec<u8>) {
-    let (wu, hu) = (w as usize, h as usize);
-    let mut out = if cam.lens.is_none() { rgb } else { base_core::camimg::undistort(&rgb, wu, hu, &cam.lens) };
-    base_core::camimg::adjust(&mut out, wu, hu, &cam.image);
-    rotate_rgb(&out, w, h, cam.rotation % 4)
 }
 
 fn camera_page(ui: &mut egui::Ui, d: &mut Device) {
@@ -964,6 +927,29 @@ mod tests {
     }
 
     #[test]
+    fn a_camera_that_is_being_recorded_keeps_running_while_no_view_shows_it() {
+        let ctx = egui::Context::default();
+        let mut a = App::build(&ctx, None, false);
+        a.device.cameras = vec![CameraSource::url("c", "http://127.0.0.1:9/none.mjpg", 0)];
+        a.device.active_camera = 0;
+        let mut out = ctx.run_ui(Default::default(), |ui| a.camera_tab(ui));
+        out.textures_delta.clear();
+        // A picture has come: a time-lapse is started.
+        let now = std::time::Instant::now();
+        a.cam_rec.feed(now, 4, 2, vec![50; 24]);
+        a.cam_rec.settings.dir = Some(std::env::temp_dir().join(format!("mill-keep-{}", std::process::id())));
+        a.cam_rec.start_lapse(now);
+        assert!(a.cam_rec.active());
+        assert!(a.drop_idle_camera(), "drawn in the last frame");
+        assert!(!a.drop_idle_camera(), "not drawn since");
+        assert!(a.cam.is_some(), "but it is recorded: it is not stopped");
+        a.cam_rec.stop_lapse();
+        assert!(!a.drop_idle_camera());
+        assert!(a.cam.is_none(), "nothing is recorded now: stopped");
+        let _ = std::fs::remove_dir_all(a.cam_rec.settings.dir.clone().unwrap());
+    }
+
+    #[test]
     fn a_camera_stream_that_is_not_drawn_is_stopped_and_started_again_when_it_is() {
         let ctx = egui::Context::default();
         let mut a = App::build(&ctx, None, false);
@@ -1003,7 +989,7 @@ mod tests {
         let mut cam = CameraSource::url("c", "http://x/y", 1);
         cam.lens = Default::default();
         let rgb = vec![0u8; 4 * 2 * 3];
-        let (w, h, out) = process_frame(&cam, rgb, 4, 2);
+        let (w, h, out) = base_ui::camera_feed::process_frame(&cam, rgb, 4, 2);
         assert_eq!((w, h, out.len()), (2, 4, 24));
     }
 }

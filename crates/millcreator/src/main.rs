@@ -325,6 +325,10 @@ struct App {
     cam: Option<CamState>,
     /// Was the camera picture drawn in the last frame? A stream nobody looks at is stopped (its frames would pile up).
     cam_drawn: bool,
+    /// Photos, video and time-lapse of the camera (the folder and the interval are remembered).
+    cam_rec: base_ui::camera_rec::Recorder,
+    /// Where the layers of the job being sent end, for a picture after each layer.
+    layer_watch: base_ui::camera_rec::LayerWatch,
     /// The camera window shrinks to the picture.
     cam_fit: base_ui::window::FitWindow,
     machine: MachineLink,
@@ -458,6 +462,8 @@ impl App {
             selection_only: false,
             cam: None,
             cam_drawn: false,
+            cam_rec: base_ui::camera_rec::Recorder::default(),
+            layer_watch: base_ui::camera_rec::LayerWatch::default(),
             cam_fit: Default::default(),
             machine: {
                 let mut m = MachineLink::new(ctx);
@@ -1150,8 +1156,13 @@ impl App {
     }
 
     fn draw(&mut self, ui: &mut egui::Ui) {
-        self.drop_idle_camera();
+        let drawn_last = self.drop_idle_camera();
         let ctx = ui.ctx().clone();
+        // A recording goes on when no view shows the camera.
+        if !drawn_last && self.cam_rec.active() {
+            self.camera_pump(&ctx);
+            ctx.request_repaint_after(std::time::Duration::from_millis(100));
+        }
         self.autosave_tick(&ctx, false);
         self.sync_picture_layers();
         self.poll_machine();
@@ -1589,11 +1600,49 @@ mod tests {
         assert!(a.background_camera_image().is_none());
         a.device.cameras = vec![base_core::camimg::CameraSource::url("Top camera", "http://127.0.0.1:1/x.mjpg", 0)];
         a.device.active_camera = 0;
-        a.cam = Some(device_ui::CamState::for_test(8, 4));
+        let mut feed = device_ui::CamState::start(&ctx, a.device.camera().unwrap());
+        feed.last = Some((8, 4, vec![200; 8 * 4 * 3]));
+        a.cam = Some(feed);
         let (img, name) = a.background_camera_image().expect("the last frame");
         assert_eq!((img.width(), img.height(), name.as_str()), (8, 4, "Top camera"));
         a.set_background(&ctx, img, &name);
         assert_eq!(a.ed.background.as_ref().map(|b| b.size), Some((8, 4)));
+    }
+
+    #[test]
+    fn a_time_lapse_after_each_layer_takes_a_picture_when_the_lines_of_the_next_layer_begin() {
+        use base_ui::camera_rec::{LapseMode, RecSettings};
+        let dir = std::env::temp_dir().join(format!("mill-lapse-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let mut a = app();
+        a.cam_rec = base_ui::camera_rec::Recorder::new(RecSettings { dir: Some(dir.clone()), interval: 5.0, mode: LapseMode::PerLayer });
+        let now = std::time::Instant::now();
+        a.cam_rec.feed(now, 4, 2, vec![90; 24]);
+        a.cam_rec.start_lapse(now);
+        // A job of three layers: the marks are where the second and the third begin.
+        let lines: Vec<String> = ["(MillCreator: t)", "G21", "(Layer: a)", "G1 X1", "G1 X2", "(Layer: b)", "G1 X3", "(Layer: c)", "G1 X4", "M30"].iter().map(|s| s.to_string()).collect();
+        a.layer_watch.start(base_ui::link::layer_marks(&lines));
+        let shots = |a: &App| a.cam_rec.lapse_shots().unwrap();
+        a.machine.progress = (4, 10);
+        a.poll_machine();
+        assert_eq!(shots(&a), 0, "the first layer is not done");
+        a.machine.progress = (6, 10);
+        a.poll_machine();
+        assert_eq!(shots(&a), 1);
+        a.machine.progress = (8, 10);
+        a.poll_machine();
+        assert_eq!(shots(&a), 2);
+        // The end of the job is the end of the last layer; stopping a job does nothing more.
+        for _ in 0..a.layer_watch.finished() {
+            a.cam_rec.layer_done(now);
+        }
+        assert_eq!(shots(&a), 3);
+        a.abort_job();
+        a.machine.progress = (9, 10);
+        a.poll_machine();
+        assert_eq!(shots(&a), 3);
+        let _ = std::fs::remove_dir_all(&dir);
     }
 
     #[test]
