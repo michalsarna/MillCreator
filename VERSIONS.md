@@ -2,6 +2,14 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.5.1 (not released yet)
+
+* **Colours:** the background and the work-area colours of the view options work (they did nothing here) and are saved, also in a backup.
+* **Preview:** the fit buttons are next to *Reset view*, the title bar has only the pin button, and *Export the milled piece as STL…* is an icon with a tooltip. With a **rotary attachment** the preview shows the workpiece as a **cylinder** with the job wound round it.
+* **Background picture:** *View → Background picture…* puts a photo, a plan or a scan under the drawing, from a file or the picture of the camera, with four corners to drag and an opacity.
+* **Plugins:** any number of postprocessors can be on at once (they run in the order they were ticked); the new plugin **Barcodes** makes Code 39, Code 128 and EAN-13; the *STL projection* plugin is gone (STL, OBJ and 3MF are read as a relief since v0.5.0).
+* **Trace image:** zoom in, zoom out and reset-view buttons; the *Trace* button is green. baseCreator v1.40.0.
+
 ## v0.5.0
 
 * **Safe profiles:** a layer chooses the **direction** of a profile or a pocket (as drawn, climb or conventional), **stock to leave** with a **finishing pass** at the full depth, how the bit goes **down** (plunge, zigzag ramp, ramp along the contour or helix, with the ramp angle and a ramp feed, which a bit of the library can give) and **tabs** (full, partial or ramp, spread evenly, none on holes, or placed, moved and removed by hand on the work area). Warnings for a ramp steeper than 45°, tabs as high as the cut and a helix that does not fit. Older projects open as before.

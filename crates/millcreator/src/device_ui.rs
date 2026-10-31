@@ -66,7 +66,17 @@ pub struct CamState {
     url: Option<camera_stream::StreamWorker>,
     local: Option<camera::Worker>,
     pub tex: Option<egui::TextureHandle>,
+    /// The last frame as it is shown (size and RGB), for putting it under the drawing as a background picture.
+    pub last: Option<(usize, usize, Vec<u8>)>,
     pub error: String,
+}
+
+impl CamState {
+    /// A state that has seen one frame of the given size (for the tests of what uses it).
+    #[cfg(test)]
+    pub fn for_test(w: usize, h: usize) -> CamState {
+        CamState { key: String::new(), url: None, local: None, tex: None, last: Some((w, h, vec![200; w * h * 3])), error: String::new() }
+    }
 }
 
 /// Take what the controller reports into the draft of a device: the travel, the spindle speeds and the speed of moves.
@@ -682,7 +692,7 @@ impl App {
         let ctx = ui.ctx().clone();
         let key = format!("{:?}", cam.kind);
         if self.cam.as_ref().map(|c| c.key.as_str()) != Some(key.as_str()) {
-            let mut st = CamState { key, url: None, local: None, tex: None, error: String::new() };
+            let mut st = CamState { key, url: None, local: None, tex: None, last: None, error: String::new() };
             match &cam.kind {
                 CameraKind::Url(u) => st.url = Some(camera_stream::spawn(u.clone(), ctx.clone())),
                 CameraKind::Local(i) if camera::SUPPORTED => st.local = Some(camera::spawn(*i, cam.image.prefer_yuyv, ctx.clone())),
@@ -721,6 +731,7 @@ impl App {
                 Some(t) if t.size() == [w as usize, h as usize] => t.set(img, egui::TextureOptions::LINEAR),
                 _ => st.tex = Some(ctx.load_texture("camera-view", img, egui::TextureOptions::LINEAR)),
             }
+            st.last = Some((w as usize, h as usize, rgb));
         }
         ui.label(RichText::new(&cam.name).strong());
         let mut picture = None;

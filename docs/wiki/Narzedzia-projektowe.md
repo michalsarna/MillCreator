@@ -30,3 +30,7 @@ Edytor jest edytorem baseCreatora, takim samym jak w LightCreatorze.
 * **Barcode / QR code…** kładzie na aktywnej warstwie jako kontury kod **QR** (*Size*) albo kod kreskowy **Code 39** (wielkie litery, cyfry, `- . $ / + %` i spacje; *Bar width* i *Height*). Zrób kwadraciki dość duże dla freza.
 * **Nest shapes…** układa zaznaczone kształty w rzędach od rogu strony na obszarze *Area width* × *Area height* (na początku obszar roboczy) z odstępem *Distance*; *Allow turning* pozwala położyć wysoki kształt. Układa według prostokątów kształtów (nie ich konturów) i mówi, gdy się nie mieszczą.
 * **Measure…** pokazuje rozmiar, położenie, pole i długość zaznaczenia, a dla dwóch kształtów odległość między ich środkami i między ich prostokątami. Podąża za zaznaczeniem, dopóki jest otwarte.
+
+## Obraz w tle (menu View) i okno wektoryzacji
+
+**View → Background picture…** kładzie zdjęcie, plan albo skan **pod rysunkiem**: **Load a picture from a file…** (PNG, JPG, BMP, WebP, GIF) albo, w MillCreatorze, **Use the camera picture** (obraz z kamery taki, jaki jest teraz). Zaznacz **Move the corners** i przeciągnij cztery narożniki obrazu na narożniki materiału albo obszaru roboczego (obraz podąża za nimi z przekształceniem perspektywicznym); **Opacity**, **Show**, **Fit to the work area** i **Remove** są w tym samym oknie. Obraz nie jest zapisywany w projekcie. W oknie **Trace image** obraz można przybliżać kółkiem myszy albo przyciskami **zoom in**, **zoom out** i **reset view**, a zielony przycisk **Trace** tworzy kontury.
