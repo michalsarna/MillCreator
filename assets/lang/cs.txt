@@ -417,3 +417,4 @@
 416|Deska Duet spouští program sama: odešle se po síti a spustí tam. Ruční posuv a přepisy nejsou k dispozici.
 417|Heslo
 418|Neukládá se: při dalším otevření programu se zadává znovu
+419|Vyfrézovaný kus nelze exportovat jako STL, dokud je zvolena rotační osa.

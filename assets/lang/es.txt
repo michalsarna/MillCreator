@@ -417,3 +417,4 @@
 416|Una placa Duet ejecuta el programa por sí misma: se envía por la red y se inicia allí. El movimiento manual y los ajustes en vivo no están disponibles.
 417|Contraseña
 418|No se guarda: se pide de nuevo al abrir el programa
+419|La pieza fresada no se puede exportar como STL mientras haya un eje rotativo elegido.

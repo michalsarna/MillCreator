@@ -417,3 +417,4 @@
 416|Ett Duet-kort kör programmet själv: det skickas över nätverket och startas där. Manuell körning och åsidosättningar är inte tillgängliga.
 417|Lösenord
 418|Sparas inte: den efterfrågas igen när programmet öppnas
+419|Den frästa biten kan inte exporteras som STL medan en rotationsaxel är vald.

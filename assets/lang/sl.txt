@@ -417,3 +417,4 @@
 416|Plošča Duet izvaja program sama: pošlje se po omrežju in tam zažene. Ročno premikanje in prepisi niso na voljo.
 417|Geslo
 418|Ne shrani se: ob odprtju programa se zahteva znova
+419|Rezkanega kosa ni mogoče izvoziti kot STL, dokler je izbrana vrtilna os.

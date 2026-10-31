@@ -417,3 +417,4 @@
 416|Una placa Duet executa el programa ella sola: s'envia per la xarxa i s'inicia allà. El moviment manual i les anul·lacions no estan disponibles.
 417|Contrasenya
 418|No es desa: es torna a demanar quan s'obre el programa
+419|La peça fresada no es pot exportar com a STL mentre hi ha un accessori rotatiu triat.

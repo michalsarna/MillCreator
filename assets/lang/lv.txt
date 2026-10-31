@@ -417,3 +417,4 @@
 416|Duet plate palaiž programmu pati: tā tiek nosūtīta pa tīklu un sākta tur. Manuālā kustība un pārrakstīšana nav pieejama.
 417|Parole
 418|Netiek saglabāta: to prasa vēlreiz, kad programma tiek atvērta
+419|Frēzēto gabalu nevar eksportēt kā STL, kamēr ir izvēlēta rotācijas ass.
