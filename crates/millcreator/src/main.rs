@@ -394,7 +394,7 @@ impl App {
         base_ui::icons::install(ctx);
         theme::apply(ctx, scheme);
         let on = |k: &str, default: bool| saved(k).map(|v| v == "1").unwrap_or(default);
-        let ed = EditorState { show_grid: on("grid_main_on", true), snap: on("snap", false), snap_objects: on("snap_objects", false), ..EditorState::new() };
+        let ed = EditorState { show_grid: on("grid_main_on", true), snap: on("snap", false), snap_objects: on("snap_objects", false), grid_prefs: saved("grid_prefs").and_then(|j| serde_json::from_str(&j).ok()).unwrap_or_default(), grid: saved("grid_main_mm").and_then(|v| v.parse::<f64>().ok()).filter(|g| *g >= 0.1).unwrap_or(EditorState::new().grid), ..EditorState::new() };
         let mut tools = Library::new();
         if let Some(t) = saved("tools") {
             tools.load_text(&t);
@@ -506,6 +506,8 @@ impl App {
             ("grid_main_on", flag(self.ed.show_grid)),
             ("snap", flag(self.ed.snap)),
             ("snap_objects", flag(self.ed.snap_objects)),
+            ("grid_prefs", serde_json::to_string(&self.ed.grid_prefs).unwrap_or_default()),
+            ("grid_main_mm", self.ed.grid.to_string()),
             ("devices", self.devices_text()),
             ("tools", self.tools.save_text()),
             ("check_updates", flag(self.check_updates)),
@@ -1282,14 +1284,10 @@ impl EditorHost for App {
         self.device.units
     }
     fn workspace_fill(&self) -> egui::Color32 {
-        theme::workspace()
+        self.ed.grid_prefs.workspace_fill()
     }
     fn bed_fill(&self) -> egui::Color32 {
-        if self.scheme.is_dark() {
-            egui::Color32::from_rgb(0xea, 0xea, 0xed)
-        } else {
-            egui::Color32::WHITE
-        }
+        self.ed.grid_prefs.bed_fill(self.scheme.is_dark())
     }
     fn shape_color(&self, layer: usize) -> Option<egui::Color32> {
         self.layer_visible(layer).then(|| self.layer_color(layer))
@@ -1569,6 +1567,24 @@ mod tests {
         let mut a = App::build(&egui::Context::default(), None, false);
         a.screen = Screen::Editor;
         a
+    }
+
+
+    #[test]
+    fn the_colours_of_the_workspace_and_of_the_work_area_follow_the_view_options_and_are_kept() {
+        use base_ui::editor::EditorHost;
+        let mut a = app();
+        assert_eq!(a.workspace_fill(), theme::workspace());
+        a.ed.grid_prefs.workspace_color = Some([10, 20, 30, 255]);
+        a.ed.grid_prefs.bed_color = Some([200, 100, 50, 255]);
+        assert_eq!(a.workspace_fill(), egui::Color32::from_rgb(10, 20, 30));
+        assert_eq!(a.bed_fill(), egui::Color32::from_rgb(200, 100, 50));
+        // They are in the saved settings (and in a backup), and come back.
+        let pairs: std::collections::BTreeMap<String, String> = a.settings_pairs().into_iter().map(|(k, v)| (k.to_string(), v)).collect();
+        let mut b = app();
+        b.apply_settings(&egui::Context::default(), &pairs);
+        assert_eq!(b.ed.grid_prefs.workspace_color, Some([10, 20, 30, 255]));
+        assert_eq!(b.ed.grid_prefs.bed_color, Some([200, 100, 50, 255]));
     }
 
     #[test]
