@@ -418,3 +418,4 @@
 417|Geslo
 418|Ne shrani se: ob odprtju programa se zahteva znova
 419|Rezkanega kosa ni mogoče izvoziti kot STL, dokler je izbrana vrtilna os.
+420|Vstavi

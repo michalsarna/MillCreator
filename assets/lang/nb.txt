@@ -418,3 +418,4 @@
 417|Passord
 418|Lagres ikke: det spørres om igjen når programmet åpnes
 419|Det frest stykket kan ikke eksporteres som STL mens en rotasjonsakse er valgt.
+420|Sett inn

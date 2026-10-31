@@ -418,3 +418,4 @@
 417|Adgangskode
 418|Gemmes ikke: der spørges igen, når programmet åbnes
 419|Det fræsede stykke kan ikke eksporteres som STL, mens en rotationsakse er valgt.
+420|Indsæt

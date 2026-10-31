@@ -4,6 +4,7 @@ Each release gets the next version number. Newest first.
 
 ## v0.5.2 (not released yet)
 
+* **Insert menu:** the tools of the left palette that insert objects (and the generators of plugins) as menu commands.
 * **Plugins:** the check for newer plugins at the start is on by default, and a window lists the plugins that are out of date (**Update all**, **Plugins**, **Later**).
 * **Camera:** **RTSP** streams (decoded by ffmpeg, which the packages bring), **Take a photo**, **Record video** (Motion-JPEG AVI) and a **time-lapse** every N seconds or after each layer of the job, all into a folder you choose; a recording goes on while the camera view is closed. baseCreator v1.41.0.
 

@@ -71,6 +71,8 @@ pub fn menus() -> Menus<Act> {
     vec![
         ("File", file),
         ("Edit", std(std_entries::edit())),
+        // The tools of the left palette that insert objects, and the generators of plugins.
+        ("Insert", [std(std_entries::insert_tools()), vec![Sep, Item(Act::GenerateShape, base_ui::plugins_ui::MENU_GENERATE, None)]].concat()),
         ("Machine", vec![Item(Act::DeviceSettings, "Device settings…", None), Item(Act::Firmware, "Firmware settings ($$)…", None), Item(Act::Calibration, "Calibration…", None), Item(Act::ToolSensor, "Tool length sensor…", None), Item(Act::Diagnostics, "Diagnostics and statistics…", None), Sep, Item(Act::StartFrom, "Start from line…", None), Item(Act::CheckProgram, "Check the program", None)]),
         ("Milling", vec![Item(Act::ToolLibrary, "Bit library…", None), Sep, Item(Act::Preview3d, "3D view of the job…", key("CmdOrCtrl+Shift+3", "Ctrl+Shift+3")), Item(Act::ExportGcode, "Export G-code…", key("CmdOrCtrl+Shift+G", "Ctrl+Shift+G")), Item(Act::ExportRelief, "Export relief as STL…", None)]),
         (

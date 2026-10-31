@@ -418,3 +418,4 @@
 417|Heslo
 418|Neukladá sa: pri ďalšom otvorení programu sa zadáva znova
 419|Vyfrézovaný kus sa nedá exportovať ako STL, kým je zvolená rotačná os.
+420|Vložiť

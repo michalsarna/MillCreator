@@ -418,3 +418,4 @@
 417	Password
 418	Not saved: it is asked for again when the program is opened
 419	The milled piece cannot be exported as STL while a rotary attachment is chosen.
+420	Insert

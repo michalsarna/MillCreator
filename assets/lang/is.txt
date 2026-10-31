@@ -418,3 +418,4 @@
 417|Lykilorð
 418|Er ekki vistað: beðið er um það aftur þegar forritið er opnað
 419|Ekki er hægt að flytja fræsta stykkið út sem STL meðan snúningsás er valinn.
+420|Setja inn
