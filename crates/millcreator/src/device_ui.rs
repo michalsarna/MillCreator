@@ -391,6 +391,20 @@ impl App {
                         });
                     }
                     Page::Connection => {
+                        ui.horizontal(|ui| {
+                            ui.checkbox(&mut d.duet.enabled, tr("Duet / RepRapFirmware (HTTP)")).on_hover_text(tr("A Duet board runs the program by itself: it is sent over the network and started there. Jogging and overrides are not available."));
+                        });
+                        if d.duet.enabled {
+                            egui::Grid::new("dev_duet").num_columns(2).min_col_width(150.0).spacing([12.0, 6.0]).show(ui, |ui| {
+                                ui.label(tr("Address"));
+                                ui.add(egui::TextEdit::singleline(&mut d.duet.host).hint_text("duet.local"));
+                                ui.end_row();
+                                ui.label(tr("Password"));
+                                ui.add(egui::TextEdit::singleline(&mut d.duet.password).password(true)).on_hover_text(tr("Not saved: it is asked for again when the program is opened"));
+                                ui.end_row();
+                            });
+                            ui.separator();
+                        }
                         egui::Grid::new("dev_link").num_columns(2).min_col_width(150.0).spacing([12.0, 6.0]).show(ui, |ui| {
                             ui.label(tr("Connection type"));
                             egui::ComboBox::from_id_salt("link_kind").width(230.0).selected_text(tr(d.connection.link.label())).show_ui(ui, |ui| {

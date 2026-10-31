@@ -194,10 +194,10 @@ impl App {
         let g = if self.frame_hull {
             // A rubber band round the cuts: the hull of everything the bit cuts.
             let pts: Vec<(f64, f64)> = prog.moves.iter().filter(|m| m.kind != toolpath::MoveKind::Rapid).flat_map(|m| [(m.from[0], m.from[1]), (m.to[0], m.to[1])]).collect();
-            let hull = toolpath::frame_hull_gcode(&pts, &self.device);
-            if hull.is_empty() { toolpath::frame_gcode(b, &self.device) } else { hull }
+            let hull = toolpath::frame_hull_gcode(&pts, &self.device.with_stock(&self.stock));
+            if hull.is_empty() { toolpath::frame_gcode(b, &self.device.with_stock(&self.stock)) } else { hull }
         } else {
-            toolpath::frame_gcode(b, &self.device)
+            toolpath::frame_gcode(b, &self.device.with_stock(&self.stock))
         };
         self.machine.lines([g]);
         self.status = tr("Framing the work area").to_string();
@@ -220,7 +220,7 @@ impl App {
             return None;
         }
         let name = self.path.as_ref().and_then(|p| p.file_stem()).map(|s| s.to_string_lossy().into_owned()).unwrap_or_else(|| "untitled".into());
-        let lines = link::clean_gcode(&toolpath::to_gcode(&prog, &self.device, &self.layers, &self.tools, &name));
+        let lines = link::clean_gcode(&toolpath::to_gcode(&prog, &self.device.with_stock(&self.stock), &self.layers, &self.tools, &name));
         let lines = self.scale_spindle(lines);
         Some((lines, prog.estimate_seconds(self.device.rapid)))
     }

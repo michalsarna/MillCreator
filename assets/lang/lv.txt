@@ -391,3 +391,29 @@
 390|Rāmis iet ap griezumu kontūru (kā gumija) taisnstūra vietā
 391|Cauruma centrs tagad ir X un Y nulle; caurums ir {} x {} mm
 392|Centra atrašana neizdevās: nav kontakta vai ir trauksme.
+393|Projekts iestatīts: materiāls {} x {} x {} mm, nulle: {}
+394|Projekta iestatīšana…
+395|Materiāla platums
+396|Materiāla augstums (Y)
+397|Z skaita no materiāla apakšas
+398|Darba laukums ir materiāls
+399|Materiāls atrodas lapas augšējā kreisajā stūrī. Programma ir rakstīta koordinātu sistēmai G54 ar nulli jūsu izvēlētajā vietā: iestatiet šo nulli uz iekārtas tur. Z skaita no materiāla augšas vai apakšas.
+400|Izlaist
+401|Vēl nav sagatavju
+402|Lietot šos iestatījumus slānim
+403|Aizmirst šo sagatavi
+404|Saglabāt kā sagatavi
+405|Atcerēties šī slāņa griešanas veidu ar šo nosaukumu
+406|Vispirms iestatiet plates adresi (Ierīces iestatījumi → Savienojums).
+407|Sazinās ar Duet…
+408|Nosūtīts uz Duet un sākts. Stāvoklis: {}
+409|Duet stāvoklis: {}
+410|Duet: {}
+411|Duet palaiž programmu pats: nosūtiet un sāciet to, nolasiet stāvokli, apturiet. Manuālā kustība un pārrakstīšana nav pieejama. Parole netiek saglabāta.
+412|Nosūtīt un sākt
+413|Augšupielādēt programmu platē un sākt to tur
+414|Stāvoklis
+415|Duet / RepRapFirmware (HTTP)
+416|Duet plate palaiž programmu pati: tā tiek nosūtīta pa tīklu un sākta tur. Manuālā kustība un pārrakstīšana nav pieejama.
+417|Parole
+418|Netiek saglabāta: to prasa vēlreiz, kad programma tiek atvērta

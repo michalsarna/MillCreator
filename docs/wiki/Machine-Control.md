@@ -74,3 +74,8 @@ When GRBL says `ALARM:n` or `error:n`, the console gets a line under it that exp
 ## When the machine stops
 
 An alarm, an error in a job or a controller that does not answer opens a **window in the middle of the screen**: what happened, and two big buttons, **STOP** (red: stops the job and the spindle) and **UNLOCK** (orange: clears the alarm, `$X`). Look at why it stopped before you unlock: the tool may be in the material.
+
+## Other controllers: Smoothieware and Duet
+
+* **Smoothieware:** the *Firmware* choice of the Connection page has **Smoothieware (not GRBL)** next to the GRBL versions. The board is streamed through the same layer as GRBL; it has no `$` settings, so the firmware pages do not apply. Not every button of the Control tab is meant for it.
+* **Duet / RepRapFirmware over HTTP:** tick **Duet / RepRapFirmware (HTTP)** on the Connection page and give the **address** of the board (and its **password**, which is not saved). The Control tab then has **Send and start** (the program is uploaded to `0:/gcodes/` and started with `M32`), **State** (idle, printing, … and how far the file is) and **Stop**. The board runs the file by itself, so there is no jogging, no overrides and no streaming. It is for RepRapFirmware 2 and 3 in standalone mode; a Duet driven by a single-board computer (SBC mode) is not covered.

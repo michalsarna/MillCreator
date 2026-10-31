@@ -391,3 +391,29 @@
 390|A keret a vágások körvonalát követi (mint egy gumiszalag) a téglalap helyett
 391|A lyuk közepe most az X és Y nulla; a lyuk {} x {} mm
 392|A középpont keresése nem sikerült: nincs érintkezés, vagy riasztás történt.
+393|Projekt beállítva: anyag {} x {} x {} mm, nulla: {}
+394|Projektbeállítás…
+395|Anyag szélessége
+396|Anyag magassága (Y)
+397|A Z az anyag aljától számít
+398|A munkaterület az anyag
+399|Az anyag az oldal bal felső sarkában van. A program a G54 koordinátarendszerre készül, amelynek nullája az Ön által választott helyen van: ezt a nullát állítsa be a gépen ott. A Z az anyag tetejétől vagy aljától számít.
+400|Kihagyás
+401|Még nincsenek előbeállítások
+402|Ezek a beállítások a rétegre
+403|Az előbeállítás elfelejtése
+404|Mentés előbeállításként
+405|A réteg vágási módjának megjegyzése ezen a néven
+406|Először állítsa be a panel címét (Eszközbeállítások → Kapcsolat).
+407|Beszélgetés a Duettel…
+408|Elküldve a Duetnek és elindítva. Állapot: {}
+409|A Duet állapota: {}
+410|Duet: {}
+411|A Duet magától futtatja a programot: küldje el és indítsa el, olvassa az állapotát, állítsa le. Kézi mozgatás és felülbírálások nem elérhetők. A jelszó nem kerül mentésre.
+412|Küldés és indítás
+413|A program feltöltése a panelre és indítása ott
+414|Állapot
+415|Duet / RepRapFirmware (HTTP)
+416|A Duet panel magától futtatja a programot: hálózaton küldi el és ott indítja. Kézi mozgatás és felülbírálások nem elérhetők.
+417|Jelszó
+418|Nem kerül mentésre: a program megnyitásakor újra meg kell adni

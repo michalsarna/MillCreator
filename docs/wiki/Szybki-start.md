@@ -11,3 +11,5 @@
 7. **Zapisz G-code** z okna 3D albo z **Milling → Export G-code…** i zapisz projekt (`.cre`).
 
 > Program zapisuje G-code i może przesłać go do podłączonej maszyny GRBL (karta Device: Connect; karta Control: Start, Stop, Frame, From line…), sprawdzone na TwoTrees TTC450Pro, nie na innych maszynach. Sprawdź zadanie najpierw w powietrzu i bądź przy maszynie. Zobacz [Bezpieczeństwo i ograniczenia](Bezpieczenstwo-i-ograniczenia).
+
+**Ustawienia projektu.** Po **File → New** (i z **File → Project setup…**) okno pyta o **wymiary i grubość materiału**, **gdzie jest zero X i Y** (narożnik albo środek), czy **Z liczy się od spodu** materiału i czy **obszar roboczy ma być materiałem**. Materiał leży w lewym górnym rogu strony. Program jest wtedy pisany dla układu współrzędnych **G54** z zerem w tym miejscu (ustaw je tam na maszynie), a Z liczone od spodu, jeśli tak wybrano. *Skip* zostawia zero urządzenia. Wybór zapisuje się w projekcie.

@@ -74,3 +74,8 @@ Gdy GRBL powie `ALARM:n` albo `error:n`, konsola dostaje pod spodem wiersz z wyj
 ## Gdy maszyna się zatrzyma
 
 Alarm, błąd w zadaniu albo sterownik, który nie odpowiada, otwiera **okno pośrodku ekranu**: co się stało oraz dwa duże przyciski, **STOP** (czerwony: zatrzymuje zadanie i wrzeciono) i **UNLOCK** (pomarańczowy: kasuje alarm, `$X`). Zobacz, dlaczego się zatrzymało, zanim odblokujesz: narzędzie może tkwić w materiale.
+
+## Inne sterowniki: Smoothieware i Duet
+
+* **Smoothieware:** wybór *Firmware* na stronie Connection ma obok wersji GRBL pozycję **Smoothieware (not GRBL)**. Płytka jest obsługiwana przez tę samą warstwę co GRBL; nie ma ustawień `$`, więc strony firmware'u jej nie dotyczą. Nie każdy przycisk karty Control jest dla niej przewidziany.
+* **Duet / RepRapFirmware przez HTTP:** zaznacz **Duet / RepRapFirmware (HTTP)** na stronie Connection i podaj **adres** płytki (oraz **hasło**, które nie jest zapisywane). Karta Control ma wtedy **Send and start** (program jest wgrywany do `0:/gcodes/` i uruchamiany przez `M32`), **State** (bezczynny, pracuje, … i jak daleko jest plik) oraz **Stop**. Płytka wykonuje plik sama, więc nie ma jogowania, korekt ani strumieniowania. To dla RepRapFirmware 2 i 3 w trybie standalone; Duet sterowany przez komputer jednopłytkowy (tryb SBC) nie jest objęty.

@@ -391,3 +391,29 @@
 390|Téann an fráma timpeall imlíne na ngearrthaí (cosúil le bannaí rubair) in ionad an bhosca
 391|Is é lár an phoill náid X agus Y anois; tá an poll {} x {} mm
 392|Theip ar an lár a aimsiú: gan teagmháil, nó aláram.
+393|Socraíodh an tionscadal: ábhar {} x {} x {} mm, nialas: {}
+394|Socrú tionscadail…
+395|Leithead an ábhair
+396|Airde an ábhair (Y)
+397|Comhaireofar Z ó bun an ábhair
+398|Is é an limistéar oibre an t-ábhar
+399|Tá an t-ábhar ag barr clé an leathanaigh. Scríobhtar an clár don chóras comhordanáidí G54 agus a nialas san áit a roghnaíonn tú: socraigh an nialas sin ar an meaisín ansin. Comhaireofar Z ó bharr an ábhair nó óna bhun.
+400|Scipeáil
+401|Níl réamhshocruithe ann fós
+402|Cuir na socruithe seo ar an gciseal
+403|Déan dearmad ar an réamhshocrú seo
+404|Sábháil mar réamhshocrú
+405|Cuimhnigh ar mhodh gearrtha an chisil seo faoin ainm seo
+406|Socraigh seoladh an chláir ar dtús (Socruithe gléis → Nasc).
+407|Ag caint leis an Duet…
+408|Seoladh chuig an Duet agus tosaíodh. Staid: {}
+409|Staid an Duet: {}
+410|Duet: {}
+411|Rithfidh an Duet an clár leis féin: seol agus tosaigh é, léigh a staid, stop é. Níl jogáil ná sáruithe ar fáil. Ní shábháiltear an focal faire.
+412|Seol agus tosaigh
+413|Uaslódáil an clár chuig an gclár agus tosaigh ansin é
+414|Staid
+415|Duet / RepRapFirmware (HTTP)
+416|Rithfidh clár Duet an clár leis féin: seoltar thar an líonra é agus tosaítear ansin é. Níl jogáil ná sáruithe ar fáil.
+417|Focal faire
+418|Ní shábháiltear: iarrtar arís é nuair a osclaítear an clár

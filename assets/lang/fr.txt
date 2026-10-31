@@ -391,3 +391,29 @@
 390|Le cadre suit le contour des coupes (comme un élastique) au lieu du rectangle
 391|Le centre du trou est maintenant le zéro de X et Y ; le trou mesure {} x {} mm
 392|La recherche du centre a échoué : pas de contact, ou une alarme.
+393|Projet réglé : matériau {} x {} x {} mm, zéro : {}
+394|Réglage du projet…
+395|Largeur du matériau
+396|Hauteur du matériau (Y)
+397|Z compte depuis le dessous du matériau
+398|La zone de travail est le matériau
+399|Le matériau est en haut à gauche de la page. Le programme est écrit pour le système de coordonnées G54 avec son zéro à l'endroit choisi : réglez ce zéro sur la machine à cet endroit. Z compte depuis le dessus du matériau ou depuis le dessous.
+400|Ignorer
+401|Pas encore de préréglages
+402|Appliquer ces réglages au calque
+403|Oublier ce préréglage
+404|Enregistrer comme préréglage
+405|Mémoriser le mode de coupe de ce calque sous ce nom
+406|Réglez d'abord l'adresse de la carte (Réglages de l'appareil → Connexion).
+407|Communication avec le Duet…
+408|Envoyé au Duet et démarré. État : {}
+409|État du Duet : {}
+410|Duet: {}
+411|Le Duet exécute le programme tout seul : envoyez-le et démarrez-le, lisez son état, arrêtez-le. Le déplacement manuel et les correctifs ne sont pas disponibles. Le mot de passe n'est pas enregistré.
+412|Envoyer et démarrer
+413|Téléverser le programme sur la carte et l'y démarrer
+414|État
+415|Duet / RepRapFirmware (HTTP)
+416|Une carte Duet exécute le programme toute seule : il est envoyé par le réseau et démarré là. Le déplacement manuel et les correctifs ne sont pas disponibles.
+417|Mot de passe
+418|Non enregistré : demandé de nouveau à l'ouverture du programme

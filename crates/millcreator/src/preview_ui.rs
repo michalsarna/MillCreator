@@ -105,7 +105,7 @@ impl App {
         }
         let name = self.path.as_ref().and_then(|p| p.file_stem()).map(|s| s.to_string_lossy().into_owned()).unwrap_or_else(|| "untitled".into());
         let Some(p) = rfd::FileDialog::new().add_filter("G-code", &["nc", "gcode", "ngc"]).set_file_name(format!("{name}.nc")).save_file() else { return };
-        let text = toolpath::to_gcode(&prog, &self.device, &self.layers, &self.tools, &name);
+        let text = toolpath::to_gcode(&prog, &self.device.with_stock(&self.stock), &self.layers, &self.tools, &name);
         let Some(text) = self.postprocessed(text) else { return };
         self.status = match std::fs::write(&p, text) {
             Ok(()) => trf("Saved {}", &[&p.display()]),

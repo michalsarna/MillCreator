@@ -11,3 +11,5 @@
 7. **Export G-code** from the 3D window or **Milling → Export G-code…**, and save the project (`.cre`).
 
 > The program writes G-code and can stream it to a connected GRBL machine (Device tab: Connect; Control tab: Start, Stop, Frame, From line…), tested on a TwoTrees TTC450Pro, not on other machines. Test the job in the air first and stay at the machine. See [Safety and Limitations](Safety-and-Limitations).
+
+**Project setup.** After **File → New** (and from **File → Project setup…**) a window asks for the **size and thickness of the material**, **where the zero of X and Y is** on it (a corner or the centre), whether **Z counts from the bottom** of the material, and whether the **work area is the material**. The material lies at the top left of the page. The program is then written for the work coordinate system **G54** with its zero at that place (set it on the machine there), and with Z counted from the bottom when you asked for that. *Skip* leaves the zero of the device. The choices are saved with the project.

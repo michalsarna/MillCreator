@@ -391,3 +391,29 @@
 390|Het kader volgt de omtrek van de sneden (als een elastiekje) in plaats van de rechthoek
 391|Het midden van het gat is nu de nul van X en Y; het gat is {} x {} mm
 392|Het zoeken naar het midden is mislukt: geen contact of een alarm.
+393|Project ingesteld: materiaal {} x {} x {} mm, nulpunt: {}
+394|Projectinstelling…
+395|Materiaalbreedte
+396|Materiaalhoogte (Y)
+397|Z telt vanaf de onderkant van het materiaal
+398|Het werkgebied is het materiaal
+399|Het materiaal ligt linksboven op de pagina. Het programma is geschreven voor coördinatensysteem G54 met de nul op de plek die je kiest: stel die nul daar op de machine in. Z telt vanaf de bovenkant van het materiaal of vanaf de onderkant.
+400|Overslaan
+401|Nog geen voorinstellingen
+402|Pas deze instellingen toe op de laag
+403|Deze voorinstelling vergeten
+404|Opslaan als voorinstelling
+405|Onthoud de snijwijze van deze laag onder deze naam
+406|Stel eerst het adres van het board in (Apparaatinstellingen → Verbinding).
+407|Praten met de Duet…
+408|Naar de Duet gestuurd en gestart. Status: {}
+409|Status van de Duet: {}
+410|Duet: {}
+411|De Duet voert het programma zelf uit: stuur het en start het, lees de status, stop het. Handmatig verplaatsen en overrides zijn niet beschikbaar. Het wachtwoord wordt niet opgeslagen.
+412|Verzenden en starten
+413|Upload het programma naar het board en start het daar
+414|Status
+415|Duet / RepRapFirmware (HTTP)
+416|Een Duet-board voert het programma zelf uit: het wordt via het netwerk verzonden en daar gestart. Handmatig verplaatsen en overrides zijn niet beschikbaar.
+417|Wachtwoord
+418|Wordt niet opgeslagen: bij het openen van het programma moet het opnieuw worden ingevoerd

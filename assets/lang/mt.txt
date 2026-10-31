@@ -391,3 +391,29 @@
 390|Il-qafas jdur mal-kontorn tal-qtugħ (bħal rubber band) minflok il-kaxxa
 391|Iċ-ċentru tat-toqba issa huwa ż-żero ta' X u Y; it-toqba hija {} x {} mm
 392|Is-sib taċ-ċentru falla: l-ebda kuntatt, jew allarm.
+393|Il-proġett issettjat: materjal {} x {} x {} mm, żero: {}
+394|Issettjar tal-proġett…
+395|Wisa' tal-materjal
+396|Għoli tal-materjal (Y)
+397|Z jingħadd mill-qiegħ tal-materjal
+398|Iż-żona tax-xogħol hija l-materjal
+399|Il-materjal jinsab fil-ġenb ta' fuq tax-xellug tal-paġna. Il-programm huwa miktub għas-sistema tal-koordinati G54 b'żero fil-post li tagħżel: issettja dak iż-żero fuq il-magna hemm. Z jingħadd minn fuq il-materjal jew mill-qiegħ.
+400|Aqbeż
+401|Għad m'hemmx preset
+402|Applika dawn is-settings fuq is-saff
+403|Nsa dan il-preset
+404|Issejvja bħala preset
+405|Ftakar il-mod tal-qtugħ ta' dan is-saff b'dan l-isem
+406|Issettja l-ewwel l-indirizz tal-bord (Issettjar tal-apparat → Konnessjoni).
+407|Qed nitkellem mad-Duet…
+408|Intbagħat lid-Duet u nbeda. Stat: {}
+409|Stat tad-Duet: {}
+410|Duet: {}
+411|Id-Duet iħaddem il-programm waħdu: ibgħatu u ibdih, aqra l-istat tiegħu, waqqfu. Il-ġogging u l-overrides mhumiex disponibbli. Il-password ma tinħażinx.
+412|Ibgħat u ibda
+413|Tella' l-programm fuq il-bord u ibdieh hemm
+414|Stat
+415|Duet / RepRapFirmware (HTTP)
+416|Bord Duet iħaddem il-programm waħdu: jintbagħat fuq in-netwerk u jibda hemm. Il-ġogging u l-overrides mhumiex disponibbli.
+417|Password
+418|Ma jinħażinx: jintalab mill-ġdid meta jinfetaħ il-programm

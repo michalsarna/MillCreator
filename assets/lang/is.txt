@@ -391,3 +391,29 @@
 390|Rammin fer um útlínu skurðanna (eins og teygjubönd) í stað kassans
 391|Miðja gatsins er nú núll X og Y; gatið er {} x {} mm
 392|Miðjuleitin mistókst: engin snerting eða viðvörun.
+393|Verkefni stillt: efni {} x {} x {} mm, núll: {}
+394|Uppsetning verkefnis…
+395|Breidd efnis
+396|Hæð efnis (Y)
+397|Z telst frá botni efnisins
+398|Vinnusvæðið er efnið
+399|Efnið er efst til vinstri á síðunni. Forritið er skrifað fyrir hnitakerfið G54 með núll á staðnum sem þú velur: stilltu það núll á vélinni þar. Z telst frá efri hlið efnisins eða frá botni þess.
+400|Sleppa
+401|Engar forstillingar enn
+402|Nota þessar stillingar á lagið
+403|Gleyma þessari forstillingu
+404|Vista sem forstillingu
+405|Muna skurðaraðferð þessa lags undir þessu nafni
+406|Stilltu fyrst heimilisfang borðsins (Tækjastillingar → Tenging).
+407|Tala við Duet…
+408|Sent til Duet og ræst. Staða: {}
+409|Staða Duet: {}
+410|Duet: {}
+411|Duet keyrir forritið sjálft: sendu það og ræstu, lestu stöðuna, stöðvaðu. Handvirk hreyfing og tilfærslur eru ekki í boði. Lykilorðið er ekki vistað.
+412|Senda og ræsa
+413|Hlaða forritinu upp á borðið og ræsa það þar
+414|Staða
+415|Duet / RepRapFirmware (HTTP)
+416|Duet-borð keyrir forritið sjálft: það er sent yfir netið og ræst þar. Handvirk hreyfing og tilfærslur eru ekki í boði.
+417|Lykilorð
+418|Er ekki vistað: beðið er um það aftur þegar forritið er opnað

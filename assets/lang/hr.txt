@@ -391,3 +391,29 @@
 390|Okvir ide oko obrisa rezova (poput gumice) umjesto oko pravokutnika
 391|Središte rupe je sada nula X i Y; rupa je {} x {} mm
 392|Traženje središta nije uspjelo: nema kontakta ili alarm.
+393|Projekt postavljen: materijal {} x {} x {} mm, nula: {}
+394|Postavke projekta…
+395|Širina materijala
+396|Visina materijala (Y)
+397|Z se broji od dna materijala
+398|Radno područje je materijal
+399|Materijal je u gornjem lijevom kutu stranice. Program je pisan za koordinatni sustav G54 s nulom na odabranom mjestu: postavite tu nulu na stroju tamo. Z se broji od vrha materijala ili od njegova dna.
+400|Preskoči
+401|Još nema predložaka
+402|Primijeni ove postavke na sloj
+403|Zaboravi ovaj predložak
+404|Spremi kao predložak
+405|Zapamti način rezanja ovog sloja pod ovim imenom
+406|Najprije postavite adresu ploče (Postavke uređaja → Veza).
+407|Komunikacija s Duetom…
+408|Poslano na Duet i pokrenuto. Stanje: {}
+409|Stanje Dueta: {}
+410|Duet: {}
+411|Duet sam izvodi program: pošaljite ga i pokrenite, pročitajte stanje, zaustavite. Ručno pomicanje i korekcije nisu dostupni. Lozinka se ne sprema.
+412|Pošalji i pokreni
+413|Učitaj program na ploču i pokreni ga tamo
+414|Stanje
+415|Duet / RepRapFirmware (HTTP)
+416|Ploča Duet sama izvodi program: šalje se mrežom i tamo pokreće. Ručno pomicanje i korekcije nisu dostupni.
+417|Lozinka
+418|Ne sprema se: traži se ponovno pri otvaranju programa

@@ -391,3 +391,29 @@
 390	The frame goes round the outline of the cuts (a rubber band) instead of the box
 391	The centre of the hole is the zero of X and Y now; the hole is {} x {} mm
 392	The centre finder failed: no contact, or an alarm.
+393	Project set up: material {} x {} x {} mm, zero at {}
+394	Project setup…
+395	Material width
+396	Material height
+397	Z counts from the bottom of the material
+398	Work area is the material
+399	The material lies at the top left of the page. The program is written for the work coordinate system G54 with its zero at the place you choose: set that zero on the machine there. Z counts from the top of the material, or from its bottom.
+400	Skip
+401	No presets yet
+402	Put these settings on the layer
+403	Forget this preset
+404	Save as preset
+405	Keep the way of cutting of this layer under this name
+406	Set the address of the board first (Device settings → Connection).
+407	Talking to the Duet…
+408	Sent to the Duet and started. State: {}
+409	State of the Duet: {}
+410	Duet: {}
+411	The Duet runs the program by itself: send it and start it, read its state, stop it. Jogging and overrides are not available. The password is not saved.
+412	Send and start
+413	Upload the program to the board and start it there
+414	State
+415	Duet / RepRapFirmware (HTTP)
+416	A Duet board runs the program by itself: it is sent over the network and started there. Jogging and overrides are not available.
+417	Password
+418	Not saved: it is asked for again when the program is opened
