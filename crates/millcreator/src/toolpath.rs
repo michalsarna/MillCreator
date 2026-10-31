@@ -257,8 +257,16 @@ fn engrave_picture(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shap
 /// of the relief everywhere under its body. Returns false when the program got too long.
 fn relief_passes(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shape, im: &ImageData, area_y: f64, depth: f64, step: f64) -> bool {
     let Some(map) = crate::relief::HeightMap::of(shape, im, step, layer.scan_angle, depth) else { return true };
-    let tips = crate::relief::tip_heights(&map, tool);
-    for limit in crate::relief::pass_limits(depth, layer.step_down) {
+    let mut tips = crate::relief::tip_heights(&map, tool);
+    // Roughing leaves the stock to leave on the relief; finishing is one go over the relief itself.
+    use crate::layers::ReliefPart;
+    if layer.relief_part == ReliefPart::Rough && layer.leave > 0.0 {
+        for t in tips.iter_mut() {
+            *t = (*t + layer.leave).min(0.0);
+        }
+    }
+    let limits = if layer.relief_part == ReliefPart::Finish { vec![depth] } else { crate::relief::pass_limits(depth, layer.step_down) };
+    for limit in limits {
         let mut k = 0usize;
         for r in 0..map.grid.rows {
             let runs = crate::relief::row_runs(&map, &tips, r, limit, k % 2 == 1, area_y);
@@ -507,7 +515,7 @@ fn first_pass(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyl
                 }
             }
         }
-        Operation::Drill | Operation::Picture | Operation::Face => {}
+        Operation::Drill | Operation::Picture | Operation::Face | Operation::VCarve => {}
     }
 }
 
@@ -617,6 +625,37 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
                     passes::ring_passes(b, line, depths, &plan, false, &[], false, &mut notes);
                 } else {
                     passes::open_passes(b, line, depths, &plan);
+                }
+            }
+        }
+        Operation::VCarve => {
+            use crate::layers::Inlay;
+            let closed = closed_only(outlines);
+            if closed.len() < outlines.len() {
+                warnings.push(Warn::new("{}: open lines are left out of a V-carve", &[&layer.name]));
+            }
+            // The plug of an inlay is the shape made smaller by the gap, with the walls carved round it.
+            let outside = layer.inlay == Inlay::Plug;
+            let region = if outside && layer.inlay_gap > 0.0 { ops::offset(&closed, -layer.inlay_gap) } else { closed.clone() };
+            // The socket is a little bigger than the shape when there is a gap to keep (the plug stays the shape's size).
+            let region = if layer.inlay == Inlay::Socket && layer.inlay_gap > 0.0 { ops::offset(&closed, layer.inlay_gap) } else { region };
+            let wall_step = step.max(0.05);
+            match crate::clear::vcarve_rings(&region, tool, full, layer.vc_start, wall_step, tool.dims.tip.max(0.1).max(step * 0.5), outside) {
+                None => warnings.push(Warn::new("{}: a V-carve needs a V-bit or an engraving bit", &[&layer.name])),
+                Some(rings) => {
+                    let floor = rings.iter().filter(|(z, _)| (*z - full).abs() < 1e-9).count();
+                    if floor > 2 && !outside {
+                        warnings.push(Warn::new("{}: the flat bottom is cut with the V-bit: it leaves ridges and takes long (a flat bit in a Pocket layer is better for it)", &[&layer.name]));
+                    }
+                    // All the rings are turned together, so that the holes of the shapes get the other way round.
+                    let turned = passes::oriented(rings.iter().map(|(_, r)| r.clone()).collect(), Operation::Pocket, layer.direction);
+                    for (i, (ring, (z, _))) in turned.iter().zip(&rings).enumerate() {
+                        passes::ring_passes(b, ring, &[*z], &plan, false, &[], i > 0, &mut notes);
+                        if b.moves.len() > MAX_MOVES {
+                            warnings.push(Warn::new("{}: the program of the V-carve is too long: the rest was left out", &[&layer.name]));
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -1650,5 +1689,114 @@ mod tests {
         assert!(cuts(&four) > cuts(&one) * 2, "{} against {}", cuts(&four), cuts(&one));
         let first_cuts: Vec<f64> = four.moves.iter().filter(|m| m.kind == MoveKind::Cut).take(5).map(|m| m.to[2]).collect();
         assert!(first_cuts.iter().all(|z| *z >= -0.25 - 1e-9), "the first pass is at most 0.25 deep: {first_cuts:?}");
+    }
+
+    fn vcarve_layers(lib: &Library, depth: f64) -> Vec<MillLayer> {
+        let (_, _, _, mut layers) = setup();
+        layers[0].op = Operation::VCarve;
+        layers[0].depth = depth;
+        with_tool(&mut layers, 0, lib, "std-v-60");
+        layers[0].depth = depth;
+        layers
+    }
+
+    #[test]
+    fn a_v_carve_goes_as_deep_as_the_distance_from_the_edge_asks_and_never_deeper_than_the_layer() {
+        let (lib, dev, stock, _) = setup();
+        let mut g = Scene::default();
+        // A strip 3 mm wide: a 60° bit reaches the middle at 1.5 / tan 30° = 2.6 mm.
+        g.add(0, Kind::Rect { w: 3.0, h: 40.0 }, Xf::translate(50.0, 50.0));
+        let layers = vcarve_layers(&lib, 5.0);
+        let prog = generate(&g, &layers, &lib, &dev, &stock);
+        assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
+        let deepest = cut_points(&prog).iter().map(|p| p[2]).fold(0.0f64, f64::min);
+        let want = 1.5 / 30f64.to_radians().tan() - lib.get("std-v-60").unwrap().dims.tip / 2.0 / 30f64.to_radians().tan();
+        assert!((deepest + want).abs() < 0.15, "the crest is {want:.2} deep, the deepest cut is {}", -deepest);
+        // A shallower layer stops the bit at its depth and cuts a flat bottom.
+        let shallow = vcarve_layers(&lib, 1.0);
+        let prog = generate(&g, &shallow, &lib, &dev, &stock);
+        let deepest = cut_points(&prog).iter().map(|p| p[2]).fold(0.0f64, f64::min);
+        assert!((deepest + 1.0).abs() < 1e-6, "{deepest}");
+    }
+
+    #[test]
+    fn the_rings_of_a_v_carve_are_deeper_the_farther_they_are_from_the_edge() {
+        let (lib, _, _, _) = setup();
+        let strip = Polyline::new(vec![Pt::new(0.0, 0.0), Pt::new(20.0, 0.0), Pt::new(20.0, 6.0), Pt::new(0.0, 6.0)], true);
+        let rings = crate::clear::vcarve_rings(&[strip.clone()], lib.get("std-v-60").unwrap(), 10.0, 0.0, 0.5, 0.5, false).unwrap();
+        assert!(rings.len() >= 4, "{}", rings.len());
+        assert!(rings.windows(2).all(|w| w[1].0 >= w[0].0 - 1e-9), "deeper and deeper");
+        // The crest of the strip is the deepest: 3 mm from the edge.
+        let tan = 30f64.to_radians().tan();
+        let tip = lib.get("std-v-60").unwrap().dims.tip / 2.0;
+        let last = rings.last().unwrap().0;
+        assert!((last - (3.0 - tip) / tan).abs() < 0.1, "{last}");
+        // A bit that is not a V-bit gives nothing.
+        assert!(crate::clear::vcarve_rings(&[strip], lib.get("std-flat-3").unwrap(), 2.0, 0.0, 0.5, 0.5, false).is_none());
+    }
+
+    #[test]
+    fn a_start_depth_leaves_the_shallow_part_to_the_deeper_rings_and_a_flat_bit_gives_a_warning() {
+        let (lib, dev, stock, _) = setup();
+        let mut g = Scene::default();
+        square(&mut g, 0, 50.0, 50.0, 10.0);
+        let mut layers = vcarve_layers(&lib, 2.0);
+        layers[0].step_over_pct = 5.0;
+        let all = generate(&g, &layers, &lib, &dev, &stock);
+        layers[0].vc_start = 1.0;
+        let late = generate(&g, &layers, &lib, &dev, &stock);
+        let shallowest = |p: &Program| cut_points(p).iter().map(|q| q[2]).fold(f64::NEG_INFINITY, f64::max);
+        assert!(shallowest(&late) <= -1.0 + 1e-6, "nothing shallower than the start depth: {}", shallowest(&late));
+        assert!(shallowest(&all) > shallowest(&late));
+        // A flat bit cannot V-carve.
+        with_tool(&mut layers, 0, &lib, "std-ball-3");
+        let bad = generate(&g, &layers, &lib, &dev, &stock);
+        assert!(bad.warnings.iter().any(|w| w.text().contains("V-bit")), "{:?}", bad.warnings);
+    }
+
+    #[test]
+    fn the_plug_of_an_inlay_is_carved_outside_the_line_and_the_socket_inside() {
+        use crate::layers::Inlay;
+        let (lib, dev, stock, _) = setup();
+        let mut g = Scene::default();
+        square(&mut g, 0, 50.0, 50.0, 10.0);
+        let mut layers = vcarve_layers(&lib, 2.0);
+        layers[0].inlay = Inlay::Plug;
+        layers[0].inlay_gap = 0.1;
+        let plug = generate(&g, &layers, &lib, &dev, &stock);
+        let pts = cut_points(&plug);
+        assert!(!pts.is_empty());
+        // The scene is y down: in the toolpath the square is where the scene's page flip puts it; look at the distance from its box.
+        let (x0, y0, x1, y1) = xy_bounds(&plug);
+        assert!(x1 - x0 > 10.0 + 0.2, "the plug rings go round the shape: {}", x1 - x0);
+        assert!(y1 - y0 > 10.0 + 0.2);
+        assert!(pts.iter().all(|p| p[2] >= -2.0 - 1e-9));
+        layers[0].inlay = Inlay::Socket;
+        let socket = generate(&g, &layers, &lib, &dev, &stock);
+        let (a0, _, a1, _) = xy_bounds(&socket);
+        assert!(a1 - a0 < 10.0 + 0.2 + 1e-6, "the socket stays inside the line and the gap: {}", a1 - a0);
+    }
+
+    #[test]
+    fn a_rough_relief_leaves_stock_and_a_finish_relief_is_one_go_over_the_relief() {
+        use crate::layers::ReliefPart;
+        let (lib, dev, stock, _) = setup();
+        let mut g = Scene::default();
+        picture(&mut g, 3, 20.0, 20.0, 40.0, 20.0, true);
+        let mut layers = engraving(PictureMethod::Relief);
+        layers[3].tool = Some("std-ball-3".into());
+        layers[3].depth = 2.0;
+        layers[3].step_down = 0.5;
+        let both = generate(&g, &layers, &lib, &dev, &stock);
+        layers[3].relief_part = ReliefPart::Finish;
+        let finish = generate(&g, &layers, &lib, &dev, &stock);
+        layers[3].relief_part = ReliefPart::Rough;
+        layers[3].leave = 0.3;
+        let rough = generate(&g, &layers, &lib, &dev, &stock);
+        let cuts = |p: &Program| p.moves.iter().filter(|m| m.kind == MoveKind::Cut).count();
+        assert!(cuts(&finish) > 0 && cuts(&finish) < cuts(&both), "{} < {}", cuts(&finish), cuts(&both));
+        let deepest = |p: &Program| cut_points(p).iter().map(|q| q[2]).fold(0.0f64, f64::min);
+        assert!((deepest(&finish) + 2.0).abs() < 1e-6, "the finish reaches the relief: {}", deepest(&finish));
+        assert!(deepest(&rough) > -2.0 + 0.25, "the rough stays above the relief: {}", deepest(&rough));
     }
 }

@@ -354,3 +354,25 @@
 353	{}: the layer of the rest pocket has no bit
 354	{}: the bit of a rest pocket has to be smaller than the bit of the layer it takes over from
 355	{}: nothing to plane: draw a shape that gives the size of the surface
+356	V-carve
+357	A V-bit goes deeper the farther it is from the edge of the shape, so the walls slope and the corners are sharp. The depth is the deepest the bit goes; a wider shape gets a flat bottom.
+358	Socket
+359	Plug
+360	Rough and finish
+361	Rough
+362	Finish
+363	Import 3D model as relief…
+364	{}: open lines are left out of a V-carve
+365	{}: a V-carve needs a V-bit or an engraving bit
+366	{}: the flat bottom is cut with the V-bit: it leaves ridges and takes long (a flat bit in a Pocket layer is better for it)
+367	{}: the program of the V-carve is too long: the rest was left out
+368	Start depth
+369	Nothing is cut shallower than this
+370	Inlay
+371	Inlay gap
+372	The play between the plug and the socket
+373	Relief part
+374	the model is higher than the material: the relief is cut only as deep as the layer says
+375	Could not import the model {}: {}
+376	The model {} has no area seen from above
+377	Imported the model {} as a relief on layer {}: {} x {} x {} mm

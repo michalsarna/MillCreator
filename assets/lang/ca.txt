@@ -354,3 +354,25 @@
 353|{}: la capa del buidatge de resta no té fresa
 354|{}: la fresa del buidatge de resta ha de ser més petita que la de la capa de què continua
 355|{}: res a aplanar: dibuixa una forma que doni la mida de la superfície
+356|Gravat en V
+357|Una fresa en V baixa tant més endins com més lluny és de la vora de la forma, de manera que les parets són inclinades i les cantonades vives. La profunditat és la màxima que assoleix la fresa; una forma més ampla té el fons pla.
+358|Encaix
+359|Peça
+360|Desbast i acabat
+361|Desbast
+362|Acabat
+363|Importa un model 3D com a relleu…
+364|{}: les línies obertes queden fora del gravat en V
+365|{}: el gravat en V necessita una fresa en V o de gravar
+366|{}: el fons pla es fresa amb la fresa en V: queden crestes i triga molt (millor una fresa plana en una capa Buidatge)
+367|{}: el programa del gravat en V és massa llarg: la resta s'ha deixat fora
+368|Profunditat inicial
+369|No es talla res més superficial que això
+370|Incrustació
+371|Joc de la incrustació
+372|El joc entre la peça i l'encaix
+373|Part del relleu
+374|el model és més alt que el material: el relleu només es fresa fins a la profunditat de la capa
+375|No s'ha pogut importar el model {}: {}
+376|El model {} no té àrea vist des de dalt
+377|S'ha importat el model {} com a relleu a la capa {}: {} x {} x {} mm

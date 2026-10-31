@@ -1,5 +1,5 @@
 //! The Layers tab (what is done with the shapes of each layer) and the Material tab.
-use crate::layers::{CutDir, Entry, MillLayer, OutlinePass, Operation, PictureMethod, PocketPattern, TabKind};
+use crate::layers::{CutDir, Entry, Inlay, MillLayer, OutlinePass, Operation, PictureMethod, PocketPattern, ReliefPart, TabKind};
 use crate::materials::{MaterialKind, MAX_THICKNESS};
 use crate::App;
 use base_ui::editor::EditorHost;
@@ -180,6 +180,40 @@ impl App {
                         ui.label(tr("Scan angle"));
                         changed |= ui.add(egui::DragValue::new(&mut l.scan_angle).range(-360.0..=360.0).suffix(" °")).on_hover_text(tr("The angle of the rows of the engraving")).changed();
                         ui.end_row();
+                    }
+                    if l.op == Operation::VCarve {
+                        ui.label(tr("Start depth"));
+                        changed |= drag_len(ui, units, &mut l.vc_start, 0.05, Some((0.0, 1000.0))).on_hover_text(tr("Nothing is cut shallower than this")).changed();
+                        ui.end_row();
+                        ui.label(tr("Step over"));
+                        changed |= ui.add(egui::DragValue::new(&mut l.step_over_pct).range(1.0..=100.0).suffix(" %")).changed();
+                        ui.end_row();
+                        ui.label(tr("Inlay"));
+                        egui::ComboBox::from_id_salt("layer_inlay").selected_text(tr(l.inlay.label())).width(200.0).show_ui(ui, |ui| {
+                            for k in Inlay::ALL {
+                                changed |= ui.selectable_value(&mut l.inlay, k, tr(k.label())).changed();
+                            }
+                        });
+                        ui.end_row();
+                        if l.inlay != Inlay::None {
+                            ui.label(tr("Inlay gap"));
+                            changed |= drag_len(ui, units, &mut l.inlay_gap, 0.01, Some((0.0, 100.0))).on_hover_text(tr("The play between the plug and the socket")).changed();
+                            ui.end_row();
+                        }
+                    }
+                    if l.op == Operation::Picture && l.picture == PictureMethod::Relief {
+                        ui.label(tr("Relief part"));
+                        egui::ComboBox::from_id_salt("layer_relief_part").selected_text(tr(l.relief_part.label())).width(200.0).show_ui(ui, |ui| {
+                            for k in ReliefPart::ALL {
+                                changed |= ui.selectable_value(&mut l.relief_part, k, tr(k.label())).changed();
+                            }
+                        });
+                        ui.end_row();
+                        if l.relief_part == ReliefPart::Rough {
+                            ui.label(tr("Stock to leave"));
+                            changed |= drag_len(ui, units, &mut l.leave, 0.05, Some((0.0, 100.0))).changed();
+                            ui.end_row();
+                        }
                     }
                     if matches!(l.op, Operation::Pocket | Operation::Face) {
                         ui.label(tr("Pocket pattern"));

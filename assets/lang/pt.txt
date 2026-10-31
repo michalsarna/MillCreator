@@ -354,3 +354,25 @@
 353|{}: a camada do rebaixo de resto não tem fresa
 354|{}: a fresa do rebaixo de resto tem de ser menor do que a da camada de que continua
 355|{}: nada para aplanar: desenhe uma forma que dê o tamanho da superfície
+356|Entalhe em V
+357|Uma fresa em V desce tanto mais fundo quanto mais longe está da borda da forma, por isso as paredes são inclinadas e os cantos vivos. A profundidade é a máxima que a fresa atinge; uma forma mais larga fica com o fundo plano.
+358|Encaixe
+359|Peça
+360|Desbaste e acabamento
+361|Desbaste
+362|Acabamento
+363|Importar modelo 3D como relevo…
+364|{}: as linhas abertas ficam de fora do entalhe em V
+365|{}: o entalhe em V precisa de uma fresa em V ou de gravação
+366|{}: o fundo plano é fresado com a fresa em V: ficam cristas e demora (melhor uma fresa plana numa camada Bolso)
+367|{}: o programa do entalhe em V é demasiado longo: o resto ficou de fora
+368|Profundidade inicial
+369|Nada é cortado a menos profundidade do que isto
+370|Incrustação
+371|Folga da incrustação
+372|A folga entre a peça e o encaixe
+373|Parte do relevo
+374|o modelo é mais alto do que o material: o relevo é fresado apenas até à profundidade da camada
+375|Não foi possível importar o modelo {}: {}
+376|O modelo {} não tem área visto de cima
+377|Modelo {} importado como relevo na camada {}: {} x {} x {} mm

@@ -354,3 +354,25 @@
 353|{}: stratul buzunarului de rest nu are freză
 354|{}: freza buzunarului de rest trebuie să fie mai mică decât cea a stratului de la care preia
 355|{}: nimic de frezat plan: desenați o formă care dă dimensiunea suprafeței
+356|Gravare în V
+357|O freză în V coboară cu atât mai adânc cu cât e mai departe de marginea formei, deci pereții sunt înclinați, iar colțurile ascuțite. Adâncimea este cea mai mare la care ajunge freza; o formă mai lată primește fundul plat.
+358|Locaș
+359|Piesă
+360|Degroșare și finisare
+361|Degroșare
+362|Finisare
+363|Importă un model 3D ca relief…
+364|{}: liniile deschise sunt omise din gravarea în V
+365|{}: gravarea în V cere o freză în V sau de gravat
+366|{}: fundul plat este frezat cu freza în V: rămân creste și durează mult (mai bună e o freză plată într-un strat Buzunar)
+367|{}: programul gravării în V este prea lung: restul a fost omis
+368|Adâncime de start
+369|Nimic nu se taie mai puțin adânc decât atât
+370|Încrustație
+371|Joc de încrustație
+372|Jocul dintre piesă și locaș
+373|Partea reliefului
+374|modelul este mai înalt decât materialul: reliefului i se dă drumul doar până la adâncimea stratului
+375|Modelul {} nu a putut fi importat: {}
+376|Modelul {} nu are suprafață văzut de sus
+377|Modelul {} a fost importat ca relief pe stratul {}: {} x {} x {} mm

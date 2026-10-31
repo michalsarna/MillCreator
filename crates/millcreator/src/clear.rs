@@ -359,3 +359,83 @@ mod tests {
         assert!(h.bounds().unwrap().max.y > 1.9);
     }
 }
+
+/// The rings of a V-carve, each with the depth the tip of the bit goes to (positive, below the surface).
+///
+/// A V-bit with its tip `b` mm from the edge of the shape at the depth `(b - tip/2) / tan(half angle)` just touches the edge at the
+/// surface, and the cone of every such ring cuts the sloping wall exactly, so the walls come out true whatever the distance of the
+/// rings (`step`). Beyond the depth `depth` the bottom is flat: rings go on at that depth, `floor_step` apart, which is rough with a
+/// pointed bit (a flat bit is better for that). Nothing is cut shallower than `start`. With `outside` the rings go round the shape
+/// outwards (the wall of a plug) and stop where the wall reaches `depth`. `None` when the bit has no slope.
+pub fn vcarve_rings(region: &[Polyline], tool: &Tool, depth: f64, start: f64, step: f64, floor_step: f64, outside: bool) -> Option<Vec<(f64, Polyline)>> {
+    if !matches!(tool.kind, ToolKind::VBit | ToolKind::Engraver) {
+        return None;
+    }
+    let tan = (tool.dims.angle / 2.0).clamp(5.0, 89.0).to_radians().tan();
+    let tip = tool.dims.tip.max(0.0) / 2.0;
+    let b_of = |z: f64| tip + z * tan;
+    let alive = |rings: &[Polyline]| rings.iter().any(|p| p.area().abs() > 1e-4);
+    let at = |b: f64| if outside { ops::offset(region, b) } else { ops::offset(region, -b) };
+    let step = step.max(0.02);
+    let b_start = b_of(start.max(0.0));
+    let b_max = b_of(depth);
+    let mut out: Vec<(f64, Polyline)> = vec![];
+    let mut last = b_start;
+    let put = |b: f64, z: f64, last: &mut f64, out: &mut Vec<(f64, Polyline)>| -> bool {
+        let rings = at(b);
+        if !alive(&rings) {
+            return false;
+        }
+        out.extend(rings.into_iter().filter(|p| p.area().abs() > 1e-4).map(|p| (z, p)));
+        *last = b;
+        true
+    };
+    // The walls.
+    let mut k = 1;
+    let mut ended = false;
+    while k < 500 {
+        let b = b_start + k as f64 * step;
+        if b >= b_max {
+            break;
+        }
+        if !put(b, (b - tip) / tan, &mut last, &mut out) {
+            ended = true;
+            break;
+        }
+        k += 1;
+    }
+    if !ended && b_max > last + 1e-6 {
+        // The last ring of the wall is at the full depth.
+        if put(b_max, depth, &mut last, &mut out) {
+            // The flat bottom.
+            if !outside {
+                let mut j = 1;
+                while j < 500 {
+                    if !put(b_max + j as f64 * floor_step.max(0.02), depth, &mut last, &mut out) {
+                        break;
+                    }
+                    j += 1;
+                }
+                ended = true;
+            }
+        } else {
+            ended = true;
+        }
+    }
+    // The crest: a ring as far in as the shape still reaches (found by halving), as deep as the distance from the edge makes it.
+    if ended && !outside {
+        let (mut lo, mut hi) = (last, last + step);
+        for _ in 0..14 {
+            let mid = (lo + hi) / 2.0;
+            if alive(&at(mid)) {
+                lo = mid;
+            } else {
+                hi = mid;
+            }
+        }
+        if lo > last + 1e-4 {
+            put(lo, ((lo - tip) / tan).min(depth), &mut last, &mut out);
+        }
+    }
+    Some(out)
+}

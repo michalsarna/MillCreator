@@ -354,3 +354,25 @@
 353|{}: de laag van de restzak heeft geen frees
 354|{}: de frees van een restzak moet kleiner zijn dan die van de laag waarvan hij overneemt
 355|{}: niets om vlak te frezen: teken een vorm die de grootte van het oppervlak aangeeft
+356|V-carven
+357|Een V-frees gaat dieper naarmate hij verder van de rand van de vorm is, zodat de wanden schuin lopen en de hoeken scherp zijn. De diepte is het diepste punt van de frees; een bredere vorm krijgt een vlakke bodem.
+358|Uitsparing
+359|Inlegstuk
+360|Voorbewerken en afwerken
+361|Voorbewerken
+362|Afwerken
+363|3D-model importeren als reliëf…
+364|{}: open lijnen worden bij V-carven overgeslagen
+365|{}: voor V-carven is een V-frees of graveerfrees nodig
+366|{}: de vlakke bodem wordt met de V-frees gefreesd: er blijven ribbels en het duurt lang (een vlakke frees in een laag Uitfrezen is beter)
+367|{}: het programma van de V-carve is te lang: de rest is weggelaten
+368|Startdiepte
+369|Er wordt niets ondieper gesneden dan dit
+370|Inleg
+371|Speling van de inleg
+372|De speling tussen het inlegstuk en de uitsparing
+373|Deel van het reliëf
+374|het model is hoger dan het materiaal: het reliëf wordt alleen zo diep gefreesd als de laag zegt
+375|Het model {} kon niet worden geïmporteerd: {}
+376|Het model {} heeft van boven gezien geen oppervlak
+377|Model {} geïmporteerd als reliëf op laag {}: {} x {} x {} mm

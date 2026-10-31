@@ -2185,6 +2185,7 @@ dependencies = [
  "serde",
  "serde_json",
  "winresource",
+ "zip",
 ]
 
 [[package]]

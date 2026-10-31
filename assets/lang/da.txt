@@ -354,3 +354,25 @@
 353|{}: lagets restlomme har ingen fræser
 354|{}: restlommens fræser skal være mindre end fræseren i det lag, den overtager fra
 355|{}: intet at planfræse: tegn en form, der giver fladens størrelse
+356|V-udskæring
+357|En V-fræser går dybere, jo længere den er fra formens kant, så væggene skråner og hjørnerne er skarpe. Dybden er det dybeste, fræseren når; en bredere form får en flad bund.
+358|Fordybning
+359|Indlæg
+360|Skrubning og afslutning
+361|Skrubning
+362|Afslutning
+363|Importér 3D-model som relief…
+364|{}: åbne linjer udelades ved V-udskæring
+365|{}: V-udskæring kræver en V-fræser eller gravérfræser
+366|{}: den flade bund fræses med V-fræseren: der bliver rygge, og det tager lang tid (en flad fræser i et Lomme-lag er bedre)
+367|{}: programmet til V-udskæringen er for langt: resten er udeladt
+368|Startdybde
+369|Intet skæres mere overfladisk end dette
+370|Indlæg
+371|Indlægsspil
+372|Spillet mellem indlægget og fordybningen
+373|Del af reliefet
+374|modellen er højere end materialet: reliefet fræses kun så dybt, som laget siger
+375|Modellen {} kunne ikke importeres: {}
+376|Modellen {} har intet areal set ovenfra
+377|Modellen {} er importeret som relief på lag {}: {} x {} x {} mm

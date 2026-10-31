@@ -354,3 +354,25 @@
 353|{}: is-saff tal-but tal-fdal m'għandux frieża
 354|{}: il-frieża tal-but tal-fdal trid tkun iżgħar minn dik tas-saff li minnu tkompli
 355|{}: xejn x'iċċattja: ixpjega forma li tagħti d-daqs tal-wiċċ
+356|Imnaqqax V
+357|Qatta V tmur iktar fil-fond kemm tkun iktar 'il bogħod mit-tarf tal-forma, għalhekk il-ħitan huma inklinati u l-kantunieri jiżguraw. Il-fond huwa l-iktar fond li tilħaq il-qatta; forma usa' tieħu qiegħ ċatt.
+358|Sokit
+359|Qafla
+360|Qasam u tlestija
+361|Qasam
+362|Tlestija
+363|Importa mudell 3D bħala relief…
+364|{}: il-linji miftuħa jitħallew barra mill-imnaqqax V
+365|{}: l-imnaqqax V jeħtieġ qatta V jew qatta tal-inċiżjoni
+366|{}: il-qiegħ ċatt jinqata' bil-qatta V: jibqgħu għoljiet u jieħu ħafna ħin (aħjar qatta ċatta f'saff Pocket)
+367|{}: il-programm tal-imnaqqax V twil wisq: il-bqija tħalla barra
+368|Fond tal-bidu
+369|Xejn ma jinqata' iktar baxx minn dan
+370|Inlay
+371|Ġbir tal-inlay
+372|L-ispazju bejn il-qafla u s-sokit
+373|Parti tar-relief
+374|il-mudell huwa ogħla mill-materjal: ir-relief jinqata' biss sal-fond tas-saff
+375|Ma setax jiġi importat il-mudell {}: {}
+376|Il-mudell {} m'għandu ebda erja meta jidher minn fuq
+377|Il-mudell {} impurtat bħala relief fuq is-saff {}: {} x {} x {} mm

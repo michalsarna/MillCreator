@@ -354,3 +354,25 @@
 353|{}: vrstva zbytkové kapsy nemá frézu
 354|{}: fréza zbytkové kapsy musí být menší než fréza vrstvy, ze které přebírá
 355|{}: není co zarovnávat: nakreslete tvar, který určí velikost plochy
+356|V-rytí
+357|V-fréza jde tím hlouběji, čím dále je od okraje tvaru, takže stěny jsou šikmé a rohy ostré. Hloubka je nejhlubší místo, kam fréza zajede; širší tvar dostane rovné dno.
+358|Zásuvka
+359|Vložka
+360|Hrubování a dokončení
+361|Hrubování
+362|Dokončení
+363|Importovat 3D model jako reliéf…
+364|{}: otevřené čáry se při V-rytí vynechávají
+365|{}: pro V-rytí je potřeba V-fréza nebo rydlo
+366|{}: rovné dno se frézuje V-frézou: zůstávají hřebeny a trvá to dlouho (lepší je ploská fréza ve vrstvě Kapsa)
+367|{}: program V-rytí je příliš dlouhý: zbytek byl vynechán
+368|Počáteční hloubka
+369|Nic se neřeže mělčeji než touto hloubkou
+370|Intarzie
+371|Vůle intarzie
+372|Vůle mezi vložkou a zásuvkou
+373|Část reliéfu
+374|model je vyšší než materiál: reliéf se frézuje jen do hloubky vrstvy
+375|Model {} se nepodařilo importovat: {}
+376|Model {} nemá při pohledu shora žádnou plochu
+377|Model {} byl importován jako reliéf do vrstvy {}: {} x {} x {} mm

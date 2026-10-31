@@ -354,3 +354,25 @@
 353|{}: vrstva zvyškového vrecka nemá frézu
 354|{}: fréza zvyškového vrecka musí byť menšia ako fréza vrstvy, od ktorej preberá
 355|{}: nie je čo zarovnávať: nakreslite tvar, ktorý určí veľkosť plochy
+356|V-rezba
+357|V-fréza ide tým hlbšie, čím ďalej je od okraja tvaru, takže steny sú šikmé a rohy ostré. Hĺbka je najhlbšie miesto, kam fréza zájde; širší tvar dostane rovné dno.
+358|Zásuvka
+359|Vložka
+360|Hrubovanie a dokončenie
+361|Hrubovanie
+362|Dokončenie
+363|Importovať 3D model ako reliéf…
+364|{}: otvorené čiary sa pri V-rezbe vynechávajú
+365|{}: pre V-rezbu je potrebná V-fréza alebo ryhovacia fréza
+366|{}: rovné dno sa frézuje V-frézou: ostávajú hrebene a trvá to dlho (lepšia je plochá fréza vo vrstve Vrecko)
+367|{}: program V-rezby je príliš dlhý: zvyšok bol vynechaný
+368|Počiatočná hĺbka
+369|Nič sa nereže plytšie ako touto hĺbkou
+370|Intarzia
+371|Vôľa intarzie
+372|Vôľa medzi vložkou a zásuvkou
+373|Časť reliéfu
+374|model je vyšší než materiál: reliéf sa frézuje len do hĺbky vrstvy
+375|Model {} sa nepodarilo importovať: {}
+376|Model {} nemá pri pohľade zhora žiadnu plochu
+377|Model {} bol importovaný ako reliéf do vrstvy {}: {} x {} x {} mm

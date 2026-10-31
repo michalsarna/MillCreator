@@ -354,3 +354,25 @@
 353|{}: lagret för restfickan har ingen fräs
 354|{}: restfickans fräs måste vara mindre än frästen i lagret den tar över från
 355|{}: inget att planfräsa: rita en form som anger ytans storlek
+356|V-gravyr
+357|En V-fräs går djupare ju längre den är från formens kant, så väggarna lutar och hörnen är skarpa. Djupet är det djupaste fräsen når; en bredare form får en platt botten.
+358|Fördjupning
+359|Inlägg
+360|Grov och slutbearbetning
+361|Grov
+362|Slutbearbetning
+363|Importera 3D-modell som relief…
+364|{}: öppna linjer utelämnas vid V-gravyr
+365|{}: V-gravyr kräver en V-fräs eller gravyrfräs
+366|{}: den platta botten fräses med V-fräsen: det blir ryggar och tar lång tid (en plan fräs i ett Ficka-lager är bättre)
+367|{}: programmet för V-gravyren är för långt: resten utelämnades
+368|Startdjup
+369|Inget skärs grundare än detta
+370|Intarsia
+371|Spel för intarsia
+372|Spelet mellan inlägget och fördjupningen
+373|Del av reliefen
+374|modellen är högre än materialet: reliefen fräses bara så djupt som lagret säger
+375|Det gick inte att importera modellen {}: {}
+376|Modellen {} har ingen yta sedd uppifrån
+377|Modellen {} importerad som relief på lager {}: {} x {} x {} mm

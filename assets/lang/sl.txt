@@ -354,3 +354,25 @@
 353|{}: sloj ostanka žepa nima rezkarja
 354|{}: rezkar ostanka žepa mora biti manjši od rezkarja sloja, od katerega prevzame
 355|{}: ni kaj poravnati: narišite obliko, ki določa velikost površine
+356|V-graviranje
+357|V-rezkar gre tem globlje, čim dlje je od roba oblike, zato so stene poševne, vogali pa ostri. Globina je največja, do katere gre rezkar; širša oblika dobi raven dno.
+358|Vdolbina
+359|Vložek
+360|Grobo in fino
+361|Grobo
+362|Fino
+363|Uvozi 3D model kot relief…
+364|{}: odprte črte so pri V-graviranju izpuščene
+365|{}: za V-graviranje je potreben V-rezkar ali graviralni rezkar
+366|{}: raven spodnji del se rezka z V-rezkarjem: ostanejo grebeni in traja dolgo (bolje je ravno rezkalo v sloju Žep)
+367|{}: program V-graviranja je predolg: preostanek je izpuščen
+368|Začetna globina
+369|Nič se ne reže plitveje od tega
+370|Intarzija
+371|Reža intarzije
+372|Reža med vložkom in vdolbino
+373|Del reliefa
+374|model je višji od materiala: relief se rezka le do globine sloja
+375|Modela {} ni bilo mogoče uvoziti: {}
+376|Model {} nima površine, gledano od zgoraj
+377|Model {} je uvožen kot relief na sloj {}: {} x {} x {} mm
