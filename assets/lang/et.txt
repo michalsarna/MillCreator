@@ -376,3 +376,18 @@
 375|Mudelit {} ei õnnestunud importida: {}
 376|Mudelil {} pole ülalt vaadates pindala
 377|Mudel {} imporditi reljeefina kihile {}: {} x {} x {} mm
+378|Tolmuimeja
+379|Lülitab tolmuimeja sisse seadme enda ridadega (Seadme seaded, G-kood)
+380|Tolmuimeja sees
+381|Tolmuimeja väljas
+382|Tööriistavahetaja
+383|Vahetab freesi ise (T… M6)
+384|Programm küsib freesi käsuga T<number> M6 ja jätkab ilma pausita. Igal freesil peab raamatukogus olema number. Kontroller peab M6 tundma (grblHAL, FluidNC); tavaline GRBL ei tunne.
+385|Vahetaja number
+386|Freesi koht tööriistavahetajas: programm küsib seda käsuga T… M6. 0 = pole vahetajas
+387|{}: freesil pole vahetaja numbrit: masin peatub selle asemel
+388|{}: kiht nõuab tolmuimejat, kuid seadmel pole ridu, mis selle sisse lülitaksid
+389|Raam ümber kontuuri
+390|Raam kulgeb ümber lõigete kontuuri (nagu kummipael) ristküliku asemel
+391|Augu keskpunkt on nüüd X-i ja Y null; auk on {} x {} mm
+392|Keskpunkti otsimine ebaõnnestus: kontakti pole või tekkis alarm.

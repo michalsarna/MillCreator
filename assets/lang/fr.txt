@@ -376,3 +376,18 @@
 375|Impossible d'importer le modèle {} : {}
 376|Le modèle {} n'a pas de surface vu d'en haut
 377|Modèle {} importé comme relief sur le calque {} : {} x {} x {} mm
+378|Aspirateur
+379|Active l'aspirateur avec les lignes propres de l'appareil (Réglages de l'appareil, G-code)
+380|Aspirateur allumé
+381|Aspirateur éteint
+382|Changeur d'outils
+383|Change la fraise tout seul (T… M6)
+384|Le programme demande une fraise avec T<numéro> M6 et continue sans pause. Chaque fraise a besoin de son numéro dans la bibliothèque. Le contrôleur doit connaître M6 (grblHAL, FluidNC) ; le GRBL simple non.
+385|Numéro du changeur
+386|La place de la fraise dans le changeur d'outils : le programme la demande avec T… M6. 0 = pas dans le changeur
+387|{} : la fraise n'a pas de numéro de changeur : la machine s'arrête à la place
+388|{} : le calque demande l'aspirateur, mais l'appareil n'a pas de lignes pour l'allumer
+389|Cadre le long du contour
+390|Le cadre suit le contour des coupes (comme un élastique) au lieu du rectangle
+391|Le centre du trou est maintenant le zéro de X et Y ; le trou mesure {} x {} mm
+392|La recherche du centre a échoué : pas de contact, ou une alarme.

@@ -376,3 +376,18 @@
 375|Het model {} kon niet worden geïmporteerd: {}
 376|Het model {} heeft van boven gezien geen oppervlak
 377|Model {} geïmporteerd als reliëf op laag {}: {} x {} x {} mm
+378|Stofafzuiging
+379|Schakelt de stofafzuiging in met de eigen regels van het apparaat (Apparaatinstellingen, G-code)
+380|Stofafzuiging aan
+381|Stofafzuiging uit
+382|Gereedschapswisselaar
+383|Wisselt de frees zelf (T… M6)
+384|Het programma vraagt een frees met T<nummer> M6 en gaat zonder pauze verder. Elke frees heeft zijn nummer in de bibliotheek nodig. De besturing moet M6 kennen (grblHAL, FluidNC); gewone GRBL niet.
+385|Wisselaarnummer
+386|De plaats van de frees in de gereedschapswisselaar: het programma vraagt hem met T… M6. 0 = niet in de wisselaar
+387|{}: de frees heeft geen wisselaarnummer: de machine stopt in plaats daarvan
+388|{}: de laag vraagt de stofafzuiging, maar het apparaat heeft geen regels die hem inschakelen
+389|Kader rond de omtrek
+390|Het kader volgt de omtrek van de sneden (als een elastiekje) in plaats van de rechthoek
+391|Het midden van het gat is nu de nul van X en Y; het gat is {} x {} mm
+392|Het zoeken naar het midden is mislukt: geen contact of een alarm.

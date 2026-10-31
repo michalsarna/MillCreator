@@ -367,6 +367,9 @@ impl App {
                             ui.label(tr("Wait after switching on"));
                             ui.add(egui::DragValue::new(&mut d.spindle.spin_up).range(0.0..=600.0).suffix(" s"));
                             ui.end_row();
+                            ui.label(tr("Tool changer"));
+                            ui.checkbox(&mut d.changer, tr("Changes the bit by itself (T… M6)")).on_hover_text(tr("The program asks for a bit with T<number> M6 and goes on without a pause. Every bit needs its number in the library. The controller has to know M6 (grblHAL, FluidNC); plain GRBL does not."));
+                            ui.end_row();
                         });
                     }
                     Page::Gcode => {
@@ -378,6 +381,8 @@ impl App {
                                 (tr("At every change of the bit"), &mut d.gcode.tool_change),
                                 (tr("At every change of the operation"), &mut d.gcode.operation_change),
                                 (tr("At the end of the program"), &mut d.gcode.end),
+                                (tr("Dust collector on"), &mut d.gcode.dust_on),
+                                (tr("Dust collector off"), &mut d.gcode.dust_off),
                             ] {
                                 ui.label(label);
                                 ui.add(egui::TextEdit::multiline(text).font(egui::TextStyle::Monospace).desired_rows(3).desired_width(320.0));

@@ -198,6 +198,36 @@ impl Default for Tabs {
     }
 }
 
+/// The coolant a layer works with.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum Coolant {
+    #[default]
+    Off,
+    /// M7.
+    Mist,
+    /// M8 (also what a dust collector is often wired to).
+    Flood,
+}
+
+impl Coolant {
+    pub const ALL: [Coolant; 3] = [Coolant::Off, Coolant::Mist, Coolant::Flood];
+    pub fn label(self) -> &'static str {
+        match self {
+            Coolant::Off => "Off",
+            Coolant::Mist => "Mist",
+            Coolant::Flood => "Flood",
+        }
+    }
+    /// The word of the program that switches it on.
+    pub fn word(self) -> Option<&'static str> {
+        match self {
+            Coolant::Off => None,
+            Coolant::Mist => Some("M7"),
+            Coolant::Flood => Some("M8"),
+        }
+    }
+}
+
 /// What a V-carve makes when it is one half of an inlay.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Inlay {
@@ -415,6 +445,11 @@ pub struct MillLayer {
     /// A relief: which part of it this layer cuts. The stock to leave of a rough part is `leave`.
     #[serde(default)]
     pub relief_part: ReliefPart,
+    /// Coolant (M7 / M8) while the layer is cut, and the dust collector (the device's own lines for it).
+    #[serde(default)]
+    pub coolant: Coolant,
+    #[serde(default)]
+    pub dust: bool,
 }
 
 
@@ -541,6 +576,8 @@ pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
                 inlay: Inlay::None,
                 inlay_gap: 0.0,
                 relief_part: ReliefPart::Both,
+                coolant: Coolant::Off,
+                dust: false,
             };
             match bit(tool) {
                 Some(t) => layer.with_tool(&t),

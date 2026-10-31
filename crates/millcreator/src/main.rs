@@ -308,6 +308,8 @@ struct App {
     /// Options of a job, in the Control tab (this session only): cut the elements one after the other, and cut only what is
     /// selected when the G-code is saved or the job started.
     one_by_one: bool,
+    /// The frame goes round the outline of the cuts instead of their box (this session only).
+    frame_hull: bool,
     selection_only: bool,
     cam: Option<CamState>,
     /// Was the camera picture drawn in the last frame? A stream nobody looks at is stopped (its frames would pile up).
@@ -437,6 +439,7 @@ impl App {
             recovery: base_core::autosave::find_all(&data_paths().base, "millcreator"),
             prog_rev: 0,
             one_by_one: false,
+            frame_hull: false,
             selection_only: false,
             cam: None,
             cam_drawn: false,

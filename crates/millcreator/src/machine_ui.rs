@@ -135,6 +135,11 @@ impl App {
                         None => tr("The tool was measured; there is no reference to compare with yet.").to_string(),
                     };
                 }
+                Notice::CenterFound { width, height } => {
+                    self.keep_control();
+                    self.status = trf("The centre of the hole is the zero of X and Y now; the hole is {} x {} mm", &[&format!("{width:.3}"), &format!("{height:.3}")]);
+                }
+                Notice::CenterFailed => self.status = tr("The centre finder failed: no contact, or an alarm.").to_string(),
                 Notice::TlsFailed => self.status = tr("The measurement at the sensor failed: no contact, or an alarm.").to_string(),
             }
         }
@@ -186,7 +191,15 @@ impl App {
             self.status = tr("There is nothing to frame: put shapes on layers that have a bit.").to_string();
             return;
         };
-        self.machine.lines([toolpath::frame_gcode(b, &self.device)]);
+        let g = if self.frame_hull {
+            // A rubber band round the cuts: the hull of everything the bit cuts.
+            let pts: Vec<(f64, f64)> = prog.moves.iter().filter(|m| m.kind != toolpath::MoveKind::Rapid).flat_map(|m| [(m.from[0], m.from[1]), (m.to[0], m.to[1])]).collect();
+            let hull = toolpath::frame_hull_gcode(&pts, &self.device);
+            if hull.is_empty() { toolpath::frame_gcode(b, &self.device) } else { hull }
+        } else {
+            toolpath::frame_gcode(b, &self.device)
+        };
+        self.machine.lines([g]);
         self.status = tr("Framing the work area").to_string();
     }
 
@@ -366,6 +379,7 @@ impl App {
         // The options of the job, under the buttons that start things: this session only, they change the G-code.
         ui.add_enabled_ui(!running, |ui| {
             ui.checkbox(&mut self.one_by_one, tr("One element at a time")).on_hover_text(tr("Each element (a group, or a shape that is in none) is cut completely, all its layers and all their passes, before the next one; the nearest element goes first. Off: layer after layer, pass after pass."));
+            ui.checkbox(&mut self.frame_hull, tr("Frame round the outline")).on_hover_text(tr("The frame goes round the outline of the cuts (a rubber band) instead of the box"));
             ui.checkbox(&mut self.selection_only, tr("Selection only")).on_hover_text(tr("Only the shapes that are selected on the work area when the G-code is saved or the job is started are cut."));
         });
         ui.add_space(4.0);

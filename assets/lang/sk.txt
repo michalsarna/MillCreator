@@ -376,3 +376,18 @@
 375|Model {} sa nepodarilo importovať: {}
 376|Model {} nemá pri pohľade zhora žiadnu plochu
 377|Model {} bol importovaný ako reliéf do vrstvy {}: {} x {} x {} mm
+378|Odsávanie prachu
+379|Zapne odsávanie vlastnými riadkami zariadenia (Nastavenia zariadenia, G-code)
+380|Odsávanie zapnuté
+381|Odsávanie vypnuté
+382|Výmenník nástrojov
+383|Sám vymení frézu (T… M6)
+384|Program žiada frézu príkazom T<číslo> M6 a pokračuje bez pauzy. Každá fréza potrebuje svoje číslo v knižnici. Riadiaca jednotka musí poznať M6 (grblHAL, FluidNC); obyčajný GRBL nie.
+385|Číslo vo výmenníku
+386|Miesto frézy vo výmenníku nástrojov: program si ju žiada príkazom T… M6. 0 = nie je vo výmenníku
+387|{}: fréza nemá číslo vo výmenníku: stroj sa namiesto toho zastaví
+388|{}: vrstva žiada odsávanie, ale zariadenie nemá riadky, ktoré ho zapnú
+389|Rámik po obryse
+390|Rámik obchádza obrys rezov (ako gumička) namiesto obdĺžnika
+391|Stred otvoru je teraz nula X a Y; otvor má {} x {} mm
+392|Hľadanie stredu zlyhalo: žiadny kontakt alebo alarm.

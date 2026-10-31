@@ -376,3 +376,18 @@
 375|A(z) {} modell nem importálható: {}
 376|A(z) {} modellnek felülről nézve nincs területe
 377|A(z) {} modell domborműként importálva a(z) {} rétegre: {} x {} x {} mm
+378|Porelszívó
+379|Az eszköz saját soraival kapcsolja be a porelszívót (Eszközbeállítások, G-kód)
+380|Porelszívó be
+381|Porelszívó ki
+382|Szerszámcserélő
+383|Maga cseréli a marót (T… M6)
+384|A program T<szám> M6 paranccsal kéri a marót, és szünet nélkül folytatja. Minden marónak kell száma a könyvtárban. A vezérlőnek ismernie kell az M6-ot (grblHAL, FluidNC); az egyszerű GRBL nem ismeri.
+385|Cserélő száma
+386|A maró helye a szerszámcserélőben: a program T… M6 paranccsal kéri. 0 = nincs a cserélőben
+387|{}: a marónak nincs cserélőszáma: a gép helyette megáll
+388|{}: a réteg porelszívót kér, de az eszköznek nincsenek sorai, amelyek bekapcsolnák
+389|Keret a körvonal mentén
+390|A keret a vágások körvonalát követi (mint egy gumiszalag) a téglalap helyett
+391|A lyuk közepe most az X és Y nulla; a lyuk {} x {} mm
+392|A középpont keresése nem sikerült: nincs érintkezés, vagy riasztás történt.

@@ -376,3 +376,18 @@
 375|Níorbh fhéidir an tsamhail {} a iompórtáil: {}
 376|Níl aon limistéar ag an tsamhail {} nuair a bhreathnaítear uirthi ón mbarr
 377|Iompórtáladh an tsamhail {} mar fhaoiseamh ar chiseal {}: {} x {} x {} mm
+378|Bailitheoir deannaigh
+379|Casann sé an bailitheoir deannaigh le línte féin an ghléis (Socruithe gléis, G-code)
+380|Bailitheoir deannaigh air
+381|Bailitheoir deannaigh as
+382|Athraitheoir uirlisí
+383|Athraíonn sé an bit leis féin (T… M6)
+384|Iarrann an clár bit le T<uimhir> M6 agus leanann sé ar aghaidh gan sos. Teastaíonn uimhir ón leabharlann ó gach bit. Caithfidh an rialaitheoir M6 a thuiscint (grblHAL, FluidNC); ní thuigeann GRBL simplí é.
+385|Uimhir an athraitheora
+386|Áit an bit san athraitheoir uirlisí: iarrann an clár é le T… M6. 0 = níl sé san athraitheoir
+387|{}: níl uimhir athraitheora ag an mbit: stoptar an meaisín ina ionad
+388|{}: iarrann an ciseal an bailitheoir deannaigh, ach níl línte ag an ngléas a chasann air é
+389|Fráma timpeall an imlíne
+390|Téann an fráma timpeall imlíne na ngearrthaí (cosúil le bannaí rubair) in ionad an bhosca
+391|Is é lár an phoill náid X agus Y anois; tá an poll {} x {} mm
+392|Theip ar an lár a aimsiú: gan teagmháil, nó aláram.

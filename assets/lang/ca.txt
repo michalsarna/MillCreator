@@ -376,3 +376,18 @@
 375|No s'ha pogut importar el model {}: {}
 376|El model {} no té àrea vist des de dalt
 377|S'ha importat el model {} com a relleu a la capa {}: {} x {} x {} mm
+378|Aspirador
+379|Activa l'aspirador amb les línies pròpies del dispositiu (Configuració del dispositiu, G-code)
+380|Aspirador engegat
+381|Aspirador aturat
+382|Canviador d'eines
+383|Canvia la fresa sol (T… M6)
+384|El programa demana una fresa amb T<número> M6 i continua sense pausa. Cada fresa necessita el seu número a la biblioteca. El controlador ha de conèixer M6 (grblHAL, FluidNC); el GRBL simple no.
+385|Número al canviador
+386|El lloc de la fresa al canviador d'eines: el programa la demana amb T… M6. 0 = no és al canviador
+387|{}: la fresa no té número al canviador: en lloc d'això la màquina s'atura
+388|{}: la capa demana l'aspirador, però el dispositiu no té línies que l'engeguin
+389|Marc pel contorn
+390|El marc segueix el contorn dels talls (com una goma elàstica) en lloc del rectangle
+391|El centre del forat és ara el zero de X i Y; el forat fa {} x {} mm
+392|La cerca del centre ha fallat: sense contacte o una alarma.

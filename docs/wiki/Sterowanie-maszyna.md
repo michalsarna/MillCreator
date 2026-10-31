@@ -27,6 +27,15 @@ W ustawieniach urządzenia, na stronie **Probe**, określ, czy masz **płytkę d
 * Gdy wejście sondy jest już zwarte, nic nie jest sondowane: narzędzie zostałoby dociśnięte do płytki. Sprawdź okablowanie, dotykając płytki: wejście pokazuje się jako *zwarte*.
 * **Makra:** przyciski wysyłające napisany przez Ciebie G-code (strona **Macros** ustawień urządzenia). Zmienne w nawiasach kwadratowych są podmieniane przy wysyłaniu: `[posx] [posy] [posz]` (pozycja robocza), `[mposx]` …, `[xmin] [xmax] [ymin] [ymax]` (obrys zadania), `[safez]`, `[prbx] [prby] [prbz]` (ostatnie sondowanie). `$RST` jest w makrze zabronione. Ta sama strona ma G-code uruchamiany **przed** i **po** każdym zadaniu (także po zatrzymaniu).
 
+### Korekty, chłodziwo i zapisane pozycje
+
+* **Overrides** (GRBL 1.1 i nowszy, widoczne, gdy kontroler je raportuje): podczas zadania zmieniasz **posuw** i **obroty wrzeciona** co 10 % i 1 %, wracasz do 100 % albo zwalniasz **ruchy szybkie** do 50 % lub 25 %. Widać bieżące wartości. To realtime override GRBL-a: działa od razu i nie zmienia programu.
+* **Chłodziwo:** *Mist* (M7), *Flood* (M8) i *Off* (M9). Warstwa może sama prosić o chłodziwo (patrz Warstwy i operacje). W maszynach odkurzacz bywa podłączony do M8.
+* **Zapisane pozycje** (GRBL 1.1 i nowszy): *Save here* zapamiętuje, gdzie jest narzędzie (pozycja maszynowa, z nazwą). Przycisk z nazwą wraca tam: najpierw w górę, jeśli miejsce jest wyżej niż narzędzie, potem w bok, potem w dół. Lista leży w `saved_positions.json` we wspólnym folderze danych, więc każdy program ma te same miejsca.
+* **Find the centre** (w sekcji Probe): sonda wisi w otworze, mniej więcej pośrodku i na głębokości, jaką chcesz. Dotyka lewej i prawej strony, jedzie na środek między nimi, dotyka przodu i tyłu, jedzie na środek i ustawia go jako zero X i Y używanego układu współrzędnych; w pasku stanu jest rozmiar otworu. Nie robi Z: najpierw sondą ustaw Z. Działa dla otworów; dla występu obejdź go sondą ręcznie i sondując krawędzie. Nieudany dotyk albo alarm przerywa działanie.
+* **Zmieniacz narzędzi:** maszynę, która sama zmienia frez (grblHAL, FluidNC: znają M6; zwykły GRBL nie), włączasz w ustawieniach urządzenia (*Spindle*: *Tool changer*). Każdy frez potrzebuje wtedy **numeru w zmieniaczu** w bibliotece, a program prosi o niego przez `T<numer> M6` zamiast zatrzymywać się pauzą `M0`; na czas zmiany chłodziwo i odkurzacz są wyłączane.
+* **Frame round the outline:** obok przycisku Frame: ramka obiega obrys cięć (gumka, otoczka wypukła) zamiast ich prostokąta.
+
 ## Uruchamianie zadania
 
 * **Start** wysyła całe zadanie; **Od wiersza…** (też w menu *Machine*) zaczyna od wybranego wiersza programu: maszyna jest najpierw doprowadzana do stanu, jaki program ma w tym miejscu (jednostki, układ współrzędnych, wrzeciono i jego obroty, posuw, pozycja), na bezpiecznej wysokości, a reszta idzie dalej. Odmawia, gdy nie umie tego obliczyć (np. po `G53` lub `G92`).

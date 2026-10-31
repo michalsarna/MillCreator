@@ -376,3 +376,18 @@
 375|Modela {} ni bilo mogoče uvoziti: {}
 376|Model {} nima površine, gledano od zgoraj
 377|Model {} je uvožen kot relief na sloj {}: {} x {} x {} mm
+378|Sesalnik prahu
+379|Vklopi sesalnik prahu z lastnimi vrsticami naprave (Nastavitve naprave, G-koda)
+380|Sesalnik prahu vklopljen
+381|Sesalnik prahu izklopljen
+382|Menjalnik orodij
+383|Sam zamenja rezkar (T… M6)
+384|Program zahteva rezkar z T<številka> M6 in nadaljuje brez premora. Vsak rezkar potrebuje svojo številko v knjižnici. Krmilnik mora poznati M6 (grblHAL, FluidNC); navaden GRBL ne.
+385|Številka v menjalniku
+386|Mesto rezkarja v menjalniku orodij: program ga zahteva z T… M6. 0 = ni v menjalniku
+387|{}: rezkar nima številke v menjalniku: stroj se namesto tega ustavi
+388|{}: sloj zahteva sesalnik prahu, naprava pa nima vrstic, ki bi ga vklopile
+389|Okvir po obrisu
+390|Okvir gre po obrisu rezov (kot elastika) namesto po pravokotniku
+391|Središče luknje je zdaj ničla X in Y; luknja meri {} x {} mm
+392|Iskanje središča ni uspelo: ni stika ali pa je alarm.
