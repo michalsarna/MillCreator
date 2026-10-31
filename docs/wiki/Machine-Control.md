@@ -27,6 +27,15 @@ In the device settings, page **Probe**, say whether you have a **touch plate** (
 * When the probe input is already closed, nothing is probed: the tool would be pressed against the plate. Test the wiring by touching the plate: the input shows as *closed*.
 * **Macros:** buttons that send G-code you wrote (page **Macros** of the device settings). Variables in brackets are replaced when the macro is sent: `[posx] [posy] [posz]` (work position), `[mposx]` …, `[xmin] [xmax] [ymin] [ymax]` (the box of the job), `[safez]`, `[prbx] [prby] [prbz]` (the last probe). `$RST` is not allowed in a macro. The same page has G-code that runs **before** and **after** every job (also after Stop).
 
+### Overrides, coolant and saved positions
+
+* **Overrides** (GRBL 1.1 and newer, shown once the controller reports them): while a job runs, change the **feed** and the **spindle** speed in steps of 10 % and 1 %, go back to 100 %, or slow the **rapids** to 50 % or 25 %. The current percentages are shown. This is the realtime override of GRBL, so it works at once and does not change the program.
+* **Coolant:** *Mist* (M7), *Flood* (M8) and *Off* (M9). A layer can ask for coolant by itself (see Layers and Operations). Machines often have the dust collector wired to M8.
+* **Saved positions** (GRBL 1.1 and newer): *Save here* remembers where the tool is (the machine position, with a name). The name button goes back to it: up first when it is higher than the tool is, then across, then down. The list is kept in `saved_positions.json` in the shared data folder, so every program has the same places.
+* **Find the centre** (in the Probe section): the probe hangs in a hole, about in the middle and at the depth you want. It touches the left and the right side, goes to the middle between them, touches the front and the back side, goes to the middle and makes it the zero of X and Y of the coordinate system in use; the status line gives the size of the hole. It does not do Z: probe that first. It is for holes; for a boss, move the probe round it by hand and probe the edges. A failed touch or an alarm stops it.
+* **Tool changer:** a machine that changes the bit by itself (grblHAL, FluidNC: they know M6; plain GRBL does not) is turned on in the device settings (*Spindle*: *Tool changer*). Every bit then needs a **changer number** in the bit library, and the program asks for it with `T<number> M6` instead of stopping with an `M0` pause; the coolant and the dust collector are switched off for the change.
+* **Frame round the outline:** next to the Frame button: the frame goes round the outline of the cuts (a rubber band, the convex hull) instead of their box.
+
 ## Running a job
 
 * **Start** streams the whole job; **From line…** (also in the menu *Machine*) starts at a line of the program: the machine is first brought into the state the program has there (units, coordinate system, spindle and its speed, feed, position), at the safe height, and the rest follows. It refuses when it cannot work that out (for example after `G53` or `G92`).

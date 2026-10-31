@@ -376,3 +376,18 @@
 375	Could not import the model {}: {}
 376	The model {} has no area seen from above
 377	Imported the model {} as a relief on layer {}: {} x {} x {} mm
+378	Dust collector
+379	Switches the dust collector on with the device's own lines (Device settings, G-code)
+380	Dust collector on
+381	Dust collector off
+382	Tool changer
+383	Changes the bit by itself (T… M6)
+384	The program asks for a bit with T<number> M6 and goes on without a pause. Every bit needs its number in the library. The controller has to know M6 (grblHAL, FluidNC); plain GRBL does not.
+385	Changer number
+386	The place of the bit in the tool changer: the program asks for it with T… M6. 0 = not in the changer
+387	{}: the bit has no changer number: the machine is asked to stop for it instead
+388	{}: the layer asks for the dust collector, but the device has no lines that switch it on
+389	Frame round the outline
+390	The frame goes round the outline of the cuts (a rubber band) instead of the box
+391	The centre of the hole is the zero of X and Y now; the hole is {} x {} mm
+392	The centre finder failed: no contact, or an alarm.

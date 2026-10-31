@@ -376,3 +376,18 @@
 375|Não foi possível importar o modelo {}: {}
 376|O modelo {} não tem área visto de cima
 377|Modelo {} importado como relevo na camada {}: {} x {} x {} mm
+378|Aspirador
+379|Liga o aspirador com as linhas próprias do dispositivo (Definições do dispositivo, G-code)
+380|Aspirador ligado
+381|Aspirador desligado
+382|Trocador de ferramentas
+383|Troca a fresa sozinho (T… M6)
+384|O programa pede uma fresa com T<número> M6 e continua sem pausa. Cada fresa precisa do seu número na biblioteca. O controlador tem de conhecer M6 (grblHAL, FluidNC); o GRBL simples não conhece.
+385|Número no trocador
+386|O lugar da fresa no trocador de ferramentas: o programa pede-a com T… M6. 0 = não está no trocador
+387|{}: a fresa não tem número no trocador: a máquina para em vez disso
+388|{}: a camada pede o aspirador, mas o dispositivo não tem linhas que o liguem
+389|Moldura pelo contorno
+390|A moldura segue o contorno dos cortes (como um elástico) em vez do retângulo
+391|O centro do furo é agora o zero de X e Y; o furo mede {} x {} mm
+392|A procura do centro falhou: sem contacto, ou um alarme.

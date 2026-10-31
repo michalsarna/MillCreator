@@ -65,6 +65,11 @@ pub struct CustomGcode {
     /// At every change of the operation (a new layer), before the bit is looked at.
     #[serde(default)]
     pub operation_change: String,
+    /// Switch the dust collector on / off (for the layers that ask for it); the lines of the machine's own language.
+    #[serde(default)]
+    pub dust_on: String,
+    #[serde(default)]
+    pub dust_off: String,
 }
 
 impl CustomGcode {
@@ -74,7 +79,7 @@ impl CustomGcode {
     }
 
     fn check(&self) -> Result<(), String> {
-        for t in [&self.start, &self.end, &self.tool_change, &self.operation_change] {
+        for t in [&self.start, &self.end, &self.tool_change, &self.operation_change, &self.dust_on, &self.dust_off] {
             if t.lines().count() > 20 || t.lines().any(|l| l.len() > 100 || l.chars().any(char::is_control)) {
                 return Err("the own G-code has too many lines, a line that is too long or a control character".into());
             }
@@ -135,6 +140,9 @@ pub struct Device {
     /// The work coordinate system the program is written for.
     #[serde(default)]
     pub wcs: Wcs,
+    /// The machine changes the bit by itself: `T<number> M6` instead of a pause (every bit needs a number in the library).
+    #[serde(default)]
+    pub changer: bool,
 }
 
 impl Default for Device {
@@ -156,6 +164,7 @@ impl Default for Device {
             control: Control::default(),
             gcode: CustomGcode::default(),
             wcs: Wcs::default(),
+            changer: false,
         }
     }
 }

@@ -434,6 +434,12 @@ fn run_layers(b: &mut Builder, prog: &mut Program, scene: &Scene, layers: &[Mill
             prog.warnings.push(Warn::new("{}: no bit chosen", &[&layer.name]));
             continue;
         };
+        if dev.changer && tool.number == 0 {
+            prog.warnings.push(Warn::new("{}: the bit has no changer number: the machine is asked to stop for it instead", &[&layer.name]));
+        }
+        if layer.dust && dev.gcode.dust_on.trim().is_empty() {
+            prog.warnings.push(Warn::new("{}: the layer asks for the dust collector, but the device has no lines that switch it on", &[&layer.name]));
+        }
         let mut layer = layer.clone();
         if layer.depth > stock.thickness + 1e-9 {
             prog.warnings.push(Warn::new("{}: the depth of {} mm is more than the thickness of the material ({} mm)", &[&layer.name, &layer.depth, &stock.thickness]));
@@ -719,6 +725,51 @@ pub fn frame_gcode(b: [f64; 4], dev: &Device) -> String {
     g
 }
 
+/// The convex hull of the points (counter-clockwise, no point twice).
+pub fn convex_hull(points: &[(f64, f64)]) -> Vec<(f64, f64)> {
+    let mut p: Vec<(f64, f64)> = points.iter().copied().filter(|q| q.0.is_finite() && q.1.is_finite()).collect();
+    p.sort_by(|a, b| a.partial_cmp(b).unwrap());
+    p.dedup();
+    if p.len() < 3 {
+        return p;
+    }
+    let cross = |o: (f64, f64), a: (f64, f64), b: (f64, f64)| (a.0 - o.0) * (b.1 - o.1) - (a.1 - o.1) * (b.0 - o.0);
+    let mut hull: Vec<(f64, f64)> = vec![];
+    for pass in 0..2 {
+        let start = hull.len();
+        let it: Box<dyn Iterator<Item = &(f64, f64)>> = if pass == 0 { Box::new(p.iter()) } else { Box::new(p.iter().rev()) };
+        for &q in it {
+            while hull.len() >= start + 2 && cross(hull[hull.len() - 2], hull[hull.len() - 1], q) <= 0.0 {
+                hull.pop();
+            }
+            hull.push(q);
+        }
+        hull.pop();
+    }
+    hull
+}
+
+/// G-code that takes the tool once round the outline of the cuts (a rubber band round them, the convex hull) at the safe height,
+/// with the spindle off. The points are in the coordinates of the work area.
+pub fn frame_hull_gcode(points: &[(f64, f64)], dev: &Device) -> String {
+    let hull = convex_hull(points);
+    let feed = dev.rapid.clamp(100.0, 6000.0);
+    let Some(first) = hull.first() else { return String::new() };
+    let (x0, y0) = machine_xy(dev, first.0, first.1);
+    let mut g = String::from("G21 G90\n");
+    if let Some(w) = dev.wcs.word() {
+        g.push_str(&w);
+        g.push('\n');
+    }
+    g.push_str("M5\n");
+    g.push_str(&format!("G0 Z{}\nG0 X{} Y{}\n", num(dev.safe_z), num(x0), num(y0)));
+    for q in hull.iter().skip(1).chain(std::iter::once(first)) {
+        let (x, y) = machine_xy(dev, q.0, q.1);
+        g.push_str(&format!("G1 X{} Y{} F{}\n", num(x), num(y), num(feed)));
+    }
+    g
+}
+
 /// The machine zero of the device: the coordinates of a point of the work area as the machine counts them.
 pub fn machine_xy(dev: &Device, x: f64, y: f64) -> (f64, f64) {
     let (x, y) = match dev.origin {
@@ -764,6 +815,8 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
     let mut layer = usize::MAX;
     let mut tool_id: Option<String> = None;
     let mut spindle_on = false;
+    let mut coolant = crate::layers::Coolant::Off;
+    let mut dust = false;
     let xyz = |p: P3| {
         let (x, y) = machine_xy(dev, p[0], p[1]);
         (x, y, p[2])
@@ -778,8 +831,22 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
                     if spindle_on {
                         g.push_str(&format!("G0 Z{}\nM5\n", num(dev.safe_z)));
                     }
-                    let name = l.tool.as_deref().and_then(|id| tools.get(id)).map(|t| clean(&t.name)).unwrap_or_default();
-                    if tool_id.is_some() {
+                    // The coolant and the dust collector stop while the bit is changed.
+                    if coolant != crate::layers::Coolant::Off {
+                        g.push_str("M9\n");
+                        coolant = crate::layers::Coolant::Off;
+                    }
+                    if dust {
+                        custom(&mut g, &dev.gcode.dust_off);
+                        dust = false;
+                    }
+                    let tool = l.tool.as_deref().and_then(|id| tools.get(id));
+                    let name = tool.map(|t| clean(&t.name)).unwrap_or_default();
+                    let number = tool.map_or(0, |t| t.number);
+                    if dev.changer && number > 0 {
+                        // A machine with a tool changer takes the bit by itself: no pause.
+                        g.push_str(&format!("(Bit: {name})\nT{number} M6\n"));
+                    } else if tool_id.is_some() {
                         g.push_str(&format!("M0 (Change the bit to: {name})\n"));
                     } else {
                         g.push_str(&format!("(Bit: {name})\n"));
@@ -796,6 +863,21 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
                         g.push_str(&format!("G4 P{}\n", num(dev.spindle.spin_up)));
                     }
                     spindle_on = true;
+                }
+                // The coolant and the dust collector of the layer.
+                if l.coolant != coolant {
+                    if coolant != crate::layers::Coolant::Off {
+                        g.push_str("M9\n");
+                    }
+                    if let Some(w) = l.coolant.word() {
+                        g.push_str(w);
+                        g.push('\n');
+                    }
+                    coolant = l.coolant;
+                }
+                if l.dust != dust {
+                    custom(&mut g, if l.dust { &dev.gcode.dust_on } else { &dev.gcode.dust_off });
+                    dust = l.dust;
                 }
             }
         }
@@ -814,6 +896,12 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
         }
     }
     g.push_str(&format!("G0 Z{}\nM5\n", num(dev.safe_z)));
+    if coolant != crate::layers::Coolant::Off {
+        g.push_str("M9\n");
+    }
+    if dust {
+        custom(&mut g, &dev.gcode.dust_off);
+    }
     let (hx, hy) = machine_xy(dev, 0.0, 0.0);
     g.push_str(&format!("G0 X{} Y{}\n", num(hx), num(hy)));
     custom(&mut g, &dev.gcode.end);
@@ -1108,7 +1196,7 @@ mod tests {
         let prog = generate(&scene, &layers, &lib, &dev, &stock);
         let plain = to_gcode(&prog, &dev, &layers, &lib, "job");
         assert!(!plain.contains("G54") && !plain.contains("M8"), "nothing is added by default: {plain}");
-        dev.gcode = crate::device::CustomGcode { start: "M8\n\n  G4 P1 ".into(), end: "M9".into(), tool_change: "T1 M6".into(), operation_change: "(next)".into() };
+        dev.gcode = crate::device::CustomGcode { start: "M8\n\n  G4 P1 ".into(), end: "M9".into(), tool_change: "T1 M6".into(), operation_change: "(next)".into(), ..Default::default() };
         dev.wcs = crate::device::Wcs { code: 55, x: 10.0, y: 20.0 };
         let g = to_gcode(&prog, &dev, &layers, &lib, "job");
         assert!(g.contains("G21 G90 G17\nG55\nM8\nG4 P1\n"), "the word, then the own start lines: {g}");
@@ -1798,5 +1886,104 @@ mod tests {
         let deepest = |p: &Program| cut_points(p).iter().map(|q| q[2]).fold(0.0f64, f64::min);
         assert!((deepest(&finish) + 2.0).abs() < 1e-6, "the finish reaches the relief: {}", deepest(&finish));
         assert!(deepest(&rough) > -2.0 + 0.25, "the rough stays above the relief: {}", deepest(&rough));
+    }
+
+    fn two_layer_job(lib: &Library) -> (Scene, Vec<MillLayer>) {
+        let (_, _, _, mut layers) = setup();
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 10.0, 10.0, 20.0);
+        square(&mut scene, 2, 60.0, 10.0, 20.0);
+        for i in [0, 2] {
+            with_tool(&mut layers, i, lib, "std-flat-3");
+            layers[i].depth = 1.0;
+            layers[i].step_down = 1.0;
+        }
+        (scene, layers)
+    }
+
+    #[test]
+    fn coolant_and_the_dust_collector_go_on_with_the_layer_and_off_before_a_bit_change_and_at_the_end() {
+        use crate::layers::Coolant;
+        let (lib, mut dev, stock, _) = setup();
+        let (scene, mut layers) = two_layer_job(&lib);
+        dev.gcode.dust_on = "M10".into();
+        dev.gcode.dust_off = "M11".into();
+        layers[0].coolant = Coolant::Flood;
+        layers[0].dust = true;
+        layers[2].coolant = Coolant::Mist;
+        layers[2].dust = true;
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
+        let g = to_gcode(&prog, &dev, &layers, &lib, "t");
+        let lines: Vec<&str> = g.lines().collect();
+        let at = |w: &str| lines.iter().position(|l| *l == w).unwrap_or_else(|| panic!("no {w} in {g}"));
+        assert!(at("M8") < at("M10") || at("M10") < at("M8"), "both are on");
+        let m9 = lines.iter().position(|l| *l == "M9").unwrap();
+        assert!(at("M8") < m9 && m9 < at("M7"), "flood, then off, then mist (same bit: no change in between)");
+        assert_eq!(lines.iter().filter(|l| **l == "M10").count(), 1, "the collector stays on between the layers");
+        assert_eq!(lines.iter().filter(|l| **l == "M9").count(), 2, "off between the two kinds and at the end");
+        assert!(lines.iter().rposition(|l| *l == "M11").unwrap() > at("M7"), "the collector goes off at the end");
+        let end = lines.iter().rposition(|l| *l == "M9").unwrap();
+        assert!(end > at("M7") && end < lines.len() - 3, "M9 before the machine goes home");
+        // A layer that wants the collector with a device that has no lines for it is reported.
+        dev.gcode.dust_on.clear();
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(prog.warnings.iter().any(|w| w.text().contains("dust collector")), "{:?}", prog.warnings);
+        // With neither, the program has none of it.
+        layers[0].coolant = Coolant::Off;
+        layers[0].dust = false;
+        layers[2].coolant = Coolant::Off;
+        layers[2].dust = false;
+        let g = to_gcode(&generate(&scene, &layers, &lib, &dev, &stock), &dev, &layers, &lib, "t");
+        assert!(!g.contains("M7") && !g.contains("M8") && !g.contains("M9") && !g.contains("M10"), "{g}");
+    }
+
+    #[test]
+    fn a_tool_changer_takes_the_bit_without_a_pause_and_switches_the_coolant_off_first() {
+        use crate::layers::Coolant;
+        let (mut lib, mut dev, stock, _) = setup();
+        let (scene, mut layers) = two_layer_job(&lib);
+        with_tool(&mut layers, 2, &lib, "std-flat-6");
+        layers[0].coolant = Coolant::Mist;
+        // Without a changer there is a pause for the second bit.
+        let g = to_gcode(&generate(&scene, &layers, &lib, &dev, &stock), &dev, &layers, &lib, "t");
+        assert!(g.contains("M0 (Change the bit to") && !g.contains(" M6"), "{g}");
+        // With one and numbers in the library: T… M6 for both, no pause.
+        dev.changer = true;
+        for (id, own, n) in [("std-flat-3", "my-1", 1), ("std-flat-6", "my-2", 2)] {
+            let t = Tool { id: own.into(), builtin: false, number: n, ..lib.get(id).unwrap().clone() };
+            lib.user.push(t);
+        }
+        with_tool(&mut layers, 0, &lib, "my-1");
+        with_tool(&mut layers, 2, &lib, "my-2");
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
+        let g = to_gcode(&prog, &dev, &layers, &lib, "t");
+        assert!(!g.contains("M0"), "{g}");
+        let (a, b) = (g.find("T1 M6").expect("the first bit"), g.find("T2 M6").expect("the second bit"));
+        assert!(a < b);
+        assert!(g[a..b].contains("M9"), "the coolant goes off before the change: {g}");
+        // A bit without a number is reported and the machine stops for it.
+        layers[2].tool = Some("std-flat-6".into());
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(prog.warnings.iter().any(|w| w.text().contains("changer number")), "{:?}", prog.warnings);
+    }
+
+    #[test]
+    fn the_rubber_band_frame_goes_round_the_hull_and_not_into_a_notch() {
+        let (_, dev, _, _) = setup();
+        // An L: the notch at (20, 20) is inside the box and not on the hull.
+        let l = [(0.0, 0.0), (40.0, 0.0), (40.0, 20.0), (20.0, 20.0), (20.0, 40.0), (0.0, 40.0)];
+        let hull = convex_hull(&l);
+        assert_eq!(hull.len(), 5, "{hull:?}");
+        assert!(!hull.contains(&(20.0, 20.0)));
+        let area: f64 = hull.iter().zip(hull.iter().cycle().skip(1)).map(|(a, b)| a.0 * b.1 - b.0 * a.1).sum::<f64>() / 2.0;
+        assert!(area > 0.0 && (area - 1400.0).abs() < 1e-9, "counter-clockwise, 1400 mm2 ({area})");
+        let g = frame_hull_gcode(&l, &dev);
+        assert!(g.contains("M5") && g.contains("G0 Z"), "{g}");
+        assert!(!g.contains("X20 Y20"), "{g}");
+        assert_eq!(g.matches("G1 ").count(), 5, "one move to every corner and back: {g}");
+        assert_eq!(convex_hull(&[(1.0, 1.0)]).len(), 1);
+        assert!(frame_hull_gcode(&[], &dev).is_empty());
     }
 }

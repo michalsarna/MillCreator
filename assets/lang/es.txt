@@ -376,3 +376,18 @@
 375|No se pudo importar el modelo {}: {}
 376|El modelo {} no tiene área visto desde arriba
 377|Modelo {} importado como relieve en la capa {}: {} x {} x {} mm
+378|Aspirador de polvo
+379|Activa el aspirador con las líneas propias del dispositivo (Ajustes del dispositivo, G-code)
+380|Aspirador encendido
+381|Aspirador apagado
+382|Cambiador de herramientas
+383|Cambia la fresa por sí mismo (T… M6)
+384|El programa pide una fresa con T<número> M6 y sigue sin pausa. Cada fresa necesita su número en la biblioteca. El controlador debe conocer M6 (grblHAL, FluidNC); el GRBL simple no.
+385|Número en el cambiador
+386|El lugar de la fresa en el cambiador de herramientas: el programa la pide con T… M6. 0 = no está en el cambiador
+387|{}: la fresa no tiene número en el cambiador: la máquina se detiene en su lugar
+388|{}: la capa pide el aspirador, pero el dispositivo no tiene líneas que lo enciendan
+389|Marco por el contorno
+390|El marco sigue el contorno de los cortes (como una goma elástica) en vez del rectángulo
+391|El centro del agujero es ahora el cero de X e Y; el agujero mide {} x {} mm
+392|La búsqueda del centro falló: sin contacto, o una alarma.

@@ -376,3 +376,18 @@
 375|Nepavyko importuoti modelio {}: {}
 376|Modelis {} iš viršaus neturi ploto
 377|Modelis {} importuotas kaip reljefas į sluoksnį {}: {} x {} x {} mm
+378|Dulkių siurblys
+379|Įjungia dulkių siurblį paties įrenginio eilutėmis (Įrenginio nustatymai, G kodas)
+380|Dulkių siurblys įjungtas
+381|Dulkių siurblys išjungtas
+382|Įrankių keitiklis
+383|Pats pakeičia frezą (T… M6)
+384|Programa prašo frezos komanda T<numeris> M6 ir tęsia be pauzės. Kiekviena freza bibliotekoje turi turėti numerį. Valdiklis turi žinoti M6 (grblHAL, FluidNC); paprastas GRBL nežino.
+385|Keitiklio numeris
+386|Frezos vieta įrankių keitiklyje: programa jos prašo komanda T… M6. 0 = nėra keitiklyje
+387|{}: frezai nėra keitiklio numerio: staklės vietoj to sustoja
+388|{}: sluoksnis prašo dulkių siurblio, bet įrenginys neturi eilučių, kurios jį įjungtų
+389|Rėmas aplink kontūrą
+390|Rėmas eina aplink pjūvių kontūrą (kaip guma) vietoj stačiakampio
+391|Skylės centras dabar yra X ir Y nulis; skylė yra {} x {} mm
+392|Centro paieška nepavyko: nėra kontakto arba įvyko aliarmas.

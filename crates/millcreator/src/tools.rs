@@ -188,6 +188,9 @@ pub struct Tool {
     pub cutting: Cutting,
     #[serde(default)]
     pub notes: String,
+    /// The place of the bit in the tool changer (`T<number>`); 0 = not in the changer.
+    #[serde(default)]
+    pub number: u32,
     /// A ready-made bit of the program: it cannot be changed or deleted. Never written to a file.
     #[serde(skip)]
     pub builtin: bool,
@@ -195,7 +198,7 @@ pub struct Tool {
 
 impl Tool {
     pub fn new(id: &str, name: &str, kind: ToolKind, dims: Dims) -> Tool {
-        Tool { id: id.into(), name: name.into(), kind, dims, cutting: Cutting::default(), notes: String::new(), builtin: false }
+        Tool { id: id.into(), name: name.into(), kind, dims, cutting: Cutting::default(), notes: String::new(), number: 0, builtin: false }
     }
 
     /// The width of the cut at `depth` below the surface, in mm: the width of the groove this bit makes when it goes

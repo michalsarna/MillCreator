@@ -443,6 +443,11 @@ pub fn tools_window(ctx: &egui::Context, win: &mut ToolsWindow, lib: &mut Librar
                             changed |= ui.add(egui::DragValue::new(&mut c.flutes).range(1..=12)).changed();
                         });
                         ui.end_row();
+                        ui.label(tr("Changer number"));
+                        ui.add_enabled_ui(editable, |ui| {
+                            changed |= ui.add(egui::DragValue::new(&mut draft.number).range(0..=99)).on_hover_text(tr("The place of the bit in the tool changer: the program asks for it with T… M6. 0 = not in the changer")).changed();
+                        });
+                        ui.end_row();
                     });
                     ui.add_space(6.0);
                     ui.label(tr("Notes"));

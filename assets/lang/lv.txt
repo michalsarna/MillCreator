@@ -376,3 +376,18 @@
 375|Neizdevās importēt modeli {}: {}
 376|Modelim {} no augšas nav laukuma
 377|Modelis {} importēts kā reljefs slānī {}: {} x {} x {} mm
+378|Putekļu nosūcējs
+379|Ieslēdz putekļu nosūcēju ar ierīces paša rindām (Ierīces iestatījumi, G-kods)
+380|Putekļu nosūcējs ieslēgts
+381|Putekļu nosūcējs izslēgts
+382|Instrumentu mainītājs
+383|Pats nomaina frēzi (T… M6)
+384|Programma pieprasa frēzi ar T<numurs> M6 un turpina bez pauzes. Katrai frēzei bibliotēkā vajadzīgs numurs. Kontrollerim jāpazīst M6 (grblHAL, FluidNC); parastais GRBL to nepazīst.
+385|Mainītāja numurs
+386|Frēzes vieta instrumentu mainītājā: programma to pieprasa ar T… M6. 0 = nav mainītājā
+387|{}: frēzei nav mainītāja numura: iekārta tā vietā apstājas
+388|{}: slānis pieprasa putekļu nosūcēju, bet ierīcei nav rindu, kas to ieslēdz
+389|Rāmis ap kontūru
+390|Rāmis iet ap griezumu kontūru (kā gumija) taisnstūra vietā
+391|Cauruma centrs tagad ir X un Y nulle; caurums ir {} x {} mm
+392|Centra atrašana neizdevās: nav kontakta vai ir trauksme.

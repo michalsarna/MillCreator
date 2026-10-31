@@ -376,3 +376,18 @@
 375|Ma setax jiġi importat il-mudell {}: {}
 376|Il-mudell {} m'għandu ebda erja meta jidher minn fuq
 377|Il-mudell {} impurtat bħala relief fuq is-saff {}: {} x {} x {} mm
+378|Ġbir tat-trab
+379|Ixgħel il-ġbir tat-trab bil-linji tal-apparat stess (Issettjar tal-apparat, G-code)
+380|Ġbir tat-trab mixgħul
+381|Ġbir tat-trab mitfi
+382|Bidla tal-għodod
+383|Jibdel il-qatta waħdu (T… M6)
+384|Il-programm jitlob qatta b'T<numru> M6 u jkompli mingħajr waqfa. Kull qatta teħtieġ in-numru tagħha fil-librerija. Il-kontrollur irid jaf M6 (grblHAL, FluidNC); GRBL sempliċi ma jafx.
+385|Numru tal-bidla
+386|Il-post tal-qatta fil-bidla tal-għodod: il-programm jitlobha b'T… M6. 0 = mhix fil-bidla
+387|{}: il-qatta m'għandhiex numru tal-bidla: il-magna tieqaf minflok
+388|{}: is-saff jitlob il-ġbir tat-trab, imma l-apparat m'għandu l-ebda linji li jixgħluh
+389|Qafas madwar il-kontorn
+390|Il-qafas jdur mal-kontorn tal-qtugħ (bħal rubber band) minflok il-kaxxa
+391|Iċ-ċentru tat-toqba issa huwa ż-żero ta' X u Y; it-toqba hija {} x {} mm
+392|Is-sib taċ-ċentru falla: l-ebda kuntatt, jew allarm.

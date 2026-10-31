@@ -376,3 +376,18 @@
 375|Model {} nije moguće uvesti: {}
 376|Model {} nema površinu gledano odozgo
 377|Model {} uvezen je kao reljef na sloj {}: {} x {} x {} mm
+378|Usisavač prašine
+379|Uključuje usisavač vlastitim redcima uređaja (Postavke uređaja, G-kod)
+380|Usisavač uključen
+381|Usisavač isključen
+382|Izmjenjivač alata
+383|Sam mijenja glodalo (T… M6)
+384|Program traži glodalo naredbom T<broj> M6 i nastavlja bez stanke. Svako glodalo treba svoj broj u biblioteci. Upravljač mora poznavati M6 (grblHAL, FluidNC); običan GRBL ne poznaje.
+385|Broj u izmjenjivaču
+386|Mjesto glodala u izmjenjivaču alata: program ga traži naredbom T… M6. 0 = nije u izmjenjivaču
+387|{}: glodalo nema broj u izmjenjivaču: stroj se umjesto toga zaustavlja
+388|{}: sloj traži usisavač, ali uređaj nema redaka koji ga uključuju
+389|Okvir oko obrisa
+390|Okvir ide oko obrisa rezova (poput gumice) umjesto oko pravokutnika
+391|Središte rupe je sada nula X i Y; rupa je {} x {} mm
+392|Traženje središta nije uspjelo: nema kontakta ili alarm.

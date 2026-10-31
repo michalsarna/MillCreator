@@ -376,3 +376,18 @@
 375|Kunne ikke importere modellen {}: {}
 376|Modellen {} har ikke noe areal sett ovenfra
 377|Modellen {} er importert som relieff på lag {}: {} x {} x {} mm
+378|Støvsuger
+379|Slår på støvsugeren med enhetens egne linjer (Enhetsinnstillinger, G-kode)
+380|Støvsuger på
+381|Støvsuger av
+382|Verktøyskifter
+383|Bytter fresen selv (T… M6)
+384|Programmet ber om en fres med T<nummer> M6 og fortsetter uten pause. Hver fres trenger sitt nummer i biblioteket. Kontrolleren må kjenne M6 (grblHAL, FluidNC); vanlig GRBL gjør ikke det.
+385|Skifternummer
+386|Fresens plass i verktøyskifteren: programmet ber om den med T… M6. 0 = ikke i skifteren
+387|{}: fresen har ikke noe skiftenummer: maskinen stopper i stedet
+388|{}: laget ber om støvsuger, men enheten har ingen linjer som slår den på
+389|Ramme rundt omrisset
+390|Rammen går rundt omrisset av kuttene (som et strikk) i stedet for rektangelet
+391|Midten av hullet er nå null for X og Y; hullet er {} x {} mm
+392|Midtfinningen mislyktes: ingen kontakt, eller en alarm.

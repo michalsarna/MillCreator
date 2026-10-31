@@ -376,3 +376,18 @@
 375|Ekki tókst að flytja inn líkanið {}: {}
 376|Líkanið {} hefur ekkert flatarmál séð að ofan
 377|Líkanið {} flutt inn sem upphleyping á lag {}: {} x {} x {} mm
+378|Ryksuga
+379|Kveikir á ryksugu með eigin línum tækisins (Tækjastillingar, G-kóði)
+380|Ryksuga kveikt
+381|Ryksuga slökkt
+382|Verkfæraskiptir
+383|Skiptir um fræs sjálfur (T… M6)
+384|Forritið biður um fræs með T<númer> M6 og heldur áfram án hlés. Hver fræs þarf númer í safninu. Stýringin þarf að þekkja M6 (grblHAL, FluidNC); venjulegt GRBL gerir það ekki.
+385|Númer í skipti
+386|Staður fræssins í verkfæraskiptinum: forritið biður um hann með T… M6. 0 = ekki í skiptinum
+387|{}: fræsinn hefur ekkert skiptinúmer: vélin stöðvast í staðinn
+388|{}: lagið biður um ryksugu en tækið hefur engar línur sem kveikja á henni
+389|Rammi utan um útlínuna
+390|Rammin fer um útlínu skurðanna (eins og teygjubönd) í stað kassans
+391|Miðja gatsins er nú núll X og Y; gatið er {} x {} mm
+392|Miðjuleitin mistókst: engin snerting eða viðvörun.

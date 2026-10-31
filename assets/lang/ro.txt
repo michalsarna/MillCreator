@@ -376,3 +376,18 @@
 375|Modelul {} nu a putut fi importat: {}
 376|Modelul {} nu are suprafață văzut de sus
 377|Modelul {} a fost importat ca relief pe stratul {}: {} x {} x {} mm
+378|Aspirator de praf
+379|Pornește aspiratorul cu liniile proprii ale dispozitivului (Setările dispozitivului, G-code)
+380|Aspirator pornit
+381|Aspirator oprit
+382|Schimbător de scule
+383|Schimbă freza singur (T… M6)
+384|Programul cere o freză cu T<număr> M6 și continuă fără pauză. Fiecare freză are nevoie de numărul ei în bibliotecă. Controlerul trebuie să cunoască M6 (grblHAL, FluidNC); GRBL simplu nu.
+385|Număr în schimbător
+386|Locul frezei în schimbătorul de scule: programul o cere cu T… M6. 0 = nu e în schimbător
+387|{}: freza nu are număr în schimbător: în schimb mașina se oprește
+388|{}: stratul cere aspiratorul, dar dispozitivul nu are linii care să îl pornească
+389|Cadru de-a lungul conturului
+390|Cadrul urmează conturul tăieturilor (ca o bandă elastică) în loc de dreptunghi
+391|Centrul găurii este acum zero pentru X și Y; gaura are {} x {} mm
+392|Găsirea centrului a eșuat: fără contact sau o alarmă.

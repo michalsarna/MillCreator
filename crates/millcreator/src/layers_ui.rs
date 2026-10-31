@@ -1,5 +1,5 @@
 //! The Layers tab (what is done with the shapes of each layer) and the Material tab.
-use crate::layers::{CutDir, Entry, Inlay, MillLayer, OutlinePass, Operation, PictureMethod, PocketPattern, ReliefPart, TabKind};
+use crate::layers::{Coolant, CutDir, Entry, Inlay, MillLayer, OutlinePass, Operation, PictureMethod, PocketPattern, ReliefPart, TabKind};
 use crate::materials::{MaterialKind, MAX_THICKNESS};
 use crate::App;
 use base_ui::editor::EditorHost;
@@ -291,6 +291,16 @@ impl App {
                         });
                         ui.end_row();
                     }
+                    ui.label(tr("Coolant"));
+                    ui.horizontal(|ui| {
+                        egui::ComboBox::from_id_salt("layer_coolant").selected_text(tr(l.coolant.label())).width(100.0).show_ui(ui, |ui| {
+                            for k in Coolant::ALL {
+                                changed |= ui.selectable_value(&mut l.coolant, k, tr(k.label())).changed();
+                            }
+                        });
+                        changed |= ui.checkbox(&mut l.dust, tr("Dust collector")).on_hover_text(tr("Switches the dust collector on with the device's own lines (Device settings, G-code)")).changed();
+                    });
+                    ui.end_row();
                     if l.op != Operation::Drill {
                         ui.label(tr("Entry"));
                         egui::ComboBox::from_id_salt("layer_entry").selected_text(tr(l.entry.label())).width(200.0).show_ui(ui, |ui| {

@@ -376,3 +376,18 @@
 375|Det gick inte att importera modellen {}: {}
 376|Modellen {} har ingen yta sedd uppifrån
 377|Modellen {} importerad som relief på lager {}: {} x {} x {} mm
+378|Dammsugare
+379|Slår på dammsugaren med enhetens egna rader (Enhetsinställningar, G-kod)
+380|Dammsugare på
+381|Dammsugare av
+382|Verktygsväxlare
+383|Byter fräs själv (T… M6)
+384|Programmet ber om en fräs med T<nummer> M6 och fortsätter utan paus. Varje fräs behöver sitt nummer i biblioteket. Styrenheten måste känna till M6 (grblHAL, FluidNC); vanlig GRBL gör inte det.
+385|Växlarnummer
+386|Fräsens plats i verktygsväxlaren: programmet ber om den med T… M6. 0 = inte i växlaren
+387|{}: fräsen har inget växlarnummer: maskinen stannar i stället
+388|{}: lagret ber om dammsugaren, men enheten har inga rader som slår på den
+389|Ram runt konturen
+390|Ramen går runt skärens kontur (som ett gummiband) i stället för rektangeln
+391|Hålets mitt är nu noll för X och Y; hålet är {} x {} mm
+392|Mittsökningen misslyckades: ingen kontakt, eller ett larm.
