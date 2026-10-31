@@ -40,6 +40,12 @@ impl App {
         if let Some(v) = get("grid_main_on") {
             self.ed.show_grid = v == "1";
         }
+        if let Some(g) = get("grid_prefs").and_then(|j| serde_json::from_str(j).ok()) {
+            self.ed.grid_prefs = g;
+        }
+        if let Some(g) = get("grid_main_mm").and_then(|v| v.parse::<f64>().ok()).filter(|g| *g >= 0.1) {
+            self.ed.grid = g;
+        }
         if let Some(v) = get("snap") {
             self.ed.snap = v == "1";
         }
