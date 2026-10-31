@@ -1549,6 +1549,26 @@ mod tests {
     }
 
     #[test]
+    fn the_design_tools_are_in_the_menu_and_work_on_the_drawing_of_the_milling_program() {
+        use base_core::scene::Kind;
+        use base_ui::menu::{MenuHost, StdAct};
+        let mut a = app();
+        let acts: Vec<StdAct> = menu::menus().iter().flat_map(|m| m.1.iter()).filter_map(|e| if let base_ui::menu::Entry::Item(menu::Act::Std(s), ..) = e { Some(*s) } else { None }).collect();
+        for s in [StdAct::GridArray, StdAct::CircleArray, StdAct::CopyAlongPath, StdAct::TextOnPath, StdAct::TrimByShape, StdAct::RemoveDuplicates, StdAct::BreakApart, StdAct::SimplifyShapes, StdAct::SerialText, StdAct::MakeCode, StdAct::NestShapes, StdAct::MeasureShapes] {
+            assert!(acts.contains(&s), "{s:?} is in a menu");
+        }
+        // Two equal squares on a layer: the second one goes; the grid window opens from the menu.
+        let r1 = a.scene.add(0, Kind::Rect { w: 20.0, h: 20.0 }, base_core::geom::Xf::translate(10.0, 10.0));
+        let r2 = a.scene.add(0, Kind::Rect { w: 20.0, h: 20.0 }, base_core::geom::Xf::translate(10.0, 10.0));
+        a.ed.sel = vec![r1, r2];
+        let ctx = egui::Context::default();
+        a.run_act(&ctx, menu::Act::Std(StdAct::RemoveDuplicates));
+        assert_eq!(a.scene.shapes.len(), 1);
+        a.run_act(&ctx, menu::Act::Std(StdAct::GridArray));
+        assert_eq!(a.ed.design.open, Some(base_ui::editor::DesignCmd::Grid));
+    }
+
+    #[test]
     fn the_shape_operations_of_the_shared_editor_work_here_too() {
         use base_core::scene::Kind;
         use base_ui::editor::EditorShapeOps;
