@@ -1,6 +1,6 @@
 # Maintainer: Michał Sarna <michalsarna at users dot noreply dot github dot com>
 pkgname=millcreator-bin
-pkgver=0.5.1
+pkgver=0.5.2
 pkgrel=1
 pkgdesc="CNC milling software with toolpaths, 3D view and G-code"
 arch=('x86_64' 'aarch64')
