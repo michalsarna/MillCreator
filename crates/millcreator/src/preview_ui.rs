@@ -259,21 +259,11 @@ impl App {
             self.prog_rev = self.job_stamp();
         }
         let mut open = true;
-        let mut fit = None;
         let mut pin = false;
-        let mut stl = false;
         let tools = |ui: &mut egui::Ui| {
             pin = base_ui::doc_tabs::pin_as_tab_button(ui);
-            stl = Self::preview_stl_button(ui);
-            fit = Self::preview_fit_buttons(ui);
         };
         popup_with(ctx, "preview_3d", &tr("Preview"), [980.0, 700.0], &mut open, tools, |ui| self.preview_body(ui));
-        if fit.is_some() {
-            self.view.fit = fit;
-        }
-        if stl {
-            self.export_view();
-        }
         self.show_3d = open;
         if pin {
             self.preview_pin(true);
@@ -295,12 +285,16 @@ impl App {
             if ui.button(tr("Reset view")).on_hover_text(tr("Back to the first view. Double click on the picture does the same.")).clicked() {
                 self.view.reset();
             }
+            // The two buttons that fit the picture: the work area, and all the objects.
+            if let Some(f) = Self::preview_fit_buttons(ui) {
+                self.view.fit = Some(f);
+            }
             ui.checkbox(&mut self.view.show_stock, tr("Material"));
             ui.checkbox(&mut self.view.show_cuts, tr("Cuts"));
             ui.checkbox(&mut self.view.show_rapids, tr("Moves at the safe height"));
             ui.separator();
-            let btn = egui::Button::image_and_text(base_ui::icons::slot(Some("download"), theme::text()), tr("Export the milled piece as STL…"));
-            stl = ui.add(btn).clicked();
+            // Only the icon: what it does is in the tooltip.
+            stl = Self::preview_stl_button(ui);
         });
         ui.horizontal(|ui| {
             self.playback.show(ui, &mut self.view.progress);
@@ -344,10 +338,10 @@ impl App {
         base_ui::widgets::icon_button(ui, "download", &tr("Export the milled piece as STL…"), true, 22.0)
     }
 
-    /// The two buttons that fit the picture. Icons are added right to left: the work area button is the one on the left.
+    /// The two buttons that fit the picture, the work area on the left.
     fn preview_fit_buttons(ui: &mut egui::Ui) -> Option<view3d::Fit> {
         let mut fit = None;
-        for (what, icon, tip) in [(view3d::Fit::Elements, "expand", "Fit all objects"), (view3d::Fit::Area, "scan", "Fit work area")] {
+        for (what, icon, tip) in [(view3d::Fit::Area, "scan", "Fit work area"), (view3d::Fit::Elements, "expand", "Fit all objects")] {
             if base_ui::widgets::icon_button(ui, icon, &tr(tip), true, 22.0) {
                 fit = Some(what);
             }
@@ -358,8 +352,6 @@ impl App {
     /// The preview as a tab of the work area, in place of the drawing.
     pub(crate) fn preview_work_panel(&mut self, ui: &mut egui::Ui) {
         self.refresh_program();
-        let mut fit = None;
-        let mut stl = false;
         ui.horizontal(|ui| {
             ui.spacing_mut().item_spacing.x = 4.0;
             ui.label(RichText::new(tr("Preview")).strong());
@@ -367,16 +359,8 @@ impl App {
                 if base_ui::doc_tabs::back_to_window_button(ui) {
                     self.preview_pin(false);
                 }
-                stl = Self::preview_stl_button(ui);
-                fit = Self::preview_fit_buttons(ui);
             });
         });
-        if stl {
-            self.export_view();
-        }
-        if fit.is_some() {
-            self.view.fit = fit;
-        }
         egui::Frame::new().inner_margin(egui::Margin { left: 8, right: 8, top: 0, bottom: 3 }).show(ui, |ui| self.preview_body(ui));
     }
 
