@@ -418,3 +418,4 @@
 417|Lösenord
 418|Sparas inte: den efterfrågas igen när programmet öppnas
 419|Den frästa biten kan inte exporteras som STL medan en rotationsaxel är vald.
+420|Infoga

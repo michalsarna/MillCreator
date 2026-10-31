@@ -418,3 +418,4 @@
 417|Parool
 418|Ei salvestata: küsitakse uuesti programmi avamisel
 419|Freesitud detaili ei saa STL-ina eksportida, kuni pöördtelg on valitud.
+420|Lisa

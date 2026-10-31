@@ -418,3 +418,4 @@
 417|Mot de passe
 418|Non enregistré : demandé de nouveau à l'ouverture du programme
 419|La pièce fraisée ne peut pas être exportée en STL tant qu'un axe rotatif est choisi.
+420|Insérer

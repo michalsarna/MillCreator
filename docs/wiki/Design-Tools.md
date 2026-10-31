@@ -23,6 +23,8 @@ The editor is the one of baseCreator, the same as in LightCreator.
 
 ## Arranging, copying and generating (Arrange menu → the commands after *Dogbone / T-bone corners…*)
 
+The **Insert** menu has the tools of the left palette that insert objects (rectangle, ellipse, triangle, star, polygon, heart, spiral, line, polyline / pen and text; the tool in use is ticked), then the generators of plugins and the online clipart.
+
 * **Grid array…** copies the selection in columns and rows (*Column distance*, *Row distance*); the original and the copies stay selected. **Circular array…** puts the copies round the middle of the selection over a *Total angle* (360° goes all the way round and no copy lands on the original); *Turn the copies* turns them with their place, off only moves them. At most 2000 copies are made.
 * **Copy along path…**: select the shapes, then the path **last**; copies are put every *Distance* along it (the first at its start, the last at its end when it fits) and turned with the path when you want. **Text on path…**: select the text, then the path last; the outlines of the text are bent along the path from *Start* (the text is outlines afterwards, not text).
 * **Trim by shape…**: select the lines, then a closed shape **last**; the parts of the lines inside it (or outside, by the check box) are kept, cut where they cross its outline. **Remove duplicates** deletes shapes with the same outline on the same layer (the selection, or the whole drawing when nothing is selected). **Break apart** turns a shape with several outlines into one shape per outline. **Simplify…** takes away the points that lie within a *Tolerance* of the line (a drawing with thousands of points makes shorter G-code).

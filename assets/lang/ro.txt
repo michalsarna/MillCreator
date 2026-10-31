@@ -418,3 +418,4 @@
 417|Parolă
 418|Nu se salvează: se cere din nou când se deschide programul
 419|Piesa frezată nu poate fi exportată ca STL cât timp este ales un ax rotativ.
+420|Inserare

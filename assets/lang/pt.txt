@@ -418,3 +418,4 @@
 417|Palavra-passe
 418|Não é guardada: é pedida de novo quando o programa é aberto
 419|A peça fresada não pode ser exportada como STL enquanto um eixo rotativo estiver escolhido.
+420|Inserir

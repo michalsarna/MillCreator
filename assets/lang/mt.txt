@@ -418,3 +418,4 @@
 417|Password
 418|Ma jinħażinx: jintalab mill-ġdid meta jinfetaħ il-programm
 419|Il-biċċa mfresata ma tistax tiġi esportata bħala STL waqt li hemm assi rotanti magħżul.
+420|Daħħal

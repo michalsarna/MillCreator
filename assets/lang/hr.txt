@@ -418,3 +418,4 @@
 417|Lozinka
 418|Ne sprema se: traži se ponovno pri otvaranju programa
 419|Glodani komad ne može se izvesti kao STL dok je odabran rotacijski dodatak.
+420|Umetni

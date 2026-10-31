@@ -418,3 +418,4 @@
 417|Contrasenya
 418|No es desa: es torna a demanar quan s'obre el programa
 419|La peça fresada no es pot exportar com a STL mentre hi ha un accessori rotatiu triat.
+420|Insereix

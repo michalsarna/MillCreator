@@ -463,6 +463,7 @@ const TABLE: &[[&str; 7]] = &[
     ["Password", "Hasło", "Passwort", "Password", "Salasana", "密码", "पासवर्ड"],
     ["Not saved: it is asked for again when the program is opened", "Nie jest zapisywane: przy ponownym otwarciu programu trzeba je podać jeszcze raz", "Wird nicht gespeichert: beim nächsten Programmstart muss es neu eingegeben werden", "Non viene salvata: viene richiesta di nuovo all'apertura del programma", "Ei tallenneta: se kysytään uudelleen, kun ohjelma avataan", "不会保存：重新打开程序时需要再次输入", "सहेजा नहीं जाता: प्रोग्राम खुलने पर फिर से पूछा जाता है"],
     ["The milled piece cannot be exported as STL while a rotary attachment is chosen.", "Sfrezowanego elementu nie można wyeksportować jako STL, gdy wybrana jest przystawka obrotowa.", "Das gefräste Teil kann nicht als STL exportiert werden, solange eine Rotationsachse gewählt ist.", "Il pezzo fresato non può essere esportato come STL finché è scelto un asse rotativo.", "Jyrsittyä kappaletta ei voi viedä STL-tiedostona, kun pyörityslaite on valittu.", "选择旋转附件时，无法将铣削件导出为 STL。", "रोटरी अटैचमेंट चुने होने पर फ्रेज़ किया हुआ टुकड़ा STL के रूप में निर्यात नहीं किया जा सकता।"],
+    ["Insert", "Wstawianie", "Einfügen", "Inserisci", "Lisää", "插入", "सम्मिलित करें"],
 ];
 
 #[cfg(test)]
