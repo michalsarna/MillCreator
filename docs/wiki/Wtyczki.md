@@ -22,3 +22,5 @@ Własną wtyczkę napiszesz i wyślesz na listę według [przewodnika dla autor�
 Jak napisać wtyczkę (manifest, formularz, funkcje skryptu, przykłady): [PLUGINS.md w baseCreator](https://github.com/michalsarna/baseCreator/blob/main/docs/PLUGINS.md) (po angielsku).
 
 **G-code dialects** (oficjalna wtyczka, postprocesory dla MillCreator): **Mach3 / Mach4 / UCCNC** (bezpieczny stan na początku, pauza na zmianę freza jako komunikat `(MSG, …)` z `M0`, wrzeciono wyłączone przed `M30`) i **LinuxCNC** (program między dwiema liniami `%`, `G64 P0.02`, ten sam komunikat, `M2` na końcu). Wybiera się je jak inne postprocesory, na karcie wtyczki w prawym panelu. Powstały według instrukcji i nie były sprawdzane na tych sterownikach.
+
+Kilka postprocesorów może być włączonych naraz: zaznacz je na kartach wtyczek; działają **w kolejności zaznaczania** (linie jednego trafiają do następnego), a pasek stanu wymienia je połączone znakiem `+`. **None** wyłącza wszystkie.

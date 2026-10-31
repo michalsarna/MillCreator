@@ -1223,6 +1223,11 @@ impl ClipHost for App {
 }
 
 impl EditorHost for App {
+    fn background_camera_image(&self) -> Option<(egui::ColorImage, String)> {
+        let cam = self.device.camera()?;
+        let (w, h, rgb) = self.cam.as_ref()?.last.as_ref()?;
+        Some((egui::ColorImage::from_rgb([*w, *h], rgb), cam.name.clone()))
+    }
     fn bone_radius_default(&self) -> f64 {
         // The radius of the bit of the layer that is being edited.
         self.layers.get(self.ed.active_layer).and_then(|l| l.tool.as_deref()).and_then(|id| self.tools.get(id)).map_or(1.5, |t| t.radius())
@@ -1571,6 +1576,27 @@ mod tests {
 
 
     #[test]
+    fn the_background_picture_is_in_the_view_menu_and_can_be_the_picture_of_the_camera() {
+        use base_ui::editor::{EditorBackground, EditorHost};
+        use base_ui::menu::{MenuHost, StdAct};
+        let mut a = app();
+        let in_menu = menu::menus().iter().flat_map(|m| m.1.iter()).any(|e| matches!(e, base_ui::menu::Entry::Item(menu::Act::Std(StdAct::BackgroundPicture), ..)));
+        assert!(in_menu, "View → Background picture…");
+        let ctx = egui::Context::default();
+        a.run_act(&ctx, menu::Act::Std(StdAct::BackgroundPicture));
+        assert!(a.ed.show_background);
+        // No camera, no picture of it.
+        assert!(a.background_camera_image().is_none());
+        a.device.cameras = vec![base_core::camimg::CameraSource::url("Top camera", "http://127.0.0.1:1/x.mjpg", 0)];
+        a.device.active_camera = 0;
+        a.cam = Some(device_ui::CamState::for_test(8, 4));
+        let (img, name) = a.background_camera_image().expect("the last frame");
+        assert_eq!((img.width(), img.height(), name.as_str()), (8, 4, "Top camera"));
+        a.set_background(&ctx, img, &name);
+        assert_eq!(a.ed.background.as_ref().map(|b| b.size), Some((8, 4)));
+    }
+
+    #[test]
     fn the_colours_of_the_workspace_and_of_the_work_area_follow_the_view_options_and_are_kept() {
         use base_ui::editor::EditorHost;
         let mut a = app();
@@ -1841,9 +1867,9 @@ mod tests {
         a.open(file);
         assert_eq!(a.scene.shapes.len(), before + 2, "{}", a.status);
         assert_eq!(a.recent, recent);
-        a.plugins.post = Some("my-tools/n".into());
+        a.plugins.posts = vec!["my-tools/n".into()];
         assert_eq!(a.postprocessed("G21\nM5\n".into()).unwrap(), "N1 G21\nN2 M5\n");
-        a.plugins.post = None;
+        a.plugins.posts.clear();
         assert_eq!(a.postprocessed("G21\n".into()).unwrap(), "G21\n");
         std::fs::remove_dir_all(base).ok();
     }
@@ -1874,7 +1900,7 @@ mod tests {
         std::fs::write(base.join("plugins/my-tools/post.rhai"), r#"fn post(lines, ctx) { ["$RST=*"] }"#).unwrap();
         let mut a = app();
         a.plugins = base_ui::plugins_ui::PluginsUi::new("millcreator", &base);
-        a.plugins.post = Some("my-tools/n".into());
+        a.plugins.posts = vec!["my-tools/n".into()];
         assert!(a.postprocessed("G21\n".into()).is_none());
         assert!(a.status.contains("nothing was saved"), "{}", a.status);
         std::fs::remove_dir_all(base).ok();
