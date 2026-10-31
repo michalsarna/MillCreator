@@ -113,7 +113,44 @@ impl App {
         let layer_names: Vec<String> = self.layers.iter().enumerate().map(|(i, l)| if l.name.is_empty() { format!("{}", i + 1) } else { l.name.clone() }).collect();
         let mut edit_tabs = self.tab_edit;
         {
+            let presets = self.presets.get_or_insert_with(crate::layer_presets::load);
+            let preset_name = &mut self.preset_name;
             let l = &mut self.layers[li];
+            ui.horizontal(|ui| {
+                let (mut apply, mut remove, mut saved) = (None, None, false);
+                egui::ComboBox::from_id_salt("layer_presets").selected_text(tr("Presets")).width(120.0).show_ui(ui, |ui| {
+                    if presets.is_empty() {
+                        ui.label(RichText::new(tr("No presets yet")).color(theme::text_dim()));
+                    }
+                    for (i, p) in presets.iter().enumerate() {
+                        ui.horizontal(|ui| {
+                            if ui.selectable_label(false, &p.name).on_hover_text(tr("Put these settings on the layer")).clicked() {
+                                apply = Some(i);
+                            }
+                            if ui.small_button("✖").on_hover_text(tr("Forget this preset")).clicked() {
+                                remove = Some(i);
+                            }
+                        });
+                    }
+                });
+                ui.add(egui::TextEdit::singleline(preset_name).desired_width(100.0).hint_text(tr("Name")));
+                if ui.add_enabled(!preset_name.trim().is_empty(), egui::Button::new(tr("Save as preset"))).on_hover_text(tr("Keep the way of cutting of this layer under this name")).clicked() {
+                    saved = crate::layer_presets::put(presets, crate::layer_presets::LayerPreset::of(l, preset_name));
+                    preset_name.clear();
+                }
+                if let Some(i) = apply {
+                    presets[i].apply(l);
+                    changed = true;
+                }
+                if let Some(i) = remove {
+                    presets.remove(i);
+                    saved = true;
+                }
+                if saved {
+                    crate::layer_presets::store(presets);
+                }
+            });
+            ui.add_space(4.0);
             egui::ScrollArea::vertical().id_salt("layer_edit").auto_shrink([false, false]).show(ui, |ui| {
                 egui::Grid::new("layer_grid").num_columns(2).spacing([10.0, 6.0]).show(ui, |ui| {
                     ui.label(tr("Name"));

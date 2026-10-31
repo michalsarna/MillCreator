@@ -718,7 +718,7 @@ pub fn frame_gcode(b: [f64; 4], dev: &Device) -> String {
         g.push_str("\n");
     }
     g.push_str("M5\n");
-    g.push_str(&format!("G0 Z{}\nG0 X{} Y{}\n", num(dev.safe_z), num(x0), num(y0)));
+    g.push_str(&format!("G0 Z{}\nG0 X{} Y{}\n", num(dev.safe_z + dev.z_offset), num(x0), num(y0)));
     for (x, y) in [(x1, y0), (x1, y1), (x0, y1), (x0, y0)] {
         g.push_str(&format!("G1 X{} Y{} F{}\n", num(x), num(y), num(feed)));
     }
@@ -762,7 +762,7 @@ pub fn frame_hull_gcode(points: &[(f64, f64)], dev: &Device) -> String {
         g.push('\n');
     }
     g.push_str("M5\n");
-    g.push_str(&format!("G0 Z{}\nG0 X{} Y{}\n", num(dev.safe_z), num(x0), num(y0)));
+    g.push_str(&format!("G0 Z{}\nG0 X{} Y{}\n", num(dev.safe_z + dev.z_offset), num(x0), num(y0)));
     for q in hull.iter().skip(1).chain(std::iter::once(first)) {
         let (x, y) = machine_xy(dev, q.0, q.1);
         g.push_str(&format!("G1 X{} Y{} F{}\n", num(x), num(y), num(feed)));
@@ -819,7 +819,7 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
     let mut dust = false;
     let xyz = |p: P3| {
         let (x, y) = machine_xy(dev, p[0], p[1]);
-        (x, y, p[2])
+        (x, y, p[2] + dev.z_offset)
     };
     for m in &prog.moves {
         if m.layer != layer {
@@ -829,7 +829,7 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
                 custom(&mut g, &dev.gcode.operation_change);
                 if tool_id != l.tool {
                     if spindle_on {
-                        g.push_str(&format!("G0 Z{}\nM5\n", num(dev.safe_z)));
+                        g.push_str(&format!("G0 Z{}\nM5\n", num(dev.safe_z + dev.z_offset)));
                     }
                     // The coolant and the dust collector stop while the bit is changed.
                     if coolant != crate::layers::Coolant::Off {
@@ -895,7 +895,7 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
             }
         }
     }
-    g.push_str(&format!("G0 Z{}\nM5\n", num(dev.safe_z)));
+    g.push_str(&format!("G0 Z{}\nM5\n", num(dev.safe_z + dev.z_offset)));
     if coolant != crate::layers::Coolant::Off {
         g.push_str("M9\n");
     }

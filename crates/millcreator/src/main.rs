@@ -7,7 +7,9 @@ mod clear;
 mod backup_ui;
 mod device;
 mod device_ui;
+mod duet_glue;
 mod layers;
+mod layer_presets;
 mod layers_ui;
 mod machine_ui;
 mod materials;
@@ -22,6 +24,7 @@ mod plugins_glue;
 mod preview_ui;
 mod relief;
 mod section;
+mod setup_ui;
 mod toolpath;
 mod ugs_import;
 mod update_glue;
@@ -153,6 +156,7 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::New => Some("file-plus"),
         Act::Open => Some("folder-open"),
         Act::Save | Act::SaveAs => Some("save"),
+        Act::ProjectSetup => Some("sliders-horizontal"),
         Act::ImportLightburn | Act::ImportDxf | Act::ImportUgsd | Act::ImportModel | Act::ImportPlugin => Some("file-input"),
         Act::ViewGcode => Some("eye"),
         Act::Plugins => Some("package-open"),
@@ -310,6 +314,13 @@ struct App {
     one_by_one: bool,
     /// The frame goes round the outline of the cuts instead of their box (this session only).
     frame_hull: bool,
+    /// The project setup window (material, zero, Z from the bottom).
+    setup: setup_ui::Setup,
+    /// The answer of a request to a Duet board that runs in a thread.
+    duet_rx: Option<std::sync::mpsc::Receiver<(duet_glue::DuetJob, Result<String, String>)>>,
+    /// The library of layer settings (read from its file when first needed) and the name typed for the next one.
+    presets: Option<Vec<layer_presets::LayerPreset>>,
+    preset_name: String,
     selection_only: bool,
     cam: Option<CamState>,
     /// Was the camera picture drawn in the last frame? A stream nobody looks at is stopped (its frames would pile up).
@@ -440,6 +451,10 @@ impl App {
             prog_rev: 0,
             one_by_one: false,
             frame_hull: false,
+            setup: setup_ui::Setup::default(),
+            duet_rx: None,
+            presets: None,
+            preset_name: String::new(),
             selection_only: false,
             cam: None,
             cam_drawn: false,
@@ -995,6 +1010,9 @@ impl App {
                 let job_box = self.job_box();
                 let travel = [self.device.area.x, self.device.area.y, self.device.area.z];
                 egui::ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
+                    if self.device.duet.enabled {
+                        self.duet_buttons(ui);
+                    }
                     self.quick_row(ui);
                     ui.add_space(4.0);
                     self.start_button(ui);
@@ -1112,6 +1130,7 @@ impl App {
         tools_ui::tools_window(ctx, &mut self.tools_win, &mut self.tools);
         self.device_window(ctx);
         self.machine_windows(ctx);
+        self.setup_window(ctx);
         self.preview_window(ctx);
         self.show_options = show;
         self.update.tick(ctx, &update_glue::CONFIG);
@@ -1134,6 +1153,7 @@ impl App {
         self.autosave_tick(&ctx, false);
         self.sync_picture_layers();
         self.poll_machine();
+        self.poll_duet(&ctx);
         if self.machine.wants_repaint() {
             ctx.request_repaint_after(std::time::Duration::from_millis(250));
         }
@@ -1322,8 +1342,11 @@ impl MenuHost for App {
     fn run_act(&mut self, ctx: &egui::Context, a: Act) {
         match a {
             Act::New => {
-                self.new_tab();
+                if self.new_tab() {
+                    self.open_setup();
+                }
             }
+            Act::ProjectSetup => self.open_setup(),
             Act::Open => self.open_dialog(),
             Act::Save => self.save(false),
             Act::SaveAs => self.save(true),
@@ -1542,7 +1565,7 @@ mod tests {
 
     const SVG: &[u8] = br##"<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect x="10" y="10" width="40" height="20" stroke="#ff0000" fill="none"/><circle cx="70" cy="70" r="10"/></svg>"##;
 
-    fn app() -> App {
+    pub(crate) fn app() -> App {
         let mut a = App::build(&egui::Context::default(), None, false);
         a.screen = Screen::Editor;
         a

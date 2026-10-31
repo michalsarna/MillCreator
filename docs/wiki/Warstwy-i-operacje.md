@@ -66,3 +66,7 @@ Kształty jednej warstwy tworzą jeden obszar (parzysto-nieparzysty): kształt w
 
 ## Co jest sprawdzane
 Warstwa bez freza, głębokość większa niż grubość materiału, głębokość większa niż skok maszyny, obroty poza zakresem, cięcia poza polem roboczym i linia za mała dla freza są zgłaszane jako ostrzeżenia w oknie 3D i przy zapisie G-code.
+
+## Presety warstw
+
+Nad ustawieniami warstwy: **Save as preset** zapamiętuje sposób cięcia warstwy (operację, frez, głębokości, prędkości, mostki, rampy…) pod nazwą; lista **Presets** nakłada preset na wybraną warstwę (✖ go usuwa). Nazwa, kolor i kolejność warstwy, warstwa, po której zbiera resztki kieszeń, i mostki ustawione ręcznie zostają jak były. Presety leżą w pliku `mill_layer_presets.json` we wspólnym folderze danych (najwyżej 60).

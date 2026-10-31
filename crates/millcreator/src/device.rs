@@ -143,6 +143,24 @@ pub struct Device {
     /// The machine changes the bit by itself: `T<number> M6` instead of a pause (every bit needs a number in the library).
     #[serde(default)]
     pub changer: bool,
+    /// Added to every Z of the program (mm): the bottom of the material is the zero of Z when it is the thickness. Set from the project
+    /// (`with_stock`), never saved with the device.
+    #[serde(skip)]
+    pub z_offset: f64,
+    /// A Duet board (RepRapFirmware) that runs the program by itself: it is sent over HTTP instead of streamed.
+    #[serde(default)]
+    pub duet: Duet,
+}
+
+/// The Duet / RepRapFirmware settings of a device. The password is typed when needed and never saved.
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+pub struct Duet {
+    #[serde(default)]
+    pub enabled: bool,
+    #[serde(default)]
+    pub host: String,
+    #[serde(skip)]
+    pub password: String,
 }
 
 impl Default for Device {
@@ -165,6 +183,8 @@ impl Default for Device {
             gcode: CustomGcode::default(),
             wcs: Wcs::default(),
             changer: false,
+            z_offset: 0.0,
+            duet: Duet::default(),
         }
     }
 }
@@ -181,6 +201,36 @@ impl Device {
 
     pub fn camera(&self) -> Option<&CameraSource> {
         self.cameras.get(self.active_camera).filter(|c| c.enabled && c.is_valid())
+    }
+
+    /// The device as the program of this project is written for it: the zero of X and Y at the place of the piece of material the
+    /// project setup chose, and Z counted from the bottom of the material when it asked for that. Without a setup the device as it is.
+    pub fn with_stock(&self, stock: &crate::materials::Stock) -> Device {
+        use crate::materials::ZeroPoint;
+        let mut d = self.clone();
+        if let (Some(z), true) = (stock.zero, stock.width > 0.0 && stock.height > 0.0) {
+            // The piece lies at the top left of the page; in the coordinates of the toolpaths (y up) its box is x 0…w, y (area.y - h)…area.y.
+            let (w, h, top, bottom) = (stock.width, stock.height, self.area.y, self.area.y - stock.height);
+            let (x, y) = match z {
+                ZeroPoint::FrontLeft => (0.0, bottom),
+                ZeroPoint::FrontRight => (w, bottom),
+                ZeroPoint::BackLeft => (0.0, top),
+                ZeroPoint::BackRight => (w, top),
+                ZeroPoint::Center => (w / 2.0, top - h / 2.0),
+            };
+            // `wcs` is counted after the machine zero of the device has moved the point.
+            let mut plain = self.clone();
+            plain.wcs.x = 0.0;
+            plain.wcs.y = 0.0;
+            let (mx, my) = crate::toolpath::machine_xy(&plain, x, y);
+            d.wcs.x = mx;
+            d.wcs.y = my;
+            if d.wcs.code == 0 {
+                d.wcs.code = 54;
+            }
+        }
+        d.z_offset = if stock.z_bottom { stock.thickness } else { 0.0 };
+        d
     }
 
     /// Are the numbers usable? Used for what is read from a file and before a device is saved.

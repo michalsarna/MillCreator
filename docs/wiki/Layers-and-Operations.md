@@ -62,3 +62,7 @@ Shapes of one layer form one region (even-odd): a shape inside another one is a 
 
 ## What is checked
 A layer without a bit, a depth over the thickness of the material, a depth over the travel of the machine, a spindle speed out of range, cuts outside the work area and a line too small for the bit are reported as warnings in the 3D window and when G-code is written.
+
+## Layer presets
+
+Above the settings of a layer: **Save as preset** keeps the way of cutting of the layer (the operation, the bit, depths, speeds, tabs, ramps…) under a name; the **Presets** list puts a preset on the selected layer (✖ forgets it). The name, colour and order of the layer, the layer a rest pocket takes over from and the tabs placed by hand stay as they were. The presets are kept in `mill_layer_presets.json` in the shared data folder (at most 60).

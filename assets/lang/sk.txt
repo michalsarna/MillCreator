@@ -391,3 +391,29 @@
 390|Rámik obchádza obrys rezov (ako gumička) namiesto obdĺžnika
 391|Stred otvoru je teraz nula X a Y; otvor má {} x {} mm
 392|Hľadanie stredu zlyhalo: žiadny kontakt alebo alarm.
+393|Projekt nastavený: materiál {} x {} x {} mm, nula: {}
+394|Nastavenie projektu…
+395|Šírka materiálu
+396|Výška materiálu (Y)
+397|Z sa počíta od spodku materiálu
+398|Pracovná oblasť je materiál
+399|Materiál leží v ľavom hornom rohu stránky. Program je písaný pre súradnicový systém G54 s nulou na zvolenom mieste: nastavte túto nulu na stroji tam. Z sa počíta od hornej strany materiálu alebo od spodku.
+400|Preskočiť
+401|Zatiaľ žiadne predvoľby
+402|Použiť tieto nastavenia na vrstvu
+403|Zabudnúť túto predvoľbu
+404|Uložiť ako predvoľbu
+405|Zapamätať spôsob rezania tejto vrstvy pod týmto názvom
+406|Najprv nastavte adresu dosky (Nastavenia zariadenia → Pripojenie).
+407|Komunikácia s Duetom…
+408|Odoslané na Duet a spustené. Stav: {}
+409|Stav Duetu: {}
+410|Duet: {}
+411|Duet spúšťa program sám: pošlite ho a spustite, prečítajte stav, zastavte. Ručný posuv a prepisy nie sú k dispozícii. Heslo sa neukladá.
+412|Odoslať a spustiť
+413|Nahrať program na dosku a spustiť ho tam
+414|Stav
+415|Duet / RepRapFirmware (HTTP)
+416|Doska Duet spúšťa program sama: odošle sa po sieti a spustí tam. Ručný posuv a prepisy nie sú k dispozícii.
+417|Heslo
+418|Neukladá sa: pri ďalšom otvorení programu sa zadáva znova

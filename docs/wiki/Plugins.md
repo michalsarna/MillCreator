@@ -20,3 +20,5 @@ Plugins add things to MillCreator without changing the program: **clipart, machi
 Writing your own plugin and sending it to the list: the [guide for authors](https://github.com/michalsarna/baseCreator-plugins/blob/main/docs/GUIDE.md) in the plugins repository, with templates; problems and ideas go to the issues of that repository.
 
 How to write a plugin (manifest, form, script functions, examples): [PLUGINS.md in baseCreator](https://github.com/michalsarna/baseCreator/blob/main/docs/PLUGINS.md).
+
+**G-code dialects** (official plugin, postprocessors for MillCreator): **Mach3 / Mach4 / UCCNC** (a safe state at the start, the pause for a change of the bit as a `(MSG, …)` message with `M0`, the spindle off before `M30`) and **LinuxCNC** (the program between two `%` lines, `G64 P0.02`, the same message, `M2` at the end). They are chosen like the other postprocessors, in the plugin's tab of the right-hand panel. They were written from the manuals and have not been tried on the controllers.

@@ -391,3 +391,29 @@
 390|Rėmas eina aplink pjūvių kontūrą (kaip guma) vietoj stačiakampio
 391|Skylės centras dabar yra X ir Y nulis; skylė yra {} x {} mm
 392|Centro paieška nepavyko: nėra kontakto arba įvyko aliarmas.
+393|Projektas nustatytas: medžiaga {} x {} x {} mm, nulis: {}
+394|Projekto nustatymas…
+395|Medžiagos plotis
+396|Medžiagos aukštis (Y)
+397|Z skaičiuojamas nuo medžiagos apačios
+398|Darbo sritis yra medžiaga
+399|Medžiaga yra viršutiniame kairiajame puslapio kampe. Programa parašyta koordinačių sistemai G54 su nuliu jūsų pasirinktoje vietoje: nustatykite tą nulį staklėse ten. Z skaičiuojamas nuo medžiagos viršaus arba apačios.
+400|Praleisti
+401|Kol kas nėra šablonų
+402|Taikyti šiuos nustatymus sluoksniui
+403|Pamiršti šį šabloną
+404|Išsaugoti kaip šabloną
+405|Įsiminti šio sluoksnio pjovimo būdą šiuo pavadinimu
+406|Pirmiausia nustatykite plokštės adresą (Įrenginio nustatymai → Ryšys).
+407|Bendraujama su Duet…
+408|Išsiųsta į Duet ir paleista. Būsena: {}
+409|Duet būsena: {}
+410|Duet: {}
+411|Duet pats vykdo programą: išsiųskite ir paleiskite ją, perskaitykite būseną, sustabdykite. Rankinis judinimas ir perrašymai nepasiekiami. Slaptažodis neišsaugomas.
+412|Siųsti ir paleisti
+413|Įkelti programą į plokštę ir paleisti ją ten
+414|Būsena
+415|Duet / RepRapFirmware (HTTP)
+416|Duet plokštė pati vykdo programą: ji siunčiama tinklu ir paleidžiama ten. Rankinis judinimas ir perrašymai nepasiekiami.
+417|Slaptažodis
+418|Neišsaugoma: atidarius programą prašoma iš naujo

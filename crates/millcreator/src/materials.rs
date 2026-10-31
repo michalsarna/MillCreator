@@ -54,6 +54,40 @@ pub struct Stock {
     /// How deep that first pass goes (mm).
     #[serde(default = "default_first_pass_depth")]
     pub first_pass_depth: f64,
+    /// The size of the piece of material on the work area (mm), from the project setup; 0 = not told. The piece lies at the top left of the page.
+    #[serde(default)]
+    pub width: f64,
+    #[serde(default)]
+    pub height: f64,
+    /// Where the zero of the program is on the piece (X, Y), and whether Z counts from the bottom of the material instead of the top.
+    /// `None`: the zero of the device, as before.
+    #[serde(default)]
+    pub zero: Option<ZeroPoint>,
+    #[serde(default)]
+    pub z_bottom: bool,
+}
+
+/// A place on the piece of material that is the zero of X and Y.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub enum ZeroPoint {
+    FrontLeft,
+    FrontRight,
+    BackLeft,
+    BackRight,
+    Center,
+}
+
+impl ZeroPoint {
+    pub const ALL: [ZeroPoint; 5] = [ZeroPoint::FrontLeft, ZeroPoint::FrontRight, ZeroPoint::BackLeft, ZeroPoint::BackRight, ZeroPoint::Center];
+    pub fn label(self) -> &'static str {
+        match self {
+            ZeroPoint::FrontLeft => "Front left",
+            ZeroPoint::FrontRight => "Front right",
+            ZeroPoint::BackLeft => "Back left",
+            ZeroPoint::BackRight => "Back right",
+            ZeroPoint::Center => "Centre",
+        }
+    }
 }
 
 fn default_first_pass_depth() -> f64 {
@@ -70,7 +104,7 @@ pub const MAX_THICKNESS: f64 = 500.0;
 
 impl Stock {
     pub fn of(kind: MaterialKind) -> Stock {
-        Stock { kind, color: kind.color(), thickness: 10.0, first_pass: false, first_pass_depth: default_first_pass_depth() }
+        Stock { kind, color: kind.color(), thickness: 10.0, first_pass: false, first_pass_depth: default_first_pass_depth(), width: 0.0, height: 0.0, zero: None, z_bottom: false }
     }
 
     /// Choose another material: its own colour comes with it (a plastic keeps the colour it has).
@@ -91,6 +125,12 @@ impl Stock {
             self.first_pass_depth = default_first_pass_depth();
         }
         self.first_pass_depth = self.first_pass_depth.min(self.thickness);
+        for v in [&mut self.width, &mut self.height] {
+            if !v.is_finite() || *v < 0.0 {
+                *v = 0.0;
+            }
+            *v = v.min(20_000.0);
+        }
         if !self.kind.colour_is_free() {
             self.color = self.kind.color();
         }
@@ -119,9 +159,9 @@ mod tests {
         s.set_kind(MaterialKind::Metal);
         assert_eq!(s.color, MaterialKind::Metal.color());
         // A colour written into the file for a wood is ignored.
-        let wood = Stock { kind: MaterialKind::WoodDark, color: [1, 2, 3], thickness: f64::NAN, first_pass: false, first_pass_depth: f64::NAN }.sane();
+        let wood = Stock { kind: MaterialKind::WoodDark, color: [1, 2, 3], thickness: f64::NAN, first_pass: false, first_pass_depth: f64::NAN, width: 0.0, height: 0.0, zero: None, z_bottom: false }.sane();
         assert_eq!((wood.color, wood.thickness), (MaterialKind::WoodDark.color(), 10.0));
-        let plastic = Stock { kind: MaterialKind::Plastic, color: [1, 2, 3], thickness: 1e9, first_pass: false, first_pass_depth: 0.1 }.sane();
+        let plastic = Stock { kind: MaterialKind::Plastic, color: [1, 2, 3], thickness: 1e9, first_pass: false, first_pass_depth: 0.1, width: 0.0, height: 0.0, zero: None, z_bottom: false }.sane();
         assert_eq!((plastic.color, plastic.thickness), ([1, 2, 3], MAX_THICKNESS));
     }
 }

@@ -391,3 +391,29 @@
 390|Cadrul urmează conturul tăieturilor (ca o bandă elastică) în loc de dreptunghi
 391|Centrul găurii este acum zero pentru X și Y; gaura are {} x {} mm
 392|Găsirea centrului a eșuat: fără contact sau o alarmă.
+393|Proiect configurat: material {} x {} x {} mm, zero: {}
+394|Configurare proiect…
+395|Lățimea materialului
+396|Înălțimea materialului (Y)
+397|Z se numără de la baza materialului
+398|Zona de lucru este materialul
+399|Materialul este în stânga sus a paginii. Programul este scris pentru sistemul de coordonate G54 cu zero în locul ales: setați acel zero pe mașină acolo. Z se numără de la partea de sus a materialului sau de la bază.
+400|Omite
+401|Încă nu sunt presetări
+402|Aplică aceste setări stratului
+403|Uită această presetare
+404|Salvează ca presetare
+405|Ține minte modul de tăiere al acestui strat sub acest nume
+406|Setați mai întâi adresa plăcii (Setările dispozitivului → Conexiune).
+407|Comunicare cu Duet…
+408|Trimis la Duet și pornit. Stare: {}
+409|Starea Duet: {}
+410|Duet: {}
+411|Duet rulează programul singur: trimiteți-l și porniți-l, citiți starea, opriți-l. Mișcarea manuală și corecțiile nu sunt disponibile. Parola nu este salvată.
+412|Trimite și pornește
+413|Încarcă programul pe placă și pornește-l acolo
+414|Stare
+415|Duet / RepRapFirmware (HTTP)
+416|O placă Duet rulează programul singură: este trimis prin rețea și pornit acolo. Mișcarea manuală și corecțiile nu sunt disponibile.
+417|Parolă
+418|Nu se salvează: se cere din nou când se deschide programul

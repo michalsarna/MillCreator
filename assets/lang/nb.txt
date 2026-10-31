@@ -391,3 +391,29 @@
 390|Rammen går rundt omrisset av kuttene (som et strikk) i stedet for rektangelet
 391|Midten av hullet er nå null for X og Y; hullet er {} x {} mm
 392|Midtfinningen mislyktes: ingen kontakt, eller en alarm.
+393|Prosjekt satt opp: materiale {} x {} x {} mm, null: {}
+394|Prosjektoppsett…
+395|Materialbredde
+396|Materialhøyde (Y)
+397|Z telles fra bunnen av materialet
+398|Arbeidsområdet er materialet
+399|Materialet ligger øverst til venstre på siden. Programmet er skrevet for koordinatsystemet G54 med nullpunktet der du velger: sett det nullpunktet på maskinen der. Z telles fra toppen av materialet eller fra bunnen.
+400|Hopp over
+401|Ingen forhåndsinnstillinger ennå
+402|Bruk disse innstillingene på laget
+403|Glem denne forhåndsinnstillingen
+404|Lagre som forhåndsinnstilling
+405|Husk skjæremåten til dette laget under dette navnet
+406|Sett først opp kortets adresse (Enhetsinnstillinger → Tilkobling).
+407|Snakker med Duet…
+408|Sendt til Duet og startet. Tilstand: {}
+409|Duets tilstand: {}
+410|Duet: {}
+411|Duet kjører programmet selv: send og start det, les tilstanden, stopp det. Manuell kjøring og overstyringer er ikke tilgjengelige. Passordet lagres ikke.
+412|Send og start
+413|Last opp programmet til kortet og start det der
+414|Tilstand
+415|Duet / RepRapFirmware (HTTP)
+416|Et Duet-kort kjører programmet selv: det sendes over nettverket og startes der. Manuell kjøring og overstyringer er ikke tilgjengelige.
+417|Passord
+418|Lagres ikke: det spørres om igjen når programmet åpnes

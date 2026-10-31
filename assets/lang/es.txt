@@ -391,3 +391,29 @@
 390|El marco sigue el contorno de los cortes (como una goma elástica) en vez del rectángulo
 391|El centro del agujero es ahora el cero de X e Y; el agujero mide {} x {} mm
 392|La búsqueda del centro falló: sin contacto, o una alarma.
+393|Proyecto configurado: material {} x {} x {} mm, cero: {}
+394|Configuración del proyecto…
+395|Ancho del material
+396|Alto del material (Y)
+397|Z cuenta desde el fondo del material
+398|El área de trabajo es el material
+399|El material está arriba a la izquierda de la página. El programa se escribe para el sistema de coordenadas G54 con el cero en el lugar que elijas: fija ese cero en la máquina allí. Z cuenta desde la parte superior del material o desde el fondo.
+400|Omitir
+401|Aún no hay preajustes
+402|Aplicar estos ajustes a la capa
+403|Olvidar este preajuste
+404|Guardar como preajuste
+405|Recordar el modo de corte de esta capa con este nombre
+406|Fija primero la dirección de la placa (Ajustes del dispositivo → Conexión).
+407|Comunicando con el Duet…
+408|Enviado al Duet e iniciado. Estado: {}
+409|Estado del Duet: {}
+410|Duet: {}
+411|El Duet ejecuta el programa por sí mismo: envíalo e inícialo, lee su estado, deténlo. El movimiento manual y los ajustes en vivo no están disponibles. La contraseña no se guarda.
+412|Enviar e iniciar
+413|Subir el programa a la placa e iniciarlo allí
+414|Estado
+415|Duet / RepRapFirmware (HTTP)
+416|Una placa Duet ejecuta el programa por sí misma: se envía por la red y se inicia allí. El movimiento manual y los ajustes en vivo no están disponibles.
+417|Contraseña
+418|No se guarda: se pide de nuevo al abrir el programa

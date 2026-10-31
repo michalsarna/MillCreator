@@ -391,3 +391,29 @@
 390|Raam kulgeb ümber lõigete kontuuri (nagu kummipael) ristküliku asemel
 391|Augu keskpunkt on nüüd X-i ja Y null; auk on {} x {} mm
 392|Keskpunkti otsimine ebaõnnestus: kontakti pole või tekkis alarm.
+393|Projekt seadistatud: materjal {} x {} x {} mm, null: {}
+394|Projekti seadistus…
+395|Materjali laius
+396|Materjali kõrgus (Y)
+397|Z loetakse materjali alumisest küljest
+398|Tööala on materjal
+399|Materjal asub lehe vasakus ülanurgas. Programm on kirjutatud koordinaatsüsteemile G54, mille null on valitud kohas: määra see null masinal sinna. Z loetakse materjali ülaosast või alt.
+400|Jäta vahele
+401|Eelseadeid pole veel
+402|Rakenda need seaded kihile
+403|Unusta see eelseade
+404|Salvesta eelseadena
+405|Jäta selle kihi lõikamisviis selle nime all meelde
+406|Määra esmalt plaadi aadress (Seadme seaded → Ühendus).
+407|Suhtlen Duetiga…
+408|Saadetud Duetile ja käivitatud. Olek: {}
+409|Dueti olek: {}
+410|Duet: {}
+411|Duet käivitab programmi ise: saada ja käivita see, loe selle olekut, peata. Käsitsi liigutamine ja ülekirjutused pole saadaval. Parooli ei salvestata.
+412|Saada ja käivita
+413|Lae programm plaadile ja käivita see seal
+414|Olek
+415|Duet / RepRapFirmware (HTTP)
+416|Duet-plaat käivitab programmi ise: see saadetakse võrgu kaudu ja käivitatakse seal. Käsitsi liigutamine ja ülekirjutused pole saadaval.
+417|Parool
+418|Ei salvestata: küsitakse uuesti programmi avamisel

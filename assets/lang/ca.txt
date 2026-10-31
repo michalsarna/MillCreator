@@ -391,3 +391,29 @@
 390|El marc segueix el contorn dels talls (com una goma elàstica) en lloc del rectangle
 391|El centre del forat és ara el zero de X i Y; el forat fa {} x {} mm
 392|La cerca del centre ha fallat: sense contacte o una alarma.
+393|Projecte configurat: material {} x {} x {} mm, zero: {}
+394|Configuració del projecte…
+395|Amplada del material
+396|Alçada del material (Y)
+397|Z compta des del fons del material
+398|L'àrea de treball és el material
+399|El material és a dalt a l'esquerra de la pàgina. El programa està escrit per al sistema de coordenades G54 amb el zero al lloc que triïs: fixa aquest zero a la màquina allà. Z compta des de dalt del material o des del fons.
+400|Omet
+401|Encara no hi ha predefinits
+402|Aplica aquests paràmetres a la capa
+403|Oblida aquest predefinit
+404|Desa com a predefinit
+405|Recorda la manera de tallar d'aquesta capa amb aquest nom
+406|Fixa primer l'adreça de la placa (Configuració del dispositiu → Connexió).
+407|Comunicant amb el Duet…
+408|Enviat al Duet i iniciat. Estat: {}
+409|Estat del Duet: {}
+410|Duet: {}
+411|El Duet executa el programa ell sol: envia'l i inicia'l, llegeix-ne l'estat, atura'l. El moviment manual i les anul·lacions no estan disponibles. La contrasenya no es desa.
+412|Envia i inicia
+413|Puja el programa a la placa i inicia'l allà
+414|Estat
+415|Duet / RepRapFirmware (HTTP)
+416|Una placa Duet executa el programa ella sola: s'envia per la xarxa i s'inicia allà. El moviment manual i les anul·lacions no estan disponibles.
+417|Contrasenya
+418|No es desa: es torna a demanar quan s'obre el programa

@@ -391,3 +391,29 @@
 390|Rámeček obchází obrys řezů (jako gumička) místo obdélníku
 391|Střed otvoru je nyní nula X a Y; otvor má {} x {} mm
 392|Hledání středu selhalo: žádný kontakt nebo alarm.
+393|Projekt nastaven: materiál {} x {} x {} mm, nula: {}
+394|Nastavení projektu…
+395|Šířka materiálu
+396|Výška materiálu (Y)
+397|Z se počítá od spodku materiálu
+398|Pracovní oblast je materiál
+399|Materiál leží v levém horním rohu stránky. Program je psán pro souřadnicový systém G54 s nulou na zvoleném místě: nastavte tuto nulu na stroji tam. Z se počítá od horní strany materiálu nebo od spodku.
+400|Přeskočit
+401|Zatím žádné předvolby
+402|Použít tato nastavení na vrstvu
+403|Zapomenout tuto předvolbu
+404|Uložit jako předvolbu
+405|Zapamatovat způsob řezání této vrstvy pod tímto názvem
+406|Nejdřív nastavte adresu desky (Nastavení zařízení → Připojení).
+407|Komunikace s Duetem…
+408|Odesláno na Duet a spuštěno. Stav: {}
+409|Stav Duetu: {}
+410|Duet: {}
+411|Duet spouští program sám: pošlete ho a spusťte, přečtěte stav, zastavte. Ruční posuv a přepisy nejsou k dispozici. Heslo se neukládá.
+412|Odeslat a spustit
+413|Nahrát program na desku a spustit ho tam
+414|Stav
+415|Duet / RepRapFirmware (HTTP)
+416|Deska Duet spouští program sama: odešle se po síti a spustí tam. Ruční posuv a přepisy nejsou k dispozici.
+417|Heslo
+418|Neukládá se: při dalším otevření programu se zadává znovu
