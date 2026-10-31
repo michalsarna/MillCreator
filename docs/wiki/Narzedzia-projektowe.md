@@ -23,7 +23,7 @@ Edytor jest edytorem baseCreatora, takim samym jak w LightCreatorze.
 
 ## Układanie, kopiowanie i generowanie (menu Arrange → polecenia po *Dogbone / T-bone corners…*)
 
-Menu **Insert** (Wstawianie) zawiera narzędzia lewej palety, które wstawiają obiekty (prostokąt, elipsa, trójkąt, gwiazda, wielokąt, serce, spirala, linia, linia łamana / pióro i tekst; używane narzędzie jest zaznaczone), a potem generatory wtyczek.
+Menu **Insert** (Wstawianie) zawiera narzędzia lewej palety, które wstawiają obiekty (prostokąt, elipsa, trójkąt, gwiazda, wielokąt, serce, spirala, linia, linia łamana / pióro i tekst; używane narzędzie jest zaznaczone), a potem generatory wtyczek i clipart z internetu.
 
 * **Grid array…** kopiuje zaznaczenie w kolumnach i wierszach (*Column distance*, *Row distance*); oryginał i kopie zostają zaznaczone. **Circular array…** układa kopie wokół środka zaznaczenia na *Total angle* (360° to pełny okrąg i żadna kopia nie wypada na oryginale); *Turn the copies* obraca je razem z miejscem, bez tego tylko je przesuwa. Powstaje najwyżej 2000 kopii.
 * **Copy along path…**: zaznacz kształty, a **na końcu** ścieżkę; kopie stoją co *Distance* wzdłuż niej (pierwsza na początku, ostatnia na końcu, jeśli się zmieści) i można je obracać zgodnie ze ścieżką. **Text on path…**: zaznacz tekst, a na końcu ścieżkę; kontury tekstu są wyginane wzdłuż ścieżki od *Start* (potem to kontury, nie tekst).
