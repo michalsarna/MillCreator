@@ -25,8 +25,10 @@ The wiki has the full documentation in English and Polish: <https://github.com/m
 * **Devices:** a list of machines (work area, travel in Z, safe height, spindle range, speeds), each with up to eight
   cameras and a live **Camera** tab; add, edit, duplicate, export and import; **I have no device** makes a stand-in
   called Dummy. The list is kept for every project.
-* **Layers:** 64 layers with an operation (cut outside the line, cut inside, follow the line, pocket, drill), a bit,
-  depth, pass depth, step over, feeds and spindle speed.
+* **Layers:** 64 layers with an operation (cut outside / inside, follow the line, pocket by rings or raster, rest
+  pocket, face, drill, bore, chamfer, dogbone slot, V-carve with inlays, pictures and 3D relief), a bit, depth, pass
+  depth, step over, feeds, spindle speed, tabs, ramps or a helix, climb or conventional, stock to leave, coolant;
+  settings can be kept as presets.
 * **Bit library:** ready-made bits and your own (kept for every device), seven kinds (flat, ball nose, bull nose,
   V-bit, engraving, tapered ball nose, drill), each with a picture that shows the letter of every dimension where it is
   measured; import and export as JSON.
@@ -44,14 +46,15 @@ The wiki has the full documentation in English and Polish: <https://github.com/m
   diagnostics with statistics and maintenance reminders, and alarms and errors are explained in your language. The
   device can be filled in from the controller, keeps copies of the controller settings (a change is noticed at connecting), and a tool length sensor gives every new bit the Z of the first. A rotary attachment can be set in the device (the Y axis turns the
   work; the drawing may not be higher than the way round it).
-* **Toolpaths and G-code:** profiles, pockets, lines and drilling with passes; GRBL-style G-code with a pause to change
-  the bit; warnings (no bit, deeper than the material, outside the work area, spindle out of range).
+* **Toolpaths and G-code:** profiles, pockets, lines, drilling and the operations above, with passes; GRBL-style G-code
+  with a pause to change the bit (or `T… M6` for a tool changer), your own lines, a project setup (material, zero, Z
+  from the bottom); Duet over HTTP and Smoothieware; Mach3 / LinuxCNC postprocessors as plugins; warnings (no bit, deeper than the material, outside the work area, spindle out of range).
 * **Project file:** `.cre`, shared with LightCreator; MillCreator keeps its own `mill` section (layers, material, device
   snapshot, the bits used) and leaves the sections of other programs untouched.
 * **Shared with LightCreator:** the window, menus and editor, 310 clipart pictures, import of SVG, PDF, Illustrator and
   LightBurn projects and UGS Designer designs, 30 languages (the shared texts and MillCreator's own), 14 colour schemes.
 
-What is not there: tabs, ramps, V-carving, 3D relief, collision checks. See [FEATURES.md](FEATURES.md).
+What is not there: collision checks with clamps, tool length offsets, fluting and texturing, nesting by outline. See [FEATURES.md](FEATURES.md).
 
 ## Install
 
