@@ -29,6 +29,8 @@ pub enum Operation {
     Chamfer,
     /// The inside of a slot or a hole, with a notch at every sharp corner so that a round bit can reach into it.
     DogboneSlot,
+    /// A V-bit goes deeper the farther it is from the edge of the shape: sharp, sloping walls (lettering, signs, inlays).
+    VCarve,
 }
 
 /// Which way the bit goes round a profile or a pocket (for a spindle that turns clockwise).
@@ -196,6 +198,53 @@ impl Default for Tabs {
     }
 }
 
+/// What a V-carve makes when it is one half of an inlay.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum Inlay {
+    /// A plain V-carve inside the shapes.
+    #[default]
+    None,
+    /// The socket: carved inside the shape.
+    Socket,
+    /// The plug: the shape is made smaller by the gap and the V-walls are carved round it (outside the line), so that it
+    /// fits the socket. The plug is cut on the back of a piece: mirror the shapes of the layer first.
+    Plug,
+}
+
+impl Inlay {
+    pub const ALL: [Inlay; 3] = [Inlay::None, Inlay::Socket, Inlay::Plug];
+    pub fn label(self) -> &'static str {
+        match self {
+            Inlay::None => "None",
+            Inlay::Socket => "Socket",
+            Inlay::Plug => "Plug",
+        }
+    }
+}
+
+/// Which part of a relief the layer cuts.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum ReliefPart {
+    /// Passes down to the relief itself (what it always did).
+    #[default]
+    Both,
+    /// Roughing: passes down to the relief with `stock to leave` on it (use a flat bit).
+    Rough,
+    /// Finishing: one go over the relief itself, row after row (use a ball nose).
+    Finish,
+}
+
+impl ReliefPart {
+    pub const ALL: [ReliefPart; 3] = [ReliefPart::Both, ReliefPart::Rough, ReliefPart::Finish];
+    pub fn label(self) -> &'static str {
+        match self {
+            ReliefPart::Both => "Rough and finish",
+            ReliefPart::Rough => "Rough",
+            ReliefPart::Finish => "Finish",
+        }
+    }
+}
+
 fn one() -> f64 {
     1.0
 }
@@ -250,7 +299,7 @@ impl PictureMethod {
 }
 
 impl Operation {
-    pub const ALL: [Operation; 10] = [Operation::ProfileOutside, Operation::ProfileInside, Operation::OnPath, Operation::Pocket, Operation::Drill, Operation::Picture, Operation::Face, Operation::Bore, Operation::Chamfer, Operation::DogboneSlot];
+    pub const ALL: [Operation; 11] = [Operation::ProfileOutside, Operation::ProfileInside, Operation::OnPath, Operation::Pocket, Operation::Drill, Operation::Picture, Operation::Face, Operation::Bore, Operation::Chamfer, Operation::DogboneSlot, Operation::VCarve];
 
     pub fn label(self) -> &'static str {
         match self {
@@ -264,6 +313,7 @@ impl Operation {
             Operation::Bore => "Bore",
             Operation::Chamfer => "Chamfer",
             Operation::DogboneSlot => "Dogbone slot",
+            Operation::VCarve => "V-carve",
         }
     }
 
@@ -279,6 +329,7 @@ impl Operation {
             Operation::Bore => "A round hole bigger than the bit: the bit goes down round it in a spiral and then once round at the full depth.",
             Operation::Chamfer => "The edge of the shapes is chamfered: a V-bit follows the line at the depth that makes the chamfer as wide as asked.",
             Operation::DogboneSlot => "The bit goes round the inside of the line and into every sharp corner, so that a round bit leaves room for a square part.",
+            Operation::VCarve => "A V-bit goes deeper the farther it is from the edge of the shape, so the walls slope and the corners are sharp. The depth is the deepest the bit goes; a wider shape gets a flat bottom.",
         }
     }
 }
@@ -354,6 +405,16 @@ pub struct MillLayer {
     pub chamfer: f64,
     #[serde(default)]
     pub trochoid: Trochoid,
+    /// V-carve: nothing is cut shallower than this (mm), the inlay half and the gap of an inlay (mm).
+    #[serde(default)]
+    pub vc_start: f64,
+    #[serde(default)]
+    pub inlay: Inlay,
+    #[serde(default)]
+    pub inlay_gap: f64,
+    /// A relief: which part of it this layer cuts. The stock to leave of a rough part is `leave`.
+    #[serde(default)]
+    pub relief_part: ReliefPart,
 }
 
 
@@ -398,7 +459,7 @@ impl MillLayer {
     /// Is every number of the layer usable?
     pub fn check(&self) -> Result<(), String> {
         let ok = |v: f64, lo: f64, hi: f64| v.is_finite() && v >= lo && v <= hi;
-        if !ok(self.depth, 0.0, 1000.0) || !ok(self.step_down, 0.01, 1000.0) || !ok(self.step_over_pct, 1.0, 100.0) || !ok(self.feed, 1.0, 100_000.0) || !ok(self.plunge, 1.0, 100_000.0) || !ok(self.rpm, 0.0, 1_000_000.0) || !ok(self.scan_angle, -360.0, 360.0) || !ok(self.leave, 0.0, 100.0) || !ok(self.ramp_angle, 0.1, 89.0) || !ok(self.ramp_feed, 0.0, 100_000.0) || !ok(self.raster_angle, -360.0, 360.0) || !ok(self.overhang, 0.0, 1000.0) || !ok(self.chamfer, 0.0, 1000.0) || !ok(self.trochoid.diameter, 0.1, 1000.0) || !ok(self.trochoid.step, 0.05, 1000.0) {
+        if !ok(self.depth, 0.0, 1000.0) || !ok(self.step_down, 0.01, 1000.0) || !ok(self.step_over_pct, 1.0, 100.0) || !ok(self.feed, 1.0, 100_000.0) || !ok(self.plunge, 1.0, 100_000.0) || !ok(self.rpm, 0.0, 1_000_000.0) || !ok(self.scan_angle, -360.0, 360.0) || !ok(self.leave, 0.0, 100.0) || !ok(self.ramp_angle, 0.1, 89.0) || !ok(self.ramp_feed, 0.0, 100_000.0) || !ok(self.raster_angle, -360.0, 360.0) || !ok(self.overhang, 0.0, 1000.0) || !ok(self.chamfer, 0.0, 1000.0) || !ok(self.trochoid.diameter, 0.1, 1000.0) || !ok(self.trochoid.step, 0.05, 1000.0) || !ok(self.vc_start, 0.0, 1000.0) || !ok(self.inlay_gap, 0.0, 100.0) {
             return Err(format!("layer {}: a number is out of range", self.name));
         }
         let t = &self.tabs;
@@ -476,6 +537,10 @@ pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
                 overhang: 0.0,
                 chamfer: 1.0,
                 trochoid: Trochoid::default(),
+                vc_start: 0.0,
+                inlay: Inlay::None,
+                inlay_gap: 0.0,
+                relief_part: ReliefPart::Both,
             };
             match bit(tool) {
                 Some(t) => layer.with_tool(&t),

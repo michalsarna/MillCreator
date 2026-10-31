@@ -1,7 +1,7 @@
 //! The toolpaths of the project: the 3D window and the export of G-code.
 use crate::toolpath::{self, Program};
 use crate::view3d::{self, Region, Scene3d};
-use crate::App;
+use crate::{App, Screen};
 use base_ui::i18n::{tr, trf};
 use base_ui::theme;
 use base_ui::window::popup_with;
@@ -139,6 +139,60 @@ impl App {
         // The model is not turned by the scan angle: it is the picture as it lies.
         let map = crate::relief::HeightMap::of(shape, im, step, 0.0, layer.depth)?;
         Some(crate::relief::stl(&map, self.stock.thickness))
+    }
+
+    /// File > Import > Import 3D model as relief…
+    pub(crate) fn import_model_dialog(&mut self) {
+        if let Some(p) = rfd::FileDialog::new().add_filter("3D model", &["stl", "obj", "3mf"]).pick_file() {
+            self.import_model(p);
+        }
+    }
+
+    /// A 3D model (STL, OBJ, 3MF) seen from above becomes a picture of depths on a layer that cuts a 3D relief: the highest
+    /// point of the model is left uncut, the lowest is the full depth (the height of the model, or the thickness of the material).
+    pub(crate) fn import_model(&mut self, path: std::path::PathBuf) {
+        use crate::layers::{Operation, PictureMethod};
+        if self.screen == Screen::Start {
+            self.new_design();
+        }
+        let name = path.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
+        let read = std::fs::read(&path).map_err(|e| e.to_string()).and_then(|b| crate::model3d::read(&name, &b));
+        let tris = match read {
+            Ok(t) => t,
+            Err(e) => {
+                self.status = trf("Could not import the model {}: {}", &[&name, &e]);
+                return;
+            }
+        };
+        let [w, h, height] = crate::model3d::size(&tris);
+        let Some(im) = crate::model3d::depth_map(&tris, &name, 0.25) else {
+            self.status = trf("The model {} has no area seen from above", &[&name]);
+            return;
+        };
+        // A layer that already cuts a relief, else the first layer with nothing on it.
+        let used: std::collections::HashSet<usize> = self.scene.shapes.iter().map(|s| s.layer).collect();
+        let relief = |l: &crate::layers::MillLayer| l.op == Operation::Picture && l.picture == PictureMethod::Relief;
+        let li = self.layers.iter().position(relief).or_else(|| (0..self.layers.len()).find(|i| !used.contains(i))).unwrap_or(self.layers.len() - 1);
+        self.checkpoint();
+        if !relief(&self.layers[li]) {
+            let ball = self.tools.all().find(|t| t.kind == crate::tools::ToolKind::BallNose).cloned();
+            let l = &mut self.layers[li];
+            l.op = Operation::Picture;
+            l.picture = PictureMethod::Relief;
+            l.depth = height.min(self.stock.thickness).max(0.1);
+            if let Some(t) = ball {
+                l.use_tool(&t);
+            }
+        }
+        let id = self.scene.add(li, base_core::scene::Kind::Image(im), base_core::geom::Xf::IDENTITY);
+        self.ed.sel = std::iter::once(id).collect();
+        self.ed.node_sel.clear();
+        self.touch_rev();
+        self.ed.view.need_fit = true;
+        self.status = trf("Imported the model {} as a relief on layer {}: {} x {} x {} mm", &[&name, &self.layers[li].name, &format!("{w:.1}"), &format!("{h:.1}"), &format!("{height:.1}")]);
+        if height > self.stock.thickness + 1e-9 {
+            self.status.push_str(&format!(" — {}", tr("the model is higher than the material: the relief is cut only as deep as the layer says")));
+        }
     }
 
     /// Milling > Export relief as STL…

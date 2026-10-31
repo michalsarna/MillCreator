@@ -11,6 +11,7 @@ mod layers;
 mod layers_ui;
 mod machine_ui;
 mod materials;
+mod model3d;
 mod passes;
 mod gcode_view_glue;
 mod handtabs;
@@ -152,7 +153,7 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::New => Some("file-plus"),
         Act::Open => Some("folder-open"),
         Act::Save | Act::SaveAs => Some("save"),
-        Act::ImportLightburn | Act::ImportDxf | Act::ImportUgsd | Act::ImportPlugin => Some("file-input"),
+        Act::ImportLightburn | Act::ImportDxf | Act::ImportUgsd | Act::ImportModel | Act::ImportPlugin => Some("file-input"),
         Act::ViewGcode => Some("eye"),
         Act::Plugins => Some("package-open"),
         Act::GenerateShape => Some("shapes"),
@@ -533,6 +534,10 @@ impl App {
             }
             return self.open_image_dialog(path);
         }
+        // A 3D model becomes the depth map of a relief.
+        if model3d::is_model_file(&path) {
+            return self.import_model(path);
+        }
         // A LightBurn project or a UGS design is imported into the drawing, not opened.
         if is_import(&path) {
             return self.import_file(path);
@@ -697,7 +702,7 @@ impl App {
     }
 
     fn open_dialog(&mut self) {
-        if let Some(p) = rfd::FileDialog::new().add_filter("Project, SVG, PDF, Illustrator, DXF", &[project::EXTENSION, "svg", "pdf", "ai", "ugsd", "dxf"]).pick_file() {
+        if let Some(p) = rfd::FileDialog::new().add_filter("Project, SVG, PDF, Illustrator, DXF, 3D model", &[project::EXTENSION, "svg", "pdf", "ai", "ugsd", "dxf", "stl", "obj", "3mf"]).pick_file() {
             self.open(p);
         }
     }
@@ -1322,6 +1327,7 @@ impl MenuHost for App {
             Act::ImportLightburn => self.import_lightburn_dialog(),
             Act::ImportDxf => self.import_dxf_dialog(),
             Act::ImportUgsd => self.import_ugsd_dialog(),
+            Act::ImportModel => self.import_model_dialog(),
             Act::ViewGcode => self.view_gcode_dialog(),
             Act::ImportPlugin => self.import_with_plugin_dialog(),
             Act::Plugins => self.plugins.open = true,
@@ -1483,6 +1489,42 @@ mod tests {
         assert!(a.act_enabled(menu::Act::ExportRelief));
         a.layers[3].picture = layers::PictureMethod::Rows;
         assert!(!a.act_enabled(menu::Act::ExportRelief));
+    }
+
+    #[test]
+    fn a_3d_model_is_imported_as_the_depth_map_of_a_relief_on_a_layer_that_cuts_it() {
+        let mut a = app();
+        // A wedge 20 x 10 mm that rises from 0 to 4 mm, as a binary STL.
+        let tris: [[[f32; 3]; 3]; 2] = [[[0.0, 0.0, 0.0], [20.0, 0.0, 4.0], [20.0, 10.0, 4.0]], [[0.0, 0.0, 0.0], [20.0, 10.0, 4.0], [0.0, 10.0, 0.0]]];
+        let mut bytes = vec![0u8; 80];
+        bytes.extend(2u32.to_le_bytes());
+        for t in tris {
+            bytes.extend([0u8; 12]);
+            for v in t {
+                for x in v {
+                    bytes.extend(x.to_le_bytes());
+                }
+            }
+            bytes.extend([0u8; 2]);
+        }
+        let dir = std::env::temp_dir().join(format!("mill-model-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("wedge.stl");
+        std::fs::write(&path, bytes).unwrap();
+        a.import_model(path.clone());
+        let image = a.scene.shapes.iter().find(|s| matches!(s.kind, Kind::Image(_))).expect("the depth map is on the page");
+        let li = image.layer;
+        assert_eq!((a.layers[li].op, a.layers[li].picture), (layers::Operation::Picture, layers::PictureMethod::Relief));
+        assert!((a.layers[li].depth - 4.0).abs() < 1e-9, "as deep as the model is high: {}", a.layers[li].depth);
+        assert!(a.status.contains("wedge.stl"), "{}", a.status);
+        assert!(a.relief_model().is_some(), "and it can be cut and exported");
+        // A second model goes to the same layer; a broken file is an error message and changes nothing.
+        let n = a.scene.shapes.len();
+        std::fs::write(&path, b"nonsense").unwrap();
+        a.import_model(path);
+        assert_eq!(a.scene.shapes.len(), n);
+        assert!(a.status.contains("Could not import") || a.status.contains("Nie udało"), "{}", a.status);
+        let _ = std::fs::remove_dir_all(dir);
     }
 
     /// Without the "links" feature of eframe, open_url silently does nothing: no link of the program (the download page of an

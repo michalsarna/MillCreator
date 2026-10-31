@@ -354,3 +354,25 @@
 353|{} : le calque de la poche de reprise n'a pas de fraise
 354|{} : la fraise de la reprise doit être plus petite que celle du calque qu'elle reprend
 355|{} : rien à surfacer : dessinez une forme qui donne la taille de la surface
+356|Gravure en V
+357|Une fraise en V descend d'autant plus profondément qu'elle est loin du bord de la forme : les parois sont inclinées et les angles vifs. La profondeur est le maximum atteint par la fraise ; une forme plus large a un fond plat.
+358|Logement
+359|Pièce
+360|Ébauche et finition
+361|Ébauche
+362|Finition
+363|Importer un modèle 3D comme relief…
+364|{} : les lignes ouvertes sont laissées de côté dans la gravure en V
+365|{} : la gravure en V demande une fraise en V ou à graver
+366|{} : le fond plat est fraisé avec la fraise en V : il reste des crêtes et c'est long (une fraise plate dans un calque Poche est préférable)
+367|{} : le programme de la gravure en V est trop long : le reste a été laissé de côté
+368|Profondeur de départ
+369|Rien n'est coupé moins profondément que cela
+370|Marqueterie
+371|Jeu de la marqueterie
+372|Le jeu entre la pièce et le logement
+373|Partie du relief
+374|le modèle est plus haut que le matériau : le relief n'est fraisé qu'à la profondeur du calque
+375|Impossible d'importer le modèle {} : {}
+376|Le modèle {} n'a pas de surface vu d'en haut
+377|Modèle {} importé comme relief sur le calque {} : {} x {} x {} mm

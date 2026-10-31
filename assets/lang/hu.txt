@@ -354,3 +354,25 @@
 353|{}: a maradék zseb rétegének nincs marója
 354|{}: a maradék zseb marójának kisebbnek kell lennie annak a rétegnek a marójánál, amelytől átveszi
 355|{}: nincs mit síkra marni: rajzoljon egy alakzatot, amely megadja a felület méretét
+356|V-faragás
+357|A V-maró annál mélyebbre megy, minél távolabb van az alakzat szélétől, így a falak ferdék, a sarkok élesek. A mélység a maró legmélyebb pontja; a szélesebb alakzat lapos fenekű lesz.
+358|Foglalat
+359|Betét
+360|Nagyolás és simítás
+361|Nagyolás
+362|Simítás
+363|3D modell importálása domborműként…
+364|{}: a nyitott vonalak kimaradnak a V-faragásból
+365|{}: a V-faragáshoz V-maró vagy gravírozó maró kell
+366|{}: a lapos fenék V-maróval készül: élek maradnak és sokáig tart (jobb egy lapos maró a Zseb rétegben)
+367|{}: a V-faragás programja túl hosszú: a többit kihagytuk
+368|Kezdő mélység
+369|Ennél sekélyebben semmi sem készül
+370|Berakás
+371|Berakás hézaga
+372|A betét és a foglalat közti hézag
+373|A dombormű része
+374|a modell magasabb az anyagnál: a dombormű csak a réteg szerinti mélységig készül
+375|A(z) {} modell nem importálható: {}
+376|A(z) {} modellnek felülről nézve nincs területe
+377|A(z) {} modell domborműként importálva a(z) {} rétegre: {} x {} x {} mm

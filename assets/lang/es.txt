@@ -354,3 +354,25 @@
 353|{}: la capa del vaciado de resto no tiene fresa
 354|{}: la fresa del vaciado de resto debe ser más pequeña que la de la capa de la que continúa
 355|{}: nada que aplanar: dibuja una forma que dé el tamaño de la superficie
+356|Tallado en V
+357|Una fresa en V baja tanto más cuanto más lejos está del borde de la forma, así que las paredes son inclinadas y las esquinas vivas. La profundidad es la máxima que alcanza la fresa; una forma más ancha tiene el fondo plano.
+358|Encaje
+359|Pieza
+360|Desbaste y acabado
+361|Desbaste
+362|Acabado
+363|Importar modelo 3D como relieve…
+364|{}: las líneas abiertas se dejan fuera del tallado en V
+365|{}: el tallado en V necesita una fresa en V o de grabado
+366|{}: el fondo plano se fresa con la fresa en V: quedan crestas y tarda mucho (mejor una fresa plana en una capa Vaciado)
+367|{}: el programa del tallado en V es demasiado largo: el resto se dejó fuera
+368|Profundidad inicial
+369|No se corta nada más superficial que esto
+370|Incrustación
+371|Holgura de la incrustación
+372|La holgura entre la pieza y el encaje
+373|Parte del relieve
+374|el modelo es más alto que el material: el relieve solo se fresa hasta la profundidad de la capa
+375|No se pudo importar el modelo {}: {}
+376|El modelo {} no tiene área visto desde arriba
+377|Modelo {} importado como relieve en la capa {}: {} x {} x {} mm

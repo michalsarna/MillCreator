@@ -354,3 +354,25 @@
 353|{}: sloj ostatka džepa nema glodalo
 354|{}: glodalo ostatka mora biti manje od glodala sloja koji nastavlja
 355|{}: nema što poravnati: nacrtajte oblik koji daje veličinu površine
+356|V-graviranje
+357|V-glodalo ide to dublje što je dalje od ruba oblika, pa su stijenke kose, a kutovi oštri. Dubina je najveća do koje glodalo ide; širi oblik dobiva ravno dno.
+358|Utor
+359|Umetak
+360|Grubo i fino
+361|Grubo
+362|Fino
+363|Uvezi 3D model kao reljef…
+364|{}: otvorene linije izostavljaju se iz V-graviranja
+365|{}: za V-graviranje treba V-glodalo ili gravirni alat
+366|{}: ravno dno glođe se V-glodalom: ostaju grebeni i traje dugo (bolje je ravno glodalo u sloju Džep)
+367|{}: program V-graviranja predug je: ostatak je izostavljen
+368|Početna dubina
+369|Ništa se ne reže pliće od ovoga
+370|Inleg
+371|Zazor inleja
+372|Zazor između umetka i utora
+373|Dio reljefa
+374|model je viši od materijala: reljef se glođe samo do dubine sloja
+375|Model {} nije moguće uvesti: {}
+376|Model {} nema površinu gledano odozgo
+377|Model {} uvezen je kao reljef na sloj {}: {} x {} x {} mm

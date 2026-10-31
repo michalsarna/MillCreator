@@ -354,3 +354,25 @@
 353|{}: laget for restlommen har ingen fres
 354|{}: frøsen i restlommen må være mindre enn frøsen i laget den overtar fra
 355|{}: ingenting å planfrese: tegn en form som gir størrelsen på flaten
+356|V-utskjæring
+357|En V-fres går dypere jo lenger den er fra kanten av formen, så veggene skråner og hjørnene er skarpe. Dybden er det dypeste fresen når; en bredere form får flat bunn.
+358|Fordypning
+359|Innlegg
+360|Grovt og finish
+361|Grovt
+362|Finish
+363|Importer 3D-modell som relieff…
+364|{}: åpne linjer utelates ved V-utskjæring
+365|{}: V-utskjæring trenger en V-fres eller gravérfres
+366|{}: den flate bunnen freses med V-fresen: det blir rygger og tar lang tid (en flat fres i et Lomme-lag er bedre)
+367|{}: programmet for V-utskjæringen er for langt: resten er utelatt
+368|Startdybde
+369|Ingenting skjæres grunnere enn dette
+370|Innlegg
+371|Klaring for innlegg
+372|Klaringen mellom innlegget og fordypningen
+373|Del av relieffet
+374|modellen er høyere enn materialet: relieffet freses bare så dypt som laget sier
+375|Kunne ikke importere modellen {}: {}
+376|Modellen {} har ikke noe areal sett ovenfra
+377|Modellen {} er importert som relieff på lag {}: {} x {} x {} mm

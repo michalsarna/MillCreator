@@ -354,3 +354,25 @@
 353|{}: lag afgangsvasans hefur engan fræs
 354|{}: fræsir afgangsvasans verður að vera minni en fræsir lagsins sem hann tekur við af
 355|{}: ekkert að plana: teiknaðu form sem gefur stærð flatarins
+356|V-útskurður
+357|V-fræs fer því dýpra sem hann er lengra frá brún formsins, svo veggirnir eru hallandi og hornin skörp. Dýptin er mesta dýpt fræsins; breiðara form fær flatan botn.
+358|Hola
+359|Tappi
+360|Grófvinnsla og frágangur
+361|Grófvinnsla
+362|Frágangur
+363|Flytja inn þrívíddarlíkan sem upphleypingu…
+364|{}: opnar línur eru sleppt í V-útskurði
+365|{}: V-útskurður þarf V-fræs eða leturgröft
+366|{}: flati botninn er fræstur með V-fræsi: hryggir verða eftir og það tekur langan tíma (flatur fræs í Vasa-lagi er betri)
+367|{}: forrit V-útskurðarins er of langt: afganginum var sleppt
+368|Upphafsdýpt
+369|Ekkert er skorið grynnra en þetta
+370|Innlegg
+371|Bil innleggs
+372|Bilið milli innleggs og holu
+373|Hluti upphleypingar
+374|líkanið er hærra en efnið: upphleypingin er aðeins fræst jafn djúpt og lagið segir
+375|Ekki tókst að flytja inn líkanið {}: {}
+376|Líkanið {} hefur ekkert flatarmál séð að ofan
+377|Líkanið {} flutt inn sem upphleyping á lag {}: {} x {} x {} mm

@@ -354,3 +354,25 @@
 353|{}: níl buille ag an gciseal don phóca fuílligh
 354|{}: ní mór don bhuille sa phóca fuílligh a bheith níos lú ná buille na sraithe a leanann sé
 355|{}: níl aon rud le mínú: tarraing cruth a thugann méid an dromchla
+356|Greanadh V
+357|Téann bit V níos doimhne, dá fhaide ó imeall an chruth é, mar sin bíonn na ballaí claonta agus na coirnéil géar. Is é an doimhneacht an áit is doimhne a théann an bit; faigheann cruth níos leithne bun comhréidh.
+358|Soicéad
+359|Plocóid
+360|Garbh agus finiseáil
+361|Garbh
+362|Finiseáil
+363|Iompórtáil samhail 3D mar fhaoiseamh…
+364|{}: fágtar línte oscailte ó ghreanadh V
+365|{}: teastaíonn bit V nó bit greanta le haghaidh greanadh V
+366|{}: gearrtar an bun comhréidh leis an mbit V: fágtar eascaí agus tógann sé tamall (is fearr bit cothrom i gciseal Pocket)
+367|{}: tá clár an ghreanta V rófhada: fágadh an chuid eile ar lár
+368|Doimhneacht tosaigh
+369|Ní ghearrtar aon rud níos éadoimhne ná seo
+370|Inleagan
+371|Bearna inleagain
+372|An bhearna idir an phlocóid agus an soicéad
+373|Cuid den fhaoiseamh
+374|tá an tsamhail níos airde ná an t-ábhar: ní ghearrtar an faoiseamh ach chomh domhain agus a deir an ciseal
+375|Níorbh fhéidir an tsamhail {} a iompórtáil: {}
+376|Níl aon limistéar ag an tsamhail {} nuair a bhreathnaítear uirthi ón mbarr
+377|Iompórtáladh an tsamhail {} mar fhaoiseamh ar chiseal {}: {} x {} x {} mm

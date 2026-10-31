@@ -354,3 +354,25 @@
 353|{}: jääktasku kihil pole freesi
 354|{}: jääktasku freesi peab olema väiksem kui kihi freesi, mille tööd see jätkab
 355|{}: pole midagi tasandada: joonista kujund, mis annab pinna suuruse
+356|V-nikerdus
+357|V-freesi läheb seda sügavamale, mida kaugemal see kuju servast on, seega on seinad kaldus ja nurgad teravad. Sügavus on sügavaim koht, kuhu freesi jõuab; laiem kuju saab tasase põhja.
+358|Pesa
+359|Sisetükk
+360|Jäme ja viimistlus
+361|Jäme
+362|Viimistlus
+363|Impordi 3D-mudel reljeefina…
+364|{}: lahtised jooned jäetakse V-nikerduses välja
+365|{}: V-nikerduseks on vaja V-freesi või graveerimisfreesi
+366|{}: tasane põhi freesitakse V-freesiga: jäävad servad ja see võtab kaua aega (parem on lameda otsaga freesi kasutada kihis Tasku)
+367|{}: V-nikerduse programm on liiga pikk: ülejäänu jäeti välja
+368|Algsügavus
+369|Midagi ei lõigata sellest pinnapealsemalt
+370|Inlay
+371|Inlay vahe
+372|Vahe sisetüki ja pesa vahel
+373|Reljeefi osa
+374|mudel on materjalist kõrgem: reljeef freesitakse ainult kihi antud sügavuseni
+375|Mudelit {} ei õnnestunud importida: {}
+376|Mudelil {} pole ülalt vaadates pindala
+377|Mudel {} imporditi reljeefina kihile {}: {} x {} x {} mm

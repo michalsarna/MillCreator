@@ -147,7 +147,7 @@ fn grbl_sim_ramps_a_helix_tabs_and_a_finishing_pass_are_accepted_and_end_at_zero
     }
 }
 
-/// A job with the operations of stage 3: a raster pocket with an outline pass, a face, a bore, a chamfer, a dogbone slot and a trochoid slot.
+/// A job with the operations of stage 3: a raster pocket with an outline pass, a face, a bore, a chamfer, a V-carve, a dogbone slot and a trochoid slot.
 fn job_with_operations(chamfer_only: bool) -> Vec<String> {
     use crate::layers::{OutlinePass, Operation, PocketPattern, Trochoid};
     let (lib, dev, stock) = (Library::new(), Device::dummy(), Stock::default());
@@ -159,6 +159,9 @@ fn job_with_operations(chamfer_only: bool) -> Vec<String> {
         l.use_tool(&tool("std-flat-3"));
     }
     layers[3].use_tool(&tool("std-v-60"));
+    layers[4].use_tool(&tool("std-v-60"));
+    layers[4].op = Operation::VCarve;
+    layers[4].depth = 2.0;
     layers[0].op = Operation::Face;
     layers[0].depth = 0.5;
     layers[0].step_down = 0.5;
@@ -187,10 +190,11 @@ fn job_with_operations(chamfer_only: bool) -> Vec<String> {
     scene.add(1, Kind::Ellipse { w: 14.0, h: 14.0 }, Xf::translate(70.0, 20.0));
     square(&mut scene, 2, 10.0, 70.0, 30.0);
     square(&mut scene, 3, 60.0, 60.0, 25.0);
+    scene.add(4, Kind::Rect { w: 20.0, h: 6.0 }, Xf::translate(60.0, 100.0));
     scene.add(5, Kind::Rect { w: 30.0, h: 8.0 }, Xf::translate(100.0, 10.0));
     scene.add(6, Kind::Path(vec![Polyline::new(vec![Pt::new(100.0, 40.0), Pt::new(140.0, 40.0)], false)]), Xf::IDENTITY);
     for (i, l) in layers.iter_mut().enumerate() {
-        l.enabled = (i == 3) == chamfer_only;
+        l.enabled = (i == 3 || i == 4) == chamfer_only;
     }
     let prog = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions::default());
     clean_gcode(&to_gcode(&prog, &dev, &layers, &lib, "sim"))

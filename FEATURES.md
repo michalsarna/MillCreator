@@ -31,11 +31,13 @@
 * **Safe profiles (Stage 1 of the MillMage list):** a layer chooses the **direction** of a profile or a pocket (as drawn, climb or conventional; a hole of a part goes the other way round the part), **stock to leave** on the walls with a **finishing pass** at the full depth, and how the bit goes **down**: plunge, a **zigzag ramp**, a **ramp along the contour** or a **helix** (in a pocket, where it fits; with its own ramp feed, which a bit of the library can give). **Tabs** (bridges) hold a part while it is cut out: full (the bit rises above the material), partial (to the height of the tab) or ramp (with a slope), spread evenly by a spacing with a fewest and a most, none on holes, or placed by hand on the work area (click to add, drag to move, click to remove); only the passes below the top of the tab are raised. Warnings: a ramp steeper than 45°, tabs as high as the cut, a helix that does not fit.
 * **More 2.5D operations:** pockets by **raster** (lines at an angle) or rings (with the strip in the middle cleared), an **outline pass** before or after, **rest pockets** (only what a bigger bit left), **Face** (planing the top over the box of the shapes, with an overhang), **Bore** (a spiral down round a hole), **Chamfer** (a V-bit at the depth of the width asked for), **Dogbone slot** (notches into the corners) and **trochoids** (loops along a line for a slot wider than the bit).
 * **Pictures are engraved:** a picture put on a layer switches the layer to the Picture operation: dithered rows, dots, or rows whose depth follows the tone, with a choice of the dithering and the angle of the rows; **3D relief** (as in molino): the grey level is the depth, cut in passes with the shape of the bit taken into account, and **Export relief as STL…** saves the carved piece as a closed solid.
+* **V-carve:** a V-bit goes deeper the farther it is from the edge of the shape (sloping walls, sharp corners), with a flat bottom at the depth of the layer, a start depth, and **inlays** (a socket and a plug with a gap).
+* **Relief in two parts:** a layer cuts a 3D relief as **Rough** (flat bit, stock to leave), **Finish** (one go with a ball nose) or both; **Import 3D model as relief…** reads STL, OBJ and 3MF models as a depth map.
 * **Right-click menu:** on a shape (copy, paste, duplicate, delete, group, lock, flip, turn, arrange, shape operations: union, intersection, subtract, exclusive or, offset, round corners, convert to curves; adjust and trace a picture), the same in all programs.
 
 ## Not there (yet)
 
 The list is a plan, not a promise.
 
-* V-carving, tool length offsets, collision checks with clamps.
+* Tool length offsets, collision checks with clamps.
 * Other controllers than GRBL, post-processor settings.

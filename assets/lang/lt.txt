@@ -354,3 +354,25 @@
 353|{}: likučio kišenės sluoksnis neturi freza
 354|{}: likučio kišenės frezas turi būti mažesnis už sluoksnio, iš kurio perima, frezą
 355|{}: nėra ką frezuoti: nubrėžkite formą, nustatančią paviršiaus dydį
+356|V-graviravimas
+357|V formos freza eina tuo giliau, kuo toliau yra nuo formos krašto, todėl sienelės įstrižos, o kampai aštrūs. Gylis yra giliausia vieta, kurią freza pasiekia; platesnė forma gauna plokščią dugną.
+358|Lizdas
+359|Intarpas
+360|Rupus ir glotnus
+361|Rupus
+362|Glotnus
+363|Importuoti 3D modelį kaip reljefą…
+364|{}: atviros linijos praleidžiamos V-graviravime
+365|{}: V-graviravimui reikia V formos arba graviravimo frezos
+366|{}: plokščias dugnas frezuojamas V formos freza: lieka briaunų ir užtrunka (geriau plokščia freza sluoksnyje Kišenė)
+367|{}: V-graviravimo programa per ilga: likusi dalis praleista
+368|Pradinis gylis
+369|Nieko nepjaunama sekliau už tai
+370|Inkrustacija
+371|Inkrustacijos tarpas
+372|Tarpas tarp intarpo ir lizdo
+373|Reljefo dalis
+374|modelis aukštesnis už medžiagą: reljefas frezuojamas tik tiek giliai, kiek nurodo sluoksnis
+375|Nepavyko importuoti modelio {}: {}
+376|Modelis {} iš viršaus neturi ploto
+377|Modelis {} importuotas kaip reljefas į sluoksnį {}: {} x {} x {} mm

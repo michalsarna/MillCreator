@@ -354,3 +354,25 @@
 353|{}: atlikuma kabatas slānim nav frēzes
 354|{}: atlikuma kabatas frēzei jābūt mazākai par tā slāņa frēzi, no kura tā pārņem
 355|{}: nav ko frēzēt: uzzīmējiet formu, kas nosaka virsmas izmēru
+356|V-gravēšana
+357|V-frēze iet jo dziļāk, jo tālāk tā atrodas no formas malas, tāpēc sienas ir slīpas, bet stūri asi. Dziļums ir dziļākā vieta, kur frēze nonāk; platāka forma iegūst plakanu dibenu.
+358|Ligzda
+359|Ieliktnis
+360|Rupjā un gludā
+361|Rupjā
+362|Gludā
+363|Importēt 3D modeli kā reljefu…
+364|{}: atvērtās līnijas V-gravēšanā tiek izlaistas
+365|{}: V-gravēšanai vajadzīga V-frēze vai gravēšanas frēze
+366|{}: plakanais dibens tiek frēzēts ar V-frēzi: paliek izciļņi un tas aizņem ilgu laiku (labāk plakana frēze slānī Kabata)
+367|{}: V-gravēšanas programma ir pārāk gara: pārējais izlaists
+368|Sākuma dziļums
+369|Nekas netiek griezts seklāk par šo
+370|Inkrustācija
+371|Inkrustācijas sprauga
+372|Sprauga starp ieliktni un ligzdu
+373|Reljefa daļa
+374|modelis ir augstāks par materiālu: reljefs tiek frēzēts tikai tik dziļi, cik norāda slānis
+375|Neizdevās importēt modeli {}: {}
+376|Modelim {} no augšas nav laukuma
+377|Modelis {} importēts kā reljefs slānī {}: {} x {} x {} mm
