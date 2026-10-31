@@ -417,3 +417,4 @@
 416	A Duet board runs the program by itself: it is sent over the network and started there. Jogging and overrides are not available.
 417	Password
 418	Not saved: it is asked for again when the program is opened
+419	The milled piece cannot be exported as STL while a rotary attachment is chosen.

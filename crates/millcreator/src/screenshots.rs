@@ -143,6 +143,22 @@ fn render_screenshots() {
         a.view.progress = 0.6;
     }
     save(&mut h, "19-preview-from-above.png");
+    // A workpiece on a rotary attachment: the job is wound round a cylinder.
+    {
+        let a = app(&mut h);
+        a.show_3d = false;
+        a.view.top = false;
+        a.view.progress = 1.0;
+        a.device.rotary.enabled = true;
+        a.device.rotary.diameter = 60.0;
+        a.open_preview();
+    }
+    save(&mut h, "38-preview-rotary.png");
+    {
+        let a = app(&mut h);
+        a.show_3d = false;
+        a.device.rotary.enabled = false;
+    }
     {
         let a = app(&mut h);
         a.show_3d = false;

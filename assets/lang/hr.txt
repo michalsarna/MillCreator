@@ -417,3 +417,4 @@
 416|Ploča Duet sama izvodi program: šalje se mrežom i tamo pokreće. Ručno pomicanje i korekcije nisu dostupni.
 417|Lozinka
 418|Ne sprema se: traži se ponovno pri otvaranju programa
+419|Glodani komad ne može se izvesti kao STL dok je odabran rotacijski dodatak.

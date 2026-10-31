@@ -417,3 +417,4 @@
 416|Duet plokštė pati vykdo programą: ji siunčiama tinklu ir paleidžiama ten. Rankinis judinimas ir perrašymai nepasiekiami.
 417|Slaptažodis
 418|Neišsaugoma: atidarius programą prašoma iš naujo
+419|Frezuotos dalies negalima eksportuoti kaip STL, kol pasirinkta sukimosi ašis.

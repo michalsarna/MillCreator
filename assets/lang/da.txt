@@ -417,3 +417,4 @@
 416|Et Duet-kort kører programmet selv: det sendes over netværket og startes der. Manuel kørsel og overstyringer er ikke tilgængelige.
 417|Adgangskode
 418|Gemmes ikke: der spørges igen, når programmet åbnes
+419|Det fræsede stykke kan ikke eksporteres som STL, mens en rotationsakse er valgt.

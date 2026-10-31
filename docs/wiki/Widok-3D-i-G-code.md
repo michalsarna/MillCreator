@@ -34,3 +34,5 @@ Widok to rysunek liniowy ścieżek na bloku: nie usuwa materiału, a czas to sza
 
 ## G-code
 **Export G-code…** zapisuje plik w stylu GRBL: `G21 G90 G17`, wrzeciono `S… M3` i czekanie urządzenia, `G0` dla ruchów nad materiałem i `G1` z posuwem dla zagłębiania i cięć, na końcu `M5`, bezpieczna wysokość, zero maszyny i `M30`. Współrzędne są liczone od **zera maszyny** urządzenia. Gdy kolejna warstwa używa innego freza, plik zatrzymuje się na `M0 (Change the bit to: …)` po wyłączeniu wrzeciona. Ostrzeżenia trafiają na pasek stanu.
+
+**Przy przystawce obrotowej** (ustawienia urządzenia → Rotary, włączona) podgląd pokazuje przedmiot jako **walec** wzdłuż X: Y programu to droga dookoła jego powierzchni, więc rysunek jest nawinięty na walec, środkiem zadania do góry, a cięcia i ruchy na bezpiecznej wysokości idą po powierzchni. Cięcia schodzą w stronę osi. Obraz obejmuje cały obwód, więc zadanie wyższe niż obwód pokazuje to samo miejsce dwa razy (i program ostrzega). Eksport sfrezowanego elementu jako STL nie jest wykonywany przy obrotnicy (byłaby to płaska płyta).

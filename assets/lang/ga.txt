@@ -417,3 +417,4 @@
 416|Rithfidh clár Duet an clár leis féin: seoltar thar an líonra é agus tosaítear ansin é. Níl jogáil ná sáruithe ar fáil.
 417|Focal faire
 418|Ní shábháiltear: iarrtar arís é nuair a osclaítear an clár
+419|Ní féidir an píosa muilleáilte a easpórtáil mar STL cé go bhfuil ceangaltán rothlach roghnaithe.

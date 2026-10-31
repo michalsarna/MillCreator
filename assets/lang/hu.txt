@@ -417,3 +417,4 @@
 416|A Duet panel magától futtatja a programot: hálózaton küldi el és ott indítja. Kézi mozgatás és felülbírálások nem elérhetők.
 417|Jelszó
 418|Nem kerül mentésre: a program megnyitásakor újra meg kell adni
+419|A marott darab nem exportálható STL-ként, amíg forgatótengely van kiválasztva.

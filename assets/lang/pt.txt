@@ -417,3 +417,4 @@
 416|Uma placa Duet executa o programa sozinha: é enviado pela rede e iniciado aí. O movimento manual e as substituições não estão disponíveis.
 417|Palavra-passe
 418|Não é guardada: é pedida de novo quando o programa é aberto
+419|A peça fresada não pode ser exportada como STL enquanto um eixo rotativo estiver escolhido.

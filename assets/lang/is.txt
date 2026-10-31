@@ -417,3 +417,4 @@
 416|Duet-borð keyrir forritið sjálft: það er sent yfir netið og ræst þar. Handvirk hreyfing og tilfærslur eru ekki í boði.
 417|Lykilorð
 418|Er ekki vistað: beðið er um það aftur þegar forritið er opnað
+419|Ekki er hægt að flytja fræsta stykkið út sem STL meðan snúningsás er valinn.

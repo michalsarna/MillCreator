@@ -34,3 +34,5 @@ The view is a line drawing of the toolpaths on the block: it does not remove mat
 
 ## G-code
 **Export G-code…** writes a GRBL-style file: `G21 G90 G17`, the spindle with `S… M3` and the wait of the device, `G0` for moves above the material and `G1` with the feed for plunges and cuts, then `M5`, the safe height, the machine zero and `M30`. The coordinates follow the **machine zero** of the device. When the next layer uses another bit the file stops with `M0 (Change the bit to: …)` after the spindle is switched off. Warnings are added to the status bar.
+
+**With a rotary attachment** (device settings → Rotary, switched on) the preview shows the workpiece as a **cylinder** along X: the program's Y is the way round its surface, so a drawing is wound round it, the middle of the job facing up, and cuts and the moves at the safe height follow the surface. The cuts go down towards the axis. The picture is the whole way round, so a job higher than the circumference shows twice over the same place (and the program warns). The export of the milled piece as STL is not made for a rotary (it would be a flat plate).

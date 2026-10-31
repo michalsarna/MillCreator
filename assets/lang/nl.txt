@@ -417,3 +417,4 @@
 416|Een Duet-board voert het programma zelf uit: het wordt via het netwerk verzonden en daar gestart. Handmatig verplaatsen en overrides zijn niet beschikbaar.
 417|Wachtwoord
 418|Wordt niet opgeslagen: bij het openen van het programma moet het opnieuw worden ingevoerd
+419|Het gefreesde stuk kan niet als STL worden geëxporteerd zolang een rotatie-as is gekozen.

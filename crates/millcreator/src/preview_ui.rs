@@ -229,8 +229,24 @@ impl App {
         Some(crate::relief::stl_of(cols, rows, step, |c, r| z[r * cols + c], self.stock.thickness))
     }
 
+    /// With a rotary attachment the block is the cylinder round the workpiece: the whole way round, centred on the job.
+    pub(crate) fn rotary_view(&self, region: Option<Region>) -> (Option<Region>, Option<view3d::Cyl>) {
+        let Some(r) = region else { return (None, None) };
+        let rot = &self.device.rotary;
+        if !rot.enabled || rot.diameter <= 0.0 {
+            return (Some(r), None);
+        }
+        let (round, cy) = r.round(rot.circumference());
+        (Some(round), Some(view3d::Cyl { r: rot.diameter / 2.0, cy }))
+    }
+
     /// The button of the preview: Export the milled piece as STL.
     pub(crate) fn export_view(&mut self) {
+        if self.device.rotary.enabled {
+            // The model is a plate with the cuts on it; wrapped round a workpiece it would be wrong.
+            self.status = tr("The milled piece cannot be exported as STL while a rotary attachment is chosen.").to_string();
+            return;
+        }
         match self.view_model() {
             Some(bytes) => self.save_stl(bytes, "milled"),
             None => self.status = tr("Nothing to export: the job has no cuts yet.").to_string(),
@@ -276,7 +292,9 @@ impl App {
     /// The options, totals and the picture (the same in the window and in the tab).
     fn preview_body(&mut self, ui: &mut egui::Ui) {
         let prog = self.prog.as_ref().expect("the program was made above");
-        let region = Region::of(prog, self.shapes_box());
+        let (region, rotary) = self.rotary_view(Region::of(prog, self.shapes_box()));
+        // The depth the cuts can go: the thickness of the material, or the radius of a workpiece on a rotary.
+        let depth = rotary.map_or(self.stock.thickness, |c| c.r);
         let mut stl = false;
         ui.horizontal_wrapped(|ui| {
             ui.selectable_value(&mut self.view.top, false, "3D");
@@ -310,17 +328,17 @@ impl App {
                 // The carved stock is made again only when the program, the slider or the stock changed.
                 let done = view3d::position_at(prog, self.view.progress).0.min(prog.moves.len());
                 let bits = |v: f64| v.to_bits();
-                let key = (self.prog_rev, done, [bits(region.min[0]), bits(region.min[1]), bits(region.max[0]), bits(region.max[1]), bits(self.stock.thickness)]);
+                let key = (self.prog_rev, done, [bits(region.min[0]), bits(region.min[1]), bits(region.max[0]), bits(region.max[1]), bits(depth)]);
                 if self.view.show_stock && self.surface.as_ref().map(|s| s.key) != Some(key) {
                     let tool_of = |layer: usize| self.layers.get(layer).and_then(|l| l.tool.as_deref()).and_then(|id| self.tools.get(id)).cloned();
-                    self.surface = view3d::Surface::of(key, &prog.moves[..done], tool_of, region, self.stock.thickness);
+                    self.surface = view3d::Surface::of(key, &prog.moves[..done], tool_of, region, depth);
                     if self.surface.is_none() {
                         // Nothing is cut: remember that by a surface that is not there (no key to compare), so it is not tried again each frame.
                         self.surface_none = Some(key);
                     }
                 }
                 let surface = if self.surface_none == Some(key) { None } else { self.surface.as_ref() };
-                let sc = Scene3d { surface, prog, region, stock: &self.stock, dev: &self.device, layers: &self.layers };
+                let sc = Scene3d { surface, prog, region, stock: &self.stock, dev: &self.device, layers: &self.layers, rotary };
                 view3d::show(ui, &mut self.view, &sc);
             }
             None => {
@@ -454,6 +472,31 @@ mod tests {
         let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.preview_window(ui.ctx()));
         out.textures_delta.clear();
         assert!(a.preview_work_tab() && a.pv_tab_shown && !a.cam_ws_shown);
+    }
+
+    #[test]
+    fn with_a_rotary_the_block_is_the_cylinder_round_the_workpiece_and_the_stl_is_not_made() {
+        let ctx = egui::Context::default();
+        let mut a = App::build(&ctx, None, false);
+        a.new_design();
+        a.scene.add(0, base_core::scene::Kind::Rect { w: 40.0, h: 20.0 }, base_core::geom::Xf::translate(50.0, 60.0));
+        a.layers[0].tool = Some("std-flat-3".into());
+        a.open_preview();
+        let prog = a.make_program();
+        let r = crate::view3d::Region::of(&prog, None);
+        let (plain, none) = a.rotary_view(r);
+        assert!(none.is_none() && plain == r);
+        a.device.rotary.enabled = true;
+        a.device.rotary.diameter = 40.0;
+        let (round, cyl) = a.rotary_view(r);
+        let cyl = cyl.expect("a cylinder");
+        assert_eq!(cyl.r, 20.0);
+        assert!((round.unwrap().size()[1] - a.device.rotary.circumference()).abs() < 1e-9, "the whole way round");
+        // The window is drawn, and the STL is refused with a word.
+        let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.preview_window(ui.ctx()));
+        out.textures_delta.clear();
+        a.export_view();
+        assert!(a.status.contains("rotary"), "{}", a.status);
     }
 
     #[test]

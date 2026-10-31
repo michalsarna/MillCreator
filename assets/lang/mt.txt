@@ -417,3 +417,4 @@
 416|Bord Duet iħaddem il-programm waħdu: jintbagħat fuq in-netwerk u jibda hemm. Il-ġogging u l-overrides mhumiex disponibbli.
 417|Password
 418|Ma jinħażinx: jintalab mill-ġdid meta jinfetaħ il-programm
+419|Il-biċċa mfresata ma tistax tiġi esportata bħala STL waqt li hemm assi rotanti magħżul.
