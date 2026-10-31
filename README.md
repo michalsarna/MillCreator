@@ -101,6 +101,8 @@ the `.icns` (needs inkscape; the `.icns` needs macOS). The screenshots are made 
 
 ## Credits and licence
 
+**Thanks:** big thanks to Jakub ([CNC KpK](https://www.youtube.com/@CNC-KpK)) for the ideas and suggestions for improvements.
+
 MillCreator is licensed under either of [Apache License 2.0](LICENSE-APACHE) or the [MIT license](LICENSE), at your option. Copyright (c) 2026 MillCreator contributors.
 
 Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in MillCreator by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
