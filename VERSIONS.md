@@ -4,6 +4,7 @@ Each release gets the next version number. Newest first.
 
 ## v0.5.4 (not released yet)
 
+* **The same menus in all three programs** (baseCreator v1.56.0): File · Edit · Insert · Arrange · View · Machine · Milling · Settings · Help, with the standard entries in the same order. *Bit library…* stays in *Milling*; *3D view of the job…* is Ctrl+Shift+P (Ctrl+Shift+3 is a screenshot on macOS). The keys shown in the menus now work in the menu bar of the window too (Windows, Linux): Ctrl+L, Ctrl+Shift+L, Ctrl+=, Ctrl+-, Ctrl+Shift+0, Ctrl+Shift+9 did nothing there before.
 * **Ctrl+E exports the G-code**; Ctrl+Shift+G is only *Ungroup* again (it was the key of both, and on macOS the menu could take it for the export).
 * **The G-code buttons** (*Preview G-code*, then *Save G-code*) stand in the bar beside the buttons that show things (*Toolpaths*, *Preview…*), not at the far right.
 * **Video format** (camera view): *Automatic* copies the stream of an IP camera into an MP4 file as it comes (no decoding, no encoding, no load on the processor); *MP4*, *AVI* (Motion-JPEG) to choose. **Camera options** under the address of a stream: *Use UDP for RTSP*, *Low latency* (off by default). baseCreator v1.55.0.

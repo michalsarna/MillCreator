@@ -12,7 +12,7 @@ From the shapes, the layers, the bits and the device the program makes the moves
 * Between cuts the bit rises to the **safe height** and moves there at the speed of moves above the material, then goes down fast to 1 mm over the surface and plunges at the plunge feed.
 
 ## The 3D window
-**Milling → 3D view of the job…** (Ctrl/Cmd+Shift+3). It shows only the area of the project, **10 % larger than the project** in each direction, as a block of the chosen material with its thickness.
+**Milling → 3D view of the job…** (Ctrl/Cmd+Shift+P). It shows only the area of the project, **10 % larger than the project** in each direction, as a block of the chosen material with its thickness.
 
 ![3D view](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/16-3d-view.png)
 
