@@ -443,3 +443,4 @@
 442	Load preset
 443	The bit of the preset is not in the library: the layer has no bit
 444	Zoom
+445	Not a camera address (http, https, rtsp, udp, rtp or rtmp).

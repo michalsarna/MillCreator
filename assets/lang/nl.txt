@@ -443,3 +443,4 @@
 442|Voorinstelling laden
 443|De frees van de voorinstelling staat niet in de bibliotheek: de laag heeft geen frees
 444|Zoom
+445|Geen cameraadres (http, https, rtsp, udp, rtp of rtmp).

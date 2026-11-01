@@ -443,3 +443,4 @@
 442|Ielādēt sagatavi
 443|Sagataves frēzes nav bibliotēkā: slānim nav frēzes
 444|Tālummaiņa
+445|Nav kameras adrese (http, https, rtsp, udp, rtp vai rtmp).

@@ -443,3 +443,4 @@
 442|Läs in förinställning
 443|Fräsen från förinställningen finns inte i biblioteket: lagret har ingen fräs
 444|Zoom
+445|Inte en kameraadress (http, https, rtsp, udp, rtp eller rtmp).
