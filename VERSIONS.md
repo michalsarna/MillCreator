@@ -4,6 +4,7 @@ Each release gets the next version number. Newest first.
 
 ## v0.5.4 (not released yet)
 
+* **G-code text tab follows the project:** while it is open, saving the file, a new note, a change of a G-code setting or of a postprocessor makes the text again (never when it has edits by hand). *Make again* is green. A window of a tab (preview, G-code text, camera) no longer shakes. baseCreator v1.53.1.
 * **More camera streams:** `udp://` and `rtp://` (MPEG-TS or RTP, also multicast) and `rtmp://` addresses are read by the ffmpeg of the program like RTSP; a stream that gives nothing for 20 seconds is opened again. baseCreator v1.53.0.
 
 ## v0.5.3

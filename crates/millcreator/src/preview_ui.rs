@@ -171,6 +171,10 @@ impl App {
             }
             None => self.gcode_texts.push(base_ui::gcode_text_ui::GcodeText::new(slot, &name, text)),
         }
+        let stamp = self.gcode_stamp();
+        if let Some(g) = self.gcode_texts.iter_mut().find(|g| g.slot == slot && !g.dirty()) {
+            g.stamp = stamp;
+        }
         self.status = if prog.warnings.is_empty() { tr("The G-code is shown, nothing is saved").to_string() } else { format!("{} ({})", tr("The G-code is shown, nothing is saved"), prog.warnings.iter().map(|w| w.text()).collect::<Vec<_>>().join("; ")) };
     }
 

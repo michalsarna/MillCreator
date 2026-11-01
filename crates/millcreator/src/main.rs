@@ -1163,6 +1163,7 @@ impl App {
         self.clip_dialogs(ctx);
         self.online_clipart_window(ctx);
         self.layer_presets_window(ctx);
+        self.refresh_gcode_text();
         self.closing_text_dialog(ctx);
         self.plugin_windows(ctx);
         tools_ui::tools_window(ctx, &mut self.tools_win, &mut self.tools);
@@ -2326,6 +2327,28 @@ mod tests {
         assert!(a.gcode_texts.is_empty() && a.closing_text.is_none());
         frame(&mut a);
         assert!(!a.panes.has(Content::GcodeText(slot)));
+    }
+
+    #[test]
+    fn the_g_code_text_follows_the_project_until_it_is_edited() {
+        let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
+        let mut a = app();
+        drawn(&mut a, 1);
+        a.preview_gcode();
+        a.refresh_gcode_text();
+        assert!(!a.gcode_texts[0].text.contains("fresh note"));
+        // A note of the project, a G-code setting of the device: the text is made again by itself.
+        a.description = "fresh note".into();
+        a.refresh_gcode_text();
+        assert!(a.gcode_texts[0].text.contains("(Note: fresh note)"), "{}", a.gcode_texts[0].text);
+        a.device.gcode.flavour.remove_comments = true;
+        a.refresh_gcode_text();
+        assert!(!a.gcode_texts[0].text.contains("fresh note"), "the comments are gone");
+        // Edited by hand: nothing is thrown away, whatever changes.
+        a.gcode_texts[0].text.push_str("(by hand)\n");
+        a.description = "another".into();
+        a.refresh_gcode_text();
+        assert!(a.gcode_texts[0].text.contains("(by hand)"));
     }
 
     fn drawn(a: &mut App, svg_times: usize) {
