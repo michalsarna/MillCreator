@@ -938,13 +938,14 @@ impl App {
             base_ui::editor::grid_toggles(self, ui);
             ui.separator();
             self.view_buttons(ui);
+            // Beside the buttons that show things: the G-code, shown without saving it, and written to a file.
+            if ui.button(tr("Preview G-code")).on_hover_text(tr("Show the G-code without saving it")).clicked() {
+                self.preview_gcode();
+            }
+            if base_ui::window::save_button(ui, &tr("Save G-code")).clicked() {
+                self.export_gcode();
+            }
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                if base_ui::window::save_button(ui, &tr("Save G-code")).clicked() {
-                    self.export_gcode();
-                }
-                if ui.button(tr("Preview G-code")).on_hover_text(tr("Show the G-code without saving it")).clicked() {
-                    self.preview_gcode();
-                }
                 base_ui::editor::selection_size(self, ui);
             });
         });
