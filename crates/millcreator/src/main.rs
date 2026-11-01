@@ -853,6 +853,11 @@ impl App {
                 } else {
                     self.group_selection();
                 }
+            } else if pressed(egui::Key::E) && !shift {
+                // Ctrl+E: Export G-code (the native menu of macOS has the key itself).
+                if !native && self.screen == Screen::Editor {
+                    self.export_gcode();
+                }
             } else if !native && pressed(egui::Key::N) {
                 self.new_tab();
             } else if !native && pressed(egui::Key::S) {
