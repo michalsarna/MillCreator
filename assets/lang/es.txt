@@ -422,3 +422,5 @@
 421|La vista tiene como máximo tres paneles
 422|Mostrar aquí la vista previa
 423|Ningún archivo G-code abierto: File, View G-code file…
+424|0 = profundidad completa en una sola pasada
+425|{}: una pasada de {} mm es más profunda que la parte cortante de la fresa ({} mm)

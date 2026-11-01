@@ -190,7 +190,10 @@ impl App {
                     changed |= drag_len(ui, units, &mut l.depth, 0.1, Some((0.0, 1000.0))).changed();
                     ui.end_row();
                     ui.label(tr("Pass depth"));
-                    changed |= drag_len(ui, units, &mut l.step_down, 0.05, Some((0.01, 1000.0))).changed();
+                    changed |= drag_len(ui, units, &mut l.step_down, 0.05, Some((0.0, 1000.0))).changed();
+                    if l.step_down <= 0.0 {
+                        ui.label(RichText::new(tr("0 = full depth in one pass")).small().color(theme::text_dim()));
+                    }
                     ui.end_row();
                     if matches!(l.op, Operation::Pocket | Operation::Picture | Operation::Face) {
                         ui.label(tr("Step over"));

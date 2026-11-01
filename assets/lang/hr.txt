@@ -422,3 +422,5 @@
 421|Prikaz ima najviše tri okna
 422|Prikaži pregled ovdje
 423|Nijedna G-kod datoteka nije otvorena: File, View G-code file…
+424|0 = puna dubina u jednom prolazu
+425|{}: jedan prolaz od {} mm dublji je od reznog dijela glodala ({} mm)

@@ -422,3 +422,5 @@
 421|Visningen har høyst tre paneler
 422|Vis forhåndsvisningen her
 423|Ingen G-kodefil er åpen: File, View G-code file…
+424|0 = full dybde i ett pass
+425|{}: ett pass på {} mm er dypere enn den skjærende delen av frøsen ({} mm)

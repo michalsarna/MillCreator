@@ -27,7 +27,7 @@ Inne kształty na tej samej warstwie są prowadzone jak linie. Na warstwie z inn
 | Operation | patrz niżej |
 | Bit | dowolny frez z [Biblioteki frezów](Biblioteka-frezow). Wybór freza bierze jego posuw, posuw wejścia, obroty, głębokość przejścia równą połowie średnicy i krok boczny |
 | Depth | całkowita głębokość pod powierzchnią materiału |
-| Pass depth | jak głęboko idzie jedno przejście; ostatnie zawsze kończy się na pełnej głębokości |
+| Pass depth | jak głęboko idzie jedno przejście; ostatnie zawsze kończy się na pełnej głębokości. **0 oznacza pełną głębokość w jednym przejściu** (ostrzeżenie mówi o tym, gdy to głębiej niż część tnąca freza); tak samo *Pass depth (of the diameter)* freza w bibliotece |
 | Step over | dla kieszeni: odstęp między pierścieniami jako część średnicy |
 | Feed, Plunge feed | mm/min w materiale i przy zagłębianiu |
 | Spindle speed | obr/min; wartość poza zakresem urządzenia jest zgłaszana |

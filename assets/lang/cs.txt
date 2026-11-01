@@ -422,3 +422,5 @@
 421|Pohled má nejvýše tři panely
 422|Zobrazit náhled zde
 423|Není otevřen žádný soubor G-kódu: File, View G-code file…
+424|0 = plná hloubka na jeden průchod
+425|{}: jeden průchod o {} mm je hlubší než řezná část frézy ({} mm)

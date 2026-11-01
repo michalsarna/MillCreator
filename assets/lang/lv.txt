@@ -422,3 +422,5 @@
 421|Skatam ir ne vairāk kā trīs rūtis
 422|Rādīt priekšskatījumu šeit
 423|Nav atvērts neviens G-koda fails: File, View G-code file…
+424|0 = pilns dziļums vienā piegājienā
+425|{}: viens {} mm piegājiens ir dziļāks par frēzes griezējdaļu ({} mm)

@@ -422,3 +422,5 @@
 421|De weergave heeft maximaal drie deelvensters
 422|Voorbeeld hier tonen
 423|Geen G-code-bestand geopend: File, View G-code file…
+424|0 = volledige diepte in één keer
+425|{}: één pass van {} mm is dieper dan het snijdende deel van de frees ({} mm)

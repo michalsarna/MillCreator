@@ -422,3 +422,5 @@
 421|Vyn har högst tre rutor
 422|Visa förhandsgranskningen här
 423|Ingen G-kodfil är öppen: File, View G-code file…
+424|0 = fullt djup i ett pass
+425|{}: ett pass på {} mm är djupare än fräsens skärande del ({} mm)

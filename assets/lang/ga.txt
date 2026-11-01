@@ -422,3 +422,5 @@
 421|Tá trí phána ar a mhéad sa radharc
 422|Taispeáin an réamhamharc anseo
 423|Níl comhad G-code ar oscailt: File, View G-code file…
+424|0 = doimhneacht iomlán i gcéim amháin
+425|{}: tá pas de {} mm níos doimhne ná páirt ghearrtha an bhíoma ({} mm)

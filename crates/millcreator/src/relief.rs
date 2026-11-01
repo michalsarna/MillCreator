@@ -104,9 +104,10 @@ pub fn tip_heights(map: &HeightMap, tool: &Tool) -> Vec<f64> {
     out
 }
 
-/// The depths of the passes: `step_down`, twice that, ... up to the full `depth` (the last one is the relief itself).
+/// The depths of the passes: `step_down`, twice that, ... up to the full `depth` (the last one is the relief itself). A
+/// `step_down` of 0 is the full depth in one pass.
 pub fn pass_limits(depth: f64, step_down: f64) -> Vec<f64> {
-    let step = step_down.max(0.01);
+    let step = if step_down <= 0.0 { depth.max(0.01) } else { step_down.max(0.01) };
     let n = ((depth / step) - 1e-9).ceil().clamp(1.0, 200.0) as usize;
     let mut v: Vec<f64> = (1..=n).map(|i| (step * i as f64).min(depth)).collect();
     if let Some(l) = v.last_mut() {

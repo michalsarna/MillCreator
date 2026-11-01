@@ -422,3 +422,5 @@
 421|La vue compte trois panneaux au maximum
 422|Afficher l'aperçu ici
 423|Aucun fichier G-code ouvert : File, View G-code file…
+424|0 = pleine profondeur en une seule passe
+425|{} : une passe de {} mm est plus profonde que la partie coupante de la fraise ({} mm)

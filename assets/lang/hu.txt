@@ -422,3 +422,5 @@
 421|A nézetnek legfeljebb három panelje lehet
 422|Előnézet megjelenítése itt
 423|Nincs megnyitva G-kód fájl: File, View G-code file…
+424|0 = teljes mélység egy menetben
+425|{}: egy {} mm-es menet mélyebb, mint a maró vágórésze ({} mm)

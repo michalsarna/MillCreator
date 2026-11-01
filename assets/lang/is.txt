@@ -422,3 +422,5 @@
 421|Sýnin hefur í mesta lagi þrjá glugga
 422|Sýna forskoðun hér
 423|Engin G-kóðaskrá er opin: File, View G-code file…
+424|0 = full dýpt í einni umferð
+425|{}: ein umferð upp á {} mm er dýpri en skurðhluti fræsarans ({} mm)

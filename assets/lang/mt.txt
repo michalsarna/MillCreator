@@ -422,3 +422,5 @@
 421|Il-veduta għandha mhux aktar minn tliet pannelli
 422|Uri l-previżjoni hawn
 423|Ebda fajl G-code miftuħ: File, View G-code file…
+424|0 = il-fond sħiħ f'passata waħda
+425|{}: passata waħda ta' {} mm hija iktar fonda mill-parti li taqta' tal-frieża ({} mm)

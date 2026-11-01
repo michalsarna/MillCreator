@@ -422,3 +422,5 @@
 421	The view has three panes at most
 422	Show the preview here
 423	No G-code file is open: File, View G-code file…
+424	0 = full depth in one pass
+425	{}: one pass of {} mm is deeper than the cutting part of the bit ({} mm)

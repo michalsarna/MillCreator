@@ -27,7 +27,7 @@ Other shapes on the same layer are followed as lines. On a layer with another op
 | Operation | see below |
 | Bit | any bit of the [Bit Library](Bit-Library). Choosing a bit takes its feed, plunge feed, spindle speed, a pass depth of half its diameter and the step over |
 | Depth | the total depth below the top of the material |
-| Pass depth | how deep one pass goes; the last pass always ends at the full depth |
+| Pass depth | how deep one pass goes; the last pass always ends at the full depth. **0 means the full depth in one pass** (a warning says so when that is deeper than the cutting part of the bit); the same for *Pass depth (of the diameter)* of a bit in the library |
 | Step over | for a pocket: the distance between rings, as a part of the diameter |
 | Feed, plunge feed | mm/min in the material and for the plunge |
 | Spindle speed | rpm; a value outside the range of the device is reported |

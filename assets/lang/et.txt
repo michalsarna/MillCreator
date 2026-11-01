@@ -422,3 +422,5 @@
 421|Vaates on kuni kolm paani
 422|Näita eelvaadet siin
 423|G-koodi faili pole avatud: File, View G-code file…
+424|0 = täissügavus ühe käiguga
+425|{}: üks {} mm käik on sügavam kui freesi lõikeosa ({} mm)

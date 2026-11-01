@@ -422,3 +422,5 @@
 421|Rodinys turi ne daugiau kaip tris skydelius
 422|Rodyti peržiūrą čia
 423|Neatidarytas joks G kodo failas: File, View G-code file…
+424|0 = visas gylis per vieną perėjimą
+425|{}: vienas {} mm perėjimas gilesnis nei frezos pjovimo dalis ({} mm)

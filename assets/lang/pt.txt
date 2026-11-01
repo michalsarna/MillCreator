@@ -422,3 +422,5 @@
 421|A vista tem no máximo três painéis
 422|Mostrar aqui a pré-visualização
 423|Nenhum ficheiro G-code aberto: File, View G-code file…
+424|0 = profundidade total numa só passagem
+425|{}: uma passagem de {} mm é mais funda do que a parte de corte da fresa ({} mm)

@@ -434,6 +434,11 @@ fn run_layers(b: &mut Builder, prog: &mut Program, scene: &Scene, layers: &[Mill
             prog.warnings.push(Warn::new("{}: no bit chosen", &[&layer.name]));
             continue;
         };
+        // A pass that goes deeper in one go than the cutting part of the bit is long.
+        let one_pass = if layer.step_down <= 0.0 { layer.depth } else { layer.step_down.min(layer.depth) };
+        if tool.dims.cut_length > 0.0 && one_pass > tool.dims.cut_length + 1e-9 && !matches!(layer.op, Operation::Drill) {
+            prog.warnings.push(Warn::new("{}: one pass of {} mm is deeper than the cutting part of the bit ({} mm)", &[&layer.name, &format!("{one_pass:.1}"), &tool.dims.cut_length]));
+        }
         if dev.changer && tool.number == 0 {
             prog.warnings.push(Warn::new("{}: the bit has no changer number: the machine is asked to stop for it instead", &[&layer.name]));
         }
@@ -1054,6 +1059,30 @@ mod tests {
         let levels: std::collections::BTreeSet<i64> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).map(|m| (m.to[2] * 1000.0).round() as i64).collect();
         assert_eq!(levels.into_iter().collect::<Vec<_>>(), vec![-6000, -3000], "two passes");
         assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
+    }
+
+    #[test]
+    fn a_pass_depth_of_zero_cuts_the_full_depth_in_one_pass_and_a_short_bit_gives_a_warning() {
+        let (lib, dev, stock, mut layers) = setup();
+        layers[0].depth = 6.0;
+        layers[0].step_down = 0.0;
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 50.0, 50.0, 40.0);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let levels: std::collections::BTreeSet<i64> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).map(|m| (m.to[2] * 1000.0).round() as i64).collect();
+        assert_eq!(levels.into_iter().collect::<Vec<_>>(), vec![-6000], "one pass");
+        let cut = lib.get("std-flat-3").unwrap().dims.cut_length;
+        assert!(cut >= 6.0, "the bit of the test cuts 6 mm deep: {cut}");
+        assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
+        // A bit whose cutting part is shorter than the pass: a warning, the file is made all the same.
+        layers[0].depth = cut + 4.0;
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(prog.warnings.iter().any(|w| w.text().contains("deeper than the cutting part")), "{:?}", prog.warnings.iter().map(|w| w.text()).collect::<Vec<_>>());
+        assert!(!prog.moves.is_empty());
+        // The same depth in passes the bit can take: no warning.
+        layers[0].step_down = cut;
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(!prog.warnings.iter().any(|w| w.text().contains("deeper than the cutting part")));
     }
 
     #[test]

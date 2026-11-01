@@ -422,3 +422,5 @@
 421|Pogled ima največ tri podokna
 422|Pokaži predogled tukaj
 423|Nobena datoteka G-kode ni odprta: File, View G-code file…
+424|0 = polna globina v enem prehodu
+425|{}: en prehod z {} mm je globlji od rezalnega dela rezkarja ({} mm)
