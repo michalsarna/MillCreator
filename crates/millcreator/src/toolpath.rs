@@ -547,13 +547,17 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
     // The role of the rings for the direction: a bore and a dogbone slot are inside profiles.
     let role_op = if inner_profile { Operation::ProfileInside } else { layer.op };
     // The rings of a profile or a pocket, turned the way the layer asks for, each with its role (a hole of a part or not).
-    let go_rings = |b: &mut Builder, rings: Vec<Polyline>, depths: &[f64], notes: &mut Notes| {
+    let go_rings = |b: &mut Builder, rings: Vec<Polyline>, depths: &[f64], notes: &mut Notes, stay_in: Option<&[Polyline]>| {
         let mut rings = passes::oriented(rings, role_op, layer.direction);
         let hole = passes::roles(&rings);
         if layer.op == Operation::DogboneSlot {
             rings = rings.iter().zip(&hole).map(|(ring, hole)| crate::clear::dogbone(ring, r, *hole)).collect();
         }
         let holes: Vec<Polyline> = rings.iter().zip(&hole).filter(|(_, h)| **h).map(|(r, _)| r.clone()).collect();
+        if let Some(region) = stay_in {
+            passes::rings_staying_down(b, &rings, &hole, &holes, depths, &plan, region, notes);
+            return;
+        }
         for (i, (ring, hole)) in rings.iter().zip(&hole).enumerate() {
             passes::ring_passes(b, ring, depths, &plan, *hole, &holes, i > 0, notes);
         }
@@ -561,7 +565,10 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
     // Clear a region (where the centre of the bit may go) by rings or by a raster, every depth in turn.
     let step = (tool.dims.diameter * layer.step_over_pct / 100.0).max(0.05);
     let clear_region = |b: &mut Builder, region: Vec<Polyline>, notes: &mut Notes| match layer.pattern {
-        PocketPattern::Rings => go_rings(b, crate::clear::rings_with_middle(&region, step), depths, notes),
+        PocketPattern::Rings => {
+            let rings = crate::clear::rings_with_middle(&region, step);
+            go_rings(b, rings, depths, notes, (layer.stay_down && layer.op == Operation::Pocket).then_some(region.as_slice()))
+        }
         PocketPattern::Raster => {
             for d in depths {
                 for path in crate::clear::raster_paths(&region, layer.raster_angle, step) {
@@ -578,10 +585,10 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
             }
             let d = if layer.op == Operation::ProfileOutside { r } else { -r };
             let left = layer.leave.max(0.0);
-            go_rings(b, ops::offset(&closed, d + d.signum() * left), depths, &mut notes);
+            go_rings(b, ops::offset(&closed, d + d.signum() * left), depths, &mut notes, None);
             // The material that was left on the wall comes off in one more pass at the full depth.
             if left > 0.0 && layer.finish {
-                go_rings(b, ops::offset(&closed, d), &[full], &mut notes);
+                go_rings(b, ops::offset(&closed, d), &[full], &mut notes, None);
             }
         }
         Operation::Pocket => {
@@ -592,7 +599,7 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
             let left = layer.leave.max(0.0);
             let walls = ops::offset(&closed, -r);
             if layer.outline == OutlinePass::Before {
-                go_rings(b, walls.clone(), depths, &mut notes);
+                go_rings(b, walls.clone(), depths, &mut notes, None);
             }
             // The region the centre of the bit moves in; for a rest pocket only what the bigger bit left.
             let region = match rest_r {
@@ -601,10 +608,10 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
             };
             clear_region(b, region, &mut notes);
             if layer.outline == OutlinePass::After {
-                go_rings(b, walls.clone(), depths, &mut notes);
+                go_rings(b, walls.clone(), depths, &mut notes, None);
             }
             if left > 0.0 && layer.finish {
-                go_rings(b, walls, &[full], &mut notes);
+                go_rings(b, walls, &[full], &mut notes, None);
             }
         }
         Operation::Face => {
@@ -1225,6 +1232,37 @@ mod tests {
         assert!(g.contains("T7)"), "the operation change knows the bit too: {g}");
         dev.gcode.tool_change = "{tool_nothing}".into();
         assert!(dev.gcode.check_variables().is_err());
+    }
+
+    #[test]
+    fn a_pocket_that_stays_down_goes_between_the_rings_by_cuts_inside_the_pocket() {
+        let (lib, dev, stock, mut layers) = setup();
+        layers[2].depth = 3.0;
+        layers[2].step_down = 1.0;
+        layers[2].pattern = crate::layers::PocketPattern::Rings;
+        let mut scene = Scene::default();
+        square(&mut scene, 2, 20.0, 20.0, 40.0);
+        let lifts = |prog: &Program| prog.moves.iter().filter(|m| m.kind == MoveKind::Rapid && m.to[2] >= dev.safe_z - 1e-9 && m.from[2] >= dev.safe_z - 1e-9).count();
+        let usual = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(!layers[2].stay_down, "off by default");
+        layers[2].stay_down = true;
+        let down = generate(&scene, &layers, &lib, &dev, &stock);
+        // The same depths are cut, with the same bit, but with far fewer trips over the pocket.
+        let depths = |p: &Program| p.moves.iter().filter(|m| m.kind == MoveKind::Cut).map(|m| (m.to[2] * 1000.0).round() as i64).collect::<std::collections::BTreeSet<i64>>();
+        assert_eq!(depths(&usual), depths(&down));
+        assert!(lifts(&down) < lifts(&usual), "{} lifts against {}", lifts(&down), lifts(&usual));
+        // Every move at a depth stays inside the walls of the pocket (the bit cuts its edge at the walls).
+        let r = lib.get("std-flat-3").unwrap().radius();
+        let (lo, hi) = (20.0 + r - 0.01, 60.0 - r + 0.01);
+        let (x0, y0) = (lo, 200.0 - hi);
+        for m in down.moves.iter().filter(|m| m.kind == MoveKind::Cut) {
+            assert!(m.to[0] >= x0 - 1e-6 && m.to[0] <= hi + 1e-6 && m.to[1] >= y0 - 1e-6 && m.to[1] <= 200.0 - lo + 1e-6, "{:?} is out of the pocket", m.to);
+        }
+        // The cut that joins two rings is at a depth: some cut moves at depth 1 begin where the lap before ended and are not laps.
+        assert!(down.moves.windows(2).any(|w| w[0].kind == MoveKind::Cut && w[1].kind == MoveKind::Cut && (w[0].to[2] - w[1].to[2]).abs() < 1e-9 && {
+            let d = ((w[1].to[0] - w[0].to[0]).powi(2) + (w[1].to[1] - w[0].to[1]).powi(2)).sqrt();
+            d > 2.0 && w[0].to[2] < -0.5
+        }));
     }
 
     #[test]

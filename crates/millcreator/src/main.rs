@@ -5,6 +5,8 @@
 mod autosave_glue;
 mod clear;
 mod backup_ui;
+mod cutting_calc;
+mod wcs_pick;
 mod device;
 mod device_ui;
 mod duet_glue;
@@ -302,6 +304,12 @@ struct App {
     saved_rev: u64,
     /// The tabs of open drawings (the shown one is the live fields above), and the number of the recovery file of the shown one.
     tabs_state: workspaces::Tabs,
+    /// The next click on the work area sets the zero of the program (the button in the device settings).
+    pick_origin: bool,
+    /// The icon of the work coordinate system is being dragged.
+    wcs_drag: bool,
+    /// The zero before the last pick or drag, for one step of undo (forgotten when something else is changed).
+    wcs_undo: Option<device::Wcs>,
     /// The central area in panes (one pane unless the person split the view).
     panes: base_ui::work_panes::Panes,
     slot: usize,
@@ -325,8 +333,8 @@ struct App {
     /// The answer of a request to a Duet board that runs in a thread.
     duet_rx: Option<std::sync::mpsc::Receiver<(duet_glue::DuetJob, Result<String, String>)>>,
     /// The library of layer settings (read from its file when first needed) and the name typed for the next one.
-    presets: Option<Vec<layer_presets::LayerPreset>>,
-    preset_name: String,
+    presets: Option<base_ui::layer_presets_ui::Library<layers::MillLayer>>,
+    presets_ui: base_ui::layer_presets_ui::PresetsUi,
     selection_only: bool,
     cam: Option<CamState>,
     /// Was the camera picture drawn in the last frame? A stream nobody looks at is stopped (its frames would pile up).
@@ -452,6 +460,9 @@ impl App {
             autosave: Default::default(),
             saved_rev: 0,
             tabs_state: Default::default(),
+            pick_origin: false,
+            wcs_drag: false,
+            wcs_undo: None,
             panes: base_ui::work_panes::Panes::from_json(&saved("panes").unwrap_or_default()),
             slot: 0,
             quitting: false,
@@ -465,7 +476,7 @@ impl App {
             setup: setup_ui::Setup::default(),
             duet_rx: None,
             presets: None,
-            preset_name: String::new(),
+            presets_ui: Default::default(),
             selection_only: false,
             cam: None,
             cam_drawn: false,
@@ -774,6 +785,9 @@ impl App {
     }
 
     fn undo(&mut self) {
+        if self.undo_wcs() {
+            return;
+        }
         if let Some(s) = self.history.back(&self.scene) {
             self.scene = s;
             self.forget_missing();
@@ -1145,6 +1159,7 @@ impl App {
         base_ui::editor::view_options_window(self, ctx, &mut show);
         self.clip_dialogs(ctx);
         self.online_clipart_window(ctx);
+        self.layer_presets_window(ctx);
         self.plugin_windows(ctx);
         tools_ui::tools_window(ctx, &mut self.tools_win, &mut self.tools);
         self.device_window(ctx);
@@ -1278,6 +1293,7 @@ impl EditorHost for App {
         self.layers.get(layer).is_none_or(|l| l.visible)
     }
     fn checkpoint(&mut self) {
+        self.wcs_undo = None;
         let before = self.scene.clone();
         self.history.push(before);
     }
@@ -1333,9 +1349,10 @@ impl EditorHost for App {
     fn paint_over_shapes(&mut self, v: &base_ui::editor::CanvasView) {
         self.paint_toolpaths(v);
         self.paint_hand_tabs(v);
+        self.paint_wcs_icon(v);
     }
     fn pointer_claimed(&mut self, resp: &egui::Response, origin: egui::Pos2, _press: Option<egui::Pos2>, hover: Option<egui::Pos2>) -> bool {
-        self.hand_tabs_pointer(resp, origin, hover)
+        self.wcs_pointer(resp, origin, hover) || self.hand_tabs_pointer(resp, origin, hover)
     }
 }
 

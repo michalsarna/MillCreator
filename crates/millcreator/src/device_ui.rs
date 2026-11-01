@@ -232,6 +232,7 @@ impl App {
         let confirm = self.confirm_delete;
         let ports = self.machine.ports.clone();
         let mut refresh_ports = false;
+        let mut pick_zero = false;
         let machine = &mut self.machine;
         let new = edit.idx.is_none();
         let title = if new { tr("Add a device") } else { tr("Device settings") };
@@ -252,7 +253,7 @@ impl App {
                 match edit.page {
                     Page::General => {
                         egui::Grid::new("dev_general").num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
-                            ui.label(tr("Name"));
+                            base_ui::widgets::var_label(ui, tr("Name"), "machine_name");
                             ui.add(egui::TextEdit::singleline(&mut d.name).hint_text(tr("e.g. My CNC router")));
                             ui.end_row();
                             ui.label(tr("Controller"));
@@ -309,6 +310,9 @@ impl App {
                                     drag_len(ui, units, &mut d.wcs.x, 1.0, Some((-100000.0, 100000.0)));
                                     ui.label("Y");
                                     drag_len(ui, units, &mut d.wcs.y, 1.0, Some((-100000.0, 100000.0)));
+                                    if ui.button(tr("Pick on the work area")).on_hover_text(tr("The next click on the work area sets the zero (it snaps to the corners and the middles of the shapes); the icon of the axes can be dragged")).clicked() {
+                                        pick_zero = true;
+                                    }
                                 });
                             });
                             ui.end_row();
@@ -557,6 +561,9 @@ impl App {
                 });
             });
         });
+        if pick_zero {
+            self.pick_origin = true;
+        }
         if refresh_ports {
             self.machine.refresh_ports();
         }
