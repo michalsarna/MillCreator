@@ -419,3 +419,26 @@
 418|Nu se salvează: se cere din nou când se deschide programul
 419|Piesa frezată nu poate fi exportată ca STL cât timp este ales un ax rotativ.
 420|Inserare
+421|Vizualizarea are cel mult trei panouri
+422|Afișează aici previzualizarea
+423|Niciun fișier G-code deschis: File, View G-code file…
+424|0 = adâncime completă într-o singură trecere
+425|{}: o trecere de {} mm este mai adâncă decât partea tăietoare a frezei ({} mm)
+426|Previzualizare G-code
+427|Afișează G-code fără a-l salva
+428|previzualizare
+429|G-code este afișat, nu se salvează nimic
+430|G-code propriu al dispozitivului: {}
+431|La schimbarea frezei și a operației și:
+432|Viteză de așchiere (Vc)
+433|Avans pe dinte (fz)
+434|Avans de pătrundere pe dinte
+435|De la freză: diametrul și numărul de tăișuri
+436|Rămâi jos între inele
+437|La fiecare adâncime inelele se urmează, iar freza trece la următorul printr-o tăiere în material, când tot drumul se află în buzunar; altfel se ridică ca de obicei
+438|Alege pe zona de lucru
+439|Următorul clic pe zona de lucru stabilește zeroul (se prinde de colțurile și centrele formelor); pictograma axelor poate fi trasă
+440|Faceți clic pe zona de lucru pentru a stabili zeroul programului (Esc anulează)
+441|Zeroul programului este la X {} Y {}
+442|Încarcă presetarea
+443|Freza din presetare nu este în bibliotecă: stratul nu are freză

@@ -17,13 +17,16 @@ pub enum DuetJob {
 impl App {
     /// The G-code as the board gets it: the program of the project as written for this device (the S values are rpm, no GRBL range).
     pub(crate) fn duet_program(&mut self) -> Option<(String, String)> {
+        if !self.gcode_variables_ok() {
+            return None;
+        }
         let prog = self.make_program();
         if prog.is_empty() {
             self.status = self.nothing_to_cut();
             return None;
         }
         let name = self.path.as_ref().and_then(|p| p.file_stem()).map(|s| s.to_string_lossy().into_owned()).unwrap_or_else(|| "untitled".into());
-        let text = crate::toolpath::to_gcode(&prog, &self.device.with_stock(&self.stock), &self.layers, &self.tools, &name);
+        let text = crate::toolpath::to_gcode_info(&prog, &self.device.with_stock(&self.stock), &self.layers, &self.tools, &self.gcode_info(&name));
         Some((name, text))
     }
 

@@ -199,7 +199,9 @@ impl App {
             return;
         }
         let Some(mut w) = self.tabs_state.parked[i].take() else { return };
+        let was = self.slot;
         self.swap_ws(&mut w);
+        self.panes.activated(was, self.slot);
         let at = self.tabs_state.active;
         self.tabs_state.parked[at] = Some(w);
         self.tabs_state.active = i;
@@ -244,6 +246,7 @@ impl App {
         }
         match doc_tabs::tab_bar_with(ui, &infos, self.tabs_state.active, &extras) {
             Some(TabAction::Select(i)) => self.switch_to(i),
+            Some(TabAction::ShowBeside(i)) => self.show_tab_beside(i),
             Some(TabAction::New) => {
                 self.cam_ws_shown = false;
                 self.pv_tab_shown = false;

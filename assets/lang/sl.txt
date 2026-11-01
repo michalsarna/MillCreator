@@ -419,3 +419,26 @@
 418|Ne shrani se: ob odprtju programa se zahteva znova
 419|Rezkanega kosa ni mogoče izvoziti kot STL, dokler je izbrana vrtilna os.
 420|Vstavi
+421|Pogled ima največ tri podokna
+422|Pokaži predogled tukaj
+423|Nobena datoteka G-kode ni odprta: File, View G-code file…
+424|0 = polna globina v enem prehodu
+425|{}: en prehod z {} mm je globlji od rezalnega dela rezkarja ({} mm)
+426|Predogled G-kode
+427|Pokaži G-kodo brez shranjevanja
+428|predogled
+429|G-koda je prikazana, nič ni shranjeno
+430|Lastna G-koda naprave: {}
+431|Pri zamenjavi rezkarja in operacije tudi:
+432|Rezalna hitrost (Vc)
+433|Podajanje na zob (fz)
+434|Podajanje potopa na zob
+435|Iz rezkarja: premer in število rezil
+436|Ostani spodaj med obroči
+437|Na vsaki globini si obroči sledijo in rezkar do naslednjega pride z rezom v materialu, če vsa pot leži znotraj žepa; sicer se dvigne kot običajno
+438|Izberi na delovni površini
+439|Naslednji klik na delovni površini nastavi ničlo (pripne se na vogale in središča oblik); ikono osi lahko vlečete
+440|Kliknite na delovno površino, da nastavite ničlo programa (Esc prekliče)
+441|Ničla programa je pri X {} Y {}
+442|Naloži prednastavitev
+443|Rezkar iz prednastavitve ni v knjižnici: plast je brez rezkarja

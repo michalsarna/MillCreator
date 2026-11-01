@@ -419,3 +419,26 @@
 418|No se guarda: se pide de nuevo al abrir el programa
 419|La pieza fresada no se puede exportar como STL mientras haya un eje rotativo elegido.
 420|Insertar
+421|La vista tiene como máximo tres paneles
+422|Mostrar aquí la vista previa
+423|Ningún archivo G-code abierto: File, View G-code file…
+424|0 = profundidad completa en una sola pasada
+425|{}: una pasada de {} mm es más profunda que la parte cortante de la fresa ({} mm)
+426|Vista previa del G-code
+427|Mostrar el G-code sin guardarlo
+428|vista previa
+429|El G-code se muestra, no se guarda nada
+430|G-code propio del dispositivo: {}
+431|En el cambio de fresa y de operación también:
+432|Velocidad de corte (Vc)
+433|Avance por diente (fz)
+434|Avance de penetración por diente
+435|De la fresa: diámetro y número de filos
+436|Quedarse abajo entre los anillos
+437|En cada profundidad los anillos se siguen y la fresa pasa al siguiente con un corte en el material, cuando todo el camino está dentro del vaciado; si no, se levanta como de costumbre
+438|Elegir en el área de trabajo
+439|El siguiente clic en el área de trabajo fija el cero (se ajusta a las esquinas y a los centros de las formas); el icono de los ejes se puede arrastrar
+440|Haga clic en el área de trabajo para fijar el cero del programa (Esc cancela)
+441|El cero del programa está en X {} Y {}
+442|Cargar preajuste
+443|La fresa del preajuste no está en la biblioteca: la capa no tiene fresa

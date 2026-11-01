@@ -419,3 +419,26 @@
 418|Neukladá sa: pri ďalšom otvorení programu sa zadáva znova
 419|Vyfrézovaný kus sa nedá exportovať ako STL, kým je zvolená rotačná os.
 420|Vložiť
+421|Zobrazenie má najviac tri panely
+422|Zobraziť náhľad tu
+423|Nie je otvorený žiadny súbor G-kódu: File, View G-code file…
+424|0 = plná hĺbka na jeden prechod
+425|{}: jeden prechod s {} mm je hlbší než rezná časť frézy ({} mm)
+426|Náhľad G-kódu
+427|Zobraziť G-kód bez uloženia
+428|náhľad
+429|G-kód je zobrazený, nič sa neukladá
+430|Vlastný G-kód zariadenia: {}
+431|Pri výmene frézy a operácie aj:
+432|Rezná rýchlosť (Vc)
+433|Posuv na zub (fz)
+434|Zanorovací posuv na zub
+435|Z frézy: priemer a počet zubov
+436|Zostať dole medzi prstencami
+437|Na každej hĺbke idú prstence za sebou a fréza prejde na ďalší rezom v materiáli, keď celá cesta leží vnútri vrecka; inak sa zdvihne ako zvyčajne
+438|Vybrať na pracovnej ploche
+439|Ďalšie kliknutie na pracovnej ploche nastaví nulu (prichytí sa k rohom a stredom tvarov); ikonu osí možno presúvať
+440|Kliknite na pracovnú plochu na nastavenie nuly programu (Esc zruší)
+441|Nula programu je na X {} Y {}
+442|Načítať predvoľbu
+443|Fréza z predvoľby nie je v knižnici: vrstva je bez frézy

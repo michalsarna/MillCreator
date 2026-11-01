@@ -251,10 +251,14 @@ impl Tool {
             return Err("the tip is wider than the bit".into());
         }
         let c = &self.cutting;
-        for v in [c.feed, c.plunge, c.rpm, c.step_down_pct, c.step_over_pct] {
+        for v in [c.feed, c.plunge, c.rpm, c.step_over_pct] {
             if !v.is_finite() || v <= 0.0 || v > 1_000_000.0 {
                 return Err("a feed, a speed or a step is out of range".into());
             }
+        }
+        // The pass depth may be 0: the full depth in one pass.
+        if !c.step_down_pct.is_finite() || c.step_down_pct < 0.0 || c.step_down_pct > 1_000_000.0 {
+            return Err("a feed, a speed or a step is out of range".into());
         }
         if self.name.trim().is_empty() || self.name.len() > 120 || self.notes.len() > 4000 || self.id.is_empty() || self.id.len() > 80 {
             return Err("the name or the notes are empty or too long".into());

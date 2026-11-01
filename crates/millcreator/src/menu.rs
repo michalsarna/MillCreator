@@ -80,7 +80,7 @@ pub fn menus() -> Menus<Act> {
             "Arrange",
             [std(std_entries::align()), vec![Sep], std(std_entries::place()), vec![Sep], std(std_entries::group()), vec![Sep], std(std_entries::order()), vec![Sep], std(std_entries::nodes()), vec![Sep], std(std_entries::shape_ops()), vec![Sep], std(std_entries::design_tools()), vec![Sep], std(std_entries::image_tools())].concat(),
         ),
-        ("View", [std(std_entries::grid()), std(std_entries::zoom()), vec![Sep], std(std_entries::background())].concat()),
+        ("View", [std(std_entries::grid()), std(std_entries::zoom()), vec![Sep], std(std_entries::split_view()), vec![Sep], std(std_entries::background())].concat()),
         (
             "Settings",
             vec![
