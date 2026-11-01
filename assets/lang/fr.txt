@@ -434,3 +434,5 @@
 433|Avance par dent (fz)
 434|Avance de plongée par dent
 435|De la fraise : diamètre et nombre de dents
+436|Rester en bas entre les anneaux
+437|À chaque profondeur les anneaux se suivent et la fraise passe au suivant par une coupe dans la matière, quand tout le trajet est dans la poche ; sinon elle se relève comme d'habitude

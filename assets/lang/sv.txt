@@ -434,3 +434,5 @@
 433|Matning per tand (fz)
 434|Instickmatning per tand
 435|Från fräsen: diameter och antal skär
+436|Stanna nere mellan ringarna
+437|På varje djup följer ringarna efter varandra och fräsen går till nästa ring med ett snitt i materialet när hela vägen ligger inne i fickan; annars lyfter den som vanligt

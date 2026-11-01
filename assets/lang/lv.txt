@@ -434,3 +434,5 @@
 433|Padeve uz zobu (fz)
 434|Iegremdēšanas padeve uz zobu
 435|No frēzes: diametrs un zobu skaits
+436|Palikt lejā starp gredzeniem
+437|Katrā dziļumā gredzeni seko cits citam un frēze pāriet uz nākamo ar griezumu materiālā, ja viss ceļš atrodas kabatas iekšpusē; citādi tā paceļas kā parasti

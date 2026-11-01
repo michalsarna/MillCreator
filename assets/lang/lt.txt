@@ -434,3 +434,5 @@
 433|Padavimas vienam dantukui (fz)
 434|Panirimo padavimas vienam dantukui
 435|Iš frezos: skersmuo ir dantų skaičius
+436|Likti apačioje tarp žiedų
+437|Kiekviename gylyje žiedai eina vienas po kito, o freza į kitą žiedą pereina pjūviu medžiagoje, kai visas kelias yra kišenės viduje; kitaip ji pakyla kaip įprasta

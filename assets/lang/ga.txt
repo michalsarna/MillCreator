@@ -434,3 +434,5 @@
 433|Beathú in aghaidh an fhiacail (fz)
 434|Beathú tumtha in aghaidh an fhiacail
 435|Ón mbiorán: trastomhas agus líon na bhfliúit
+436|Fan thíos idir fáinní
+437|Ag gach doimhneacht leanann na fáinní a chéile agus téann an bíoma chuig an gcéad fháinne eile le gearradh san ábhar, nuair atá an bealach ar fad laistigh den phoca; seachas sin ardaíonn sé mar is gnách

@@ -434,3 +434,5 @@
 433|Voeding per tand (fz)
 434|Insteekvoeding per tand
 435|Van de frees: diameter en aantal snijkanten
+436|Beneden blijven tussen de ringen
+437|Op elke diepte volgen de ringen elkaar op en gaat de frees met een snede in het materiaal naar de volgende ring, als de hele weg binnen de uitsparing ligt; anders gaat hij omhoog zoals gewoonlijk

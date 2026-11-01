@@ -434,3 +434,5 @@
 433	Feed per tooth (fz)
 434	Plunge per tooth
 435	From the bit: the diameter and the number of flutes
+436	Stay down between rings
+437	On every depth the rings follow each other and the bit moves to the next ring by a cut in the material, when the whole way lies inside the pocket; otherwise it rises as usual

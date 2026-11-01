@@ -44,7 +44,7 @@ pub fn rows(ui: &mut egui::Ui, d: f64, z: u32, rpm: &mut f64, feed: &mut f64, pl
     let hint = tr("From the bit: the diameter and the number of flutes");
     ui.add_enabled_ui(known, |ui| {
         let mut v = vc(d, *rpm);
-        ui.label(tr("Cutting speed (Vc)")).on_disabled_hover_text(hint.clone());
+        ui.label(tr("Cutting speed (Vc)")).on_disabled_hover_text(hint);
         if ui.add(egui::DragValue::new(&mut v).range(0.0..=5000.0).speed(0.5).max_decimals(1).suffix(" m/min")).changed() {
             *rpm = rpm_for(d, v).clamp(0.0, 1_000_000.0);
             changed = true;

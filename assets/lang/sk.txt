@@ -434,3 +434,5 @@
 433|Posuv na zub (fz)
 434|Zanorovací posuv na zub
 435|Z frézy: priemer a počet zubov
+436|Zostať dole medzi prstencami
+437|Na každej hĺbke idú prstence za sebou a fréza prejde na ďalší rezom v materiáli, keď celá cesta leží vnútri vrecka; inak sa zdvihne ako zvyčajne

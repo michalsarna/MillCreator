@@ -3,6 +3,7 @@
 use crate::layers::{CutDir, Entry, MillLayer, Operation, TabKind, Tabs};
 use crate::toolpath::{Builder, MoveKind};
 use base_core::geom::{Polyline, Pt};
+use base_core::ops;
 
 /// The height the bit rises to over a full tab: just above the material.
 const OVER_MATERIAL: f64 = 0.2;
@@ -283,40 +284,124 @@ fn helix_place(ring: &Polyline, holes: &[Polyline], start: Pt, radius: f64) -> O
 }
 
 /// Go round `ring` at every depth of `depths` (positive, deepest last). The first pass starts at the first point; the next ones
-/// follow without a retract (so that is where the bit goes down again). `quiet`: a helix that does not fit is no news. `hole` says that the ring is a hole of a part (no tabs
+/// follow without a retract (so that is where the bit goes down again). `quiet`: a helix that does not fit is no news. `hole` says that the ring is a hole of a part (no 
 /// when the layer skips them, no helix); `holes` are the other holes, which a helix keeps out of.
 pub(crate) fn ring_passes(b: &mut Builder, ring: &Polyline, depths: &[f64], plan: &Plan, hole: bool, holes: &[Polyline], quiet: bool, notes: &mut Notes) {
-    if ring.pts.len() < 2 || depths.is_empty() {
-        return;
-    }
-    let path = Path::of(ring);
-    if path.len < 1e-6 {
-        return;
-    }
-    let tabs = match &plan.tabs {
-        Some(t) => tab_places(t, &path, hole, plan.diameter, &plan.anchors, plan.reach, notes),
-        None => vec![],
-    };
-    let ride = Ride { path: &path, tabs: &tabs, plan };
-    let first = ring.pts[0];
-    let tan = plan.angle.to_radians().tan();
-    let mut s = 0.0;
-    let mut z_from = 0.0;
+    let Some(mut rp) = RingPass::new(ring, plan, hole, holes, quiet, notes) else { return };
     for (i, d) in depths.iter().enumerate() {
+        rp.pass(b, *d, i == 0, notes);
+    }
+}
+
+/// Is the straight way from `a` to `b` inside the region (the parts of it that are in an odd number of the rings)? Looked at every
+/// quarter of a millimetre; `region` should be a little wider than the real one, so that its edge counts as inside.
+pub(crate) fn way_inside(region: &[Polyline], a: Pt, b: Pt) -> bool {
+    let inside = |p: Pt| region.iter().filter(|r| r.contains(p)).count() % 2 == 1;
+    let len = ((b.x - a.x).powi(2) + (b.y - a.y).powi(2)).sqrt();
+    let n = (len / 0.25).ceil().max(1.0) as usize;
+    (0..=n).all(|i| {
+        let t = i as f64 / n as f64;
+        inside(Pt::new(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t))
+    })
+}
+
+/// The rings of a pocket with the bit staying down: every depth goes round all the rings in turn, and the way to the next ring is a
+/// cut at that depth when it lies inside `region` (where the centre of the bit may go); otherwise the bit rises and dives again as
+/// it always did. The first ring of every depth starts from above: it goes down from the depth of the pass before.
+pub(crate) fn rings_staying_down(b: &mut Builder, rings: &[Polyline], hole: &[bool], holes: &[Polyline], depths: &[f64], plan: &Plan, region: &[Polyline], notes: &mut Notes) {
+    let wide = ops::offset(region, 0.02);
+    let mut rp: Vec<RingPass> = rings.iter().zip(hole).enumerate().filter_map(|(i, (r, h))| RingPass::new(r, plan, *h, holes, i > 0, notes)).collect();
+    for (k, d) in depths.iter().enumerate() {
+        let mut at: Option<Pt> = None;
+        for p in rp.iter_mut() {
+            let start = p.start();
+            if at.is_some_and(|e| way_inside(&wide, e, start)) {
+                // Already at the depth: a cut to the next ring, then one lap.
+                b.cut_to(start.x, start.y, -d);
+                p.lap_at_depth(b, *d, notes);
+            } else if k == 0 {
+                p.pass(b, *d, true, notes);
+            } else {
+                // From above, down to the depth of the pass before (the way is open there), then the usual way down.
+                b.dive(start.x, start.y, -depths[k - 1]);
+                p.pass(b, *d, false, notes);
+            }
+            at = Some(p.start());
+        }
+    }
+}
+
+/// A ring that is gone round one depth at a time (`ring_passes` does all the depths of a ring in a row; a pocket that stays down
+/// between its rings does one depth of every ring before it goes deeper). It remembers where on the ring the next pass starts and how
+/// deep the last one was.
+pub(crate) struct RingPass<'a> {
+    ring: &'a Polyline,
+    path: Path,
+    tabs: Vec<Tab>,
+    plan: &'a Plan,
+    hole: bool,
+    holes: &'a [Polyline],
+    quiet: bool,
+    first: Pt,
+    /// Where on the ring (mm along it) the next pass starts.
+    s: f64,
+    /// The depth of the last pass (negative; 0 before the first).
+    pub(crate) z_from: f64,
+}
+
+impl<'a> RingPass<'a> {
+    /// `None` when the ring is too short to be gone round.
+    pub(crate) fn new(ring: &'a Polyline, plan: &'a Plan, hole: bool, holes: &'a [Polyline], quiet: bool, notes: &mut Notes) -> Option<RingPass<'a>> {
+        if ring.pts.len() < 2 {
+            return None;
+        }
+        let path = Path::of(ring);
+        if path.len < 1e-6 {
+            return None;
+        }
+        let tabs = match &plan.tabs {
+            Some(t) => tab_places(t, &path, hole, plan.diameter, &plan.anchors, plan.reach, notes),
+            None => vec![],
+        };
+        Some(RingPass { ring, path, tabs, plan, hole, holes, quiet, first: ring.pts[0], s: 0.0, z_from: 0.0 })
+    }
+
+    /// Where the next pass starts.
+    pub(crate) fn start(&self) -> Pt {
+        self.path.at(self.s)
+    }
+
+    /// The bit is at the depth `d` already (it came there by a cut): one lap at that depth from where the pass starts.
+    pub(crate) fn lap_at_depth(&mut self, b: &mut Builder, d: f64, notes: &mut Notes) {
+        self.z_from = -d;
+        self.pass(b, d, false, notes);
+    }
+
+    /// One pass to the depth `d` (positive). `first` is the first pass of the ring: the bit dives to the start from above.
+    pub(crate) fn pass(&mut self, b: &mut Builder, d: f64, first: bool, notes: &mut Notes) {
+        let (plan, hole, holes, quiet) = (self.plan, self.hole, self.holes, self.quiet);
+        let ride = Ride { path: &self.path, tabs: &self.tabs, plan };
+        let path = &self.path;
+        let tan = plan.angle.to_radians().tan();
+        let first_pt = self.first;
+        let ring = self.ring;
+        let (mut s, mut z_from) = (self.s, self.z_from);
         let z_to = -d;
-        if i == 0 {
+        if first {
             if plan.entry == Entry::Plunge {
-                b.dive(first.x, first.y, z_to);
+                b.dive(first_pt.x, first_pt.y, z_to);
                 z_from = z_to;
             } else {
                 // To the surface, then down into the material the way the entry says.
-                b.dive(first.x, first.y, 0.0);
+                b.dive(first_pt.x, first_pt.y, 0.0);
             }
         }
         if (z_from - z_to).abs() < 1e-9 {
             // At the depth already (the plunge of the first pass): one lap.
             ride.follow(b, s, s + path.len, b.feed, &|_| z_to, &[]);
-            continue;
+            self.s = s;
+            self.z_from = z_to;
+            return;
         }
         let drop = z_from - z_to;
         match plan.entry {
@@ -385,6 +470,8 @@ pub(crate) fn ring_passes(b: &mut Builder, ring: &Polyline, depths: &[f64], plan
             }
         }
         z_from = z_to;
+        self.s = s;
+        self.z_from = z_from;
     }
 }
 
@@ -474,5 +561,28 @@ fn ramp_along(b: &mut Builder, pts: &[Pt], z_from: f64, z_to: f64, tan: f64, fee
             let travelled = k as f64 * per + if forward { m } else { per - m };
             b.push(MoveKind::Cut, [p.x, p.y, (z_from - travelled * tan).max(z_to)], feed);
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn square(x: f64, y: f64, s: f64) -> Polyline {
+        Polyline::new(vec![Pt::new(x, y), Pt::new(x + s, y), Pt::new(x + s, y + s), Pt::new(x, y + s)], true)
+    }
+
+    #[test]
+    fn a_way_inside_the_region_is_only_one_that_stays_in_it_and_out_of_its_islands() {
+        // A pocket 40 mm wide with an island of 10 mm in the middle.
+        let region = vec![square(0.0, 0.0, 40.0), square(15.0, 15.0, 10.0)];
+        assert!(way_inside(&region, Pt::new(2.0, 2.0), Pt::new(38.0, 2.0)), "along the wall");
+        assert!(way_inside(&region, Pt::new(2.0, 2.0), Pt::new(2.0, 38.0)));
+        assert!(!way_inside(&region, Pt::new(2.0, 20.0), Pt::new(38.0, 20.0)), "over the island");
+        assert!(!way_inside(&region, Pt::new(2.0, 2.0), Pt::new(45.0, 2.0)), "out of the pocket");
+        let wide = ops::offset(&region, 0.02);
+        assert!(way_inside(&wide, Pt::new(0.0, 0.0), Pt::new(40.0, 0.0)), "the edge of a region a little wider counts as inside");
+        assert!(!way_inside(&wide, Pt::new(0.0, 20.0), Pt::new(40.0, 20.0)), "the island is still in the way");
+        assert!(way_inside(&region, Pt::new(5.0, 5.0), Pt::new(5.0, 5.0)), "no way at all");
     }
 }

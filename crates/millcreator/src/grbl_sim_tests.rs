@@ -217,3 +217,31 @@ fn grbl_sim_the_new_operations_are_accepted_and_end_at_zero_with_the_spindle_off
     }
 }
 
+
+/// A pocket by rings that stays down between its rings, at two depths.
+fn job_with_a_pocket_that_stays_down() -> Vec<String> {
+    let (lib, dev, stock) = (Library::new(), Device::dummy(), Stock::default());
+    let mut layers = default_layers(&lib);
+    layers[2].depth = 2.0;
+    layers[2].step_down = 1.0;
+    layers[2].pattern = crate::layers::PocketPattern::Rings;
+    layers[2].stay_down = true;
+    let mut scene = Scene::default();
+    square(&mut scene, 2, 10.0, 10.0, 30.0);
+    let prog = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions::default());
+    clean_gcode(&to_gcode(&prog, &dev, &layers, &lib, "sim"))
+}
+
+#[test]
+#[ignore = "needs grbl-sim: tools/grbl-sim/build.sh of baseCreator"]
+fn grbl_sim_a_pocket_that_stays_down_is_accepted_and_ends_at_zero() {
+    let mut s = Session::connect();
+    s.wait_banner();
+    s.fast_machine(&[]);
+    let job = job_with_a_pocket_that_stays_down();
+    assert!(job.iter().filter(|l| l.starts_with("G1 X")).count() > 20, "{job:?}");
+    s.run_job(job, 240.0);
+    s.wait_idle_at(0.0, 0.0, 60.0);
+    assert!(s.parser_state().contains("M5"), "the spindle is off");
+    assert!(s.errors().is_empty(), "GRBL rejected lines: {:?}", s.errors_described());
+}

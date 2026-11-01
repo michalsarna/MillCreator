@@ -434,3 +434,5 @@
 433|Avanço por dente (fz)
 434|Avanço de mergulho por dente
 435|Da fresa: diâmetro e número de dentes
+436|Ficar em baixo entre os anéis
+437|Em cada profundidade os anéis seguem-se e a fresa passa ao seguinte com um corte no material, quando todo o caminho está dentro da cavidade; caso contrário levanta-se como de costume

@@ -434,3 +434,5 @@
 433|Mötun á tönn (fz)
 434|Dýfingarmötun á tönn
 435|Úr fræsaranum: þvermál og fjöldi skurðbrúna
+436|Vera niðri milli hringja
+437|Á hverju dýpi fylgja hringirnir hver öðrum og fræsarinn fer á næsta hring með skurði í efninu þegar öll leiðin er inni í vasanum; annars lyftist hann eins og venjulega

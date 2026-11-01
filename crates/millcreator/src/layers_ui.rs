@@ -267,6 +267,10 @@ impl App {
                             ui.label(tr("Raster angle"));
                             changed |= ui.add(egui::DragValue::new(&mut l.raster_angle).range(-360.0..=360.0).suffix(" °")).changed();
                             ui.end_row();
+                        } else if l.op == Operation::Pocket {
+                            ui.label("");
+                            changed |= ui.checkbox(&mut l.stay_down, tr("Stay down between rings")).on_hover_text(tr("On every depth the rings follow each other and the bit moves to the next ring by a cut in the material, when the whole way lies inside the pocket; otherwise it rises as usual")).changed();
+                            ui.end_row();
                         }
                     }
                     if l.op == Operation::Pocket {

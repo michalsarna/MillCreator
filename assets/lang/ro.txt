@@ -434,3 +434,5 @@
 433|Avans pe dinte (fz)
 434|Avans de pătrundere pe dinte
 435|De la freză: diametrul și numărul de tăișuri
+436|Rămâi jos între inele
+437|La fiecare adâncime inelele se urmează, iar freza trece la următorul printr-o tăiere în material, când tot drumul se află în buzunar; altfel se ridică ca de obicei

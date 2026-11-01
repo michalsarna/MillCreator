@@ -434,3 +434,5 @@
 433|Tilspænding pr. tand (fz)
 434|Nedstikstilspænding pr. tand
 435|Fra fræseren: diameter og antal skær
+436|Bliv nede mellem ringene
+437|På hver dybde følger ringene efter hinanden, og fræseren går til den næste ring med et snit i materialet, når hele vejen ligger inde i lommen; ellers løfter den sig som sædvanligt

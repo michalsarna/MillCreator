@@ -434,3 +434,5 @@
 433|Avanç per dent (fz)
 434|Avanç de penetració per dent
 435|De la fresa: diàmetre i nombre de dents
+436|Queda't a baix entre anells
+437|A cada profunditat els anells es van seguint i la fresa passa al següent amb un tall al material quan tot el camí és dins la butxaca; si no, s'aixeca com sempre

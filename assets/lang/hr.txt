@@ -434,3 +434,5 @@
 433|Posmak po zubu (fz)
 434|Posmak uranjanja po zubu
 435|Iz glodala: promjer i broj oštrica
+436|Ostani dolje između prstenova
+437|Na svakoj dubini prstenovi idu jedan za drugim, a glodalo prelazi na sljedeći rezom u materijalu kad cijeli put leži unutar džepa; inače se diže kao i obično

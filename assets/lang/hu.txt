@@ -434,3 +434,5 @@
 433|Fogankénti előtolás (fz)
 434|Fogankénti merítési előtolás
 435|A marótól: átmérő és élek száma
+436|Lent marad a gyűrűk között
+437|Minden mélységen a gyűrűk egymás után következnek, és a maró az anyagban vágva megy a következő gyűrűhöz, ha az egész út a zseb belsejében van; különben a szokásos módon felemelkedik

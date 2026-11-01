@@ -434,3 +434,5 @@
 433|Avance por diente (fz)
 434|Avance de penetración por diente
 435|De la fresa: diámetro y número de filos
+436|Quedarse abajo entre los anillos
+437|En cada profundidad los anillos se siguen y la fresa pasa al siguiente con un corte en el material, cuando todo el camino está dentro del vaciado; si no, se levanta como de costumbre

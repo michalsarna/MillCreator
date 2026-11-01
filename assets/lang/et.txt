@@ -434,3 +434,5 @@
 433|Ettenihe hamba kohta (fz)
 434|Sukeldumise ettenihe hamba kohta
 435|Freesilt: läbimõõt ja lõikeservade arv
+436|Püsi ringide vahel all
+437|Igal sügavusel järgnevad ringid üksteisele ja freesi liigub järgmisele ringile lõikega materjalis, kui kogu tee asub taskus; muidu tõuseb ta nagu tavaliselt

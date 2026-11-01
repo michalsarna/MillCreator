@@ -434,3 +434,5 @@
 433|Podajanje na zob (fz)
 434|Podajanje potopa na zob
 435|Iz rezkarja: premer in število rezil
+436|Ostani spodaj med obroči
+437|Na vsaki globini si obroči sledijo in rezkar do naslednjega pride z rezom v materialu, če vsa pot leži znotraj žepa; sicer se dvigne kot običajno
