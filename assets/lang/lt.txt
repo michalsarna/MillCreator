@@ -428,3 +428,5 @@
 427|Rodyti G kodą jo neįrašant
 428|peržiūra
 429|G kodas parodytas, nieko neįrašyta
+430|Įrenginio nuosavas G kodas: {}
+431|Keičiant frezą ir operaciją taip pat:

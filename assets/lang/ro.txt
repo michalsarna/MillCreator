@@ -428,3 +428,5 @@
 427|Afișează G-code fără a-l salva
 428|previzualizare
 429|G-code este afișat, nu se salvează nimic
+430|G-code propriu al dispozitivului: {}
+431|La schimbarea frezei și a operației și:

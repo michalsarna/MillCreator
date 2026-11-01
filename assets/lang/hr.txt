@@ -428,3 +428,5 @@
 427|Prikaži G-kod bez spremanja
 428|pregled
 429|G-kod je prikazan, ništa nije spremljeno
+430|Vlastiti G-kod uređaja: {}
+431|Pri promjeni glodala i operacije još:

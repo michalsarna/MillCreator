@@ -428,3 +428,5 @@
 427|G-code tonen zonder op te slaan
 428|voorbeeld
 429|De G-code wordt getoond, er wordt niets opgeslagen
+430|Eigen G-code van het apparaat: {}
+431|Bij het wisselen van frees en bewerking ook:

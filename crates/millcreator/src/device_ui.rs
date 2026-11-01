@@ -369,10 +369,12 @@ impl App {
                         ui.add_space(4.0);
                         egui::Grid::new("dev_gcode").num_columns(2).spacing([12.0, 8.0]).show(ui, |ui| {
                             for (label, text) in [
+                                (tr("Very start of the file"), &mut d.gcode.very_start),
                                 (tr("At the start of the program"), &mut d.gcode.start),
                                 (tr("At every change of the bit"), &mut d.gcode.tool_change),
                                 (tr("At every change of the operation"), &mut d.gcode.operation_change),
                                 (tr("At the end of the program"), &mut d.gcode.end),
+                                (tr("Very end of the file"), &mut d.gcode.very_end),
                                 (tr("Dust collector on"), &mut d.gcode.dust_on),
                                 (tr("Dust collector off"), &mut d.gcode.dust_off),
                             ] {
@@ -381,6 +383,13 @@ impl App {
                                 ui.end_row();
                             }
                         });
+                        base_ui::gcode_out_ui::variables_line(ui, crate::device::FILE_VARS);
+                        ui.label(RichText::new(format!("{} {}", tr("In the change of the bit and of the operation also:"), "{layer_name} {layer_index} {total_layers}")).small().color(theme::text_dim()));
+                        if let Err(e) = d.gcode.check_variables() {
+                            ui.label(RichText::new(e).small().color(egui::Color32::from_rgb(0xc0, 0x30, 0x30)));
+                        }
+                        ui.add_space(6.0);
+                        base_ui::gcode_out_ui::flavour_ui(ui, &mut d.gcode.flavour);
                     }
                     Page::Connection => {
                         ui.horizontal(|ui| {

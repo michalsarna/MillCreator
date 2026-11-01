@@ -428,3 +428,5 @@
 427|Afficher le G-code sans l'enregistrer
 428|aperçu
 429|Le G-code est affiché, rien n'est enregistré
+430|G-code personnalisé de l'appareil : {}
+431|Au changement de fraise et d'opération aussi :

@@ -428,3 +428,5 @@
 427|Vis G-koden uden at gemme den
 428|forhåndsvisning
 429|G-koden vises, intet gemmes
+430|Enhedens egen G-kode: {}
+431|Ved skift af fræser og operation også:

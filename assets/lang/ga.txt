@@ -428,3 +428,5 @@
 427|Taispeáin an G-code gan é a shábháil
 428|réamhamharc
 429|Tá an G-code ar taispeáint, níl aon rud sábháilte
+430|G-code féin an ghairis: {}
+431|In athrú an bhíoma agus na hoibríochta freisin:

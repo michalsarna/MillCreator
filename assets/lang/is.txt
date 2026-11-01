@@ -428,3 +428,5 @@
 427|Sýna G-kóðann án þess að vista hann
 428|forskoðun
 429|G-kóðinn er sýndur, ekkert er vistað
+430|Eigin G-kóði tækisins: {}
+431|Við skipti á fræsara og aðgerð einnig:

@@ -428,3 +428,5 @@
 427|Näita G-koodi salvestamata
 428|eelvaade
 429|G-koodi on näidatud, midagi ei salvestata
+430|Seadme oma G-kood: {}
+431|Freesi ja toimingu vahetusel ka:

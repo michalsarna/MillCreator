@@ -788,9 +788,15 @@ pub fn machine_xy(dev: &Device, x: f64, y: f64) -> (f64, f64) {
 }
 
 /// The lines of a block of own G-code, each with a newline.
-fn custom(g: &mut String, text: &str) {
-    for l in crate::device::CustomGcode::lines(text) {
-        g.push_str(l);
+/// The lines of an own G-code text with the variables put in (an unknown one gives nothing: the device is checked before a file
+/// is made, see `CustomGcode::check_variables`).
+fn custom_lines(text: &str, value: &dyn Fn(&str) -> Option<String>) -> Vec<String> {
+    crate::device::CustomGcode::lines(text).into_iter().map(|l| base_core::gcode_out::substitute(l, value)).collect()
+}
+
+fn custom(g: &mut String, text: &str, value: &dyn Fn(&str) -> Option<String>) {
+    for l in custom_lines(text, value) {
+        g.push_str(&l);
         g.push('\n');
     }
 }
@@ -807,6 +813,47 @@ fn num(v: f64) -> String {
 
 /// G-code (GRBL flavour) for the program. The bit is changed with a pause (M0) when the layer asks for another one.
 pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Library, program_name: &str) -> String {
+    let info = base_core::gcode_out::Info { project_name: program_name.to_string(), ..base_core::gcode_out::Info::now() };
+    to_gcode_info(prog, dev, layers, tools, &info)
+}
+
+/// The place in the program that the variables of the own G-code tell about.
+struct Here {
+    layer_name: String,
+    layer_index: usize,
+    total_layers: usize,
+}
+
+/// The value of a variable of the own G-code.
+fn value_of(info: &base_core::gcode_out::Info, here: &Here, name: &str) -> Option<String> {
+    match name {
+        "layer_name" => Some(here.layer_name.clone()),
+        "layer_index" => Some(here.layer_index.to_string()),
+        "total_layers" => Some(here.total_layers.to_string()),
+        _ => info.value(name),
+    }
+}
+
+/// The program as G-code text. `info` tells the variables of the own G-code (the name and the path of the project, the moment);
+/// the box of the paths, the machine and the layer are filled in here. The very start and end of the file and the flavour of
+/// the device are applied at the end.
+pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Library, info: &base_core::gcode_out::Info) -> String {
+    let program_name = info.project_name.as_str();
+    let mut info = info.clone();
+    info.machine_name = dev.name.clone();
+    // The box of everything that is cut, in the coordinates of the machine.
+    {
+        let (mut lo, mut hi) = ([f64::INFINITY; 3], [f64::NEG_INFINITY; 3]);
+        for m in prog.moves.iter().filter(|m| m.kind != MoveKind::Rapid) {
+            let (x, y) = machine_xy(dev, m.to[0], m.to[1]);
+            for (i, v) in [x, y, m.to[2] + dev.z_offset].into_iter().enumerate() {
+                lo[i] = lo[i].min(v);
+                hi[i] = hi[i].max(v);
+            }
+        }
+        info.bounds = lo[0].is_finite().then_some((lo, hi));
+    }
+    let mut here = Here { layer_name: String::new(), layer_index: 0, total_layers: layers.len() };
     let mut g = String::new();
     let clean = |s: &str| s.chars().filter(|c| c.is_alphanumeric() || *c == ' ' || *c == '-' || *c == '_' || *c == '.').collect::<String>();
     g.push_str(&format!("(MillCreator: {})\n(Device: {})\n", clean(program_name), clean(&dev.name)));
@@ -815,7 +862,7 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
         g.push_str(&w);
         g.push_str("\n");
     }
-    custom(&mut g, &dev.gcode.start);
+    custom(&mut g, &dev.gcode.start, &|n| value_of(&info, &here, n));
     let mut feed = f64::NAN;
     let mut layer = usize::MAX;
     let mut tool_id: Option<String> = None;
@@ -831,7 +878,8 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
             layer = m.layer;
             if let Some(l) = layers.get(layer) {
                 g.push_str(&format!("(Layer: {})\n", clean(&l.name)));
-                custom(&mut g, &dev.gcode.operation_change);
+                here = Here { layer_name: l.name.clone(), layer_index: layer, total_layers: layers.len() };
+                custom(&mut g, &dev.gcode.operation_change, &|n| value_of(&info, &here, n));
                 if tool_id != l.tool {
                     if spindle_on {
                         g.push_str(&format!("G0 Z{}\nM5\n", num(dev.safe_z + dev.z_offset)));
@@ -842,7 +890,7 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
                         coolant = crate::layers::Coolant::Off;
                     }
                     if dust {
-                        custom(&mut g, &dev.gcode.dust_off);
+                        custom(&mut g, &dev.gcode.dust_off, &|n| value_of(&info, &here, n));
                         dust = false;
                     }
                     let tool = l.tool.as_deref().and_then(|id| tools.get(id));
@@ -858,7 +906,7 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
                     }
                     tool_id = l.tool.clone();
                     spindle_on = false;
-                    custom(&mut g, &dev.gcode.tool_change);
+                    custom(&mut g, &dev.gcode.tool_change, &|n| value_of(&info, &here, n));
                 }
                 let rpm = l.rpm.clamp(dev.spindle.min_rpm, dev.spindle.max_rpm);
                 if rpm > 0.0 {
@@ -881,7 +929,7 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
                     coolant = l.coolant;
                 }
                 if l.dust != dust {
-                    custom(&mut g, if l.dust { &dev.gcode.dust_on } else { &dev.gcode.dust_off });
+                    custom(&mut g, if l.dust { &dev.gcode.dust_on } else { &dev.gcode.dust_off }, &|n| value_of(&info, &here, n));
                     dust = l.dust;
                 }
             }
@@ -905,13 +953,14 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
         g.push_str("M9\n");
     }
     if dust {
-        custom(&mut g, &dev.gcode.dust_off);
+        custom(&mut g, &dev.gcode.dust_off, &|n| value_of(&info, &here, n));
     }
     let (hx, hy) = machine_xy(dev, 0.0, 0.0);
     g.push_str(&format!("G0 X{} Y{}\n", num(hx), num(hy)));
-    custom(&mut g, &dev.gcode.end);
+    custom(&mut g, &dev.gcode.end, &|n| value_of(&info, &here, n));
     g.push_str("M30\n");
-    g
+    let lines = |text: &str| custom_lines(text, &|n| value_of(&info, &here, n));
+    base_core::gcode_out::finish(&g, &lines(&dev.gcode.very_start), &lines(&dev.gcode.very_end), &dev.gcode.flavour)
 }
 
 #[cfg(test)]
@@ -1083,6 +1132,53 @@ mod tests {
         layers[0].step_down = cut;
         let prog = generate(&scene, &layers, &lib, &dev, &stock);
         assert!(!prog.warnings.iter().any(|w| w.text().contains("deeper than the cutting part")));
+    }
+
+    #[test]
+    fn the_file_has_a_very_start_and_end_variables_and_a_flavour_and_the_default_changes_nothing() {
+        use base_core::gcode_out::{DwellWord, Flavour};
+        let (lib, mut dev, stock, mut layers) = setup();
+        layers[0].depth = 2.0;
+        layers[0].step_down = 2.0;
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 50.0, 50.0, 40.0);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let plain = to_gcode(&prog, &dev, &layers, &lib, "job");
+        // The default device: the file is what it always was (the header, the start, the end, M30).
+        assert!(plain.starts_with("(MillCreator: job)\n(Device: ") && plain.trim_end().ends_with("M30") && !plain.contains('%'));
+        // The very start and the very end, with variables.
+        dev.gcode.very_start = "%\nO{project_name}".into();
+        dev.gcode.very_end = "(done {machine_name})".into();
+        dev.gcode.start = "(box {min_x} {max_x} {width}x{height}x{depth})".into();
+        dev.gcode.operation_change = "(layer {layer_index}/{total_layers} {layer_name})".into();
+        let info = base_core::gcode_out::Info { project_name: "part".into(), project_path: "/w/part.cre".into(), date: "2026-11-01".into(), time: "12:00".into(), ..Default::default() };
+        let text = to_gcode_info(&prog, &dev, &layers, &lib, &info);
+        let lines: Vec<&str> = text.lines().collect();
+        assert_eq!(&lines[..3], &["%", "Opart", "(MillCreator: part)"]);
+        assert!(lines.iter().any(|l| l.starts_with("(box ") && !l.contains('{')), "{text}");
+        assert!(lines.iter().any(|l| l.starts_with("(layer 0/") && !l.contains('{')), "{text}");
+        assert_eq!(lines.last().copied(), Some(format!("(done {})", dev.name).as_str()));
+        assert_eq!(lines[lines.len() - 2], "M30", "the very end is after M30");
+        // The box is the one of the cuts: the square 40 mm wide, with the radius of the bit.
+        let r = lib.get("std-flat-3").unwrap().radius();
+        let w: f64 = lines.iter().find(|l| l.starts_with("(box ")).unwrap().split(['(', ' ', 'x']).filter_map(|p| p.parse::<f64>().ok()).nth(2).unwrap();
+        assert!((w - (40.0 + 2.0 * r)).abs() < 0.01, "{w}");
+        // The variables are checked before a file is made.
+        assert!(dev.gcode.check_variables().is_ok());
+        dev.gcode.end = "(oops {tool_number})".into();
+        assert!(dev.gcode.check_variables().unwrap_err().contains("At the end of the program"));
+        dev.gcode.end.clear();
+        // The flavour: a point after whole numbers, the dwell in milliseconds, line numbers, % lines.
+        dev.gcode = Default::default();
+        dev.spindle.spin_up = 2.0;
+        dev.gcode.flavour = Flavour { decimal_point: true, percent: true, dwell: DwellWord::PMilliseconds, line_numbers: true, number_step: 10, remove_comments: true };
+        let g = to_gcode(&prog, &dev, &layers, &lib, "job");
+        let l: Vec<&str> = g.lines().collect();
+        assert_eq!((l[0], l[l.len() - 1]), ("%", "%"));
+        assert!(l[1].starts_with("N10 G21 G90 G17"), "{}", l[1]);
+        assert!(l.iter().any(|x| x.contains("G4 P2000.")), "dwell in milliseconds with a point: {g}");
+        assert!(l.iter().any(|x| x.contains(" X") && x.contains("Y") && !x.contains("(")) && !g.contains("(MillCreator"));
+        assert!(!g.contains("M3 S12000.") && g.contains("M3 S"), "the spindle speed gets no point");
     }
 
     #[test]

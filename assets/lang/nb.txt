@@ -428,3 +428,5 @@
 427|Vis G-koden uten å lagre den
 428|forhåndsvisning
 429|G-koden vises, ingenting lagres
+430|Enhetens egen G-kode: {}
+431|Ved bytte av fres og operasjon også:

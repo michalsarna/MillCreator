@@ -428,3 +428,5 @@
 427|Visa G-koden utan att spara den
 428|förhandsgranskning
 429|G-koden visas, inget sparas
+430|Enhetens egen G-kod: {}
+431|Vid byte av fräs och operation även:

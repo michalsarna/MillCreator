@@ -428,3 +428,5 @@
 427|Pokaži G-kodo brez shranjevanja
 428|predogled
 429|G-koda je prikazana, nič ni shranjeno
+430|Lastna G-koda naprave: {}
+431|Pri zamenjavi rezkarja in operacije tudi:

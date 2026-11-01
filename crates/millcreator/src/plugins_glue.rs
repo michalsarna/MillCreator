@@ -112,6 +112,16 @@ impl App {
                 } else {
                     self.post_note = None;
                 }
+                // The device can number the lines and take the comments out itself: the plugin would do it twice.
+                let f = &self.device.gcode.flavour;
+                let twice = |id: &str| self.plugins.posts.iter().any(|p| p == id);
+                if (f.line_numbers && twice("gcode-tools/line-numbers")) || (f.remove_comments && twice("gcode-tools/no-comments")) {
+                    let note = "the device settings and the postprocessor both number the lines or remove the comments: switch one off";
+                    self.post_note = Some(match self.post_note.take() {
+                        Some(n) => format!("{n}; {note}"),
+                        None => note.to_string(),
+                    });
+                }
                 Some(t)
             }
             Err(e) => {

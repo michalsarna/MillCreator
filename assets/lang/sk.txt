@@ -428,3 +428,5 @@
 427|Zobraziť G-kód bez uloženia
 428|náhľad
 429|G-kód je zobrazený, nič sa neukladá
+430|Vlastný G-kód zariadenia: {}
+431|Pri výmene frézy a operácie aj:

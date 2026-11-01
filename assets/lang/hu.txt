@@ -428,3 +428,5 @@
 427|G-kód megjelenítése mentés nélkül
 428|előnézet
 429|A G-kód látható, semmi sem lett mentve
+430|Az eszköz saját G-kódja: {}
+431|A maró és a művelet váltásakor még:

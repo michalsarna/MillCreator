@@ -428,3 +428,5 @@
 427|Rādīt G-kodu bez saglabāšanas
 428|priekšskatījums
 429|G-kods ir parādīts, nekas netiek saglabāts
+430|Ierīces paša G-kods: {}
+431|Mainot frēzi un operāciju arī:

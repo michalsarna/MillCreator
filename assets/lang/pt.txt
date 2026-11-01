@@ -428,3 +428,5 @@
 427|Mostrar o G-code sem o guardar
 428|pré-visualização
 429|O G-code é mostrado, nada é guardado
+430|G-code próprio do dispositivo: {}
+431|Na troca da fresa e da operação também:

@@ -428,3 +428,5 @@
 427	Show the G-code without saving it
 428	preview
 429	The G-code is shown, nothing is saved
+430	The own G-code of the device: {}
+431	In the change of the bit and of the operation also:
