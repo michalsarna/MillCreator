@@ -428,3 +428,17 @@
 427|Taispeáin an G-code gan é a shábháil
 428|réamhamharc
 429|Tá an G-code ar taispeáint, níl aon rud sábháilte
+430|G-code féin an ghairis: {}
+431|In athrú an bhíoma agus na hoibríochta freisin:
+432|Luas gearrtha (Vc)
+433|Beathú in aghaidh an fhiacail (fz)
+434|Beathú tumtha in aghaidh an fhiacail
+435|Ón mbiorán: trastomhas agus líon na bhfliúit
+436|Fan thíos idir fáinní
+437|Ag gach doimhneacht leanann na fáinní a chéile agus téann an bíoma chuig an gcéad fháinne eile le gearradh san ábhar, nuair atá an bealach ar fad laistigh den phoca; seachas sin ardaíonn sé mar is gnách
+438|Roghnaigh ar an limistéar oibre
+439|Socraíonn an chéad chliceáil eile ar an limistéar oibre an nialas (greamaíonn sé do choirnéil agus do lár na bhfoirmeacha); is féidir deilbhín na n-aiseanna a tharraingt
+440|Cliceáil ar an limistéar oibre chun nialas an chláir a shocrú (cuireann Esc ar ceal)
+441|Tá nialas an chláir ag X {} Y {}
+442|Luchtaigh réamhshocrú
+443|Níl bíoma an réamhshocraithe sa leabharlann: níl bíoma ag an sraith

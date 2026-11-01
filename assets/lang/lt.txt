@@ -428,3 +428,17 @@
 427|Rodyti G kodą jo neįrašant
 428|peržiūra
 429|G kodas parodytas, nieko neįrašyta
+430|Įrenginio nuosavas G kodas: {}
+431|Keičiant frezą ir operaciją taip pat:
+432|Pjovimo greitis (Vc)
+433|Padavimas vienam dantukui (fz)
+434|Panirimo padavimas vienam dantukui
+435|Iš frezos: skersmuo ir dantų skaičius
+436|Likti apačioje tarp žiedų
+437|Kiekviename gylyje žiedai eina vienas po kito, o freza į kitą žiedą pereina pjūviu medžiagoje, kai visas kelias yra kišenės viduje; kitaip ji pakyla kaip įprasta
+438|Pasirinkti darbo srityje
+439|Kitas spustelėjimas darbo srityje nustato nulį (jis prisitraukia prie formų kampų ir vidurio taškų); ašių piktogramą galima vilkti
+440|Spustelėkite darbo sritį, kad nustatytumėte programos nulį (Esc atšaukia)
+441|Programos nulis yra ties X {} Y {}
+442|Įkelti šabloną
+443|Šablono frezos bibliotekoje nėra: sluoksnis be frezos

@@ -99,14 +99,35 @@ impl App {
     /// The G-code of the drawing as text (with the postprocessors), and the program it was made from. `None` (the reason is in the
     /// status line) when there is nothing to cut or a postprocessor failed.
     fn gcode_text(&mut self, name: &str) -> Option<(String, toolpath::Program)> {
+        if !self.gcode_variables_ok() {
+            return None;
+        }
         let prog = self.make_program();
         if prog.is_empty() {
             self.status = self.nothing_to_cut();
             return None;
         }
-        let text = toolpath::to_gcode(&prog, &self.device.with_stock(&self.stock), &self.layers, &self.tools, name);
+        let text = toolpath::to_gcode_info(&prog, &self.device.with_stock(&self.stock), &self.layers, &self.tools, &self.gcode_info(name));
         let text = self.postprocessed(text)?;
         Some((text, prog))
+    }
+
+    /// What the variables of the own G-code are made of: the project, the machine and the moment (the box and the layer are filled
+    /// in when the program is written).
+    pub(crate) fn gcode_info(&self, name: &str) -> base_core::gcode_out::Info {
+        base_core::gcode_out::Info { project_name: name.to_string(), project_path: self.path.as_ref().map(|p| p.display().to_string()).unwrap_or_default(), ..base_core::gcode_out::Info::now() }
+    }
+
+    /// Are the variables in the own G-code of the device all known? When not, the reason goes to the status line and the file is
+    /// not made.
+    pub(crate) fn gcode_variables_ok(&mut self) -> bool {
+        match self.device.gcode.check_variables() {
+            Ok(()) => true,
+            Err(e) => {
+                self.status = trf("The own G-code of the device: {}", &[&e]);
+                false
+            }
+        }
     }
 
     fn gcode_name(&self) -> String {

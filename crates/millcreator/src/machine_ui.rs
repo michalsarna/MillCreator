@@ -221,13 +221,16 @@ impl App {
 
     /// The lines of the whole program, or `None` (with the reason in the status bar) when there is nothing to cut.
     pub(crate) fn job_lines(&mut self) -> Option<(Vec<String>, f64)> {
+        if !self.gcode_variables_ok() {
+            return None;
+        }
         let prog = self.make_program();
         if prog.is_empty() {
             self.status = self.nothing_to_cut();
             return None;
         }
         let name = self.path.as_ref().and_then(|p| p.file_stem()).map(|s| s.to_string_lossy().into_owned()).unwrap_or_else(|| "untitled".into());
-        let lines = link::clean_gcode(&toolpath::to_gcode(&prog, &self.device.with_stock(&self.stock), &self.layers, &self.tools, &name));
+        let lines = link::clean_gcode(&toolpath::to_gcode_info(&prog, &self.device.with_stock(&self.stock), &self.layers, &self.tools, &self.gcode_info(&name)));
         let lines = self.scale_spindle(lines);
         Some((lines, prog.estimate_seconds(self.device.rapid)))
     }

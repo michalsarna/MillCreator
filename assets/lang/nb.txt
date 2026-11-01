@@ -428,3 +428,17 @@
 427|Vis G-koden uten å lagre den
 428|forhåndsvisning
 429|G-koden vises, ingenting lagres
+430|Enhetens egen G-kode: {}
+431|Ved bytte av fres og operasjon også:
+432|Skjærehastighet (Vc)
+433|Matehastighet per tann (fz)
+434|Stikkmating per tann
+435|Fra frøsen: diameter og antall skjær
+436|Bli nede mellom ringene
+437|På hver dybde følger ringene etter hverandre, og frøsen går til neste ring med et kutt i materialet når hele veien ligger inne i lommen; ellers løfter den seg som vanlig
+438|Velg på arbeidsområdet
+439|Neste klikk på arbeidsområdet setter nullpunktet (det fanger hjørner og midtpunkter av former); akseikonet kan dras
+440|Klikk på arbeidsområdet for å sette programmets nullpunkt (Esc avbryter)
+441|Programmets nullpunkt er ved X {} Y {}
+442|Last inn forhåndsinnstilling
+443|Frøsen fra forhåndsinnstillingen er ikke i biblioteket: laget har ingen fres

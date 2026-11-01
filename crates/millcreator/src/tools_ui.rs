@@ -263,7 +263,11 @@ fn dim_row(ui: &mut egui::Ui, d: &mut Dims, dim: Dim, enabled: bool) -> bool {
     let mut v = d.get(dim);
     let mut changed = false;
     ui.label(egui::RichText::new(dim.letter()).strong().color(Color32::from_rgb(0xd0, 0x50, 0x20)));
-    ui.label(tr(dim.label()));
+    if dim == Dim::Diameter {
+        base_ui::widgets::var_label(ui, tr(dim.label()), "tool_diameter");
+    } else {
+        ui.label(tr(dim.label()));
+    }
     ui.add_enabled_ui(enabled, |ui| {
         if ui.add(egui::DragValue::new(&mut v).range(lo..=hi).speed(0.05).max_decimals(3).suffix(format!(" {}", dim.unit()))).changed() {
             d.set(dim, v);
@@ -407,7 +411,7 @@ pub fn tools_window(ctx: &egui::Context, win: &mut ToolsWindow, lib: &mut Librar
                 egui::ScrollArea::vertical().id_salt("tool_edit").max_height(edit_h).min_scrolled_height(edit_h).auto_shrink([false, false]).show(ui, |ui| {
                     egui::Grid::new("tool_grid").num_columns(3).spacing([10.0, 5.0]).show(ui, |ui| {
                         ui.label("");
-                        ui.label(tr("Name"));
+                        base_ui::widgets::var_label(ui, tr("Name"), "tool_name");
                         ui.add_enabled_ui(editable, |ui| {
                             changed |= ui.text_edit_singleline(&mut draft.name).changed();
                         });
@@ -432,18 +436,24 @@ pub fn tools_window(ctx: &egui::Context, win: &mut ToolsWindow, lib: &mut Librar
                         let c: &mut Cutting = &mut draft.cutting;
                         let rows: [(&str, &mut f64, &str, f64, f64); 6] = [("Feed", &mut c.feed, " mm/min", 1.0, 100000.0), ("Plunge feed", &mut c.plunge, " mm/min", 1.0, 100000.0), ("Ramp feed", &mut c.ramp, " mm/min", 0.0, 100000.0), ("Spindle speed", &mut c.rpm, " rpm", 1.0, 1000000.0), ("Pass depth (of the diameter)", &mut c.step_down_pct, " %", 0.0, 400.0), ("Step over (of the diameter)", &mut c.step_over_pct, " %", 1.0, 100.0)];
                         for (label, v, suffix, lo, hi) in rows {
-                            ui.label(tr(label));
+                            match label {
+                                "Feed" => base_ui::widgets::var_label(ui, tr(label), "tool_feed"),
+                                "Plunge feed" => base_ui::widgets::var_label(ui, tr(label), "tool_plunge"),
+                                "Spindle speed" => base_ui::widgets::var_label(ui, tr(label), "tool_rpm"),
+                                _ => ui.label(tr(label)),
+                            };
                             ui.add_enabled_ui(editable, |ui| {
                                 changed |= ui.add(egui::DragValue::new(v).range(lo..=hi).suffix(suffix)).changed();
                             });
                             ui.end_row();
                         }
-                        ui.label(tr("Flutes"));
+                        changed |= ui.add_enabled_ui(editable, |ui| crate::cutting_calc::rows(ui, draft.dims.diameter, c.flutes, &mut c.rpm, &mut c.feed, &mut c.plunge)).inner;
+                        base_ui::widgets::var_label(ui, tr("Flutes"), "tool_flutes");
                         ui.add_enabled_ui(editable, |ui| {
                             changed |= ui.add(egui::DragValue::new(&mut c.flutes).range(1..=12)).changed();
                         });
                         ui.end_row();
-                        ui.label(tr("Changer number"));
+                        base_ui::widgets::var_label(ui, tr("Changer number"), "tool_number");
                         ui.add_enabled_ui(editable, |ui| {
                             changed |= ui.add(egui::DragValue::new(&mut draft.number).range(0..=99)).on_hover_text(tr("The place of the bit in the tool changer: the program asks for it with T… M6. 0 = not in the changer")).changed();
                         });

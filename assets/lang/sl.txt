@@ -428,3 +428,17 @@
 427|Pokaži G-kodo brez shranjevanja
 428|predogled
 429|G-koda je prikazana, nič ni shranjeno
+430|Lastna G-koda naprave: {}
+431|Pri zamenjavi rezkarja in operacije tudi:
+432|Rezalna hitrost (Vc)
+433|Podajanje na zob (fz)
+434|Podajanje potopa na zob
+435|Iz rezkarja: premer in število rezil
+436|Ostani spodaj med obroči
+437|Na vsaki globini si obroči sledijo in rezkar do naslednjega pride z rezom v materialu, če vsa pot leži znotraj žepa; sicer se dvigne kot običajno
+438|Izberi na delovni površini
+439|Naslednji klik na delovni površini nastavi ničlo (pripne se na vogale in središča oblik); ikono osi lahko vlečete
+440|Kliknite na delovno površino, da nastavite ničlo programa (Esc prekliče)
+441|Ničla programa je pri X {} Y {}
+442|Naloži prednastavitev
+443|Rezkar iz prednastavitve ni v knjižnici: plast je brez rezkarja

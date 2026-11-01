@@ -450,6 +450,14 @@ pub struct MillLayer {
     pub coolant: Coolant,
     #[serde(default)]
     pub dust: bool,
+    /// A pocket by rings: every depth goes round all the rings, and the way from one ring to the next is a cut in the material
+    /// (when the whole way is inside the pocket) instead of a lift. Off: every ring goes through all depths, with a lift between.
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub stay_down: bool,
+}
+
+fn is_false(b: &bool) -> bool {
+    !*b
 }
 
 
@@ -562,6 +570,7 @@ pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
                 direction: CutDir::default(),
                 leave: 0.0,
                 finish: true,
+                stay_down: false,
                 entry: Entry::default(),
                 ramp_angle: 3.0,
                 ramp_feed: 0.0,

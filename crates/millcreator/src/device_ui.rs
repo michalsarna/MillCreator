@@ -232,6 +232,7 @@ impl App {
         let confirm = self.confirm_delete;
         let ports = self.machine.ports.clone();
         let mut refresh_ports = false;
+        let mut pick_zero = false;
         let machine = &mut self.machine;
         let new = edit.idx.is_none();
         let title = if new { tr("Add a device") } else { tr("Device settings") };
@@ -252,7 +253,7 @@ impl App {
                 match edit.page {
                     Page::General => {
                         egui::Grid::new("dev_general").num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
-                            ui.label(tr("Name"));
+                            base_ui::widgets::var_label(ui, tr("Name"), "machine_name");
                             ui.add(egui::TextEdit::singleline(&mut d.name).hint_text(tr("e.g. My CNC router")));
                             ui.end_row();
                             ui.label(tr("Controller"));
@@ -309,6 +310,9 @@ impl App {
                                     drag_len(ui, units, &mut d.wcs.x, 1.0, Some((-100000.0, 100000.0)));
                                     ui.label("Y");
                                     drag_len(ui, units, &mut d.wcs.y, 1.0, Some((-100000.0, 100000.0)));
+                                    if ui.button(tr("Pick on the work area")).on_hover_text(tr("The next click on the work area sets the zero (it snaps to the corners and the middles of the shapes); the icon of the axes can be dragged")).clicked() {
+                                        pick_zero = true;
+                                    }
                                 });
                             });
                             ui.end_row();
@@ -369,10 +373,12 @@ impl App {
                         ui.add_space(4.0);
                         egui::Grid::new("dev_gcode").num_columns(2).spacing([12.0, 8.0]).show(ui, |ui| {
                             for (label, text) in [
+                                (tr("Very start of the file"), &mut d.gcode.very_start),
                                 (tr("At the start of the program"), &mut d.gcode.start),
                                 (tr("At every change of the bit"), &mut d.gcode.tool_change),
                                 (tr("At every change of the operation"), &mut d.gcode.operation_change),
                                 (tr("At the end of the program"), &mut d.gcode.end),
+                                (tr("Very end of the file"), &mut d.gcode.very_end),
                                 (tr("Dust collector on"), &mut d.gcode.dust_on),
                                 (tr("Dust collector off"), &mut d.gcode.dust_off),
                             ] {
@@ -381,6 +387,13 @@ impl App {
                                 ui.end_row();
                             }
                         });
+                        base_ui::gcode_out_ui::variables_line(ui, crate::device::FILE_VARS);
+                        ui.label(RichText::new(format!("{} {}", tr("In the change of the bit and of the operation also:"), crate::device::change_only_vars().iter().map(|v| format!("{{{v}}}")).collect::<Vec<_>>().join(" "))).small().color(theme::text_dim()));
+                        if let Err(e) = d.gcode.check_variables() {
+                            ui.label(RichText::new(e).small().color(egui::Color32::from_rgb(0xc0, 0x30, 0x30)));
+                        }
+                        ui.add_space(6.0);
+                        base_ui::gcode_out_ui::flavour_ui(ui, &mut d.gcode.flavour);
                     }
                     Page::Connection => {
                         ui.horizontal(|ui| {
@@ -548,6 +561,9 @@ impl App {
                 });
             });
         });
+        if pick_zero {
+            self.pick_origin = true;
+        }
         if refresh_ports {
             self.machine.refresh_ports();
         }
