@@ -373,7 +373,6 @@ struct App {
     /// The camera view is a tab of the work area, and that tab is the one shown (in place of the drawing).
     cam_ws_shown: bool,
     /// The preview is a tab of the work area (and not a window) while it is open, and that tab is the shown one.
-    preview_tab: bool,
     pv_tab_shown: bool,
     pv_tab_seen: bool,
     show_options: bool,
@@ -510,7 +509,6 @@ impl App {
             toolpaths_on: false,
             show_camera: false,
             cam_ws_shown: false,
-            preview_tab: false,
             pv_tab_shown: false,
             pv_tab_seen: false,
             show_options: false,

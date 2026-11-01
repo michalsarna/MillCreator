@@ -591,7 +591,8 @@ mod tests {
     #[test]
     fn start_from_a_line_sends_a_preamble_first() {
         let mut a = connected_app();
-        a.start_job_from(8);
+        // The two lines of the notes of the demo project come before the program: line 10 is where line 8 was.
+        a.start_job_from(10);
         let first_lines = |a: &App| a.machine.console.iter().filter(|l| l.dir == Dir::Tx && !l.poll).map(|l| l.text.clone()).collect::<Vec<_>>();
         assert!(until(&mut a, 5.0, |a| first_lines(a).len() > 6));
         let sent = first_lines(&a);

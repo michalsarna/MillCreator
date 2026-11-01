@@ -4,7 +4,6 @@ use crate::view3d::{self, Region, Scene3d};
 use crate::{App, Screen};
 use base_ui::i18n::{tr, trf};
 use base_ui::theme;
-use base_ui::window::popup_with;
 use base_ui::editor::EditorHost;
 use eframe::egui::{self, Color32, RichText};
 
@@ -115,7 +114,7 @@ impl App {
     /// What the variables of the own G-code are made of: the project, the machine and the moment (the box and the layer are filled
     /// in when the program is written).
     pub(crate) fn gcode_info(&self, name: &str) -> base_core::gcode_out::Info {
-        base_core::gcode_out::Info { project_name: name.to_string(), project_path: self.path.as_ref().map(|p| p.display().to_string()).unwrap_or_default(), ..base_core::gcode_out::Info::now() }
+        base_core::gcode_out::Info { project_name: name.to_string(), project_path: self.path.as_ref().map(|p| p.display().to_string()).unwrap_or_default(), notes: self.description.clone(), ..base_core::gcode_out::Info::now() }
     }
 
     /// Are the variables in the own G-code of the device all known? When not, the reason goes to the status line and the file is
@@ -309,40 +308,19 @@ impl App {
         }
     }
 
-    pub(crate) fn preview_window(&mut self, ctx: &egui::Context) {
+    pub(crate) fn preview_window(&mut self, _ctx: &egui::Context) {
         if !self.show_3d {
             self.pv_tab_seen = false;
             self.pv_tab_shown = false;
             return;
         }
-        if self.preview_tab {
-            // Drawn in the work area (`App::preview_work_panel`); it is shown the first time it opens.
-            if !self.pv_tab_seen {
-                self.pv_tab_shown = true;
-                self.cam_ws_shown = false;
-            }
-            self.pv_tab_seen = true;
-            return;
+        // The preview is a tab of the work area (drawn by `preview_work_panel`); it is shown the first time it opens. A window of its
+        // own is the tab that the person took out (`work_panes`), never a second copy.
+        if !self.pv_tab_seen {
+            self.pv_tab_shown = true;
+            self.cam_ws_shown = false;
         }
-        self.pv_tab_seen = false;
-        self.pv_tab_shown = false;
-        if self.prog.is_none() || self.prog_rev != self.job_stamp() {
-            self.prog = Some(self.make_program());
-            self.prog_rev = self.job_stamp();
-        }
-        let mut open = true;
-        let mut pin = false;
-        let tools = |ui: &mut egui::Ui| {
-            pin = base_ui::doc_tabs::pin_as_tab_button(ui);
-        };
-        popup_with(ctx, "preview_3d", &tr("Preview"), [980.0, 700.0], &mut open, tools, |ui| self.preview_body(ui));
-        self.show_3d = open;
-        if pin {
-            self.preview_pin(true);
-        }
-        if !open {
-            self.playback.playing = false;
-        }
+        self.pv_tab_seen = true;
     }
 
     /// The options, totals and the picture (the same in the window and in the tab).
@@ -440,15 +418,6 @@ impl App {
         self.show_3d
     }
 
-    /// Pin the preview as a tab of the work area (or make it a window again).
-    pub(crate) fn preview_pin(&mut self, tab: bool) {
-        self.preview_tab = tab;
-        self.pv_tab_shown = tab;
-        if tab {
-            self.cam_ws_shown = false;
-        }
-    }
-
     /// The tab was closed with its cross.
     pub(crate) fn preview_close(&mut self) {
         self.show_3d = false;
@@ -469,18 +438,27 @@ mod tests {
         let mut a = App::build(&ctx, None, false);
         a.open_preview();
         assert!(a.show_3d && a.prog.as_ref().unwrap().is_empty());
-        let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.preview_window(ui.ctx()));
+        let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
+            a.preview_window(ui.ctx());
+            egui::CentralPanel::no_frame().show(ui, |ui| a.preview_work_panel(ui));
+        });
         out.textures_delta.clear();
         a.scene.add(0, Kind::Rect { w: 30.0, h: 30.0 }, Xf::translate(20.0, 20.0));
         a.touch_rev();
-        let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.preview_window(ui.ctx()));
+        let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
+            a.preview_window(ui.ctx());
+            egui::CentralPanel::no_frame().show(ui, |ui| a.preview_work_panel(ui));
+        });
         out.textures_delta.clear();
         assert!(!a.prog.as_ref().unwrap().is_empty(), "the new shape is milled");
         assert_eq!(a.prog_rev, a.job_stamp());
         // The two fits: the whole work area shows more than the small shape, so it zooms less.
         let mut zoom_of = |fit| {
             a.view.fit = Some(fit);
-            let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.preview_window(ui.ctx()));
+            let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
+            a.preview_window(ui.ctx());
+            egui::CentralPanel::no_frame().show(ui, |ui| a.preview_work_panel(ui));
+        });
             out.textures_delta.clear();
             assert!(a.view.fit.is_none(), "the request is done by the picture");
             a.view.zoom
@@ -511,15 +489,20 @@ mod tests {
         let ctx = egui::Context::default();
         let mut a = App::build(&ctx, None, false);
         a.open_preview();
-        a.preview_pin(true);
         a.cam_ws_shown = true;
         a.preview_close();
         assert!(!a.show_3d && !a.pv_tab_shown);
-        let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.preview_window(ui.ctx()));
+        let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
+            a.preview_window(ui.ctx());
+            egui::CentralPanel::no_frame().show(ui, |ui| a.preview_work_panel(ui));
+        });
         out.textures_delta.clear();
         // Opened again: it is still a tab, and the shown one.
         a.open_preview();
-        let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.preview_window(ui.ctx()));
+        let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
+            a.preview_window(ui.ctx());
+            egui::CentralPanel::no_frame().show(ui, |ui| a.preview_work_panel(ui));
+        });
         out.textures_delta.clear();
         assert!(a.preview_work_tab() && a.pv_tab_shown && !a.cam_ws_shown);
     }
@@ -543,7 +526,10 @@ mod tests {
         assert_eq!(cyl.r, 20.0);
         assert!((round.unwrap().size()[1] - a.device.rotary.circumference()).abs() < 1e-9, "the whole way round");
         // The window is drawn, and the STL is refused with a word.
-        let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.preview_window(ui.ctx()));
+        let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
+            a.preview_window(ui.ctx());
+            egui::CentralPanel::no_frame().show(ui, |ui| a.preview_work_panel(ui));
+        });
         out.textures_delta.clear();
         a.export_view();
         assert!(a.status.contains("rotary"), "{}", a.status);
