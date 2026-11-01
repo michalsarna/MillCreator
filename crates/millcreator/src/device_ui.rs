@@ -741,6 +741,7 @@ impl App {
         ui.add_space(4.0);
         ui.separator();
         self.cam_rec.set_project(self.path.as_deref());
+        self.cam_rec.set_source(self.device.cameras.get(self.device.active_camera));
         self.cam_rec.controls(ui);
         ctx.request_repaint_after(std::time::Duration::from_millis(120));
     }
@@ -770,7 +771,7 @@ fn camera_page(ui: &mut egui::Ui, d: &mut Device) {
                 CameraKind::Url(u) => {
                     ui.add(egui::TextEdit::singleline(u).hint_text("http://raspberrypi.local:8080/stream.mjpg").desired_width(340.0));
                     if !u.trim().is_empty() && !base_core::camimg::valid_url(u) {
-                        ui.label(RichText::new(tr("Not an http or https address.")).color(Color32::from_rgb(0xc0, 0x30, 0x30)));
+                        ui.label(RichText::new(tr("Not a camera address (http, https, rtsp, udp, rtp or rtmp).")).color(Color32::from_rgb(0xc0, 0x30, 0x30)));
                     }
                 }
                 CameraKind::Local(n) => {
@@ -780,6 +781,7 @@ fn camera_page(ui: &mut egui::Ui, d: &mut Device) {
                     });
                 }
             }
+            base_ui::camera_feed::stream_options_ui(ui, c);
             ui.horizontal(|ui| {
                 ui.label(tr("Camera rotation"));
                 for q in 0..4u8 {

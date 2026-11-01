@@ -443,3 +443,4 @@
 442|Încarcă presetarea
 443|Freza din presetare nu este în bibliotecă: stratul nu are freză
 444|Mărire
+445|Nu este o adresă de cameră (http, https, rtsp, udp, rtp sau rtmp).

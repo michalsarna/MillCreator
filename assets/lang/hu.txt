@@ -443,3 +443,4 @@
 442|Beállítás betöltése
 443|A beállítás marója nincs a könyvtárban: a rétegnek nincs marója
 444|Nagyítás
+445|Nem kameracím (http, https, rtsp, udp, rtp vagy rtmp).

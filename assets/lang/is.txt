@@ -443,3 +443,4 @@
 442|Hlaða forstillingu
 443|Fræsarinn úr forstillingunni er ekki í safninu: lagið er án fræsara
 444|Aðdráttur
+445|Ekki vistfang myndavélar (http, https, rtsp, udp, rtp eða rtmp).

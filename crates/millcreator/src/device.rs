@@ -290,7 +290,7 @@ impl Device {
             }
             if let CameraKind::Url(u) = &c.kind {
                 if !u.is_empty() && !base_core::camimg::valid_url(u) {
-                    return Err("a camera address is not an http or https address".into());
+                    return Err("a camera address is not an http, https, rtsp, udp, rtp or rtmp address".into());
                 }
             }
         }
