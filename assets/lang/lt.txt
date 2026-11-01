@@ -442,3 +442,4 @@
 441|Programos nulis yra ties X {} Y {}
 442|Įkelti šabloną
 443|Šablono frezos bibliotekoje nėra: sluoksnis be frezos
+444|Mastelis

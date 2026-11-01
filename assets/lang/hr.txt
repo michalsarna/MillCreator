@@ -442,3 +442,4 @@
 441|Nula programa je na X {} Y {}
 442|Učitaj predložak
 443|Glodalo iz predloška nije u biblioteci: sloj nema glodalo
+444|Povećanje

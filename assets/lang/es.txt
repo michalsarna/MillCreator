@@ -442,3 +442,4 @@
 441|El cero del programa está en X {} Y {}
 442|Cargar preajuste
 443|La fresa del preajuste no está en la biblioteca: la capa no tiene fresa
+444|Ampliación

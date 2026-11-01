@@ -322,6 +322,14 @@ pub fn show(ui: &mut egui::Ui, view: &mut View3d, sc: &Scene3d) {
             None => {}
         }
     }
+    // The slider of the zoom, below the cube: the same as the wheel, for a mouse without one.
+    let track = Rect::from_min_max(Pos2::new(rect.right() - 28.0, rect.top() + 150.0), Pos2::new(rect.right() - 8.0, (rect.bottom() - 24.0).max(rect.top() + 200.0)));
+    let mut z = view.zoom.max(0.2).ln();
+    let (lo, hi) = (0.2f32.ln(), 40.0f32.ln());
+    let r = ui.put(track, egui::Slider::new(&mut z, lo..=hi).vertical().show_value(false));
+    if r.on_hover_text(base_ui::i18n::tr("Zoom")).changed() {
+        view.zoom_by((z - view.zoom.max(0.2).ln()).exp());
+    }
 }
 
 /// Zoom and pan so that the box `lo`..`hi` (X and Y, from the material's top down to the safe height) fills `rect`.

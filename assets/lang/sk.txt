@@ -442,3 +442,4 @@
 441|Nula programu je na X {} Y {}
 442|Načítať predvoľbu
 443|Fréza z predvoľby nie je v knižnici: vrstva je bez frézy
+444|Priblíženie

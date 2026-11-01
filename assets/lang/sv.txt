@@ -442,3 +442,4 @@
 441|Programmets nollpunkt är vid X {} Y {}
 442|Läs in förinställning
 443|Fräsen från förinställningen finns inte i biblioteket: lagret har ingen fräs
+444|Zoom

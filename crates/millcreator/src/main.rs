@@ -312,6 +312,9 @@ struct App {
     wcs_undo: Option<device::Wcs>,
     /// The central area in panes (one pane unless the person split the view).
     panes: base_ui::work_panes::Panes,
+    /// The G-code of the projects as text that can be edited (one for a project), and the one whose tab is being closed.
+    gcode_texts: Vec<base_ui::gcode_text_ui::GcodeText>,
+    closing_text: Option<usize>,
     slot: usize,
     /// The program is being closed: every tab with unsaved work is asked about in turn.
     quitting: bool,
@@ -463,6 +466,8 @@ impl App {
             pick_origin: false,
             wcs_drag: false,
             wcs_undo: None,
+            gcode_texts: vec![],
+            closing_text: None,
             panes: base_ui::work_panes::Panes::from_json(&saved("panes").unwrap_or_default()),
             slot: 0,
             quitting: false,
@@ -1160,6 +1165,7 @@ impl App {
         self.clip_dialogs(ctx);
         self.online_clipart_window(ctx);
         self.layer_presets_window(ctx);
+        self.closing_text_dialog(ctx);
         self.plugin_windows(ctx);
         tools_ui::tools_window(ctx, &mut self.tools_win, &mut self.tools);
         self.device_window(ctx);
@@ -1174,9 +1180,11 @@ impl App {
             title: "About MillCreator",
             name: "MillCreator",
             version: VERSION,
-            lines: vec!["Open-source CNC mill design and preparation software: layers, bits, toolpaths, 3D view and G-code.".into(), "Written in Rust with egui; shares its core and interface with LightCreator through baseCreator.".into()],
+            lines: vec!["Open-source CNC mill design and preparation software: layers, bits, toolpaths, 3D view and G-code.".into(), "Written in Rust with egui.".into()],
             url: "https://github.com/michalsarna/MillCreator",
+            site: "https://michalsarna.github.io/creatorapps/",
             licence: "MIT OR Apache-2.0",
+            credits: include_str!("../../../CREDITS.md"),
         };
         base_ui::dialogs::about_window(ctx, &mut self.show_about, &about, self.logo.as_ref());
     }
@@ -1226,7 +1234,6 @@ impl App {
             egui::Panel::top("menu").frame(chrome).show(ui, |ui| base_ui::menu::menu_bar(self, ui));
         }
         egui::Panel::top("controls").frame(chrome).exact_size(36.0).show(ui, |ui| self.control_bar(ui));
-        egui::Panel::top("doc_tabs").frame(chrome.inner_margin(egui::Margin::symmetric(8, 2))).exact_size(30.0).show(ui, |ui| self.doc_tab_bar(ui));
         egui::Panel::bottom("status").frame(chrome).exact_size(26.0).show(ui, |ui| self.status_bar(ui));
         egui::Panel::left("tools").frame(chrome).exact_size(52.0).resizable(false).show(ui, |ui| base_ui::editor::tool_palette(self, ui, None));
         let side = if self.tabs.collapsed {
@@ -1255,18 +1262,6 @@ impl ClipHost for App {
 impl EditorHost for App {
     fn panes_mut(&mut self) -> Option<&mut base_ui::work_panes::Panes> {
         Some(&mut self.panes)
-    }
-    fn pane_candidates(&self) -> Vec<base_ui::work_panes::Content> {
-        use base_ui::work_panes::Content;
-        let mut v: Vec<Content> = self.tabs_state.parked.iter().flatten().map(|w| Content::Doc(w.slot)).collect();
-        if self.preview_work_tab() {
-            v.insert(0, Content::Preview);
-        }
-        if self.gcode_view.is_some() {
-            v.insert(0, Content::Gcode);
-        }
-        v.push(Content::Preview);
-        v
     }
     fn background_camera_image(&self) -> Option<(egui::ColorImage, String)> {
         let cam = self.device.camera()?;
@@ -2247,8 +2242,8 @@ mod tests {
     }
 
     #[test]
-    fn the_view_can_be_split_and_a_click_in_a_pane_with_another_drawing_makes_it_the_active_one() {
-        use base_ui::work_panes::{Content, Dir};
+    fn every_pane_has_tabs_a_tab_goes_to_another_pane_and_nothing_is_opened_twice() {
+        use base_ui::work_panes::{Content, PaneEvent};
         let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
         let mut a = app();
         drawn(&mut a, 1);
@@ -2257,7 +2252,6 @@ mod tests {
         drawn(&mut a, 2);
         let second = a.slot;
         assert_ne!(first, second);
-        // One pane: the single pane draws the canvas as it always did and nothing is saved but the single pane.
         let ctx = egui::Context::default();
         let frame = |a: &mut App| {
             let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
@@ -2266,41 +2260,74 @@ mod tests {
             out.textures_delta.clear();
         };
         frame(&mut a);
-        assert!(a.panes.is_single());
-        // "Show beside" in the menu of the first tab: it is shown next to the active drawing.
-        a.show_tab_beside(0);
-        assert_eq!(a.panes.contents(), [Content::Active, Content::Doc(first)]);
+        assert_eq!(a.panes.layout(), vec![vec![Content::Doc(first), Content::Doc(second)]], "one pane with a tab for every drawing");
+        assert_eq!(a.panes.panes[0].shown(), Some(Content::Doc(second)), "the active drawing's tab is shown");
+        // Another tab to another pane; the layout is saved with the settings.
+        assert!(a.panes.move_to(Content::Doc(first), 1, None));
         frame(&mut a);
-        // The layout is kept with the settings and read back.
         let saved = a.settings_pairs().into_iter().find(|(k, _)| *k == "panes").unwrap().1;
-        let back = base_ui::work_panes::Panes::from_json(&saved);
-        assert_eq!((back.dir, back.contents()), (Dir::Beside, vec![Content::Active, Content::Doc(first)]));
-        // A click in the pane: the first drawing is active now and the second takes its place in the pane.
-        a.pane_event(base_ui::work_panes::PaneEvent::Activate(first));
+        assert_eq!(base_ui::work_panes::Panes::from_json(&saved).layout(), vec![vec![Content::Doc(second)], vec![Content::Doc(first)]]);
+        // A click on the other drawing makes it the active one, and its tab is shown in its pane.
+        a.pane_event(PaneEvent::Activate(first));
         assert_eq!(a.slot, first);
-        assert_eq!(a.panes.contents(), [Content::Active, Content::Doc(second)]);
-        // The tab bar does the same.
-        a.switch_to(1);
-        assert_eq!(a.panes.contents(), [Content::Active, Content::Doc(first)]);
-        // A closed drawing leaves no pane that shows it.
-        a.close_shown_tab();
         frame(&mut a);
-        assert_eq!(a.panes.contents(), [Content::Active]);
+        assert_eq!(a.panes.panes[1].shown(), Some(Content::Doc(first)));
+        // The preview and the camera are tabs too, once each.
+        a.show_3d = true;
+        frame(&mut a);
+        assert_eq!(a.panes.tabs().iter().filter(|c| **c == Content::Preview).count(), 1);
+        a.open_preview();
+        frame(&mut a);
+        assert_eq!(a.panes.tabs().iter().filter(|c| **c == Content::Preview).count(), 1, "opening it again does not make a second one");
+        assert!(a.tab_title_of(Content::Preview).starts_with("Preview: "), "the title has the name of the project: {}", a.tab_title_of(Content::Preview));
+        // The last tab of a pane closed closes the pane.
+        a.pane_event(PaneEvent::Close(Content::Preview));
+        frame(&mut a);
+        assert!(!a.panes.has(Content::Preview));
+        a.pane_event(PaneEvent::Close(Content::Doc(second)));
+        a.close_shown_tab_for_test(second);
+        frame(&mut a);
+        assert_eq!(a.panes.layout().len(), 1, "the pane without tabs is gone");
     }
 
     #[test]
-    fn the_g_code_can_be_previewed_without_writing_a_file() {
+    fn the_g_code_text_of_a_project_is_one_tab_that_asks_before_it_is_closed_with_edits() {
+        use base_ui::work_panes::{Content, PaneEvent};
         let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
         let mut a = app();
-        // Nothing to cut: a message, no viewer.
-        a.preview_gcode();
-        assert!(a.gcode_view.is_none() && !a.status.is_empty());
         drawn(&mut a, 1);
+        let slot = a.slot;
         a.preview_gcode();
-        let v = a.gcode_view.as_ref().expect("the program is shown in the analysis");
-        assert!(v.path.to_string_lossy().ends_with("(preview)") || v.path.to_string_lossy().contains("preview") || v.path.to_string_lossy().ends_with(')'), "{:?}", v.path);
-        assert!(!v.tp.segs.is_empty() && !v.path.exists(), "moves, and no such file on the disk");
-        assert!(!a.ed.grid_prefs.gcode_preview_after_save, "off by default");
+        assert_eq!(a.gcode_texts.len(), 1);
+        assert!(a.gcode_texts[0].name.ends_with(".nc") && a.gcode_texts[0].text.contains("M30"), "{}", a.gcode_texts[0].name);
+        // A second press does not make a second tab; an untouched text is made again.
+        a.preview_gcode();
+        assert_eq!(a.gcode_texts.len(), 1);
+        let ctx = egui::Context::default();
+        let frame = |a: &mut App| {
+            let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
+                egui::CentralPanel::no_frame().show(ui, |ui| a.central_panes(ui));
+            });
+            out.textures_delta.clear();
+        };
+        frame(&mut a);
+        assert!(a.panes.has(Content::GcodeText(slot)));
+        assert!(a.tab_title_of(Content::GcodeText(slot)).starts_with("Preview G-code: "));
+        // Edited by hand: the tab is marked, a second press keeps the edits and closing asks.
+        a.gcode_texts[0].text.push_str("(by hand)\n");
+        assert!(a.tab_dirty_of(Content::GcodeText(slot)));
+        a.preview_gcode();
+        assert!(a.gcode_texts[0].text.contains("(by hand)"), "the edits are not thrown away by pressing the button again");
+        a.pane_event(PaneEvent::Close(Content::GcodeText(slot)));
+        assert_eq!(a.closing_text, Some(slot), "closing a text with edits asks first");
+        assert_eq!(a.gcode_texts.len(), 1);
+        // Without edits the tab closes at once.
+        a.closing_text = None;
+        a.gcode_texts[0].replace("G21\nM30\n".to_string());
+        a.pane_event(PaneEvent::Close(Content::GcodeText(slot)));
+        assert!(a.gcode_texts.is_empty() && a.closing_text.is_none());
+        frame(&mut a);
+        assert!(!a.panes.has(Content::GcodeText(slot)));
     }
 
     fn drawn(a: &mut App, svg_times: usize) {

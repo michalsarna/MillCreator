@@ -24,3 +24,4 @@ listed in its [CREDITS.md](https://github.com/michalsarna/baseCreator/blob/main/
 * **[GitHub Actions](https://github.com/features/actions)**, the Rust toolchain action by dtolnay, **rust-cache** by Swatinem
   and **CodeQL**: building, testing and releasing.
 * **Jakub ([CNC KpK](https://www.youtube.com/@CNC-KpK))**: ideas and suggestions for improvements, from the point of view of industrial CNC machines.
+* **[FFmpeg](https://ffmpeg.org)** (LGPL-2.1 or later): the separate program that decodes the video stream (RTSP) of a camera; a small build of it comes with the packages (the licence and the way it was built are next to it in the packages).

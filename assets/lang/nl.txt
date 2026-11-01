@@ -442,3 +442,4 @@
 441|Het nulpunt van het programma ligt op X {} Y {}
 442|Voorinstelling laden
 443|De frees van de voorinstelling staat niet in de bibliotheek: de laag heeft geen frees
+444|Zoom
