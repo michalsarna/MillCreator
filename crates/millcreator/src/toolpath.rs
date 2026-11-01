@@ -823,6 +823,8 @@ struct Here {
     layer_name: String,
     layer_index: usize,
     total_layers: usize,
+    /// The bit of the layer: its number in the changer, name, diameter, flutes and the speeds of the library.
+    tool: Option<Tool>,
 }
 
 /// The value of a variable of the own G-code.
@@ -831,6 +833,23 @@ fn value_of(info: &base_core::gcode_out::Info, here: &Here, name: &str) -> Optio
         "layer_name" => Some(here.layer_name.clone()),
         "layer_index" => Some(here.layer_index.to_string()),
         "total_layers" => Some(here.total_layers.to_string()),
+        n if n.starts_with("tool_") => {
+            let t = here.tool.as_ref();
+            let num = |v: f64| {
+                let s = format!("{v:.3}");
+                s.trim_end_matches('0').trim_end_matches('.').to_string()
+            };
+            Some(match n {
+                "tool_number" => t.map_or(0, |t| t.number).to_string(),
+                "tool_name" => t.map(|t| t.name.clone()).unwrap_or_default(),
+                "tool_diameter" => t.map(|t| num(t.dims.diameter)).unwrap_or_default(),
+                "tool_flutes" => t.map(|t| t.cutting.flutes.to_string()).unwrap_or_default(),
+                "tool_rpm" => t.map(|t| num(t.cutting.rpm)).unwrap_or_default(),
+                "tool_feed" => t.map(|t| num(t.cutting.feed)).unwrap_or_default(),
+                "tool_plunge" => t.map(|t| num(t.cutting.plunge)).unwrap_or_default(),
+                _ => return None,
+            })
+        }
         _ => info.value(name),
     }
 }
@@ -854,7 +873,7 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
         }
         info.bounds = lo[0].is_finite().then_some((lo, hi));
     }
-    let mut here = Here { layer_name: String::new(), layer_index: 0, total_layers: layers.len() };
+    let mut here = Here { layer_name: String::new(), layer_index: 0, total_layers: layers.len(), tool: None };
     let mut g = String::new();
     let clean = |s: &str| s.chars().filter(|c| c.is_alphanumeric() || *c == ' ' || *c == '-' || *c == '_' || *c == '.').collect::<String>();
     g.push_str(&format!("(MillCreator: {})\n(Device: {})\n", clean(program_name), clean(&dev.name)));
@@ -879,7 +898,7 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
             layer = m.layer;
             if let Some(l) = layers.get(layer) {
                 g.push_str(&format!("(Layer: {})\n", clean(&l.name)));
-                here = Here { layer_name: l.name.clone(), layer_index: layer, total_layers: layers.len() };
+                here = Here { layer_name: l.name.clone(), layer_index: layer, total_layers: layers.len(), tool: l.tool.as_deref().and_then(|id| tools.get(id)).cloned() };
                 custom(&mut g, &dev.gcode.operation_change, &|n| value_of(&info, &here, n));
                 if tool_id != l.tool {
                     if spindle_on {
@@ -1180,6 +1199,32 @@ mod tests {
         assert!(l.iter().any(|x| x.contains("G4 P2000.")), "dwell in milliseconds with a point: {g}");
         assert!(l.iter().any(|x| x.contains(" X") && x.contains("Y") && !x.contains("(")) && !g.contains("(MillCreator"));
         assert!(!g.contains("M3 S12000.") && g.contains("M3 S"), "the spindle speed gets no point");
+    }
+
+    #[test]
+    fn the_variables_of_the_bit_are_put_into_the_own_g_code_of_a_change() {
+        let (mut lib, mut dev, stock, mut layers) = setup();
+        let mut t = lib.get("std-flat-3").unwrap().clone();
+        t.name = "Test cutter".into();
+        t.builtin = false;
+        t.number = 7;
+        t.cutting.flutes = 3;
+        t.cutting.rpm = 18000.0;
+        t.cutting.feed = 900.0;
+        t.cutting.plunge = 250.0;
+        let id = lib.add(t).expect("a bit is added");
+        layers[0].tool = Some(id);
+        dev.gcode.tool_change = "(T{tool_number} {tool_name} D{tool_diameter} Z{tool_flutes} S{tool_rpm} F{tool_feed} P{tool_plunge})".into();
+        dev.gcode.operation_change = "(op {layer_name} T{tool_number})".into();
+        assert!(dev.gcode.check_variables().is_ok());
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 50.0, 50.0, 40.0);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let g = to_gcode(&prog, &dev, &layers, &lib, "t");
+        assert!(g.contains("(T7 Test cutter D3.175 Z3 S18000 F900 P250)"), "{g}");
+        assert!(g.contains("T7)"), "the operation change knows the bit too: {g}");
+        dev.gcode.tool_change = "{tool_nothing}".into();
+        assert!(dev.gcode.check_variables().is_err());
     }
 
     #[test]

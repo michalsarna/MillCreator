@@ -384,7 +384,7 @@ impl App {
                             }
                         });
                         base_ui::gcode_out_ui::variables_line(ui, crate::device::FILE_VARS);
-                        ui.label(RichText::new(format!("{} {}", tr("In the change of the bit and of the operation also:"), "{layer_name} {layer_index} {total_layers}")).small().color(theme::text_dim()));
+                        ui.label(RichText::new(format!("{} {}", tr("In the change of the bit and of the operation also:"), crate::device::change_only_vars().iter().map(|v| format!("{{{v}}}")).collect::<Vec<_>>().join(" "))).small().color(theme::text_dim()));
                         if let Err(e) = d.gcode.check_variables() {
                             ui.label(RichText::new(e).small().color(egui::Color32::from_rgb(0xc0, 0x30, 0x30)));
                         }
