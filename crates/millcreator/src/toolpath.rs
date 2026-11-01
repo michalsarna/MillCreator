@@ -884,6 +884,9 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
     let mut g = String::new();
     let clean = |s: &str| s.chars().filter(|c| c.is_alphanumeric() || *c == ' ' || *c == '-' || *c == '_' || *c == '.').collect::<String>();
     g.push_str(&format!("(MillCreator: {})\n(Device: {})\n", clean(program_name), clean(&dev.name)));
+    for l in base_core::gcode_out::note_lines(&info.notes) {
+        g.push_str(&format!("(Note: {l})\n"));
+    }
     g.push_str("G21 G90 G17\n");
     if let Some(w) = dev.wcs.word() {
         g.push_str(&w);
@@ -1182,6 +1185,13 @@ mod tests {
         let text = to_gcode_info(&prog, &dev, &layers, &lib, &info);
         let lines: Vec<&str> = text.lines().collect();
         assert_eq!(&lines[..3], &["%", "Opart", "(MillCreator: part)"]);
+        // The notes of the project come after the name as comments, with nothing in them that could end a comment.
+        let noted = base_core::gcode_out::Info { notes: "Birch (3 mm); first\n\nglue".into(), ..info.clone() };
+        let with_notes = to_gcode_info(&prog, &dev, &layers, &lib, &noted);
+        let lines: Vec<&str> = with_notes.lines().collect();
+        assert_eq!(&lines[2..5], &["(MillCreator: part)", "(Device: {})".replace("{}", &dev.name).as_str(), "(Note: Birch <3 mm>, first)"][..], "{with_notes}");
+        assert_eq!(lines[5], "(Note: glue)");
+        assert!(!text.contains("(Note"), "no notes, no note lines");
         assert!(lines.iter().any(|l| l.starts_with("(box ") && !l.contains('{')), "{text}");
         assert!(lines.iter().any(|l| l.starts_with("(layer 0/") && !l.contains('{')), "{text}");
         assert_eq!(lines.last().copied(), Some(format!("(done {})", dev.name).as_str()));

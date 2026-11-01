@@ -740,6 +740,7 @@ impl App {
         // Photos, video and time-lapse, with their folder.
         ui.add_space(4.0);
         ui.separator();
+        self.cam_rec.set_project(self.path.as_deref());
         self.cam_rec.controls(ui);
         ctx.request_repaint_after(std::time::Duration::from_millis(120));
     }

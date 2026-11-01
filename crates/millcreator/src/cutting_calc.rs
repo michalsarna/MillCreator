@@ -37,34 +37,33 @@ pub fn feed_for(fz: f64, rpm: f64, z: u32) -> f64 {
 /// The rows under the speed and the feeds: Vc beside the spindle speed, fz beside the feed and the plunge feed. Typing in one of
 /// them changes the spindle speed or the feed, the other follows. The rows are dimmed when the layer has no bit (there is no
 /// diameter and no number of flutes then). Returns whether anything changed.
-pub fn rows(ui: &mut egui::Ui, d: f64, z: u32, rpm: &mut f64, feed: &mut f64, plunge: &mut f64) -> bool {
+pub fn rows(ui: &mut egui::Ui, editable: bool, d: f64, z: u32, rpm: &mut f64, feed: &mut f64, plunge: &mut f64) -> bool {
     use crate::i18n::tr;
     let mut changed = false;
-    let known = d > 0.0 && z >= 1;
+    let known = editable && d > 0.0 && z >= 1;
     let hint = tr("From the bit: the diameter and the number of flutes");
-    ui.add_enabled_ui(known, |ui| {
-        let mut v = vc(d, *rpm);
-        ui.label(tr("Cutting speed (Vc)")).on_disabled_hover_text(hint);
-        if ui.add(egui::DragValue::new(&mut v).range(0.0..=5000.0).speed(0.5).max_decimals(1).suffix(" m/min")).changed() {
-            *rpm = rpm_for(d, v).clamp(0.0, 1_000_000.0);
-            changed = true;
-        }
-        ui.end_row();
-        let mut f = fz(*feed, *rpm, z);
-        ui.label(tr("Feed per tooth (fz)"));
-        if ui.add(egui::DragValue::new(&mut f).range(0.0..=10.0).speed(0.001).max_decimals(4).suffix(" mm")).changed() && *rpm > 0.0 {
-            *feed = feed_for(f, *rpm, z).clamp(1.0, 100_000.0);
-            changed = true;
-        }
-        ui.end_row();
-        let mut p = fz(*plunge, *rpm, z);
-        ui.label(tr("Plunge per tooth"));
-        if ui.add(egui::DragValue::new(&mut p).range(0.0..=10.0).speed(0.001).max_decimals(4).suffix(" mm")).changed() && *rpm > 0.0 {
-            *plunge = feed_for(p, *rpm, z).clamp(1.0, 100_000.0);
-            changed = true;
-        }
-        ui.end_row();
-    });
+    // No `add_enabled_ui` here: it opens a child that swallows `end_row`, and the three rows of the grid became one very wide row.
+    let mut v = vc(d, *rpm);
+    ui.add_enabled(known, egui::Label::new(tr("Cutting speed (Vc)"))).on_disabled_hover_text(hint);
+    if ui.add_enabled(known, egui::DragValue::new(&mut v).range(0.0..=5000.0).speed(0.5).max_decimals(1).suffix(" m/min")).changed() {
+        *rpm = rpm_for(d, v).clamp(0.0, 1_000_000.0);
+        changed = true;
+    }
+    ui.end_row();
+    let mut f = fz(*feed, *rpm, z);
+    ui.add_enabled(known, egui::Label::new(tr("Feed per tooth (fz)")));
+    if ui.add_enabled(known, egui::DragValue::new(&mut f).range(0.0..=10.0).speed(0.001).max_decimals(4).suffix(" mm")).changed() && *rpm > 0.0 {
+        *feed = feed_for(f, *rpm, z).clamp(1.0, 100_000.0);
+        changed = true;
+    }
+    ui.end_row();
+    let mut p = fz(*plunge, *rpm, z);
+    ui.add_enabled(known, egui::Label::new(tr("Plunge per tooth")));
+    if ui.add_enabled(known, egui::DragValue::new(&mut p).range(0.0..=10.0).speed(0.001).max_decimals(4).suffix(" mm")).changed() && *rpm > 0.0 {
+        *plunge = feed_for(p, *rpm, z).clamp(1.0, 100_000.0);
+        changed = true;
+    }
+    ui.end_row();
     changed
 }
 
@@ -91,7 +90,7 @@ mod tests {
         let (mut rpm, mut feed, mut plunge) = (12000.0, 800.0, 300.0);
         let mut changed = true;
         let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
-            egui::Grid::new("t").show(ui, |ui| changed = rows(ui, 6.0, 2, &mut rpm, &mut feed, &mut plunge));
+            egui::Grid::new("t").show(ui, |ui| changed = rows(ui, true, 6.0, 2, &mut rpm, &mut feed, &mut plunge));
         });
         out.textures_delta.clear();
         assert!(!changed && (rpm, feed, plunge) == (12000.0, 800.0, 300.0), "drawing changes nothing");
