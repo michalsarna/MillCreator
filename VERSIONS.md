@@ -2,7 +2,7 @@
 
 Each release gets the next version number. Newest first.
 
-## v0.5.3 (not released yet)
+## v0.5.3
 
 * **Preview opens in a pane** (never also in a window of its own); a window of a tab (preview, G-code text, camera) stays where it was put instead of sliding down.
 * **Camera files:** pictures and videos go to the folder `camera` next to the project file (`camera00`, `camera01`… when it is there already), and their names start with the project file name.
