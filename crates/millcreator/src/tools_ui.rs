@@ -447,6 +447,7 @@ pub fn tools_window(ctx: &egui::Context, win: &mut ToolsWindow, lib: &mut Librar
                             });
                             ui.end_row();
                         }
+                        changed |= ui.add_enabled_ui(editable, |ui| crate::cutting_calc::rows(ui, draft.dims.diameter, c.flutes, &mut c.rpm, &mut c.feed, &mut c.plunge)).inner;
                         base_ui::widgets::var_label(ui, tr("Flutes"), "tool_flutes");
                         ui.add_enabled_ui(editable, |ui| {
                             changed |= ui.add(egui::DragValue::new(&mut c.flutes).range(1..=12)).changed();

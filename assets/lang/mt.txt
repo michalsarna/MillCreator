@@ -430,3 +430,15 @@
 429|Il-G-code qed jintwera, xejn ma nħażen
 430|G-code proprju tal-apparat: {}
 431|Fil-bidla tal-frieża u tal-operazzjoni wkoll:
+432|Veloċità tat-qtugħ (Vc)
+433|Avanz għal kull sinna (fz)
+434|Avanz ta' tqegħid għal kull sinna
+435|Mill-frieża: dijametru u għadd ta' xfafar
+436|Ibqa' isfel bejn iċ-ċrieki
+437|F'kull fond iċ-ċrieki jsegwu lil xulxin u l-frieża tgħaddi għall-ċirku li jmiss b'qtugħ fil-materjal, meta t-triq kollha tkun ġewwa l-but; inkella titla' bħas-soltu
+438|Agħżel fuq iż-żona tax-xogħol
+439|Il-klikk li jmiss fuq iż-żona tax-xogħol jissettja ż-żero (jeħel mal-kantunieri u ċ-ċentri tal-forom); l-ikona tal-assi tista' tinġarr
+440|Ikklikkja fuq iż-żona tax-xogħol biex tissettja ż-żero tal-programm (Esc jikkanċella)
+441|Iż-żero tal-programm huwa f'X {} Y {}
+442|Tella' l-preset
+443|Il-frieża tal-preset mhix fil-librerija: is-saff m'għandux frieża

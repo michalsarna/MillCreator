@@ -430,3 +430,15 @@
 429|Le G-code est affiché, rien n'est enregistré
 430|G-code personnalisé de l'appareil : {}
 431|Au changement de fraise et d'opération aussi :
+432|Vitesse de coupe (Vc)
+433|Avance par dent (fz)
+434|Avance de plongée par dent
+435|De la fraise : diamètre et nombre de dents
+436|Rester en bas entre les anneaux
+437|À chaque profondeur les anneaux se suivent et la fraise passe au suivant par une coupe dans la matière, quand tout le trajet est dans la poche ; sinon elle se relève comme d'habitude
+438|Choisir sur la zone de travail
+439|Le prochain clic sur la zone de travail fixe le zéro (il s'accroche aux coins et aux centres des formes) ; l'icône des axes peut être déplacée
+440|Cliquez sur la zone de travail pour fixer le zéro du programme (Échap annule)
+441|Le zéro du programme est en X {} Y {}
+442|Charger le préréglage
+443|La fraise du préréglage n'est pas dans la bibliothèque : le calque n'a pas de fraise

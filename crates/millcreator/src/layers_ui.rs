@@ -113,41 +113,14 @@ impl App {
         let layer_names: Vec<String> = self.layers.iter().enumerate().map(|(i, l)| if l.name.is_empty() { format!("{}", i + 1) } else { l.name.clone() }).collect();
         let mut edit_tabs = self.tab_edit;
         {
-            let presets = self.presets.get_or_insert_with(crate::layer_presets::load);
-            let preset_name = &mut self.preset_name;
+            let presets_ui = &mut self.presets_ui;
             let l = &mut self.layers[li];
             ui.horizontal(|ui| {
-                let (mut apply, mut remove, mut saved) = (None, None, false);
-                egui::ComboBox::from_id_salt("layer_presets").selected_text(tr("Presets")).width(120.0).show_ui(ui, |ui| {
-                    if presets.is_empty() {
-                        ui.label(RichText::new(tr("No presets yet")).color(theme::text_dim()));
-                    }
-                    for (i, p) in presets.iter().enumerate() {
-                        ui.horizontal(|ui| {
-                            if ui.selectable_label(false, &p.name).on_hover_text(tr("Put these settings on the layer")).clicked() {
-                                apply = Some(i);
-                            }
-                            if ui.small_button("✖").on_hover_text(tr("Forget this preset")).clicked() {
-                                remove = Some(i);
-                            }
-                        });
-                    }
-                });
-                ui.add(egui::TextEdit::singleline(preset_name).desired_width(100.0).hint_text(tr("Name")));
-                if ui.add_enabled(!preset_name.trim().is_empty(), egui::Button::new(tr("Save as preset"))).on_hover_text(tr("Keep the way of cutting of this layer under this name")).clicked() {
-                    saved = crate::layer_presets::put(presets, crate::layer_presets::LayerPreset::of(l, preset_name));
-                    preset_name.clear();
+                if ui.button(tr("Save preset…")).on_hover_text(tr("Keep the settings of this layer under this name")).clicked() {
+                    presets_ui.show();
                 }
-                if let Some(i) = apply {
-                    presets[i].apply(l);
-                    changed = true;
-                }
-                if let Some(i) = remove {
-                    presets.remove(i);
-                    saved = true;
-                }
-                if saved {
-                    crate::layer_presets::store(presets);
+                if ui.button(tr("Load preset")).on_hover_text(tr("Put these settings on the layer")).clicked() {
+                    presets_ui.show();
                 }
             });
             ui.add_space(4.0);
@@ -266,6 +239,10 @@ impl App {
                         if l.pattern == PocketPattern::Raster {
                             ui.label(tr("Raster angle"));
                             changed |= ui.add(egui::DragValue::new(&mut l.raster_angle).range(-360.0..=360.0).suffix(" °")).changed();
+                            ui.end_row();
+                        } else if l.op == Operation::Pocket {
+                            ui.label("");
+                            changed |= ui.checkbox(&mut l.stay_down, tr("Stay down between rings")).on_hover_text(tr("On every depth the rings follow each other and the bit moves to the next ring by a cut in the material, when the whole way lies inside the pocket; otherwise it rises as usual")).changed();
                             ui.end_row();
                         }
                     }
@@ -416,6 +393,9 @@ impl App {
                     ui.label(tr("Spindle speed"));
                     changed |= ui.add(egui::DragValue::new(&mut l.rpm).range(0.0..=1000000.0).suffix(" rpm")).changed();
                     ui.end_row();
+                    // Vc and the feed per tooth, from the bit of the layer.
+                    let (diameter, flutes) = l.tool.as_deref().and_then(|id| self.tools.get(id)).map_or((0.0, 0), |t| (t.dims.diameter, t.cutting.flutes));
+                    changed |= crate::cutting_calc::rows(ui, diameter, flutes, &mut l.rpm, &mut l.feed, &mut l.plunge);
                 });
                 ui.add_space(4.0);
                 ui.label(RichText::new(tr(l.op.hint())).color(theme::text_dim()));
@@ -489,4 +469,27 @@ impl App {
 #[allow(dead_code)]
 pub fn summary(l: &MillLayer) -> String {
     format!("{} · {} · {} mm", l.name, tr(l.op.label()), l.depth)
+}
+
+impl App {
+    /// The window of the layer presets: the list, search, rename, delete, export and import; a click puts the preset on the active layer.
+    pub(crate) fn layer_presets_window(&mut self, ctx: &egui::Context) {
+        use base_ui::layer_presets_ui::{window, Library, Pick};
+        if !self.presets_ui.open {
+            return;
+        }
+        let lib = self.presets.get_or_insert_with(|| Library::load(crate::layer_presets::FILE, &crate::layer_presets::valid));
+        let li = self.ed.active_layer.min(self.layers.len().saturating_sub(1));
+        let current = crate::layer_presets::of(&self.layers[li]);
+        if let Some(Pick::Apply(i)) = window(ctx, &mut self.presets_ui, lib, &|| current.clone(), &crate::layer_presets::valid) {
+            if let Some(p) = lib.items.get(i).map(|p| p.layer.clone()) {
+                let tools = &self.tools;
+                let had_the_bit = crate::layer_presets::apply(&p, &mut self.layers[li], &|id| tools.get(id).is_some());
+                if !had_the_bit {
+                    self.status = tr("The bit of the preset is not in the library: the layer has no bit").to_string();
+                }
+                self.touch();
+            }
+        }
+    }
 }
