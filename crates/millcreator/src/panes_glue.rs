@@ -100,13 +100,14 @@ impl PaneHost for App {
                     if ui.button(base_ui::i18n::tr("Show the preview here")).clicked() {
                         self.show_3d = true;
                         self.preview_pin(true);
+                        self.pv_tab_shown = false;
                     }
                 }
             }
             Content::Gcode => {
                 if !self.gcode_view_panel(ui) {
                     ui.add_space(8.0);
-                    ui.label(base_ui::i18n::tr("No G-code file is open: File → View G-code file…"));
+                    ui.label(base_ui::i18n::tr("No G-code file is open: File, View G-code file…"));
                 }
             }
             Content::Camera => {
