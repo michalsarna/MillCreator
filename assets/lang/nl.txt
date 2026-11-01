@@ -419,3 +419,6 @@
 418|Wordt niet opgeslagen: bij het openen van het programma moet het opnieuw worden ingevoerd
 419|Het gefreesde stuk kan niet als STL worden geëxporteerd zolang een rotatie-as is gekozen.
 420|Invoegen
+421|De weergave heeft maximaal drie deelvensters
+422|Voorbeeld hier tonen
+423|Geen G-code-bestand geopend: File → View G-code file…

@@ -419,3 +419,6 @@
 418|Ei salvestata: küsitakse uuesti programmi avamisel
 419|Freesitud detaili ei saa STL-ina eksportida, kuni pöördtelg on valitud.
 420|Lisa
+421|Vaates on kuni kolm paani
+422|Näita eelvaadet siin
+423|G-koodi faili pole avatud: File → View G-code file…

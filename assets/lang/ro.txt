@@ -419,3 +419,6 @@
 418|Nu se salvează: se cere din nou când se deschide programul
 419|Piesa frezată nu poate fi exportată ca STL cât timp este ales un ax rotativ.
 420|Inserare
+421|Vizualizarea are cel mult trei panouri
+422|Afișează aici previzualizarea
+423|Niciun fișier G-code deschis: File → View G-code file…

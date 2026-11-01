@@ -419,3 +419,6 @@
 418|Sparas inte: den efterfrågas igen när programmet öppnas
 419|Den frästa biten kan inte exporteras som STL medan en rotationsaxel är vald.
 420|Infoga
+421|Vyn har högst tre rutor
+422|Visa förhandsgranskningen här
+423|Ingen G-kodfil är öppen: File → View G-code file…

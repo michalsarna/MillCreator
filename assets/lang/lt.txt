@@ -419,3 +419,6 @@
 418|Neišsaugoma: atidarius programą prašoma iš naujo
 419|Frezuotos dalies negalima eksportuoti kaip STL, kol pasirinkta sukimosi ašis.
 420|Įterpti
+421|Rodinys turi ne daugiau kaip tris skydelius
+422|Rodyti peržiūrą čia
+423|Neatidarytas joks G kodo failas: File → View G-code file…

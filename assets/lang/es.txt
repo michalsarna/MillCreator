@@ -419,3 +419,6 @@
 418|No se guarda: se pide de nuevo al abrir el programa
 419|La pieza fresada no se puede exportar como STL mientras haya un eje rotativo elegido.
 420|Insertar
+421|La vista tiene como máximo tres paneles
+422|Mostrar aquí la vista previa
+423|Ningún archivo G-code abierto: File → View G-code file…

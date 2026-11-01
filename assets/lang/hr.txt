@@ -419,3 +419,6 @@
 418|Ne sprema se: traži se ponovno pri otvaranju programa
 419|Glodani komad ne može se izvesti kao STL dok je odabran rotacijski dodatak.
 420|Umetni
+421|Prikaz ima najviše tri okna
+422|Prikaži pregled ovdje
+423|Nijedna G-kod datoteka nije otvorena: File → View G-code file…

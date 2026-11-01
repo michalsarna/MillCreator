@@ -16,6 +16,7 @@ mod materials;
 mod model3d;
 mod passes;
 mod gcode_view_glue;
+mod panes_glue;
 mod handtabs;
 #[cfg(test)]
 mod grbl_sim_tests;
@@ -49,7 +50,9 @@ use base_ui::dialogs::AboutInfo;
 use base_ui::job_ui::StartFrom;
 use base_ui::tls_ui::TlsUi;
 use base_ui::tools_ui::{CalUi, DiagUi};
-use base_ui::editor::{EditorCanvas, EditorCommands, EditorHost, EditorImages, EditorState, Tool};
+use base_ui::editor::{EditorCommands, EditorHost, EditorImages, EditorState, Tool};
+#[cfg(test)]
+use base_ui::editor::EditorCanvas;
 use base_ui::i18n::{self, tr, Lang};
 use base_ui::menu::{MenuHost, Menus};
 use base_ui::theme::{self, Scheme};
@@ -299,6 +302,8 @@ struct App {
     saved_rev: u64,
     /// The tabs of open drawings (the shown one is the live fields above), and the number of the recovery file of the shown one.
     tabs_state: workspaces::Tabs,
+    /// The central area in panes (one pane unless the person split the view).
+    panes: base_ui::work_panes::Panes,
     slot: usize,
     /// The program is being closed: every tab with unsaved work is asked about in turn.
     quitting: bool,
@@ -447,6 +452,7 @@ impl App {
             autosave: Default::default(),
             saved_rev: 0,
             tabs_state: Default::default(),
+            panes: base_ui::work_panes::Panes::from_json(&saved("panes").unwrap_or_default()),
             slot: 0,
             quitting: false,
             close_program: false,
@@ -519,6 +525,7 @@ impl App {
             ("tools", self.tools.save_text()),
             ("check_updates", flag(self.check_updates)),
             ("tab_order", self.tabs.order_string()),
+            ("panes", self.panes.to_json()),
             ("side_collapsed", flag(self.tabs.collapsed)),
             ("recent_files", self.recent.iter().map(|p| p.to_string_lossy().into_owned()).collect::<Vec<_>>().join("\n")),
         ]
@@ -1212,16 +1219,9 @@ impl App {
         base_ui::widgets::panel_edge_highlight(ui.ctx(), side.response.rect, base_ui::widgets::Edge::Left);
         egui::Panel::right("arrange_bar").frame(chrome.inner_margin(egui::Margin::symmetric(2, 4))).exact_size(40.0).resizable(false).show(ui, |ui| base_ui::editor::arrange_bar(self, ui));
         egui::Panel::bottom("layer_bar").frame(chrome).exact_size(36.0).show(ui, |ui| base_ui::layer_bar::layer_bar(self, ui));
-        egui::CentralPanel::no_frame().show(ui, |ui| {
-            if self.camera_work_tab() && self.cam_ws_shown {
-                self.camera_work_panel(ui);
-            } else if self.pv_tab_shown && self.preview_work_tab() {
-                self.preview_work_panel(ui);
-            } else if !self.gcode_view_panel(ui) {
-                self.canvas(ui)
-            }
-        });
+        egui::CentralPanel::no_frame().show(ui, |ui| self.central_panes(ui));
         self.dialogs(&ctx);
+        self.pane_windows(&ctx);
     }
 }
 
@@ -1235,6 +1235,21 @@ impl ClipHost for App {
 }
 
 impl EditorHost for App {
+    fn panes_mut(&mut self) -> Option<&mut base_ui::work_panes::Panes> {
+        Some(&mut self.panes)
+    }
+    fn pane_candidates(&self) -> Vec<base_ui::work_panes::Content> {
+        use base_ui::work_panes::Content;
+        let mut v: Vec<Content> = self.tabs_state.parked.iter().flatten().map(|w| Content::Doc(w.slot)).collect();
+        if self.preview_work_tab() {
+            v.insert(0, Content::Preview);
+        }
+        if self.gcode_view.is_some() {
+            v.insert(0, Content::Gcode);
+        }
+        v.push(Content::Preview);
+        v
+    }
     fn background_camera_image(&self) -> Option<(egui::ColorImage, String)> {
         let cam = self.device.camera()?;
         let (w, h, rgb) = self.cam.as_ref()?.last.as_ref()?;
@@ -2209,6 +2224,48 @@ mod tests {
         a.finish_pen(false);
         assert_eq!(a.scene.shapes.len(), 3);
         assert!(!a.history.undo.is_empty(), "drawing is undoable");
+    }
+
+    #[test]
+    fn the_view_can_be_split_and_a_click_in_a_pane_with_another_drawing_makes_it_the_active_one() {
+        use base_ui::work_panes::{Content, Dir};
+        let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
+        let mut a = app();
+        drawn(&mut a, 1);
+        let first = a.slot;
+        a.new_tab();
+        drawn(&mut a, 2);
+        let second = a.slot;
+        assert_ne!(first, second);
+        // One pane: the single pane draws the canvas as it always did and nothing is saved but the single pane.
+        let ctx = egui::Context::default();
+        let frame = |a: &mut App| {
+            let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
+                egui::CentralPanel::no_frame().show(ui, |ui| a.central_panes(ui));
+            });
+            out.textures_delta.clear();
+        };
+        frame(&mut a);
+        assert!(a.panes.is_single());
+        // "Show beside" in the menu of the first tab: it is shown next to the active drawing.
+        a.show_tab_beside(0);
+        assert_eq!(a.panes.contents(), [Content::Active, Content::Doc(first)]);
+        frame(&mut a);
+        // The layout is kept with the settings and read back.
+        let saved = a.settings_pairs().into_iter().find(|(k, _)| *k == "panes").unwrap().1;
+        let back = base_ui::work_panes::Panes::from_json(&saved);
+        assert_eq!((back.dir, back.contents()), (Dir::Beside, vec![Content::Active, Content::Doc(first)]));
+        // A click in the pane: the first drawing is active now and the second takes its place in the pane.
+        a.pane_event(base_ui::work_panes::PaneEvent::Activate(first));
+        assert_eq!(a.slot, first);
+        assert_eq!(a.panes.contents(), [Content::Active, Content::Doc(second)]);
+        // The tab bar does the same.
+        a.switch_to(1);
+        assert_eq!(a.panes.contents(), [Content::Active, Content::Doc(first)]);
+        // A closed drawing leaves no pane that shows it.
+        a.close_shown_tab();
+        frame(&mut a);
+        assert_eq!(a.panes.contents(), [Content::Active]);
     }
 
     fn drawn(a: &mut App, svg_times: usize) {

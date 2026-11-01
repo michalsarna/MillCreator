@@ -290,7 +290,7 @@ impl App {
     }
 
     /// The options, totals and the picture (the same in the window and in the tab).
-    fn preview_body(&mut self, ui: &mut egui::Ui) {
+    pub(crate) fn preview_body(&mut self, ui: &mut egui::Ui) {
         let prog = self.prog.as_ref().expect("the program was made above");
         let (region, rotary) = self.rotary_view(Region::of(prog, self.shapes_box()));
         // The depth the cuts can go: the thickness of the material, or the radius of a workpiece on a rotary.

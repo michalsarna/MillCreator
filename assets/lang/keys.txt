@@ -419,3 +419,6 @@
 418	Not saved: it is asked for again when the program is opened
 419	The milled piece cannot be exported as STL while a rotary attachment is chosen.
 420	Insert
+421	The view has three panes at most
+422	Show the preview here
+423	No G-code file is open: File → View G-code file…

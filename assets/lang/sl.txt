@@ -419,3 +419,6 @@
 418|Ne shrani se: ob odprtju programa se zahteva znova
 419|Rezkanega kosa ni mogoče izvoziti kot STL, dokler je izbrana vrtilna os.
 420|Vstavi
+421|Pogled ima največ tri podokna
+422|Pokaži predogled tukaj
+423|Nobena datoteka G-kode ni odprta: File → View G-code file…

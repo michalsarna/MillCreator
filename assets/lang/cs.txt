@@ -419,3 +419,6 @@
 418|Neukládá se: při dalším otevření programu se zadává znovu
 419|Vyfrézovaný kus nelze exportovat jako STL, dokud je zvolena rotační osa.
 420|Vložit
+421|Pohled má nejvýše tři panely
+422|Zobrazit náhled zde
+423|Není otevřen žádný soubor G-kódu: File → View G-code file…

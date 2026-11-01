@@ -4,6 +4,7 @@ Each release gets the next version number. Newest first.
 
 ## v0.5.3 (not released yet)
 
+* **Split view:** the work area in up to three panes (the active drawing, another open drawing to look at, the preview, the G-code analysis, the camera), side by side or stacked, with *Show beside* in the tab menu, and a pane can go to a window of its own on another monitor. The layout is remembered. baseCreator v1.46.0.
 * **About window:** thanks to Jakub (CNC KpK) for the ideas and suggestions for improvements, with a link to the channel. baseCreator v1.45.0.
 
 ## v0.5.2

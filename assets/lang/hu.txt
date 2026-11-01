@@ -419,3 +419,6 @@
 418|Nem kerül mentésre: a program megnyitásakor újra meg kell adni
 419|A marott darab nem exportálható STL-ként, amíg forgatótengely van kiválasztva.
 420|Beszúrás
+421|A nézetnek legfeljebb három panelje lehet
+422|Előnézet megjelenítése itt
+423|Nincs megnyitva G-kód fájl: File → View G-code file…

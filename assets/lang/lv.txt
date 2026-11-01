@@ -419,3 +419,6 @@
 418|Netiek saglabāta: to prasa vēlreiz, kad programma tiek atvērta
 419|Frēzēto gabalu nevar eksportēt kā STL, kamēr ir izvēlēta rotācijas ass.
 420|Ievietot
+421|Skatam ir ne vairāk kā trīs rūtis
+422|Rādīt priekšskatījumu šeit
+423|Nav atvērts neviens G-koda fails: File → View G-code file…

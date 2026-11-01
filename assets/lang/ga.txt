@@ -419,3 +419,6 @@
 418|Ní shábháiltear: iarrtar arís é nuair a osclaítear an clár
 419|Ní féidir an píosa muilleáilte a easpórtáil mar STL cé go bhfuil ceangaltán rothlach roghnaithe.
 420|Ionsáigh
+421|Tá trí phána ar a mhéad sa radharc
+422|Taispeáin an réamhamharc anseo
+423|Níl comhad G-code ar oscailt: File → View G-code file…

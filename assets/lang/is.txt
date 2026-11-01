@@ -419,3 +419,6 @@
 418|Er ekki vistað: beðið er um það aftur þegar forritið er opnað
 419|Ekki er hægt að flytja fræsta stykkið út sem STL meðan snúningsás er valinn.
 420|Setja inn
+421|Sýnin hefur í mesta lagi þrjá glugga
+422|Sýna forskoðun hér
+423|Engin G-kóðaskrá er opin: File → View G-code file…
