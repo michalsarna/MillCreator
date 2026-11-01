@@ -436,3 +436,7 @@
 435	From the bit: the diameter and the number of flutes
 436	Stay down between rings
 437	On every depth the rings follow each other and the bit moves to the next ring by a cut in the material, when the whole way lies inside the pocket; otherwise it rises as usual
+438	Pick on the work area
+439	The next click on the work area sets the zero (it snaps to the corners and the middles of the shapes); the icon of the axes can be dragged
+440	Click the work area to set the zero of the program (Esc cancels)
+441	The zero of the program is at X {} Y {}

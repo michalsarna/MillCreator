@@ -436,3 +436,7 @@
 435|No frēzes: diametrs un zobu skaits
 436|Palikt lejā starp gredzeniem
 437|Katrā dziļumā gredzeni seko cits citam un frēze pāriet uz nākamo ar griezumu materiālā, ja viss ceļš atrodas kabatas iekšpusē; citādi tā paceļas kā parasti
+438|Izvēlēties darba laukā
+439|Nākamais klikšķis darba laukā iestata nulli (tā pieķeras formu stūriem un viduspunktiem); asu ikonu var vilkt
+440|Noklikšķiniet darba laukā, lai iestatītu programmas nulli (Esc atceļ)
+441|Programmas nulle atrodas pie X {} Y {}

@@ -436,3 +436,7 @@
 435|Van de frees: diameter en aantal snijkanten
 436|Beneden blijven tussen de ringen
 437|Op elke diepte volgen de ringen elkaar op en gaat de frees met een snede in het materiaal naar de volgende ring, als de hele weg binnen de uitsparing ligt; anders gaat hij omhoog zoals gewoonlijk
+438|Kiezen op het werkgebied
+439|De volgende klik op het werkgebied stelt het nulpunt in (het springt naar hoeken en middens van vormen); het assenpictogram kan worden gesleept
+440|Klik op het werkgebied om het nulpunt van het programma in te stellen (Esc annuleert)
+441|Het nulpunt van het programma ligt op X {} Y {}

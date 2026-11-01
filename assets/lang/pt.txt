@@ -436,3 +436,7 @@
 435|Da fresa: diâmetro e número de dentes
 436|Ficar em baixo entre os anéis
 437|Em cada profundidade os anéis seguem-se e a fresa passa ao seguinte com um corte no material, quando todo o caminho está dentro da cavidade; caso contrário levanta-se como de costume
+438|Escolher na área de trabalho
+439|O próximo clique na área de trabalho define o zero (encaixa nos cantos e nos centros das formas); o ícone dos eixos pode ser arrastado
+440|Clique na área de trabalho para definir o zero do programa (Esc cancela)
+441|O zero do programa está em X {} Y {}

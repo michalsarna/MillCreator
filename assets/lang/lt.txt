@@ -436,3 +436,7 @@
 435|Iš frezos: skersmuo ir dantų skaičius
 436|Likti apačioje tarp žiedų
 437|Kiekviename gylyje žiedai eina vienas po kito, o freza į kitą žiedą pereina pjūviu medžiagoje, kai visas kelias yra kišenės viduje; kitaip ji pakyla kaip įprasta
+438|Pasirinkti darbo srityje
+439|Kitas spustelėjimas darbo srityje nustato nulį (jis prisitraukia prie formų kampų ir vidurio taškų); ašių piktogramą galima vilkti
+440|Spustelėkite darbo sritį, kad nustatytumėte programos nulį (Esc atšaukia)
+441|Programos nulis yra ties X {} Y {}

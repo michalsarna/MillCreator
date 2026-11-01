@@ -436,3 +436,7 @@
 435|Freesilt: läbimõõt ja lõikeservade arv
 436|Püsi ringide vahel all
 437|Igal sügavusel järgnevad ringid üksteisele ja freesi liigub järgmisele ringile lõikega materjalis, kui kogu tee asub taskus; muidu tõuseb ta nagu tavaliselt
+438|Vali tööalalt
+439|Järgmine klõps tööalal määrab nullpunkti (see haakub kujundite nurkade ja keskpunktidega); teljeikooni saab lohistada
+440|Klõpsake tööalal programmi nullpunkti määramiseks (Esc tühistab)
+441|Programmi nullpunkt on kohas X {} Y {}

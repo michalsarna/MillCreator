@@ -6,6 +6,7 @@ mod autosave_glue;
 mod clear;
 mod backup_ui;
 mod cutting_calc;
+mod wcs_pick;
 mod device;
 mod device_ui;
 mod duet_glue;
@@ -303,6 +304,12 @@ struct App {
     saved_rev: u64,
     /// The tabs of open drawings (the shown one is the live fields above), and the number of the recovery file of the shown one.
     tabs_state: workspaces::Tabs,
+    /// The next click on the work area sets the zero of the program (the button in the device settings).
+    pick_origin: bool,
+    /// The icon of the work coordinate system is being dragged.
+    wcs_drag: bool,
+    /// The zero before the last pick or drag, for one step of undo (forgotten when something else is changed).
+    wcs_undo: Option<device::Wcs>,
     /// The central area in panes (one pane unless the person split the view).
     panes: base_ui::work_panes::Panes,
     slot: usize,
@@ -453,6 +460,9 @@ impl App {
             autosave: Default::default(),
             saved_rev: 0,
             tabs_state: Default::default(),
+            pick_origin: false,
+            wcs_drag: false,
+            wcs_undo: None,
             panes: base_ui::work_panes::Panes::from_json(&saved("panes").unwrap_or_default()),
             slot: 0,
             quitting: false,
@@ -775,6 +785,9 @@ impl App {
     }
 
     fn undo(&mut self) {
+        if self.undo_wcs() {
+            return;
+        }
         if let Some(s) = self.history.back(&self.scene) {
             self.scene = s;
             self.forget_missing();
@@ -1279,6 +1292,7 @@ impl EditorHost for App {
         self.layers.get(layer).is_none_or(|l| l.visible)
     }
     fn checkpoint(&mut self) {
+        self.wcs_undo = None;
         let before = self.scene.clone();
         self.history.push(before);
     }
@@ -1334,9 +1348,10 @@ impl EditorHost for App {
     fn paint_over_shapes(&mut self, v: &base_ui::editor::CanvasView) {
         self.paint_toolpaths(v);
         self.paint_hand_tabs(v);
+        self.paint_wcs_icon(v);
     }
     fn pointer_claimed(&mut self, resp: &egui::Response, origin: egui::Pos2, _press: Option<egui::Pos2>, hover: Option<egui::Pos2>) -> bool {
-        self.hand_tabs_pointer(resp, origin, hover)
+        self.wcs_pointer(resp, origin, hover) || self.hand_tabs_pointer(resp, origin, hover)
     }
 }
 
