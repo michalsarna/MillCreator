@@ -89,7 +89,11 @@ fn is_unset<T: Default + PartialEq>(v: &T) -> bool {
 /// The variables of the texts that do not depend on the place in the program.
 pub const FILE_VARS: &[&str] = base_core::gcode_out::COMMON_VARS;
 /// The variables of the texts that run at a change of the operation or of the bit: the common ones and the layer.
-pub const CHANGE_VARS: &[&str] = &["project_name", "project_path", "date", "time", "machine_name", "min_x", "max_x", "min_y", "max_y", "min_z", "max_z", "width", "height", "depth", "layer_name", "layer_index", "total_layers"];
+pub const CHANGE_VARS: &[&str] = &["project_name", "project_path", "date", "time", "machine_name", "min_x", "max_x", "min_y", "max_y", "min_z", "max_z", "width", "height", "depth", "layer_name", "layer_index", "total_layers", "tool_number", "tool_name", "tool_diameter", "tool_flutes", "tool_rpm", "tool_feed", "tool_plunge"];
+/// The ones of `CHANGE_VARS` that the other texts do not have.
+pub fn change_only_vars() -> Vec<&'static str> {
+    CHANGE_VARS.iter().copied().filter(|v| !FILE_VARS.contains(v)).collect()
+}
 
 impl CustomGcode {
     /// The first unknown variable (or a brace that does not close) in the own G-code, said with the name of the field.
