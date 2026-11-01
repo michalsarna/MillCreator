@@ -818,6 +818,17 @@ impl App {
         if ctx.egui_wants_keyboard_input() {
             return;
         }
+        // The Ctrl/Cmd keys of the menus, in the window menu bar (the native bar of macOS has them itself).
+        #[cfg(target_os = "macos")]
+        let native_bar = self.native_menu.is_some();
+        #[cfg(not(target_os = "macos"))]
+        let native_bar = false;
+        if !native_bar {
+            if let Some(a) = base_ui::menu::shortcut_act(ctx, &crate::menu::menus(), |a| base_ui::menu::MenuHost::act_enabled(self, a)) {
+                base_ui::menu::MenuHost::run_act(self, ctx, a);
+                return;
+            }
+        }
         // Ctrl+1 … Ctrl+0 show a tab, Ctrl+W closes the shown one.
         match base_ui::doc_tabs::shortcut(ctx) {
             Some(base_ui::doc_tabs::TabKey::Select(i)) => self.switch_to(i),
@@ -852,6 +863,11 @@ impl App {
                     self.ungroup_selection();
                 } else {
                     self.group_selection();
+                }
+            } else if pressed(egui::Key::E) && !shift {
+                // Ctrl+E: Export G-code (the native menu of macOS has the key itself).
+                if !native && self.screen == Screen::Editor {
+                    self.export_gcode();
                 }
             } else if !native && pressed(egui::Key::N) {
                 self.new_tab();
@@ -2350,6 +2366,33 @@ mod tests {
         a.description = "another".into();
         a.refresh_gcode_text_after(std::time::Duration::ZERO);
         assert!(a.gcode_texts[0].text.contains("(by hand)"));
+    }
+
+    /// The keys shown in the menus work in the window menu bar too: Ctrl+L locks (it did nothing before), Ctrl+Shift+L unlocks and
+    /// Ctrl+Shift+G ungroups (and does not export the G-code).
+    #[test]
+    fn the_keys_of_the_menus_run_their_commands_in_the_window() {
+        let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
+        let mut a = app();
+        drawn(&mut a, 2);
+        let ctx = egui::Context::default();
+        let press = |a: &mut App, key: egui::Key, modifiers: egui::Modifiers| {
+            let ev = egui::Event::Key { key, physical_key: Some(key), pressed: true, repeat: false, modifiers };
+            let mut out = ctx.run_ui(egui::RawInput { events: vec![ev], ..Default::default() }, |ui| a.shortcuts(ui.ctx()));
+            out.textures_delta.clear();
+        };
+        let ids: Vec<_> = a.scene.shapes.iter().map(|s| s.id).collect();
+        a.ed.sel = ids.clone();
+        press(&mut a, egui::Key::L, egui::Modifiers::COMMAND);
+        assert!(a.scene.shapes.iter().all(|s| s.locked), "Ctrl+L locks");
+        press(&mut a, egui::Key::L, egui::Modifiers::COMMAND | egui::Modifiers::SHIFT);
+        assert!(a.scene.shapes.iter().all(|s| !s.locked), "Ctrl+Shift+L unlocks");
+        a.ed.sel = ids;
+        press(&mut a, egui::Key::G, egui::Modifiers::COMMAND);
+        let grouped = a.scene.shapes.iter().filter_map(|s| s.group).count();
+        assert_eq!(grouped, a.scene.shapes.len(), "Ctrl+G groups");
+        press(&mut a, egui::Key::G, egui::Modifiers::COMMAND | egui::Modifiers::SHIFT);
+        assert!(a.scene.shapes.iter().all(|s| s.group.is_none()), "Ctrl+Shift+G ungroups");
     }
 
     fn drawn(a: &mut App, svg_times: usize) {

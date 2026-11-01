@@ -12,7 +12,7 @@ Z kształtów, warstw, frezów i urządzenia program tworzy ruchy maszyny. Wspó
 * Między cięciami frez wznosi się na **bezpieczną wysokość** i porusza się tam z prędkością ruchów nad materiałem, potem schodzi szybko na 1 mm nad powierzchnię i wchodzi z posuwem wejścia.
 
 ## Okno 3D
-**Milling → 3D view of the job…** (Ctrl/Cmd+Shift+3). Pokazuje tylko obszar projektu, **o 10 % większy niż projekt** w każdym kierunku, jako blok wybranego materiału o jego grubości.
+**Milling → 3D view of the job…** (Ctrl/Cmd+Shift+P). Pokazuje tylko obszar projektu, **o 10 % większy niż projekt** w każdym kierunku, jako blok wybranego materiału o jego grubości.
 
 ![Widok 3D](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/16-3d-view.png)
 
