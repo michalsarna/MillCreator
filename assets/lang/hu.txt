@@ -442,3 +442,4 @@
 441|A program nullpontja X {} Y {}
 442|Beállítás betöltése
 443|A beállítás marója nincs a könyvtárban: a rétegnek nincs marója
+444|Nagyítás

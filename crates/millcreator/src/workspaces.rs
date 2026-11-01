@@ -6,7 +6,7 @@ use crate::materials::Stock;
 use crate::{App, History, Screen};
 use base_core::project::Project;
 use base_core::scene::Scene;
-use base_ui::doc_tabs::{self, TabAction, TabHost, TabInfo, MAX_TABS};
+use base_ui::doc_tabs::{self, TabHost, MAX_TABS};
 use base_ui::editor::DocView;
 use eframe::egui;
 use std::path::PathBuf;
@@ -199,9 +199,7 @@ impl App {
             return;
         }
         let Some(mut w) = self.tabs_state.parked[i].take() else { return };
-        let was = self.slot;
         self.swap_ws(&mut w);
-        self.panes.activated(was, self.slot);
         let at = self.tabs_state.active;
         self.tabs_state.parked[at] = Some(w);
         self.tabs_state.active = i;
@@ -229,49 +227,6 @@ impl App {
         self.tabs_state.active = if next > at { next - 1 } else { next };
     }
 
-    fn tab_infos(&self) -> Vec<TabInfo> {
-        (0..self.tab_count()).map(|i| TabInfo { title: TabHost::tab_title(self, i), dirty: TabHost::tab_dirty(self, i) }).collect()
-    }
-
-    /// The bar of the tabs above the work area.
-    pub fn doc_tab_bar(&mut self, ui: &mut egui::Ui) {
-        self.ensure_tabs();
-        let infos = self.tab_infos();
-        let mut extras = vec![];
-        if self.camera_work_tab() {
-            extras.push(doc_tabs::ExtraTab { id: "camera", title: crate::i18n::tr("Camera view").to_string(), shown: self.cam_ws_shown });
-        }
-        if self.preview_work_tab() {
-            extras.push(doc_tabs::ExtraTab { id: "preview", title: crate::i18n::tr("Preview").to_string(), shown: self.pv_tab_shown });
-        }
-        match doc_tabs::tab_bar_with(ui, &infos, self.tabs_state.active, &extras) {
-            Some(TabAction::Select(i)) => self.switch_to(i),
-            Some(TabAction::ShowBeside(i)) => self.show_tab_beside(i),
-            Some(TabAction::New) => {
-                self.cam_ws_shown = false;
-                self.pv_tab_shown = false;
-                self.new_tab();
-            }
-            Some(TabAction::Close(i)) => {
-                self.switch_to(i);
-                self.close_tab_request();
-            }
-            Some(TabAction::Extra("preview")) => {
-                self.pv_tab_shown = true;
-                self.cam_ws_shown = false;
-            }
-            Some(TabAction::Extra(_)) => {
-                self.cam_ws_shown = true;
-                self.pv_tab_shown = false;
-            }
-            Some(TabAction::CloseExtra("preview")) => self.preview_close(),
-            Some(TabAction::CloseExtra(_)) => {
-                self.show_camera = false;
-                self.cam_ws_shown = false;
-            }
-            None => {}
-        }
-    }
 
     /// Close the shown tab, asking first when it has unsaved work (the cross of the tab, and Ctrl+W).
     pub fn close_tab_request(&mut self) {

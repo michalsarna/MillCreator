@@ -442,3 +442,4 @@
 441	The zero of the program is at X {} Y {}
 442	Load preset
 443	The bit of the preset is not in the library: the layer has no bit
+444	Zoom

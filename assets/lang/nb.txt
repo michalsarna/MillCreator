@@ -442,3 +442,4 @@
 441|Programmets nullpunkt er ved X {} Y {}
 442|Last inn forhåndsinnstilling
 443|Frøsen fra forhåndsinnstillingen er ikke i biblioteket: laget har ingen fres
+444|Zoom

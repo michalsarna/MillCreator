@@ -442,3 +442,4 @@
 441|Programmas nulle atrodas pie X {} Y {}
 442|Ielādēt sagatavi
 443|Sagataves frēzes nav bibliotēkā: slānim nav frēzes
+444|Tālummaiņa

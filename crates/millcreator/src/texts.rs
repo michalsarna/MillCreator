@@ -487,6 +487,7 @@ const TABLE: &[[&str; 7]] = &[
     ["The zero of the program is at X {} Y {}", "Zero programu jest w X {} Y {}", "Der Nullpunkt des Programms liegt bei X {} Y {}", "Lo zero del programma è in X {} Y {}", "Ohjelman nollapiste on kohdassa X {} Y {}", "程序零点位于 X {} Y {}", "प्रोग्राम का शून्य X {} Y {} पर है"],
     ["Load preset", "Wczytaj preset", "Vorlage laden", "Carica preset", "Lataa esiasetus", "载入预设", "प्रीसेट लोड करें"],
     ["The bit of the preset is not in the library: the layer has no bit", "Freza z presetu nie ma w bibliotece: warstwa jest bez freza", "Der Fräser der Vorlage ist nicht in der Bibliothek: die Ebene hat keinen Fräser", "La fresa del preset non è nella libreria: il livello è senza fresa", "Esiasetuksen terä ei ole kirjastossa: tasolla ei ole terää", "预设中的刀具不在刀具库中：该图层没有刀具", "प्रीसेट का बिट लाइब्रेरी में नहीं है: परत में कोई बिट नहीं है"],
+    ["Zoom", "Powiększenie", "Zoom", "Ingrandimento", "Zoomaus", "缩放", "ज़ूम"],
 ];
 
 #[cfg(test)]

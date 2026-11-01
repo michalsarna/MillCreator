@@ -442,3 +442,4 @@
 441|Ničla programa je pri X {} Y {}
 442|Naloži prednastavitev
 443|Rezkar iz prednastavitve ni v knjižnici: plast je brez rezkarja
+444|Povečava

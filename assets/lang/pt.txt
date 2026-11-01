@@ -442,3 +442,4 @@
 441|O zero do programa está em X {} Y {}
 442|Carregar predefinição
 443|A fresa da predefinição não está na biblioteca: a camada fica sem fresa
+444|Ampliação

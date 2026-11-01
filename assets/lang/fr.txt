@@ -442,3 +442,4 @@
 441|Le zéro du programme est en X {} Y {}
 442|Charger le préréglage
 443|La fraise du préréglage n'est pas dans la bibliothèque : le calque n'a pas de fraise
+444|Zoom

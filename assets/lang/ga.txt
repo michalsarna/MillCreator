@@ -442,3 +442,4 @@
 441|Tá nialas an chláir ag X {} Y {}
 442|Luchtaigh réamhshocrú
 443|Níl bíoma an réamhshocraithe sa leabharlann: níl bíoma ag an sraith
+444|Zúmáil
