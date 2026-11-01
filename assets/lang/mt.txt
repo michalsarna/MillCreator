@@ -424,3 +424,7 @@
 423|Ebda fajl G-code miftuħ: File, View G-code file…
 424|0 = il-fond sħiħ f'passata waħda
 425|{}: passata waħda ta' {} mm hija iktar fonda mill-parti li taqta' tal-frieża ({} mm)
+426|Previżjoni tal-G-code
+427|Uri l-G-code mingħajr ma tinħażen
+428|previżjoni
+429|Il-G-code qed jintwera, xejn ma nħażen

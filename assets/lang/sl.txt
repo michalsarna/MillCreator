@@ -424,3 +424,7 @@
 423|Nobena datoteka G-kode ni odprta: File, View G-code file…
 424|0 = polna globina v enem prehodu
 425|{}: en prehod z {} mm je globlji od rezalnega dela rezkarja ({} mm)
+426|Predogled G-kode
+427|Pokaži G-kodo brez shranjevanja
+428|predogled
+429|G-koda je prikazana, nič ni shranjeno

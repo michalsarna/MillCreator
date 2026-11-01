@@ -925,6 +925,9 @@ impl App {
                 if base_ui::window::save_button(ui, &tr("Save G-code")).clicked() {
                     self.export_gcode();
                 }
+                if ui.button(tr("Preview G-code")).on_hover_text(tr("Show the G-code without saving it")).clicked() {
+                    self.preview_gcode();
+                }
                 base_ui::editor::selection_size(self, ui);
             });
         });
@@ -2266,6 +2269,21 @@ mod tests {
         a.close_shown_tab();
         frame(&mut a);
         assert_eq!(a.panes.contents(), [Content::Active]);
+    }
+
+    #[test]
+    fn the_g_code_can_be_previewed_without_writing_a_file() {
+        let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
+        let mut a = app();
+        // Nothing to cut: a message, no viewer.
+        a.preview_gcode();
+        assert!(a.gcode_view.is_none() && !a.status.is_empty());
+        drawn(&mut a, 1);
+        a.preview_gcode();
+        let v = a.gcode_view.as_ref().expect("the program is shown in the analysis");
+        assert!(v.path.to_string_lossy().ends_with("(preview)") || v.path.to_string_lossy().contains("preview") || v.path.to_string_lossy().ends_with(')'), "{:?}", v.path);
+        assert!(!v.tp.segs.is_empty() && !v.path.exists(), "moves, and no such file on the disk");
+        assert!(!a.ed.grid_prefs.gcode_preview_after_save, "off by default");
     }
 
     fn drawn(a: &mut App, svg_times: usize) {

@@ -424,3 +424,7 @@
 423|Niciun fișier G-code deschis: File, View G-code file…
 424|0 = adâncime completă într-o singură trecere
 425|{}: o trecere de {} mm este mai adâncă decât partea tăietoare a frezei ({} mm)
+426|Previzualizare G-code
+427|Afișează G-code fără a-l salva
+428|previzualizare
+429|G-code este afișat, nu se salvează nimic

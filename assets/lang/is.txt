@@ -424,3 +424,7 @@
 423|Engin G-kóðaskrá er opin: File, View G-code file…
 424|0 = full dýpt í einni umferð
 425|{}: ein umferð upp á {} mm er dýpri en skurðhluti fræsarans ({} mm)
+426|Forskoða G-kóða
+427|Sýna G-kóðann án þess að vista hann
+428|forskoðun
+429|G-kóðinn er sýndur, ekkert er vistað

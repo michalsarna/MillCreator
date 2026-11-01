@@ -96,18 +96,29 @@ impl App {
         self.show_3d = true;
     }
 
-    /// Ask where to write the G-code and write it.
-    pub(crate) fn export_gcode(&mut self) {
+    /// The G-code of the drawing as text (with the postprocessors), and the program it was made from. `None` (the reason is in the
+    /// status line) when there is nothing to cut or a postprocessor failed.
+    fn gcode_text(&mut self, name: &str) -> Option<(String, toolpath::Program)> {
         let prog = self.make_program();
         if prog.is_empty() {
             self.status = self.nothing_to_cut();
-            return;
+            return None;
         }
-        let name = self.path.as_ref().and_then(|p| p.file_stem()).map(|s| s.to_string_lossy().into_owned()).unwrap_or_else(|| "untitled".into());
+        let text = toolpath::to_gcode(&prog, &self.device.with_stock(&self.stock), &self.layers, &self.tools, name);
+        let text = self.postprocessed(text)?;
+        Some((text, prog))
+    }
+
+    fn gcode_name(&self) -> String {
+        self.path.as_ref().and_then(|p| p.file_stem()).map(|s| s.to_string_lossy().into_owned()).unwrap_or_else(|| "untitled".into())
+    }
+
+    /// Ask where to write the G-code and write it.
+    pub(crate) fn export_gcode(&mut self) {
+        let name = self.gcode_name();
+        let Some((text, prog)) = self.gcode_text(&name) else { return };
         let Some(p) = rfd::FileDialog::new().add_filter("G-code", &["nc", "gcode", "ngc"]).set_file_name(format!("{name}.nc")).save_file() else { return };
-        let text = toolpath::to_gcode(&prog, &self.device.with_stock(&self.stock), &self.layers, &self.tools, &name);
-        let Some(text) = self.postprocessed(text) else { return };
-        self.status = match std::fs::write(&p, text) {
+        self.status = match std::fs::write(&p, &text) {
             Ok(()) => trf("Saved {}", &[&p.display()]),
             Err(e) => trf("Could not save: {}", &[&e]),
         };
@@ -116,6 +127,23 @@ impl App {
         }
         if !prog.warnings.is_empty() {
             self.status.push_str(&format!(" ({})", prog.warnings.iter().map(|w| w.text()).collect::<Vec<_>>().join("; ")));
+        }
+        if self.ed.grid_prefs.gcode_preview_after_save && p.exists() {
+            if let Err(e) = base_ui::gcode_view_ui::open(&mut self.gcode_view, p) {
+                self.status = e;
+            }
+        }
+    }
+
+    /// The G-code as it would be written, shown in the analysis of G-code; nothing is written to the disk.
+    pub(crate) fn preview_gcode(&mut self) {
+        let name = self.gcode_name();
+        let Some((text, prog)) = self.gcode_text(&name) else { return };
+        match base_ui::gcode_view_ui::open_text(&mut self.gcode_view, &format!("{name}.nc ({})", tr("preview")), &text) {
+            Ok(()) => {
+                self.status = if prog.warnings.is_empty() { tr("The G-code is shown, nothing is saved").to_string() } else { format!("{} ({})", tr("The G-code is shown, nothing is saved"), prog.warnings.iter().map(|w| w.text()).collect::<Vec<_>>().join("; ")) }
+            }
+            Err(e) => self.status = e,
         }
     }
 

@@ -424,3 +424,7 @@
 423|G-koodi faili pole avatud: File, View G-code file…
 424|0 = täissügavus ühe käiguga
 425|{}: üks {} mm käik on sügavam kui freesi lõikeosa ({} mm)
+426|G-koodi eelvaade
+427|Näita G-koodi salvestamata
+428|eelvaade
+429|G-koodi on näidatud, midagi ei salvestata

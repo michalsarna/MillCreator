@@ -424,3 +424,7 @@
 423|Nav atvērts neviens G-koda fails: File, View G-code file…
 424|0 = pilns dziļums vienā piegājienā
 425|{}: viens {} mm piegājiens ir dziļāks par frēzes griezējdaļu ({} mm)
+426|G-koda priekšskatījums
+427|Rādīt G-kodu bez saglabāšanas
+428|priekšskatījums
+429|G-kods ir parādīts, nekas netiek saglabāts

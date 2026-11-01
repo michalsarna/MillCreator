@@ -424,3 +424,7 @@
 423|Nincs megnyitva G-kód fájl: File, View G-code file…
 424|0 = teljes mélység egy menetben
 425|{}: egy {} mm-es menet mélyebb, mint a maró vágórésze ({} mm)
+426|G-kód előnézete
+427|G-kód megjelenítése mentés nélkül
+428|előnézet
+429|A G-kód látható, semmi sem lett mentve

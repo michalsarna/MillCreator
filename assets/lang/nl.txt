@@ -424,3 +424,7 @@
 423|Geen G-code-bestand geopend: File, View G-code file…
 424|0 = volledige diepte in één keer
 425|{}: één pass van {} mm is dieper dan het snijdende deel van de frees ({} mm)
+426|G-code bekijken
+427|G-code tonen zonder op te slaan
+428|voorbeeld
+429|De G-code wordt getoond, er wordt niets opgeslagen

@@ -424,3 +424,7 @@
 423|Neatidarytas joks G kodo failas: File, View G-code file…
 424|0 = visas gylis per vieną perėjimą
 425|{}: vienas {} mm perėjimas gilesnis nei frezos pjovimo dalis ({} mm)
+426|G kodo peržiūra
+427|Rodyti G kodą jo neįrašant
+428|peržiūra
+429|G kodas parodytas, nieko neįrašyta

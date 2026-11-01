@@ -424,3 +424,7 @@
 423|Ingen G-kodefil er åpen: File, View G-code file…
 424|0 = full dybde i ett pass
 425|{}: ett pass på {} mm er dypere enn den skjærende delen av frøsen ({} mm)
+426|Forhåndsvis G-kode
+427|Vis G-koden uten å lagre den
+428|forhåndsvisning
+429|G-koden vises, ingenting lagres

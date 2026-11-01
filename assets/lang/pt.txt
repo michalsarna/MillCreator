@@ -424,3 +424,7 @@
 423|Nenhum ficheiro G-code aberto: File, View G-code file…
 424|0 = profundidade total numa só passagem
 425|{}: uma passagem de {} mm é mais funda do que a parte de corte da fresa ({} mm)
+426|Pré-visualizar G-code
+427|Mostrar o G-code sem o guardar
+428|pré-visualização
+429|O G-code é mostrado, nada é guardado

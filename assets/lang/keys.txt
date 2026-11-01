@@ -424,3 +424,7 @@
 423	No G-code file is open: File, View G-code file…
 424	0 = full depth in one pass
 425	{}: one pass of {} mm is deeper than the cutting part of the bit ({} mm)
+426	Preview G-code
+427	Show the G-code without saving it
+428	preview
+429	The G-code is shown, nothing is saved

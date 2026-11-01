@@ -424,3 +424,7 @@
 423|Cap fitxer G-code obert: File, View G-code file…
 424|0 = tota la profunditat en una sola passada
 425|{}: una passada de {} mm és més profunda que la part de tall de la fresa ({} mm)
+426|Previsualitza el G-code
+427|Mostra el G-code sense desar-lo
+428|previsualització
+429|El G-code es mostra, no es desa res

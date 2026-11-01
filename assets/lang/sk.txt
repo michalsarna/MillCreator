@@ -424,3 +424,7 @@
 423|Nie je otvorený žiadny súbor G-kódu: File, View G-code file…
 424|0 = plná hĺbka na jeden prechod
 425|{}: jeden prechod s {} mm je hlbší než rezná časť frézy ({} mm)
+426|Náhľad G-kódu
+427|Zobraziť G-kód bez uloženia
+428|náhľad
+429|G-kód je zobrazený, nič sa neukladá

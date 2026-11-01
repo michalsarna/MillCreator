@@ -469,6 +469,10 @@ const TABLE: &[[&str; 7]] = &[
     ["No G-code file is open: File, View G-code file…", "Żaden plik G-code nie jest otwarty: File, View G-code file…", "Keine G-Code-Datei geöffnet: File, View G-code file…", "Nessun file G-code aperto: File, View G-code file…", "G-koodi-tiedostoa ei ole avattu: File, View G-code file…", "没有打开 G 代码文件：File, View G-code file…", "कोई G-कोड फ़ाइल खुली नहीं है: File, View G-code file…"],
     ["0 = full depth in one pass", "0 = pełna głębokość w jednym przejściu", "0 = volle Tiefe in einem Durchgang", "0 = profondità completa in un solo passaggio", "0 = koko syvyys yhdellä kerralla", "0 = 一次走刀到全深", "0 = एक ही पास में पूरी गहराई"],
     ["{}: one pass of {} mm is deeper than the cutting part of the bit ({} mm)", "{}: jedno przejście o {} mm jest głębsze niż część tnąca freza ({} mm)", "{}: ein Durchgang von {} mm ist tiefer als der schneidende Teil des Fräsers ({} mm)", "{}: un passaggio di {} mm è più profondo della parte tagliente della fresa ({} mm)", "{}: yksi {} mm:n kierros on syvempi kuin terän leikkaava osa ({} mm)", "{}：一次 {} mm 的走刀比刀具的切削部分（{} mm）更深", "{}: {} mm का एक पास बिट के काटने वाले हिस्से ({} mm) से गहरा है"],
+    ["Preview G-code", "Podgląd G-code", "G-Code-Vorschau", "Anteprima G-code", "G-koodin esikatselu", "预览 G-code", "G-code पूर्वावलोकन"],
+    ["Show the G-code without saving it", "Pokaż G-code bez zapisywania", "G-Code anzeigen, ohne zu speichern", "Mostra il G-code senza salvarlo", "Näytä G-koodi tallentamatta", "显示 G-code 但不保存", "G-code को सहेजे बिना दिखाएं"],
+    ["preview", "podgląd", "Vorschau", "anteprima", "esikatselu", "预览", "पूर्वावलोकन"],
+    ["The G-code is shown, nothing is saved", "G-code jest pokazany, nic nie zostało zapisane", "Der G-Code wird angezeigt, nichts wird gespeichert", "Il G-code è mostrato, nulla viene salvato", "G-koodi näytetään, mitään ei tallenneta", "已显示 G-code，未保存任何内容", "G-code दिखाया गया है, कुछ भी सहेजा नहीं गया"],
 ];
 
 #[cfg(test)]

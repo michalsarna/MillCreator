@@ -424,3 +424,7 @@
 423|Aucun fichier G-code ouvert : File, View G-code file…
 424|0 = pleine profondeur en une seule passe
 425|{} : une passe de {} mm est plus profonde que la partie coupante de la fraise ({} mm)
+426|Aperçu du G-code
+427|Afficher le G-code sans l'enregistrer
+428|aperçu
+429|Le G-code est affiché, rien n'est enregistré

@@ -424,3 +424,7 @@
 423|Nijedna G-kod datoteka nije otvorena: File, View G-code file…
 424|0 = puna dubina u jednom prolazu
 425|{}: jedan prolaz od {} mm dublji je od reznog dijela glodala ({} mm)
+426|Pregled G-koda
+427|Prikaži G-kod bez spremanja
+428|pregled
+429|G-kod je prikazan, ništa nije spremljeno
