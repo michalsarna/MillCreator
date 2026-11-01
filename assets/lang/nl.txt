@@ -440,3 +440,5 @@
 439|De volgende klik op het werkgebied stelt het nulpunt in (het springt naar hoeken en middens van vormen); het assenpictogram kan worden gesleept
 440|Klik op het werkgebied om het nulpunt van het programma in te stellen (Esc annuleert)
 441|Het nulpunt van het programma ligt op X {} Y {}
+442|Voorinstelling laden
+443|De frees van de voorinstelling staat niet in de bibliotheek: de laag heeft geen frees

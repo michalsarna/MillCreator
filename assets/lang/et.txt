@@ -440,3 +440,5 @@
 439|Järgmine klõps tööalal määrab nullpunkti (see haakub kujundite nurkade ja keskpunktidega); teljeikooni saab lohistada
 440|Klõpsake tööalal programmi nullpunkti määramiseks (Esc tühistab)
 441|Programmi nullpunkt on kohas X {} Y {}
+442|Laadi eelseade
+443|Eelseade freesi pole teegis: kihil pole freesi

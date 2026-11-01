@@ -440,3 +440,5 @@
 439|Ďalšie kliknutie na pracovnej ploche nastaví nulu (prichytí sa k rohom a stredom tvarov); ikonu osí možno presúvať
 440|Kliknite na pracovnú plochu na nastavenie nuly programu (Esc zruší)
 441|Nula programu je na X {} Y {}
+442|Načítať predvoľbu
+443|Fréza z predvoľby nie je v knižnici: vrstva je bez frézy

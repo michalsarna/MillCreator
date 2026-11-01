@@ -440,3 +440,5 @@
 439|Næsta smell á vinnusvæðinu setur núllið (það grípur horn og miðjur forma); ásatáknið er hægt að draga
 440|Smelltu á vinnusvæðið til að setja núll forritsins (Esc hættir við)
 441|Núll forritsins er á X {} Y {}
+442|Hlaða forstillingu
+443|Fræsarinn úr forstillingunni er ekki í safninu: lagið er án fræsara

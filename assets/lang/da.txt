@@ -440,3 +440,5 @@
 439|Næste klik på arbejdsområdet sætter nulpunktet (det fanger hjørner og midter af former); akseikonet kan trækkes
 440|Klik på arbejdsområdet for at sætte programmets nulpunkt (Esc annullerer)
 441|Programmets nulpunkt er ved X {} Y {}
+442|Indlæs forudindstilling
+443|Fræseren fra forudindstillingen er ikke i biblioteket: laget har ingen fræser

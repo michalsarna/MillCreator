@@ -440,3 +440,5 @@
 439|A munkaterületen a következő kattintás megadja a nullát (a formák sarkaira és közepére illeszkedik); a tengelyek ikonja húzható
 440|Kattintson a munkaterületre a program nullpontjának megadásához (az Esc megszakítja)
 441|A program nullpontja X {} Y {}
+442|Beállítás betöltése
+443|A beállítás marója nincs a könyvtárban: a rétegnek nincs marója

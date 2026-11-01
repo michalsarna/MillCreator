@@ -440,3 +440,5 @@
 439|El proper clic a l'àrea de treball fixa el zero (s'ajusta als cantons i als centres de les formes); la icona dels eixos es pot arrossegar
 440|Fes clic a l'àrea de treball per fixar el zero del programa (Esc cancel·la)
 441|El zero del programa és a X {} Y {}
+442|Carrega el predefinit
+443|La fresa del predefinit no és a la biblioteca: la capa no té fresa

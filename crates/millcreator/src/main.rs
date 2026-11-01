@@ -333,8 +333,8 @@ struct App {
     /// The answer of a request to a Duet board that runs in a thread.
     duet_rx: Option<std::sync::mpsc::Receiver<(duet_glue::DuetJob, Result<String, String>)>>,
     /// The library of layer settings (read from its file when first needed) and the name typed for the next one.
-    presets: Option<Vec<layer_presets::LayerPreset>>,
-    preset_name: String,
+    presets: Option<base_ui::layer_presets_ui::Library<layers::MillLayer>>,
+    presets_ui: base_ui::layer_presets_ui::PresetsUi,
     selection_only: bool,
     cam: Option<CamState>,
     /// Was the camera picture drawn in the last frame? A stream nobody looks at is stopped (its frames would pile up).
@@ -476,7 +476,7 @@ impl App {
             setup: setup_ui::Setup::default(),
             duet_rx: None,
             presets: None,
-            preset_name: String::new(),
+            presets_ui: Default::default(),
             selection_only: false,
             cam: None,
             cam_drawn: false,
@@ -1159,6 +1159,7 @@ impl App {
         base_ui::editor::view_options_window(self, ctx, &mut show);
         self.clip_dialogs(ctx);
         self.online_clipart_window(ctx);
+        self.layer_presets_window(ctx);
         self.plugin_windows(ctx);
         tools_ui::tools_window(ctx, &mut self.tools_win, &mut self.tools);
         self.device_window(ctx);

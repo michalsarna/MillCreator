@@ -440,3 +440,5 @@
 439|El siguiente clic en el área de trabajo fija el cero (se ajusta a las esquinas y a los centros de las formas); el icono de los ejes se puede arrastrar
 440|Haga clic en el área de trabajo para fijar el cero del programa (Esc cancela)
 441|El cero del programa está en X {} Y {}
+442|Cargar preajuste
+443|La fresa del preajuste no está en la biblioteca: la capa no tiene fresa

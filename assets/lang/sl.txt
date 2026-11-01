@@ -440,3 +440,5 @@
 439|Naslednji klik na delovni površini nastavi ničlo (pripne se na vogale in središča oblik); ikono osi lahko vlečete
 440|Kliknite na delovno površino, da nastavite ničlo programa (Esc prekliče)
 441|Ničla programa je pri X {} Y {}
+442|Naloži prednastavitev
+443|Rezkar iz prednastavitve ni v knjižnici: plast je brez rezkarja

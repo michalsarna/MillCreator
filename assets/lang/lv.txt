@@ -440,3 +440,5 @@
 439|Nākamais klikšķis darba laukā iestata nulli (tā pieķeras formu stūriem un viduspunktiem); asu ikonu var vilkt
 440|Noklikšķiniet darba laukā, lai iestatītu programmas nulli (Esc atceļ)
 441|Programmas nulle atrodas pie X {} Y {}
+442|Ielādēt sagatavi
+443|Sagataves frēzes nav bibliotēkā: slānim nav frēzes
