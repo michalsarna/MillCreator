@@ -252,7 +252,7 @@ impl App {
                 match edit.page {
                     Page::General => {
                         egui::Grid::new("dev_general").num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
-                            ui.label(tr("Name"));
+                            base_ui::widgets::var_label(ui, tr("Name"), "machine_name");
                             ui.add(egui::TextEdit::singleline(&mut d.name).hint_text(tr("e.g. My CNC router")));
                             ui.end_row();
                             ui.label(tr("Controller"));
