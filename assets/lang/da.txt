@@ -436,3 +436,9 @@
 435|Fra fræseren: diameter og antal skær
 436|Bliv nede mellem ringene
 437|På hver dybde følger ringene efter hinanden, og fræseren går til den næste ring med et snit i materialet, når hele vejen ligger inde i lommen; ellers løfter den sig som sædvanligt
+438|Vælg på arbejdsområdet
+439|Næste klik på arbejdsområdet sætter nulpunktet (det fanger hjørner og midter af former); akseikonet kan trækkes
+440|Klik på arbejdsområdet for at sætte programmets nulpunkt (Esc annullerer)
+441|Programmets nulpunkt er ved X {} Y {}
+442|Indlæs forudindstilling
+443|Fræseren fra forudindstillingen er ikke i biblioteket: laget har ingen fræser

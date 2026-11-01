@@ -436,3 +436,9 @@
 435|Úr fræsaranum: þvermál og fjöldi skurðbrúna
 436|Vera niðri milli hringja
 437|Á hverju dýpi fylgja hringirnir hver öðrum og fræsarinn fer á næsta hring með skurði í efninu þegar öll leiðin er inni í vasanum; annars lyftist hann eins og venjulega
+438|Velja á vinnusvæðinu
+439|Næsta smell á vinnusvæðinu setur núllið (það grípur horn og miðjur forma); ásatáknið er hægt að draga
+440|Smelltu á vinnusvæðið til að setja núll forritsins (Esc hættir við)
+441|Núll forritsins er á X {} Y {}
+442|Hlaða forstillingu
+443|Fræsarinn úr forstillingunni er ekki í safninu: lagið er án fræsara
