@@ -434,3 +434,11 @@
 433|Posuv na zub (fz)
 434|Zanořovací posuv na zub
 435|Z frézy: průměr a počet zubů
+436|Zůstat dole mezi prstenci
+437|V každé hloubce jdou prstence za sebou a fréza přejede na další řezem v materiálu, když celá cesta leží uvnitř kapsy; jinak se zvedne jako obvykle
+438|Vybrat na pracovní ploše
+439|Další kliknutí na pracovní ploše nastaví nulu (přichytí se k rohům a středům tvarů); ikonu os lze přetahovat
+440|Klikněte na pracovní plochu pro nastavení nuly programu (Esc zruší)
+441|Nula programu je na X {} Y {}
+442|Načíst předvolbu
+443|Fréza z předvolby není v knihovně: vrstva je bez frézy

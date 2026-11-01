@@ -434,3 +434,11 @@
 433|Matning per tand (fz)
 434|Instickmatning per tand
 435|Från fräsen: diameter och antal skär
+436|Stanna nere mellan ringarna
+437|På varje djup följer ringarna efter varandra och fräsen går till nästa ring med ett snitt i materialet när hela vägen ligger inne i fickan; annars lyfter den som vanligt
+438|Välj på arbetsytan
+439|Nästa klick på arbetsytan sätter nollpunkten (den fäster vid hörn och mittpunkter av former); axelikonen kan dras
+440|Klicka på arbetsytan för att sätta programmets nollpunkt (Esc avbryter)
+441|Programmets nollpunkt är vid X {} Y {}
+442|Läs in förinställning
+443|Fräsen från förinställningen finns inte i biblioteket: lagret har ingen fräs

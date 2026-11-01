@@ -434,3 +434,11 @@
 433|Avans pe dinte (fz)
 434|Avans de pătrundere pe dinte
 435|De la freză: diametrul și numărul de tăișuri
+436|Rămâi jos între inele
+437|La fiecare adâncime inelele se urmează, iar freza trece la următorul printr-o tăiere în material, când tot drumul se află în buzunar; altfel se ridică ca de obicei
+438|Alege pe zona de lucru
+439|Următorul clic pe zona de lucru stabilește zeroul (se prinde de colțurile și centrele formelor); pictograma axelor poate fi trasă
+440|Faceți clic pe zona de lucru pentru a stabili zeroul programului (Esc anulează)
+441|Zeroul programului este la X {} Y {}
+442|Încarcă presetarea
+443|Freza din presetare nu este în bibliotecă: stratul nu are freză
