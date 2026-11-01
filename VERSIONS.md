@@ -2,6 +2,10 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.5.4 (not released yet)
+
+* **More camera streams:** `udp://` and `rtp://` (MPEG-TS or RTP, also multicast) and `rtmp://` addresses are read by the ffmpeg of the program like RTSP; a stream that gives nothing for 20 seconds is opened again. baseCreator v1.53.0.
+
 ## v0.5.3
 
 * **Preview opens in a pane** (never also in a window of its own); a window of a tab (preview, G-code text, camera) stays where it was put instead of sliding down.
