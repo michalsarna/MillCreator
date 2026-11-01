@@ -23,3 +23,4 @@ listed in its [CREDITS.md](https://github.com/michalsarna/baseCreator/blob/main/
   (Debian packages) and **[NSIS](https://nsis.sourceforge.io/)** (Windows installer).
 * **[GitHub Actions](https://github.com/features/actions)**, the Rust toolchain action by dtolnay, **rust-cache** by Swatinem
   and **CodeQL**: building, testing and releasing.
+* **Jakub ([CNC KpK](https://www.youtube.com/@CNC-KpK))**: ideas and suggestions for improvements, from the point of view of industrial CNC machines.
