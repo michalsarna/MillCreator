@@ -450,6 +450,14 @@ pub struct MillLayer {
     pub coolant: Coolant,
     #[serde(default)]
     pub dust: bool,
+    /// A pocket by rings: every depth goes round all the rings, and the way from one ring to the next is a cut in the material
+    /// (when the whole way is inside the pocket) instead of a lift. Off: every ring goes through all depths, with a lift between.
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub stay_down: bool,
+}
+
+fn is_false(b: &bool) -> bool {
+    !*b
 }
 
 
@@ -466,7 +474,8 @@ impl MillLayer {
         self.feed = t.cutting.feed;
         self.plunge = t.cutting.plunge;
         self.rpm = t.cutting.rpm;
-        self.step_down = (t.dims.diameter * t.cutting.step_down_pct / 100.0).max(0.1);
+        // 0 % is the full depth in one pass.
+        self.step_down = if t.cutting.step_down_pct <= 0.0 { 0.0 } else { (t.dims.diameter * t.cutting.step_down_pct / 100.0).max(0.1) };
         self.step_over_pct = t.cutting.step_over_pct;
     }
 
@@ -475,10 +484,10 @@ impl MillLayer {
     }
 
     /// The depths of the passes, from the first to the last (positive, below the surface). The last one is the full
-    /// depth.
+    /// depth. A pass depth of 0 means the full depth in one pass.
     pub fn passes(&self) -> Vec<f64> {
         let depth = self.depth.max(0.0);
-        let step = self.step_down.max(0.01);
+        let step = if self.step_down <= 0.0 { depth } else { self.step_down.max(0.01) };
         if depth <= 0.0 {
             return vec![];
         }
@@ -494,7 +503,7 @@ impl MillLayer {
     /// Is every number of the layer usable?
     pub fn check(&self) -> Result<(), String> {
         let ok = |v: f64, lo: f64, hi: f64| v.is_finite() && v >= lo && v <= hi;
-        if !ok(self.depth, 0.0, 1000.0) || !ok(self.step_down, 0.01, 1000.0) || !ok(self.step_over_pct, 1.0, 100.0) || !ok(self.feed, 1.0, 100_000.0) || !ok(self.plunge, 1.0, 100_000.0) || !ok(self.rpm, 0.0, 1_000_000.0) || !ok(self.scan_angle, -360.0, 360.0) || !ok(self.leave, 0.0, 100.0) || !ok(self.ramp_angle, 0.1, 89.0) || !ok(self.ramp_feed, 0.0, 100_000.0) || !ok(self.raster_angle, -360.0, 360.0) || !ok(self.overhang, 0.0, 1000.0) || !ok(self.chamfer, 0.0, 1000.0) || !ok(self.trochoid.diameter, 0.1, 1000.0) || !ok(self.trochoid.step, 0.05, 1000.0) || !ok(self.vc_start, 0.0, 1000.0) || !ok(self.inlay_gap, 0.0, 100.0) {
+        if !ok(self.depth, 0.0, 1000.0) || !ok(self.step_down, 0.0, 1000.0) || !ok(self.step_over_pct, 1.0, 100.0) || !ok(self.feed, 1.0, 100_000.0) || !ok(self.plunge, 1.0, 100_000.0) || !ok(self.rpm, 0.0, 1_000_000.0) || !ok(self.scan_angle, -360.0, 360.0) || !ok(self.leave, 0.0, 100.0) || !ok(self.ramp_angle, 0.1, 89.0) || !ok(self.ramp_feed, 0.0, 100_000.0) || !ok(self.raster_angle, -360.0, 360.0) || !ok(self.overhang, 0.0, 1000.0) || !ok(self.chamfer, 0.0, 1000.0) || !ok(self.trochoid.diameter, 0.1, 1000.0) || !ok(self.trochoid.step, 0.05, 1000.0) || !ok(self.vc_start, 0.0, 1000.0) || !ok(self.inlay_gap, 0.0, 100.0) {
             return Err(format!("layer {}: a number is out of range", self.name));
         }
         let t = &self.tabs;
@@ -561,6 +570,7 @@ pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
                 direction: CutDir::default(),
                 leave: 0.0,
                 finish: true,
+                stay_down: false,
                 entry: Entry::default(),
                 ramp_angle: 3.0,
                 ramp_feed: 0.0,
@@ -617,6 +627,29 @@ mod tests {
         assert_eq!(l.passes(), vec![10.0]);
         l.depth = 0.0;
         assert!(l.passes().is_empty());
+    }
+
+    #[test]
+    fn a_pass_depth_of_zero_is_the_full_depth_in_one_pass() {
+        let mut l = default_layers(&Library::new()).remove(0);
+        l.depth = 7.5;
+        l.step_down = 0.0;
+        assert_eq!(l.passes(), vec![7.5]);
+        assert!(l.check().is_ok(), "0 is allowed in a layer");
+        l.step_down = -1.0;
+        assert!(l.check().is_err(), "a negative pass depth is not");
+        assert_eq!(crate::relief::pass_limits(6.0, 0.0), vec![6.0]);
+        // A bit with 0 % gives a layer with 0.
+        let lib = Library::new();
+        let mut t = lib.all().next().expect("a bit in the library").clone();
+        t.cutting.step_down_pct = 0.0;
+        assert!(t.check().is_ok());
+        l.use_tool(&t);
+        assert_eq!(l.step_down, 0.0);
+        // The old files, with a pass depth, are read as they were.
+        t.cutting.step_down_pct = 50.0;
+        l.use_tool(&t);
+        assert!(l.step_down >= 0.1);
     }
 
     #[test]

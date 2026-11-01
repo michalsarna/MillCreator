@@ -422,3 +422,23 @@
 421	The view has three panes at most
 422	Show the preview here
 423	No G-code file is open: File, View G-code file…
+424	0 = full depth in one pass
+425	{}: one pass of {} mm is deeper than the cutting part of the bit ({} mm)
+426	Preview G-code
+427	Show the G-code without saving it
+428	preview
+429	The G-code is shown, nothing is saved
+430	The own G-code of the device: {}
+431	In the change of the bit and of the operation also:
+432	Cutting speed (Vc)
+433	Feed per tooth (fz)
+434	Plunge per tooth
+435	From the bit: the diameter and the number of flutes
+436	Stay down between rings
+437	On every depth the rings follow each other and the bit moves to the next ring by a cut in the material, when the whole way lies inside the pocket; otherwise it rises as usual
+438	Pick on the work area
+439	The next click on the work area sets the zero (it snaps to the corners and the middles of the shapes); the icon of the axes can be dragged
+440	Click the work area to set the zero of the program (Esc cancels)
+441	The zero of the program is at X {} Y {}
+442	Load preset
+443	The bit of the preset is not in the library: the layer has no bit

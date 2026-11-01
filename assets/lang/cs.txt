@@ -422,3 +422,23 @@
 421|Pohled má nejvýše tři panely
 422|Zobrazit náhled zde
 423|Není otevřen žádný soubor G-kódu: File, View G-code file…
+424|0 = plná hloubka na jeden průchod
+425|{}: jeden průchod o {} mm je hlubší než řezná část frézy ({} mm)
+426|Náhled G-kódu
+427|Zobrazit G-kód bez uložení
+428|náhled
+429|G-kód je zobrazen, nic se neukládá
+430|Vlastní G-kód zařízení: {}
+431|Při výměně frézy a operace také:
+432|Řezná rychlost (Vc)
+433|Posuv na zub (fz)
+434|Zanořovací posuv na zub
+435|Z frézy: průměr a počet zubů
+436|Zůstat dole mezi prstenci
+437|V každé hloubce jdou prstence za sebou a fréza přejede na další řezem v materiálu, když celá cesta leží uvnitř kapsy; jinak se zvedne jako obvykle
+438|Vybrat na pracovní ploše
+439|Další kliknutí na pracovní ploše nastaví nulu (přichytí se k rohům a středům tvarů); ikonu os lze přetahovat
+440|Klikněte na pracovní plochu pro nastavení nuly programu (Esc zruší)
+441|Nula programu je na X {} Y {}
+442|Načíst předvolbu
+443|Fréza z předvolby není v knihovně: vrstva je bez frézy

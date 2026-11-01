@@ -434,6 +434,11 @@ fn run_layers(b: &mut Builder, prog: &mut Program, scene: &Scene, layers: &[Mill
             prog.warnings.push(Warn::new("{}: no bit chosen", &[&layer.name]));
             continue;
         };
+        // A pass that goes deeper in one go than the cutting part of the bit is long.
+        let one_pass = if layer.step_down <= 0.0 { layer.depth } else { layer.step_down.min(layer.depth) };
+        if tool.dims.cut_length > 0.0 && one_pass > tool.dims.cut_length + 1e-9 && !matches!(layer.op, Operation::Drill) {
+            prog.warnings.push(Warn::new("{}: one pass of {} mm is deeper than the cutting part of the bit ({} mm)", &[&layer.name, &format!("{one_pass:.1}"), &tool.dims.cut_length]));
+        }
         if dev.changer && tool.number == 0 {
             prog.warnings.push(Warn::new("{}: the bit has no changer number: the machine is asked to stop for it instead", &[&layer.name]));
         }
@@ -542,13 +547,17 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
     // The role of the rings for the direction: a bore and a dogbone slot are inside profiles.
     let role_op = if inner_profile { Operation::ProfileInside } else { layer.op };
     // The rings of a profile or a pocket, turned the way the layer asks for, each with its role (a hole of a part or not).
-    let go_rings = |b: &mut Builder, rings: Vec<Polyline>, depths: &[f64], notes: &mut Notes| {
+    let go_rings = |b: &mut Builder, rings: Vec<Polyline>, depths: &[f64], notes: &mut Notes, stay_in: Option<&[Polyline]>| {
         let mut rings = passes::oriented(rings, role_op, layer.direction);
         let hole = passes::roles(&rings);
         if layer.op == Operation::DogboneSlot {
             rings = rings.iter().zip(&hole).map(|(ring, hole)| crate::clear::dogbone(ring, r, *hole)).collect();
         }
         let holes: Vec<Polyline> = rings.iter().zip(&hole).filter(|(_, h)| **h).map(|(r, _)| r.clone()).collect();
+        if let Some(region) = stay_in {
+            passes::rings_staying_down(b, &rings, &hole, &holes, depths, &plan, region, notes);
+            return;
+        }
         for (i, (ring, hole)) in rings.iter().zip(&hole).enumerate() {
             passes::ring_passes(b, ring, depths, &plan, *hole, &holes, i > 0, notes);
         }
@@ -556,7 +565,10 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
     // Clear a region (where the centre of the bit may go) by rings or by a raster, every depth in turn.
     let step = (tool.dims.diameter * layer.step_over_pct / 100.0).max(0.05);
     let clear_region = |b: &mut Builder, region: Vec<Polyline>, notes: &mut Notes| match layer.pattern {
-        PocketPattern::Rings => go_rings(b, crate::clear::rings_with_middle(&region, step), depths, notes),
+        PocketPattern::Rings => {
+            let rings = crate::clear::rings_with_middle(&region, step);
+            go_rings(b, rings, depths, notes, (layer.stay_down && layer.op == Operation::Pocket).then_some(region.as_slice()))
+        }
         PocketPattern::Raster => {
             for d in depths {
                 for path in crate::clear::raster_paths(&region, layer.raster_angle, step) {
@@ -573,10 +585,10 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
             }
             let d = if layer.op == Operation::ProfileOutside { r } else { -r };
             let left = layer.leave.max(0.0);
-            go_rings(b, ops::offset(&closed, d + d.signum() * left), depths, &mut notes);
+            go_rings(b, ops::offset(&closed, d + d.signum() * left), depths, &mut notes, None);
             // The material that was left on the wall comes off in one more pass at the full depth.
             if left > 0.0 && layer.finish {
-                go_rings(b, ops::offset(&closed, d), &[full], &mut notes);
+                go_rings(b, ops::offset(&closed, d), &[full], &mut notes, None);
             }
         }
         Operation::Pocket => {
@@ -587,7 +599,7 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
             let left = layer.leave.max(0.0);
             let walls = ops::offset(&closed, -r);
             if layer.outline == OutlinePass::Before {
-                go_rings(b, walls.clone(), depths, &mut notes);
+                go_rings(b, walls.clone(), depths, &mut notes, None);
             }
             // The region the centre of the bit moves in; for a rest pocket only what the bigger bit left.
             let region = match rest_r {
@@ -596,10 +608,10 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
             };
             clear_region(b, region, &mut notes);
             if layer.outline == OutlinePass::After {
-                go_rings(b, walls.clone(), depths, &mut notes);
+                go_rings(b, walls.clone(), depths, &mut notes, None);
             }
             if left > 0.0 && layer.finish {
-                go_rings(b, walls, &[full], &mut notes);
+                go_rings(b, walls, &[full], &mut notes, None);
             }
         }
         Operation::Face => {
@@ -783,9 +795,15 @@ pub fn machine_xy(dev: &Device, x: f64, y: f64) -> (f64, f64) {
 }
 
 /// The lines of a block of own G-code, each with a newline.
-fn custom(g: &mut String, text: &str) {
-    for l in crate::device::CustomGcode::lines(text) {
-        g.push_str(l);
+/// The lines of an own G-code text with the variables put in (an unknown one gives nothing: the device is checked before a file
+/// is made, see `CustomGcode::check_variables`).
+fn custom_lines(text: &str, value: &dyn Fn(&str) -> Option<String>) -> Vec<String> {
+    crate::device::CustomGcode::lines(text).into_iter().map(|l| base_core::gcode_out::substitute(l, value)).collect()
+}
+
+fn custom(g: &mut String, text: &str, value: &dyn Fn(&str) -> Option<String>) {
+    for l in custom_lines(text, value) {
+        g.push_str(&l);
         g.push('\n');
     }
 }
@@ -801,7 +819,68 @@ fn num(v: f64) -> String {
 }
 
 /// G-code (GRBL flavour) for the program. The bit is changed with a pause (M0) when the layer asks for another one.
+#[cfg(test)]
 pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Library, program_name: &str) -> String {
+    let info = base_core::gcode_out::Info { project_name: program_name.to_string(), ..base_core::gcode_out::Info::now() };
+    to_gcode_info(prog, dev, layers, tools, &info)
+}
+
+/// The place in the program that the variables of the own G-code tell about.
+struct Here {
+    layer_name: String,
+    layer_index: usize,
+    total_layers: usize,
+    /// The bit of the layer: its number in the changer, name, diameter, flutes and the speeds of the library.
+    tool: Option<Tool>,
+}
+
+/// The value of a variable of the own G-code.
+fn value_of(info: &base_core::gcode_out::Info, here: &Here, name: &str) -> Option<String> {
+    match name {
+        "layer_name" => Some(here.layer_name.clone()),
+        "layer_index" => Some(here.layer_index.to_string()),
+        "total_layers" => Some(here.total_layers.to_string()),
+        n if n.starts_with("tool_") => {
+            let t = here.tool.as_ref();
+            let num = |v: f64| {
+                let s = format!("{v:.3}");
+                s.trim_end_matches('0').trim_end_matches('.').to_string()
+            };
+            Some(match n {
+                "tool_number" => t.map_or(0, |t| t.number).to_string(),
+                "tool_name" => t.map(|t| t.name.clone()).unwrap_or_default(),
+                "tool_diameter" => t.map(|t| num(t.dims.diameter)).unwrap_or_default(),
+                "tool_flutes" => t.map(|t| t.cutting.flutes.to_string()).unwrap_or_default(),
+                "tool_rpm" => t.map(|t| num(t.cutting.rpm)).unwrap_or_default(),
+                "tool_feed" => t.map(|t| num(t.cutting.feed)).unwrap_or_default(),
+                "tool_plunge" => t.map(|t| num(t.cutting.plunge)).unwrap_or_default(),
+                _ => return None,
+            })
+        }
+        _ => info.value(name),
+    }
+}
+
+/// The program as G-code text. `info` tells the variables of the own G-code (the name and the path of the project, the moment);
+/// the box of the paths, the machine and the layer are filled in here. The very start and end of the file and the flavour of
+/// the device are applied at the end.
+pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Library, info: &base_core::gcode_out::Info) -> String {
+    let program_name = info.project_name.as_str();
+    let mut info = info.clone();
+    info.machine_name = dev.name.clone();
+    // The box of everything that is cut, in the coordinates of the machine.
+    {
+        let (mut lo, mut hi) = ([f64::INFINITY; 3], [f64::NEG_INFINITY; 3]);
+        for m in prog.moves.iter().filter(|m| m.kind != MoveKind::Rapid) {
+            let (x, y) = machine_xy(dev, m.to[0], m.to[1]);
+            for (i, v) in [x, y, m.to[2] + dev.z_offset].into_iter().enumerate() {
+                lo[i] = lo[i].min(v);
+                hi[i] = hi[i].max(v);
+            }
+        }
+        info.bounds = lo[0].is_finite().then_some((lo, hi));
+    }
+    let mut here = Here { layer_name: String::new(), layer_index: 0, total_layers: layers.len(), tool: None };
     let mut g = String::new();
     let clean = |s: &str| s.chars().filter(|c| c.is_alphanumeric() || *c == ' ' || *c == '-' || *c == '_' || *c == '.').collect::<String>();
     g.push_str(&format!("(MillCreator: {})\n(Device: {})\n", clean(program_name), clean(&dev.name)));
@@ -810,7 +889,7 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
         g.push_str(&w);
         g.push_str("\n");
     }
-    custom(&mut g, &dev.gcode.start);
+    custom(&mut g, &dev.gcode.start, &|n| value_of(&info, &here, n));
     let mut feed = f64::NAN;
     let mut layer = usize::MAX;
     let mut tool_id: Option<String> = None;
@@ -826,7 +905,8 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
             layer = m.layer;
             if let Some(l) = layers.get(layer) {
                 g.push_str(&format!("(Layer: {})\n", clean(&l.name)));
-                custom(&mut g, &dev.gcode.operation_change);
+                here = Here { layer_name: l.name.clone(), layer_index: layer, total_layers: layers.len(), tool: l.tool.as_deref().and_then(|id| tools.get(id)).cloned() };
+                custom(&mut g, &dev.gcode.operation_change, &|n| value_of(&info, &here, n));
                 if tool_id != l.tool {
                     if spindle_on {
                         g.push_str(&format!("G0 Z{}\nM5\n", num(dev.safe_z + dev.z_offset)));
@@ -837,7 +917,7 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
                         coolant = crate::layers::Coolant::Off;
                     }
                     if dust {
-                        custom(&mut g, &dev.gcode.dust_off);
+                        custom(&mut g, &dev.gcode.dust_off, &|n| value_of(&info, &here, n));
                         dust = false;
                     }
                     let tool = l.tool.as_deref().and_then(|id| tools.get(id));
@@ -853,7 +933,7 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
                     }
                     tool_id = l.tool.clone();
                     spindle_on = false;
-                    custom(&mut g, &dev.gcode.tool_change);
+                    custom(&mut g, &dev.gcode.tool_change, &|n| value_of(&info, &here, n));
                 }
                 let rpm = l.rpm.clamp(dev.spindle.min_rpm, dev.spindle.max_rpm);
                 if rpm > 0.0 {
@@ -876,7 +956,7 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
                     coolant = l.coolant;
                 }
                 if l.dust != dust {
-                    custom(&mut g, if l.dust { &dev.gcode.dust_on } else { &dev.gcode.dust_off });
+                    custom(&mut g, if l.dust { &dev.gcode.dust_on } else { &dev.gcode.dust_off }, &|n| value_of(&info, &here, n));
                     dust = l.dust;
                 }
             }
@@ -900,13 +980,14 @@ pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Libr
         g.push_str("M9\n");
     }
     if dust {
-        custom(&mut g, &dev.gcode.dust_off);
+        custom(&mut g, &dev.gcode.dust_off, &|n| value_of(&info, &here, n));
     }
     let (hx, hy) = machine_xy(dev, 0.0, 0.0);
     g.push_str(&format!("G0 X{} Y{}\n", num(hx), num(hy)));
-    custom(&mut g, &dev.gcode.end);
+    custom(&mut g, &dev.gcode.end, &|n| value_of(&info, &here, n));
     g.push_str("M30\n");
-    g
+    let lines = |text: &str| custom_lines(text, &|n| value_of(&info, &here, n));
+    base_core::gcode_out::finish(&g, &lines(&dev.gcode.very_start), &lines(&dev.gcode.very_end), &dev.gcode.flavour)
 }
 
 #[cfg(test)]
@@ -1054,6 +1135,134 @@ mod tests {
         let levels: std::collections::BTreeSet<i64> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).map(|m| (m.to[2] * 1000.0).round() as i64).collect();
         assert_eq!(levels.into_iter().collect::<Vec<_>>(), vec![-6000, -3000], "two passes");
         assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
+    }
+
+    #[test]
+    fn a_pass_depth_of_zero_cuts_the_full_depth_in_one_pass_and_a_short_bit_gives_a_warning() {
+        let (lib, dev, stock, mut layers) = setup();
+        layers[0].depth = 6.0;
+        layers[0].step_down = 0.0;
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 50.0, 50.0, 40.0);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let levels: std::collections::BTreeSet<i64> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).map(|m| (m.to[2] * 1000.0).round() as i64).collect();
+        assert_eq!(levels.into_iter().collect::<Vec<_>>(), vec![-6000], "one pass");
+        let cut = lib.get("std-flat-3").unwrap().dims.cut_length;
+        assert!(cut >= 6.0, "the bit of the test cuts 6 mm deep: {cut}");
+        assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
+        // A bit whose cutting part is shorter than the pass: a warning, the file is made all the same.
+        layers[0].depth = cut + 4.0;
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(prog.warnings.iter().any(|w| w.text().contains("deeper than the cutting part")), "{:?}", prog.warnings.iter().map(|w| w.text()).collect::<Vec<_>>());
+        assert!(!prog.moves.is_empty());
+        // The same depth in passes the bit can take: no warning.
+        layers[0].step_down = cut;
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(!prog.warnings.iter().any(|w| w.text().contains("deeper than the cutting part")));
+    }
+
+    #[test]
+    fn the_file_has_a_very_start_and_end_variables_and_a_flavour_and_the_default_changes_nothing() {
+        use base_core::gcode_out::{DwellWord, Flavour};
+        let (lib, mut dev, stock, mut layers) = setup();
+        layers[0].depth = 2.0;
+        layers[0].step_down = 2.0;
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 50.0, 50.0, 40.0);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let plain = to_gcode(&prog, &dev, &layers, &lib, "job");
+        // The default device: the file is what it always was (the header, the start, the end, M30).
+        assert!(plain.starts_with("(MillCreator: job)\n(Device: ") && plain.trim_end().ends_with("M30") && !plain.contains('%'));
+        // The very start and the very end, with variables.
+        dev.gcode.very_start = "%\nO{project_name}".into();
+        dev.gcode.very_end = "(done {machine_name})".into();
+        dev.gcode.start = "(box {min_x} {max_x} {width}x{height}x{depth})".into();
+        dev.gcode.operation_change = "(layer {layer_index}/{total_layers} {layer_name})".into();
+        let info = base_core::gcode_out::Info { project_name: "part".into(), project_path: "/w/part.cre".into(), date: "2026-11-01".into(), time: "12:00".into(), ..Default::default() };
+        let text = to_gcode_info(&prog, &dev, &layers, &lib, &info);
+        let lines: Vec<&str> = text.lines().collect();
+        assert_eq!(&lines[..3], &["%", "Opart", "(MillCreator: part)"]);
+        assert!(lines.iter().any(|l| l.starts_with("(box ") && !l.contains('{')), "{text}");
+        assert!(lines.iter().any(|l| l.starts_with("(layer 0/") && !l.contains('{')), "{text}");
+        assert_eq!(lines.last().copied(), Some(format!("(done {})", dev.name).as_str()));
+        assert_eq!(lines[lines.len() - 2], "M30", "the very end is after M30");
+        // The box is the one of the cuts: the square 40 mm wide, with the radius of the bit.
+        let r = lib.get("std-flat-3").unwrap().radius();
+        let w: f64 = lines.iter().find(|l| l.starts_with("(box ")).unwrap().split(['(', ' ', 'x']).filter_map(|p| p.parse::<f64>().ok()).nth(2).unwrap();
+        assert!((w - (40.0 + 2.0 * r)).abs() < 0.01, "{w}");
+        // The variables are checked before a file is made.
+        assert!(dev.gcode.check_variables().is_ok());
+        dev.gcode.end = "(oops {tool_number})".into();
+        assert!(dev.gcode.check_variables().unwrap_err().contains("At the end of the program"));
+        dev.gcode.end.clear();
+        // The flavour: a point after whole numbers, the dwell in milliseconds, line numbers, % lines.
+        dev.gcode = Default::default();
+        dev.spindle.spin_up = 2.0;
+        dev.gcode.flavour = Flavour { decimal_point: true, percent: true, dwell: DwellWord::PMilliseconds, line_numbers: true, number_step: 10, remove_comments: true };
+        let g = to_gcode(&prog, &dev, &layers, &lib, "job");
+        let l: Vec<&str> = g.lines().collect();
+        assert_eq!((l[0], l[l.len() - 1]), ("%", "%"));
+        assert!(l[1].starts_with("N10 G21 G90 G17"), "{}", l[1]);
+        assert!(l.iter().any(|x| x.contains("G4 P2000.")), "dwell in milliseconds with a point: {g}");
+        assert!(l.iter().any(|x| x.contains(" X") && x.contains("Y") && !x.contains("(")) && !g.contains("(MillCreator"));
+        assert!(!g.contains("M3 S12000.") && g.contains("M3 S"), "the spindle speed gets no point");
+    }
+
+    #[test]
+    fn the_variables_of_the_bit_are_put_into_the_own_g_code_of_a_change() {
+        let (mut lib, mut dev, stock, mut layers) = setup();
+        let mut t = lib.get("std-flat-3").unwrap().clone();
+        t.name = "Test cutter".into();
+        t.builtin = false;
+        t.number = 7;
+        t.cutting.flutes = 3;
+        t.cutting.rpm = 18000.0;
+        t.cutting.feed = 900.0;
+        t.cutting.plunge = 250.0;
+        let id = lib.add(t).expect("a bit is added");
+        layers[0].tool = Some(id);
+        dev.gcode.tool_change = "(T{tool_number} {tool_name} D{tool_diameter} Z{tool_flutes} S{tool_rpm} F{tool_feed} P{tool_plunge})".into();
+        dev.gcode.operation_change = "(op {layer_name} T{tool_number})".into();
+        assert!(dev.gcode.check_variables().is_ok());
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 50.0, 50.0, 40.0);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let g = to_gcode(&prog, &dev, &layers, &lib, "t");
+        assert!(g.contains("(T7 Test cutter D3.175 Z3 S18000 F900 P250)"), "{g}");
+        assert!(g.contains("T7)"), "the operation change knows the bit too: {g}");
+        dev.gcode.tool_change = "{tool_nothing}".into();
+        assert!(dev.gcode.check_variables().is_err());
+    }
+
+    #[test]
+    fn a_pocket_that_stays_down_goes_between_the_rings_by_cuts_inside_the_pocket() {
+        let (lib, dev, stock, mut layers) = setup();
+        layers[2].depth = 3.0;
+        layers[2].step_down = 1.0;
+        layers[2].pattern = crate::layers::PocketPattern::Rings;
+        let mut scene = Scene::default();
+        square(&mut scene, 2, 20.0, 20.0, 40.0);
+        let lifts = |prog: &Program| prog.moves.iter().filter(|m| m.kind == MoveKind::Rapid && m.to[2] >= dev.safe_z - 1e-9 && m.from[2] >= dev.safe_z - 1e-9).count();
+        let usual = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(!layers[2].stay_down, "off by default");
+        layers[2].stay_down = true;
+        let down = generate(&scene, &layers, &lib, &dev, &stock);
+        // The same depths are cut, with the same bit, but with far fewer trips over the pocket.
+        let depths = |p: &Program| p.moves.iter().filter(|m| m.kind == MoveKind::Cut).map(|m| (m.to[2] * 1000.0).round() as i64).collect::<std::collections::BTreeSet<i64>>();
+        assert_eq!(depths(&usual), depths(&down));
+        assert!(lifts(&down) < lifts(&usual), "{} lifts against {}", lifts(&down), lifts(&usual));
+        // Every move at a depth stays inside the walls of the pocket (the bit cuts its edge at the walls).
+        let r = lib.get("std-flat-3").unwrap().radius();
+        let (lo, hi) = (20.0 + r - 0.01, 60.0 - r + 0.01);
+        let (x0, y0) = (lo, 200.0 - hi);
+        for m in down.moves.iter().filter(|m| m.kind == MoveKind::Cut) {
+            assert!(m.to[0] >= x0 - 1e-6 && m.to[0] <= hi + 1e-6 && m.to[1] >= y0 - 1e-6 && m.to[1] <= 200.0 - lo + 1e-6, "{:?} is out of the pocket", m.to);
+        }
+        // The cut that joins two rings is at a depth: some cut moves at depth 1 begin where the lap before ended and are not laps.
+        assert!(down.moves.windows(2).any(|w| w[0].kind == MoveKind::Cut && w[1].kind == MoveKind::Cut && (w[0].to[2] - w[1].to[2]).abs() < 1e-9 && {
+            let d = ((w[1].to[0] - w[0].to[0]).powi(2) + (w[1].to[1] - w[0].to[1]).powi(2)).sqrt();
+            d > 2.0 && w[0].to[2] < -0.5
+        }));
     }
 
     #[test]

@@ -422,3 +422,23 @@
 421|Vyn har högst tre rutor
 422|Visa förhandsgranskningen här
 423|Ingen G-kodfil är öppen: File, View G-code file…
+424|0 = fullt djup i ett pass
+425|{}: ett pass på {} mm är djupare än fräsens skärande del ({} mm)
+426|Förhandsgranska G-kod
+427|Visa G-koden utan att spara den
+428|förhandsgranskning
+429|G-koden visas, inget sparas
+430|Enhetens egen G-kod: {}
+431|Vid byte av fräs och operation även:
+432|Skärhastighet (Vc)
+433|Matning per tand (fz)
+434|Instickmatning per tand
+435|Från fräsen: diameter och antal skär
+436|Stanna nere mellan ringarna
+437|På varje djup följer ringarna efter varandra och fräsen går till nästa ring med ett snitt i materialet när hela vägen ligger inne i fickan; annars lyfter den som vanligt
+438|Välj på arbetsytan
+439|Nästa klick på arbetsytan sätter nollpunkten (den fäster vid hörn och mittpunkter av former); axelikonen kan dras
+440|Klicka på arbetsytan för att sätta programmets nollpunkt (Esc avbryter)
+441|Programmets nollpunkt är vid X {} Y {}
+442|Läs in förinställning
+443|Fräsen från förinställningen finns inte i biblioteket: lagret har ingen fräs

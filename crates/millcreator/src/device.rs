@@ -70,16 +70,45 @@ pub struct CustomGcode {
     pub dust_on: String,
     #[serde(default)]
     pub dust_off: String,
+    /// The very start of the file, before the comments and the header (for a `%`, a program number, the header of a controller).
+    #[serde(default, skip_serializing_if = "String::is_empty")]
+    pub very_start: String,
+    /// The very end of the file, after `M30`.
+    #[serde(default, skip_serializing_if = "String::is_empty")]
+    pub very_end: String,
+    /// The last pass over the finished program, for controllers that read G-code in their own way (all off by default).
+    #[serde(default, skip_serializing_if = "is_unset")]
+    pub flavour: base_core::gcode_out::Flavour,
+}
+
+/// A setting that was never changed is not written: files made before the setting existed stay the same.
+fn is_unset<T: Default + PartialEq>(v: &T) -> bool {
+    *v == T::default()
+}
+
+/// The variables of the texts that do not depend on the place in the program.
+pub const FILE_VARS: &[&str] = base_core::gcode_out::COMMON_VARS;
+/// The variables of the texts that run at a change of the operation or of the bit: the common ones and the layer.
+pub const CHANGE_VARS: &[&str] = &["project_name", "project_path", "date", "time", "machine_name", "min_x", "max_x", "min_y", "max_y", "min_z", "max_z", "width", "height", "depth", "layer_name", "layer_index", "total_layers", "tool_number", "tool_name", "tool_diameter", "tool_flutes", "tool_rpm", "tool_feed", "tool_plunge"];
+/// The ones of `CHANGE_VARS` that the other texts do not have.
+pub fn change_only_vars() -> Vec<&'static str> {
+    CHANGE_VARS.iter().copied().filter(|v| !FILE_VARS.contains(v)).collect()
 }
 
 impl CustomGcode {
+    /// The first unknown variable (or a brace that does not close) in the own G-code, said with the name of the field.
+    pub fn check_variables(&self) -> Result<(), String> {
+        base_core::gcode_out::check_texts(&[("Very start of the file", &self.very_start), ("At the start of the program", &self.start), ("Very end of the file", &self.very_end), ("At the end of the program", &self.end), ("Dust collector on", &self.dust_on), ("Dust collector off", &self.dust_off)], FILE_VARS)?;
+        base_core::gcode_out::check_texts(&[("At every change of the bit", &self.tool_change), ("At every change of the operation", &self.operation_change)], CHANGE_VARS)
+    }
+
     /// The lines of a text, without the empty ones.
     pub fn lines(text: &str) -> Vec<&str> {
         text.lines().map(str::trim).filter(|l| !l.is_empty()).collect()
     }
 
     fn check(&self) -> Result<(), String> {
-        for t in [&self.start, &self.end, &self.tool_change, &self.operation_change, &self.dust_on, &self.dust_off] {
+        for t in [&self.start, &self.end, &self.tool_change, &self.operation_change, &self.dust_on, &self.dust_off, &self.very_start, &self.very_end] {
             if t.lines().count() > 20 || t.lines().any(|l| l.len() > 100 || l.chars().any(char::is_control)) {
                 return Err("the own G-code has too many lines, a line that is too long or a control character".into());
             }

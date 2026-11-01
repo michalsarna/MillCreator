@@ -422,3 +422,23 @@
 421|La vista té com a màxim tres panells
 422|Mostra aquí la previsualització
 423|Cap fitxer G-code obert: File, View G-code file…
+424|0 = tota la profunditat en una sola passada
+425|{}: una passada de {} mm és més profunda que la part de tall de la fresa ({} mm)
+426|Previsualitza el G-code
+427|Mostra el G-code sense desar-lo
+428|previsualització
+429|El G-code es mostra, no es desa res
+430|El G-code propi del dispositiu: {}
+431|En el canvi de fresa i d'operació també:
+432|Velocitat de tall (Vc)
+433|Avanç per dent (fz)
+434|Avanç de penetració per dent
+435|De la fresa: diàmetre i nombre de dents
+436|Queda't a baix entre anells
+437|A cada profunditat els anells es van seguint i la fresa passa al següent amb un tall al material quan tot el camí és dins la butxaca; si no, s'aixeca com sempre
+438|Tria a l'àrea de treball
+439|El proper clic a l'àrea de treball fixa el zero (s'ajusta als cantons i als centres de les formes); la icona dels eixos es pot arrossegar
+440|Fes clic a l'àrea de treball per fixar el zero del programa (Esc cancel·la)
+441|El zero del programa és a X {} Y {}
+442|Carrega el predefinit
+443|La fresa del predefinit no és a la biblioteca: la capa no té fresa

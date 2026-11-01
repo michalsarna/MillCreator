@@ -27,7 +27,7 @@ Other shapes on the same layer are followed as lines. On a layer with another op
 | Operation | see below |
 | Bit | any bit of the [Bit Library](Bit-Library). Choosing a bit takes its feed, plunge feed, spindle speed, a pass depth of half its diameter and the step over |
 | Depth | the total depth below the top of the material |
-| Pass depth | how deep one pass goes; the last pass always ends at the full depth |
+| Pass depth | how deep one pass goes; the last pass always ends at the full depth. **0 means the full depth in one pass** (a warning says so when that is deeper than the cutting part of the bit); the same for *Pass depth (of the diameter)* of a bit in the library |
 | Step over | for a pocket: the distance between rings, as a part of the diameter |
 | Feed, plunge feed | mm/min in the material and for the plunge |
 | Spindle speed | rpm; a value outside the range of the device is reported |
@@ -65,4 +65,8 @@ A layer without a bit, a depth over the thickness of the material, a depth over 
 
 ## Layer presets
 
-Above the settings of a layer: **Save as preset** keeps the way of cutting of the layer (the operation, the bit, depths, speeds, tabs, ramps…) under a name; the **Presets** list puts a preset on the selected layer (✖ forgets it). The name, colour and order of the layer, the layer a rest pocket takes over from and the tabs placed by hand stay as they were. The presets are kept in `mill_layer_presets.json` in the shared data folder (at most 60).
+* **Stay down between rings** (a layer with *Pocket*, pattern *Rings*; off by default): on every depth the rings follow each other, and the bit goes to the next ring by a cut in the material instead of rising, when the whole way lies inside the region the bit can reach (islands are never crossed, so the bit rises there as before). The first ring of a deeper pass is entered from the depth of the pass before. The preview and the time estimate show the new moves.
+
+Next to the spindle speed and the feeds the layer (and the *Starting speeds* of a bit in the library) shows the **cutting speed Vc** (m/min, Vc = π · D · n / 1000), the **feed per tooth fz** (mm, fz = F / (n · z)) and the plunge feed per tooth, worked out from the diameter D and the number of flutes z of the bit. Typing a Vc changes the spindle speed, typing an fz changes the feed (or the plunge feed); only the spindle speed and the feeds in mm/min are saved, so the files do not change. Without a bit the rows are dimmed.
+
+Above the settings of a layer: **Save preset…** and **Load preset** open the window *Layer presets*: a field with a name and *Save preset…* keep the way of cutting of the layer (the operation, the bit, depths, speeds, tabs, ramps…) under that name (one of the same name is replaced); a search field narrows the list; a click on a preset puts it on the layer, ✎ renames it and ✖ forgets it; *Export…* writes all the presets to a file and *Import…* adds those of a file (bad entries are left out). The name, colour and order of the layer, the layer a rest pocket takes over from and the tabs placed by hand stay as they were. A preset whose bit is not in the library any more puts the other settings on the layer and leaves it without a bit (the status line says so). The presets are kept in `mill_layer_presets.json` in the shared data folder (at most 60).

@@ -422,3 +422,23 @@
 421|Prikaz ima najviše tri okna
 422|Prikaži pregled ovdje
 423|Nijedna G-kod datoteka nije otvorena: File, View G-code file…
+424|0 = puna dubina u jednom prolazu
+425|{}: jedan prolaz od {} mm dublji je od reznog dijela glodala ({} mm)
+426|Pregled G-koda
+427|Prikaži G-kod bez spremanja
+428|pregled
+429|G-kod je prikazan, ništa nije spremljeno
+430|Vlastiti G-kod uređaja: {}
+431|Pri promjeni glodala i operacije još:
+432|Brzina rezanja (Vc)
+433|Posmak po zubu (fz)
+434|Posmak uranjanja po zubu
+435|Iz glodala: promjer i broj oštrica
+436|Ostani dolje između prstenova
+437|Na svakoj dubini prstenovi idu jedan za drugim, a glodalo prelazi na sljedeći rezom u materijalu kad cijeli put leži unutar džepa; inače se diže kao i obično
+438|Odaberi na radnom području
+439|Sljedeći klik na radnom području postavlja nulu (hvata se za kutove i sredine oblika); ikona osi može se povlačiti
+440|Kliknite radno područje da postavite nulu programa (Esc poništava)
+441|Nula programa je na X {} Y {}
+442|Učitaj predložak
+443|Glodalo iz predloška nije u biblioteci: sloj nema glodalo
