@@ -71,14 +71,19 @@ pub struct CustomGcode {
     #[serde(default)]
     pub dust_off: String,
     /// The very start of the file, before the comments and the header (for a `%`, a program number, the header of a controller).
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "String::is_empty")]
     pub very_start: String,
     /// The very end of the file, after `M30`.
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "String::is_empty")]
     pub very_end: String,
     /// The last pass over the finished program, for controllers that read G-code in their own way (all off by default).
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "is_unset")]
     pub flavour: base_core::gcode_out::Flavour,
+}
+
+/// A setting that was never changed is not written: files made before the setting existed stay the same.
+fn is_unset<T: Default + PartialEq>(v: &T) -> bool {
+    *v == T::default()
 }
 
 /// The variables of the texts that do not depend on the place in the program.
