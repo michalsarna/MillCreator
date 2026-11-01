@@ -430,3 +430,15 @@
 429|G-kods ir parādīts, nekas netiek saglabāts
 430|Ierīces paša G-kods: {}
 431|Mainot frēzi un operāciju arī:
+432|Griešanas ātrums (Vc)
+433|Padeve uz zobu (fz)
+434|Iegremdēšanas padeve uz zobu
+435|No frēzes: diametrs un zobu skaits
+436|Palikt lejā starp gredzeniem
+437|Katrā dziļumā gredzeni seko cits citam un frēze pāriet uz nākamo ar griezumu materiālā, ja viss ceļš atrodas kabatas iekšpusē; citādi tā paceļas kā parasti
+438|Izvēlēties darba laukā
+439|Nākamais klikšķis darba laukā iestata nulli (tā pieķeras formu stūriem un viduspunktiem); asu ikonu var vilkt
+440|Noklikšķiniet darba laukā, lai iestatītu programmas nulli (Esc atceļ)
+441|Programmas nulle atrodas pie X {} Y {}
+442|Ielādēt sagatavi
+443|Sagataves frēzes nav bibliotēkā: slānim nav frēzes
