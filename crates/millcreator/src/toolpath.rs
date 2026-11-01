@@ -812,6 +812,7 @@ fn num(v: f64) -> String {
 }
 
 /// G-code (GRBL flavour) for the program. The bit is changed with a pause (M0) when the layer asks for another one.
+#[cfg(test)]
 pub fn to_gcode(prog: &Program, dev: &Device, layers: &[MillLayer], tools: &Library, program_name: &str) -> String {
     let info = base_core::gcode_out::Info { project_name: program_name.to_string(), ..base_core::gcode_out::Info::now() };
     to_gcode_info(prog, dev, layers, tools, &info)
