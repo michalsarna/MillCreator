@@ -430,3 +430,7 @@
 429|O G-code é mostrado, nada é guardado
 430|G-code próprio do dispositivo: {}
 431|Na troca da fresa e da operação também:
+432|Velocidade de corte (Vc)
+433|Avanço por dente (fz)
+434|Avanço de mergulho por dente
+435|Da fresa: diâmetro e número de dentes

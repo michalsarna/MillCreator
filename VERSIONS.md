@@ -4,6 +4,7 @@ Each release gets the next version number. Newest first.
 
 ## v0.5.3 (not released yet)
 
+* **Cutting speed Vc and feed per tooth fz** beside the spindle speed and the feeds of a layer and of a bit in the library; typing one changes the other. Files keep only rpm and mm/min.
 * **Show variable names** (*View options*, off by default): the name of the variable beside the label of a field that has one (bit, layer, device); a click copies `{name}`. baseCreator v1.49.0.
 * **Variables of the bit** in the own G-code of a change of the bit or of the operation: `{tool_number}`, `{tool_name}`, `{tool_diameter}`, `{tool_flutes}`, `{tool_rpm}`, `{tool_feed}`, `{tool_plunge}` (the changer number of the bit and *Tool changer* with `T<n> M6` were already there).
 * **G-code of the device:** `{variables}` in every own G-code box (project, path, date, time, machine, the box of the cuts, the layer), *Very start of the file* and *Very end of the file*, and **Own file format** for controllers (decimal point after whole numbers, `%` lines, the dwell word, line numbers, no comments); all off by default, the file is the same as before. baseCreator v1.48.0.

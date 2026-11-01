@@ -430,3 +430,7 @@
 429|G-kod je prikazan, ništa nije spremljeno
 430|Vlastiti G-kod uređaja: {}
 431|Pri promjeni glodala i operacije još:
+432|Brzina rezanja (Vc)
+433|Posmak po zubu (fz)
+434|Posmak uranjanja po zubu
+435|Iz glodala: promjer i broj oštrica

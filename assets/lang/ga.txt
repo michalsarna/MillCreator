@@ -430,3 +430,7 @@
 429|Tá an G-code ar taispeáint, níl aon rud sábháilte
 430|G-code féin an ghairis: {}
 431|In athrú an bhíoma agus na hoibríochta freisin:
+432|Luas gearrtha (Vc)
+433|Beathú in aghaidh an fhiacail (fz)
+434|Beathú tumtha in aghaidh an fhiacail
+435|Ón mbiorán: trastomhas agus líon na bhfliúit

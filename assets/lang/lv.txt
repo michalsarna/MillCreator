@@ -430,3 +430,7 @@
 429|G-kods ir parādīts, nekas netiek saglabāts
 430|Ierīces paša G-kods: {}
 431|Mainot frēzi un operāciju arī:
+432|Griešanas ātrums (Vc)
+433|Padeve uz zobu (fz)
+434|Iegremdēšanas padeve uz zobu
+435|No frēzes: diametrs un zobu skaits

@@ -430,3 +430,7 @@
 429|G-koda je prikazana, nič ni shranjeno
 430|Lastna G-koda naprave: {}
 431|Pri zamenjavi rezkarja in operacije tudi:
+432|Rezalna hitrost (Vc)
+433|Podajanje na zob (fz)
+434|Podajanje potopa na zob
+435|Iz rezkarja: premer in število rezil

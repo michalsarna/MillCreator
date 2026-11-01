@@ -65,4 +65,6 @@ A layer without a bit, a depth over the thickness of the material, a depth over 
 
 ## Layer presets
 
+Next to the spindle speed and the feeds the layer (and the *Starting speeds* of a bit in the library) shows the **cutting speed Vc** (m/min, Vc = π · D · n / 1000), the **feed per tooth fz** (mm, fz = F / (n · z)) and the plunge feed per tooth, worked out from the diameter D and the number of flutes z of the bit. Typing a Vc changes the spindle speed, typing an fz changes the feed (or the plunge feed); only the spindle speed and the feeds in mm/min are saved, so the files do not change. Without a bit the rows are dimmed.
+
 Above the settings of a layer: **Save as preset** keeps the way of cutting of the layer (the operation, the bit, depths, speeds, tabs, ramps…) under a name; the **Presets** list puts a preset on the selected layer (✖ forgets it). The name, colour and order of the layer, the layer a rest pocket takes over from and the tabs placed by hand stay as they were. The presets are kept in `mill_layer_presets.json` in the shared data folder (at most 60).

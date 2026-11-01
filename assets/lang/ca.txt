@@ -430,3 +430,7 @@
 429|El G-code es mostra, no es desa res
 430|El G-code propi del dispositiu: {}
 431|En el canvi de fresa i d'operació també:
+432|Velocitat de tall (Vc)
+433|Avanç per dent (fz)
+434|Avanç de penetració per dent
+435|De la fresa: diàmetre i nombre de dents

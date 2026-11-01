@@ -416,6 +416,9 @@ impl App {
                     ui.label(tr("Spindle speed"));
                     changed |= ui.add(egui::DragValue::new(&mut l.rpm).range(0.0..=1000000.0).suffix(" rpm")).changed();
                     ui.end_row();
+                    // Vc and the feed per tooth, from the bit of the layer.
+                    let (diameter, flutes) = l.tool.as_deref().and_then(|id| self.tools.get(id)).map_or((0.0, 0), |t| (t.dims.diameter, t.cutting.flutes));
+                    changed |= crate::cutting_calc::rows(ui, diameter, flutes, &mut l.rpm, &mut l.feed, &mut l.plunge);
                 });
                 ui.add_space(4.0);
                 ui.label(RichText::new(tr(l.op.hint())).color(theme::text_dim()));

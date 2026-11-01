@@ -430,3 +430,7 @@
 429|G-koodi on näidatud, midagi ei salvestata
 430|Seadme oma G-kood: {}
 431|Freesi ja toimingu vahetusel ka:
+432|Lõikekiirus (Vc)
+433|Ettenihe hamba kohta (fz)
+434|Sukeldumise ettenihe hamba kohta
+435|Freesilt: läbimõõt ja lõikeservade arv

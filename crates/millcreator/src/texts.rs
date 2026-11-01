@@ -475,6 +475,10 @@ const TABLE: &[[&str; 7]] = &[
     ["The G-code is shown, nothing is saved", "G-code jest pokazany, nic nie zostało zapisane", "Der G-Code wird angezeigt, nichts wird gespeichert", "Il G-code è mostrato, nulla viene salvato", "G-koodi näytetään, mitään ei tallenneta", "已显示 G-code，未保存任何内容", "G-code दिखाया गया है, कुछ भी सहेजा नहीं गया"],
     ["The own G-code of the device: {}", "Własny G-code urządzenia: {}", "Eigener G-Code des Geräts: {}", "G-code personalizzato del dispositivo: {}", "Laitteen oma G-koodi: {}", "设备的自定义 G-code：{}", "डिवाइस का अपना G-code: {}"],
     ["In the change of the bit and of the operation also:", "W zmianie freza i operacji także:", "Beim Wechsel des Fräsers und der Operation außerdem:", "Nel cambio della fresa e dell'operazione anche:", "Terän ja työvaiheen vaihdossa myös:", "在换刀和换工序时还可用：", "बिट और ऑपरेशन बदलते समय ये भी:"],
+    ["Cutting speed (Vc)", "Prędkość skrawania (Vc)", "Schnittgeschwindigkeit (Vc)", "Velocità di taglio (Vc)", "Leikkuunopeus (Vc)", "切削速度 (Vc)", "कटाई गति (Vc)"],
+    ["Feed per tooth (fz)", "Posuw na ząb (fz)", "Vorschub pro Zahn (fz)", "Avanzamento per dente (fz)", "Syöttö hammasta kohden (fz)", "每齿进给 (fz)", "प्रति दाँत फ़ीड (fz)"],
+    ["Plunge per tooth", "Posuw wgłębny na ząb", "Eintauchvorschub pro Zahn", "Avanzamento di tuffo per dente", "Upotussyöttö hammasta kohden", "每齿下刀进给", "प्रति दाँत प्लंज फ़ीड"],
+    ["From the bit: the diameter and the number of flutes", "Z freza: średnica i liczba ostrzy", "Vom Fräser: Durchmesser und Zahl der Schneiden", "Dalla fresa: diametro e numero di taglienti", "Terästä: halkaisija ja urien määrä", "取自刀具：直径和刃数", "बिट से: व्यास और फ्लूट की संख्या"],
 ];
 
 #[cfg(test)]

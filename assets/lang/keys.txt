@@ -430,3 +430,7 @@
 429	The G-code is shown, nothing is saved
 430	The own G-code of the device: {}
 431	In the change of the bit and of the operation also:
+432	Cutting speed (Vc)
+433	Feed per tooth (fz)
+434	Plunge per tooth
+435	From the bit: the diameter and the number of flutes

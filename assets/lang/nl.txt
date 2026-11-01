@@ -430,3 +430,7 @@
 429|De G-code wordt getoond, er wordt niets opgeslagen
 430|Eigen G-code van het apparaat: {}
 431|Bij het wisselen van frees en bewerking ook:
+432|Snijsnelheid (Vc)
+433|Voeding per tand (fz)
+434|Insteekvoeding per tand
+435|Van de frees: diameter en aantal snijkanten

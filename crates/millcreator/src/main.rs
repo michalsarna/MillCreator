@@ -5,6 +5,7 @@
 mod autosave_glue;
 mod clear;
 mod backup_ui;
+mod cutting_calc;
 mod device;
 mod device_ui;
 mod duet_glue;

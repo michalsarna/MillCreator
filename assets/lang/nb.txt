@@ -430,3 +430,7 @@
 429|G-koden vises, ingenting lagres
 430|Enhetens egen G-kode: {}
 431|Ved bytte av fres og operasjon også:
+432|Skjærehastighet (Vc)
+433|Matehastighet per tann (fz)
+434|Stikkmating per tann
+435|Fra frøsen: diameter og antall skjær

@@ -69,4 +69,6 @@ Warstwa bez freza, głębokość większa niż grubość materiału, głębokoś
 
 ## Presety warstw
 
+Obok obrotów i posuwów warstwa (oraz *Starting speeds* freza w bibliotece) pokazuje **prędkość skrawania Vc** (m/min, Vc = π · D · n / 1000), **posuw na ząb fz** (mm, fz = F / (n · z)) i posuw wgłębny na ząb, liczone ze średnicy D i liczby ostrzy z freza. Wpisanie Vc zmienia obroty, wpisanie fz zmienia posuw (albo posuw wgłębny); zapisywane są tylko obroty i posuwy w mm/min, więc pliki się nie zmieniają. Bez freza wiersze są przyciemnione.
+
 Nad ustawieniami warstwy: **Save as preset** zapamiętuje sposób cięcia warstwy (operację, frez, głębokości, prędkości, mostki, rampy…) pod nazwą; lista **Presets** nakłada preset na wybraną warstwę (✖ go usuwa). Nazwa, kolor i kolejność warstwy, warstwa, po której zbiera resztki kieszeń, i mostki ustawione ręcznie zostają jak były. Presety leżą w pliku `mill_layer_presets.json` we wspólnym folderze danych (najwyżej 60).

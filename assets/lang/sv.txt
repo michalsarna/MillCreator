@@ -430,3 +430,7 @@
 429|G-koden visas, inget sparas
 430|Enhetens egen G-kod: {}
 431|Vid byte av fräs och operation även:
+432|Skärhastighet (Vc)
+433|Matning per tand (fz)
+434|Instickmatning per tand
+435|Från fräsen: diameter och antal skär

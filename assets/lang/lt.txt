@@ -430,3 +430,7 @@
 429|G kodas parodytas, nieko neįrašyta
 430|Įrenginio nuosavas G kodas: {}
 431|Keičiant frezą ir operaciją taip pat:
+432|Pjovimo greitis (Vc)
+433|Padavimas vienam dantukui (fz)
+434|Panirimo padavimas vienam dantukui
+435|Iš frezos: skersmuo ir dantų skaičius

@@ -430,3 +430,7 @@
 429|A G-kód látható, semmi sem lett mentve
 430|Az eszköz saját G-kódja: {}
 431|A maró és a művelet váltásakor még:
+432|Forgácsolási sebesség (Vc)
+433|Fogankénti előtolás (fz)
+434|Fogankénti merítési előtolás
+435|A marótól: átmérő és élek száma

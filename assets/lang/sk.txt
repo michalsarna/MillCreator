@@ -430,3 +430,7 @@
 429|G-kód je zobrazený, nič sa neukladá
 430|Vlastný G-kód zariadenia: {}
 431|Pri výmene frézy a operácie aj:
+432|Rezná rýchlosť (Vc)
+433|Posuv na zub (fz)
+434|Zanorovací posuv na zub
+435|Z frézy: priemer a počet zubov

@@ -430,3 +430,7 @@
 429|Le G-code est affiché, rien n'est enregistré
 430|G-code personnalisé de l'appareil : {}
 431|Au changement de fraise et d'opération aussi :
+432|Vitesse de coupe (Vc)
+433|Avance par dent (fz)
+434|Avance de plongée par dent
+435|De la fraise : diamètre et nombre de dents

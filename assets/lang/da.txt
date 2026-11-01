@@ -430,3 +430,7 @@
 429|G-koden vises, intet gemmes
 430|Enhedens egen G-kode: {}
 431|Ved skift af fræser og operation også:
+432|Skærehastighed (Vc)
+433|Tilspænding pr. tand (fz)
+434|Nedstikstilspænding pr. tand
+435|Fra fræseren: diameter og antal skær

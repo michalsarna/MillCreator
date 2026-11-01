@@ -430,3 +430,7 @@
 429|Il-G-code qed jintwera, xejn ma nħażen
 430|G-code proprju tal-apparat: {}
 431|Fil-bidla tal-frieża u tal-operazzjoni wkoll:
+432|Veloċità tat-qtugħ (Vc)
+433|Avanz għal kull sinna (fz)
+434|Avanz ta' tqegħid għal kull sinna
+435|Mill-frieża: dijametru u għadd ta' xfafar

@@ -430,3 +430,7 @@
 429|G-code este afișat, nu se salvează nimic
 430|G-code propriu al dispozitivului: {}
 431|La schimbarea frezei și a operației și:
+432|Viteză de așchiere (Vc)
+433|Avans pe dinte (fz)
+434|Avans de pătrundere pe dinte
+435|De la freză: diametrul și numărul de tăișuri
