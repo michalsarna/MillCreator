@@ -440,3 +440,5 @@
 439|Kitas spustelėjimas darbo srityje nustato nulį (jis prisitraukia prie formų kampų ir vidurio taškų); ašių piktogramą galima vilkti
 440|Spustelėkite darbo sritį, kad nustatytumėte programos nulį (Esc atšaukia)
 441|Programos nulis yra ties X {} Y {}
+442|Įkelti šabloną
+443|Šablono frezos bibliotekoje nėra: sluoksnis be frezos

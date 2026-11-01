@@ -440,3 +440,5 @@
 439|Nästa klick på arbetsytan sätter nollpunkten (den fäster vid hörn och mittpunkter av former); axelikonen kan dras
 440|Klicka på arbetsytan för att sätta programmets nollpunkt (Esc avbryter)
 441|Programmets nollpunkt är vid X {} Y {}
+442|Läs in förinställning
+443|Fräsen från förinställningen finns inte i biblioteket: lagret har ingen fräs

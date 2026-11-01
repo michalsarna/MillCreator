@@ -440,3 +440,5 @@
 439	The next click on the work area sets the zero (it snaps to the corners and the middles of the shapes); the icon of the axes can be dragged
 440	Click the work area to set the zero of the program (Esc cancels)
 441	The zero of the program is at X {} Y {}
+442	Load preset
+443	The bit of the preset is not in the library: the layer has no bit

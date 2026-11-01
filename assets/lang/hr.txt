@@ -440,3 +440,5 @@
 439|Sljedeći klik na radnom području postavlja nulu (hvata se za kutove i sredine oblika); ikona osi može se povlačiti
 440|Kliknite radno područje da postavite nulu programa (Esc poništava)
 441|Nula programa je na X {} Y {}
+442|Učitaj predložak
+443|Glodalo iz predloška nije u biblioteci: sloj nema glodalo
