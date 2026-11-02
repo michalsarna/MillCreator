@@ -158,9 +158,11 @@ impl App {
     /// The G-code of the project as text in a tab of its own (coloured, open to edits); nothing is written to the disk. A project has
     /// one such tab: when it is open already it is shown (and made again when nothing was changed by hand).
     pub(crate) fn preview_gcode(&mut self) {
-        let name = format!("{}.nc", self.gcode_name());
+        // The name of the project goes into the G-code (as when it is exported); the name of the file is the tab's.
+        let stem = self.gcode_name();
+        let name = format!("{stem}.nc");
         let slot = self.slot;
-        let Some((text, prog)) = self.gcode_text(&name) else { return };
+        let Some((text, prog)) = self.gcode_text(&stem) else { return };
         match self.gcode_texts.iter_mut().find(|g| g.slot == slot) {
             Some(g) => {
                 if !g.dirty() {

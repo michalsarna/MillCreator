@@ -818,16 +818,15 @@ impl App {
         if ctx.egui_wants_keyboard_input() {
             return;
         }
-        // The Ctrl/Cmd keys of the menus, in the window menu bar (the native bar of macOS has them itself).
+        // The Ctrl/Cmd keys of the menus. The native bar of macOS has only the keys of the entries it owns (New, Open, Save, Save as); the
+        // others are taken here, on every system.
         #[cfg(target_os = "macos")]
         let native_bar = self.native_menu.is_some();
         #[cfg(not(target_os = "macos"))]
         let native_bar = false;
-        if !native_bar {
-            if let Some(a) = base_ui::menu::shortcut_act(ctx, &crate::menu::menus(), |a| base_ui::menu::MenuHost::act_enabled(self, a)) {
-                base_ui::menu::MenuHost::run_act(self, ctx, a);
-                return;
-            }
+        if let Some(a) = base_ui::menu::shortcut_act(ctx, &crate::menu::menus(), |a| base_ui::menu::MenuHost::act_enabled(self, a) && !(native_bar && native_menu::owns_shortcut(a))) {
+            base_ui::menu::MenuHost::run_act(self, ctx, a);
+            return;
         }
         // Ctrl+1 … Ctrl+0 show a tab, Ctrl+W closes the shown one.
         match base_ui::doc_tabs::shortcut(ctx) {
@@ -863,11 +862,6 @@ impl App {
                     self.ungroup_selection();
                 } else {
                     self.group_selection();
-                }
-            } else if pressed(egui::Key::E) && !shift {
-                // Ctrl+E: Export G-code (the native menu of macOS has the key itself).
-                if !native && self.screen == Screen::Editor {
-                    self.export_gcode();
                 }
             } else if !native && pressed(egui::Key::N) {
                 self.new_tab();
@@ -2316,6 +2310,9 @@ mod tests {
         a.preview_gcode();
         assert_eq!(a.gcode_texts.len(), 1);
         assert!(a.gcode_texts[0].name.ends_with(".nc") && a.gcode_texts[0].text.contains("M30"), "{}", a.gcode_texts[0].name);
+        // The first line has the name of the project, as the exported file has (not the name of the file).
+        let first = a.gcode_texts[0].text.lines().next().unwrap_or_default().to_string();
+        assert!(first.starts_with("(MillCreator: ") && !first.contains(".nc"), "{first}");
         // A second press does not make a second tab; an untouched text is made again.
         a.preview_gcode();
         assert_eq!(a.gcode_texts.len(), 1);
