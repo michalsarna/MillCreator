@@ -2,7 +2,7 @@
 
 # Biblioteka frezów
 
-**Milling → Bit library…** (albo przycisk **…** obok freza warstwy) otwiera bibliotekę. Po lewej: **gotowe frezy** programu i **My bits** (twoje). Po prawej: rysunek wybranego freza, jego wymiary, startowe prędkości i notatki.
+**Frezowanie → Biblioteka frezów…** (albo przycisk **…** obok freza warstwy) otwiera bibliotekę. Po lewej: **Gotowe frezy** programu i **Moje frezy** (My bits). Po prawej: rysunek wybranego freza, jego wymiary, startowe prędkości i notatki.
 
 ![Biblioteka frezów, frez V](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/11-bits-vbit.png)
 
@@ -27,11 +27,13 @@ Każdy rodzaj freza jest narysowany w przekroju z **literą każdego wymiaru tam
 | Wiertło | D, A kąt ostrza, L, S, O |
 
 ## Twoje frezy
-* **New bit** tworzy frez ze zwykłymi wartościami; **Copy** robi kopię wybranego freza (także gotowego) wśród twoich; **Delete** usuwa jeden z twoich. Gotowych frezów nie można zmieniać ani usuwać; skopiuj, żeby zmienić.
+* **Nowy frez** tworzy frez ze zwykłymi wartościami; **Kopiuj** robi kopię wybranego freza (także gotowego) wśród twoich; **Usuń** usuwa jeden z twoich. Gotowych frezów nie można zmieniać ani usuwać; skopiuj, żeby zmienić.
 * Zmiany zapisują się, gdy tylko liczby są poprawne (długość skrawająca nie może być większa niż frez, promień naroża nie większy niż połowa średnicy, końcówka nie szersza niż frez). Błędna liczba jest wyjaśniona pod frezem i nie jest zapisywana.
-* **My bits są zapisywane raz, dla wszystkich urządzeń**, razem z ustawieniami programu.
-* **Export…** zapisuje wszystkie twoje frezy do pliku JSON; **Export this bit…** zapisuje wybrany (także gotowy). **Import…** wczytuje taki plik: każdy frez jest sprawdzany, dostaje własny identyfikator i nazwę, a frez z błędną liczbą jest pomijany i wymieniony. Nowszy format lub plik ponad 4 MB są odrzucane.
-* Projekt niesie frezy, których używają jego warstwy (zobacz [Plik projektu](Plik-projektu)). Otwarty tam, gdzie ich brakuje, dodaje je do **My bits**, a pasek stanu o tym mówi.
+* **Moje frezy są zapisywane raz, dla wszystkich urządzeń**, razem z ustawieniami programu.
+* **Eksportuj…** zapisuje wszystkie twoje frezy do pliku JSON; **Eksportuj ten frez…** zapisuje wybrany (także gotowy). **Importuj…** wczytuje taki plik: każdy frez jest sprawdzany, dostaje własny identyfikator i nazwę, a frez z błędną liczbą jest pomijany i wymieniony. Nowszy format lub plik ponad 4 MB są odrzucane.
+* Projekt niesie frezy, których używają jego warstwy (zobacz [Plik projektu](Plik-projektu)). Otwarty tam, gdzie ich brakuje, dodaje je do **Moich frezów**, a pasek stanu o tym mówi.
 
-## Prędkości startowe
-Każdy frez ma posuw, posuw wejścia, **posuw rampy** (dla rampy lub helisy w dół; 0 = posuw wejścia), obroty, głębokość przejścia (procent średnicy), krok boczny (procent) i liczbę ostrzy. Warstwa bierze je po wyborze freza. Wartości gotowych frezów to ostrożne punkty wyjścia dla miękkiego drewna i plastiku: **dopasuj je do swojej maszyny, materiału i freza**.
+## Prędkości początkowe
+Każdy frez ma posuw, posuw wejścia, **posuw rampy** (dla rampy lub helisy w dół; 0 = posuw wejścia), obroty, głębokość przejścia (procent średnicy), krok boczny (procent) i liczbę ostrzy. Warstwa bierze je po wyborze freza (sekcja **Prędkości początkowe dla warstwy**). Pod nimi **Prędkość skrawania (Vc)**, **Posuw na ząb (fz)** i **Posuw wgłębny na ząb** są liczone ze średnicy i **Liczby ostrzy**; wpisanie jednej z nich zmienia obroty albo posuw (zob. [Warstwy i operacje](Warstwy-i-operacje#prędkość-skrawania-i-posuw-na-ząb)). Wartości gotowych frezów to ostrożne punkty wyjścia dla miękkiego drewna i plastiku: **dopasuj je do swojej maszyny, materiału i freza**.
+
+**Numer w zmieniaczu** (Changer number) to miejsce freza w zmieniaczu narzędzi: przy urządzeniu z włączonym **Zmieniaczem narzędzi** (ustawienia urządzenia, strona Wrzeciono) program prosi o frez przez `T<numer> M6` i jedzie dalej bez pauzy. 0 znaczy, że frezu nie ma w zmieniaczu, i maszyna jak zwykle zatrzymuje się na ręczną wymianę. Numer to też zmienna `{tool_number}` własnego G-code.
