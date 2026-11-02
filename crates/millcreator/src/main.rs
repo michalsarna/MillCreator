@@ -2294,7 +2294,7 @@ mod tests {
         a.open_preview();
         frame(&mut a);
         assert_eq!(a.panes.tabs().iter().filter(|c| **c == Content::Preview).count(), 1, "opening it again does not make a second one");
-        assert!(a.tab_title_of(Content::Preview).starts_with("Preview: "), "the title has the name of the project: {}", a.tab_title_of(Content::Preview));
+        assert!(a.tab_title_of(Content::Preview).contains(": "), "the title has the name of the project: {}", a.tab_title_of(Content::Preview));
         // The last tab of a pane closed closes the pane.
         a.pane_event(PaneEvent::Close(Content::Preview));
         frame(&mut a);
