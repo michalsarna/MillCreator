@@ -6,7 +6,7 @@ Ctrl w Windows i Linuksie to **Cmd** na macOS. Klawisze działają w edytorze (n
 
 ## Klawisze menu
 
-Klawisze pokazane obok pozycji menu (zob. [Menu](Menu)). W Windows i Linuksie działają w oknie, gdy tylko otwarty jest rysunek, a pozycja, która w tej chwili jest szara, nic nie robi. Dla macOS zob. [niżej](#macos).
+Klawisze pokazane obok pozycji menu (zob. [Menu](Menu)). Działają, gdy tylko otwarty jest rysunek, w Windows, Linuksie i na macOS, a pozycja, która w tej chwili jest szara, nic nie robi. O pasku menu macOS zob. [niżej](#macos).
 
 | Klawisz | Pozycja | Menu |
 |---|---|---|
@@ -97,8 +97,7 @@ Na karcie **Sterowanie** (Control), gdy zaznaczona jest **Klawiatura** (Keyboard
 
 ## macOS
 
-Na macOS program używa paska menu systemu, a klawisze idą inną drogą niż w Windows i Linuksie:
+Na macOS program używa paska menu systemu. Wszystkie klawisze z tej strony działają tam tak jak w Windows i Linuksie, z Cmd zamiast Ctrl:
 
-* Pasek menu systemu ma klawisze **Nowy** (Cmd+N), **Otwórz…** (Cmd+O), **Zapisz** (Cmd+S), **Zapisz jako…** (Cmd+Shift+S) i **Zakończ** (Cmd+Q) i pokazuje je obok tych pozycji.
-* Sam program przyjmuje Cmd+Z, Cmd+Shift+Z, Cmd+Y, Cmd+C, Cmd+V, Cmd+D, Cmd+A, Cmd+G, Cmd+Shift+G, Delete / Backspace, Esc, Cmd+1 … Cmd+0, Cmd+W i litery narzędzi, tak jak na innych systemach (menu macOS tych klawiszy nie pokazuje).
-* Pozostałe klawisze menu, **Cmd+E** (eksport G-code), **Cmd+Shift+P** (widok 3D), **Cmd+L** / **Cmd+Shift+L** (zablokuj, odblokuj), **Cmd+=** / **Cmd+-** (powiększanie) i **Cmd+Shift+0** / **Cmd+Shift+9** (dopasowanie), w tej wersji nie działają na macOS: użyj pozycji menu, przycisków **Zapisz G-code** i **Podgląd…**, kółka i narzędzi powiększania (Z, X).
+* Pasek menu systemu przejmuje klawisze **Nowy** (Cmd+N), **Otwórz…** (Cmd+O), **Zapisz** (Cmd+S), **Zapisz jako…** (Cmd+Shift+S) i **Zakończ** (Cmd+Q, w menu **MillCreator**) i pokazuje je obok tych pozycji.
+* Wszystkie pozostałe klawisze program przyjmuje sam, tak samo jak na innych systemach: Cmd+E, Cmd+Shift+P, Cmd+L, Cmd+Shift+L, Cmd+= / Cmd+-, Cmd+Shift+0 / Cmd+Shift+9, klawisze edycji, Cmd+1 … Cmd+0, Cmd+W i litery narzędzi. Pasek menu systemu nie pokazuje tych klawiszy obok pozycji; pokazuje je ta strona i pasek menu w Windows i Linuksie.

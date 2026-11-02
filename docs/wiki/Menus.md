@@ -7,7 +7,7 @@ The menus have the same layout in LightCreator, MillCreator and PenCreator (it c
 **File · Edit · Insert · Arrange · View · Machine · Milling · Settings · Help**
 
 * **Windows and Linux:** the menu bar is in the window, under the title bar, once a drawing is open (the start screen has no menu bar). The keys of the entries work there too (see [Keyboard Shortcuts](Keyboard-Shortcuts)).
-* **macOS:** the menus are in the menu bar of the system at the top of the screen, also on the start screen (an entry that needs a drawing is grey there). The first menu, **MillCreator**, holds **About MillCreator**, the services, hide / show and **Quit** (Cmd+Q), so **File** has no *Quit* and **Help** no *About*. The keys of the menus behave a little differently on macOS: see [Keyboard Shortcuts](Keyboard-Shortcuts#macos).
+* **macOS:** the menus are in the menu bar of the system at the top of the screen, also on the start screen (an entry that needs a drawing is grey there). The first menu, **MillCreator**, holds **About MillCreator**, the services, hide / show and **Quit** (Cmd+Q), so **File** has no *Quit* and **Help** no *About*. The keys of the menus work there too, but the system bar shows only those of New, Open, Save, Save as and Quit: see [Keyboard Shortcuts](Keyboard-Shortcuts#macos).
 
 The keys are written as on Windows and Linux (Ctrl); on macOS Ctrl is Cmd. An entry that cannot be used now is grey (for example **Save**, **3D view of the job…** and **Export G-code…** while no drawing is open, **Centre on each other** with fewer than two shapes selected, **Adjust image…** and **Trace image…** without a picture selected).
 

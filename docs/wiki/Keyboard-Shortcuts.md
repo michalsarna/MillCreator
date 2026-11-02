@@ -6,7 +6,7 @@ Ctrl on Windows and Linux is **Cmd** on macOS. The keys work in the editor (not 
 
 ## Keys of the menus
 
-The keys shown next to the entries of the menus (see [Menus](Menus)). On Windows and Linux they work in the window as soon as a drawing is open, and an entry that is grey at that moment does nothing. For macOS see [below](#macos).
+The keys shown next to the entries of the menus (see [Menus](Menus)). They work as soon as a drawing is open, on Windows, Linux and macOS, and an entry that is grey at that moment does nothing. For the menu bar of macOS see [below](#macos).
 
 | Key | Entry | Menu |
 |---|---|---|
@@ -97,8 +97,7 @@ On the **Control** tab, with **Keyboard** ticked (off by default): the arrow key
 
 ## macOS
 
-On macOS the program uses the menu bar of the system, and the keys go a different way than on Windows and Linux:
+On macOS the program uses the menu bar of the system. All the keys on this page work there as on Windows and Linux, with Cmd for Ctrl:
 
-* The menu bar of the system has the keys of **New** (Cmd+N), **Open…** (Cmd+O), **Save** (Cmd+S), **Save as…** (Cmd+Shift+S) and **Quit** (Cmd+Q), and shows them next to these entries.
-* The program itself takes Cmd+Z, Cmd+Shift+Z, Cmd+Y, Cmd+C, Cmd+V, Cmd+D, Cmd+A, Cmd+G, Cmd+Shift+G, Delete / Backspace, Esc, Cmd+1 … Cmd+0, Cmd+W and the letters of the tools, as on the other systems (the menus of macOS do not show these keys).
-* The other keys of the menus, **Cmd+E** (Export G-code), **Cmd+Shift+P** (3D view), **Cmd+L** / **Cmd+Shift+L** (Lock, Unlock), **Cmd+=** / **Cmd+-** (zoom) and **Cmd+Shift+0** / **Cmd+Shift+9** (fit), are not taken on macOS in this version: use the menu entries, the **Save G-code** and **Preview…** buttons, the wheel and the zoom tools (Z, X).
+* The menu bar of the system takes the keys of **New** (Cmd+N), **Open…** (Cmd+O), **Save** (Cmd+S), **Save as…** (Cmd+Shift+S) and **Quit** (Cmd+Q, in the **MillCreator** menu) and shows them next to these entries.
+* The program takes all the other keys itself, the same way as on the other systems: Cmd+E, Cmd+Shift+P, Cmd+L, Cmd+Shift+L, Cmd+= / Cmd+-, Cmd+Shift+0 / Cmd+Shift+9, the editing keys, Cmd+1 … Cmd+0, Cmd+W and the letters of the tools. The menu bar of the system does not show these keys next to the entries; this page and the menu bar of Windows and Linux do.

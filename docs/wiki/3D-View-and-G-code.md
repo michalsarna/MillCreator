@@ -14,7 +14,7 @@ From the shapes, the layers, the bits and the device the program makes the moves
 **Toolpaths** (the green button in the bar above the work area) draws the cuts over the drawing in the colour of their layer and the moves above the material in blue-grey; press it again to hide them. The paths follow every change of the drawing.
 
 ## The preview
-**Preview…** (the button above the work area) or **Milling → 3D view of the job…** (Ctrl+Shift+P on Windows and Linux) opens the **Preview** tab, titled *Preview: name of the project*. It is a tab of the work area like the drawings: drag it to another pane, or right-click it and choose **Open in a separate window** (**Back to the main window** puts it back). Its cross closes it. The preview follows the active drawing and makes the program again after every change of the project.
+**Preview…** (the button above the work area) or **Milling → 3D view of the job…** (Ctrl+Shift+P) opens the **Preview** tab, titled *Preview: name of the project*. It is a tab of the work area like the drawings: drag it to another pane, or right-click it and choose **Open in a separate window** (**Back to the main window** puts it back). Its cross closes it. The preview follows the active drawing and makes the program again after every change of the project.
 
 It shows only the area of the job, **10 % larger than the job** in each direction, as a block of the chosen material with its thickness.
 
@@ -44,7 +44,7 @@ The carved block is a picture on a grid (finer for a small job), and the time is
 
 ## The G-code as text: Preview G-code
 
-**Preview G-code** (next to **Save G-code** above the work area) makes the program of the project, through the postprocessors that are on, and shows it **as text in a tab** (*Preview G-code: name.nc*), without writing a file. A project has one such tab; pressing the button again shows it.
+**Preview G-code** (next to **Save G-code** above the work area) makes the program of the project, through the postprocessors that are on, and shows it **as text in a tab** (*Preview G-code: name.nc*), without writing a file. It is the same program **Export G-code…** writes, starting with `(MillCreator: name of the project)`. A project has one such tab; pressing the button again shows it.
 
 * The text is **coloured** (the G and M words, the axes, the speeds and the tools, the line numbers, the comments) and **can be edited** by hand. A tab with edits is marked with a dot, and *Changed by hand* stands in its bar.
 * **Save G-code** in the tab writes the text as it is to a file.
@@ -56,7 +56,7 @@ The carved block is a picture on a grid (finer for a small job), and the time is
 The tab can be moved to another pane or into a window of its own like the preview.
 
 ## Export G-code
-**Save G-code** (the button above the work area), **Milling → Export G-code…** (Ctrl+E on Windows and Linux) or **File → Export ▸ Export G-code…** asks for a file (`name.nc`; `.gcode` and `.ngc` can be chosen) and writes the program. The status bar says where it went and repeats the warnings of the job. With **Settings → View options… → Preview G-code after saving** (off by default) the saved file then opens in the **G-code analysis**.
+**Save G-code** (the button above the work area), **Milling → Export G-code…** (Ctrl+E) or **File → Export ▸ Export G-code…** asks for a file (`name.nc`; `.gcode` and `.ngc` can be chosen) and writes the program. The status bar says where it went and repeats the warnings of the job. With **Settings → View options… → Preview G-code after saving** (off by default) the saved file then opens in the **G-code analysis**.
 
 The file is GRBL-style:
 

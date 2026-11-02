@@ -62,13 +62,13 @@ Ptaszek na liście bierze warstwę do ścieżek i G-code; oko ją pokazuje albo 
 ## 6. Obejrzyj zadanie
 
 * **Ścieżki** (Toolpaths, zielony przycisk nad obszarem roboczym) rysują drogi freza na rysunku.
-* **Podgląd…** albo **Frezowanie → Widok 3D zadania…** (Ctrl+Shift+P w Windows i Linuksie) otwiera kartę **Podgląd**: blok materiału z wyrzeźbionymi cięciami, ruchy na bezpiecznej wysokości, animację z suwakiem, czas i długość cięć oraz ostrzeżenia (warstwa bez freza, głębiej niż materiał, poza obszarem roboczym…). Zob. [Widok 3D i G-code](Widok-3D-i-G-code).
+* **Podgląd…** albo **Frezowanie → Widok 3D zadania…** (Ctrl+Shift+P) otwiera kartę **Podgląd**: blok materiału z wyrzeźbionymi cięciami, ruchy na bezpiecznej wysokości, animację z suwakiem, czas i długość cięć oraz ostrzeżenia (warstwa bez freza, głębiej niż materiał, poza obszarem roboczym…). Zob. [Widok 3D i G-code](Widok-3D-i-G-code).
 * **Podgląd G-code** pokazuje sam program w karcie (*Podgląd G-code: nazwa.nc*), pokolorowany, bez zapisywania czegokolwiek. Tekst można edytować; **Zapisz G-code** w karcie go zapisuje, **Wygeneruj ponownie** robi go od nowa z projektu, **Analizuj** pokazuje jego ścieżki.
 
 ## 7. Zapisz projekt i G-code
 
 * **Plik → Zapisz** (Ctrl+S) zachowuje projekt jako plik `.cre`.
-* **Zapisz G-code** (przycisk nad obszarem roboczym), **Frezowanie → Eksportuj G-code…** albo **Ctrl+E** (Windows i Linux; o macOS zob. [Skróty klawiszowe](Skroty-klawiszowe#macos)) pyta o plik (`nazwa.nc`) i zapisuje G-code, przez włączone postprocesory wtyczek. Z **Ustawienia → Opcje widoku… → Podgląd G-code po zapisaniu** zapisany plik otwiera się w analizie G-code.
+* **Zapisz G-code** (przycisk nad obszarem roboczym), **Frezowanie → Eksportuj G-code…** albo **Ctrl+E** pyta o plik (`nazwa.nc`) i zapisuje G-code, przez włączone postprocesory wtyczek. Z **Ustawienia → Opcje widoku… → Podgląd G-code po zapisaniu** zapisany plik otwiera się w analizie G-code.
 * Tekst karty **Opis** (Description) trafia na początek G-code jako komentarze `(Note: …)`.
 
 ## 8. Na maszynie

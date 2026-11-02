@@ -62,13 +62,13 @@ The tick in the list takes a layer into the toolpaths and the G-code; the eye sh
 ## 6. Look at the job
 
 * **Toolpaths** (the green button above the work area) draws the paths of the bit over the drawing.
-* **Preview…** or **Milling → 3D view of the job…** (Ctrl+Shift+P on Windows and Linux) opens the **Preview** tab: the block of material with the cuts carved in it, the moves at the safe height, an animation with a slider, the time and the length of the cuts, and the warnings (a layer without a bit, deeper than the material, outside the work area…). See [3D View and G-code](3D-View-and-G-code).
+* **Preview…** or **Milling → 3D view of the job…** (Ctrl+Shift+P) opens the **Preview** tab: the block of material with the cuts carved in it, the moves at the safe height, an animation with a slider, the time and the length of the cuts, and the warnings (a layer without a bit, deeper than the material, outside the work area…). See [3D View and G-code](3D-View-and-G-code).
 * **Preview G-code** shows the program itself in a tab (*Preview G-code: name.nc*), coloured, without saving anything. The text can be edited; **Save G-code** in the tab writes it, **Make again** makes it from the project again, **Analyse** shows its toolpaths.
 
 ## 7. Save the project and the G-code
 
 * **File → Save** (Ctrl+S) keeps the project as a `.cre` file.
-* **Save G-code** (the button above the work area), **Milling → Export G-code…** or **Ctrl+E** (Windows and Linux; see [Keyboard Shortcuts](Keyboard-Shortcuts#macos) for macOS) asks for a file (`name.nc`) and writes the G-code, through the postprocessors of plugins that are on. With **Settings → View options… → Preview G-code after saving** the saved file opens in the G-code analysis.
+* **Save G-code** (the button above the work area), **Milling → Export G-code…** or **Ctrl+E** asks for a file (`name.nc`) and writes the G-code, through the postprocessors of plugins that are on. With **Settings → View options… → Preview G-code after saving** the saved file opens in the G-code analysis.
 * The text of the **Description** tab goes into the G-code as `(Note: …)` comments at the top.
 
 ## 8. On the machine

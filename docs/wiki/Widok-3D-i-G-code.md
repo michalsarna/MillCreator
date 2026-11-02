@@ -14,7 +14,7 @@ Z kształtów, warstw, frezów i urządzenia program tworzy ruchy maszyny. Wspó
 **Ścieżki** (Toolpaths, zielony przycisk na pasku nad obszarem roboczym) rysują cięcia na rysunku kolorem ich warstwy, a ruchy nad materiałem szaroniebiesko; ponowne naciśnięcie je ukrywa. Ścieżki idą za każdą zmianą rysunku.
 
 ## Podgląd
-**Podgląd…** (Preview…, przycisk nad obszarem roboczym) albo **Frezowanie → Widok 3D zadania…** (Ctrl+Shift+P w Windows i Linuksie) otwiera kartę **Podgląd** z tytułem *Podgląd: nazwa projektu*. To karta obszaru roboczego jak rysunki: przeciągnij ją do innego panelu albo kliknij ją prawym przyciskiem i wybierz **Otwórz w osobnym oknie** (**Wróć do głównego okna** ją odkłada). Jej krzyżyk ją zamyka. Podgląd idzie za aktywnym rysunkiem i po każdej zmianie projektu tworzy program od nowa.
+**Podgląd…** (Preview…, przycisk nad obszarem roboczym) albo **Frezowanie → Widok 3D zadania…** (Ctrl+Shift+P) otwiera kartę **Podgląd** z tytułem *Podgląd: nazwa projektu*. To karta obszaru roboczego jak rysunki: przeciągnij ją do innego panelu albo kliknij ją prawym przyciskiem i wybierz **Otwórz w osobnym oknie** (**Wróć do głównego okna** ją odkłada). Jej krzyżyk ją zamyka. Podgląd idzie za aktywnym rysunkiem i po każdej zmianie projektu tworzy program od nowa.
 
 Pokazuje tylko obszar zadania, **o 10 % większy niż zadanie** w każdym kierunku, jako blok wybranego materiału o jego grubości.
 
@@ -44,7 +44,7 @@ Wyżłobiony blok to obraz na siatce (gęstszej dla małego zadania), a czas to 
 
 ## G-code jako tekst: Podgląd G-code
 
-**Podgląd G-code** (Preview G-code, obok **Zapisz G-code** nad obszarem roboczym) robi program projektu, przez włączone postprocesory, i pokazuje go **jako tekst w karcie** (*Podgląd G-code: nazwa.nc*), bez zapisywania pliku. Projekt ma jedną taką kartę; ponowne naciśnięcie przycisku ją pokazuje.
+**Podgląd G-code** (Preview G-code, obok **Zapisz G-code** nad obszarem roboczym) robi program projektu, przez włączone postprocesory, i pokazuje go **jako tekst w karcie** (*Podgląd G-code: nazwa.nc*), bez zapisywania pliku. To ten sam program, który zapisuje **Eksportuj G-code…**, zaczynający się od `(MillCreator: nazwa projektu)`. Projekt ma jedną taką kartę; ponowne naciśnięcie przycisku ją pokazuje.
 
 * Tekst jest **pokolorowany** (słowa G i M, osie, prędkości i narzędzia, numery linii, komentarze) i **można go ręcznie edytować**. Karta z ręcznymi zmianami ma kropkę, a na jej pasku stoi *Zmieniony ręcznie*.
 * **Zapisz G-code** w karcie zapisuje tekst taki, jaki jest, do pliku.
@@ -56,7 +56,7 @@ Wyżłobiony blok to obraz na siatce (gęstszej dla małego zadania), a czas to 
 Kartę można przenieść do innego panelu albo do osobnego okna, jak podgląd.
 
 ## Eksport G-code
-**Zapisz G-code** (przycisk nad obszarem roboczym), **Frezowanie → Eksportuj G-code…** (Ctrl+E w Windows i Linuksie) albo **Plik → Eksport ▸ Eksportuj G-code…** pyta o plik (`nazwa.nc`; można wybrać `.gcode` i `.ngc`) i zapisuje program. Pasek stanu mówi, dokąd trafił, i powtarza ostrzeżenia zadania. Z **Ustawienia → Opcje widoku… → Podgląd G-code po zapisaniu** (domyślnie wyłączone) zapisany plik otwiera się potem w analizie G-code.
+**Zapisz G-code** (przycisk nad obszarem roboczym), **Frezowanie → Eksportuj G-code…** (Ctrl+E) albo **Plik → Eksport ▸ Eksportuj G-code…** pyta o plik (`nazwa.nc`; można wybrać `.gcode` i `.ngc`) i zapisuje program. Pasek stanu mówi, dokąd trafił, i powtarza ostrzeżenia zadania. Z **Ustawienia → Opcje widoku… → Podgląd G-code po zapisaniu** (domyślnie wyłączone) zapisany plik otwiera się potem w analizie G-code.
 
 Plik jest w stylu GRBL:
 
