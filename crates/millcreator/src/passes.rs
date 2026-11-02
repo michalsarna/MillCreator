@@ -289,6 +289,9 @@ fn helix_place(ring: &Polyline, holes: &[Polyline], start: Pt, radius: f64) -> O
 pub(crate) fn ring_passes(b: &mut Builder, ring: &Polyline, depths: &[f64], plan: &Plan, hole: bool, holes: &[Polyline], quiet: bool, notes: &mut Notes) {
     let Some(mut rp) = RingPass::new(ring, plan, hole, holes, quiet, notes) else { return };
     for (i, d) in depths.iter().enumerate() {
+        if depths.len() > 1 {
+            b.note(format!("Depth {} of {}: {} mm", i + 1, depths.len(), crate::toolpath::num(*d)));
+        }
         rp.pass(b, *d, i == 0, notes);
     }
 }
@@ -312,6 +315,7 @@ pub(crate) fn rings_staying_down(b: &mut Builder, rings: &[Polyline], hole: &[bo
     let wide = ops::offset(region, 0.02);
     let mut rp: Vec<RingPass> = rings.iter().zip(hole).enumerate().filter_map(|(i, (r, h))| RingPass::new(r, plan, *h, holes, i > 0, notes)).collect();
     for (k, d) in depths.iter().enumerate() {
+        b.note(format!("Depth {} of {}: {} mm, all the rings", k + 1, depths.len(), crate::toolpath::num(*d)));
         let mut at: Option<Pt> = None;
         for p in rp.iter_mut() {
             let start = p.start();
@@ -498,6 +502,9 @@ pub(crate) fn open_passes(b: &mut Builder, line: &Polyline, depths: &[f64], plan
     let tan = plan.angle.to_radians().tan();
     let mut z_from = 0.0;
     for (i, d) in depths.iter().enumerate() {
+        if depths.len() > 1 {
+            b.note(format!("Depth {} of {}: {} mm", i + 1, depths.len(), crate::toolpath::num(*d)));
+        }
         let z_to = -d;
         let pts: Vec<Pt> = if i % 2 == 0 { here.clone() } else { here.iter().rev().copied().collect() };
         if i == 0 {
