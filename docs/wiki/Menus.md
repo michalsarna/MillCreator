@@ -96,7 +96,7 @@ All of them are explained in [Design Tools](Design-Tools).
 | **Single view** | | All the tabs in one pane again. |
 | **Background picture…** | | A photo or plan under the drawing. See [Design Tools](Design-Tools#background-picture-view-menu-and-the-trace-dialog). |
 
-Panes and tabs: [Design Tools](Design-Tools).
+Panes and tabs: [Panes and Tabs](Panes-and-Tabs).
 
 ## Machine
 

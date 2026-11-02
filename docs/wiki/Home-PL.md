@@ -15,6 +15,7 @@ Otwartoźródłowy program do projektowania i przygotowania zadań dla frezarek 
 | Zainstalować program | [Instalacja](Instalacja) |
 | Przygotować pierwsze zadanie | [Szybki start](Szybki-start) |
 | Rysować, edytować i importować kształty | [Narzędzia projektowe](Narzedzia-projektowe) |
+| Ułożyć obszar roboczy: panele, karty, okna | [Panele i karty](Panele-i-karty) |
 | Dodać maszynę i kamerę | [Urządzenia i kamery](Urzadzenia-i-kamery) |
 | Powiedzieć, co jest frezowane i jak | [Warstwy i operacje](Warstwy-i-operacje) |
 | Wybrać lub zdefiniować frez | [Biblioteka frezów](Biblioteka-frezow) |

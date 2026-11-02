@@ -15,6 +15,7 @@ Open-source software to design and prepare CNC milling jobs, written in Rust. Dr
 | Install the program | [Installation](Installation) |
 | Prepare my first job | [Quick Start](Quick-Start) |
 | Draw, edit and import shapes | [Design Tools](Design-Tools) |
+| Arrange the work area: panes, tabs, windows | [Panes and Tabs](Panes-and-Tabs) |
 | Add my machine and a camera | [Devices and Cameras](Devices-and-Cameras) |
 | Say what is milled and how | [Layers and Operations](Layers-and-Operations) |
 | Choose or define a bit | [Bit Library](Bit-Library) |
