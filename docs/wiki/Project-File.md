@@ -5,8 +5,8 @@
 MillCreator saves **`.cre`**, the project file of baseCreator that LightCreator writes too: one JSON file with the drawing, the description and **one section per program**. Each program writes its own section and keeps the sections of the others untouched, so a project passes between programs without losing anything.
 
 MillCreator's section is called `mill`. It holds:
-* the **64 layers** (name, colour, operation, bit, depth, pass depth, step over, feeds, spindle speed),
-* the **material** (kind, colour, thickness),
+* the **64 layers** with all their settings (name, colour, order, operation, bit, depths, step over, feeds, spindle speed, direction, entry, tabs and the tabs placed by hand, coolant…),
+* the **material** (kind, colour, thickness, the first pass) and the **project setup** (the size of the piece, the zero of the program on it, Z from the bottom),
 * a **snapshot of the device** (name and the work area),
 * the **bits the layers use**, so the project can be opened where they are not in the library.
 
@@ -14,4 +14,4 @@ Opening a project from LightCreator (or a plain SVG, PDF or LightBurn file) give
 
 The device itself is not in the project, only its snapshot: the device in use is the one selected on the start screen. The status bar warns when the work area of the snapshot is not the one of that device.
 
-The description of the project (**Description** tab) is part of the shared container, so LightCreator shows the same text.
+The description of the project (**Description** tab) is part of the shared container, so LightCreator shows the same text. MillCreator also writes it at the top of the G-code as `(Note: …)` comments (see [3D View and G-code](3D-View-and-G-code#export-g-code)).

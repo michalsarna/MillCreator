@@ -7,7 +7,7 @@
 * **Najpierw w powietrzu:** podnieś maszynę tak, żeby frez niczego nie dotknął, uruchom G-code i obserwuj ścieżkę. Dopiero potem tanim kawałkiem.
 * Noś ochronę oczu i słuchu, zamocuj materiał, trzymaj rękę blisko przycisku stop, nigdy nie zostawiaj pracującej maszyny bez nadzoru.
 * **Posuwy i obroty** gotowych frezów to ostrożne punkty wyjścia; nie były sprawdzane na twojej maszynie.
-* **Sprawdź zero:** G-code liczy od zera maszyny ustawionego w urządzeniu (który róg) i od Z = 0 na wierzchu materiału. Jeśli użyłeś **File → Project setup…**, liczy od zera wybranego na materiale (G54 z tym zerem: ustaw je tam na maszynie) i, jeśli tak wybrano, Z od spodu materiału. Ustaw to samo na maszynie i obejrzyj pierwsze ruchy z frezem w powietrzu.
+* **Sprawdź zero:** G-code liczy od zera maszyny ustawionego w urządzeniu (który róg) i od Z = 0 na wierzchu materiału. Jeśli użyłeś **Plik → Ustawienia projektu…**, liczy od zera wybranego na materiale (G54 z tym zerem: ustaw je tam na maszynie) i, jeśli tak wybrano, Z od spodu materiału. Ustaw to samo na maszynie i obejrzyj pierwsze ruchy z frezem w powietrzu.
 * **Co jest testowane:** geometria ścieżek (odległość od linii, przejścia, bezpieczna wysokość), biblioteka frezów z jej sprawdzaniem i plikami, pliki urządzeń, plik projektu i tekst G-code, automatycznymi testami przy każdej zmianie. Obrazy w tej wiki generuje sam program.
 
 ## Czego nie robi
@@ -17,7 +17,7 @@
 * **V-carve:** ściany są dokładne niezależnie od odstępu pierścieni, ale płaskie dno szerokiego kształtu jest frezowane samym frezem V (grzbiety, długi program; program o tym ostrzega): użyj do niego freza płaskiego w warstwie Pocket. Wkładkę inlaya rzeźbi się na odwrocie kawałka: odbij jej kształty lustrzanie.
 * Rampy, helisy, mostki i wybór współbieżnie / przeciwbieżnie są sprawdzone na geometrii i na firmware GRBL w symulatorze, **nie na prawdziwej maszynie**: nowe ustawienie wypróbuj najpierw na odpadzie i z wyłączonym wrzecionem. Mostek trzyma część tylko wtedy, gdy jest dość wysoki: program ostrzega, gdy jest tak wysoki jak cięcie. Helisa potrzebuje miejsca: tam, gdzie się nie mieści, używana jest rampa po konturze.
 * Kształt poza polem roboczym jest zgłaszany, ale nie przesuwany.
-* Obrazy nie są frezowane. Tekst jest frezowany jako obrys (linia za nim idzie).
+* Obraz jest frezowany tylko na warstwie z operacją **Obraz** (Picture); na każdej innej warstwie jest tylko pokazywany (z ostrzeżeniem). Tekst jest frezowany jako obrys (linia za nim idzie).
 * Widok 3D pokazuje materiał sfrezowany do miejsca, do którego doszedł suwak (siatka, gęstsza przy małym zadaniu); to obraz do oglądania, nie pomiar.
 * Czas jest szacunkiem.
 

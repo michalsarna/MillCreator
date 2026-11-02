@@ -23,6 +23,8 @@ Otwartoźródłowy program do projektowania i przygotowania zadań dla frezarek 
 | Dzielić projekt z LightCreatorem | [Plik projektu](Plik-projektu) |
 | Ustawić materiał i zero nowego zadania | [Szybki start](Szybki-start) (Project setup) |
 | Steruj maszyną: przesuw, zerowanie, sondowanie, firmware, kalibracja | [Sterowanie maszyną](Sterowanie-maszyna) |
+| Znaleźć pozycję menu i to, co robi | [Menu](Menu) |
+| Poznać skróty klawiszowe | [Skróty klawiszowe](Skroty-klawiszowe) |
 | Zobaczyć, jak to wygląda | [Zrzuty ekranu](Zrzuty-ekranu) |
 | Znaleźć plik ustawień | [Ustawienia i pliki](Ustawienia-i-pliki) |
 | Poczytać o kodzie | [Architektura](Architektura) |
