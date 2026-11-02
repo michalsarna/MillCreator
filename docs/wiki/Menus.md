@@ -49,7 +49,7 @@ The keys are written as on Windows and Linux (Ctrl); on macOS Ctrl is Cmd. An en
 
 ## Insert
 
-The tools of the left palette that insert objects; the entry chooses the tool (the tool in use is ticked), and the letter in the label is its key:
+The tools of the left palette that insert objects; the entry chooses the tool (the tool in use is ticked; not in the menu bar of macOS, which ticks only **Grid**, **Snap to grid**, **Snap to objects**, the language and the colour scheme), and the letter in the label is its key:
 
 **Rectangle (R)**, **Ellipse (E)**, **Triangle (Y)**, **Star (S)**, **Polygon (G)**, **Heart (K)**, **Spiral (I)**, **Line (L)**, **Polyline / pen (P)**, **Text (T)**.
 
@@ -91,7 +91,7 @@ All of them are explained in [Design Tools](Design-Tools).
 | **Zoom out** | Ctrl+- | Zooms out. |
 | **Fit bed to window** | Ctrl+Shift+0 | The whole work area in the window. |
 | **Fit all objects** | Ctrl+Shift+9 | All the shapes in the window. |
-| **Auto-fit work area to window** | | A switch: the work area keeps fitting the window while it is resized (zooming by hand switches it off). |
+| **Auto-fit work area to window** | | A switch (ticked when on, except on macOS): the work area keeps fitting the window while it is resized (zooming by hand switches it off). |
 | **Split view: side by side**, **Split view: one above the other** | | Divide the central area into panes (a second pane is added when there is one). |
 | **Single view** | | All the tabs in one pane again. |
 | **Background picture…** | | A photo or plan under the drawing. See [Design Tools](Design-Tools#background-picture-view-menu-and-the-trace-dialog). |

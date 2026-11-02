@@ -93,7 +93,7 @@ In the **G-code analysis** (File → View G-code file…), a drag moves a flat f
 
 ## Jogging with the keyboard
 
-On the **Control** tab, with **Keyboard** ticked (off by default, because the arrows also belong to the drawing): the arrow keys move X and Y and **Page Up** / **Page Down** move Z, by the step chosen above them. Nothing moves while a field has the keyboard or the machine is busy. See [Machine Control](Machine-Control).
+On the **Control** tab, with **Keyboard** ticked (off by default): the arrow keys move X and Y and **Page Up** / **Page Down** move Z, by the step chosen above them. Nothing moves while a field has the keyboard or the machine is busy. See [Machine Control](Machine-Control).
 
 ## macOS
 

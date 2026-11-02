@@ -59,7 +59,7 @@ Other shapes on the same layer are followed as lines. On a layer with another op
 | **V-carve** | a V-bit (or an engraving bit) goes deeper the farther it is from the edge of the shape, so the walls slope and the corners come out sharp: lettering, signs, inlays. The *Depth* is the deepest the bit goes; where the shape is wider than that, the bottom is flat (cut with the V-bit itself, which leaves ridges and takes long, so the program says so: a flat bit in a *Pocket* layer is better for it). *Start depth*: nothing is cut shallower than this (the shallow part of the wall is cut by the deeper rings anyway, so this only saves time). A flat bit is reported |
 | **Dogbone slot** | as *Cut inside the line*, with a notch into every sharp corner: the centre of the bit goes on until its edge reaches the corner, so a square part fits a slot made by a round bit |
 
-Shapes of one layer form one region (even-odd): a shape inside another one is a hole of it. Put shapes that should be cut separately on separate layers. Open lines are left out of a profile and a pocket (the program says so). Pictures are never milled.
+Shapes of one layer form one region (even-odd): a shape inside another one is a hole of it. Put shapes that should be cut separately on separate layers. Open lines are left out of a profile and a pocket (the program says so). A picture is milled only on a layer with the **Picture** operation; on another layer it is only shown.
 
 ## What is checked
 A layer without a bit, a depth over the thickness of the material, a depth over the travel of the machine, a spindle speed out of range, cuts outside the work area and a line too small for the bit are reported as warnings in the preview and when G-code is written.

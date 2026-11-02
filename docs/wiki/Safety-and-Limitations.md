@@ -17,7 +17,7 @@
 * **V-carve:** the walls are exact whatever the distance of the rings, but the flat bottom of a wide shape is cut with the V-bit itself (ridges, a long program; the program says so): use a flat bit in a Pocket layer for it. The plug of an inlay is carved on the back of a piece: mirror its shapes.
 * Ramps, helices, tabs and the climb / conventional choice are tested on the geometry and against the GRBL firmware in a simulator, **not on a real machine**: try a new setting on a scrap, with the spindle off first. A tab holds a part only if it is high enough: the program warns when it is as high as the cut. A helix needs room: where it does not fit, the ramp along the contour is used.
 * A shape outside the work area is reported, but not moved.
-* Pictures are not milled. Text is milled as its outline (a line follows it).
+* A picture is milled only on a layer with the **Picture** operation; on any other layer it is only shown (with a warning). Text is milled as its outline (a line follows it).
 * The 3D view shows the material milled as far as the slider has got (a grid, finer for a small job); it is a picture to look at, not a measurement.
 * The time is an estimate.
 

@@ -17,7 +17,7 @@
 * **V-carve:** ściany są dokładne niezależnie od odstępu pierścieni, ale płaskie dno szerokiego kształtu jest frezowane samym frezem V (grzbiety, długi program; program o tym ostrzega): użyj do niego freza płaskiego w warstwie Pocket. Wkładkę inlaya rzeźbi się na odwrocie kawałka: odbij jej kształty lustrzanie.
 * Rampy, helisy, mostki i wybór współbieżnie / przeciwbieżnie są sprawdzone na geometrii i na firmware GRBL w symulatorze, **nie na prawdziwej maszynie**: nowe ustawienie wypróbuj najpierw na odpadzie i z wyłączonym wrzecionem. Mostek trzyma część tylko wtedy, gdy jest dość wysoki: program ostrzega, gdy jest tak wysoki jak cięcie. Helisa potrzebuje miejsca: tam, gdzie się nie mieści, używana jest rampa po konturze.
 * Kształt poza polem roboczym jest zgłaszany, ale nie przesuwany.
-* Obrazy nie są frezowane. Tekst jest frezowany jako obrys (linia za nim idzie).
+* Obraz jest frezowany tylko na warstwie z operacją **Obraz** (Picture); na każdej innej warstwie jest tylko pokazywany (z ostrzeżeniem). Tekst jest frezowany jako obrys (linia za nim idzie).
 * Widok 3D pokazuje materiał sfrezowany do miejsca, do którego doszedł suwak (siatka, gęstsza przy małym zadaniu); to obraz do oglądania, nie pomiar.
 * Czas jest szacunkiem.
 

@@ -93,7 +93,7 @@ W analizie G-code (Plik → Pokaż plik G-code…) przeciąganie przesuwa płask
 
 ## Przesuw z klawiatury
 
-Na karcie **Sterowanie** (Control), gdy zaznaczona jest **Klawiatura** (Keyboard; domyślnie wyłączona, bo strzałki należą też do rysunku): strzałki przesuwają X i Y, a **Page Up** / **Page Down** przesuwają Z, o krok wybrany nad nimi. Nic się nie rusza, gdy klawiaturę ma pole albo maszyna jest zajęta. Zob. [Sterowanie maszyną](Sterowanie-maszyna).
+Na karcie **Sterowanie** (Control), gdy zaznaczona jest **Klawiatura** (Keyboard; domyślnie wyłączona): strzałki przesuwają X i Y, a **Page Up** / **Page Down** przesuwają Z, o krok wybrany nad nimi. Nic się nie rusza, gdy klawiaturę ma pole albo maszyna jest zajęta. Zob. [Sterowanie maszyną](Sterowanie-maszyna).
 
 ## macOS
 

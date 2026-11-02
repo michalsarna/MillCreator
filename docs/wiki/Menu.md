@@ -49,7 +49,7 @@ Klawisze są zapisane jak w Windows i Linuksie (Ctrl); na macOS Ctrl to Cmd. Poz
 
 ## Wstawianie (Insert)
 
-Narzędzia lewej palety, które wstawiają obiekty; pozycja wybiera narzędzie (używane jest zaznaczone ptaszkiem), a litera w nazwie to jego klawisz:
+Narzędzia lewej palety, które wstawiają obiekty; pozycja wybiera narzędzie (używane jest zaznaczone ptaszkiem; nie na pasku menu macOS, który zaznacza tylko **Siatka**, **Przyciągaj do siatki**, **Przyciągaj do obiektów**, język i schemat kolorów), a litera w nazwie to jego klawisz:
 
 **Prostokąt (R)**, **Elipsa (E)**, **Trójkąt (Y)**, **Gwiazda (S)**, **Wielokąt (G)**, **Serce (K)**, **Spirala (I)**, **Linia (L)**, **Linia łamana / pióro (P)**, **Tekst (T)**.
 
@@ -91,7 +91,7 @@ Wszystkie są opisane w [Narzędziach projektowych](Narzedzia-projektowe).
 | **Pomniejsz** (Zoom out) | Ctrl+- | Pomniejsza. |
 | **Dopasuj stół do okna** (Fit bed to window) | Ctrl+Shift+0 | Cały obszar roboczy w oknie. |
 | **Dopasuj do wszystkich obiektów** (Fit all objects) | Ctrl+Shift+9 | Wszystkie kształty w oknie. |
-| **Automatycznie dopasuj obszar roboczy do okna** | | Przełącznik: obszar roboczy dopasowuje się do okna przy zmianie jego rozmiaru (ręczne powiększanie go wyłącza). |
+| **Automatycznie dopasuj obszar roboczy do okna** | | Przełącznik (zaznaczony, gdy włączony, poza macOS): obszar roboczy dopasowuje się do okna przy zmianie jego rozmiaru (ręczne powiększanie go wyłącza). |
 | **Podziel widok: obok siebie**, **Podziel widok: jeden nad drugim** | | Dzielą środkową część okna na panele (gdy jest jeden, dochodzi drugi). |
 | **Jeden widok** (Single view) | | Wszystkie karty znów w jednym panelu. |
 | **Obraz w tle…** (Background picture…) | | Zdjęcie albo plan pod rysunkiem. Zob. [Narzędzia projektowe](Narzedzia-projektowe). |
