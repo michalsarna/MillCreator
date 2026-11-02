@@ -29,7 +29,7 @@ jobs:
           }
 
       # End-to-end tests of the generated jobs against the real GRBL 1.1h firmware compiled for the PC (grbl-sim of baseCreator).
-      - uses: michalsarna/baseCreator/.github/actions/grbl-sim@v1.56.0
+      - uses: michalsarna/baseCreator/.github/actions/grbl-sim@v1.56.1
       - name: GRBL simulator tests
         run: |
           set -o pipefail
