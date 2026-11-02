@@ -943,7 +943,8 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
     }
     let mut here = Here { layer_name: String::new(), layer_index: 0, total_layers: layers.len(), tool: None };
     let mut g = String::new();
-    let clean = |s: &str| s.chars().filter(|c| c.is_alphanumeric() || *c == ' ' || *c == '-' || *c == '_' || *c == '.').collect::<String>();
+    // ASCII only: GRBL takes every byte above 127 for a command of its own, even inside a comment.
+    let clean = |s: &str| base_core::gcode_out::ascii(s).chars().filter(|c| c.is_ascii_alphanumeric() || *c == ' ' || *c == '-' || *c == '_' || *c == '.').collect::<String>();
     g.push_str(&format!("(MillCreator: {})\n(Device: {})\n", clean(program_name), clean(&dev.name)));
     for l in base_core::gcode_out::note_lines(&info.notes) {
         g.push_str(&format!("(Note: {l})\n"));
@@ -958,7 +959,7 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
     g.push_str(&format!("(Job: {} layers, {} moves, {} mm cut)\n", used.len(), prog.moves.len(), num(prog.cut_length().round())));
     // The comments of the program: a comment cannot hold brackets or a semicolon (it would end there).
     // At most 70 characters: a sender that counts the characters in the buffer of GRBL (128) never sends a longer line.
-    let note_text = |t: &str| t.chars().map(|c| if matches!(c, '(' | ')' | ';' | '\n' | '\r') { ' ' } else { c }).take(70).collect::<String>();
+    let note_text = |t: &str| base_core::gcode_out::comment_text(t, 70);
     let order: Vec<usize> = crate::layers::layer_order(layers).into_iter().filter(|l| used.contains(l)).collect();
     let mut next_note = 0usize;
     let mut feed = f64::NAN;
@@ -972,8 +973,12 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
         (x, y, p[2] + dev.z_offset)
     };
     for (i, m) in prog.moves.iter().enumerate() {
-        // The ends of what came before (and the start of an element) go before a new layer; the rest after its commands.
-        for n in prog.notes.iter().skip(next_note).take_while(|n| n.at == i).filter(|n| n.before_layer) {
+        // The comments at this move in their order: the ends of what came before (and the start of an element) go before a
+        // new layer, from the first one that starts something on everything comes after the commands of the layer.
+        let here_notes: Vec<&Note> = prog.notes[next_note..].iter().take_while(|n| n.at == i).collect();
+        next_note += here_notes.len();
+        let lead = here_notes.iter().take_while(|n| n.before_layer).count();
+        for n in &here_notes[..lead] {
             g.push_str(&format!("({})\n", note_text(&n.text)));
         }
         if m.layer != layer {
@@ -1046,12 +1051,8 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
                 }
             }
         }
-        while next_note < prog.notes.len() && prog.notes[next_note].at == i {
-            let n = &prog.notes[next_note];
-            if !n.before_layer {
-                g.push_str(&format!("({})\n", note_text(&n.text)));
-            }
-            next_note += 1;
+        for n in &here_notes[lead..] {
+            g.push_str(&format!("({})\n", note_text(&n.text)));
         }
         let (x, y, z) = xyz(m.to);
         match m.kind {
@@ -2307,8 +2308,11 @@ mod tests {
         square(&mut scene, 2, 100.0, 10.0, 40.0);
         layers[0].depth = 3.0;
         layers[2].depth = 3.0;
+        // GRBL takes every byte above 127 for a command (ń ends in 0x84: the safety door): the file is ASCII.
+        layers[0].name = "Kieszeń ąś".into();
         let prog = generate(&scene, &layers, &lib, &dev, &stock);
         let g = to_gcode(&prog, &dev, &layers, &lib, "comments");
+        assert!(g.is_ascii() && g.contains("(Layer: Kieszen as)"), "{g}");
         for want in ["(Job: 2 layers,", "(Part 1 of 2 of the job:", "(Depth 3 mm in steps of", "(Contour 1 of 1 start:", "(Depth 1 of", "(Contour 1 end)", "(Clearing of the pocket start)", "(End of layer", "(End of the job)"] {
             assert!(g.contains(want), "{want} missing in:\n{g}");
         }
@@ -2326,5 +2330,19 @@ mod tests {
         bare.notes.clear();
         let strip = |t: &str| t.lines().filter(|l| !l.starts_with('(')).map(String::from).collect::<Vec<_>>();
         assert_eq!(strip(&g), strip(&to_gcode(&bare, &dev, &layers, &lib, "comments")));
+    }
+
+    #[test]
+    fn a_start_comment_comes_before_its_end_even_when_nothing_is_cut_between_them() {
+        // The first shallow pass does nothing on a drilling layer: its two comments still come in their order.
+        let (lib, dev, mut stock, layers) = setup();
+        let mut scene = Scene::default();
+        scene.add(4, Kind::Ellipse { w: 6.0, h: 6.0 }, Xf::translate(20.0, 20.0));
+        stock.first_pass = true;
+        stock.first_pass_depth = 0.1;
+        let g = to_gcode(&generate(&scene, &layers, &lib, &dev, &stock), &dev, &layers, &lib, "order");
+        let at = |t: &str| g.find(t).unwrap_or_else(|| panic!("{t} missing in:\n{g}"));
+        assert!(at("(Layer: Drill)") < at("(First shallow pass along the edges start") && at("(First shallow pass along the edges start") < at("(First shallow pass end)"), "{g}");
+        assert!(at("(Hole 1 of 1 start") < at("(Hole 1 end)") && at("(Hole 1 end)") < at("(End of layer Drill)"), "{g}");
     }
 }
