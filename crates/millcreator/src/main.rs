@@ -2310,6 +2310,9 @@ mod tests {
         a.preview_gcode();
         assert_eq!(a.gcode_texts.len(), 1);
         assert!(a.gcode_texts[0].name.ends_with(".nc") && a.gcode_texts[0].text.contains("M30"), "{}", a.gcode_texts[0].name);
+        // The first line has the name of the project, as the exported file has (not the name of the file).
+        let first = a.gcode_texts[0].text.lines().next().unwrap_or_default().to_string();
+        assert!(first.starts_with("(MillCreator: ") && !first.contains(".nc"), "{first}");
         // A second press does not make a second tab; an untouched text is made again.
         a.preview_gcode();
         assert_eq!(a.gcode_texts.len(), 1);
