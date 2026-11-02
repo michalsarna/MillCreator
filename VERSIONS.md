@@ -2,6 +2,10 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.5.5 (not released yet)
+
+* The menu titles **Machine** and **Milling** have icons like the other titles (baseCreator v1.57.0).
+
 ## v0.5.4
 
 * **macOS:** the keys of the menus that the system menu bar does not own (Cmd+E, Cmd+Shift+P, Cmd+L, Cmd+=, Cmd+-, Cmd+Shift+0/9…) work now; they did nothing there. The G-code text tab has the name of the project in its first line, as the saved file does (it had `name.nc`).
