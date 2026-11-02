@@ -591,15 +591,17 @@ mod tests {
     #[test]
     fn start_from_a_line_sends_a_preamble_first() {
         let mut a = connected_app();
-        // The two lines of the notes of the demo project come before the program: line 10 is where line 8 was.
-        a.start_job_from(10);
+        // A line a little after the first cut (the comments of the program move the numbers, so it is looked for).
+        let (all, _) = a.job_lines().unwrap();
+        let from = all.iter().position(|l| l.starts_with("G1 X")).unwrap() + 2;
+        a.start_job_from(from);
         let first_lines = |a: &App| a.machine.console.iter().filter(|l| l.dir == Dir::Tx && !l.poll).map(|l| l.text.clone()).collect::<Vec<_>>();
         assert!(until(&mut a, 5.0, |a| first_lines(a).len() > 6));
         let sent = first_lines(&a);
         assert!(sent.iter().any(|l| l.starts_with("G0 X")), "{sent:?}");
         assert!(sent.iter().any(|l| l.starts_with("G0 Z")), "{sent:?}");
-        // The program of the first lines (before line 8) is not sent again.
-        assert!(!sent.iter().any(|l| l.starts_with("(")), "{sent:?}");
+        // The first lines of the program (its title, the notes) are not sent again.
+        assert!(!sent.iter().any(|l| l.starts_with("(MillCreator") || l.starts_with("(Note")), "{sent:?}");
     }
 
     #[test]

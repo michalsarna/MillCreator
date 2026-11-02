@@ -42,9 +42,21 @@ impl Move {
     }
 }
 
+/// A comment of the G-code, written before the move `at` (or after the last move when `at` is their number).
+#[derive(Clone, Debug, PartialEq)]
+pub struct Note {
+    pub at: usize,
+    pub text: String,
+    /// Written before the comment and the commands of a new layer that begins at the same move (an end of something, or
+    /// the start of an element), not after them.
+    pub before_layer: bool,
+}
+
 #[derive(Clone, Debug, Default)]
 pub struct Program {
     pub moves: Vec<Move>,
+    /// The comments of the G-code: where every element, part of a layer, contour, line and depth starts and ends.
+    pub notes: Vec<Note>,
     /// What could not be done, or looks wrong, in words for the user.
     pub warnings: Vec<Warn>,
     /// The box that holds the cuts: the lowest and the highest corner (X, Y, Z).
@@ -80,6 +92,7 @@ impl Program {
 /// The part of the program that is being built: it knows where the spindle is.
 pub(crate) struct Builder<'a> {
     pub(crate) moves: Vec<Move>,
+    pub(crate) notes: Vec<Note>,
     pub(crate) at: P3,
     pub(crate) safe: f64,
     pub(crate) layer: usize,
@@ -89,6 +102,14 @@ pub(crate) struct Builder<'a> {
 }
 
 impl Builder<'_> {
+    /// A comment before the next move: the start of something.
+    pub(crate) fn note(&mut self, text: String) {
+        self.notes.push(Note { at: self.moves.len(), text, before_layer: false });
+    }
+    /// A comment after the last move: the end of something (before the comment of the next layer).
+    pub(crate) fn note_end(&mut self, text: String) {
+        self.notes.push(Note { at: self.moves.len(), text, before_layer: true });
+    }
     pub(crate) fn push(&mut self, kind: MoveKind, to: P3, feed: f64) {
         if self.at == to {
             return;
@@ -377,10 +398,14 @@ fn elements_by_distance(scene: &Scene, dev: &Device) -> Vec<Scene> {
 /// The toolpaths as `generate` makes them, with what the program asks of the job (`JobOptions`).
 pub fn generate_with(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Device, stock: &Stock, opts: JobOptions) -> Program {
     let mut prog = Program::default();
-    let mut b = Builder { moves: vec![], at: [0.0, 0.0, dev.safe_z], safe: dev.safe_z, layer: 0, feed: 0.0, plunge: 0.0, dev };
+    let mut b = Builder { moves: vec![], notes: vec![], at: [0.0, 0.0, dev.safe_z], safe: dev.safe_z, layer: 0, feed: 0.0, plunge: 0.0, dev };
     if opts.one_by_one {
-        for element in elements_by_distance(scene, dev) {
-            run_layers(&mut b, &mut prog, &element, layers, tools, dev, stock);
+        let elements = elements_by_distance(scene, dev);
+        let total = elements.len();
+        for (i, element) in elements.iter().enumerate() {
+            b.notes.push(Note { at: b.moves.len(), text: format!("Element {} of {total} start: {} objects", i + 1, element.shapes.len()), before_layer: true });
+            run_layers(&mut b, &mut prog, element, layers, tools, dev, stock);
+            b.note_end(format!("Element {} end", i + 1));
         }
         // Every element repeats the warnings of its layers: say each one once.
         let mut seen = std::collections::HashSet::new();
@@ -389,6 +414,7 @@ pub fn generate_with(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: 
         run_layers(&mut b, &mut prog, scene, layers, tools, dev, stock);
     }
     prog.moves = b.moves;
+    prog.notes = b.notes;
     // The machine is already above the first cut when the program starts: no move comes from the corner of the table.
     if let Some(first) = prog.moves.first_mut() {
         if first.kind == MoveKind::Rapid && first.from == [0.0, 0.0, dev.safe_z] {
@@ -479,20 +505,26 @@ fn run_layers(b: &mut Builder, prog: &mut Program, scene: &Scene, layers: &[Mill
         b.plunge = layer.plunge;
         let start = b.moves.len();
         if stock.first_pass && stock.first_pass_depth > 0.0 && stock.first_pass_depth < layer.depth - 1e-9 {
+            b.note(format!("First shallow pass along the edges start: {} mm deep", num(stock.first_pass_depth)));
             first_pass(b, &layer, tool, &outlines, stock.first_pass_depth);
+            b.note_end("First shallow pass end".into());
         }
         // The tabs placed by hand on this layer, where they lie on the toolpath's side of the page (y turned over).
         let anchors: Vec<Pt> = layer.tabs.manual.iter().filter_map(|t| scene.shape(t.shape).filter(|s| s.layer == li).and_then(|s| crate::handtabs::point_on(s, t.at))).map(|p| Pt::new(p.x, dev.area.y - p.y)).collect();
         run_layer(b, &layer, tool, &outlines, &depths, anchors, rest_r, &mut prog.warnings);
         // A picture is engraved at the depth of the layer in one go (a shallow depth: the dots and the rows are many).
         let full = depths.last().copied().unwrap_or(layer.depth);
-        for (shape, im) in &pictures {
-            if !engrave_picture(b, &layer, tool, shape, im, dev.area.y, full) {
+        for (i, (shape, im)) in pictures.iter().enumerate() {
+            b.note(format!("Picture {} of {} start: {} x {} mm, {} mm deep", i + 1, pictures.len(), num(im.w), num(im.h), num(full)));
+            let whole = engrave_picture(b, &layer, tool, shape, im, dev.area.y, full);
+            b.note_end(format!("Picture {} end", i + 1));
+            if !whole {
                 prog.warnings.push(Warn::new("{}: the program of the picture is too long: the rest was left out (use a bigger step over)", &[&layer.name]));
                 break;
             }
         }
         b.retract();
+        b.note_end(format!("End of layer {}", layer.name));
         if b.moves.len() == start {
             prog.warnings.push(Warn::new("{}: nothing to cut (the line may be too small for the bit)", &[&layer.name]));
         }
@@ -555,11 +587,17 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
         }
         let holes: Vec<Polyline> = rings.iter().zip(&hole).filter(|(_, h)| **h).map(|(r, _)| r.clone()).collect();
         if let Some(region) = stay_in {
+            b.note(format!("Rings with the bit staying down start: {} rings", rings.len()));
             passes::rings_staying_down(b, &rings, &hole, &holes, depths, &plan, region, notes);
+            b.note_end("Rings with the bit staying down end".into());
             return;
         }
+        let n = rings.len();
         for (i, (ring, hole)) in rings.iter().zip(&hole).enumerate() {
+            let what = if *hole { "Contour of a hole" } else { "Contour" };
+            b.note(format!("{what} {} of {n} start: {} mm round", i + 1, num(ring.length())));
             passes::ring_passes(b, ring, depths, &plan, *hole, &holes, i > 0, notes);
+            b.note_end(format!("{what} {} end", i + 1));
         }
     };
     // Clear a region (where the centre of the bit may go) by rings or by a raster, every depth in turn.
@@ -570,10 +608,13 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
             go_rings(b, rings, depths, notes, (layer.stay_down && layer.op == Operation::Pocket).then_some(region.as_slice()))
         }
         PocketPattern::Raster => {
-            for d in depths {
-                for path in crate::clear::raster_paths(&region, layer.raster_angle, step) {
+            for (k, d) in depths.iter().enumerate() {
+                let paths = crate::clear::raster_paths(&region, layer.raster_angle, step);
+                b.note(format!("Raster clearing start: depth {} of {}, {} mm, {} lines at {}°", k + 1, depths.len(), num(*d), paths.len(), num(layer.raster_angle)));
+                for path in paths {
                     passes::open_passes(b, &path, &[*d], &plan);
                 }
+                b.note_end("Raster clearing end".into());
             }
         }
     };
@@ -588,7 +629,9 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
             go_rings(b, ops::offset(&closed, d + d.signum() * left), depths, &mut notes, None);
             // The material that was left on the wall comes off in one more pass at the full depth.
             if left > 0.0 && layer.finish {
+                b.note(format!("Finishing pass at the full depth start: {} mm left on the wall", num(left)));
                 go_rings(b, ops::offset(&closed, d), &[full], &mut notes, None);
+                b.note_end("Finishing pass end".into());
             }
         }
         Operation::Pocket => {
@@ -599,19 +642,27 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
             let left = layer.leave.max(0.0);
             let walls = ops::offset(&closed, -r);
             if layer.outline == OutlinePass::Before {
+                b.note("Wall of the pocket, before the clearing, start".into());
                 go_rings(b, walls.clone(), depths, &mut notes, None);
+                b.note_end("Wall of the pocket end".into());
             }
             // The region the centre of the bit moves in; for a rest pocket only what the bigger bit left.
             let region = match rest_r {
                 Some(rb) if rb > r => crate::clear::rest_region(&closed, rb, r),
                 _ => ops::offset(&closed, -(r + left)),
             };
+            b.note("Clearing of the pocket start".into());
             clear_region(b, region, &mut notes);
+            b.note_end("Clearing of the pocket end".into());
             if layer.outline == OutlinePass::After {
+                b.note("Wall of the pocket, after the clearing, start".into());
                 go_rings(b, walls.clone(), depths, &mut notes, None);
+                b.note_end("Wall of the pocket end".into());
             }
             if left > 0.0 && layer.finish {
+                b.note(format!("Finishing pass at the full depth start: {} mm left on the wall", num(left)));
                 go_rings(b, walls, &[full], &mut notes, None);
+                b.note_end("Finishing pass end".into());
             }
         }
         Operation::Face => {
@@ -624,13 +675,16 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
             }
             if lo.x.is_finite() && hi.x - lo.x > 1e-6 && hi.y - lo.y > 1e-6 {
                 let region = crate::clear::face_region(base_core::geom::Rect { min: lo, max: hi }, layer.overhang, r);
+                b.note(format!("Planing start: {} x {} mm", num(hi.x - lo.x), num(hi.y - lo.y)));
                 clear_region(b, region, &mut notes);
+                b.note_end("Planing end".into());
             } else {
                 warnings.push(Warn::new("{}: nothing to plane: draw a shape that gives the size of the surface", &[&layer.name]));
             }
         }
         Operation::OnPath | Operation::Chamfer | Operation::Picture => {
-            for line in outlines {
+            for (i, line) in outlines.iter().enumerate() {
+                b.note(format!("Line {} of {} start: {}, {} mm", i + 1, outlines.len(), if line.closed { "closed" } else { "open" }, num(line.length())));
                 // Trochoids: the bit loops along the line, the slot is the loops plus the bit wide.
                 let looped;
                 let (line, ring) = if layer.trochoid.enabled && layer.op == Operation::OnPath {
@@ -644,6 +698,7 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
                 } else {
                     passes::open_passes(b, line, depths, &plan);
                 }
+                b.note_end(format!("Line {} end", i + 1));
             }
         }
         Operation::VCarve => {
@@ -667,26 +722,32 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
                     }
                     // All the rings are turned together, so that the holes of the shapes get the other way round.
                     let turned = passes::oriented(rings.iter().map(|(_, r)| r.clone()).collect(), Operation::Pocket, layer.direction);
+                    b.note(format!("V-carve start: {} rings", turned.len()));
                     for (i, (ring, (z, _))) in turned.iter().zip(&rings).enumerate() {
+                        b.note(format!("V-carve ring {} of {} at {} mm deep", i + 1, turned.len(), num(*z)));
                         passes::ring_passes(b, ring, &[*z], &plan, false, &[], i > 0, &mut notes);
                         if b.moves.len() > MAX_MOVES {
                             warnings.push(Warn::new("{}: the program of the V-carve is too long: the rest was left out", &[&layer.name]));
                             break;
                         }
                     }
+                    b.note_end("V-carve end".into());
                 }
             }
         }
         Operation::Drill => {
             let rings = closed_only(outlines);
             let holes: Vec<Pt> = rings.iter().enumerate().filter(|(i, _)| !is_hole(&rings, *i)).filter_map(|(_, p)| centre(p)).collect();
-            for c in holes {
+            let n = holes.len();
+            for (i, c) in holes.into_iter().enumerate() {
+                b.note(format!("Hole {} of {n} start: {} mm deep{}", i + 1, num(full), if depths.len() > 1 { format!(", {} pecks", depths.len()) } else { String::new() }));
                 // Peck: down in steps, out to the surface between them.
                 b.dive(c.x, c.y, -depths[0]);
                 for d in depths.iter().skip(1) {
                     b.retract();
                     b.dive(c.x, c.y, -d);
                 }
+                b.note_end(format!("Hole {} end", i + 1));
             }
         }
     }
@@ -808,7 +869,7 @@ fn custom(g: &mut String, text: &str, value: &dyn Fn(&str) -> Option<String>) {
     }
 }
 
-fn num(v: f64) -> String {
+pub(crate) fn num(v: f64) -> String {
     let s = format!("{v:.3}");
     let s = s.trim_end_matches('0').trim_end_matches('.');
     if s == "-0" || s.is_empty() {
@@ -882,7 +943,8 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
     }
     let mut here = Here { layer_name: String::new(), layer_index: 0, total_layers: layers.len(), tool: None };
     let mut g = String::new();
-    let clean = |s: &str| s.chars().filter(|c| c.is_alphanumeric() || *c == ' ' || *c == '-' || *c == '_' || *c == '.').collect::<String>();
+    // ASCII only: GRBL takes every byte above 127 for a command of its own, even inside a comment.
+    let clean = |s: &str| base_core::gcode_out::ascii(s).chars().filter(|c| c.is_ascii_alphanumeric() || *c == ' ' || *c == '-' || *c == '_' || *c == '.').collect::<String>();
     g.push_str(&format!("(MillCreator: {})\n(Device: {})\n", clean(program_name), clean(&dev.name)));
     for l in base_core::gcode_out::note_lines(&info.notes) {
         g.push_str(&format!("(Note: {l})\n"));
@@ -893,6 +955,13 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
         g.push_str("\n");
     }
     custom(&mut g, &dev.gcode.start, &|n| value_of(&info, &here, n));
+    let used: std::collections::BTreeSet<usize> = prog.moves.iter().map(|m| m.layer).collect();
+    g.push_str(&format!("(Job: {} layers, {} moves, {} mm cut)\n", used.len(), prog.moves.len(), num(prog.cut_length().round())));
+    // The comments of the program: a comment cannot hold brackets or a semicolon (it would end there).
+    // At most 70 characters: a sender that counts the characters in the buffer of GRBL (128) never sends a longer line.
+    let note_text = |t: &str| base_core::gcode_out::comment_text(t, 70);
+    let order: Vec<usize> = crate::layers::layer_order(layers).into_iter().filter(|l| used.contains(l)).collect();
+    let mut next_note = 0usize;
     let mut feed = f64::NAN;
     let mut layer = usize::MAX;
     let mut tool_id: Option<String> = None;
@@ -903,11 +972,29 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
         let (x, y) = machine_xy(dev, p[0], p[1]);
         (x, y, p[2] + dev.z_offset)
     };
-    for m in &prog.moves {
+    for (i, m) in prog.moves.iter().enumerate() {
+        // The comments at this move in their order: the ends of what came before (and the start of an element) go before a
+        // new layer, from the first one that starts something on everything comes after the commands of the layer.
+        let here_notes: Vec<&Note> = prog.notes[next_note..].iter().take_while(|n| n.at == i).collect();
+        next_note += here_notes.len();
+        let lead = here_notes.iter().take_while(|n| n.before_layer).count();
+        for n in &here_notes[..lead] {
+            g.push_str(&format!("({})\n", note_text(&n.text)));
+        }
         if m.layer != layer {
             layer = m.layer;
             if let Some(l) = layers.get(layer) {
                 g.push_str(&format!("(Layer: {})\n", clean(&l.name)));
+                let bit = l.tool.as_deref().and_then(|id| tools.get(id)).map(|t| clean(&t.name)).unwrap_or_else(|| "none".into());
+                let lines = [
+                    format!("Part {} of {} of the job: {}", order.iter().position(|&x| x == layer).map_or(0, |p| p + 1), order.len(), l.op.label()),
+                    format!("Depth {} mm in steps of {} mm", num(l.depth), num(l.step_down)),
+                    format!("Feed {} mm/min, plunge {} mm/min", num(l.feed), num(l.plunge)),
+                    format!("Spindle {} rpm, bit {bit}", num(l.rpm)),
+                ];
+                for t in lines {
+                    g.push_str(&format!("({})\n", note_text(&t)));
+                }
                 here = Here { layer_name: l.name.clone(), layer_index: layer, total_layers: layers.len(), tool: l.tool.as_deref().and_then(|id| tools.get(id)).cloned() };
                 custom(&mut g, &dev.gcode.operation_change, &|n| value_of(&info, &here, n));
                 if tool_id != l.tool {
@@ -964,6 +1051,9 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
                 }
             }
         }
+        for n in &here_notes[lead..] {
+            g.push_str(&format!("({})\n", note_text(&n.text)));
+        }
         let (x, y, z) = xyz(m.to);
         match m.kind {
             MoveKind::Rapid => g.push_str(&format!("G0 X{} Y{} Z{}\n", num(x), num(y), num(z))),
@@ -978,6 +1068,10 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
             }
         }
     }
+    for n in &prog.notes[next_note..] {
+        g.push_str(&format!("({})\n", note_text(&n.text)));
+    }
+    g.push_str("(End of the job)\n");
     g.push_str(&format!("G0 Z{}\nM5\n", num(dev.safe_z + dev.z_offset)));
     if coolant != crate::layers::Coolant::Off {
         g.push_str("M9\n");
@@ -2204,5 +2298,51 @@ mod tests {
         assert_eq!(g.matches("G1 ").count(), 5, "one move to every corner and back: {g}");
         assert_eq!(convex_hull(&[(1.0, 1.0)]).len(), 1);
         assert!(frame_hull_gcode(&[], &dev).is_empty());
+    }
+
+    #[test]
+    fn the_gcode_says_where_every_part_contour_and_depth_starts_and_ends_in_short_lines() {
+        let (lib, dev, stock, mut layers) = setup();
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 10.0, 10.0, 40.0);
+        square(&mut scene, 2, 100.0, 10.0, 40.0);
+        layers[0].depth = 3.0;
+        layers[2].depth = 3.0;
+        // GRBL takes every byte above 127 for a command (ń ends in 0x84: the safety door): the file is ASCII.
+        layers[0].name = "Kieszeń ąś".into();
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let g = to_gcode(&prog, &dev, &layers, &lib, "comments");
+        assert!(g.is_ascii() && g.contains("(Layer: Kieszen as)"), "{g}");
+        for want in ["(Job: 2 layers,", "(Part 1 of 2 of the job:", "(Depth 3 mm in steps of", "(Contour 1 of 1 start:", "(Depth 1 of", "(Contour 1 end)", "(Clearing of the pocket start)", "(End of layer", "(End of the job)"] {
+            assert!(g.contains(want), "{want} missing in:\n{g}");
+        }
+        // A sender that counts the characters in the buffer of GRBL (128) needs short lines; a comment holds no brackets inside.
+        for l in g.lines() {
+            assert!(l.len() <= 80, "too long: {l}");
+            if l.starts_with('(') {
+                assert!(l.ends_with(')') && l[1..l.len() - 1].chars().all(|c| c != '(' && c != ')' && c != ';'), "{l}");
+            }
+        }
+        // The layer marks of the sender are only the layer lines.
+        assert_eq!(g.lines().filter(|l| l.starts_with("(Layer:")).count(), 2);
+        // The commands are the same as without the comments.
+        let mut bare = prog.clone();
+        bare.notes.clear();
+        let strip = |t: &str| t.lines().filter(|l| !l.starts_with('(')).map(String::from).collect::<Vec<_>>();
+        assert_eq!(strip(&g), strip(&to_gcode(&bare, &dev, &layers, &lib, "comments")));
+    }
+
+    #[test]
+    fn a_start_comment_comes_before_its_end_even_when_nothing_is_cut_between_them() {
+        // The first shallow pass does nothing on a drilling layer: its two comments still come in their order.
+        let (lib, dev, mut stock, layers) = setup();
+        let mut scene = Scene::default();
+        scene.add(4, Kind::Ellipse { w: 6.0, h: 6.0 }, Xf::translate(20.0, 20.0));
+        stock.first_pass = true;
+        stock.first_pass_depth = 0.1;
+        let g = to_gcode(&generate(&scene, &layers, &lib, &dev, &stock), &dev, &layers, &lib, "order");
+        let at = |t: &str| g.find(t).unwrap_or_else(|| panic!("{t} missing in:\n{g}"));
+        assert!(at("(Layer: Drill)") < at("(First shallow pass along the edges start") && at("(First shallow pass along the edges start") < at("(First shallow pass end)"), "{g}");
+        assert!(at("(Hole 1 of 1 start") < at("(Hole 1 end)") && at("(Hole 1 end)") < at("(End of layer Drill)"), "{g}");
     }
 }
