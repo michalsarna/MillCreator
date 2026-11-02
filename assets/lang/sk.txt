@@ -444,3 +444,4 @@
 443|Fréza z predvoľby nie je v knižnici: vrstva je bez frézy
 444|Priblíženie
 445|Nie je to adresa kamery (http, https, rtsp, udp, rtp alebo rtmp).
+446|O programe MillCreator
