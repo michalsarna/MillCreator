@@ -444,3 +444,4 @@
 443|Rezkar iz prednastavitve ni v knjižnici: plast je brez rezkarja
 444|Povečava
 445|To ni naslov kamere (http, https, rtsp, udp, rtp ali rtmp).
+446|O programu MillCreator
