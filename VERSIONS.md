@@ -7,6 +7,8 @@ Each release gets the next version number. Newest first.
 * The menu titles **Machine** and **Milling** have icons like the other titles (baseCreator v1.57.0).
 * **Safety: only ASCII goes to the machine** (baseCreator v1.58.0). GRBL takes every byte above 127 for a command of its own, even inside a comment: a Polish letter in a layer, bit or pen name or in the notes (ń ends in 0x84, the safety door) could stop the job or change the speed. The letters lose their marks (ń → n) in the comments and in what is sent; a line longer than the buffer of GRBL no longer hangs a job.
 * **More comments in the G-code:** where every layer, the wall, the clearing and the finishing pass of a pocket starts and ends, every depth/pass, the elements of *One element at a time*, the settings of every layer, the job and its end; at most 70 characters each. *Remove comments* leaves them out.
+* **About:** the list *Made with* fills the window, however tall it is made (baseCreator v1.58.1).
+* **Festive icons and colour schemes** end on the last day of the holiday: Halloween on 31 October, Christmas on 26 December, the New Year on 1 January, Easter on its Monday.
 
 ## v0.5.4
 
