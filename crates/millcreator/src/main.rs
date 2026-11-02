@@ -824,7 +824,12 @@ impl App {
         let native_bar = self.native_menu.is_some();
         #[cfg(not(target_os = "macos"))]
         let native_bar = false;
-        if let Some(a) = base_ui::menu::shortcut_act(ctx, &crate::menu::menus(), |a| base_ui::menu::MenuHost::act_enabled(self, a) && !(native_bar && native_menu::owns_shortcut(a))) {
+        // The native menu module exists only on macOS.
+        #[cfg(target_os = "macos")]
+        let owned = |a: Act| native_bar && native_menu::owns_shortcut(a);
+        #[cfg(not(target_os = "macos"))]
+        let owned = |_: Act| native_bar;
+        if let Some(a) = base_ui::menu::shortcut_act(ctx, &crate::menu::menus(), |a| base_ui::menu::MenuHost::act_enabled(self, a) && !owned(a)) {
             base_ui::menu::MenuHost::run_act(self, ctx, a);
             return;
         }
