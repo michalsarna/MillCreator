@@ -21,6 +21,8 @@ Open-source software to design and prepare CNC milling jobs, written in Rust. Dr
 | Set the material | [Material](Material) |
 | See the job in 3D, export G-code | [3D View and G-code](3D-View-and-G-code) |
 | Drive the machine: jog, zero, probe, firmware, calibration | [Machine Control](Machine-Control) |
+| Find a menu entry and what it does | [Menus](Menus) |
+| Learn the keys | [Keyboard Shortcuts](Keyboard-Shortcuts) |
 | Share a project with LightCreator | [Project File](Project-File) |
 | Set the material and the zero of a new job | [Quick Start](Quick-Start) (Project setup) |
 | See what it looks like | [Screenshots](Screenshots) |
