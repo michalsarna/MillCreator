@@ -246,6 +246,18 @@ pub fn stl_of(cols: usize, rows: usize, step: f64, height: impl Fn(usize, usize)
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn the_negative_of_a_picture_turns_the_depths_round() {
+        let mut im = ImageData { name: "t".into(), px_w: 2, px_h: 2, gray: vec![255; 4], w: 10.0, h: 10.0, invert: false };
+        let mut scene = base_core::scene::Scene::default();
+        let id = scene.add(0, base_core::scene::Kind::Image(im.clone()), base_core::geom::Xf::IDENTITY);
+        let shape = scene.shape(id).unwrap();
+        let deepest = |m: &HeightMap| m.h.iter().cloned().fold(0.0, f64::min);
+        assert!(deepest(&HeightMap::of(shape, &im, 1.0, 0.0, 3.0).unwrap()).abs() < 1e-6, "white is left uncut");
+        im.invert = true;
+        assert!((deepest(&HeightMap::of(shape, &im, 1.0, 0.0, 3.0).unwrap()) + 3.0).abs() < 1e-6, "its negative goes to the full depth");
+    }
     use crate::tools::Library;
     use base_core::geom::Xf;
     use base_core::scene::{Kind, Scene};
