@@ -129,7 +129,7 @@ Najpierw ustawienia maszyny, potem to, co na niej działa. Zob. [Sterowanie masz
 
 | Pozycja | Co robi |
 |---|---|
-| **Opcje widoku…** (View options…) | Siatka główna i pomocnicza, kolory obszaru roboczego, grubość linii, **Pokaż nazwy warstw**, **Podgląd G-code po zapisaniu**, **Pokaż nazwy zmiennych**. Zob. [Ustawienia i pliki](Ustawienia-i-pliki). |
+| **Opcje widoku…** (View options…) | Siatka główna i pomocnicza, kolory obszaru roboczego, grubość linii, **Pokaż nazwy warstw**, **Podgląd G-code po zapisaniu**, **Pokaż nazwy zmiennych**. Zob. [Ustawienia i pliki](Ustawienia-i-pliki). Rozmiar czcionki i kolory **konsoli G-code**. |
 | **Opcje programu…** (Program options…) | **Szukaj nowszej wersji przy uruchamianiu programu**. |
 | **Wtyczki…** (Plugins…) | Instalowanie, włączanie, wyłączanie i usuwanie wtyczek, oficjalna lista. Zob. [Wtyczki](Wtyczki). |
 | **Język ▸** (Language) | 30 języków programu. |

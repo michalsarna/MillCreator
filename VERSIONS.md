@@ -2,6 +2,11 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.5.7 (not released yet)
+
+* **The text tool works:** a click with **Text (T)** did nothing here. It puts a text on the work area and the Properties tab opens with the field to type in, the font, size, style, spacing and alignment, and **Convert to curves** (baseCreator v1.63.0).
+* **Console:** the **Up** and **Down** keys in its field go through the commands you sent from it, and only those. Your commands have a colour of their own. **Settings → View options…** has the font size and the colours of the console (baseCreator v1.62.0).
+
 ## v0.5.6
 
 - **The same file formats in every program.** *File → Import* now also has *Import SVG…* (`Ctrl+I`) and *Import Adobe Illustrator / PDF…*: the paths are added to the open drawing, on the layer of their colour or of the Illustrator layer, and one undo takes them back. *File → Export* now also has *Export SVG…* and *Export PLT / DXF…*: the outlines of the whole drawing, not the moves of the machine. baseCreator v1.60.0.

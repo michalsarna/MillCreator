@@ -193,7 +193,7 @@ fn render_screenshots() {
         a.machine.console.push(ConsoleLine::info("Connected to /dev/ttyUSB0 @ 115200"));
         a.machine.console.push(line(Dir::Rx, "Grbl 1.1h ['$' for help]"));
         for (t, r) in [("$H", "ok"), ("G21 G90", "ok"), ("G0 Z5", "ok"), ("G0 X10 Y10", "ok")] {
-            a.machine.console.push(line(Dir::Tx, t));
+            a.machine.console.push(line(if t == "$H" { Dir::User } else { Dir::Tx }, t));
             a.machine.console.push(line(Dir::Rx, r));
         }
         a.show_3d = false;

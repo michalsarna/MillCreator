@@ -1099,7 +1099,7 @@ impl App {
                 });
             }
             SideTab::Console => {
-                if let Some(line) = self.machine.console.show(ui, self.machine.connected) {
+                if let Some(line) = self.machine.console.show(ui, self.machine.connected, &self.ed.grid_prefs.console) {
                     self.machine_line(&line);
                 }
             }
@@ -1290,6 +1290,9 @@ impl ClipHost for App {
 }
 
 impl EditorHost for App {
+    fn show_properties_tab(&mut self) {
+        self.side_tab = SideTab::Properties;
+    }
     fn panes_mut(&mut self) -> Option<&mut base_ui::work_panes::Panes> {
         Some(&mut self.panes)
     }
@@ -2402,6 +2405,22 @@ mod tests {
         assert!(a.gcode_texts.is_empty() && a.closing_text.is_none());
         frame(&mut a);
         assert!(!a.panes.has(Content::GcodeText(slot)));
+    }
+
+    #[test]
+    fn the_text_tool_places_a_text_that_goes_into_the_g_code() {
+        let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
+        let mut a = app();
+        a.new_design();
+        a.side_tab = SideTab::Layers;
+        a.place_text(base_core::geom::Pt { x: 20.0, y: 30.0 });
+        assert_eq!(a.side_tab, SideTab::Properties, "the field to type in is there");
+        assert!(a.ed.focus_text);
+        let id = a.ed.sel[0];
+        assert!(matches!(a.scene.shape(id).unwrap().kind, Kind::Text(_)));
+        a.preview_gcode();
+        a.refresh_gcode_text_after(std::time::Duration::ZERO);
+        assert!(a.gcode_texts[0].text.lines().filter(|l| l.starts_with("G1")).count() > 10, "{}", a.gcode_texts[0].text);
     }
 
     #[test]
