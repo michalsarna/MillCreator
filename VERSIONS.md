@@ -2,6 +2,15 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.5.8
+
+* **File → Print…** (Ctrl+P): the design on a paper printer, or as a PDF.
+* **Help → Quick guide** (F1), in English and Polish.
+* **Camera overlay** in the View menu, in place of the background picture: a photo or the live camera under the drawing, aligned by its corners or by reference points kept with the device, and saved with the project.
+* **Machine menu** the same as in the other programs: **Switch device…**, **Frame**, **Start job** and, on Linux, **Share over network (ser2net)…** are new in it. **Export diagnostics (zip)…** is also in the Help menu.
+* **Fix:** a stop during a check of the program left the next job not moving: the controller was put back into check mode.
+* The keys and tools that worked only in LightCreator now work here: Space for the hand, the arrows to move the selection, polygon sides and spiral turns, the boolean buttons on the palette.
+
 ## v0.5.7
 
 * **The text tool works:** a click with **Text (T)** did nothing here. It puts a text on the work area and the Properties tab opens with the field to type in, the font, size, style, spacing and alignment, and **Convert to curves** (baseCreator v1.63.0).
