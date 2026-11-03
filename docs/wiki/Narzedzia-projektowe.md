@@ -26,6 +26,10 @@ Edytor jest edytorem baseCreatora, takim samym jak w LightCreatorze.
 * **Pasek warstw** pod edytorem: jeden rząd 64 kolorów (kropka oznacza warstwy z kształtami); kliknięcie przenosi zaznaczone kształty na tę warstwę, podwójne kliknięcie otwiera jej opcje.
 * Pole robocze to pole urządzenia; jednostki to jego jednostki.
 
+## Tekst
+
+Wybierz **Tekst (T)** i kliknij na obszarze roboczym: pojawia się tekst, a karta **Właściwości** otwiera się z polem do pisania. Ustawisz tam czcionkę, rozmiar, pogrubienie i kursywę, odstępy między literami i wierszami oraz wyrównanie. **Zamień na krzywe** robi z tekstu kształty, których węzły można edytować. Nowy tekst bierze ustawienia ostatnio zmienianego.
+
 ## Układanie, kopiowanie i generowanie (menu Rozmieść → polecenia po *Narożniki dogbone / T-bone…*)
 
 Menu **Wstawianie** (Wstawianie) zawiera narzędzia lewej palety, które wstawiają obiekty (prostokąt, elipsa, trójkąt, gwiazda, wielokąt, serce, spirala, linia, linia łamana / pióro i tekst; używane narzędzie jest zaznaczone), a potem generatory wtyczek i clipart z internetu.

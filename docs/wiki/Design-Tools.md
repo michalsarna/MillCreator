@@ -26,6 +26,10 @@ The editor is the one of baseCreator, the same as in LightCreator.
 * **Layer bar** under the editor: one row of 64 colours (a dot marks the layers with shapes); a click puts the selected shapes on that layer, a double click opens its options.
 * The work area is the one of the device; the units are its units.
 
+## Text
+
+Choose **Text (T)** and click on the page: a text appears and the **Properties** tab opens with the field to type in. There you set the font, the size, bold and italic, the letter and line spacing and the alignment. **Convert to curves** turns the text into shapes whose nodes can be edited. A new text takes the settings of the text changed last.
+
 ## Arranging, copying and generating (Arrange menu → the commands after *Dogbone / T-bone corners…*)
 
 The **Insert** menu has the tools of the left palette that insert objects (rectangle, ellipse, triangle, star, polygon, heart, spiral, line, polyline / pen and text; the tool in use is ticked), then the generators of plugins and the online clipart.
