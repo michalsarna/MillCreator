@@ -22,6 +22,8 @@ The keys are written as on Windows and Linux (Ctrl); on macOS Ctrl is Cmd. An en
 | **Save as…** | Ctrl+Shift+S | Saves the project under another name. |
 | **Project setup…** | | The size and thickness of the material, the zero of the program on it, Z from the bottom, the work area as the material. See [Quick Start](Quick-Start#2-the-project-setup). |
 | **Import ▸ Import image…** | | A picture (PNG, JPG, BMP, GIF, WebP) for the page, with the import dialog. See [Design Tools](Design-Tools). |
+| **Import ▸ Import SVG…** | Ctrl+I | The paths of an SVG are added to the open drawing, each on the layer nearest to its colour. **Open…** would make a new tab of the file. |
+| **Import ▸ Import Adobe Illustrator / PDF…** | | The same for a PDF or a PDF-compatible `.ai`. A file with Illustrator layers asks whether to go by colour or by those layers. |
 | **Import ▸ Import DXF…** | | An ASCII DXF as outlines; its layers go to free layers of the project. |
 | **Import ▸ Import LightBurn project…** | | The shapes of a `.lbrn2` / `.lbrn` project. |
 | **Import ▸ Import UGS design…** | | A `.ugsd` design of UGS Designer, with its ways of cutting as layers. |
@@ -29,6 +31,8 @@ The keys are written as on Windows and Linux (Ctrl); on macOS Ctrl is Cmd. An en
 | **Import ▸ Import with a plugin…** | | A file that a plugin reads. See [Plugins](Plugins). |
 | **Import ▸ Generate shape…** | | The window of the shape generators of plugins (also in **Insert**). |
 | **Export ▸ Export G-code…** | | The same as **Milling → Export G-code…**. |
+| **Export ▸ Export SVG…** | | The whole drawing as SVG, the size of the work area. Curves are kept; pictures are left out. |
+| **Export ▸ Export PLT / DXF…** | | The outlines of the whole drawing as HPGL (`.plt`, one pen per layer) or DXF R12, by the extension you choose. These are the shapes, not the moves of the machine. |
 | **Export ▸ Export relief as STL…** | | The same as **Milling → Export relief as STL…**. |
 | **Export ▸ Export selection as SVG…** | | Writes the selected shapes (all of them when nothing is selected) as SVG. |
 | **Export ▸ Export selection as DXF…** | | The same as DXF R12, a DXF layer for every layer of the project. |

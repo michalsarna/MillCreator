@@ -2,6 +2,10 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.5.6 (not released yet)
+
+- **The same file formats in every program.** *File → Import* now also has *Import SVG…* (`Ctrl+I`) and *Import Adobe Illustrator / PDF…*: the paths are added to the open drawing, on the layer of their colour or of the Illustrator layer, and one undo takes them back. *File → Export* now also has *Export SVG…* and *Export PLT / DXF…*: the outlines of the whole drawing, not the moves of the machine.
+
 ## v0.5.5
 
 * The menu titles **Machine** and **Milling** have icons like the other titles (baseCreator v1.57.0).

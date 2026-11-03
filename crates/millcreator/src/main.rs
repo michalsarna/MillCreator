@@ -52,7 +52,7 @@ use base_ui::dialogs::AboutInfo;
 use base_ui::job_ui::StartFrom;
 use base_ui::tls_ui::TlsUi;
 use base_ui::tools_ui::{CalUi, DiagUi};
-use base_ui::editor::{EditorCommands, EditorHost, EditorImages, EditorState, Tool};
+use base_ui::editor::{EditorCommands, EditorHost, EditorImages, EditorShapeOps, EditorState, Tool};
 #[cfg(test)]
 use base_ui::editor::EditorCanvas;
 use base_ui::i18n::{self, tr, Lang};
@@ -162,7 +162,7 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::Open => Some("folder-open"),
         Act::Save | Act::SaveAs => Some("save"),
         Act::ProjectSetup => Some("sliders-horizontal"),
-        Act::ImportLightburn | Act::ImportDxf | Act::ImportUgsd | Act::ImportModel | Act::ImportPlugin => Some("file-input"),
+        Act::ImportSvg | Act::ImportAi | Act::ImportLightburn | Act::ImportDxf | Act::ImportUgsd | Act::ImportModel | Act::ImportPlugin => Some("file-input"),
         Act::ViewGcode => Some("eye"),
         Act::Plugins => Some("package-open"),
         Act::GenerateShape => Some("shapes"),
@@ -177,7 +177,7 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::CheckProgram => Some("check"),
         Act::Preview3d => Some("eye"),
         Act::ExportGcode => Some("file-code"),
-        Act::ExportRelief => Some("file-output"),
+        Act::ExportRelief | Act::ExportSvg | Act::ExportCam => Some("file-output"),
         Act::OpenRecent(_) | Act::ClearRecent => None,
         Act::Quit => Some("x"),
         Act::ViewOptions => Some("sliders-horizontal"),
@@ -760,6 +760,21 @@ impl App {
         if let Some(p) = rfd::FileDialog::new().add_filter("LightBurn", &["lbrn2", "lbrn"]).pick_file() {
             self.open(p);
         }
+    }
+
+    /// File > Import > Import SVG… and Import Adobe Illustrator / PDF…: the paths are added to the drawing. (*Open…* makes a new tab of them.)
+    fn import_drawing_dialog(&mut self, what: &str, extensions: &[&str]) {
+        if let Some(p) = rfd::FileDialog::new().add_filter(what, extensions).pick_file() {
+            if self.screen == Screen::Start {
+                self.new_design();
+            }
+            self.import_drawing_path(p);
+        }
+    }
+
+    /// The first name of an exported file: that of the project.
+    fn file_stem(&self) -> String {
+        self.path.as_ref().and_then(|p| p.file_stem()).map_or("drawing".to_string(), |s| s.to_string_lossy().into_owned())
     }
 
     /// File > Import > Import DXF…: the lines, arcs and curves of the drawing are added to the drawing.
@@ -1374,7 +1389,7 @@ impl MenuHost for App {
     fn act_enabled(&self, a: Act) -> bool {
         match a {
             Act::Std(s) => self.screen == Screen::Editor && s.enabled(self),
-            Act::Save | Act::SaveAs | Act::Preview3d | Act::ExportGcode => self.screen == Screen::Editor,
+            Act::Save | Act::SaveAs | Act::Preview3d | Act::ExportGcode | Act::ExportSvg | Act::ExportCam => self.screen == Screen::Editor,
             Act::ExportRelief => self.screen == Screen::Editor && self.relief_picture().is_some(),
             _ => true,
         }
@@ -1411,6 +1426,8 @@ impl MenuHost for App {
             Act::Save => self.save(false),
             Act::SaveAs => self.save(true),
             Act::ImportLightburn => self.import_lightburn_dialog(),
+            Act::ImportSvg => self.import_drawing_dialog("SVG", &["svg"]),
+            Act::ImportAi => self.import_drawing_dialog("Adobe Illustrator / PDF", &["ai", "pdf"]),
             Act::ImportDxf => self.import_dxf_dialog(),
             Act::ImportUgsd => self.import_ugsd_dialog(),
             Act::ImportModel => self.import_model_dialog(),
@@ -1437,6 +1454,14 @@ impl MenuHost for App {
             Act::CheckProgram => self.check_program(),
             Act::Preview3d => self.open_preview(),
             Act::ExportGcode => self.export_gcode(),
+            Act::ExportSvg => {
+                let stem = self.file_stem();
+                self.export_drawing_svg(&stem);
+            }
+            Act::ExportCam => {
+                let stem = self.file_stem();
+                self.export_drawing_cam(&stem);
+            }
             Act::ExportRelief => self.export_relief(),
             Act::OpenRecent(i) => {
                 if let Some(p) = self.recent.get(i as usize).cloned() {
@@ -1625,6 +1650,35 @@ mod tests {
     use base_core::geom::Pt;
 
     const SVG: &[u8] = br##"<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect x="10" y="10" width="40" height="20" stroke="#ff0000" fill="none"/><circle cx="70" cy="70" r="10"/></svg>"##;
+
+    /// The same formats as in the other programs: an SVG joins the drawing on the layer of its colour, and the drawing goes out as HPGL.
+    #[test]
+    fn an_imported_svg_joins_the_drawing_and_the_formats_are_those_of_every_program() {
+        let dir = std::env::temp_dir().join(format!("import-svg-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let file = dir.join("in.svg");
+        std::fs::write(&file, br##"<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect x="10" y="10" width="40" height="20" stroke="#ff0000" fill="none"/></svg>"##).unwrap();
+        let mut a = app();
+        a.scene.add(3, base_core::scene::Kind::Rect { w: 5.0, h: 5.0 }, base_core::geom::Xf::IDENTITY);
+        a.import_drawing_path(file);
+        assert_eq!(a.scene.shapes.len(), 2, "added, not a new drawing");
+        assert_eq!(a.scene.shapes[1].layer, base_core::layers::nearest([255, 0, 0]));
+        assert_eq!(a.ed.sel, vec![a.scene.shapes[1].id]);
+        a.undo();
+        assert_eq!(a.scene.shapes.len(), 1);
+        assert!(base_core::export::hpgl(&a.scene, &[], 100.0).contains("SP4;"));
+        let m = menu::menus();
+        let labels = |title: &str| -> Vec<&str> {
+            m[0].1.iter().find_map(|e| match e { base_ui::menu::Entry::Sub(t, inner) if *t == title => Some(inner), _ => None }).unwrap().iter().filter_map(|e| match e { base_ui::menu::Entry::Item(_, l, _) => Some(*l), _ => None }).collect()
+        };
+        for f in ["Import SVG…", "Import Adobe Illustrator / PDF…", "Import DXF…", "Import LightBurn project…", "Import UGS design…"] {
+            assert!(labels("Import").contains(&f), "{f}");
+        }
+        for f in ["Export G-code…", "Export SVG…", "Export PLT / DXF…"] {
+            assert!(labels("Export").contains(&f), "{f}");
+        }
+        let _ = std::fs::remove_dir_all(&dir);
+    }
 
     pub(crate) fn app() -> App {
         let mut a = App::build(&egui::Context::default(), None, false);
