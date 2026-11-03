@@ -43,6 +43,9 @@ Klawisz należy tylko do jednej pozycji (sprawdza to test programu): Ctrl+Shift+
 | Delete, Backspace | Usuwa zaznaczone kształty; z narzędziem węzłów i zaznaczonymi węzłami usuwa węzły. |
 | Esc | Czyści zaznaczenie (i punkty linii rysowanej piórem). |
 | Esc dwa razy | Drugie Esc w ciągu pół sekundy wraca do narzędzia **Zaznaczanie** (Select). |
+| Spacja (przytrzymana) | Przesuwanie widoku przy każdym narzędziu; po puszczeniu wraca poprzednie narzędzie. |
+| Strzałki | Przesuwają zaznaczenie o 1 mm; **Shift** + strzałka = 10 mm (nie przy zaznaczonej **Klawiaturze** na karcie Sterowanie). |
+| G, I | Wielokąt i spirala: małe okno ustawia liczbę boków lub zwojów, także w kształcie narysowanym ostatnio. |
 | Ctrl+1 … Ctrl+9, Ctrl+0 | Pokazuje rysunek z karty 1 … 9; Ctrl+0 to karta 10. |
 | Ctrl+W | Zamyka pokazany rysunek (pyta o niezapisaną pracę). |
 | Enter | Kończy linię narzędzia pióra (to samo robi prawy przycisk albo dwuklik). |

@@ -377,7 +377,6 @@ struct App {
     pv_tab_seen: bool,
     show_options: bool,
     /// When the last Escape was pressed (a second one within half a second selects the select tool).
-    esc_time: f64,
     /// Look for a newer release when the program starts.
     check_updates: bool,
     update: base_ui::dialogs::UpdateState,
@@ -512,7 +511,6 @@ impl App {
             pv_tab_shown: false,
             pv_tab_seen: false,
             show_options: false,
-            esc_time: -10.0,
             check_updates: on("check_updates", true),
             update: Default::default(),
             show_program_options: false,
@@ -892,34 +890,10 @@ impl App {
             } else if !native && pressed(egui::Key::Q) {
                 self.request_close(ctx);
             }
-        } else if pressed(egui::Key::Delete) || pressed(egui::Key::Backspace) {
-            if self.ed.tool == Tool::Node && !self.ed.node_sel.is_empty() {
-                self.delete_nodes();
-            } else {
-                self.delete_selection();
-            }
-        } else if pressed(egui::Key::Escape) {
-            let now = ctx.input(|i| i.time);
-            self.note_escape(now);
-            self.ed.sel.clear();
-            self.ed.node_sel.clear();
-            self.ed.pen_pts.clear();
         } else {
-            for (tool, _, key) in Tool::ALL {
-                if pressed(key) {
-                    self.ed.tool = tool;
-                }
-            }
-        }
-    }
-
-    /// A second Escape within half a second goes back to the select tool.
-    pub(crate) fn note_escape(&mut self, now: f64) {
-        if now - self.esc_time < 0.5 {
-            self.ed.tool = Tool::Select;
-            self.esc_time = -10.0;
-        } else {
-            self.esc_time = now;
+            // The arrows move the selected shapes, unless they move the machine (the Keyboard switch of the Control tab).
+            let arrows = !self.machine.keyboard_jog;
+            base_ui::editor::plain_keys(self, ctx, arrows);
         }
     }
 
@@ -1254,6 +1228,7 @@ impl App {
             self.dialogs(&ctx);
             return;
         }
+        base_ui::editor::hold_space(self, &ctx);
         self.shortcuts(&ctx);
         let chrome = egui::Frame::new().fill(theme::panel()).stroke(egui::Stroke::new(1.0, theme::border())).inner_margin(egui::Margin::symmetric(8, 4));
         #[cfg(target_os = "macos")]
@@ -1265,7 +1240,7 @@ impl App {
         }
         egui::Panel::top("controls").frame(chrome).exact_size(36.0).show(ui, |ui| self.control_bar(ui));
         egui::Panel::bottom("status").frame(chrome).exact_size(26.0).show(ui, |ui| self.status_bar(ui));
-        egui::Panel::left("tools").frame(chrome).exact_size(52.0).resizable(false).show(ui, |ui| base_ui::editor::tool_palette(self, ui, None));
+        egui::Panel::left("tools").frame(chrome).exact_size(52.0).resizable(false).show(ui, |ui| base_ui::editor::tool_palette(self, ui));
         let side = if self.tabs.collapsed {
             egui::Panel::right("side_strip").frame(chrome.inner_margin(egui::Margin::same(3))).exact_size(base_ui::side_tabs::STRIP_W).resizable(false).show(ui, |ui| self.side_strip(ui))
         } else {
