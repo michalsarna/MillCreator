@@ -2,6 +2,13 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.5.9
+
+* **Negative image** is now also in Properties of a selected picture.
+* **Fix:** a job started right after **Check the program** with *Check the program before every run* switched on could stay at 0 lines: leaving check mode restarts GRBL, and the first lines were lost. Nothing moved.
+* **Fix:** **F1** did not open the quick guide. It does now.
+* **Fix:** some symbols showed as empty boxes: the buttons in the layer presets window, the delete button of saved positions and of the rows of a CSV file, and the mark in front of the explanation of an alarm or error in the console.
+
 ## v0.5.8
 
 * **File → Print…** (Ctrl+P): the design on a paper printer, or as a PDF.
