@@ -61,6 +61,7 @@ impl Workspace {
         p.set_section(crate::section::SECTION, &crate::section::MillSection::new(&self.layers, &self.stock, device, tools));
         p.restore_sections(&self.kept.other_sections(crate::section::SECTION));
         p.restore_extra(self.kept.extra());
+        base_ui::editor::background_section(&self.view.background, &self.view.background_pending, &mut p);
         p
     }
 }

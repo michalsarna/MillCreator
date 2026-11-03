@@ -37,6 +37,7 @@ The keys are written as on Windows and Linux (Ctrl); on macOS Ctrl is Cmd. An en
 | **Export ▸ Export selection as SVG…** | | Writes the selected shapes (all of them when nothing is selected) as SVG. |
 | **Export ▸ Export selection as DXF…** | | The same as DXF R12, a DXF layer for every layer of the project. |
 | **View G-code file…** | | Opens a G-code file in the **G-code analysis**: its toolpath in 2D or 3D, the length of the cuts and the time. |
+| **Print…** | Ctrl+P | Prints the design on a paper printer, or saves it as a PDF. |
 | **Quit** | Ctrl+Q | Ends the program; it asks about unsaved work first. Not on macOS (it is in the **MillCreator** menu there). |
 
 ## Edit
@@ -98,7 +99,8 @@ All of them are explained in [Design Tools](Design-Tools).
 | **Auto-fit work area to window** | | A switch (ticked when on, except on macOS): the work area keeps fitting the window while it is resized (zooming by hand switches it off). |
 | **Split view: side by side**, **Split view: one above the other** | | Divide the central area into panes (a second pane is added when there is one). |
 | **Single view** | | All the tabs in one pane again. |
-| **Background picture…** | | A photo or plan under the drawing. See [Design Tools](Design-Tools#background-picture-view-menu-and-the-trace-dialog). |
+| **Show camera overlay** | | Shows or hides the picture under the drawing. |
+| **Overlay from…** | | A photo or the live picture of the camera under the drawing, aligned by its four corners or by reference points. Saved with the project. |
 
 Panes and tabs: [Panes and Tabs](Panes-and-Tabs).
 
@@ -108,11 +110,15 @@ The settings of the machine first, then what runs on it. See [Machine Control](M
 
 | Entry | What it does |
 |---|---|
+| **Switch device…** | Goes back to the start screen to choose another device. |
 | **Device settings…** | The settings of the device in use (the pages are in [Devices and Cameras](Devices-and-Cameras)). |
 | **Firmware settings ($$)…** | The settings of the GRBL controller, with backups. |
 | **Calibration…** | Steps per millimetre and the squareness of the axes. |
 | **Tool length sensor…** | The wizard of the tool length sensor. |
 | **Diagnostics and statistics…** | The input pins, the jobs, the hours, alarms and errors, maintenance reminders, the export of a report. |
+| **Share over network (ser2net)…** | Linux only: shares the serial port of the machine over the network. |
+| **Frame** | Goes round the box of the job (needs a connected machine). |
+| **Start job** | Sends the job (needs a connected machine). |
 | **Start from line…** | Starts the job at a line of the program. |
 | **Check the program** | The controller goes through the program in check mode (`$C`): nothing moves, the lines it does not understand are reported. Needs a connected machine. |
 
@@ -142,5 +148,7 @@ The settings of the machine first, then what runs on it. See [Machine Control](M
 | **Project page on GitHub** | Opens the repository of MillCreator in the browser. |
 | **Download backup…** | Saves the settings and the shared clipart gallery in one zip. See [Settings and Files](Settings-and-Files). |
 | **Restore from backup…** | Reads such a zip back. |
+| **Quick guide** (F1) | The guide inside the program, with a search. |
+| **Export diagnostics (zip)…** | One file with the report, the settings and the console, to attach to a bug report. |
 | **Check for updates…** | Looks for a newer release of MillCreator. |
 | **About** | The version, the licence and the credits. Not on macOS (**MillCreator → About MillCreator** there). |

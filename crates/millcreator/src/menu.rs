@@ -1,6 +1,6 @@
 //! What the menus of MillCreator can do and how they are laid out. The standard editing commands come from base-ui.
 use base_ui::i18n::Lang;
-use base_ui::menu::{key, standard_menus, Entry, MenuParts, Menus, StdAct};
+use base_ui::menu::{key, machine_menu, overlay_entries, standard_menus, Entry, MachineMenu, MenuParts, Menus, StdAct};
 use base_ui::theme::Scheme;
 
 /// How many recent files the File menu keeps.
@@ -50,6 +50,14 @@ pub enum Act {
     DownloadBackup,
     RestoreBackup,
     About,
+    Print,
+    QuickGuide,
+    ExportDiagnostics,
+    SwitchDevice,
+    ShareSer2net,
+    Frame,
+    StartJob,
+    ToggleOverlay,
 }
 
 impl From<StdAct> for Act {
@@ -93,14 +101,26 @@ pub fn menus() -> Menus<Act> {
         import_extra: vec![Item(Act::ImportModel, "Import 3D model as relief…", None)],
         export_first: vec![Item(Act::ExportGcode, "Export G-code…", None)],
         export_extra: vec![Item(Act::ExportRelief, "Export relief as STL…", None)],
-        output_extra: vec![],
-        view_extra: vec![],
-        background: true,
-        machine: vec![Item(Act::DeviceSettings, "Device settings…", None), Item(Act::Firmware, "Firmware settings ($$)…", None), Item(Act::Calibration, "Calibration…", None), Item(Act::ToolSensor, "Tool length sensor…", None), Item(Act::Diagnostics, "Diagnostics and statistics…", None), Sep, Item(Act::StartFrom, "Start from line…", None), Item(Act::CheckProgram, "Check the program", None)],
+        output_extra: vec![Item(Act::Print, "Print…", key("CmdOrCtrl+P", "Ctrl+P"))],
+        view_extra: overlay_entries(Act::ToggleOverlay, Act::Std(StdAct::BackgroundPicture)),
+        background: false,
+        machine: machine_menu(MachineMenu {
+            switch_device: Act::SwitchDevice,
+            device_settings: Act::DeviceSettings,
+            firmware: Act::Firmware,
+            calibration: Act::Calibration,
+            own: vec![Item(Act::ToolSensor, "Tool length sensor…", None)],
+            diagnostics: Act::Diagnostics,
+            share: Act::ShareSer2net,
+            frame: Act::Frame,
+            start_job: Act::StartJob,
+            start_from: Act::StartFrom,
+            check_program: Act::CheckProgram,
+        }),
         process: ("Milling", vec![Item(Act::ToolLibrary, "Bit library…", None), Sep, Item(Act::Preview3d, "3D view of the job…", key("CmdOrCtrl+Shift+P", "Ctrl+Shift+P")), Item(Act::ExportGcode, "Export G-code…", key("CmdOrCtrl+E", "Ctrl+E")), Item(Act::ExportRelief, "Export relief as STL…", None)]),
         settings_extra: vec![],
-        help_first: vec![],
-        help_extra: vec![],
+        help_first: vec![Item(Act::QuickGuide, "Quick guide", key("F1", "F1"))],
+        help_extra: vec![Item(Act::ExportDiagnostics, "Export diagnostics (zip)…", None)],
     })
 }
 

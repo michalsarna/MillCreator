@@ -737,6 +737,7 @@ impl App {
             Some((rect, slack_x)) => self.cam_fit.measure(ui, rect, slack_x),
             None => self.cam_fit.slack = egui::Vec2::ZERO,
         }
+        base_ui::editor::EditorBackground::overlay_toggle_button(self, ui);
         // Photos, video and time-lapse, with their folder.
         ui.add_space(4.0);
         ui.separator();

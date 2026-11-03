@@ -37,6 +37,7 @@ Klawisze są zapisane jak w Windows i Linuksie (Ctrl); na macOS Ctrl to Cmd. Poz
 | **Eksport ▸ Eksportuj zaznaczenie jako SVG…** | | Zapisuje zaznaczone kształty (wszystkie, gdy nic nie jest zaznaczone) jako SVG. |
 | **Eksport ▸ Eksportuj zaznaczenie jako DXF…** | | To samo jako DXF R12, z warstwą DXF dla każdej warstwy projektu. |
 | **Pokaż plik G-code…** (View G-code file…) | | Otwiera plik G-code w analizie G-code: jego ścieżkę w 2D lub 3D, długość cięcia i czas. |
+| **Drukuj…** (Print…) | Ctrl+P | Drukuje projekt na drukarce papierowej albo zapisuje go jako PDF. |
 | **Zakończ** (Quit) | Ctrl+Q | Kończy program; najpierw pyta o niezapisaną pracę. Nie na macOS (tam jest w menu **MillCreator**). |
 
 ## Edycja (Edit)
@@ -98,7 +99,8 @@ Wszystkie są opisane w [Narzędziach projektowych](Narzedzia-projektowe).
 | **Automatycznie dopasuj obszar roboczy do okna** | | Przełącznik (zaznaczony, gdy włączony, poza macOS): obszar roboczy dopasowuje się do okna przy zmianie jego rozmiaru (ręczne powiększanie go wyłącza). |
 | **Podziel widok: obok siebie**, **Podziel widok: jeden nad drugim** | | Dzielą środkową część okna na panele (gdy jest jeden, dochodzi drugi). |
 | **Jeden widok** (Single view) | | Wszystkie karty znów w jednym panelu. |
-| **Obraz w tle…** (Background picture…) | | Zdjęcie albo plan pod rysunkiem. Zob. [Narzędzia projektowe](Narzedzia-projektowe). |
+| **Pokaż nakładkę z kamery** | | Pokazuje lub ukrywa obraz pod rysunkiem. |
+| **Nakładka z…** | | Zdjęcie albo obraz na żywo z kamery pod rysunkiem, ustawiane czterema narożnikami albo punktami odniesienia. Zapisywana w projekcie. |
 
 Panele i karty: [Narzędzia projektowe](Narzedzia-projektowe).
 
@@ -108,11 +110,15 @@ Najpierw ustawienia maszyny, potem to, co na niej działa. Zob. [Sterowanie masz
 
 | Pozycja | Co robi |
 |---|---|
+| **Zmień urządzenie…** (Switch device…) | Wraca do ekranu startowego, aby wybrać inne urządzenie. |
 | **Ustawienia urządzenia…** (Device settings…) | Ustawienia używanego urządzenia (strony są opisane w [Urządzeniach i kamerach](Urzadzenia-i-kamery)). |
 | **Ustawienia firmware ($$)…** | Ustawienia sterownika GRBL, z kopiami zapasowymi. |
 | **Kalibracja…** (Calibration…) | Kroki na milimetr i prostopadłość osi. |
 | **Czujnik długości narzędzia…** (Tool length sensor…) | Kreator czujnika długości narzędzia. |
 | **Diagnostyka i statystyki…** | Wejścia sterownika, zadania, godziny, alarmy i błędy, przypomnienia o konserwacji, eksport raportu. |
+| **Udostępnij w sieci (ser2net)…** (Share over network (ser2net)…) | Tylko Linux: udostępnia port szeregowy maszyny w sieci. |
+| **Obrys** (Frame) | Obchodzi prostokąt zadania (wymaga podłączonej maszyny). |
+| **Rozpocznij zadanie** (Start job) | Wysyła zadanie (wymaga podłączonej maszyny). |
 | **Start od wiersza…** (Start from line…) | Zaczyna zadanie od wiersza programu. |
 | **Sprawdź program** (Check the program) | Sterownik przechodzi program w trybie sprawdzania (`$C`): nic się nie rusza, a wiersze, których nie rozumie, są zgłaszane. Wymaga połączonej maszyny. |
 
@@ -142,5 +148,7 @@ Najpierw ustawienia maszyny, potem to, co na niej działa. Zob. [Sterowanie masz
 | **Strona projektu na GitHubie** | Otwiera repozytorium MillCreatora w przeglądarce. |
 | **Pobierz kopię zapasową…** (Download backup…) | Zapisuje ustawienia i wspólną galerię clipartów w jednym pliku zip. Zob. [Ustawienia i pliki](Ustawienia-i-pliki). |
 | **Przywróć z kopii zapasowej…** (Restore from backup…) | Wczytuje taki plik zip z powrotem. |
+| **Krótki przewodnik** (Quick guide) (F1) | Przewodnik w programie, z wyszukiwarką. |
+| **Eksportuj diagnostykę (zip)…** (Export diagnostics (zip)…) | Jeden plik z raportem, ustawieniami i konsolą, do dołączenia do zgłoszenia błędu. |
 | **Sprawdź aktualizacje…** (Check for updates…) | Szuka nowszego wydania MillCreatora. |
 | **O programie** (About) | Wersja, licencja i podziękowania. Nie na macOS (tam **MillCreator → About MillCreator**). |
