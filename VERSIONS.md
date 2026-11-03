@@ -2,7 +2,7 @@
 
 Each release gets the next version number. Newest first.
 
-## v0.5.7 (not released yet)
+## v0.5.7
 
 * **The text tool works:** a click with **Text (T)** did nothing here. It puts a text on the work area and the Properties tab opens with the field to type in, the font, size, style, spacing and alignment, and **Convert to curves** (baseCreator v1.63.0).
 * **Console:** the **Up** and **Down** keys in its field go through the commands you sent from it, and only those. Your commands have a colour of their own. **Settings → View options…** has the font size and the colours of the console (baseCreator v1.62.0).
