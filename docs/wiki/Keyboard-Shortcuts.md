@@ -43,6 +43,9 @@ A key belongs to one entry only (a test of the program checks it): Ctrl+Shift+G 
 | Delete, Backspace | Deletes the selected shapes; with the node tool and nodes selected, the nodes. |
 | Esc | Clears the selection (and the points of a line being drawn with the pen). |
 | Esc twice | A second Esc within half a second goes back to the **Select** tool. |
+| Space (hold) | Pan with any tool; release it to go back to the tool you had. |
+| Arrow keys | Move the selection by 1 mm; **Shift** + arrow = 10 mm (not while **Keyboard** is ticked on the Control tab). |
+| G, I | Polygon and spiral: a small window sets the number of sides or turns, also of the shape drawn last. |
 | Ctrl+1 … Ctrl+9, Ctrl+0 | Shows the drawing in tab 1 … 9; Ctrl+0 is tab 10. |
 | Ctrl+W | Closes the drawing that is shown (it asks about unsaved work). |
 | Enter | Finishes the line of the pen tool (a right click or a double click does it too). |
