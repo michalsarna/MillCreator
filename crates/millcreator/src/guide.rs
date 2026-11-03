@@ -68,7 +68,7 @@ pub const EN: &[Section] = &[
     },
 ];
 
-const PL: &[Section] = &[
+pub const PL: &[Section] = &[
     Section {
         title: "Pierwsze kroki",
         lines: &[
