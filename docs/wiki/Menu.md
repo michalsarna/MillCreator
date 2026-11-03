@@ -21,7 +21,9 @@ Klawisze są zapisane jak w Windows i Linuksie (Ctrl); na macOS Ctrl to Cmd. Poz
 | **Zapisz** (Save) | Ctrl+S | Zapisuje projekt (`.cre`). |
 | **Zapisz jako…** (Save as…) | Ctrl+Shift+S | Zapisuje projekt pod inną nazwą. |
 | **Ustawienia projektu…** (Project setup…) | | Rozmiar i grubość materiału, zero programu na nim, Z od spodu, obszar roboczy jako materiał. Zob. [Szybki start](Szybki-start#2-ustawienia-projektu). |
-| **Importuj ▸ Import obrazu…** | | Obraz (PNG, JPG, BMP, GIF, WebP) na stronę, z oknem importu. Zob. [Narzędzia projektowe](Narzedzia-projektowe). |
+| **Importuj ▸ Importuj obraz…** | | Obraz (PNG, JPG, BMP, GIF, WebP) na stronę, z oknem importu. Zob. [Narzędzia projektowe](Narzedzia-projektowe). |
+| **Importuj ▸ Importuj SVG…** | Ctrl+I | Ścieżki pliku SVG są dodawane do otwartego rysunku, każda na warstwę o najbliższym kolorze. **Otwórz…** zrobiłoby z pliku nową kartę. |
+| **Importuj ▸ Importuj Adobe Illustrator / PDF…** | | To samo dla pliku PDF lub zgodnego z PDF `.ai`. Plik z warstwami Illustratora pyta, czy układać według koloru, czy według tych warstw. |
 | **Importuj ▸ Importuj DXF…** | | DXF w ASCII jako obrysy; jego warstwy trafiają na wolne warstwy projektu. |
 | **Importuj ▸ Importuj projekt LightBurn…** | | Kształty projektu `.lbrn2` / `.lbrn`. |
 | **Importuj ▸ Importuj projekt UGS…** | | Projekt `.ugsd` z UGS Designera, ze sposobami cięcia jako warstwami. |
@@ -29,6 +31,8 @@ Klawisze są zapisane jak w Windows i Linuksie (Ctrl); na macOS Ctrl to Cmd. Poz
 | **Importuj ▸ Importuj wtyczką…** | | Plik, który czyta wtyczka. Zob. [Wtyczki](Wtyczki). |
 | **Importuj ▸ Generuj kształt…** | | Okno generatorów kształtów z wtyczek (także w menu **Wstawianie**). |
 | **Eksport ▸ Eksportuj G-code…** | | To samo co **Frezowanie → Eksportuj G-code…**. |
+| **Eksport ▸ Eksportuj SVG…** | | Cały rysunek jako SVG, w rozmiarze obszaru roboczego. Krzywe zostają; obrazy są pomijane. |
+| **Eksport ▸ Eksportuj PLT / DXF…** | | Obrysy całego rysunku jako HPGL (`.plt`, jeden pisak na warstwę) albo DXF R12, zależnie od wybranego rozszerzenia. To kształty, a nie ruchy maszyny. |
 | **Eksport ▸ Eksportuj relief jako STL…** | | To samo co **Frezowanie → Eksportuj relief jako STL…**. |
 | **Eksport ▸ Eksportuj zaznaczenie jako SVG…** | | Zapisuje zaznaczone kształty (wszystkie, gdy nic nie jest zaznaczone) jako SVG. |
 | **Eksport ▸ Eksportuj zaznaczenie jako DXF…** | | To samo jako DXF R12, z warstwą DXF dla każdej warstwy projektu. |
