@@ -22,6 +22,7 @@ mod panes_glue;
 mod handtabs;
 #[cfg(test)]
 mod grbl_sim_tests;
+mod guide;
 mod menu;
 mod plugins_glue;
 mod preview_ui;
@@ -42,6 +43,7 @@ mod screenshots;
 #[cfg(target_os = "macos")]
 mod native_menu;
 
+use base_ui::editor::EditorBackground;
 use base_core::geom::Xf;
 use base_core::project::{self, Project};
 use base_core::scene::{Kind, Scene};
@@ -187,6 +189,14 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::RestoreBackup => Some("package-open"),
         Act::OpenGithub => Some("github"),
         Act::About => Some("info"),
+        Act::Print => Some("printer"),
+        Act::QuickGuide => Some("book-open"),
+        Act::ExportDiagnostics => Some("file-output"),
+        Act::SwitchDevice => Some("refresh-cw"),
+        Act::ShareSer2net => Some("wifi"),
+        Act::Frame => Some("square-dashed"),
+        Act::StartJob => Some("play"),
+        Act::ToggleOverlay => Some("layers"),
         Act::SetLang(_) | Act::SetScheme(_) => None,
     }
 }
@@ -382,6 +392,10 @@ struct App {
     update: base_ui::dialogs::UpdateState,
     show_program_options: bool,
     show_about: bool,
+    show_guide: bool,
+    guide_filter: String,
+    print: Option<base_ui::print_ui::PrintDlg>,
+    ser2net: Option<base_ui::ser2net_ui::Ser2NetDlg>,
     #[cfg(target_os = "macos")]
     native_menu: Option<native_menu::NativeMenu>,
 }
@@ -515,6 +529,10 @@ impl App {
             update: Default::default(),
             show_program_options: false,
             show_about: false,
+            show_guide: false,
+            guide_filter: String::new(),
+            print: None,
+            ser2net: None,
             #[cfg(target_os = "macos")]
             native_menu: native_menu.then(|| native_menu::install(ctx)),
         };
@@ -560,6 +578,7 @@ impl App {
         self.path = None;
         self.description.clear();
         self.kept = Project::default();
+        self.background_from_project(&Project::default());
         self.layers = layers::default_layers(&self.tools);
         self.stock = Stock::default();
         self.touch_rev();
@@ -633,6 +652,9 @@ impl App {
                 self.description = file.as_ref().map(|p| p.description.clone()).unwrap_or_default();
                 self.kept = file.unwrap_or_default();
                 self.kept.scene = Scene::default();
+                let kept = std::mem::take(&mut self.kept);
+                self.background_from_project(&kept);
+                self.kept = kept;
                 self.status = format!("Opened {name}: {} shapes", scene.shapes.len());
                 if let Some(m) = loaded.machine.as_ref().and_then(|m| m.differences(&self.device)) {
                     self.status.push_str(&format!(" — {}", tr("this project was made for a different machine: {}").replace("{}", &m)));
@@ -725,6 +747,7 @@ impl App {
         p.set_section(section::SECTION, &section::MillSection::new(&self.layers, &self.stock, &self.device, &self.tools));
         p.restore_sections(&self.kept.other_sections(section::SECTION));
         p.restore_extra(self.kept.extra());
+        self.background_to_project(&mut p);
         p
     }
 
@@ -1174,6 +1197,7 @@ impl App {
         tools_ui::tools_window(ctx, &mut self.tools_win, &mut self.tools);
         self.device_window(ctx);
         self.machine_windows(ctx);
+        self.shared_windows(ctx);
         self.setup_window(ctx);
         self.preview_window(ctx);
         self.show_options = show;
@@ -1264,12 +1288,63 @@ impl ClipHost for App {
     }
 }
 
+impl App {
+    /// What goes on paper: the shapes and the look of their layers.
+    fn print_source(&self) -> base_core::print::PrintSource<'_> {
+        let layers: Vec<base_core::print::PrintLayer> = self.layers.iter().map(|l| base_core::print::PrintLayer { rgb: l.color, filled: matches!(l.op, layers::Operation::Pocket | layers::Operation::Face), visible: l.visible }).collect();
+        let order = (0..layers.len()).collect();
+        base_core::print::PrintSource { shapes: &self.scene.shapes, layers, order, work: self.work_size(), program: "MillCreator", device: &self.device.name }
+    }
+
+    /// The zip of diagnostics, from the Help menu and from the window of diagnostics.
+    fn export_diagnostics(&mut self) {
+        let info = base_ui::tools_ui::DiagInfo { title: "MillCreator", version: crate::VERSION, device: serde_json::to_string_pretty(&self.device).unwrap_or_default(), gcode: self.diag_gcode.as_deref() };
+        if let Some(s) = base_ui::tools_ui::export_diagnostics(&self.machine, &self.device.control, &info) {
+            self.status = s;
+        }
+    }
+
+    /// The windows every program has: print, the quick guide, sharing the port.
+    fn shared_windows(&mut self, ctx: &egui::Context) {
+        let mut print = self.print.take();
+        if print.is_some() {
+            base_ui::print_ui::window(ctx, &mut print, &self.print_source());
+        }
+        self.print = print;
+        let footer = tr("This guide is available in English and Polish; other languages show the English text.");
+        base_ui::dialogs::guide_window(ctx, &mut self.show_guide, &mut self.guide_filter, guide::sections(), &["Getting started", "Pierwsze kroki"], "https://github.com/michalsarna/MillCreator", footer);
+        let ports: Vec<String> = self.machine.ports.iter().map(|p| p.name.clone()).collect();
+        if base_ui::ser2net_ui::window(ctx, &mut self.ser2net, &ports) {
+            self.machine.refresh_ports();
+        }
+    }
+}
+
 impl EditorHost for App {
     fn show_properties_tab(&mut self) {
         self.side_tab = SideTab::Properties;
     }
     fn panes_mut(&mut self) -> Option<&mut base_ui::work_panes::Panes> {
         Some(&mut self.panes)
+    }
+    fn overlay_camera(&mut self) -> Option<&mut base_core::camimg::CameraSource> {
+        let at = self.device.active_camera;
+        self.device.camera()?;
+        self.device.cameras.get_mut(at)
+    }
+    fn overlay_camera_changed(&mut self) {
+        if let Some(slot) = self.active.and_then(|i| self.devices.get_mut(i)) {
+            slot.cameras = self.device.cameras.clone();
+        }
+    }
+    fn live_camera(&mut self, ctx: &egui::Context) -> Option<u64> {
+        self.device.camera()?;
+        self.cam_drawn = true;
+        self.camera_pump(ctx);
+        self.cam.as_ref().map(|f| f.frames)
+    }
+    fn camera_error(&self) -> String {
+        self.cam.as_ref().map(|f| f.error.clone()).unwrap_or_default()
     }
     fn background_camera_image(&self) -> Option<(egui::ColorImage, String)> {
         let cam = self.device.camera()?;
@@ -1367,6 +1442,10 @@ impl MenuHost for App {
     fn act_enabled(&self, a: Act) -> bool {
         match a {
             Act::Std(s) => self.screen == Screen::Editor && s.enabled(self),
+            Act::Print | Act::SwitchDevice => self.screen == Screen::Editor,
+            Act::Frame => self.screen == Screen::Editor && self.machine.connected && !self.machine.job_running(),
+            Act::StartJob => self.screen == Screen::Editor && self.can_start(),
+            Act::ToggleOverlay => self.ed.background.is_some(),
             Act::Save | Act::SaveAs | Act::Preview3d | Act::ExportGcode | Act::ExportSvg | Act::ExportCam => self.screen == Screen::Editor,
             Act::ExportRelief => self.screen == Screen::Editor && self.relief_picture().is_some(),
             _ => true,
@@ -1375,6 +1454,7 @@ impl MenuHost for App {
     fn act_checked(&self, a: Act) -> Option<bool> {
         match a {
             Act::Std(s) => s.checked(self),
+            Act::ToggleOverlay => Some(self.ed.background.as_ref().is_some_and(|b| b.visible)),
             Act::SetLang(l) => Some(self.lang == l),
             Act::SetScheme(s) => Some(self.scheme == s),
             _ => None,
@@ -1468,6 +1548,30 @@ impl MenuHost for App {
             Act::RestoreBackup => self.restore_backup_dialog(ctx),
             Act::OpenGithub => ctx.open_url(egui::OpenUrl::new_tab("https://github.com/michalsarna/MillCreator")),
             Act::About => self.show_about = true,
+            Act::Print => self.print = Some(base_ui::print_ui::PrintDlg::open()),
+            Act::QuickGuide => self.show_guide = true,
+            Act::ExportDiagnostics => {
+                self.diag_gcode = self.job_lines().map(|(l, _)| l.join("\n"));
+                self.export_diagnostics();
+            }
+            Act::SwitchDevice => {
+                self.start_sel = self.active.unwrap_or(0);
+                self.confirm_delete = false;
+                self.screen = Screen::Start;
+            }
+            Act::ShareSer2net => {
+                self.machine.refresh_ports();
+                let ports: Vec<String> = self.machine.ports.iter().map(|p| p.name.clone()).collect();
+                let c = &self.device.connection;
+                self.ser2net = Some(base_ui::ser2net_ui::Ser2NetDlg::open(&c.port, c.baud, c.tcp_port, &ports));
+            }
+            Act::Frame => self.frame_job(),
+            Act::StartJob => self.start_job(),
+            Act::ToggleOverlay => {
+                if let Some(b) = self.ed.background.as_mut() {
+                    b.visible = !b.visible;
+                }
+            }
         }
     }
 }
