@@ -139,7 +139,7 @@ Najpierw ustawienia maszyny, potem to, co na niej działa. Zob. [Sterowanie masz
 | **Opcje programu…** (Program options…) | **Szukaj nowszej wersji przy uruchamianiu programu**. |
 | **Wtyczki…** (Plugins…) | Instalowanie, włączanie, wyłączanie i usuwanie wtyczek, oficjalna lista. Zob. [Wtyczki](Wtyczki). |
 | **Język ▸** (Language) | 30 języków programu. |
-| **Schemat kolorów ▸** (Colour scheme) | 14 schematów kolorów okna oraz świąteczne w okolicy Bożego Narodzenia, Nowego Roku, Halloween i Wielkanocy. |
+| **Schemat kolorów ▸** (Colour scheme) | 18 schematów kolorów okna oraz świąteczne w okolicy Bożego Narodzenia, Nowego Roku, Halloween i Wielkanocy. |
 
 ## Pomoc (Help)
 

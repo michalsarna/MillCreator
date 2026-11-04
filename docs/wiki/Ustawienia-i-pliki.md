@@ -17,6 +17,6 @@ Język, schemat kolorów, opcje widoku, ostatnie pliki, **lista urządzeń** i *
 * Okno ma własną płaską ramkę. Menu **Ustawienia** (Settings) ma:
   * **Opcje widoku…**: **Siatka główna** i **Siatka pomocnicza** (pokazywanie, odległość między liniami, kolor), kolory **Obszaru roboczego** (**Kolor tła**, **Kolor obszaru roboczego**, automatyczne albo własne), **Grubość linii**, **Pokaż nazwy warstw** (nazwy obok kolorów paska warstw), **Podgląd G-code po zapisaniu** (zapisany G-code otwiera się w analizie G-code) i **Pokaż nazwy zmiennych** (nazwy zmiennych własnego G-code obok pól; kliknięcie kopiuje). **Przywróć siatkę** przywraca siatki i kolory.
   * **Opcje programu…**: **Szukaj nowszej wersji przy uruchamianiu programu** (domyślnie włączone; **Pomoc → Sprawdź aktualizacje…** sprawdza od razu).
-  * **Wtyczki…**, **Język** (30, dla wspólnych tekstów i własnych MillCreatora) i **Schemat kolorów** (14 oraz świąteczne w okolicy świąt).
+  * **Wtyczki…**, **Język** (30, dla wspólnych tekstów i własnych MillCreatora) i **Schemat kolorów** (18 oraz świąteczne w okolicy świąt).
 * Inne pliki we wspólnym folderze danych: `mill_layer_presets.json` (presety warstw), `saved_positions.json` (zapisane pozycje maszyny), `camera_recording.json` (folder, format wideo i poklatkowe nagrań kamery) oraz folder `camera` na nagrania projektów jeszcze nie zapisanych. Panele i karty obszaru roboczego oraz panel boczny są zapamiętywane z ustawieniami.
 * **Pomoc → Strona projektu na GitHubie** otwiera repozytorium.

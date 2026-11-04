@@ -139,7 +139,7 @@ The settings of the machine first, then what runs on it. See [Machine Control](M
 | **Program options…** | **Look for a newer version when the program starts**. |
 | **Plugins…** | Install, switch on and off and remove plugins, the official list. See [Plugins](Plugins). |
 | **Language ▸** | The 30 languages of the program. |
-| **Colour scheme ▸** | The 14 colour schemes of the window, and festive ones around Christmas, the New Year, Halloween and Easter. |
+| **Colour scheme ▸** | The 18 colour schemes of the window, and festive ones around Christmas, the New Year, Halloween and Easter. |
 
 ## Help
 
