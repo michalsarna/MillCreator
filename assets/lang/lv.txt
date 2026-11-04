@@ -176,7 +176,7 @@
 175|Tiek rādīts darba apgabalā
 176|Kustību ātrums virs materiāla
 177|Vārpsta
-178|Sākt
+178|Start
 179|Sākt no
 180|Sākt darbu no programmas rindas
 181|Sāk darbu: {} rindas, ~{}

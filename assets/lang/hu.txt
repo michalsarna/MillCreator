@@ -176,7 +176,7 @@
 175|A munkaterületen látható
 176|A mozgások sebessége az anyag felett
 177|Főorsó
-178|Indítás
+178|Start
 179|Indulás innen
 180|A munka indítása a program egy sorától
 181|A munka indul: {} sor, ~{}

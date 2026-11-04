@@ -176,7 +176,7 @@
 175|Zobrazené v pracovnej ploche
 176|Rýchlosť pohybov nad materiálom
 177|Vreteno
-178|Štart
+178|Start
 179|Začať od
 180|Začať úlohu od riadku programu
 181|Spúšťa sa úloha: {} riadkov, ~{}

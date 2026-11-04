@@ -176,7 +176,7 @@
 175|Sýnt á vinnusvæðinu
 176|Hraði hreyfinga yfir efninu
 177|Snælda
-178|Byrja
+178|Start
 179|Byrja frá
 180|Hefja verkið í línu forritsins
 181|Verk hafið: {} línur, ~{}
