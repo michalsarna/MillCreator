@@ -17,6 +17,6 @@ Language, colour scheme, view options, recent files, **the list of devices** and
 * The window has its own flat frame. The **Settings** menu has:
   * **View options…**: the **Main grid** and the **Secondary grid** (show, distance between lines, colour), the **Work area** colours (**Background colour**, **Workspace colour**, automatic or your own), the **Line thickness**, **Show layer names** (the names beside the colours of the layer bar), **Preview G-code after saving** (the saved G-code opens in the G-code analysis) and **Show variable names** (the names of the variables of the own G-code beside the fields; a click copies one). **Reset grid** puts the grids and colours back.
   * **Program options…**: **Look for a newer version when the program starts** (on by default; **Help → Check for updates…** looks at once).
-  * **Plugins…**, **Language** (30, for the shared texts and MillCreator's own) and **Colour scheme** (14, and festive ones around a holiday).
+  * **Plugins…**, **Language** (30, for the shared texts and MillCreator's own) and **Colour scheme** (18, and festive ones around a holiday).
 * Other files in the shared data folder: `mill_layer_presets.json` (the layer presets), `saved_positions.json` (the saved positions of the machine), `camera_recording.json` (the folder, the video format and the time-lapse of the camera recordings) and the folder `camera` for recordings of projects not saved yet. The panes and tabs of the work area and the side panel are remembered with the settings.
 * **Help → Project page on GitHub** opens the repository.

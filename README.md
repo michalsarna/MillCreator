@@ -52,7 +52,7 @@ The wiki has the full documentation in English and Polish: <https://github.com/m
 * **Project file:** `.cre`, shared with LightCreator; MillCreator keeps its own `mill` section (layers, material, device
   snapshot, the bits used) and leaves the sections of other programs untouched.
 * **Shared with LightCreator:** the window, menus and editor, 310 clipart pictures, import of SVG, PDF, Illustrator and
-  LightBurn projects and UGS Designer designs, 30 languages (the shared texts and MillCreator's own), 14 colour schemes.
+  LightBurn projects and UGS Designer designs, 30 languages (the shared texts and MillCreator's own), 18 colour schemes.
 
 What is not there: collision checks with clamps, tool length offsets, fluting and texturing, nesting by outline. See [FEATURES.md](FEATURES.md).
 
