@@ -56,7 +56,7 @@ Wyżłobiony blok to obraz na siatce (gęstszej dla małego zadania), a czas to 
 Kartę można przenieść do innego panelu albo do osobnego okna, jak podgląd.
 
 ## Eksport G-code
-**Zapisz G-code** (przycisk nad obszarem roboczym), **Frezowanie → Eksportuj G-code…** (Ctrl+E) albo **Plik → Eksport ▸ Eksportuj G-code…** pyta o plik (`nazwa.nc`; można wybrać `.gcode` i `.ngc`) i zapisuje program. Pasek stanu mówi, dokąd trafił, i powtarza ostrzeżenia zadania. Z **Ustawienia → Opcje widoku… → Podgląd G-code po zapisaniu** (domyślnie wyłączone) zapisany plik otwiera się potem w analizie G-code.
+**Zapisz G-code** (przycisk nad obszarem roboczym), **Frezowanie → Eksportuj G-code…** (Ctrl+E) albo **Plik → Eksportuj ▸ Eksportuj G-code…** pyta o plik (`nazwa.nc`; można wybrać `.gcode` i `.ngc`) i zapisuje program. Pasek stanu mówi, dokąd trafił, i powtarza ostrzeżenia zadania. Z **Ustawienia → Opcje widoku… → Podgląd G-code po zapisaniu** (domyślnie wyłączone) zapisany plik otwiera się potem w analizie G-code.
 
 Plik jest w stylu GRBL:
 

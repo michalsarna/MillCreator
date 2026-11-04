@@ -30,12 +30,12 @@ Klawisze są zapisane jak w Windows i Linuksie (Ctrl); na macOS Ctrl to Cmd. Poz
 | **Importuj ▸ Importuj model 3D jako relief…** | | Model STL, OBJ lub 3MF jako mapa głębokości na warstwie reliefu. Zob. [Warstwy i operacje](Warstwy-i-operacje#obrazy). |
 | **Importuj ▸ Importuj wtyczką…** | | Plik, który czyta wtyczka. Zob. [Wtyczki](Wtyczki). |
 | **Importuj ▸ Generuj kształt…** | | Okno generatorów kształtów z wtyczek (także w menu **Wstawianie**). |
-| **Eksport ▸ Eksportuj G-code…** | | To samo co **Frezowanie → Eksportuj G-code…**. |
-| **Eksport ▸ Eksportuj SVG…** | | Cały rysunek jako SVG, w rozmiarze obszaru roboczego. Krzywe zostają; obrazy są pomijane. |
-| **Eksport ▸ Eksportuj PLT / DXF…** | | Obrysy całego rysunku jako HPGL (`.plt`, jeden pisak na warstwę) albo DXF R12, zależnie od wybranego rozszerzenia. To kształty, a nie ruchy maszyny. |
-| **Eksport ▸ Eksportuj relief jako STL…** | | To samo co **Frezowanie → Eksportuj relief jako STL…**. |
-| **Eksport ▸ Eksportuj zaznaczenie jako SVG…** | | Zapisuje zaznaczone kształty (wszystkie, gdy nic nie jest zaznaczone) jako SVG. |
-| **Eksport ▸ Eksportuj zaznaczenie jako DXF…** | | To samo jako DXF R12, z warstwą DXF dla każdej warstwy projektu. |
+| **Eksportuj ▸ Eksportuj G-code…** | | To samo co **Frezowanie → Eksportuj G-code…**. |
+| **Eksportuj ▸ Eksportuj SVG…** | | Cały rysunek jako SVG, w rozmiarze obszaru roboczego. Krzywe zostają; obrazy są pomijane. |
+| **Eksportuj ▸ Eksportuj PLT / DXF…** | | Obrysy całego rysunku jako HPGL (`.plt`, jeden pisak na warstwę) albo DXF R12, zależnie od wybranego rozszerzenia. To kształty, a nie ruchy maszyny. |
+| **Eksportuj ▸ Eksportuj relief jako STL…** | | To samo co **Frezowanie → Eksportuj relief jako STL…**. |
+| **Eksportuj ▸ Eksportuj zaznaczenie jako SVG…** | | Zapisuje zaznaczone kształty (wszystkie, gdy nic nie jest zaznaczone) jako SVG. |
+| **Eksportuj ▸ Eksportuj zaznaczenie jako DXF…** | | To samo jako DXF R12, z warstwą DXF dla każdej warstwy projektu. |
 | **Pokaż plik G-code…** (View G-code file…) | | Otwiera plik G-code w analizie G-code: jego ścieżkę w 2D lub 3D, długość cięcia i czas. |
 | **Drukuj…** (Print…) | Ctrl+P | Drukuje projekt na drukarce papierowej albo zapisuje go jako PDF. |
 | **Zakończ** (Quit) | Ctrl+Q | Kończy program; najpierw pyta o niezapisaną pracę. Nie na macOS (tam jest w menu **MillCreator**). |

@@ -492,7 +492,8 @@ impl App {
             frame_hull: false,
             setup: setup_ui::Setup::default(),
             duet_rx: None,
-            presets: None,
+            // The tests never touch the presets of whoever runs them.
+            presets: cfg!(test).then(|| base_ui::layer_presets_ui::Library::from_path(None, &crate::layer_presets::valid)),
             presets_ui: Default::default(),
             selection_only: false,
             cam: None,

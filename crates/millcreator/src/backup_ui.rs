@@ -9,9 +9,16 @@ impl App {
     /// Ask where to put the backup and write it.
     pub(crate) fn download_backup(&mut self) {
         let _ = data_paths();
-        if let Some(line) = backup_ui::download("MillCreator", env!("CARGO_PKG_VERSION"), &self.settings_pairs(), self.clip.lib.dir()) {
+        if let Some(line) = backup_ui::download("MillCreator", env!("CARGO_PKG_VERSION"), &self.backup_pairs(), self.clip.lib.dir()) {
             self.status = line;
         }
+    }
+
+    /// What goes into the settings of a backup: the settings of the program and the layer presets, which have a file of their own.
+    fn backup_pairs(&self) -> Vec<(&'static str, String)> {
+        let mut pairs = self.settings_pairs();
+        pairs.push(base_ui::layer_presets_ui::backup_pair(self.presets.as_ref(), crate::layer_presets::FILE, &crate::layer_presets::valid));
+        pairs
     }
 
     /// Choose a backup file, ask, and restore from it.
@@ -70,6 +77,11 @@ impl App {
             let mut lib = crate::Library::new();
             lib.load_text(t);
             self.tools = lib;
+        }
+        // A backup from before the presets were in it leaves them alone.
+        if let Some(text) = get(base_ui::layer_presets_ui::BACKUP_KEY) {
+            let valid = &crate::layer_presets::valid;
+            self.presets.get_or_insert_with(|| base_ui::layer_presets_ui::Library::load(crate::layer_presets::FILE, valid)).replace_text(text, valid);
         }
         self.tabs.restore(get("tab_order").unwrap_or(""), get("side_collapsed").is_some_and(|v| v == "1"));
         if let Some(r) = get("recent_files") {
@@ -134,6 +146,35 @@ mod tests {
         assert_eq!(c.fw_copies.0.len(), 1);
         assert_eq!(c.fw_copies.0[0].values.get(&110).map(String::as_str), Some("3000.000"));
         assert_eq!(c.tls.ref_wz, Some(-31.3));
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn the_layer_presets_are_in_the_backup_and_an_older_backup_leaves_them_alone() {
+        let ctx = egui::Context::default();
+        let dir = std::env::temp_dir().join(format!("mill-backup-presets-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let mut a = App::build(&ctx, None, false);
+        let mut lib = base_ui::layer_presets_ui::Library::from_path(None, &crate::layer_presets::valid);
+        lib.put("birch 3 mm", crate::layers::default_layers(&crate::tools::Library::new())[0].clone());
+        a.presets = Some(lib);
+        let gallery = dir.join("gallery");
+        let zip = dir.join("b.zip");
+        base_core::backup::write(&zip, "MillCreator", "test", &a.backup_pairs(), &gallery).unwrap();
+        assert!(!a.settings_pairs().iter().any(|(k, _)| *k == base_ui::layer_presets_ui::BACKUP_KEY), "the presets stay out of the saved settings");
+        // A program with a preset of its own: the list of the backup takes its place, as the other settings do.
+        let mut b = App::build(&ctx, None, false);
+        b.presets.as_mut().unwrap().put("mine", crate::layers::default_layers(&crate::tools::Library::new())[0].clone());
+        let r = base_core::backup::restore(&zip, "MillCreator", &dir.join("gallery2")).unwrap();
+        b.apply_settings(&ctx, &r.settings);
+        let names: Vec<_> = b.presets.as_ref().unwrap().items.iter().map(|p| p.name.as_str()).collect();
+        assert_eq!(names, ["birch 3 mm"]);
+        // Without the entry nothing happens to them.
+        let mut older = r.settings.clone();
+        older.remove(base_ui::layer_presets_ui::BACKUP_KEY);
+        b.apply_settings(&ctx, &older);
+        assert_eq!(b.presets.as_ref().unwrap().items.len(), 1);
         let _ = std::fs::remove_dir_all(&dir);
     }
 
