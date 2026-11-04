@@ -2,6 +2,14 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.6.0
+
+* **One quick guide:** the sections on the window, drawing, import, the gallery, the machine and the keys are the same in every program (F1). It now also covers editing nodes, rounding corners, locking and the gallery.
+* **Backup:** the zip now holds your layer presets. Restoring puts them in place of the current list; an older backup without them leaves the list alone.
+* **Start** is the word *Start* in every language.
+* Closing the window of the picture under the drawing turns its corner handles off.
+* In Polish, *Export* in the File menu is *Eksportuj*, as in the other programs.
+
 ## v0.5.9
 
 * **Negative image** is now also in Properties of a selected picture.
