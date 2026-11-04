@@ -445,3 +445,5 @@
 444|Ampliação
 445|Não é um endereço de câmara (http, https, rtsp, udp, rtp ou rtmp).
 446|Acerca do MillCreator
+447|Projeto sobre o material
+448|As formas do desenho sobre o material, na cor da sua camada

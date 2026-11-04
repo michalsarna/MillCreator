@@ -1557,7 +1557,7 @@ mod tests {
     fn climb_and_conventional_turn_a_profile_the_other_way_and_a_hole_against_the_part() {
         let (lib, dev, stock, mut layers) = setup();
         let scene = square_job(&mut layers, 2.0, 2.0, 40.0);
-        let mut ccw = |dir: CutDir, layers: &mut [MillLayer]| {
+        let ccw = |dir: CutDir, layers: &mut [MillLayer]| {
             layers[0].direction = dir;
             let prog = generate(&scene, layers, &lib, &dev, &stock);
             turn(&lowest_cuts(&prog, 2.0)) > 0.0

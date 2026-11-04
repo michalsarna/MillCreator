@@ -445,3 +445,5 @@
 444|Tālummaiņa
 445|Nav kameras adrese (http, https, rtsp, udp, rtp vai rtmp).
 446|Par MillCreator
+447|Projekts uz materiāla
+448|Zīmējuma formas uz materiāla virsmas to slāņa krāsā

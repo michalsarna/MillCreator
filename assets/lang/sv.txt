@@ -445,3 +445,5 @@
 444|Zoom
 445|Inte en kameraadress (http, https, rtsp, udp, rtp eller rtmp).
 446|Om MillCreator
+447|Projekt på materialet
+448|Ritningens former ovanpå materialet i deras lagers färg

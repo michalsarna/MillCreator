@@ -445,3 +445,5 @@
 444|Priblíženie
 445|Nie je to adresa kamery (http, https, rtsp, udp, rtp alebo rtmp).
 446|O programe MillCreator
+447|Projekt na materiáli
+448|Tvary výkresu na povrchu materiálu vo farbe ich vrstvy

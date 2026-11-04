@@ -445,3 +445,5 @@
 444	Zoom
 445	Not a camera address (http, https, rtsp, udp, rtp or rtmp).
 446	About MillCreator
+447	Project on the material
+448	The shapes of the drawing over the top of the material, in the colour of their layer
