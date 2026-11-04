@@ -121,6 +121,15 @@ fn render_screenshots() {
     save(&mut h, "16-3d-view.png");
     {
         let a = app(&mut h);
+        (a.view.show_project, a.view.show_cuts, a.view.show_rapids) = (true, false, false);
+    }
+    save(&mut h, "16-3d-view-project.png");
+    {
+        let a = app(&mut h);
+        (a.view.show_project, a.view.show_cuts, a.view.show_rapids) = (false, true, true);
+    }
+    {
+        let a = app(&mut h);
         a.view.rotate(-60.0, 40.0);
         a.view.zoom_by(1.4);
         a.view.progress = 0.55;
@@ -578,16 +587,6 @@ fn write_examples() {
 #[cfg(test)]
 mod tab_click_tests {
     use super::*;
-    use egui::{Event, Modifiers, PointerButton};
-
-    fn click(h: &mut Shot, pos: egui::Pos2) {
-        h.event(Event::PointerMoved(pos));
-        h.run_steps(2);
-        h.event(Event::PointerButton { pos, button: PointerButton::Primary, pressed: true, modifiers: Modifiers::NONE });
-        h.run_steps(2);
-        h.event(Event::PointerButton { pos, button: PointerButton::Primary, pressed: false, modifiers: Modifiers::NONE });
-        h.run_steps(3);
-    }
 
     #[test]
     fn the_plus_the_tab_and_the_cross_work() {

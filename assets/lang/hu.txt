@@ -445,3 +445,5 @@
 444|Nagyítás
 445|Nem kameracím (http, https, rtsp, udp, rtp vagy rtmp).
 446|A MillCreator névjegye
+447|Projekt az anyagon
+448|A rajz alakzatai az anyag tetején, a rétegük színében

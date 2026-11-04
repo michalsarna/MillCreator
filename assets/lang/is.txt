@@ -445,3 +445,5 @@
 444|Aðdráttur
 445|Ekki vistfang myndavélar (http, https, rtsp, udp, rtp eða rtmp).
 446|Um MillCreator
+447|Verkefni á efninu
+448|Form teikningarinnar ofan á efninu, í lit lagsins

@@ -26,11 +26,14 @@ Pokazuje tylko obszar zadania, **o 10 % większy niż zadanie** w każdym kierun
 | **Resetuj widok** (Reset view) albo dwuklik | powrót do pierwszego widoku |
 | dwie ikony dopasowania | **Fit work area** (dopasuj obszar roboczy; podpowiedź nie jest tłumaczona) i **Dopasuj do wszystkich obiektów** |
 | **Materiał**, **Cięcia**, **Ruchy na bezpiecznej wysokości** | pokazują lub ukrywają każdą część; niebieska ramka to bezpieczna wysokość |
+| **Projekt na materiale** | kształty rysunku na wierzchu materiału, w kolorze ich warstwy (tylko pokazywane warstwy); na początku wyłączone |
 | ikona pobierania | **Eksportuj sfrezowany element jako STL…** (zob. niżej) |
 | przeciąganie lewym przyciskiem | obraca widok |
 | przeciąganie prawym lub środkowym | przesuwa obraz |
 | kółko myszy | powiększa |
 | animacja | **Z powrotem na początek**, **Odtwarzaj** / **Pauza**, suwak, **Szybkość animacji** (od 0,25× do 25×) i **Powtarzaj**; zadanie jest pokazane do suwaka, z zaznaczonym frezem |
+
+![Projekt na materiale, z wyłączonymi cięciami i ruchami na bezpiecznej wysokości](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/16-3d-view-project.png)
 
 **Materiał** to materiał tak, jak jest frezowany: rowki po frezach są wyżłobione w jego wierzchu do miejsca, do którego doszedł suwak, z prawdziwym kształtem każdego freza (frez V poszerza się z głębokością). **Cięcia** dokładają nad nim ścieżki freza, kolorem ich warstwy. Pod przyciskami: **Czas** do suwaka i całkowity, długość cięć z szacunkiem czasu oraz ostrzeżenia zadania (warstwa bez freza, głębiej niż materiał albo skok maszyny, obroty poza zakresem, poza obszarem roboczym, linia za mała dla freza…).
 

@@ -445,3 +445,5 @@
 444|Zoom
 445|Mhuwiex indirizz ta' kamera (http, https, rtsp, udp, rtp jew rtmp).
 446|Dwar MillCreator
+447|Proġett fuq il-materjal
+448|Il-forom tat-tpinġija fuq il-materjal, fil-kulur tas-saff tagħhom

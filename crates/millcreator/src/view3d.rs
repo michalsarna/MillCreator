@@ -94,6 +94,8 @@ pub struct View3d {
     pub show_cuts: bool,
     pub show_rapids: bool,
     pub show_stock: bool,
+    /// The shapes of the drawing over the top of the material, as a layer of their own.
+    pub show_project: bool,
     /// How much of the program is shown, 0..=1.
     pub progress: f32,
     /// Looked at from straight above: the plan of the job. It cannot be turned.
@@ -113,14 +115,14 @@ pub enum Fit {
 
 impl Default for View3d {
     fn default() -> View3d {
-        View3d { yaw: START_YAW, pitch: START_PITCH, zoom: 1.0, pan: Vec2::ZERO, show_cuts: true, show_rapids: true, show_stock: true, progress: 1.0, top: false, fit: None }
+        View3d { yaw: START_YAW, pitch: START_PITCH, zoom: 1.0, pan: Vec2::ZERO, show_cuts: true, show_rapids: true, show_stock: true, show_project: false, progress: 1.0, top: false, fit: None }
     }
 }
 
 impl View3d {
     /// Back to the first position of the view (the choices of what to show stay).
     pub fn reset(&mut self) {
-        let keep = View3d { show_cuts: self.show_cuts, show_rapids: self.show_rapids, show_stock: self.show_stock, top: self.top, ..View3d::default() };
+        let keep = View3d { show_cuts: self.show_cuts, show_rapids: self.show_rapids, show_stock: self.show_stock, show_project: self.show_project, top: self.top, ..View3d::default() };
         *self = keep;
     }
 
@@ -238,6 +240,36 @@ impl Surface {
     }
 }
 
+/// A line of a shape of the drawing, in the coordinates of the program.
+#[derive(Clone, Debug, PartialEq)]
+pub struct ProjectLine {
+    pub layer: usize,
+    pub pts: Vec<[f64; 2]>,
+}
+
+/// The lines of the shapes on the layers that are shown. Y goes up in the program and down in the drawing; `area_h` is the height of
+/// the work area.
+pub fn project_lines(scene: &base_core::scene::Scene, layers: &[MillLayer], area_h: f64) -> Vec<ProjectLine> {
+    let mut out = vec![];
+    for s in &scene.shapes {
+        if !layers.get(s.layer).is_some_and(|l| l.visible) {
+            continue;
+        }
+        for p in s.polys() {
+            let mut pts: Vec<[f64; 2]> = p.pts.iter().map(|q| [q.x, area_h - q.y]).collect();
+            if p.closed {
+                if let Some(first) = pts.first().copied() {
+                    pts.push(first);
+                }
+            }
+            if pts.len() >= 2 {
+                out.push(ProjectLine { layer: s.layer, pts });
+            }
+        }
+    }
+    out
+}
+
 /// What the 3D window needs from the project.
 pub struct Scene3d<'a> {
     pub surface: Option<&'a Surface>,
@@ -246,6 +278,8 @@ pub struct Scene3d<'a> {
     pub stock: &'a Stock,
     pub dev: &'a Device,
     pub layers: &'a [MillLayer],
+    /// The shapes of the drawing, for [`View3d::show_project`].
+    pub project: &'a [ProjectLine],
     /// A workpiece on a rotary attachment (the picture shows the cylinder).
     pub rotary: Option<Cyl>,
 }
@@ -543,6 +577,16 @@ pub fn draw(painter: &egui::Painter, rect: Rect, view: &View3d, sc: &Scene3d) {
             painter.extend(Shape::dashed_line(&line(m.from, m.to), Stroke::new(1.0, rapid), 5.0, 4.0));
         }
     }
+    if view.show_project {
+        // Over everything else, at the height of the top of the material.
+        for l in sc.project {
+            let mut pts: Vec<Pos2> = Vec::with_capacity(l.pts.len());
+            for w in l.pts.windows(2) {
+                pts.extend(line([w[0][0], w[0][1], 0.0], [w[1][0], w[1][1], 0.0]));
+            }
+            painter.add(Shape::line(pts, Stroke::new(1.6, cut_color(l.layer))));
+        }
+    }
     if let Some(p) = here {
         if !sc.prog.is_empty() && view.progress < 1.0 {
             let top = place([p[0], p[1], p[2] + 12.0]);
@@ -595,6 +639,33 @@ mod tests {
         let r = Region::of(&none, Some([10.0, 10.0, 30.0, 20.0])).unwrap();
         assert!((r.size()[0] - 22.0).abs() < 1e-9 && (r.size()[1] - 11.0).abs() < 1e-9);
         assert!(Region::of(&none, None).is_none());
+    }
+
+    #[test]
+    fn the_project_is_in_the_coordinates_of_the_program_without_the_hidden_layers() {
+        let (prog, dev, _, mut layers, _) = job();
+        let mut scene = Scene::default();
+        scene.add(0, Kind::Rect { w: 40.0, h: 20.0 }, Xf::translate(50.0, 60.0));
+        scene.add(1, Kind::Rect { w: 5.0, h: 5.0 }, Xf::translate(0.0, 0.0));
+        layers[1].visible = false;
+        let lines = project_lines(&scene, &layers, dev.area.y);
+        assert_eq!(lines.len(), 1, "the shape on the hidden layer is left out");
+        assert_eq!(lines[0].layer, 0);
+        assert_eq!(lines[0].pts.first(), lines[0].pts.last(), "a closed shape comes back to its start");
+        // The same box as the shape in the program: a line along the outside of it, whatever the bit does.
+        let ys: Vec<f64> = lines[0].pts.iter().map(|p| p[1]).collect();
+        let (lo, hi) = (ys.iter().cloned().fold(f64::MAX, f64::min), ys.iter().cloned().fold(f64::MIN, f64::max));
+        assert!((lo - (dev.area.y - 80.0)).abs() < 1e-6 && (hi - (dev.area.y - 60.0)).abs() < 1e-6, "{lo} {hi}");
+        assert!(prog.bounds.is_some());
+    }
+
+    #[test]
+    fn the_choice_of_the_project_stays_when_the_view_goes_back() {
+        let mut v = View3d::default();
+        assert!(!v.show_project, "it is off until asked for");
+        v.show_project = true;
+        v.reset();
+        assert!(v.show_project);
     }
 
     #[test]
@@ -715,7 +786,7 @@ mod tests {
     fn the_picture_is_drawn_for_a_job() {
         let (prog, dev, stock, layers, _lib) = job();
         let region = Region::of(&prog, None).unwrap();
-        let sc = Scene3d { surface: None, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, rotary: None };
+        let sc = Scene3d { surface: None, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary: None };
         let ctx = egui::Context::default();
         let mut view = View3d::default();
         view.progress = 0.5;
@@ -777,7 +848,7 @@ mod tests {
                 Surface::of((0, 0, [0; 5]), moves, tool_of, region, 15.0)
             };
             for sf in [None, surface.as_ref()] {
-                let sc = Scene3d { surface: sf, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, rotary };
+                let sc = Scene3d { surface: sf, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary };
                 view.fit = Some(Fit::Elements);
                 let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
                     show(ui, &mut view, &sc);

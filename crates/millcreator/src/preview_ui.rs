@@ -350,6 +350,7 @@ impl App {
             ui.checkbox(&mut self.view.show_stock, tr("Material"));
             ui.checkbox(&mut self.view.show_cuts, tr("Cuts"));
             ui.checkbox(&mut self.view.show_rapids, tr("Moves at the safe height"));
+            ui.checkbox(&mut self.view.show_project, tr("Project on the material")).on_hover_text(tr("The shapes of the drawing over the top of the material, in the colour of their layer"));
             ui.separator();
             // Only the icon: what it does is in the tooltip.
             stl = Self::preview_stl_button(ui);
@@ -378,7 +379,14 @@ impl App {
                     }
                 }
                 let surface = if self.surface_none == Some(key) { None } else { self.surface.as_ref() };
-                let sc = Scene3d { surface, prog, region, stock: &self.stock, dev: &self.device, layers: &self.layers, rotary };
+                if self.view.show_project {
+                    let key = (self.rev, self.device.area.y.to_bits(), self.layers.iter().map(|l| l.visible).collect::<Vec<_>>());
+                    if self.project_lines.as_ref().map(|(k, _)| k) != Some(&key) {
+                        self.project_lines = Some((key, view3d::project_lines(&self.scene, &self.layers, self.device.area.y)));
+                    }
+                }
+                let project = self.project_lines.as_ref().map_or(&[][..], |(_, l)| &l[..]);
+                let sc = Scene3d { surface, prog, region, stock: &self.stock, dev: &self.device, layers: &self.layers, project, rotary };
                 view3d::show(ui, &mut self.view, &sc);
             }
             None => {

@@ -54,7 +54,9 @@ use base_ui::dialogs::AboutInfo;
 use base_ui::job_ui::StartFrom;
 use base_ui::tls_ui::TlsUi;
 use base_ui::tools_ui::{CalUi, DiagUi};
-use base_ui::editor::{EditorCommands, EditorHost, EditorImages, EditorShapeOps, EditorState, Tool};
+use base_ui::editor::{EditorCommands, EditorHost, EditorImages, EditorShapeOps, EditorState};
+#[cfg(test)]
+use base_ui::editor::Tool;
 #[cfg(test)]
 use base_ui::editor::EditorCanvas;
 use base_ui::i18n::{self, tr, Lang};
@@ -300,6 +302,8 @@ struct App {
     /// The stock with the cuts as the 3D view draws it, and the key for which it was found empty.
     surface: Option<view3d::Surface>,
     surface_none: Option<(u64, usize, [u64; 5])>,
+    /// The lines of the drawing for the 3D window, kept while the drawing, the work area and the shown layers stay as they are.
+    project_lines: Option<((u64, u64, Vec<bool>), Vec<view3d::ProjectLine>)>,
     show_3d: bool,
     prog: Option<Program>,
     /// Counts the changes of the project; the program is made again when `job_stamp` differs from `prog_rev`.
@@ -467,6 +471,7 @@ impl App {
             hand_tab_drag: handtabs::Editing::default(),
             surface: None,
             surface_none: None,
+            project_lines: None,
             show_3d: false,
             prog: None,
             rev: 0,

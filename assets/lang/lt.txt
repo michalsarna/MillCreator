@@ -445,3 +445,5 @@
 444|Mastelis
 445|Tai ne kameros adresas (http, https, rtsp, udp, rtp arba rtmp).
 446|Apie MillCreator
+447|Projektas ant medžiagos
+448|Brėžinio formos ant medžiagos viršaus, jų sluoksnio spalva

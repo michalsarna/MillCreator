@@ -490,6 +490,8 @@ const TABLE: &[[&str; 7]] = &[
     ["Zoom", "Powiększenie", "Zoom", "Ingrandimento", "Zoomaus", "缩放", "ज़ूम"],
     ["Not a camera address (http, https, rtsp, udp, rtp or rtmp).", "To nie jest adres kamery (http, https, rtsp, udp, rtp lub rtmp).", "Keine Kameraadresse (http, https, rtsp, udp, rtp oder rtmp).", "Non è un indirizzo di telecamera (http, https, rtsp, udp, rtp o rtmp).", "Ei ole kameran osoite (http, https, rtsp, udp, rtp tai rtmp).", "不是摄像头地址（http、https、rtsp、udp、rtp 或 rtmp）。", "यह कैमरे का पता नहीं है (http, https, rtsp, udp, rtp या rtmp)।"],
     ["About MillCreator", "O programie MillCreator", "Über MillCreator", "Informazioni su MillCreator", "Tietoja: MillCreator", "关于 MillCreator", "MillCreator के बारे में"],
+    ["Project on the material", "Projekt na materiale", "Projekt auf dem Material", "Progetto sul materiale", "Projekti materiaalin päällä", "材料上的项目", "सामग्री पर प्रोजेक्ट"],
+    ["The shapes of the drawing over the top of the material, in the colour of their layer", "Kształty rysunku na wierzchu materiału, w kolorze ich warstwy", "Die Formen der Zeichnung auf der Oberseite des Materials, in der Farbe ihrer Ebene", "Le forme del disegno sopra il materiale, nel colore del loro livello", "Piirroksen muodot materiaalin päällä tasonsa värillä", "图形显示在材料顶面上，使用其图层的颜色", "ड्रॉइंग की आकृतियाँ सामग्री के ऊपर, उनकी परत के रंग में"],
 ];
 
 #[cfg(test)]

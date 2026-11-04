@@ -445,3 +445,5 @@
 444|Zoom
 445|Geen cameraadres (http, https, rtsp, udp, rtp of rtmp).
 446|Over MillCreator
+447|Project op het materiaal
+448|De vormen van de tekening boven op het materiaal, in de kleur van hun laag

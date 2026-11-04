@@ -445,3 +445,5 @@
 444|Suum
 445|See pole kaamera aadress (http, https, rtsp, udp, rtp või rtmp).
 446|Teave MillCreatori kohta
+447|Projekt materjalil
+448|Joonise kujundid materjali peal nende kihi värvis

@@ -26,11 +26,14 @@ It shows only the area of the job, **10 % larger than the job** in each directio
 | **Reset view** or a double click | back to the first view |
 | the two fit icons | **Fit work area** and **Fit all objects** |
 | **Material**, **Cuts**, **Moves at the safe height** | show or hide each part; the blue frame is the safe height |
+| **Project on the material** | the shapes of the drawing over the top of the material, in the colour of their layer (only the layers that are shown); off at first |
 | the download icon | **Export the milled piece as STL…** (see below) |
 | left drag | turn the view |
 | right or middle drag | move the picture |
 | mouse wheel | zoom |
 | the animation | **Back to the start**, **Play** / **Pause**, the slider, the **Animation speed** (0.25× to 25×) and **Repeat**; the job is shown up to the slider, with the bit marked |
+
+![The project on the material, with Cuts and Moves at the safe height off](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/16-3d-view-project.png)
 
 **Material** is the stock as it is milled: the grooves of the bits are carved into its top as far as the slider has got, with the real shape of each bit (a V-bit gets wider with depth). **Cuts** adds the paths of the bit, in the colour of their layer, over it. Under the buttons: the **Time** up to the slider and in all, the length of the cuts with an estimate of the time, and the warnings of the job (a layer without a bit, deeper than the material or the travel of the machine, a spindle speed out of range, outside the work area, a line too small for the bit…).
 
