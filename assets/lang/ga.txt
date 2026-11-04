@@ -176,7 +176,7 @@
 175|Taispeántar é sa limistéar oibre
 176|Luas na ngluaiseachtaí os cionn an ábhair
 177|Fearsaid
-178|Tosaigh
+178|Start
 179|Tosaigh ó
 180|Tosaigh an obair ag líne den chlár
 181|Ag tosú na hoibre: {} líne, ~{}

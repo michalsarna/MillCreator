@@ -176,7 +176,7 @@
 175|Es mostra a l'àrea de treball
 176|Velocitat dels moviments sobre el material
 177|Eix
-178|Inicia
+178|Start
 179|Comença des de
 180|Comença la tasca des d'una línia del programa
 181|S'inicia el treball: {} línies, ~{}

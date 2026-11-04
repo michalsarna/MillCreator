@@ -176,7 +176,7 @@
 175|Prikazano v delovnem območju
 176|Hitrost premikov nad materialom
 177|Vreteno
-178|Začni
+178|Start
 179|Začni od
 180|Začni opravilo pri vrstici programa
 181|Začetek dela: {} vrstic, ~{}

@@ -176,7 +176,7 @@
 175|Affiché dans la zone de travail
 176|Vitesse des déplacements au-dessus du matériau
 177|Broche
-178|Démarrer
+178|Start
 179|Partir de
 180|Démarrer le travail à une ligne du programme
 181|Démarrage du travail : {} lignes, ~{}

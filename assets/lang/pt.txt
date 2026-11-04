@@ -176,7 +176,7 @@
 175|Mostrada na área de trabalho
 176|Velocidade dos movimentos acima do material
 177|Fuso
-178|Iniciar
+178|Start
 179|Começar a partir de
 180|Começar o trabalho numa linha do programa
 181|A iniciar o trabalho: {} linhas, ~{}

@@ -176,7 +176,7 @@
 175|Rodoma darbo srityje
 176|Judesių greitis virš medžiagos
 177|Verpstė
-178|Pradėti
+178|Start
 179|Pradėti nuo
 180|Pradėti darbą nuo programos eilutės
 181|Pradedamas darbas: {} eilučių, ~{}

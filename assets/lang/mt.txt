@@ -176,7 +176,7 @@
 175|Murija fiż-żona tax-xogħol
 176|Veloċità tal-movimenti fuq il-materjal
 177|Spindil
-178|Ibda
+178|Start
 179|Ibda minn
 180|Ibda x-xogħol minn linja tal-programm
 181|Qed jinbeda x-xogħol: {} linji, ~{}
