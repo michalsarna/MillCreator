@@ -8,6 +8,11 @@ Each release gets the next version number. Newest first.
 * **Project on the material** in the 3D view: the shapes of the drawing over the top of the material, in the colour of their layer.
 * **New colour schemes:** Superman, Batman, and Joker in a dark and a light version.
 * No more compiler warnings when building.
+* **Cameras:** the camera of the computer now works in the released programs (it was left out of the builds, so it said this version cannot use it); macOS asks for the permission.
+* **The page of the cameras** is the same as in LightCreator: the test of a camera, the picture settings and the lens correction are new.
+* **Messages can be copied:** select the text of a message or the status line with the mouse, or use **Copy** on the right button.
+* **macOS:** when the system blocks a controller or a camera on the local network, the message says where to allow the program (*Privacy & Security → Local Network*).
+* **Edit → Copy and Paste** of the menu work in a text field; they copied and pasted shapes of the drawing.
 
 ## v0.6.0
 

@@ -2,7 +2,6 @@
 //! editor and the camera view of the device.
 use crate::device::{self, Device, Origin, DUMMY_NAME, MAX_DEVICES};
 use crate::App;
-use base_core::camimg::{CameraKind, CameraSource};
 use base_core::machine::{GrblVersion, LinkKind, RotaryKind, Streaming};
 use base_core::units::Units;
 use base_ui::editor::EditorHost;
@@ -222,6 +221,10 @@ impl App {
 
     /// The window that adds or changes a device.
     pub(crate) fn device_window(&mut self, ctx: &egui::Context) {
+        if let Some(cam) = self.cam_test_wanted.take() {
+            self.cam_test = base_ui::camera_feed::CamTest::start(cam, ctx);
+        }
+        base_ui::camera_feed::CamTest::window(ctx, &mut self.cam_test);
         let Some(mut edit) = self.dev_edit.take() else { return };
         let mut open = true;
         let mut save = false;
@@ -526,7 +529,7 @@ impl App {
                         ui.add_space(4.0);
                         ui.label(RichText::new(tr("With a rotary attachment the Y axis turns the work: the drawing may not be higher than the way round the workpiece. The model is simple (a chuck turns by the workpiece diameter, rollers move the surface like their own); a real machine needs testing.")).color(theme::text_dim()));
                     }
-                    Page::Camera => camera_page(ui, d),
+                    Page::Camera => base_ui::camera_feed::camera_page(ui, &mut d.cameras, &mut d.active_camera, &mut self.cam_test_wanted),
                     Page::Notes => {
                         ui.add(egui::TextEdit::multiline(&mut d.notes).desired_rows(10).desired_width(f32::INFINITY).hint_text(tr("Notes about this machine")));
                     }
@@ -748,70 +751,9 @@ impl App {
     }
 }
 
-fn camera_page(ui: &mut egui::Ui, d: &mut Device) {
-    let mut remove = None;
-    for (i, c) in d.cameras.iter_mut().enumerate() {
-        ui.group(|ui| {
-            ui.horizontal(|ui| {
-                ui.checkbox(&mut c.enabled, "").on_hover_text(tr("Switched on"));
-                ui.add(egui::TextEdit::singleline(&mut c.name).hint_text(tr("Camera name")).desired_width(200.0));
-                if base_ui::window::delete_icon(ui, &tr("Delete this camera")).clicked() {
-                    remove = Some(i);
-                }
-            });
-            ui.horizontal(|ui| {
-                let local = matches!(c.kind, CameraKind::Local(_));
-                let mut want_local = local;
-                ui.radio_value(&mut want_local, false, tr("Address"));
-                ui.radio_value(&mut want_local, true, tr("Camera of this computer"));
-                if want_local != local {
-                    c.kind = if want_local { CameraKind::Local(0) } else { CameraKind::Url(String::new()) };
-                }
-            });
-            match &mut c.kind {
-                CameraKind::Url(u) => {
-                    ui.add(egui::TextEdit::singleline(u).hint_text("http://raspberrypi.local:8080/stream.mjpg").desired_width(340.0));
-                    if !u.trim().is_empty() && !base_core::camimg::valid_url(u) {
-                        ui.label(RichText::new(tr("Not a camera address (http, https, rtsp, udp, rtp or rtmp).")).color(Color32::from_rgb(0xc0, 0x30, 0x30)));
-                    }
-                }
-                CameraKind::Local(n) => {
-                    ui.horizontal(|ui| {
-                        ui.label(tr("Camera number"));
-                        ui.add(egui::DragValue::new(n).range(0..=15));
-                    });
-                }
-            }
-            base_ui::camera_feed::stream_options_ui(ui, c);
-            ui.horizontal(|ui| {
-                ui.label(tr("Camera rotation"));
-                for q in 0..4u8 {
-                    ui.selectable_value(&mut c.rotation, q, format!("{}°", q as u32 * 90));
-                }
-            });
-        });
-    }
-    if let Some(i) = remove {
-        d.cameras.remove(i);
-        d.active_camera = d.active_camera.min(d.cameras.len().saturating_sub(1));
-    }
-    if d.cameras.len() < 8 && ui.button(tr("Add a camera")).clicked() {
-        d.cameras.push(CameraSource::url(&tr("Camera"), "", 0));
-    }
-    if d.cameras.len() > 1 {
-        ui.horizontal(|ui| {
-            ui.label(tr("Shown in the Camera tab"));
-            egui::ComboBox::from_id_salt("dev_active_cam").selected_text(d.cameras.get(d.active_camera).map(|c| c.name.clone()).unwrap_or_default()).show_ui(ui, |ui| {
-                for (i, c) in d.cameras.iter().enumerate() {
-                    ui.selectable_value(&mut d.active_camera, i, &c.name);
-                }
-            });
-        });
-    }
-}
-
 #[cfg(test)]
 mod tests {
+    use base_core::camimg::CameraSource;
     use super::*;
 
     fn app() -> App {

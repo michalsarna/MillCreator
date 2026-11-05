@@ -1,0 +1,4 @@
+  <key>NSCameraUsageDescription</key>
+  <string>MillCreator shows the live picture of a camera that watches the machine.</string>
+  <key>NSLocalNetworkUsageDescription</key>
+  <string>MillCreator connects to a controller or a camera on your local network.</string>

@@ -367,6 +367,8 @@ struct App {
     machine: MachineLink,
     control_ui: ControlUi,
     control_devices: base_ui::control_devices_ui::ControlDevicesUi,
+    cam_test: Option<base_ui::camera_feed::CamTest>,
+    cam_test_wanted: Option<base_core::camimg::CameraSource>,
     fw_open: bool,
     tls_ui: TlsUi,
     cal: CalUi,
@@ -516,6 +518,8 @@ impl App {
             },
             control_ui: ControlUi::default(),
             control_devices: if cfg!(test) { Default::default() } else { base_ui::control_devices_ui::ControlDevicesUi::from_file() },
+            cam_test: None,
+            cam_test_wanted: None,
             fw_open: false,
             tls_ui: TlsUi::default(),
             cal: CalUi::default(),
@@ -990,7 +994,7 @@ impl App {
 
     fn status_bar(&mut self, ui: &mut egui::Ui) {
         ui.horizontal_centered(|ui| {
-            ui.label(&self.status);
+            base_ui::widgets::message(ui, self.status.as_str());
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                 base_ui::editor::zoom_and_cursor(self, ui);
                 ui.separator();
@@ -1545,7 +1549,9 @@ impl MenuHost for App {
             Act::Quit => self.request_close(ctx),
             Act::Std(s) => {
                 if self.screen == Screen::Editor {
-                    s.run(self)
+                    if !base_ui::menu::goes_to_text_field(ctx, s) {
+                        s.run(self)
+                    }
                 }
             }
             Act::ViewOptions => self.show_options = true,
