@@ -115,6 +115,7 @@ Najpierw ustawienia maszyny, potem to, co na niej działa. Zob. [Sterowanie masz
 | **Ustawienia firmware ($$)…** | Ustawienia sterownika GRBL, z kopiami zapasowymi. |
 | **Kalibracja…** (Calibration…) | Kroki na milimetr i prostopadłość osi. |
 | **Czujnik długości narzędzia…** (Tool length sensor…) | Kreator czujnika długości narzędzia. |
+| **Urządzenia sterujące ▸** | Ustawienia urządzeń sterujących… otwiera okno klawiatur i padów oraz ich klawiszy; Urządzenie sterujące tej maszyny… wybiera urządzenie otwartej maszyny. Zobacz [Urządzenia sterujące](Urzadzenia-sterujace). |
 | **Diagnostyka i statystyki…** | Wejścia sterownika, zadania, godziny, alarmy i błędy, przypomnienia o konserwacji, eksport raportu. |
 | **Udostępnij w sieci (ser2net)…** (Share over network (ser2net)…) | Tylko Linux: udostępnia port szeregowy maszyny w sieci. |
 | **Obrys** (Frame) | Obchodzi prostokąt zadania (wymaga podłączonej maszyny). |

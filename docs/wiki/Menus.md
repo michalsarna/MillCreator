@@ -115,6 +115,7 @@ The settings of the machine first, then what runs on it. See [Machine Control](M
 | **Firmware settings ($$)…** | The settings of the GRBL controller, with backups. |
 | **Calibration…** | Steps per millimetre and the squareness of the axes. |
 | **Tool length sensor…** | The wizard of the tool length sensor. |
+| **Control devices ▸** | Control device settings… opens the window of the keyboards and pads and their keys; Control device of this machine… chooses the one of the open machine. See [Control Devices](Control-Devices). |
 | **Diagnostics and statistics…** | The input pins, the jobs, the hours, alarms and errors, maintenance reminders, the export of a report. |
 | **Share over network (ser2net)…** | Linux only: shares the serial port of the machine over the network. |
 | **Frame** | Goes round the box of the job (needs a connected machine). |

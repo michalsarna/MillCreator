@@ -740,7 +740,7 @@ fn every_tool_works_in_the_window() {
     base_ui::tool_check::check_tools(&mut w);
     {
         use crate::menu::Act;
-        base_ui::tool_check::check_windows(&mut w, &[(Act::Print, "Print"), (Act::QuickGuide, "Quick guide"), (Act::Diagnostics, "Diagnostics and statistics"), (Act::Firmware, "Firmware settings"), (Act::Calibration, "Calibration"), (Act::ShareSer2net, "Share over network (ser2net)")]);
+        base_ui::tool_check::check_windows(&mut w, &[(Act::Print, "Print"), (Act::QuickGuide, "Quick guide"), (Act::Diagnostics, "Diagnostics and statistics"), (Act::ControlDevices, "Control devices"), (Act::ControlDeviceOfMachine, "Control device of this machine"), (Act::Firmware, "Firmware settings"), (Act::Calibration, "Calibration"), (Act::ShareSer2net, "Share over network (ser2net)")]);
     }
 }
 
@@ -805,6 +805,72 @@ fn the_machine_menu_has_the_common_entries_and_frame_and_start_need_a_connection
 fn the_same_things_have_the_same_polish_names() {
     crate::texts::register();
     base_ui::tool_check::check_polish_names();
+}
+
+/// The window of the keyboards and pads, for the wiki.
+#[test]
+#[ignore = "writes docs/screenshots; run explicitly"]
+fn render_control_devices() {
+    let mut h: Shot = egui_kittest::Harness::builder().with_accessibility_check(false).with_size([1280.0, 800.0]).build_ui_state(
+        |ui, state: &mut Option<App>| {
+            let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
+            a.draw(ui);
+        },
+        None,
+    );
+    h.run_steps(2);
+    {
+        let a = h.state_mut().as_mut().unwrap();
+        a.devices.clear();
+        a.devices.push(crate::device::Device::dummy());
+        a.use_dummy_device();
+        a.screen = crate::Screen::Editor;
+        a.new_tab();
+        a.control_devices.lib.add(base_core::control_devices::ControlDevice::keyboard("Keyboard"));
+        a.control_devices.open = true;
+    }
+    save(&mut h, "control-devices.png");
+}
+
+/// A key of the device moves the machine only when there is one: without a connection it stays a key of the editor, and with one it
+/// does not also move the selected shape.
+#[test]
+fn a_key_of_the_control_device_goes_to_the_machine_and_not_to_the_editor() {
+    use egui::{Event, Key, Modifiers};
+    let mut h: Shot = egui_kittest::Harness::builder().with_accessibility_check(false).with_size([1280.0, 800.0]).build_ui_state(
+        |ui, state: &mut Option<App>| {
+            let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
+            a.draw(ui);
+        },
+        None,
+    );
+    h.run_steps(2);
+    {
+        let a = h.state_mut().as_mut().unwrap();
+        a.devices.clear();
+        a.devices.push(crate::device::Device::dummy());
+        a.use_dummy_device();
+        a.screen = crate::Screen::Editor;
+        a.new_tab();
+        a.control_devices.lib.add(base_core::control_devices::ControlDevice::keyboard("Keyboard"));
+        let id = a.scene.add(0, base_core::scene::Kind::Rect { w: 20.0, h: 10.0 }, base_core::geom::Xf::translate(30.0, 30.0));
+        a.ed.sel = vec![id];
+    }
+    h.run_steps(2);
+    let press = |h: &mut Shot| {
+        for pressed in [true, false] {
+            h.event(Event::Key { key: Key::ArrowLeft, physical_key: None, pressed, repeat: false, modifiers: Modifiers::NONE });
+            h.run_steps(2);
+        }
+    };
+    let x = |h: &mut Shot| h.state_mut().as_mut().unwrap().scene.shapes.last().and_then(|s| s.bounds()).map_or(0.0, |b| b.min.x);
+    let start = x(&mut h);
+    h.state_mut().as_mut().unwrap().machine.connected = true;
+    press(&mut h);
+    assert_eq!(x(&mut h), start, "the machine takes the key");
+    h.state_mut().as_mut().unwrap().machine.connected = false;
+    press(&mut h);
+    assert!(x(&mut h) < start, "no machine: the editor has it");
 }
 
 #[test]
