@@ -2,6 +2,13 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.6.1
+
+* **USB keyboards and pads:** **Machine → Control devices** connects a keyboard and any number of pads, each with its own keys for the moves, Stop, Pause, Home and the spindle, air and water. A machine can have its own device; otherwise it uses the default one. The devices are common to LightCreator, MillCreator and PenCreator and are kept in the backup. Only the window in front takes the presses, and a move lasts while the key is held.
+* **Project on the material** in the 3D view: the shapes of the drawing over the top of the material, in the colour of their layer.
+* **New colour schemes:** Superman, Batman, and Joker in a dark and a light version.
+* No more compiler warnings when building.
+
 ## v0.6.0
 
 * **One quick guide:** the sections on the window, drawing, import, the gallery, the machine and the keys are the same in every program (F1). It now also covers editing nodes, rounding corners, locking and the gallery.
