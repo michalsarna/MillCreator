@@ -536,13 +536,16 @@ impl App {
                 }
             });
             base_ui::window::footer(ui, "device_window", |ui| {
+                if base_ui::camera_feed::lacks_address(&edit.draft.cameras) {
+                    ui.label(RichText::new(tr("Enter the address of the camera, or delete the camera.")).color(Color32::from_rgb(0xc0, 0x30, 0x30)));
+                }
                 if !edit.error.is_empty() {
                     ui.label(RichText::new(&edit.error).color(Color32::from_rgb(0xd0, 0x50, 0x20)));
                 }
                 ui.horizontal(|ui| {
                     let label = if new { tr("Add device") } else { tr("Save") };
                     let go = egui::Button::new(RichText::new(label).color(Color32::WHITE).strong()).fill(Color32::from_rgb(0x2e, 0xa0, 0x4f));
-                    if ui.add_enabled(!edit.draft.name.trim().is_empty(), go).clicked() {
+                    if ui.add_enabled(!edit.draft.name.trim().is_empty() && !base_ui::camera_feed::lacks_address(&edit.draft.cameras), go).clicked() {
                         save = true;
                     }
                     if ui.button(tr("Cancel")).clicked() {
