@@ -11,6 +11,7 @@ mod device;
 mod device_ui;
 mod duet_glue;
 mod layers;
+mod control_devices_glue;
 mod layer_presets;
 mod layers_ui;
 mod machine_ui;
@@ -177,6 +178,7 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::ToolSensor => Some("target"),
         Act::Calibration => Some("sliders-horizontal"),
         Act::Diagnostics => Some("zap"),
+        Act::ControlDevices | Act::ControlDeviceOfMachine => Some("settings"),
         Act::StartFrom => Some("play"),
         Act::CheckProgram => Some("check"),
         Act::Preview3d => Some("eye"),
@@ -364,6 +366,7 @@ struct App {
     cam_fit: base_ui::window::FitWindow,
     machine: MachineLink,
     control_ui: ControlUi,
+    control_devices: base_ui::control_devices_ui::ControlDevicesUi,
     fw_open: bool,
     tls_ui: TlsUi,
     cal: CalUi,
@@ -512,6 +515,7 @@ impl App {
                 m
             },
             control_ui: ControlUi::default(),
+            control_devices: if cfg!(test) { Default::default() } else { base_ui::control_devices_ui::ControlDevicesUi::from_file() },
             fw_open: false,
             tls_ui: TlsUi::default(),
             cal: CalUi::default(),
@@ -1197,6 +1201,7 @@ impl App {
         self.clip_dialogs(ctx);
         self.online_clipart_window(ctx);
         self.layer_presets_window(ctx);
+        self.control_devices_windows(ctx);
         self.refresh_gcode_text(ctx);
         self.closing_text_dialog(ctx);
         self.plugin_windows(ctx);
@@ -1226,6 +1231,8 @@ impl App {
     fn draw(&mut self, ui: &mut egui::Ui) {
         let drawn_last = self.drop_idle_camera();
         let ctx = ui.ctx().clone();
+        // Before the editor: a key of the control device is not also a key of the editor.
+        self.control_devices_frame(&ctx);
         // A recording goes on when no view shows the camera.
         if !drawn_last && self.cam_rec.active() {
             self.camera_pump(&ctx);
@@ -1505,6 +1512,8 @@ impl MenuHost for App {
             Act::Firmware => self.fw_open = true,
             Act::ToolSensor => self.tls_ui.open = true,
             Act::Calibration => self.cal.open = true,
+            Act::ControlDevices => self.control_devices.open = true,
+            Act::ControlDeviceOfMachine => self.control_devices.choice_open = true,
             Act::Diagnostics => {
                 self.diag_gcode = self.job_lines().map(|(l, _)| l.join("\n"));
                 self.diag.open = true;

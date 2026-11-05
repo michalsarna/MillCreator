@@ -163,6 +163,9 @@ pub struct Device {
     /// Jogging, probe, macros, statistics and maintenance of the machine.
     #[serde(default)]
     pub control: Control,
+    /// The keyboard or pad of this machine; without one the default one drives it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub control_device: Option<String>,
     /// Own G-code at the start and the end of the program and at the changes of the bit and of the operation.
     #[serde(default)]
     pub gcode: CustomGcode,
@@ -209,6 +212,7 @@ impl Default for Device {
             connection: Connection::default(),
             rotary: Rotary::default(),
             control: Control::default(),
+            control_device: None,
             gcode: CustomGcode::default(),
             wcs: Wcs::default(),
             changer: false,
