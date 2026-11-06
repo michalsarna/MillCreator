@@ -23,7 +23,7 @@ It shows only the area of the job, **10 % larger than the job** in each directio
 | Control | What it does |
 |---|---|
 | **3D** / **From above** | the 3D picture, or the plan of the job seen from straight above (it cannot be turned) |
-| **Reset view** or a double click | back to the first view |
+| The zoom bar in the lower left corner (zoom in, zoom out, **Reset view**) or a double click | zoom; back to the first view |
 | the two fit icons | **Fit work area** and **Fit all objects** |
 | **Material**, **Cuts**, **Moves at the safe height** | show or hide each part; the blue frame is the safe height |
 | **Project on the material** | the shapes of the drawing over the top of the material, in the colour of their layer (only the layers that are shown); off at first |
