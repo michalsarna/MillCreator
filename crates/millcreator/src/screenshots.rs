@@ -218,7 +218,7 @@ fn render_screenshots() {
         a.machine.wpos = [29.5, 107.75, 12.0];
         a.machine.pos = a.machine.wpos;
         a.machine.wcs = 2;
-        a.machine.fw.info = base_core::firmware::FirmwareInfo { name: "Grbl".into(), version: "1.1h".into(), options: "V".into(), raw: vec!["[VER:1.1h.20190825:]".into(), "[OPT:V,15,128]".into()] };
+        a.machine.fw.info = base_core::firmware::FirmwareInfo { name: "Grbl".into(), version: "1.1h".into(), options: "V".into(), raw: vec!["[VER:1.1h.20190825:]".into(), "[OPT:V,15,128]".into()], ..Default::default() };
         a.device.control.macros = vec![base_core::control::Macro { name: "Park".into(), code: "G0 Z[safez]\nG0 X0 Y0".into() }, base_core::control::Macro { name: "Spindle test".into(), code: "S8000 M3\nG4 P3\nM5".into() }];
         a.side_tab = crate::SideTab::Control;
     }
