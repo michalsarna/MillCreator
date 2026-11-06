@@ -335,10 +335,6 @@ impl App {
             ui.selectable_value(&mut self.view.top, false, "3D");
             ui.selectable_value(&mut self.view.top, true, tr("From above"));
             ui.separator();
-            // The two buttons that fit the picture: the work area, and all the objects.
-            if let Some(f) = Self::preview_fit_buttons(ui) {
-                self.view.fit = Some(f);
-            }
             ui.checkbox(&mut self.view.show_stock, tr("Material"));
             ui.checkbox(&mut self.view.show_cuts, tr("Cuts"));
             ui.checkbox(&mut self.view.show_rapids, tr("Moves at the safe height"));
@@ -394,17 +390,6 @@ impl App {
     /// The button that exports the view as an STL model.
     fn preview_stl_button(ui: &mut egui::Ui) -> bool {
         base_ui::widgets::icon_button(ui, "download", &tr("Export the milled piece as STL…"), true, 22.0)
-    }
-
-    /// The two buttons that fit the picture, the work area on the left.
-    fn preview_fit_buttons(ui: &mut egui::Ui) -> Option<view3d::Fit> {
-        let mut fit = None;
-        for (what, icon, tip) in [(view3d::Fit::Area, "scan", "Fit work area"), (view3d::Fit::Elements, "expand", "Fit all objects")] {
-            if base_ui::widgets::icon_button(ui, icon, &tr(tip), true, 22.0) {
-                fit = Some(what);
-            }
-        }
-        fit
     }
 
     /// The preview as a tab of the work area, in place of the drawing.
