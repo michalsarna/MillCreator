@@ -712,46 +712,6 @@ impl App {
         got
     }
 
-    pub(crate) fn camera_tab(&mut self, ui: &mut egui::Ui) {
-        self.cam_drawn = true;
-        let Some(cam) = self.device.camera().cloned() else {
-            ui.label(RichText::new(tr("This device has no camera that is switched on. Add one in the device settings.")).color(theme::text_dim()));
-            self.cam = None;
-            return;
-        };
-        let ctx = ui.ctx().clone();
-        self.camera_pump(&ctx);
-        let (tex, error) = self.cam.as_ref().map_or((None, String::new()), |f| (f.tex.clone(), f.error.clone()));
-        ui.label(RichText::new(&cam.name).strong());
-        let mut picture = None;
-        match &tex {
-            Some(t) => {
-                let size = t.size_vec2();
-                // Fitted to the window, up as well as down; what stands under the picture is left out of the height (the last
-                // frame measured it), and what the window has left over is the window's to give back (`FitWindow`).
-                let (scale, slack_x) = base_ui::window::fit_picture(ui, size, self.cam_fit.under(24.0));
-                picture = Some((ui.add(egui::Image::new(egui::load::SizedTexture::new(t.id(), size * scale))).rect, slack_x));
-            }
-            None => {
-                ui.label(RichText::new(tr("Waiting for the picture…")).color(theme::text_dim()));
-            }
-        }
-        if !error.is_empty() {
-            ui.label(RichText::new(&error).color(Color32::from_rgb(0xd0, 0x50, 0x20)));
-        }
-        match picture {
-            Some((rect, slack_x)) => self.cam_fit.measure(ui, rect, slack_x),
-            None => self.cam_fit.slack = egui::Vec2::ZERO,
-        }
-        base_ui::editor::EditorBackground::overlay_toggle_button(self, ui);
-        // Photos, video and time-lapse, with their folder.
-        ui.add_space(4.0);
-        ui.separator();
-        self.cam_rec.set_project(self.path.as_deref());
-        self.cam_rec.set_source(self.device.cameras.get(self.device.active_camera));
-        self.cam_rec.controls(ui);
-        ctx.request_repaint_after(std::time::Duration::from_millis(120));
-    }
 }
 
 #[cfg(test)]
@@ -935,18 +895,49 @@ mod tests {
     fn the_camera_is_a_tab_of_the_work_area_that_a_drawing_tab_replaces() {
         let ctx = egui::Context::default();
         let mut a = App::build(&ctx, None, false);
-        a.device.cameras = vec![CameraSource::url("c", "http://127.0.0.1:9/none.mjpg", 1)];
+        let mut cam = CameraSource::url("c", "http://127.0.0.1:9/none.mjpg", 1);
+        cam.view_mode = Some(base_ui::camera_view::StreamMode::Workspace.index());
+        a.device.cameras = vec![cam];
         a.device.active_camera = 0;
         assert!(!a.camera_work_tab(), "no tab until the view is opened");
-        a.show_camera = true;
-        a.cam_ws_shown = true;
-        assert!(a.camera_work_tab());
+        a.toggle_camera_view();
+        assert!(a.camera_work_tab() && a.cam_ws_shown && !a.camera_side_tab());
         // A drawing tab is picked: the drawing is back, the tab stays in the bar.
         a.switch_to(0);
         assert!(!a.cam_ws_shown && a.camera_work_tab());
         // The close cross of the tab ends the view.
-        a.show_camera = false;
+        a.camera_closed();
         assert!(!a.camera_work_tab());
+    }
+
+    /// The camera view opens the way of the camera, as in every program: a tab of the side panel, a tab of the work area or a window of
+    /// its own; the way changes from the view's buttons, and it is kept with the device and the camera.
+    #[test]
+    fn the_camera_view_opens_the_way_of_the_camera_and_keeps_a_new_way() {
+        use base_ui::camera_view::StreamMode;
+        let ctx = egui::Context::default();
+        let mut a = App::build(&ctx, None, false);
+        a.device.cameras = vec![CameraSource::url("c", "http://127.0.0.1:9/none.mjpg", 0)];
+        a.device.active_camera = 0;
+        assert!(!a.extra_tabs_have_camera(), "no camera tab while the view is closed");
+        a.toggle_camera_view();
+        assert_eq!(a.stream_mode, StreamMode::Tab, "a side tab when nothing was chosen");
+        assert!(a.camera_side_tab() && a.extra_tabs_have_camera() && a.side_tab == crate::SideTab::Camera);
+        a.change_mode_for_test(StreamMode::Detached);
+        assert!(!a.camera_side_tab() && !a.camera_work_tab() && a.side_tab != crate::SideTab::Camera, "a window of its own");
+        // Drawn without a window system the window falls back to the side tab.
+        let mut out = ctx.run_ui(Default::default(), |ui| a.camera_window(ui.ctx()));
+        out.textures_delta.clear();
+        assert_eq!(a.stream_mode, StreamMode::Tab);
+        a.change_mode_for_test(StreamMode::Workspace);
+        let mut out = ctx.run_ui(Default::default(), |ui| a.camera_tab(ui));
+        out.textures_delta.clear();
+        assert_eq!((a.device.camera_view.mode, a.device.cameras[0].view_mode), (3, Some(3)), "kept with the device and the camera");
+        a.toggle_camera_view();
+        assert!(!a.show_camera && !a.camera_work_tab());
+        // An old device file without the view still loads, and an untouched view is not written.
+        let json = serde_json::to_string(&crate::device::Device::dummy()).unwrap();
+        assert!(!json.contains("camera_view"));
     }
 
     #[test]

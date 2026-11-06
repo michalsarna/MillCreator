@@ -166,6 +166,9 @@ pub struct Device {
     /// The keyboard or pad of this machine; without one the default one drives it.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub control_device: Option<String>,
+    /// How the camera view opens: the way, the zoom and where its window of its own was (not written while it was never changed).
+    #[serde(default, skip_serializing_if = "is_unset")]
+    pub camera_view: base_core::camimg::CameraView,
     /// Own G-code at the start and the end of the program and at the changes of the bit and of the operation.
     #[serde(default)]
     pub gcode: CustomGcode,
@@ -213,6 +216,7 @@ impl Default for Device {
             rotary: Rotary::default(),
             control: Control::default(),
             control_device: None,
+            camera_view: Default::default(),
             gcode: CustomGcode::default(),
             wcs: Wcs::default(),
             changer: false,
@@ -284,6 +288,10 @@ impl Device {
         let s = &self.spindle;
         if !ok(s.min_rpm, 0.0, 1_000_000.0) || !ok(s.max_rpm, 1.0, 1_000_000.0) || s.min_rpm > s.max_rpm || !ok(s.spin_up, 0.0, 600.0) {
             return Err("the spindle speeds are out of range".into());
+        }
+        let cv = &self.camera_view;
+        if cv.mode > 3 || !(cv.zoom.is_finite() && (0.5..=20.0).contains(&cv.zoom)) || [cv.win_pos, cv.win_size, cv.float_pos, cv.float_size].iter().flatten().flatten().any(|v| !v.is_finite() || v.abs() > 100_000.0) {
+            return Err("the camera view settings are out of range".into());
         }
         if self.cameras.len() > 8 || self.active_camera > 8 || self.notes.len() > 20_000 {
             return Err("too many cameras or too long notes".into());
