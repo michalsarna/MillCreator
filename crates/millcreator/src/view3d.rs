@@ -364,10 +364,15 @@ pub fn show(ui: &mut egui::Ui, view: &mut View3d, sc: &Scene3d) {
         view.zoom_by(f);
         view.pan *= view.zoom / before;
     };
-    match base_ui::zoom_bar::overlay(ui, rect, view.zoom, &base_ui::i18n::tr("Drag: rotate · right drag or Shift+drag: move · wheel: zoom")) {
+    // Its third button is the first view fitted to the work area, its fourth fits all the objects.
+    match base_ui::zoom_bar::overlay_with(ui, rect, view.zoom, &base_ui::i18n::tr("Drag: rotate · right drag or Shift+drag: move · wheel: zoom"), true) {
+        Some(base_ui::zoom_bar::ZoomCmd::FitObjects) => view.fit = Some(Fit::Elements),
         Some(base_ui::zoom_bar::ZoomCmd::In) => about_middle(view, base_ui::zoom_bar::STEP),
         Some(base_ui::zoom_bar::ZoomCmd::Out) => about_middle(view, 1.0 / base_ui::zoom_bar::STEP),
-        Some(base_ui::zoom_bar::ZoomCmd::Whole) => view.reset(),
+        Some(base_ui::zoom_bar::ZoomCmd::Whole) => {
+            view.reset();
+            view.fit = Some(Fit::Area);
+        }
         None => {}
     }
 }

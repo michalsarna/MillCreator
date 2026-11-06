@@ -23,8 +23,7 @@ Pokazuje tylko obszar zadania, **o 10 % większy niż zadanie** w każdym kierun
 | Element | Co robi |
 |---|---|
 | **3D** / **Z góry** (From above) | obraz 3D albo plan zadania widziany prosto z góry (nie da się go obracać) |
-| Pasek powiększenia w lewym dolnym rogu (przybliż, oddal, **Resetuj widok**) albo dwuklik | powiększenie; powrót do pierwszego widoku |
-| dwie ikony dopasowania | **Fit work area** (dopasuj obszar roboczy; podpowiedź nie jest tłumaczona) i **Dopasuj do wszystkich obiektów** |
+| Pasek powiększenia w lewym dolnym rogu (przybliż, oddal, **Resetuj widok**, **Dopasuj do wszystkich obiektów**) albo dwuklik | powiększenie; powrót do pierwszego widoku dopasowanego do obszaru roboczego; dopasowanie do wszystkich obiektów |
 | **Materiał**, **Cięcia**, **Ruchy na bezpiecznej wysokości** | pokazują lub ukrywają każdą część; niebieska ramka to bezpieczna wysokość |
 | **Projekt na materiale** | kształty rysunku na wierzchu materiału, w kolorze ich warstwy (tylko pokazywane warstwy); na początku wyłączone |
 | ikona pobierania | **Eksportuj sfrezowany element jako STL…** (zob. niżej) |
