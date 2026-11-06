@@ -60,7 +60,9 @@ impl App {
             match n {
                 Notice::Connected => {
                     self.machine.read_all();
-                    if self.device.connection.unlock_on_connect {
+                    // A read for a new device: its controller is only read, nothing is homed or unlocked.
+                    if self.add_dev_reading() {
+                    } else if self.device.connection.unlock_on_connect {
                         self.machine.line("$X");
                     } else if self.device.connection.home_on_connect {
                         self.machine.line("$H");

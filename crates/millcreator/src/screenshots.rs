@@ -72,7 +72,7 @@ fn render_screenshots() {
     {
         let a = app(&mut h);
         a.start_add_device();
-        let e = a.dev_edit.as_mut().expect("window");
+        let e = a.add_dev.as_mut().expect("window");
         e.draft.name = "Big router".into();
         e.draft.area.x = 600.0;
         e.draft.area.y = 400.0;
@@ -80,6 +80,9 @@ fn render_screenshots() {
     save(&mut h, "02-add-device.png");
     {
         let a = app(&mut h);
+        // More settings…: the whole device window with what was entered.
+        let draft = a.add_dev.take().expect("window").draft;
+        a.dev_edit = Some(crate::device_ui::DeviceEdit { idx: None, draft, page: crate::device_ui::Page::General, error: String::new() });
         a.dev_edit.as_mut().expect("window").page = crate::device_ui::Page::Camera;
         a.dev_edit.as_mut().expect("window").draft.cameras.push(base_core::camimg::CameraSource::url("Over the table", "http://raspberrypi.local:8080/stream.mjpg", 0));
     }

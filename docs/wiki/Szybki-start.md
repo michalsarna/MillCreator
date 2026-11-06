@@ -8,7 +8,7 @@ Pierwsze zadanie od początku: urządzenie, materiał, kształt, warstwa z freze
 
 Ekran startowy wypisuje twoje maszyny pod **Urządzenie** (Device). Wybierz tę, na której będziesz pracować.
 
-* **Dodaj urządzenie…** (Add device…) tworzy nowe: nazwa, jednostki, zero maszyny, obszar roboczy, bezpieczna wysokość, wrzeciono… (wszystkie strony są w [Urządzeniach i kamerach](Urzadzenia-i-kamery)). Nowe urządzenie może zacząć od **Start od → Zwykły rozmiar maszyny…** (Start from → A usual machine size…).
+* **Dodaj urządzenie…** (Add device…) otwiera jedno okno z podstawowymi ustawieniami, takie samo jak w LightCreator i PenCreator: **Nazwa**, **Sterownik** (wersja GRBL albo Duet), połączenie z **Odczytaj z urządzenia** (obszar roboczy, prędkości i wrzeciono ze sterownika), **Jednostki**, **Obszar roboczy** (X, Y, Z), **Zero maszyny (0,0)**, **Bezpieczna wysokość** i **Wrzeciono**, opcjonalna kamera oraz **Warto sprawdzić**. **Dodaj urządzenie** je zapisuje; **Więcej ustawień…** otwiera całe okno urządzenia z tym, co wpisano (wszystkie strony są w [Urządzeniach i kamerach](Urzadzenia-i-kamery)), gdzie nowe urządzenie może też zacząć od **Start od → Zwykły rozmiar maszyny…**.
 * **Edytuj…**, **Powiel** i **Importuj…** zmieniają, kopiują albo wczytują urządzenie z pliku.
 * Bez maszyny naciśnij **Nie mam urządzenia** (I have no device): powstaje i zostaje wybrany zastępczy *Dummy* (obszar roboczy 300 × 200 mm i 60 mm w Z, bezpieczna wysokość 5 mm, wrzeciono 1000–24000 obr./min). **Nowy** albo **Otwórz…** bez żadnego urządzenia też go tworzą i używają.
 

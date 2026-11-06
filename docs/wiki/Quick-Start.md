@@ -8,7 +8,7 @@ A first job from the start: a device, the material, a shape, a layer with a bit,
 
 The start screen lists your machines under **Device**. Pick the one you will work with.
 
-* **Add device…** makes a new one: the name, the units, the machine zero, the work area, the safe height, the spindle… (all the pages are in [Devices and Cameras](Devices-and-Cameras)). A new device can begin from **Start from → A usual machine size…**.
+* **Add device…** opens one window with the basic settings, the same as in LightCreator and PenCreator: the **Name**, the **Controller** (a GRBL version or Duet), the connection with **Read from device** (the work area, the speeds and the spindle come from the controller), the **Units**, the **Work area** (X, Y, Z), the **Machine zero (0,0)**, the **Safe height** and the **Spindle**, an optional camera, and **Worth checking**. **Add device** saves it; **More settings…** opens the whole device window with what is entered (all the pages are in [Devices and Cameras](Devices-and-Cameras)), where a new device can also begin from **Start from → A usual machine size…**.
 * **Edit…**, **Duplicate** and **Import…** change, copy or read a device from a file.
 * Without a machine press **I have no device**: a stand-in called *Dummy* is made and selected (a work area of 300 × 200 mm with 60 mm in Z, safe height 5 mm, spindle 1000–24000 rpm). **New** or **Open…** with no device at all make and use it too.
 
