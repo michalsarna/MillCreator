@@ -319,11 +319,13 @@ pub fn position_at(prog: &Program, part: f32) -> (usize, Option<P3>) {
 /// The picture, in the space the ui gives. Turns, pans and zooms with the mouse.
 pub fn show(ui: &mut egui::Ui, view: &mut View3d, sc: &Scene3d) {
     let (rect, resp) = ui.allocate_exact_size(base_ui::window::fill_size(ui).max(Vec2::splat(120.0)), Sense::click_and_drag());
-    if resp.dragged_by(egui::PointerButton::Primary) {
+    // Shift+drag moves, as in the G-code viewer.
+    let shift = ui.input(|i| i.modifiers.shift);
+    if resp.dragged_by(egui::PointerButton::Primary) && !shift {
         let d = resp.drag_delta();
         view.rotate(d.x, d.y);
     }
-    if resp.dragged_by(egui::PointerButton::Secondary) || resp.dragged_by(egui::PointerButton::Middle) {
+    if resp.dragged_by(egui::PointerButton::Secondary) || resp.dragged_by(egui::PointerButton::Middle) || (shift && resp.dragged_by(egui::PointerButton::Primary)) {
         view.pan += resp.drag_delta();
     }
     if resp.hovered() {
@@ -356,13 +358,17 @@ pub fn show(ui: &mut egui::Ui, view: &mut View3d, sc: &Scene3d) {
             None => {}
         }
     }
-    // The slider of the zoom, below the cube: the same as the wheel, for a mouse without one.
-    let track = Rect::from_min_max(Pos2::new(rect.right() - 28.0, rect.top() + 150.0), Pos2::new(rect.right() - 8.0, (rect.bottom() - 24.0).max(rect.top() + 200.0)));
-    let mut z = view.zoom.max(0.2).ln();
-    let (lo, hi) = (0.2f32.ln(), 40.0f32.ln());
-    let r = ui.put(track, egui::Slider::new(&mut z, lo..=hi).vertical().show_value(false));
-    if r.on_hover_text(base_ui::i18n::tr("Zoom")).changed() {
-        view.zoom_by((z - view.zoom.max(0.2).ln()).exp());
+    // The zoom bar of every picture, in the lower left corner: the same as the wheel and the double click.
+    let about_middle = |view: &mut View3d, f: f32| {
+        let before = view.zoom;
+        view.zoom_by(f);
+        view.pan *= view.zoom / before;
+    };
+    match base_ui::zoom_bar::overlay(ui, rect, view.zoom, &base_ui::i18n::tr("Drag: rotate · right drag or Shift+drag: move · wheel: zoom")) {
+        Some(base_ui::zoom_bar::ZoomCmd::In) => about_middle(view, base_ui::zoom_bar::STEP),
+        Some(base_ui::zoom_bar::ZoomCmd::Out) => about_middle(view, 1.0 / base_ui::zoom_bar::STEP),
+        Some(base_ui::zoom_bar::ZoomCmd::Whole) => view.reset(),
+        None => {}
     }
 }
 

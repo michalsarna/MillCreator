@@ -340,9 +340,6 @@ impl App {
             ui.selectable_value(&mut self.view.top, false, "3D");
             ui.selectable_value(&mut self.view.top, true, tr("From above"));
             ui.separator();
-            if ui.button(tr("Reset view")).on_hover_text(tr("Back to the first view. Double click on the picture does the same.")).clicked() {
-                self.view.reset();
-            }
             // The two buttons that fit the picture: the work area, and all the objects.
             if let Some(f) = Self::preview_fit_buttons(ui) {
                 self.view.fit = Some(f);
