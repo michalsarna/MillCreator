@@ -3,6 +3,7 @@
 //! baseCreator). It adds devices (with cameras), milling layers, a library of bits, a simple material, toolpaths with a
 //! 3D view and G-code.
 mod autosave_glue;
+mod camera_glue;
 mod clear;
 mod backup_ui;
 mod cutting_calc;
@@ -364,6 +365,13 @@ struct App {
     layer_watch: base_ui::camera_rec::LayerWatch,
     /// The camera window shrinks to the picture.
     cam_fit: base_ui::window::FitWindow,
+    /// The way the camera view is shown, its zoom and shift, the size of its window of its own as it was last seen, and the device and
+    /// camera they were taken from (`camera_glue`).
+    stream_mode: base_ui::camera_view::StreamMode,
+    cam_zoom: f32,
+    cam_pan: egui::Vec2,
+    cam_win: Option<([f32; 2], std::time::Instant)>,
+    cam_view_for: Option<(String, usize)>,
     machine: MachineLink,
     control_ui: ControlUi,
     control_devices: base_ui::control_devices_ui::ControlDevicesUi,
@@ -511,6 +519,11 @@ impl App {
             cam_rec: base_ui::camera_rec::Recorder::default(),
             layer_watch: base_ui::camera_rec::LayerWatch::default(),
             cam_fit: Default::default(),
+            stream_mode: base_ui::camera_view::StreamMode::Tab,
+            cam_zoom: 1.0,
+            cam_pan: egui::Vec2::ZERO,
+            cam_win: None,
+            cam_view_for: None,
             machine: {
                 let mut m = MachineLink::new(ctx);
                 m.fw.backup_dir = data_paths().settings.parent().map(|p| p.join("firmware-backups"));
@@ -1013,7 +1026,7 @@ impl App {
 
     /// The ids of the tabs that exist only sometimes: the camera view, and the tab of every plugin that has settings.
     fn extra_tabs(&self) -> Vec<&'static str> {
-        self.device.camera().is_some().then_some("camera").into_iter().chain(self.plugins.side_tabs().into_iter().map(|(id, _)| id)).collect()
+        self.camera_side_tab().then_some("camera").into_iter().chain(self.plugins.side_tabs().into_iter().map(|(id, _)| id)).collect()
     }
 
     /// The label of a tab, also of a tab of a plugin.
@@ -1212,6 +1225,7 @@ impl App {
         tools_ui::tools_window(ctx, &mut self.tools_win, &mut self.tools);
         self.device_window(ctx);
         self.machine_windows(ctx);
+        self.camera_window(ctx);
         self.shared_windows(ctx);
         self.setup_window(ctx);
         self.preview_window(ctx);
@@ -1338,6 +1352,9 @@ impl App {
 }
 
 impl EditorHost for App {
+    fn view_options_extra(&mut self, ui: &mut egui::Ui) {
+        self.camera_mode_options(ui);
+    }
     fn show_properties_tab(&mut self) {
         self.side_tab = SideTab::Properties;
     }

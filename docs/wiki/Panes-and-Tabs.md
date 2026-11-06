@@ -68,7 +68,7 @@ One drawing is the **active** one: the tools, the menus and the keys work on it.
 
 ## A tab in a window of its own
 
-The **Preview**, the **G-code text** and the **Camera view** can go to a separate window, for example on a second monitor. A drawing cannot.
+The **Preview** and the **G-code text** can go to a separate window, for example on a second monitor; the **Camera view** has a separate window of its own (one of its three ways, chosen in the view). A drawing cannot.
 
 1. Right-click the tab and choose **Open in a separate window**.
 2. Move the window where you want it. It remembers its place and its size.

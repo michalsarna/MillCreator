@@ -88,10 +88,7 @@ impl App {
                 self.close_tab_request();
             }
             Content::Preview => self.preview_close(),
-            Content::Camera => {
-                self.show_camera = false;
-                self.cam_ws_shown = false;
-            }
+            Content::Camera => self.camera_closed(),
             Content::Gcode => self.gcode_view = None,
             Content::GcodeText(slot) => {
                 if self.gcode_texts.iter().any(|g| g.slot == slot && g.dirty()) {
@@ -183,6 +180,9 @@ impl App {
 }
 
 impl PaneHost for App {
+    fn window_logo(&self) -> Option<egui::TextureHandle> {
+        self.logo.clone()
+    }
     fn tab_title(&self, c: Content) -> String {
         use base_ui::i18n::tr;
         match c {
@@ -256,7 +256,8 @@ impl PaneHost for App {
     }
 
     fn can_pop_out(&self, content: Content) -> bool {
-        matches!(content, Content::Preview | Content::GcodeText(_) | Content::Camera)
+        // The camera view has a window of its own (one of its three ways), not a tab taken out.
+        matches!(content, Content::Preview | Content::GcodeText(_))
     }
 }
 

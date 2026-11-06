@@ -68,7 +68,7 @@ Jeden rysunek jest **aktywny**: na nim działają narzędzia, menu i klawisze. R
 
 ## Karta w osobnym oknie
 
-**Podgląd**, **tekst G-code** i **Widok z kamery** można przenieść do osobnego okna, na przykład na drugi monitor. Rysunku nie można.
+**Podgląd** i **tekst G-code** można przenieść do osobnego okna, na przykład na drugi monitor; **Widok z kamery** ma własne osobne okno (jeden z jego trzech sposobów, wybierany w widoku). Rysunku nie można.
 
 1. Kliknij kartę prawym przyciskiem i wybierz **Otwórz w osobnym oknie**.
 2. Przesuń okno, gdzie chcesz. Okno pamięta swoje miejsce i rozmiar.
