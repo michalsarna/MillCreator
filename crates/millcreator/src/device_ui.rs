@@ -61,7 +61,7 @@ pub struct DeviceEdit {
 pub type CamState = base_ui::camera_feed::CamFeed;
 
 /// Take what the controller reports into the draft of a device: the travel, the spindle speeds and the speed of moves.
-fn apply_suggestion(d: &mut Device, s: &base_core::firmware::Suggestion) {
+pub(crate) fn apply_suggestion(d: &mut Device, s: &base_core::firmware::Suggestion) {
     if let Some(a) = s.area {
         d.area.x = a[0].clamp(10.0, 10_000.0);
         d.area.y = a[1].clamp(10.0, 10_000.0);
@@ -107,10 +107,6 @@ impl App {
             self.device = d.clone();
             self.active = Some(self.start_sel);
         }
-    }
-
-    pub(crate) fn start_add_device(&mut self) {
-        self.dev_edit = Some(DeviceEdit { idx: None, draft: Device { name: String::new(), ..Device::default() }, page: Page::General, error: String::new() });
     }
 
     /// The settings of the active device (a device that came with the project is edited as a copy).
@@ -612,7 +608,7 @@ impl App {
     }
 
     /// The edited device goes into the list (and into the project, when it is the device in use).
-    fn commit_device(&mut self, edit: &DeviceEdit) {
+    pub(crate) fn commit_device(&mut self, edit: &DeviceEdit) {
         let mut d = edit.draft.clone();
         match edit.idx {
             None => {
@@ -748,7 +744,8 @@ mod tests {
     fn a_device_is_added_changed_and_the_name_stays_unique() {
         let mut a = app();
         a.devices.clear();
-        a.start_add_device();
+        // The whole device window for a new device (More settings… of the add window).
+        a.dev_edit = Some(DeviceEdit { idx: None, draft: Device { name: String::new(), ..Device::default() }, page: Page::General, error: String::new() });
         {
             let e = a.dev_edit.as_mut().unwrap();
             e.draft.name = "Router".into();
@@ -815,6 +812,10 @@ mod tests {
         let mut a = App::build(&ctx, None, false);
         a.devices = vec![Device::dummy()];
         a.start_add_device();
+        let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.add_device_window(ui.ctx()));
+        out.textures_delta.clear();
+        assert!(a.add_dev.is_some());
+        a.dev_edit = Some(DeviceEdit { idx: None, draft: Device { name: String::new(), ..Device::default() }, page: Page::General, error: String::new() });
         for page in Page::ALL {
             a.dev_edit.as_mut().unwrap().page = page;
             let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.device_window(ui.ctx()));
