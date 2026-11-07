@@ -100,15 +100,9 @@ fn app_icon() -> base_ui::seasonal::Icon {
     if cfg!(test) { normal } else { base_ui::seasonal::icon_today(&FESTIVE, normal) }
 }
 
-/// Read an SVG or PDF (by its content) into a new scene. Every outline becomes one shape on layer 0.
+/// Read an SVG, PDF or Illustrator file (by its content) into a new scene: every outline one shape on layer 0, with the pictures of an SVG.
 fn read_scene(data: &[u8]) -> Result<Scene, String> {
-    let is_pdf = data.windows(5).take(1024).any(|w| w == b"%PDF-");
-    let outlines = if is_pdf { base_core::pdf::parse(data)? } else { base_core::svg::parse(data)? };
-    let mut scene = Scene::default();
-    for o in outlines {
-        scene.add(0, Kind::Bezier(o.contours), Xf::IDENTITY);
-    }
-    Ok(scene)
+    base_core::svg::read_scene(data)
 }
 
 /// The shapes of a DXF drawing as a scene: every layer of the DXF goes to a layer of the project that has no shapes yet (in the order
@@ -422,7 +416,7 @@ struct App {
 
 /// A file that is imported into the drawing: a LightBurn project, a UGS design or a DXF drawing.
 fn is_import(p: &std::path::Path) -> bool {
-    p.extension().is_some_and(|e| ["lbrn2", "lbrn", "ugsd", "dxf"].iter().any(|x| e.eq_ignore_ascii_case(x)))
+    p.extension().is_some_and(|e| base_core::lightburn::EXTENSIONS.iter().chain(&["ugsd", "dxf"]).any(|x| e.eq_ignore_ascii_case(x)))
 }
 
 impl App {
@@ -807,9 +801,9 @@ impl App {
         }
     }
 
-    /// File > Import > Import LightBurn project…: the shapes of the project come over as a new, unsaved drawing.
+    /// File > Import > Import LightBurn / MillMage project…: the shapes of the project come over as a new, unsaved drawing.
     fn import_lightburn_dialog(&mut self) {
-        if let Some(p) = rfd::FileDialog::new().add_filter("LightBurn", &["lbrn2", "lbrn"]).pick_file() {
+        if let Some(p) = rfd::FileDialog::new().add_filter("LightBurn / MillMage", &base_core::lightburn::EXTENSIONS).pick_file() {
             self.open(p);
         }
     }
@@ -1357,6 +1351,9 @@ impl App {
 }
 
 impl EditorHost for App {
+    fn export_stem(&self) -> String {
+        self.file_stem()
+    }
     fn view_options_extra(&mut self, ui: &mut egui::Ui) {
         self.camera_mode_options(ui);
     }
@@ -1796,13 +1793,36 @@ mod tests {
         let labels = |title: &str| -> Vec<&str> {
             m[0].1.iter().find_map(|e| match e { base_ui::menu::Entry::Sub(t, inner) if *t == title => Some(inner), _ => None }).unwrap().iter().filter_map(|e| match e { base_ui::menu::Entry::Item(_, l, _) => Some(*l), _ => None }).collect()
         };
-        for f in ["Import SVG…", "Import Adobe Illustrator / PDF…", "Import DXF…", "Import LightBurn project…", "Import UGS design…"] {
+        for f in ["Import SVG…", "Import Adobe Illustrator / PDF…", "Import DXF…", "Import LightBurn / MillMage project…", "Import UGS design…"] {
             assert!(labels("Import").contains(&f), "{f}");
         }
         for f in ["Export G-code…", "Export SVG…", "Export PLT / DXF…"] {
             assert!(labels("Export").contains(&f), "{f}");
         }
         let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    /// Files that LightBurn and MillMage write: opened or imported, each comes in (`tests/fixtures/interchange`, from baseCreator).
+    #[test]
+    fn files_of_lightburn_and_millmage_come_in_and_go_out() {
+        let fx = |n: &str| PathBuf::from(format!("{}/tests/fixtures/interchange/{n}", env!("CARGO_MANIFEST_DIR")));
+        let mut a = app();
+        a.open(fx("zdjecie.svg"));
+        assert_eq!(a.scene.shapes.len(), 1, "{}", a.status);
+        assert!(a.scene.shapes[0].is_image(), "the picture of the SVG");
+        for (f, n) in [("kwadrat.ai", 1), ("kwadrat-legacy.dxf", 1), ("kwadrat.mage", 1)] {
+            let mut a = app();
+            a.open(fx(f));
+            assert_eq!(a.scene.shapes.iter().filter(|s| !s.is_image()).count(), n, "{f}: {}", a.status);
+        }
+        let mut a = app();
+        a.import_drawing_path(fx("zdjecie.svg"));
+        assert_eq!(a.scene.shapes.iter().filter(|s| s.is_image()).count(), 1, "imported, the picture comes too");
+        let m = menu::menus();
+        let export: Vec<&str> = m[0].1.iter().find_map(|e| match e { base_ui::menu::Entry::Sub(t, inner) if *t == "Export" => Some(inner), _ => None }).unwrap().iter().filter_map(|e| match e { base_ui::menu::Entry::Item(_, l, _) => Some(*l), _ => None }).collect();
+        for f in ["Export DXF…", "Export DXF R12 (legacy)…", "Export Adobe Illustrator…", "Export LightBurn project…", "Export MillMage project…"] {
+            assert!(export.contains(&f), "{f}");
+        }
     }
 
     pub(crate) fn app() -> App {

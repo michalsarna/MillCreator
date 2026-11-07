@@ -40,7 +40,7 @@ Open-source software to design and prepare CNC milling jobs, written in Rust. Dr
 * **3D view:** the block of material, the cuts and the moves at the safe height; turn, zoom, reset; a slider plays the job.
 * **G-code:** GRBL flavour, with a pause to change the bit or `T… M6` for a tool changer, your own lines (start, end, change of bit or operation), a work coordinate system and a zero on the material; Mach3 / Mach4 / UCCNC and LinuxCNC through plugins.
 * **The machine:** GRBL (0.7 to 1.1 and newer), Smoothieware, a Duet over HTTP, or LinuxCNC (a file); jogging, probing, the centre of a hole, overrides, saved positions, coolant.
-* **Drawing:** DXF, SVG, PDF, Illustrator, LightBurn and UGS import, arrays, copies along a path, text on a path, trimming, nesting, QR codes and barcodes, serial text, and STL / OBJ / 3MF models as a relief.
+* **Drawing:** DXF, SVG, PDF, Illustrator, LightBurn, MillMage and UGS import, DXF, Illustrator, LightBurn and MillMage export, arrays, copies along a path, text on a path, trimming, nesting, QR codes and barcodes, serial text, and STL / OBJ / 3MF models as a relief.
 * **Shared with LightCreator:** the editor, 310 clipart pictures, SVG / PDF / Illustrator and LightBurn import, the `.cre` project file, 30 languages (shared texts) and 18 colour schemes.
 
 > ⚠️ **Safety:** milling machines are dangerous. Test a new job in the air above the material, wear eye and ear protection, clamp the work, never leave a running machine unattended. See [Safety and Limitations](Safety-and-Limitations).
