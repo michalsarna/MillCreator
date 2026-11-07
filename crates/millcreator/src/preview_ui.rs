@@ -336,6 +336,9 @@ impl App {
             ui.selectable_value(&mut self.view.top, true, tr("From above"));
             ui.separator();
             ui.checkbox(&mut self.view.show_stock, tr("Material"));
+            let c = self.stock.color;
+            base_ui::widgets::area_colour(ui, tr("Material colour"), &mut self.ed.grid_prefs.preview_color, egui::Color32::from_rgb(c[0], c[1], c[2]));
+            ui.separator();
             ui.checkbox(&mut self.view.show_cuts, tr("Cuts"));
             ui.checkbox(&mut self.view.show_rapids, tr("Moves at the safe height"));
             ui.checkbox(&mut self.view.show_project, tr("Project on the material")).on_hover_text(tr("The shapes of the drawing over the top of the material, in the colour of their layer"));
@@ -374,7 +377,12 @@ impl App {
                     }
                 }
                 let project = self.project_lines.as_ref().map_or(&[][..], |(_, l)| &l[..]);
-                let sc = Scene3d { surface, prog, region, stock: &self.stock, dev: &self.device, layers: &self.layers, project, rotary };
+                // The material in the colour chosen for the preview, or its own.
+                let mut stock = self.stock.clone();
+                if let Some(c) = self.ed.grid_prefs.preview_color {
+                    stock.color = [c[0], c[1], c[2]];
+                }
+                let sc = Scene3d { surface, prog, region, stock: &stock, dev: &self.device, layers: &self.layers, project, rotary };
                 view3d::show(ui, &mut self.view, &sc);
             }
             None => {
@@ -542,5 +550,47 @@ mod tests {
         assert!(n > 100 && stl.len() == 84 + 50 * n);
         a.view.progress = 0.5;
         assert!(a.view_model().is_some(), "half of the job has cuts too");
+    }
+
+    #[test]
+    fn the_material_takes_the_colour_chosen_in_the_bar_of_the_preview() {
+        fn colours(shapes: &[egui::epaint::ClippedShape], out: &mut Vec<egui::Color32>) {
+            fn walk(s: &egui::epaint::Shape, out: &mut Vec<egui::Color32>) {
+                match s {
+                    egui::epaint::Shape::Path(p) => out.push(p.fill),
+                    egui::epaint::Shape::Mesh(m) => out.extend(m.vertices.iter().map(|v| v.color)),
+                    egui::epaint::Shape::Vec(v) => v.iter().for_each(|s| walk(s, out)),
+                    _ => {}
+                }
+            }
+            shapes.iter().for_each(|c| walk(&c.shape, out));
+        }
+        let ctx = egui::Context::default();
+        let mut a = App::build(&ctx, None, false);
+        a.scene.add(0, Kind::Rect { w: 30.0, h: 30.0 }, Xf::translate(20.0, 20.0));
+        a.touch_rev();
+        a.open_preview();
+        let own = a.stock.color;
+        // Pure blue: the shades of the faces keep red and green at nothing.
+        let blue = |c: &egui::Color32| c.r() == 0 && c.g() == 0 && c.b() > 40;
+        let mut draw = |a: &mut App| {
+            let mut found = vec![];
+            let mut label = false;
+            for _ in 0..2 {
+                let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
+                    a.preview_window(ui.ctx());
+                    egui::CentralPanel::no_frame().show(ui, |ui| a.preview_work_panel(ui));
+                });
+                out.textures_delta.clear();
+                label |= out.shapes.iter().any(|s| matches!(&s.shape, egui::epaint::Shape::Text(t) if t.galley.text() == "Material colour"));
+                colours(&out.shapes, &mut found);
+            }
+            assert!(label, "the colour is in the bar of the preview");
+            found
+        };
+        assert!(!draw(&mut a).iter().any(blue));
+        a.ed.grid_prefs.preview_color = Some([0, 0, 0xff, 0xff]);
+        assert!(draw(&mut a).iter().any(blue), "the material is drawn blue");
+        assert_eq!(a.stock.color, own, "the material of the project keeps its colour");
     }
 }
