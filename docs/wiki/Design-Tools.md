@@ -46,3 +46,11 @@ The **Insert** menu has the tools of the left palette that insert objects (recta
 ## Camera overlay (View menu) and the trace dialog
 
 **View → Overlay from…** puts a photo, a plan or a scan **under the drawing** (**Load picture…**), or the live picture of the camera of the device (**Start camera**, **Freeze frame**; also the **Overlay** button on the camera tab). Tick **Align: drag the four corners on the work area** and drag its corners onto the corners of the material or of the work area (the picture follows with a perspective transform), or give **Reference points**, which are kept with the device. **Opacity**, **Show overlay**, **Reset to work area**, **Flip H**, **Flip V**, **Rotate 90°** and **Remove** are in the same window, and **View → Show camera overlay** shows or hides it. The picture is saved with the project. In the **Trace image** dialog the picture can be zoomed with the scroll wheel or the **Zoom in**, **Zoom out** and **Reset view** buttons, and the green **Trace** button makes the outlines.
+
+## Ruler, selection and the node bar
+
+* **Ruler (M):** the tool after **Zoom out (X)** in the palette. Drag from one point to another, or click two points: a line over the drawing shows the length, ΔX, ΔY and the angle, in the units of the program. A point near a node of a shape takes the node itself (otherwise the grid when snapping is on). A click on a straight segment of a shape (a side of a rectangle, a line) measures that segment. The measurement stays until the next one, **Esc** or another tool; nothing in the drawing is changed.
+* **Right click with a tool** (a shape, the pen, the node tool, the ruler…) works as a double **Esc**: back to **Select (V)** with nothing selected; a line being drawn with the pen is finished first. With the select tool the right click opens the context menu as before.
+* **Several objects selected:** besides the frame of the whole selection, every object has a thin dashed frame of its own.
+* **The node bar** shows the keys after the names: **Corner (C)**, **To line (L)**, **To curve (S)**, **Add node (I)**, **Delete node (D)**, **Round (R)**, **Break (B)**. **Open / close** is gone: **Break (B)** opens a path, and a path is closed by dropping one of its ends onto the other.
+* **A layer that is not made** (its output switched off) shows its objects faded towards the work area.

@@ -46,3 +46,11 @@ Menu **Wstawianie** (Wstawianie) zawiera narzędzia lewej palety, które wstawia
 ## Obraz w tle (menu View) i okno wektoryzacji
 
 **Widok → Nakładka z…** kładzie zdjęcie, plan albo skan **pod rysunkiem** (**Wczytaj obraz…**) albo obraz na żywo z kamery urządzenia (**Włącz kamerę**, **Zatrzymaj klatkę**; także przycisk **Nakładka** na karcie kamery). Zaznacz wyrównywanie i przeciągnij cztery narożniki obrazu na narożniki materiału albo obszaru roboczego (obraz podąża za nimi z przekształceniem perspektywicznym) albo podaj **Punkty odniesienia**, które zostają przy urządzeniu. Przezroczystość (krycie), pokazywanie, powrót do obszaru roboczego, odbicia, obrót i usuwanie są w tym samym oknie, a **Widok → Pokaż nakładkę z kamery** pokazuje ją lub ukrywa. Obraz jest zapisywany w projekcie. W oknie **Wektoryzacja obrazu** obraz można przybliżać kółkiem myszy albo przyciskami **Powiększ**, **Pomniejsz** i **Resetuj widok**, a zielony przycisk **Wektoryzuj** tworzy kontury.
+
+## Linijka, zaznaczenie i pasek węzłów
+
+* **Linijka (M):** narzędzie po **Pomniejsz (X)** w palecie. Przeciągnij od jednego punktu do drugiego albo kliknij dwa punkty: linia nad rysunkiem pokazuje długość, ΔX, ΔY i kąt, w jednostkach programu. Punkt blisko węzła kształtu bierze sam węzeł (w przeciwnym razie siatkę, gdy przyciąganie jest włączone). Kliknięcie prostego odcinka kształtu (boku prostokąta, linii) mierzy ten odcinek. Pomiar zostaje do następnego, **Esc** albo zmiany narzędzia; w rysunku nic się nie zmienia.
+* **Prawy przycisk z narzędziem** (kształt, pióro, edycja węzłów, linijka…) działa jak podwójne **Esc**: wraca do **Zaznaczania (V)** bez zaznaczenia; linia rysowana piórem jest najpierw kończona. Przy narzędziu zaznaczania prawy przycisk otwiera menu podręczne jak dotąd.
+* **Kilka zaznaczonych obiektów:** oprócz ramki całego zaznaczenia każdy obiekt ma własną cienką, przerywaną ramkę.
+* **Pasek węzłów** pokazuje klawisze po nazwach: **Narożnik (C)**, **Na linię (L)**, **Na krzywą (S)**, **Dodaj węzeł (I)**, **Usuń węzeł (D)**, **Zaokrąglij (R)**, **Rozdziel (B)**. Nie ma już **Otwórz / zamknij**: **Rozdziel (B)** otwiera ścieżkę, a zamyka się ją, upuszczając jeden koniec na drugi.
+* **Warstwa, która nie jest wykonywana** (z wyłączonym wyjściem), pokazuje swoje obiekty wyblakłe w stronę koloru obszaru roboczego.
