@@ -22,20 +22,25 @@ Klawisze są zapisane jak w Windows i Linuksie (Ctrl); na macOS Ctrl to Cmd. Poz
 | **Zapisz jako…** (Save as…) | Ctrl+Shift+S | Zapisuje projekt pod inną nazwą. |
 | **Ustawienia projektu…** (Project setup…) | | Rozmiar i grubość materiału, zero programu na nim, Z od spodu, obszar roboczy jako materiał. Zob. [Szybki start](Szybki-start#2-ustawienia-projektu). |
 | **Importuj ▸ Importuj obraz…** | | Obraz (PNG, JPG, BMP, GIF, WebP) na stronę, z oknem importu. Zob. [Narzędzia projektowe](Narzedzia-projektowe). |
-| **Importuj ▸ Importuj SVG…** | Ctrl+I | Ścieżki pliku SVG są dodawane do otwartego rysunku, każda na warstwę o najbliższym kolorze. **Otwórz…** zrobiłoby z pliku nową kartę. |
-| **Importuj ▸ Importuj Adobe Illustrator / PDF…** | | To samo dla pliku PDF lub zgodnego z PDF `.ai`. Plik z warstwami Illustratora pyta, czy układać według koloru, czy według tych warstw. |
+| **Importuj ▸ Importuj SVG…** | Ctrl+I | Ścieżki pliku SVG są dodawane do otwartego rysunku, każda na warstwę o najbliższym kolorze, a jego obrazy na aktywną warstwę. **Otwórz…** zrobiłoby z pliku nową kartę. |
+| **Importuj ▸ Importuj Adobe Illustrator / PDF…** | | To samo dla pliku PDF, zgodnego z PDF `.ai` albo `.ai` starego rodzaju w PostScripcie (takie zapisuje LightBurn). Plik z warstwami Illustratora pyta, czy układać według koloru, czy według tych warstw. |
 | **Importuj ▸ Importuj DXF…** | | DXF w ASCII jako obrysy; jego warstwy trafiają na wolne warstwy projektu. |
-| **Importuj ▸ Importuj projekt LightBurn…** | | Kształty projektu `.lbrn2` / `.lbrn`. |
+| **Importuj ▸ Importuj projekt LightBurn / MillMage…** | | Kształty projektu LightBurna (`.lbrn2` / `.lbrn`) albo MillMage'a (`.mage`). |
 | **Importuj ▸ Importuj projekt UGS…** | | Projekt `.ugsd` z UGS Designera, ze sposobami cięcia jako warstwami. |
 | **Importuj ▸ Importuj model 3D jako relief…** | | Model STL, OBJ lub 3MF jako mapa głębokości na warstwie reliefu. Zob. [Warstwy i operacje](Warstwy-i-operacje#obrazy). |
 | **Importuj ▸ Importuj wtyczką…** | | Plik, który czyta wtyczka. Zob. [Wtyczki](Wtyczki). |
 | **Importuj ▸ Generuj kształt…** | | Okno generatorów kształtów z wtyczek (także w menu **Wstawianie**). |
 | **Eksportuj ▸ Eksportuj G-code…** | | To samo co **Frezowanie → Eksportuj G-code…**. |
-| **Eksportuj ▸ Eksportuj SVG…** | | Cały rysunek jako SVG, w rozmiarze obszaru roboczego. Krzywe zostają; obrazy są pomijane. |
+| **Eksportuj ▸ Eksportuj SVG…** | | Cały rysunek jako SVG, w rozmiarze obszaru roboczego. Krzywe i obrazy zostają. |
 | **Eksportuj ▸ Eksportuj PLT / DXF…** | | Obrysy całego rysunku jako HPGL (`.plt`, jeden pisak na warstwę) albo DXF R12, zależnie od wybranego rozszerzenia. To kształty, a nie ruchy maszyny. |
+| **Eksportuj ▸ Eksportuj DXF…** | | Cały rysunek jako DXF obecnego rodzaju (AutoCAD 2007), tak jak zapisuje go LightBurn; krzywe są spłaszczane do 0,01 mm. |
+| **Eksportuj ▸ Eksportuj DXF R12 (starszy)…** | | To samo jako DXF R12, dla starszych programów i ploterów tnących (LightBurn nazywa go *legacy*). |
+| **Eksportuj ▸ Eksportuj Adobe Illustrator…** | | Obrysy jako plik Illustratora w postaci PostScript (tak jak zapisuje go LightBurn), z krzywymi, osobna warstwa Illustratora dla każdej warstwy projektu. Obrazy są pomijane. |
+| **Eksportuj ▸ Eksportuj projekt LightBurn…** | | Projekt LightBurna (`.lbrn2`, albo `.lbrn`, gdy tak nazwiesz plik): kształty z krzywymi i obrazy, osobna warstwa LightBurna dla każdej warstwy projektu. |
+| **Eksportuj ▸ Eksportuj projekt MillMage…** | | To samo jako projekt MillMage (`.mage`), materiał w rozmiarze obszaru roboczego. |
 | **Eksportuj ▸ Eksportuj relief jako STL…** | | To samo co **Frezowanie → Eksportuj relief jako STL…**. |
 | **Eksportuj ▸ Eksportuj zaznaczenie jako SVG…** | | Zapisuje zaznaczone kształty (wszystkie, gdy nic nie jest zaznaczone) jako SVG. |
-| **Eksportuj ▸ Eksportuj zaznaczenie jako DXF…** | | To samo jako DXF R12, z warstwą DXF dla każdej warstwy projektu. |
+| **Eksportuj ▸ Eksportuj zaznaczenie jako DXF…** | | To samo jako DXF obecnego rodzaju, z warstwą DXF dla każdej warstwy projektu. |
 | **Pokaż plik G-code…** (View G-code file…) | | Otwiera plik G-code w analizie G-code: jego ścieżkę w 2D lub 3D, długość cięcia i czas. |
 | **Drukuj…** (Print…) | Ctrl+P | Drukuje projekt na drukarce papierowej albo zapisuje go jako PDF. |
 | **Zakończ** (Quit) | Ctrl+Q | Kończy program; najpierw pyta o niezapisaną pracę. Nie na macOS (tam jest w menu **MillCreator**). |
