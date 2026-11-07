@@ -447,3 +447,5 @@
 446|Quant a MillCreator
 447|Projecte sobre el material
 448|Les formes del dibuix sobre el material, amb el color de la seva capa
+449|LinuxCNC (fitxer)
+450|LinuxCNC executa el programa pel seu compte: Inicia desa el fitxer G-code per a ell. No s'ha provat en una màquina real.

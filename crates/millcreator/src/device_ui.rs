@@ -396,7 +396,15 @@ impl App {
                     }
                     Page::Connection => {
                         ui.horizontal(|ui| {
-                            ui.checkbox(&mut d.duet.enabled, tr("Duet / RepRapFirmware (HTTP)")).on_hover_text(tr("A Duet board runs the program by itself: it is sent over the network and started there. Jogging and overrides are not available."));
+                            if ui.checkbox(&mut d.duet.enabled, tr("Duet / RepRapFirmware (HTTP)")).on_hover_text(tr("A Duet board runs the program by itself: it is sent over the network and started there. Jogging and overrides are not available.")).changed() && d.duet.enabled {
+                                d.linuxcnc = false;
+                            }
+                        });
+                        ui.horizontal(|ui| {
+                            // One or the other: both run the program by themselves.
+                            if ui.checkbox(&mut d.linuxcnc, tr("LinuxCNC (file)")).on_hover_text(tr("LinuxCNC runs the program by itself: Start saves the G-code file for it. Not tried on a real machine.")).changed() && d.linuxcnc {
+                                d.duet.enabled = false;
+                            }
                         });
                         if d.duet.enabled {
                             egui::Grid::new("dev_duet").num_columns(2).min_col_width(150.0).spacing([12.0, 6.0]).show(ui, |ui| {

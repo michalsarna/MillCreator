@@ -39,7 +39,7 @@ Otwartoźródłowy program do projektowania i przygotowania zadań dla frezarek 
 * **Materiał:** drewno w trzech kolorach, metal, plastik w wybranym kolorze oraz grubość.
 * **Widok 3D:** blok materiału, cięcia i ruchy na bezpiecznej wysokości; obrót, zoom, reset; suwak odtwarza zadanie.
 * **G-code:** w odmianie GRBL, z pauzą na wymianę frezu albo `T… M6` dla zmieniacza narzędzi, własnymi liniami (początek, koniec, zmiana freza lub operacji), układem współrzędnych i zerem na materiale; Mach3 / Mach4 / UCCNC i LinuxCNC przez wtyczki.
-* **Maszyna:** GRBL (od 0.7 do 1.1 i nowszego), Smoothieware albo Duet przez HTTP; przesuw, sondowanie, środek otworu, korekty, zapisane pozycje, chłodziwo.
+* **Maszyna:** GRBL (od 0.7 do 1.1 i nowszego), Smoothieware, Duet przez HTTP albo LinuxCNC (plik); przesuw, sondowanie, środek otworu, korekty, zapisane pozycje, chłodziwo.
 * **Rysowanie:** import DXF, SVG, PDF, Illustratora, LightBurna i UGS, tablice, kopie wzdłuż ścieżki, tekst na ścieżce, przycinanie, nesting, kody QR i kreskowe, tekst seryjny oraz modele STL / OBJ / 3MF jako relief.
 * **Wspólne z LightCreatorem:** edytor, 310 clipartów, import SVG / PDF / Illustratora i LightBurna, plik projektu `.cre`, 30 języków (wspólne teksty) i 18 schematów kolorów.
 

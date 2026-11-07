@@ -447,3 +447,5 @@
 446|Apie MillCreator
 447|Projektas ant medžiagos
 448|Brėžinio formos ant medžiagos viršaus, jų sluoksnio spalva
+449|LinuxCNC (failas)
+450|LinuxCNC programą vykdo pats: Pradėti įrašo jam G-code failą. Neišbandyta su tikra mašina.

@@ -185,6 +185,9 @@ pub struct Device {
     /// A Duet board (RepRapFirmware) that runs the program by itself: it is sent over HTTP instead of streamed.
     #[serde(default)]
     pub duet: Duet,
+    /// LinuxCNC runs the program by itself: Start saves the G-code file for it, nothing is streamed.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub linuxcnc: bool,
 }
 
 /// The Duet / RepRapFirmware settings of a device. The password is typed when needed and never saved.
@@ -217,6 +220,7 @@ impl Default for Device {
             control: Control::default(),
             control_device: None,
             camera_view: Default::default(),
+            linuxcnc: false,
             gcode: CustomGcode::default(),
             wcs: Wcs::default(),
             changer: false,

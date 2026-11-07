@@ -182,7 +182,8 @@ impl App {
     }
 
     pub(crate) fn can_start(&self) -> bool {
-        self.machine.connected && !self.machine.job_active() && !self.machine.job_running()
+        // LinuxCNC: Start saves the file, there is no link.
+        self.device.linuxcnc || (self.machine.connected && !self.machine.job_active() && !self.machine.job_running())
     }
 
     /// Frame: the tool goes round the box where the work will be done, at the safe height, with the spindle off.
@@ -287,6 +288,10 @@ impl App {
 
     /// Start the job at line `from` of the program (0-based; 0 is the whole program).
     pub(crate) fn start_job_from(&mut self, from: usize) {
+        if self.device.linuxcnc {
+            self.export_gcode();
+            return;
+        }
         if !self.can_start() {
             self.status = tr("Connect to the machine first (Device tab)").to_string();
             return;

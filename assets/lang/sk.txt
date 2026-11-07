@@ -447,3 +447,5 @@
 446|O programe MillCreator
 447|Projekt na materiáli
 448|Tvary výkresu na povrchu materiálu vo farbe ich vrstvy
+449|LinuxCNC (súbor)
+450|LinuxCNC spúšťa program sám: Štart preň uloží súbor G-code. Nevyskúšané na skutočnom stroji.

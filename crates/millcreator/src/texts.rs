@@ -492,6 +492,8 @@ const TABLE: &[[&str; 7]] = &[
     ["About MillCreator", "O programie MillCreator", "Über MillCreator", "Informazioni su MillCreator", "Tietoja: MillCreator", "关于 MillCreator", "MillCreator के बारे में"],
     ["Project on the material", "Projekt na materiale", "Projekt auf dem Material", "Progetto sul materiale", "Projekti materiaalin päällä", "材料上的项目", "सामग्री पर प्रोजेक्ट"],
     ["The shapes of the drawing over the top of the material, in the colour of their layer", "Kształty rysunku na wierzchu materiału, w kolorze ich warstwy", "Die Formen der Zeichnung auf der Oberseite des Materials, in der Farbe ihrer Ebene", "Le forme del disegno sopra il materiale, nel colore del loro livello", "Piirroksen muodot materiaalin päällä tasonsa värillä", "图形显示在材料顶面上，使用其图层的颜色", "ड्रॉइंग की आकृतियाँ सामग्री के ऊपर, उनकी परत के रंग में"],
+    ["LinuxCNC (file)", "LinuxCNC (plik)", "LinuxCNC (Datei)", "LinuxCNC (file)", "LinuxCNC (tiedosto)", "LinuxCNC（文件）", "LinuxCNC (फ़ाइल)"],
+    ["LinuxCNC runs the program by itself: Start saves the G-code file for it. Not tried on a real machine.", "LinuxCNC sam wykonuje program: Start zapisuje dla niego plik G-code. Nie sprawdzono na prawdziwej maszynie.", "LinuxCNC führt das Programm selbst aus: Start speichert die G-Code-Datei dafür. Nicht an einer echten Maschine erprobt.", "LinuxCNC esegue il programma da solo: Avvia salva il file G-code per esso. Non provato su una macchina reale.", "LinuxCNC ajaa ohjelman itse: Käynnistä tallentaa sille G-code-tiedoston. Ei kokeiltu oikealla koneella.", "LinuxCNC 自行运行程序：“开始”为其保存 G-code 文件。尚未在真实机器上试过。", "LinuxCNC प्रोग्राम खुद चलाता है: प्रारंभ उसके लिए G-code फ़ाइल सहेजता है। असली मशीन पर आज़माया नहीं गया।"],
 ];
 
 #[cfg(test)]

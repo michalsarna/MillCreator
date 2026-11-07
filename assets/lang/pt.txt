@@ -447,3 +447,5 @@
 446|Acerca do MillCreator
 447|Projeto sobre o material
 448|As formas do desenho sobre o material, na cor da sua camada
+449|LinuxCNC (ficheiro)
+450|O LinuxCNC executa o programa sozinho: Iniciar guarda o ficheiro G-code para ele. Não experimentado numa máquina real.

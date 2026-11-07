@@ -447,3 +447,5 @@
 446|Par MillCreator
 447|Projekts uz materiāla
 448|Zīmējuma formas uz materiāla virsmas to slāņa krāsā
+449|LinuxCNC (fails)
+450|LinuxCNC programmu izpilda pats: Sākt saglabā tam G-code failu. Nav izmēģināts uz īstas mašīnas.

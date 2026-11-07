@@ -447,3 +447,5 @@
 446|Dwar MillCreator
 447|Proġett fuq il-materjal
 448|Il-forom tat-tpinġija fuq il-materjal, fil-kulur tas-saff tagħhom
+449|LinuxCNC (fajl)
+450|LinuxCNC iħaddem il-programm waħdu: Ibda jsalva l-fajl G-code għalih. Ma ġiex ippruvat fuq magna vera.

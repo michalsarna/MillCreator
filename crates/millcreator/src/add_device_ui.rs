@@ -32,7 +32,10 @@ impl App {
 
     /// The things worth checking before the device is used.
     pub(crate) fn add_dev_warnings(d: &Device) -> Vec<String> {
-        let mut w = add::common_warnings(&d.connection, !d.duet.enabled, &tr("Nothing here has been tried on your machine: run a first test without a bit, or with the bit well above the material."));
+        let mut w = add::common_warnings(&d.connection, !d.duet.enabled && !d.linuxcnc, &tr("Nothing here has been tried on your machine: run a first test without a bit, or with the bit well above the material."));
+        if d.linuxcnc {
+            w.insert(0, tr("LinuxCNC runs the program by itself: Start saves the G-code file for it. Not tried on a real machine.").to_string());
+        }
         if d.duet.enabled && d.duet.host.trim().is_empty() {
             w.insert(0, tr("No port or host is set yet: choose it in the device settings before connecting.").to_string());
         }
@@ -100,20 +103,28 @@ impl App {
                 ui.add(egui::TextEdit::singleline(&mut d.name).hint_text(tr("e.g. My CNC router")));
                 ui.end_row();
                 ui.label(tr("Controller"));
-                let shown = if d.duet.enabled { tr("Duet / RepRapFirmware (HTTP)").to_string() } else { tr(d.connection.grbl_version.label()).to_string() };
+                let shown = if d.linuxcnc { tr("LinuxCNC (file)").to_string() } else if d.duet.enabled { tr("Duet / RepRapFirmware (HTTP)").to_string() } else { tr(d.connection.grbl_version.label()).to_string() };
                 egui::ComboBox::from_id_salt("add_controller").selected_text(shown).show_ui(ui, |ui| {
                     for v in GrblVersion::ALL {
-                        if ui.selectable_label(!d.duet.enabled && d.connection.grbl_version == v, tr(v.label())).clicked() {
+                        if ui.selectable_label(!d.duet.enabled && !d.linuxcnc && d.connection.grbl_version == v, tr(v.label())).clicked() {
                             d.duet.enabled = false;
+                            d.linuxcnc = false;
                             d.connection.grbl_version = v;
                         }
                     }
                     if ui.selectable_label(d.duet.enabled, tr("Duet / RepRapFirmware (HTTP)")).clicked() {
                         d.duet.enabled = true;
+                        d.linuxcnc = false;
+                    }
+                    if ui.selectable_label(d.linuxcnc, tr("LinuxCNC (file)")).clicked() {
+                        d.linuxcnc = true;
+                        d.duet.enabled = false;
                     }
                 });
                 ui.end_row();
-                if d.duet.enabled {
+                if d.linuxcnc {
+                    // A file for LinuxCNC: no connection.
+                } else if d.duet.enabled {
                     ui.label(tr("Host"));
                     ui.add(egui::TextEdit::singleline(&mut d.duet.host).hint_text("duet.local"));
                     ui.end_row();
@@ -251,5 +262,24 @@ mod tests {
         a.add_dev_follow_read();
         assert_eq!(a.add_dev.as_ref().unwrap().read, ReadState::Failed);
         assert!(!a.add_dev_reading());
+    }
+
+    #[test]
+    fn linuxcnc_needs_no_port_and_start_saves_the_file() {
+        let ctx = egui::Context::default();
+        let mut a = App::build(&ctx, None, false);
+        let mut d = Device { name: "Router".into(), ..Device::default() };
+        let plain = serde_json::to_string(&d).unwrap();
+        assert!(!plain.contains("linuxcnc"), "not written while off: older versions read the device as before");
+        d.linuxcnc = true;
+        let w = App::add_dev_warnings(&d);
+        assert_eq!(w.len(), 2, "{w:?}");
+        assert!(w[0].starts_with("LinuxCNC runs the program by itself") && !w.iter().any(|t| t.contains("No port")), "{w:?}");
+        let back: Device = serde_json::from_str(&serde_json::to_string(&d).unwrap()).unwrap();
+        assert!(back.linuxcnc);
+        assert!(!a.can_start(), "a connected machine is needed for the others");
+        a.device = d;
+        assert!(a.can_start(), "Start is there without a link: it saves the file");
+        assert!(!a.machine.connected);
     }
 }
