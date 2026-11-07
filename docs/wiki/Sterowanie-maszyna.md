@@ -79,7 +79,8 @@ Gdy GRBL powie `ALARM:n` albo `error:n`, konsola dostaje pod spodem wiersz z wyj
 
 Alarm, błąd w zadaniu albo sterownik, który nie odpowiada, otwiera **okno pośrodku ekranu**: co się stało oraz dwa duże przyciski, **STOP** (czerwony: zatrzymuje zadanie i wrzeciono) i **ODBLOKUJ** (UNLOCK, pomarańczowy: kasuje alarm, `$X`). Zobacz, dlaczego się zatrzymało, zanim odblokujesz: narzędzie może tkwić w materiale.
 
-## Inne sterowniki: Smoothieware i Duet
+## Inne sterowniki: Smoothieware, Duet i LinuxCNC
 
 * **Smoothieware:** lista **Wersja GRBL** na stronie Połączenie ma obok wersji GRBL pozycję **Smoothieware (nie GRBL)**. Płytka jest obsługiwana przez tę samą warstwę co GRBL; nie ma ustawień `$`, więc strony firmware'u jej nie dotyczą. Nie każdy przycisk karty Control jest dla niej przewidziany.
 * **Duet / RepRapFirmware przez HTTP:** zaznacz **Duet / RepRapFirmware (HTTP)** na stronie Połączenie i podaj **adres** płytki (oraz **hasło**, które nie jest zapisywane). Karta **Sterowanie** ma wtedy **Wyślij i uruchom** (program jest wgrywany do `0:/gcodes/` i uruchamiany przez `M32`), **Stan** (bezczynny, pracuje, … i jak daleko jest plik) oraz **Stop**. Płytka wykonuje plik sama, więc nie ma jogowania, korekt ani strumieniowania. To dla RepRapFirmware 2 i 3 w trybie standalone; Duet sterowany przez komputer jednopłytkowy (tryb SBC) nie jest objęty.
+* **LinuxCNC (plik):** wybierz **LinuxCNC (plik)** jako sterownik przy dodawaniu urządzenia (albo zaznacz to na stronie Połączenie). LinuxCNC sam wykonuje program, więc nie ma połączenia: **Start** zapisuje plik G-code (tak jak **Zapisz G-code**), który otwierasz w LinuxCNC. G-code jest zwykłym G-code programu (bez poleceń `$`, kończy się `M30`). Jeszcze nie sprawdzono na prawdziwej maszynie.

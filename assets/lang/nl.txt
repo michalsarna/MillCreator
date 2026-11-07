@@ -447,3 +447,5 @@
 446|Over MillCreator
 447|Project op het materiaal
 448|De vormen van de tekening boven op het materiaal, in de kleur van hun laag
+449|LinuxCNC (bestand)
+450|LinuxCNC voert het programma zelf uit: Start slaat het G-code-bestand ervoor op. Niet geprobeerd op een echte machine.

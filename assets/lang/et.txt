@@ -447,3 +447,5 @@
 446|Teave MillCreatori kohta
 447|Projekt materjalil
 448|Joonise kujundid materjali peal nende kihi värvis
+449|LinuxCNC (fail)
+450|LinuxCNC käivitab programmi ise: Start salvestab selle jaoks G-code faili. Pole päris masinal proovitud.

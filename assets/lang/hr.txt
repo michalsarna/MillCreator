@@ -447,3 +447,5 @@
 446|O programu MillCreator
 447|Projekt na materijalu
 448|Oblici crteža na vrhu materijala, u boji njihova sloja
+449|LinuxCNC (datoteka)
+450|LinuxCNC sam izvodi program: Pokreni sprema G-code datoteku za njega. Nije isprobano na pravom stroju.

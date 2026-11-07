@@ -447,3 +447,5 @@
 446|Um MillCreator
 447|Verkefni á efninu
 448|Form teikningarinnar ofan á efninu, í lit lagsins
+449|LinuxCNC (skrá)
+450|LinuxCNC keyrir forritið sjálft: Ræsa vistar G-code skrána fyrir það. Ekki prófað á raunverulegri vél.

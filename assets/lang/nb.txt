@@ -447,3 +447,5 @@
 446|Om MillCreator
 447|Prosjekt på materialet
 448|Formene i tegningen oppå materialet, i fargen til laget sitt
+449|LinuxCNC (fil)
+450|LinuxCNC kjører programmet selv: Start lagrer G-code-filen for det. Ikke prøvd på en ekte maskin.

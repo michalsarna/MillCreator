@@ -447,3 +447,5 @@
 446|A MillCreator névjegye
 447|Projekt az anyagon
 448|A rajz alakzatai az anyag tetején, a rétegük színében
+449|LinuxCNC (fájl)
+450|A LinuxCNC maga futtatja a programot: az Indítás elmenti hozzá a G-code fájlt. Valódi gépen nincs kipróbálva.

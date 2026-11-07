@@ -447,3 +447,5 @@
 446|Maidir le MillCreator
 447|Tionscadal ar an ábhar
 448|Cruthanna na líníochta ar bharr an ábhair, i ndath a sraithe
+449|LinuxCNC (comhad)
+450|Ritheann LinuxCNC an clár é féin: sábhálann Tosaigh an comhad G-code dó. Níor triaileadh ar fhíor-mheaisín é.
