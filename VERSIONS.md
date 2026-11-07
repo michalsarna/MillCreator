@@ -2,6 +2,16 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.8.0
+
+* **Files of LightBurn and MillMage, both ways:** checked against the same drawings saved by LightBurn 2.2 and MillMage 0.9.
+  * **Import:** MillMage projects (`.mage`, **File → Import → Import LightBurn / MillMage project…**, the file window and drag and drop), the Illustrator files of the old PostScript kind that LightBurn writes, and the pictures inside an SVG (on the active layer). DXF of both kinds (current and R12, *legacy*) and LightBurn projects were read already.
+  * **Export:** **File → Export → Export DXF…** (the current kind, as LightBurn writes it), **Export DXF R12 (legacy)…**, **Export Adobe Illustrator…**, **Export LightBurn project…** (`.lbrn2`, or `.lbrn` when you name the file so) and **Export MillMage project…**. **Export SVG…** keeps the pictures now. Pictures go into SVG, LightBurn and MillMage files; DXF and Illustrator have no room for them.
+  * A LightBurn path closed by a curve into its first point came in slightly flattened there; fixed.
+* **Auto levels** in the image import window changed nothing on a real photo (it has a black and a white pixel somewhere). Now the outer 0.5 % of the pixels on each side are left out, and while it is on the two sliders of **Levels** are locked and show the range found in the picture.
+* **LinuxCNC (file):** a controller for machines run by LinuxCNC: no connection, **Start** saves the G-code file.
+* **3D view:** **Material colour** in its bar colours the block (the material of the project stays as it is; **Automatic** brings back its own colour).
+
 ## v0.7.0
 
 * **Adding a device:** one window with the basic settings, as in LightCreator: the controller (the GRBL versions or Duet), the connection with **Read from device** (the work area, the speeds and the spindle from the controller), the work area, the machine zero, the safe height and the spindle, an optional camera, **Worth checking**, and **More settings…** for the whole device window.
