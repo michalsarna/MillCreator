@@ -71,3 +71,7 @@ Menu **Wstawianie** (Wstawianie) zawiera narzędzia lewej palety, które wstawia
 * **Linijka (M)** bierze węzeł kształtu (oznaczony kwadratem), środek odcinka (romb) albo środek okręgu lub elipsy (kółko). Kliknięcie okręgu pokazuje jego promień od środka do klikniętego punktu i średnicę; elipsy oba promienie i promień do punktu; krzywej jej długość, a gdy krzywa jest łukiem okręgu, promień wodzący od środka do klikniętego punktu i jego długość.
 * **Edycja węzłów:** prawy klik na węźle albo odcinku otwiera menu z poleceniami paska węzłów; **Gładki** ma klawisz **G**, a promień **Zaokrąglij (R)** stoi za tym przyciskiem.
 * **Mill:** przycisk **Rysunek techniczny** stoi obok **Podglądu…** na pasku (zniknął z paska podglądu). Jego okno ma **Eksportuj…** (strona PDF A4 albo obraz PNG / JPG w 300 dpi), powiększanie (kółko, pasek powiększenia, podwójne kliknięcie pokazuje cały arkusz) i **Zadokuj jako kartę**: rysunek staje się kartą obszaru roboczego, a **Otwórz w osobnym oknie** wyjmuje go z powrotem. W podglądzie **Wymiary** podaje też wyfrezowane kształty: ich obrysy zewnętrzne i otwory na górze bryły w 3D, z góry jak na rysunku, ze średnicami okrągłych.
+
+![Ustawienia projektu z bryłą](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/40-setup-block.png)
+![Widok 3D z wymiarami](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/41-3d-dimensions.png)
+![Rysunek techniczny](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/43-technical-drawing.png)
