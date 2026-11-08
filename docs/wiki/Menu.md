@@ -23,7 +23,7 @@ Klawisze są zapisane jak w Windows i Linuksie (Ctrl); na macOS Ctrl to Cmd. Poz
 | **Ustawienia projektu…** (Project setup…) | | Rozmiar i grubość materiału, zero programu na nim, Z od spodu, obszar roboczy jako materiał. Zob. [Szybki start](Szybki-start#2-ustawienia-projektu). |
 | **Importuj ▸ Importuj obraz…** | | Obraz (PNG, JPG, BMP, GIF, WebP) na stronę, z oknem importu. Zob. [Narzędzia projektowe](Narzedzia-projektowe). |
 | **Importuj ▸ Importuj SVG…** | Ctrl+I | Ścieżki pliku SVG są dodawane do otwartego rysunku, każda na warstwę o najbliższym kolorze, a jego obrazy na aktywną warstwę. **Otwórz…** zrobiłoby z pliku nową kartę. |
-| **Importuj ▸ Importuj Adobe Illustrator / PDF…** | | To samo dla pliku PDF, zgodnego z PDF `.ai` albo `.ai` starego rodzaju w PostScripcie (takie zapisuje LightBurn). Plik z warstwami Illustratora pyta, czy układać według koloru, czy według tych warstw. |
+| **Importuj ▸ Importuj Adobe Illustrator / PDF…** | | To samo dla pliku PDF, zgodnego z PDF `.ai` albo `.ai` starego rodzaju w PostScripcie. Plik z warstwami Illustratora pyta, czy układać według koloru, czy według tych warstw. |
 | **Importuj ▸ Importuj DXF…** | | DXF w ASCII jako obrysy; jego warstwy trafiają na wolne warstwy projektu. |
 | **Importuj ▸ Importuj projekt LightBurn / MillMage…** | | Kształty projektu LightBurna (`.lbrn2` / `.lbrn`) albo MillMage'a (`.mage`). |
 | **Importuj ▸ Importuj projekt UGS…** | | Projekt `.ugsd` z UGS Designera, ze sposobami cięcia jako warstwami. |
@@ -33,9 +33,9 @@ Klawisze są zapisane jak w Windows i Linuksie (Ctrl); na macOS Ctrl to Cmd. Poz
 | **Eksportuj ▸ Eksportuj G-code…** | | To samo co **Frezowanie → Eksportuj G-code…**. |
 | **Eksportuj ▸ Eksportuj SVG…** | | Cały rysunek jako SVG, w rozmiarze obszaru roboczego. Krzywe i obrazy zostają. |
 | **Eksportuj ▸ Eksportuj PLT / DXF…** | | Obrysy całego rysunku jako HPGL (`.plt`, jeden pisak na warstwę) albo DXF R12, zależnie od wybranego rozszerzenia. To kształty, a nie ruchy maszyny. |
-| **Eksportuj ▸ Eksportuj DXF…** | | Cały rysunek jako DXF obecnego rodzaju (AutoCAD 2007), tak jak zapisuje go LightBurn; krzywe są spłaszczane do 0,01 mm. |
-| **Eksportuj ▸ Eksportuj DXF R12 (starszy)…** | | To samo jako DXF R12, dla starszych programów i ploterów tnących (LightBurn nazywa go *legacy*). |
-| **Eksportuj ▸ Eksportuj Adobe Illustrator…** | | Obrysy jako plik Illustratora w postaci PostScript (tak jak zapisuje go LightBurn), z krzywymi, osobna warstwa Illustratora dla każdej warstwy projektu. Obrazy są pomijane. |
+| **Eksportuj ▸ Eksportuj DXF…** | | Cały rysunek jako DXF obecnego rodzaju (AutoCAD 2007); krzywe są spłaszczane do 0,01 mm. |
+| **Eksportuj ▸ Eksportuj DXF R12 (starszy)…** | | To samo jako DXF R12, dla starszych programów i ploterów tnących (nazywany też *legacy*). |
+| **Eksportuj ▸ Eksportuj Adobe Illustrator…** | | Obrysy jako plik Illustratora w postaci PostScript, z krzywymi, osobna warstwa Illustratora dla każdej warstwy projektu. Obrazy są pomijane. |
 | **Eksportuj ▸ Eksportuj projekt LightBurn…** | | Projekt LightBurna (`.lbrn2`, albo `.lbrn`, gdy tak nazwiesz plik): kształty z krzywymi i obrazy, osobna warstwa LightBurna dla każdej warstwy projektu. |
 | **Eksportuj ▸ Eksportuj projekt MillMage…** | | To samo jako projekt MillMage (`.mage`), materiał w rozmiarze obszaru roboczego. |
 | **Eksportuj ▸ Eksportuj relief jako STL…** | | To samo co **Frezowanie → Eksportuj relief jako STL…**. |
