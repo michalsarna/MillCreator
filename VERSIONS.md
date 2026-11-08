@@ -2,6 +2,14 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.8.2
+
+* **Kinds of technical drawing:** **ISO 128** (first-angle: the view from above under the front, numbers along their lines), **ASME Y14** (third-angle, USA and Canada: the view from above over the front, numbers upright) and **JIS B 0001** (third-angle, Japan). The title block names the kind and shows the sign of the projection; the drawing, the 3D preview and the project setup show the units of the program.
+* **G-code in the units of the machine:** a device set to inches gets **G20** and every length and feed in inches; a device in millimetres **G21** and millimetres. Before, every program was written in millimetres whatever the device said: check the units of your devices before the first job.
+* **Units of the program:** **Settings → Program options… → Units** shows lengths in millimetres, centimetres, metres, inches or feet, or as the device. They are used by the sizes in **Properties**, the ruler, the **Dimensions** and the preview. The device window offers millimetres or inches, the units of the controller.
+* **Both units** when the program and the machine count in different systems: the dimensions and the ruler show **25.4 mm [1.000"]**.
+* **Texts and help:** other programs are named only where their files are read or written.
+
 ## v0.8.1
 
 * **Technical drawing** (a button next to **Preview…** and **Milling → Show technical drawing…**): the views from the front, from the side and from above, the cuts under the top as dashed lines, dimensions of the material, the parts and the depths, the diameters of the holes and a title block with the scale for A4. **Export…** saves it as a PDF page (A4) or as a PNG / JPG picture at 300 dots per inch; it zooms; **Dock as a tab** makes it a tab of the work area.
