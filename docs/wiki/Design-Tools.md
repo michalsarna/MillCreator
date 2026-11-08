@@ -75,3 +75,10 @@ The **Insert** menu has the tools of the left palette that insert objects (recta
 ![Project setup with the block](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/40-setup-block.png)
 ![3D view with dimensions](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/41-3d-dimensions.png)
 ![Technical drawing](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/43-technical-drawing.png)
+
+## Units
+
+* **Settings → Program options… → Units** chooses the units the program shows lengths in: millimetres, centimetres, metres, inches or feet, or **As the device**. They are used by the sizes in **Properties**, the ruler, the **Dimensions** over the drawing and in the preview, and the technical drawing.
+* **The units of the device** (millimetres or inches, in the device window) are those of the machine: the G-code is written in them. A device in inches gets **G20** and every length and feed in inches; a device in millimetres **G21** and millimetres. Make sure they are the units the controller works in.
+* When the device counts in the other system than the program (inches against millimetres), the dimensions and the ruler show both: the units of the program first, those of the machine in brackets, for example **25.4 mm [1.000"]**.
+* **Kinds of technical drawing** (**Kind of drawing** in its window): **ISO 128** (first-angle projection, used in Europe and most of the world: the view from above under the front, the view from the left to the right of it, the numbers along their lines), **ASME Y14** (third-angle projection, USA and Canada: the view from above over the front, the view from the right to the right of it, the numbers always upright) and **JIS B 0001** (third-angle, Japan, the numbers along their lines). The title block names the kind and shows the sign of the projection.

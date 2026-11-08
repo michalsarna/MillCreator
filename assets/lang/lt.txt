@@ -461,3 +461,8 @@
 460|Prisegti kaip kortelę
 461|Rodo brėžinį kaip darbo srities kortelę šalia piešinių ir peržiūros
 462|Įrašo brėžinį kaip paveikslą (PNG, JPG) arba PDF puslapį (A4)
+463|Rūšis
+464|Matmenys {}
+465|ISO 128 (pirmojo kampo projekcija: Europa, didžioji pasaulio dalis)
+466|ASME Y14 (trečiojo kampo projekcija: JAV, Kanada)
+467|JIS B 0001 (trečiojo kampo projekcija: Japonija)

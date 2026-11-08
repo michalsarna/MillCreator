@@ -104,6 +104,8 @@ impl App {
 
     /// The text of a G-code file after the postprocessor the person chose (as it is when none).
     pub(crate) fn postprocessed(&mut self, text: String) -> Option<String> {
+        // In the units of the machine: a device in inches gets G20 and lengths and feeds in inches.
+        let text = base_core::gcode_units::for_machine(text, self.device.units);
         let area = self.work_size_mm();
         match self.plugins.export_text(&text, area) {
             Ok((t, said)) => {

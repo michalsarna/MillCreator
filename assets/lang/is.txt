@@ -461,3 +461,8 @@
 460|Festa sem flipa
 461|Sýnir teikninguna sem flipa á vinnusvæðinu við hlið teikninganna og forskoðunarinnar
 462|Vistar teikninguna sem mynd (PNG, JPG) eða sem PDF-síðu (A4)
+463|Tegund
+464|Mál í {}
+465|ISO 128 (fyrsta horns ofanvarp: Evrópa, mestur hluti heimsins)
+466|ASME Y14 (þriðja horns ofanvarp: Bandaríkin, Kanada)
+467|JIS B 0001 (þriðja horns ofanvarp: Japan)

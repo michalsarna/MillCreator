@@ -461,3 +461,8 @@
 460|Ancrer comme onglet
 461|Affiche le dessin comme onglet de la zone de travail, à côté des dessins et de l'aperçu
 462|Enregistre le dessin en image (PNG, JPG) ou en page PDF (A4)
+463|Type
+464|Cotes en {}
+465|ISO 128 (projection européenne : Europe, la plus grande partie du monde)
+466|ASME Y14 (projection américaine : États-Unis, Canada)
+467|JIS B 0001 (projection américaine : Japon)

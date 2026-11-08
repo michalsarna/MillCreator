@@ -461,3 +461,8 @@
 460|Waħħal bħala tab
 461|Juri t-tpinġija bħala tab taż-żona tax-xogħol, ħdejn it-tpinġijiet u l-preview
 462|Jissejvja t-tpinġija bħala stampa (PNG, JPG) jew paġna PDF (A4)
+463|Tip
+464|Qisien f'{}
+465|ISO 128 (projezzjoni tal-ewwel angolu: l-Ewropa, il-biċċa l-kbira tad-dinja)
+466|ASME Y14 (projezzjoni tat-tielet angolu: l-Istati Uniti, il-Kanada)
+467|JIS B 0001 (projezzjoni tat-tielet angolu: il-Ġappun)

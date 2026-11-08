@@ -75,3 +75,10 @@ Menu **Wstawianie** (Wstawianie) zawiera narzędzia lewej palety, które wstawia
 ![Ustawienia projektu z bryłą](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/40-setup-block.png)
 ![Widok 3D z wymiarami](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/41-3d-dimensions.png)
 ![Rysunek techniczny](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/43-technical-drawing.png)
+
+## Jednostki
+
+* **Ustawienia → Opcje programu… → Jednostki** wybiera jednostki, w których program pokazuje długości: milimetry, centymetry, metry, cale albo stopy, albo **Jak w urządzeniu**. Używają ich rozmiary we **Właściwościach**, linijka, **Wymiary** na rysunku i w podglądzie oraz rysunek techniczny.
+* **Jednostki urządzenia** (milimetry albo cale, w oknie urządzenia) to jednostki maszyny: w nich jest zapisany G-code. Urządzenie w calach dostaje **G20** i wszystkie długości oraz posuwy w calach; urządzenie w milimetrach **G21** i milimetry. Upewnij się, że to jednostki, w których pracuje sterownik.
+* Gdy urządzenie liczy w innym systemie niż program (cale wobec milimetrów), wymiary i linijka pokazują oba: najpierw jednostki programu, w nawiasie jednostki maszyny, na przykład **25.4 mm [1.000"]**.
+* **Rodzaje rysunku technicznego** (**Rodzaj rysunku** w jego oknie): **ISO 128** (rzutowanie europejskie, Europa i większość świata: widok z góry pod widokiem z przodu, widok z lewej po prawej stronie, liczby wzdłuż linii wymiarowych), **ASME Y14** (rzutowanie amerykańskie, USA i Kanada: widok z góry nad widokiem z przodu, widok z prawej po prawej stronie, liczby zawsze poziomo) i **JIS B 0001** (rzutowanie amerykańskie, Japonia, liczby wzdłuż linii). Tabliczka podaje rodzaj i pokazuje znak rzutowania.

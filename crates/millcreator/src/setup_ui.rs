@@ -64,7 +64,7 @@ impl App {
         if !self.setup.open {
             return;
         }
-        let units = self.device.units;
+        let units = base_ui::editor::EditorHost::units(self);
         let mut open = true;
         let (mut apply, mut skip) = (false, false);
         let colour = self.stock.color;

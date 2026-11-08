@@ -461,3 +461,8 @@
 460|Acoplar como separador
 461|Mostra o desenho como um separador da área de trabalho, ao lado dos desenhos e da pré-visualização
 462|Guarda o desenho como imagem (PNG, JPG) ou como página PDF (A4)
+463|Tipo
+464|Cotas em {}
+465|ISO 128 (primeiro diedro: Europa, a maior parte do mundo)
+466|ASME Y14 (terceiro diedro: EUA, Canadá)
+467|JIS B 0001 (terceiro diedro: Japão)

@@ -461,3 +461,8 @@
 460|Rögzítés lapként
 461|A rajzot a munkaterület lapjaként mutatja a rajzok és az előnézet mellett
 462|A rajzot képként (PNG, JPG) vagy PDF-oldalként (A4) menti
+463|Fajta
+464|Méretek: {}
+465|ISO 128 (európai vetítés: Európa, a világ nagy része)
+466|ASME Y14 (amerikai vetítés: USA, Kanada)
+467|JIS B 0001 (amerikai vetítés: Japán)

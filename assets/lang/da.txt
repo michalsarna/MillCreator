@@ -461,3 +461,8 @@
 460|Fastgør som fane
 461|Viser tegningen som en fane i arbejdsområdet ved siden af tegningerne og forhåndsvisningen
 462|Gemmer tegningen som billede (PNG, JPG) eller som PDF-side (A4)
+463|Type
+464|Mål i {}
+465|ISO 128 (førstevinkelprojektion: Europa, det meste af verden)
+466|ASME Y14 (tredjevinkelprojektion: USA, Canada)
+467|JIS B 0001 (tredjevinkelprojektion: Japan)

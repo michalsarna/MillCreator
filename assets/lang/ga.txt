@@ -461,3 +461,8 @@
 460|Dugaigh mar chluaisín
 461|Taispeánann sé an líníocht mar chluaisín den limistéar oibre, in aice leis na líníochtaí agus an réamhamharc
 462|Sábhálann sé an líníocht mar phictiúr (PNG, JPG) nó mar leathanach PDF (A4)
+463|Cineál
+464|Toisí in {}
+465|ISO 128 (teilgean den chéad uillinn: an Eoraip, an chuid is mó den domhan)
+466|ASME Y14 (teilgean den tríú huillinn: SAM, Ceanada)
+467|JIS B 0001 (teilgean den tríú huillinn: an tSeapáin)

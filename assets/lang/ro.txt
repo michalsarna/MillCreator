@@ -461,3 +461,8 @@
 460|Fixează ca filă
 461|Arată desenul ca filă a zonei de lucru, lângă desene și previzualizare
 462|Salvează desenul ca imagine (PNG, JPG) sau ca pagină PDF (A4)
+463|Tip
+464|Cote în {}
+465|ISO 128 (proiecție în primul diedru: Europa, cea mai mare parte a lumii)
+466|ASME Y14 (proiecție în al treilea diedru: SUA, Canada)
+467|JIS B 0001 (proiecție în al treilea diedru: Japonia)
