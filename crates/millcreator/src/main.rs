@@ -170,6 +170,7 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::GenerateShape => Some("shapes"),
         Act::OnlineClipart => Some("globe"),
         Act::ToolLibrary => Some("package"),
+        Act::KnifeLibrary => Some("scissors"),
         Act::DeviceSettings => Some("settings"),
         Act::Firmware => Some("settings"),
         Act::ToolSensor => Some("target"),
@@ -295,6 +296,9 @@ struct App {
     /// The bits (ready-made and the user's own, which are kept for every device) and the window of the library.
     tools: Library,
     tools_win: ToolsWindow,
+    /// The drag knives (ready-made and the person's) and the window that edits them.
+    knives: base_core::knife_lib::KnifeLibrary,
+    knives_win: base_ui::knives_ui::KnivesWindow,
     layers: Vec<MillLayer>,
     stock: Stock,
     view: View3d,
@@ -486,6 +490,14 @@ impl App {
             layers: layers::default_layers(&tools),
             tools,
             tools_win: ToolsWindow::default(),
+            knives: {
+                let mut lib = base_core::knife_lib::KnifeLibrary::default();
+                if let Some(t) = saved("knives") {
+                    lib.load_text(&t);
+                }
+                lib
+            },
+            knives_win: Default::default(),
             stock: Stock::default(),
             view: View3d::default(),
             tab_edit: false,
@@ -592,6 +604,7 @@ impl App {
             ("grid_main_mm", self.ed.grid.to_string()),
             ("devices", self.devices_text()),
             ("tools", self.tools.save_text()),
+            ("knives", self.knives.save_text()),
             ("check_updates", flag(self.check_updates)),
             ("tab_order", self.tabs.order_string()),
             ("panes", self.panes.to_json()),
@@ -1235,6 +1248,7 @@ impl App {
         self.closing_text_dialog(ctx);
         self.plugin_windows(ctx);
         tools_ui::tools_window(ctx, &mut self.tools_win, &mut self.tools);
+        base_ui::knives_ui::knives_window(ctx, &mut self.knives_win, &mut self.knives);
         self.device_window(ctx);
         self.add_device_window(ctx);
         self.machine_windows(ctx);
@@ -1553,6 +1567,7 @@ impl MenuHost for App {
             Act::GenerateShape => self.plugins.gen_open = true,
             Act::OnlineClipart => self.open_online_clipart_search(ctx),
             Act::ToolLibrary => self.tools_win.open = true,
+            Act::KnifeLibrary => self.knives_win.open = true,
             Act::DeviceSettings => self.open_device_settings(),
             Act::Firmware => self.fw_open = true,
             Act::ToolSensor => self.tls_ui.open = true,
@@ -1871,6 +1886,34 @@ mod tests {
         a
     }
 
+
+    #[test]
+    fn a_drag_knife_layer_takes_a_knife_of_the_library_and_the_library_is_kept() {
+        use egui_kittest::kittest::Queryable;
+        let mut a = app();
+        a.layers[0].op = crate::layers::Operation::DragKnife;
+        a.ed.active_layer = 0;
+        let mut h = egui_kittest::Harness::builder().with_accessibility_check(false).with_context_setup(|ctx| {
+            base_ui::fonts::install(ctx);
+            base_ui::icons::install(ctx);
+        }).with_size([420.0, 1400.0]).build_ui_state(|ui, a: &mut App| a.layers_panel(ui), a);
+        h.run_steps(2);
+        h.get_by(|n| n.value().as_deref() == Some("45° blade")).click();
+        h.run_steps(2);
+        h.get_by_label("Drag knife in a holder of a CNC machine").click();
+        h.run_steps(2);
+        assert_eq!(h.state().layers[0].knife, base_core::knife_lib::KnifeLibrary::default().get("cnc-holder").unwrap().knife);
+        h.get_by_label("Knife library…").click();
+        h.run_steps(2);
+        let mut a = h.into_state();
+        assert!(a.knives_win.open);
+        // A knife of one's own is saved with the settings and comes back.
+        a.knives.add_copy(Some("std-60"), "Rubber");
+        let text = a.knives.save_text();
+        let mut back = base_core::knife_lib::KnifeLibrary::default();
+        back.load_text(&text);
+        assert_eq!(back.user[0].name, "Rubber");
+    }
 
     #[test]
     fn the_background_picture_is_in_the_view_menu_and_can_be_the_picture_of_the_camera() {

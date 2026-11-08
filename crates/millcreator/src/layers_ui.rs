@@ -107,6 +107,8 @@ impl App {
         }
         let units = self.device.units;
         let lib = &self.tools;
+        let knives = &self.knives;
+        let mut open_knives = false;
         let li = self.ed.active_layer.min(self.layers.len().saturating_sub(1));
         let mut assign = false;
         let mut open_library = false;
@@ -195,16 +197,7 @@ impl App {
                         ui.end_row();
                     }
                     if l.op == Operation::DragKnife {
-                        ui.label(tr("Blade"));
-                        ui.horizontal(|ui| {
-                            for (name, offset) in [("30°", 0.15), ("45°", 0.25), ("60°", 0.5)] {
-                                if ui.selectable_label((l.knife.offset - offset).abs() < 1e-9, name).on_hover_text(trf("Offset {} mm", &[&offset])).clicked() {
-                                    l.knife.offset = offset;
-                                    changed = true;
-                                }
-                            }
-                        });
-                        ui.end_row();
+                        changed |= base_ui::knives_ui::library_row(ui, "layer", knives, &mut l.knife, &mut open_knives);
                         ui.label(tr("Offset of the tip"));
                         changed |= drag_len(ui, units, &mut l.knife.offset, 0.01, Some((0.0, 3.0))).on_hover_text(tr("How far the tip of the blade is behind its axis: the maker of the blade gives it")).changed();
                         ui.end_row();
@@ -431,6 +424,9 @@ impl App {
         self.tab_edit = edit_tabs;
         if open_library {
             self.tools_win.open = true;
+        }
+        if open_knives {
+            self.knives_win.open = true;
         }
         if assign {
             self.assign_selection_to_layer(li);
