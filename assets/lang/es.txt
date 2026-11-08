@@ -449,3 +449,15 @@
 448|Las formas del dibujo sobre el material, en el color de su capa
 449|LinuxCNC (archivo)
 450|LinuxCNC ejecuta el programa por sí mismo: Iniciar guarda el archivo G-code para él. No probado en una máquina real.
+451|Dibujo técnico
+452|Mostrar dibujo técnico…
+453|La pieza como dibujo técnico: vistas de frente, de lado y desde arriba, con cotas
+454|Vista frontal
+455|Vista lateral
+456|Vista superior
+457|Escala {}
+458|Cotas en mm
+459|Cotas en pulgadas
+460|Acoplar como pestaña
+461|Muestra el dibujo como una pestaña del área de trabajo, junto a los dibujos y la vista previa
+462|Guarda el dibujo como imagen (PNG, JPG) o como página PDF (A4)

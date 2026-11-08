@@ -449,3 +449,15 @@
 448|Oblike risbe na vrhu materiala v barvi njihove plasti
 449|LinuxCNC (datoteka)
 450|LinuxCNC program izvede sam: Začni zanj shrani datoteko G-code. Ni preizkušeno na pravem stroju.
+451|Tehnična risba
+452|Prikaži tehnično risbo…
+453|Kos kot tehnična risba: pogledi od spredaj, s strani in od zgoraj, s kotami
+454|Pogled od spredaj
+455|Pogled s strani
+456|Pogled od zgoraj
+457|Merilo {}
+458|Mere v mm
+459|Mere v palcih
+460|Zasidraj kot zavihek
+461|Prikaže risbo kot zavihek delovnega območja ob risbah in predogledu
+462|Shrani risbo kot sliko (PNG, JPG) ali kot stran PDF (A4)

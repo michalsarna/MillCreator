@@ -449,3 +449,15 @@
 448	The shapes of the drawing over the top of the material, in the colour of their layer
 449	LinuxCNC (file)
 450	LinuxCNC runs the program by itself: Start saves the G-code file for it. Not tried on a real machine.
+451	Technical drawing
+452	Show technical drawing…
+453	The part as a technical drawing: the views from the front, from the side and from above, with dimensions
+454	Front view
+455	Side view
+456	Top view
+457	Scale {}
+458	Dimensions in mm
+459	Dimensions in inches
+460	Dock as a tab
+461	Show the drawing as a tab of the work area, beside the drawings and the preview
+462	Save the drawing as a picture (PNG, JPG) or as a PDF page (A4)

@@ -30,6 +30,9 @@ impl App {
         if self.camera_work_tab() {
             v.push(Content::Camera);
         }
+        if self.drawing_open && self.drawing_docked {
+            v.push(Content::Extra(0));
+        }
         v
     }
 
@@ -89,6 +92,7 @@ impl App {
             }
             Content::Preview => self.preview_close(),
             Content::Camera => self.camera_closed(),
+            Content::Extra(_) => self.drawing_open = false,
             Content::Gcode => self.gcode_view = None,
             Content::GcodeText(slot) => {
                 if self.gcode_texts.iter().any(|g| g.slot == slot && g.dirty()) {
@@ -197,6 +201,7 @@ impl PaneHost for App {
             Content::GcodeText(slot) => format!("{}: {}", tr("Preview G-code"), self.gcode_texts.iter().find(|g| g.slot == slot).map(|g| g.name.clone()).unwrap_or_default()),
             Content::Gcode => self.gcode_view.as_ref().and_then(|v| v.path.file_name()).map(|n| n.to_string_lossy().into_owned()).unwrap_or_else(|| tr("G-code analysis").to_string()),
             Content::Camera => tr("Camera view").to_string(),
+            Content::Extra(_) => tr("Technical drawing").to_string(),
         }
     }
 
@@ -251,6 +256,7 @@ impl PaneHost for App {
                     self.camera_work_panel(ui);
                 }
             }
+            Content::Extra(_) => self.drawing_body(ui),
         }
         PaneEvent::Nothing
     }

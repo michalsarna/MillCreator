@@ -449,3 +449,15 @@
 448|Les formes du dessin sur le dessus du matériau, dans la couleur de leur calque
 449|LinuxCNC (fichier)
 450|LinuxCNC exécute le programme lui-même : Démarrer enregistre le fichier G-code pour lui. Non essayé sur une vraie machine.
+451|Dessin technique
+452|Afficher le dessin technique…
+453|La pièce en dessin technique : vues de face, de côté et de dessus, avec les cotes
+454|Vue de face
+455|Vue de côté
+456|Vue de dessus
+457|Échelle {}
+458|Cotes en mm
+459|Cotes en pouces
+460|Ancrer comme onglet
+461|Affiche le dessin comme onglet de la zone de travail, à côté des dessins et de l'aperçu
+462|Enregistre le dessin en image (PNG, JPG) ou en page PDF (A4)

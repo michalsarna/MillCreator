@@ -449,3 +449,15 @@
 448|Les formes del dibuix sobre el material, amb el color de la seva capa
 449|LinuxCNC (fitxer)
 450|LinuxCNC executa el programa pel seu compte: Inicia desa el fitxer G-code per a ell. No s'ha provat en una màquina real.
+451|Dibuix tècnic
+452|Mostra el dibuix tècnic…
+453|La peça com a dibuix tècnic: vistes de davant, de costat i de dalt, amb cotes
+454|Vista frontal
+455|Vista lateral
+456|Vista superior
+457|Escala {}
+458|Cotes en mm
+459|Cotes en polzades
+460|Acobla com a pestanya
+461|Mostra el dibuix com una pestanya de l'àrea de treball, al costat dels dibuixos i de la previsualització
+462|Desa el dibuix com a imatge (PNG, JPG) o com a pàgina PDF (A4)

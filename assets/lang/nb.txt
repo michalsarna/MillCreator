@@ -449,3 +449,15 @@
 448|Formene i tegningen oppå materialet, i fargen til laget sitt
 449|LinuxCNC (fil)
 450|LinuxCNC kjører programmet selv: Start lagrer G-code-filen for det. Ikke prøvd på en ekte maskin.
+451|Teknisk tegning
+452|Vis teknisk tegning…
+453|Delen som teknisk tegning: sett forfra, fra siden og ovenfra, med mål
+454|Sett forfra
+455|Sett fra siden
+456|Sett ovenfra
+457|Målestokk {}
+458|Mål i mm
+459|Mål i tommer
+460|Fest som fane
+461|Viser tegningen som en fane i arbeidsområdet ved siden av tegningene og forhåndsvisningen
+462|Lagrer tegningen som bilde (PNG, JPG) eller som PDF-side (A4)

@@ -32,6 +32,7 @@ mod preview_ui;
 mod relief;
 mod section;
 mod setup_ui;
+mod drawing_ui;
 mod toolpath;
 mod ugs_import;
 mod update_glue;
@@ -178,6 +179,7 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::StartFrom => Some("play"),
         Act::CheckProgram => Some("check"),
         Act::Preview3d => Some("eye"),
+        Act::TechnicalDrawing => Some("ruler"),
         Act::ExportGcode => Some("file-code"),
         Act::ExportRelief | Act::ExportSvg | Act::ExportCam => Some("file-output"),
         Act::OpenRecent(_) | Act::ClearRecent => None,
@@ -347,6 +349,12 @@ struct App {
     frame_hull: bool,
     /// The project setup window (material, zero, Z from the bottom).
     setup: setup_ui::Setup,
+    /// The window of the technical drawing is open.
+    drawing_open: bool,
+    /// The technical drawing is a tab of the work area, not a window.
+    drawing_docked: bool,
+    /// The zoom and the shift of the technical drawing.
+    drawing_view: (f32, egui::Vec2),
     /// The answer of a request to a Duet board that runs in a thread.
     duet_rx: Option<std::sync::mpsc::Receiver<(duet_glue::DuetJob, Result<String, String>)>>,
     /// The library of layer settings (read from its file when first needed) and the name typed for the next one.
@@ -507,6 +515,9 @@ impl App {
             one_by_one: false,
             frame_hull: false,
             setup: setup_ui::Setup::default(),
+            drawing_open: false,
+            drawing_docked: false,
+            drawing_view: (1.0, egui::Vec2::ZERO),
             duet_rx: None,
             // The tests never touch the presets of whoever runs them.
             presets: cfg!(test).then(|| base_ui::layer_presets_ui::Library::from_path(None, &crate::layer_presets::valid)),
@@ -1227,6 +1238,7 @@ impl App {
         self.camera_window(ctx);
         self.shared_windows(ctx);
         self.setup_window(ctx);
+        self.drawing_window(ctx);
         self.preview_window(ctx);
         self.show_options = show;
         self.update.tick(ctx, &update_glue::CONFIG);
@@ -1485,7 +1497,7 @@ impl MenuHost for App {
             Act::Frame => self.screen == Screen::Editor && self.machine.connected && !self.machine.job_running(),
             Act::StartJob => self.screen == Screen::Editor && self.can_start(),
             Act::ToggleOverlay => self.ed.background.is_some(),
-            Act::Save | Act::SaveAs | Act::Preview3d | Act::ExportGcode | Act::ExportSvg | Act::ExportCam => self.screen == Screen::Editor,
+            Act::Save | Act::SaveAs | Act::Preview3d | Act::TechnicalDrawing | Act::ExportGcode | Act::ExportSvg | Act::ExportCam => self.screen == Screen::Editor,
             Act::ExportRelief => self.screen == Screen::Editor && self.relief_picture().is_some(),
             _ => true,
         }
@@ -1552,6 +1564,7 @@ impl MenuHost for App {
             }
             Act::CheckProgram => self.check_program(),
             Act::Preview3d => self.open_preview(),
+            Act::TechnicalDrawing => self.drawing_open = true,
             Act::ExportGcode => self.export_gcode(),
             Act::ExportSvg => {
                 let stem = self.file_stem();

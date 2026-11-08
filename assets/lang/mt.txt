@@ -449,3 +449,15 @@
 448|Il-forom tat-tpinġija fuq il-materjal, fil-kulur tas-saff tagħhom
 449|LinuxCNC (fajl)
 450|LinuxCNC iħaddem il-programm waħdu: Ibda jsalva l-fajl G-code għalih. Ma ġiex ippruvat fuq magna vera.
+451|Tpinġija teknika
+452|Uri t-tpinġija teknika…
+453|Il-biċċa bħala tpinġija teknika: veduti minn quddiem, mill-ġenb u minn fuq, bil-qisien
+454|Veduta minn quddiem
+455|Veduta mill-ġenb
+456|Veduta minn fuq
+457|Skala {}
+458|Qisien f'mm
+459|Qisien f'pulzieri
+460|Waħħal bħala tab
+461|Juri t-tpinġija bħala tab taż-żona tax-xogħol, ħdejn it-tpinġijiet u l-preview
+462|Jissejvja t-tpinġija bħala stampa (PNG, JPG) jew paġna PDF (A4)

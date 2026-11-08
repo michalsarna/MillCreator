@@ -449,3 +449,15 @@
 448|Joonise kujundid materjali peal nende kihi värvis
 449|LinuxCNC (fail)
 450|LinuxCNC käivitab programmi ise: Start salvestab selle jaoks G-code faili. Pole päris masinal proovitud.
+451|Tehniline joonis
+452|Näita tehnilist joonist…
+453|Detail tehnilise joonisena: vaated eest, küljelt ja ülalt, mõõtmetega
+454|Eestvaade
+455|Küljevaade
+456|Pealtvaade
+457|Mõõtkava {}
+458|Mõõtmed mm-des
+459|Mõõtmed tollides
+460|Kinnita vahekaardina
+461|Näitab joonist tööala vahekaardina jooniste ja eelvaate kõrval
+462|Salvestab joonise pildina (PNG, JPG) või PDF-leheküljena (A4)

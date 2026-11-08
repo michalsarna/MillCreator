@@ -335,13 +335,14 @@ impl App {
             ui.selectable_value(&mut self.view.top, false, "3D");
             ui.selectable_value(&mut self.view.top, true, tr("From above"));
             ui.separator();
-            ui.checkbox(&mut self.view.show_stock, tr("Material"));
+            base_ui::widgets::toggle(ui, &mut self.view.show_stock, tr("Material"), "");
             let c = self.stock.color;
             base_ui::widgets::area_colour(ui, tr("Material colour"), &mut self.ed.grid_prefs.preview_color, egui::Color32::from_rgb(c[0], c[1], c[2]));
             ui.separator();
-            ui.checkbox(&mut self.view.show_cuts, tr("Cuts"));
-            ui.checkbox(&mut self.view.show_rapids, tr("Moves at the safe height"));
-            ui.checkbox(&mut self.view.show_project, tr("Project on the material")).on_hover_text(tr("The shapes of the drawing over the top of the material, in the colour of their layer"));
+            base_ui::widgets::toggle(ui, &mut self.view.show_cuts, tr("Cuts"), "");
+            base_ui::widgets::toggle(ui, &mut self.view.show_rapids, tr("Moves at the safe height"), "");
+            base_ui::widgets::toggle(ui, &mut self.view.show_project, tr("Project on the material"), tr("The shapes of the drawing over the top of the material, in the colour of their layer"));
+            base_ui::widgets::toggle(ui, &mut self.view.show_dims, tr("Dimensions"), tr("Show the sizes of the job as on a technical drawing"));
             ui.separator();
             // Only the icon: what it does is in the tooltip.
             stl = Self::preview_stl_button(ui);
@@ -382,7 +383,14 @@ impl App {
                 if let Some(c) = self.ed.grid_prefs.preview_color {
                     stock.color = [c[0], c[1], c[2]];
                 }
-                let sc = Scene3d { surface, prog, region, stock: &stock, dev: &self.device, layers: &self.layers, project, rotary };
+                let area_h = self.device.area.y;
+                let parts = if self.view.show_dims {
+                    let milled = self.scene.shapes.iter().filter(|s| self.layers.get(s.layer).is_some_and(|l| l.enabled && l.visible));
+                    base_ui::dims::Features::of(milled, &|p| base_core::geom::Pt::new(p.x, area_h - p.y))
+                } else {
+                    base_ui::dims::Features::default()
+                };
+                let sc = Scene3d { surface, prog, region, stock: &stock, dev: &self.device, layers: &self.layers, project, rotary, parts: &parts };
                 view3d::show(ui, &mut self.view, &sc);
             }
             None => {

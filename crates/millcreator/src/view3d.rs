@@ -96,6 +96,8 @@ pub struct View3d {
     pub show_stock: bool,
     /// The shapes of the drawing over the top of the material, as a layer of their own.
     pub show_project: bool,
+    /// The sizes of the block (in 3D) or of the shapes (from above), as on a technical drawing.
+    pub show_dims: bool,
     /// How much of the program is shown, 0..=1.
     pub progress: f32,
     /// Looked at from straight above: the plan of the job. It cannot be turned.
@@ -115,7 +117,7 @@ pub enum Fit {
 
 impl Default for View3d {
     fn default() -> View3d {
-        View3d { yaw: START_YAW, pitch: START_PITCH, zoom: 1.0, pan: Vec2::ZERO, show_cuts: true, show_rapids: true, show_stock: true, show_project: false, progress: 1.0, top: false, fit: None }
+        View3d { yaw: START_YAW, pitch: START_PITCH, zoom: 1.0, pan: Vec2::ZERO, show_cuts: true, show_rapids: true, show_stock: true, show_project: false, show_dims: false, progress: 1.0, top: false, fit: None }
     }
 }
 
@@ -282,6 +284,8 @@ pub struct Scene3d<'a> {
     pub project: &'a [ProjectLine],
     /// A workpiece on a rotary attachment (the picture shows the cylinder).
     pub rotary: Option<Cyl>,
+    /// The outlines and circles of the shapes that are milled (program coordinates, Y up), for their dimensions.
+    pub parts: &'a base_ui::dims::Features,
 }
 
 /// The middle of the picture and the radius of the sphere that holds what is shown, the same for the picture and for the fitting.
@@ -606,6 +610,23 @@ pub fn draw(painter: &egui::Painter, rect: Rect, view: &View3d, sc: &Scene3d) {
             painter.circle_filled(tip, 3.5, Color32::from_rgb(0xe0, 0x50, 0x20));
         }
     }
+    if view.show_dims {
+        let st = base_ui::dims::DimStyle::on(if painter.ctx().global_style().visuals.dark_mode { Color32::from_rgb(0x1c, 0x1e, 0x24) } else { Color32::from_rgb(0xe9, 0xec, 0xf1) });
+        if view.top {
+            let to = |p: base_core::geom::Pt| place([p.x, p.y, 0.0]);
+            base_ui::dims::drawing(painter, &to, sc.parts, Some(base_core::geom::Pt::new(0.0, 0.0)), sc.dev.units, &st);
+        } else {
+            let (lo, hi) = match sc.rotary {
+                Some(c) => ([r.min[0], c.cy - c.r, -2.0 * c.r], [r.max[0], c.cy + c.r, 0.0]),
+                None => (min, max),
+            };
+            base_ui::dims::box3d(painter, &|p| pj.project(p), lo, hi, sc.dev.units, &st);
+            // The milled shapes on the top of the block: their outsides and holes, and the diameters of the round ones.
+            if sc.rotary.is_none() {
+                base_ui::dims::features3d(painter, &|p| pj.project(p), sc.parts, 0.0, sc.dev.units, &st);
+            }
+        }
+    }
     // The axes at the corner of the block.
     let o = [r.min[0], sc.rotary.map_or(r.min[1], |c| c.cy), 0.0];
     let len = (w.min(if sc.rotary.is_some() { w } else { h }) * 0.2).max(5.0);
@@ -797,7 +818,7 @@ mod tests {
     fn the_picture_is_drawn_for_a_job() {
         let (prog, dev, stock, layers, _lib) = job();
         let region = Region::of(&prog, None).unwrap();
-        let sc = Scene3d { surface: None, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary: None };
+        let sc = Scene3d { surface: None, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary: None, parts: &base_ui::dims::Features::default() };
         let ctx = egui::Context::default();
         let mut view = View3d::default();
         view.progress = 0.5;
@@ -859,7 +880,7 @@ mod tests {
                 Surface::of((0, 0, [0; 5]), moves, tool_of, region, 15.0)
             };
             for sf in [None, surface.as_ref()] {
-                let sc = Scene3d { surface: sf, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary };
+                let sc = Scene3d { surface: sf, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary, parts: &base_ui::dims::Features::default() };
                 view.fit = Some(Fit::Elements);
                 let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
                     show(ui, &mut view, &sc);

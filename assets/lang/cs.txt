@@ -449,3 +449,15 @@
 448|Tvary výkresu na povrchu materiálu v barvě jejich vrstvy
 449|LinuxCNC (soubor)
 450|LinuxCNC spouští program sám: Start pro něj uloží soubor G-code. Nevyzkoušeno na skutečném stroji.
+451|Technický výkres
+452|Zobrazit technický výkres…
+453|Díl jako technický výkres: pohledy zepředu, z boku a shora, s kótami
+454|Pohled zepředu
+455|Pohled z boku
+456|Pohled shora
+457|Měřítko {}
+458|Kóty v mm
+459|Kóty v palcích
+460|Ukotvit jako kartu
+461|Ukáže výkres jako kartu pracovní plochy vedle kreseb a náhledu
+462|Uloží výkres jako obrázek (PNG, JPG) nebo jako stránku PDF (A4)

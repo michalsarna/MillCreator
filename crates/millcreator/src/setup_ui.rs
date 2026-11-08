@@ -67,9 +67,12 @@ impl App {
         let units = self.device.units;
         let mut open = true;
         let (mut apply, mut skip) = (false, false);
+        let colour = self.stock.color;
         let st = &mut self.setup;
         let title = tr("Project setup…").trim_end_matches('…').to_string();
-        popup(ctx, "setup_window", &title, [380.0, 330.0], &mut open, |ui| {
+        popup(ctx, "setup_window", &title, [400.0, 560.0], &mut open, |ui| {
+            block_picture(ui, st, colour, units);
+            ui.add_space(4.0);
             egui::Grid::new("setup_grid").num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
                 ui.label(tr("Material width"));
                 drag_len(ui, units, &mut st.w, 1.0, Some((1.0, 20_000.0)));
@@ -164,4 +167,53 @@ mod tests {
         let old: Stock = serde_json::from_str("{\"kind\":\"WoodLight\",\"color\":[1,2,3],\"thickness\":8.0}").unwrap();
         assert_eq!((old.width, old.height, old.zero, old.z_bottom), (0.0, 0.0, None, false));
     }
+}
+
+/// The picture of the setup: the block of material seen at a slant with its width, height and thickness, and the zero of the program
+/// with its axes where it was chosen (on the top of the block, or on its bottom when Z counts from there). The block is drawn thicker
+/// than it is when it is thin, so that it can be seen; the numbers are the real ones.
+fn block_picture(ui: &mut egui::Ui, st: &Setup, colour: [u8; 3], units: base_core::units::Units) {
+    use egui::{Color32, Pos2, Stroke};
+    let (rect, _) = ui.allocate_exact_size(egui::vec2(ui.available_width().min(380.0), 210.0), egui::Sense::hover());
+    let p = ui.painter_at(rect);
+    let big = st.w.max(st.h).max(1e-6);
+    let (w, h) = (st.w / big, st.h / big);
+    let t = (st.t / big).clamp(0.1, 0.6);
+    // A slanted view: X to the right, Y back and up at a slant, Z up; the block in the middle with room for the dimensions.
+    let (sx, sy) = (0.55, 0.32);
+    let (span_x, span_y) = (w + h * sx, h * sy + t);
+    let k = ((rect.width() as f64 - 110.0) / span_x).min((rect.height() as f64 - 70.0) / span_y).max(1.0);
+    let o = Pos2::new(rect.center().x - (span_x * k / 2.0) as f32 - 10.0, rect.center().y + (span_y * k / 2.0) as f32 - 6.0);
+    let at = |q: [f64; 3]| Pos2::new(o.x + ((q[0] + q[1] * sx) * k) as f32, o.y - ((q[1] * sy + q[2]) * k) as f32);
+    let shade = |f: f32| Color32::from_rgb((colour[0] as f32 * f) as u8, (colour[1] as f32 * f) as u8, (colour[2] as f32 * f) as u8);
+    let edge = Stroke::new(1.0, shade(0.45));
+    let face = |pts: [[f64; 3]; 4], f: f32| p.add(egui::Shape::convex_polygon(pts.iter().map(|q| at(*q)).collect(), shade(f), edge));
+    face([[0.0, 0.0, 0.0], [w, 0.0, 0.0], [w, 0.0, t], [0.0, 0.0, t]], 0.82);
+    face([[w, 0.0, 0.0], [w, h, 0.0], [w, h, t], [w, 0.0, t]], 0.68);
+    face([[0.0, 0.0, t], [w, 0.0, t], [w, h, t], [0.0, h, t]], 1.0);
+    // The width under the front, the height along the right side, the thickness at the back right (away from the zero).
+    let ink = base_ui::dims::DimStyle::on(theme::panel());
+    let n = |v: f64| base_ui::dims::number(units, v);
+    base_ui::dims::dim(&p, at([0.0, 0.0, 0.0]), at([w, 0.0, 0.0]), egui::vec2(0.0, 1.0), 16.0, &n(st.w), &ink);
+    let along = (at([w, h, 0.0]) - at([w, 0.0, 0.0])).normalized();
+    base_ui::dims::dim(&p, at([w, 0.0, 0.0]), at([w, h, 0.0]), egui::vec2(-along.y, along.x), 16.0, &n(st.h), &ink);
+    base_ui::dims::dim(&p, at([w, h, 0.0]), at([w, h, t]), egui::vec2(1.0, 0.0), 14.0, &n(st.t), &ink);
+    // The zero of the program and its axes.
+    let (zx, zy) = match st.zero {
+        ZeroPoint::FrontLeft => (0.0, 0.0),
+        ZeroPoint::FrontRight => (w, 0.0),
+        ZeroPoint::BackLeft => (0.0, h),
+        ZeroPoint::BackRight => (w, h),
+        ZeroPoint::Center => (w / 2.0, h / 2.0),
+    };
+    let zz = if st.z_bottom { 0.0 } else { t };
+    let zero = at([zx, zy, zz]);
+    let len = 0.18;
+    for (d, name, c) in [([len, 0.0, 0.0], "X", Color32::from_rgb(0xd0, 0x30, 0x30)), ([0.0, len, 0.0], "Y", Color32::from_rgb(0x30, 0xa0, 0x30)), ([0.0, 0.0, len], "Z", Color32::from_rgb(0x30, 0x60, 0xd0))] {
+        let end = at([zx + d[0], zy + d[1], zz + d[2]]);
+        p.line_segment([zero, end], Stroke::new(2.0, c));
+        p.text(end + (end - zero).normalized() * 8.0, egui::Align2::CENTER_CENTER, name, egui::FontId::proportional(12.0), c);
+    }
+    p.circle_filled(zero, 4.5, Color32::from_rgb(0xe0, 0x30, 0x30));
+    p.circle_stroke(zero, 4.5, Stroke::new(1.2, Color32::WHITE));
 }

@@ -449,3 +449,15 @@
 448|De vormen van de tekening boven op het materiaal, in de kleur van hun laag
 449|LinuxCNC (bestand)
 450|LinuxCNC voert het programma zelf uit: Start slaat het G-code-bestand ervoor op. Niet geprobeerd op een echte machine.
+451|Technische tekening
+452|Technische tekening tonen…
+453|Het werkstuk als technische tekening: vooraanzicht, zijaanzicht en bovenaanzicht, met maten
+454|Vooraanzicht
+455|Zijaanzicht
+456|Bovenaanzicht
+457|Schaal {}
+458|Maten in mm
+459|Maten in inches
+460|Vastzetten als tabblad
+461|Toont de tekening als tabblad van het werkgebied, naast de tekeningen en het voorbeeld
+462|Slaat de tekening op als afbeelding (PNG, JPG) of als PDF-pagina (A4)
