@@ -449,3 +449,15 @@
 448|Oblici crteža na vrhu materijala, u boji njihova sloja
 449|LinuxCNC (datoteka)
 450|LinuxCNC sam izvodi program: Pokreni sprema G-code datoteku za njega. Nije isprobano na pravom stroju.
+451|Tehnički crtež
+452|Prikaži tehnički crtež…
+453|Dio kao tehnički crtež: pogledi sprijeda, sa strane i odozgo, s kotama
+454|Pogled sprijeda
+455|Pogled sa strane
+456|Pogled odozgo
+457|Mjerilo {}
+458|Mjere u mm
+459|Mjere u inčima
+460|Usidri kao karticu
+461|Prikazuje crtež kao karticu radnog područja, uz crteže i pregled
+462|Sprema crtež kao sliku (PNG, JPG) ili kao PDF stranicu (A4)

@@ -449,3 +449,15 @@
 448|Cruthanna na líníochta ar bharr an ábhair, i ndath a sraithe
 449|LinuxCNC (comhad)
 450|Ritheann LinuxCNC an clár é féin: sábhálann Tosaigh an comhad G-code dó. Níor triaileadh ar fhíor-mheaisín é.
+451|Líníocht theicniúil
+452|Taispeáin an líníocht theicniúil…
+453|An chuid mar líníocht theicniúil: radhairc ón tosach, ón taobh agus ó thuas, le toisí
+454|Radharc tosaigh
+455|Radharc taoibh
+456|Radharc ó thuas
+457|Scála {}
+458|Toisí i mm
+459|Toisí in orlaí
+460|Dugaigh mar chluaisín
+461|Taispeánann sé an líníocht mar chluaisín den limistéar oibre, in aice leis na líníochtaí agus an réamhamharc
+462|Sábhálann sé an líníocht mar phictiúr (PNG, JPG) nó mar leathanach PDF (A4)

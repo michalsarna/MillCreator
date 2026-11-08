@@ -449,3 +449,15 @@
 448|As formas do desenho sobre o material, na cor da sua camada
 449|LinuxCNC (ficheiro)
 450|O LinuxCNC executa o programa sozinho: Iniciar guarda o ficheiro G-code para ele. Não experimentado numa máquina real.
+451|Desenho técnico
+452|Mostrar desenho técnico…
+453|A peça como desenho técnico: vistas de frente, de lado e de cima, com cotas
+454|Vista de frente
+455|Vista lateral
+456|Vista de cima
+457|Escala {}
+458|Cotas em mm
+459|Cotas em polegadas
+460|Acoplar como separador
+461|Mostra o desenho como um separador da área de trabalho, ao lado dos desenhos e da pré-visualização
+462|Guarda o desenho como imagem (PNG, JPG) ou como página PDF (A4)

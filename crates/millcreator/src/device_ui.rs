@@ -29,7 +29,7 @@ pub enum Page {
 }
 
 impl Page {
-    const ALL: [Page; 12] = [Page::General, Page::Machine, Page::Spindle, Page::Gcode, Page::Connection, Page::Camera, Page::Rotary, Page::Jog, Page::Probe, Page::Macros, Page::Maintenance, Page::Notes];
+    const ALL: [Page; 12] = [Page::General, Page::Connection, Page::Machine, Page::Spindle, Page::Gcode, Page::Camera, Page::Rotary, Page::Jog, Page::Probe, Page::Macros, Page::Maintenance, Page::Notes];
     fn label(self) -> &'static str {
         match self {
             Page::General => "General",

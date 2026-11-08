@@ -449,3 +449,15 @@
 448|Brėžinio formos ant medžiagos viršaus, jų sluoksnio spalva
 449|LinuxCNC (failas)
 450|LinuxCNC programą vykdo pats: Pradėti įrašo jam G-code failą. Neišbandyta su tikra mašina.
+451|Techninis brėžinys
+452|Rodyti techninį brėžinį…
+453|Detalė kaip techninis brėžinys: vaizdai iš priekio, iš šono ir iš viršaus, su matmenimis
+454|Vaizdas iš priekio
+455|Vaizdas iš šono
+456|Vaizdas iš viršaus
+457|Mastelis {}
+458|Matmenys mm
+459|Matmenys coliais
+460|Prisegti kaip kortelę
+461|Rodo brėžinį kaip darbo srities kortelę šalia piešinių ir peržiūros
+462|Įrašo brėžinį kaip paveikslą (PNG, JPG) arba PDF puslapį (A4)

@@ -54,3 +54,20 @@ Menu **Wstawianie** (Wstawianie) zawiera narzędzia lewej palety, które wstawia
 * **Kilka zaznaczonych obiektów:** oprócz ramki całego zaznaczenia każdy obiekt ma własną cienką, przerywaną ramkę.
 * **Pasek węzłów** pokazuje klawisze po nazwach: **Narożnik (C)**, **Na linię (L)**, **Na krzywą (S)**, **Dodaj węzeł (I)**, **Usuń węzeł (D)**, **Zaokrąglij (R)**, **Rozdziel (B)**. Nie ma już **Otwórz / zamknij**: **Rozdziel (B)** otwiera ścieżkę, a zamyka się ją, upuszczając jeden koniec na drugi.
 * **Warstwa, która nie jest wykonywana** (z wyłączonym wyjściem), pokazuje swoje obiekty wyblakłe w stronę koloru obszaru roboczego.
+
+## Podgląd: przyciski i wymiary
+
+* Opcje paska podglądu to **przyciski**: jasnoniebieskie, gdy są włączone (jak przycisk widoku z kamery), kliknięcie włącza je albo wyłącza.
+* **Wymiary** pokazuje wymiary zadania jak na rysunku technicznym: szerokość i wysokość całości, każdej części (gdy jest ich kilka) i odległość całości od zera maszyny, gdy zero jest w obrazie.
+
+* **Mill:** w 3D **Wymiary** podaje długość, szerokość i grubość bryły na jej krawędziach; z góry wymiary kształtów. **Rysunek techniczny** (także **Frezowanie → Pokaż rysunek techniczny…**) pokazuje element jak rysunek europejski: widok z przodu, z boku i z góry, cięcia pod powierzchnią jako linie przerywane do głębokości ich warstwy, wymiary materiału, części i głębokości oraz tabliczkę z nazwą, materiałem i skalą dla arkusza A4.
+* **Ustawienia projektu** pokazują bryłę materiału w rzucie ukośnym z jej szerokością, wysokością i grubością oraz zero programu z osiami w wybranym miejscu.
+
+* **Obrazy:** wczytywany jest też TIFF (`.tif`, `.tiff`), tak jak PNG, JPEG, BMP, GIF i WebP.
+
+## Wymiary na obszarze roboczym, linijka i menu węzłów
+
+* **Wymiary** (przycisk obok **Ścieżek** na pasku nad obszarem roboczym) pokazuje rysunek jak na rysunku technicznym: szerokość i wysokość całości i każdego obrysu (zewnętrznego i otworów kształtu, każdego osobno) oraz średnice okrągłych, te same nazwane raz (**4 × Ø 6**). W rysunku nic się nie zmienia.
+* **Linijka (M)** bierze węzeł kształtu (oznaczony kwadratem), środek odcinka (romb) albo środek okręgu lub elipsy (kółko). Kliknięcie okręgu pokazuje jego promień od środka do klikniętego punktu i średnicę; elipsy oba promienie i promień do punktu; krzywej jej długość, a gdy krzywa jest łukiem okręgu, promień wodzący od środka do klikniętego punktu i jego długość.
+* **Edycja węzłów:** prawy klik na węźle albo odcinku otwiera menu z poleceniami paska węzłów; **Gładki** ma klawisz **G**, a promień **Zaokrąglij (R)** stoi za tym przyciskiem.
+* **Mill:** przycisk **Rysunek techniczny** stoi obok **Podglądu…** na pasku (zniknął z paska podglądu). Jego okno ma **Eksportuj…** (strona PDF A4 albo obraz PNG / JPG w 300 dpi), powiększanie (kółko, pasek powiększenia, podwójne kliknięcie pokazuje cały arkusz) i **Zadokuj jako kartę**: rysunek staje się kartą obszaru roboczego, a **Otwórz w osobnym oknie** wyjmuje go z powrotem. W podglądzie **Wymiary** podaje też wyfrezowane kształty: ich obrysy zewnętrzne i otwory na górze bryły w 3D, z góry jak na rysunku, ze średnicami okrągłych.

@@ -880,3 +880,46 @@ fn a_key_of_the_control_device_goes_to_the_machine_and_not_to_the_editor() {
 fn the_fonts_draw_every_symbol_of_the_program() {
     base_ui::tool_check::check_symbols(&std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src"));
 }
+
+/// The pictures of the dimensions: the setup with its block, the 3D view and the plan with dimensions, and the technical drawing.
+/// `cargo test -p millcreator render_dimensions -- --ignored`, into `$DIMS_OUT` (or `docs/screenshots`).
+#[test]
+#[ignore = "writes pictures; run explicitly"]
+fn render_dimensions() {
+    let out = std::env::var("DIMS_OUT").map(PathBuf::from).unwrap_or_else(|_| PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../docs/screenshots"));
+    let shot = |h: &mut Shot, name: &str| {
+        h.run_steps(5);
+        let img = h.render().expect("render");
+        std::fs::create_dir_all(&out).unwrap();
+        img.save(out.join(name)).unwrap();
+    };
+    let mut h: Shot = Harness::builder().with_accessibility_check(false).with_size([1280.0, 800.0]).build_ui_state(
+        |ui, state: &mut Option<App>| {
+            let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
+            a.draw(ui);
+        },
+        None,
+    );
+    h.run_steps(2);
+    {
+        let a = app(&mut h);
+        a.use_dummy_device();
+        demo_job(a);
+        a.stock.width = 300.0;
+        a.stock.height = 200.0;
+        a.stock.thickness = 10.0;
+        a.open_setup();
+    }
+    shot(&mut h, "40-setup-block.png");
+    {
+        let a = app(&mut h);
+        a.setup.open = false;
+        a.open_preview();
+        a.view.show_dims = true;
+    }
+    shot(&mut h, "41-3d-dimensions.png");
+    app(&mut h).view.top = true;
+    shot(&mut h, "42-plan-dimensions.png");
+    app(&mut h).drawing_open = true;
+    shot(&mut h, "43-technical-drawing.png");
+}

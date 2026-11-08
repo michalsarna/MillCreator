@@ -449,3 +449,15 @@
 448|Form teikningarinnar ofan á efninu, í lit lagsins
 449|LinuxCNC (skrá)
 450|LinuxCNC keyrir forritið sjálft: Ræsa vistar G-code skrána fyrir það. Ekki prófað á raunverulegri vél.
+451|Tækniteikning
+452|Sýna tækniteikningu…
+453|Hluturinn sem tækniteikning: framan frá, frá hlið og ofan frá, með málum
+454|Framhlið
+455|Hliðarmynd
+456|Yfirlitsmynd
+457|Mælikvarði {}
+458|Mál í mm
+459|Mál í tommum
+460|Festa sem flipa
+461|Sýnir teikninguna sem flipa á vinnusvæðinu við hlið teikninganna og forskoðunarinnar
+462|Vistar teikninguna sem mynd (PNG, JPG) eða sem PDF-síðu (A4)

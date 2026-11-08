@@ -449,3 +449,15 @@
 448|Formele desenului deasupra materialului, în culoarea stratului lor
 449|LinuxCNC (fișier)
 450|LinuxCNC rulează singur programul: Pornește salvează fișierul G-code pentru el. Neîncercat pe o mașină reală.
+451|Desen tehnic
+452|Arată desenul tehnic…
+453|Piesa ca desen tehnic: vederi din față, din lateral și de sus, cu cote
+454|Vedere din față
+455|Vedere laterală
+456|Vedere de sus
+457|Scara {}
+458|Cote în mm
+459|Cote în inci
+460|Fixează ca filă
+461|Arată desenul ca filă a zonei de lucru, lângă desene și previzualizare
+462|Salvează desenul ca imagine (PNG, JPG) sau ca pagină PDF (A4)

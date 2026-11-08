@@ -54,3 +54,20 @@ The **Insert** menu has the tools of the left palette that insert objects (recta
 * **Several objects selected:** besides the frame of the whole selection, every object has a thin dashed frame of its own.
 * **The node bar** shows the keys after the names: **Corner (C)**, **To line (L)**, **To curve (S)**, **Add node (I)**, **Delete node (D)**, **Round (R)**, **Break (B)**. **Open / close** is gone: **Break (B)** opens a path, and a path is closed by dropping one of its ends onto the other.
 * **A layer that is not made** (its output switched off) shows its objects faded towards the work area.
+
+## Preview: buttons and dimensions
+
+* The options of the bar of the preview are **buttons**: light blue while they are on (as the button of the camera view), a click turns them on or off.
+* **Dimensions** shows the sizes of the job as on a technical drawing: the width and height of the whole, of every part (when there are a few), and how far the whole is from the zero of the machine when the zero is in the picture.
+
+* **Mill:** in 3D, **Dimensions** gives the length, width and thickness of the block on its edges; from above, the dimensions of the shapes. **Technical drawing** (also **Milling → Show technical drawing…**) opens the part as a drawing of the European kind: the view from the front, from the side and from above, the cuts under the top as dashed lines down to the depth of their layer, dimensions of the material, the parts and the depths, and a title block with the name, the material and the scale for an A4 sheet.
+* **Project setup** shows the block of material at a slant with its width, height and thickness, and the zero of the program with its axes where it is chosen.
+
+* **Pictures:** TIFF (`.tif`, `.tiff`) is read too, as PNG, JPEG, BMP, GIF and WebP.
+
+## Dimensions on the work area, the ruler and the node menu
+
+* **Dimensions** (the button next to **Toolpaths** on the bar over the work area) shows the drawing as on a technical drawing: the width and height of the whole and of every outline (the outside and the holes of a shape each by itself), and the diameters of the round ones, the same ones named once (**4 × Ø 6**). It changes nothing in the drawing.
+* **Ruler (M)** takes a node of a shape (a square marks it), the middle of a segment (a diamond) or the centre of a circle or an ellipse (a circle). A click on a circle shows its radius from the centre to the point clicked and its diameter; on an ellipse both radii and the radius to the point; on a curve its length, and when the curve is an arc of a circle, the radius drawn from the centre to the point clicked and its length.
+* **Node edit:** a right click on a node or a segment opens the menu of the node bar; **Smooth** has the key **G**, and the radius of **Round (R)** stands after its button.
+* **Mill:** the **Technical drawing** button stands next to **Preview…** on the bar (it left the bar of the preview). Its window has **Export…** (PDF page of A4, or a PNG / JPG picture at 300 dots per inch), zoom (wheel, the zoom bar, double click for the whole sheet) and **Dock as a tab**: the drawing becomes a tab of the work area, and **Open in a separate window** takes it out again. In the preview **Dimensions** also gives the milled shapes: their outsides and holes on the top of the block in 3D, from above as on the drawing, with the diameters of the round ones.

@@ -449,3 +449,15 @@
 448|Ritningens former ovanpå materialet i deras lagers färg
 449|LinuxCNC (fil)
 450|LinuxCNC kör programmet själv: Start sparar G-code-filen åt det. Inte provat på en riktig maskin.
+451|Teknisk ritning
+452|Visa teknisk ritning…
+453|Detaljen som teknisk ritning: vyer framifrån, från sidan och ovanifrån, med mått
+454|Framvy
+455|Sidovy
+456|Vy ovanifrån
+457|Skala {}
+458|Mått i mm
+459|Mått i tum
+460|Docka som flik
+461|Visar ritningen som en flik i arbetsytan bredvid ritningarna och förhandsvisningen
+462|Sparar ritningen som bild (PNG, JPG) eller som PDF-sida (A4)

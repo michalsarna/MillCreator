@@ -449,3 +449,15 @@
 448|A rajz alakzatai az anyag tetején, a rétegük színében
 449|LinuxCNC (fájl)
 450|A LinuxCNC maga futtatja a programot: az Indítás elmenti hozzá a G-code fájlt. Valódi gépen nincs kipróbálva.
+451|Műszaki rajz
+452|Műszaki rajz megjelenítése…
+453|Az alkatrész műszaki rajzként: elöl-, oldal- és felülnézet, méretekkel
+454|Elölnézet
+455|Oldalnézet
+456|Felülnézet
+457|Lépték {}
+458|Méretek mm-ben
+459|Méretek hüvelykben
+460|Rögzítés lapként
+461|A rajzot a munkaterület lapjaként mutatja a rajzok és az előnézet mellett
+462|A rajzot képként (PNG, JPG) vagy PDF-oldalként (A4) menti

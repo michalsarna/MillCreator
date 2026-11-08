@@ -449,3 +449,15 @@
 448|Zīmējuma formas uz materiāla virsmas to slāņa krāsā
 449|LinuxCNC (fails)
 450|LinuxCNC programmu izpilda pats: Sākt saglabā tam G-code failu. Nav izmēģināts uz īstas mašīnas.
+451|Tehniskais rasējums
+452|Rādīt tehnisko rasējumu…
+453|Detaļa kā tehniskais rasējums: skati no priekšas, sāniem un augšas ar izmēriem
+454|Skats no priekšas
+455|Skats no sāniem
+456|Skats no augšas
+457|Mērogs {}
+458|Izmēri mm
+459|Izmēri collās
+460|Piestiprināt kā cilni
+461|Rāda rasējumu kā darba zonas cilni blakus zīmējumiem un priekšskatījumam
+462|Saglabā rasējumu kā attēlu (PNG, JPG) vai PDF lapu (A4)
