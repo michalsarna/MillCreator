@@ -466,3 +466,12 @@
 465|ISO 128 (projection européenne : Europe, la plus grande partie du monde)
 466|ASME Y14 (projection américaine : États-Unis, Canada)
 467|JIS B 0001 (projection américaine : Japon)
+468|Lame
+469|Décalage {} mm
+470|Décalage de la pointe
+471|À quelle distance la pointe de la lame se trouve derrière son axe : le fabricant de la lame l'indique
+472|Pivoter aux angles plus aigus que
+473|Couper au-delà du départ
+474|Un contour fermé est coupé de cette longueur au-delà de son départ, pour qu'il se ferme
+475|Couteau à traîne
+476|Un couteau à traîne dans le porte-outil coupe le long des lignes jusqu'à la profondeur du calque, broche arrêtée : son décalage est compensé à chaque angle, les trous sont coupés d'abord et une ligne fermée est coupée au-delà de son départ.

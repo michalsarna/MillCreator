@@ -466,3 +466,12 @@
 465|ISO 128 (evropska projekcija: Evropa, večina sveta)
 466|ASME Y14 (ameriška projekcija: ZDA, Kanada)
 467|JIS B 0001 (ameriška projekcija: Japonska)
+468|Rezilo
+469|Zamik {} mm
+470|Zamik konice
+471|Kako daleč je konica rezila za njegovo osjo: navede jo proizvajalec rezila
+472|Obrni na vogalih, ostrejših od
+473|Reži naprej mimo začetka
+474|Zaprt obris se reže toliko mimo začetek, da se zapre
+475|Vlečni nož
+476|Vlečni nož v držalu reže vzdolž črt do globine plasti, vreteno miruje: njegov zamik se popravi na vsakem vogalu, luknje se režejo najprej, zaprta črta pa se reže naprej mimo svojega začetka.

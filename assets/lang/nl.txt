@@ -466,3 +466,12 @@
 465|ISO 128 (Europese projectie: Europa, het grootste deel van de wereld)
 466|ASME Y14 (Amerikaanse projectie: VS, Canada)
 467|JIS B 0001 (Amerikaanse projectie: Japan)
+468|Mes
+469|Verschuiving {} mm
+470|Verschuiving van de punt
+471|Hoe ver de punt van het mes achter de as ligt: de maker van het mes geeft het op
+472|Draaien bij hoeken scherper dan
+473|Doorsnijden voorbij het begin
+474|Een gesloten contour wordt zo ver voorbij het begin gesneden, zodat hij sluit
+475|Sleepmes
+476|Een sleepmes in de houder snijdt langs de lijnen tot de diepte van de laag, met de spindel stil: de verschuiving wordt bij elke hoek gecompenseerd, de gaten worden eerst gesneden en een gesloten lijn wordt voorbij het begin doorgesneden.

@@ -466,3 +466,12 @@
 465|ISO 128 (fyrsta horns ofanvarp: Evrópa, mestur hluti heimsins)
 466|ASME Y14 (þriðja horns ofanvarp: Bandaríkin, Kanada)
 467|JIS B 0001 (þriðja horns ofanvarp: Japan)
+468|Blað
+469|Hliðrun {} mm
+470|Hliðrun oddsins
+471|Hversu langt oddur blaðsins er á eftir ásnum: framleiðandi blaðsins gefur það upp
+472|Snúa við horn sem eru skarpari en
+473|Skera áfram fram hjá byrjuninni
+474|Lokuð útlína er skorin svona langt fram hjá byrjun sinni svo hún lokist
+475|Dráttarhnífur
+476|Dráttarhnífur í haldaranum sker eftir línunum niður á dýpt lagsins, snælda kyrr: hliðrun hans er leiðrétt við hvert horn, götin eru skorin fyrst og lokuð lína er skorin fram hjá byrjun sinni.

@@ -466,3 +466,12 @@
 465	ISO 128 (first-angle: Europe, most of the world)
 466	ASME Y14 (third-angle: USA, Canada)
 467	JIS B 0001 (third-angle: Japan)
+468	Blade
+469	Offset {} mm
+470	Offset of the tip
+471	How far the tip of the blade is behind its axis: the maker of the blade gives it
+472	Turn round corners sharper than
+473	Cut on past the start
+474	A closed outline is cut on this far past its start, so it closes
+475	Drag knife
+476	A drag knife in the holder cuts along the lines to the depth of the layer, the spindle still: its offset is made good at every corner, the holes are cut first and a closed line is cut on past its start.

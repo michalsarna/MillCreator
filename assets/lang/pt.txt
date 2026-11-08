@@ -466,3 +466,12 @@
 465|ISO 128 (primeiro diedro: Europa, a maior parte do mundo)
 466|ASME Y14 (terceiro diedro: EUA, Canadá)
 467|JIS B 0001 (terceiro diedro: Japão)
+468|Lâmina
+469|Desvio {} mm
+470|Desvio da ponta
+471|A que distância a ponta da lâmina está atrás do seu eixo: o fabricante da lâmina indica-o
+472|Rodar nos cantos mais agudos do que
+473|Cortar para além do início
+474|Um contorno fechado é cortado esta distância para além do seu início, para que feche
+475|Lâmina de arrasto
+476|Uma lâmina de arrasto no suporte corta ao longo das linhas até à profundidade da camada, com o fuso parado: o seu desvio é compensado em cada canto, os furos são cortados primeiro e uma linha fechada é cortada para além do seu início.

@@ -466,3 +466,12 @@
 465|ISO 128 (førstevinkelprojeksjon: Europa, det meste av verden)
 466|ASME Y14 (tredjevinkelprojeksjon: USA, Canada)
 467|JIS B 0001 (tredjevinkelprojeksjon: Japan)
+468|Blad
+469|Forskyvning {} mm
+470|Spissens forskyvning
+471|Hvor langt bladets spiss er bak aksen: produsenten av bladet oppgir det
+472|Drei rundt hjørner skarpere enn
+473|Skjær videre forbi starten
+474|En lukket kontur skjæres så langt forbi starten at den lukkes
+475|Slepekniv
+476|En slepekniv i holderen skjærer langs linjene til lagets dybde mens spindelen står: forskyvningen utlignes i hvert hjørne, hullene skjæres først og en lukket linje skjæres videre forbi starten.
