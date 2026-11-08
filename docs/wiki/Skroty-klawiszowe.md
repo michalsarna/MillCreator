@@ -63,7 +63,7 @@ Litera bez Ctrl wybiera narzędzie lewej palety. Litery są w nazwach narzędzi 
 | Y | **Trójkąt (Y)** | Z | **Powiększ (Z)** |
 | S | **Gwiazda (S)** | X | **Pomniejsz (X)** |
 | G | **Wielokąt (G)** | | |
-| K | **Serce (K)** | | |
+| K | **Serce (K)** | M | **Linijka (M)** |
 | I | **Spirala (I)** | | |
 
 ## Mysz na obszarze roboczym

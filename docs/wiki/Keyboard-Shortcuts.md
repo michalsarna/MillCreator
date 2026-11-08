@@ -63,7 +63,7 @@ A letter without Ctrl chooses a tool of the left palette. The letters are in the
 | Y | **Triangle (Y)** | Z | **Zoom in (Z)** |
 | S | **Star (S)** | X | **Zoom out (X)** |
 | G | **Polygon (G)** | | |
-| K | **Heart (K)** | | |
+| K | **Heart (K)** | M | **Ruler (M)** |
 | I | **Spiral (I)** | | |
 
 ## The mouse in the work area

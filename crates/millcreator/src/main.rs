@@ -1454,8 +1454,11 @@ impl EditorHost for App {
     fn bed_fill(&self) -> egui::Color32 {
         self.ed.grid_prefs.bed_fill(self.scheme.is_dark())
     }
+    /// The colour of the layer; a layer that is not made (switched off for the output) is faded.
     fn shape_color(&self, layer: usize) -> Option<egui::Color32> {
-        self.layer_visible(layer).then(|| self.layer_color(layer))
+        let c = self.layer_color(layer);
+        let made = self.layers.get(layer).is_none_or(|l| l.enabled);
+        self.layer_visible(layer).then(|| if made { c } else { base_ui::editor::faded_colour(c, self.bed_fill()) })
     }
     fn layer_color(&self, layer: usize) -> egui::Color32 {
         self.layers.get(layer).map_or(egui::Color32::from_rgb(0x20, 0x20, 0x30), |l| l.color32())
