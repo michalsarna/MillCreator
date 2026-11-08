@@ -15,6 +15,7 @@ Otwartoźródłowy program do projektowania i przygotowania zadań dla frezarek 
 | Zainstalować program | [Instalacja](Instalacja) |
 | Przygotować pierwsze zadanie | [Szybki start](Szybki-start) |
 | Rysować, edytować i importować kształty | [Narzędzia projektowe](Narzedzia-projektowe) |
+| Ciąć nożem wleczonym, biblioteka noży | [Nóż wleczony](Noz-wleczony) |
 | Ułożyć obszar roboczy: panele, karty, okna | [Panele i karty](Panele-i-karty) |
 | Dodać maszynę i kamerę | [Urządzenia i kamery](Urzadzenia-i-kamery) |
 | Powiedzieć, co jest frezowane i jak | [Warstwy i operacje](Warstwy-i-operacje) |
@@ -30,6 +31,16 @@ Otwartoźródłowy program do projektowania i przygotowania zadań dla frezarek 
 | Znaleźć plik ustawień | [Ustawienia i pliki](Ustawienia-i-pliki) |
 | Poczytać o kodzie | [Architektura](Architektura) |
 | Wiedzieć, co jest testowane | [Bezpieczeństwo i ograniczenia](Bezpieczenstwo-i-ograniczenia) |
+
+## Sprawdzone urządzenia
+
+Program został wypróbowany na tych maszynach i na nich działa:
+
+| Urządzenie | Rodzaj | Sterownik |
+|---|---|---|
+| TwoTrees TTC450Pro | frezarka CNC | GRBL |
+
+Działa na innej maszynie? Napisz w [zgłoszeniu](https://github.com/michalsarna/MillCreator/issues), a trafi na listę.
 
 ## W skrócie
 

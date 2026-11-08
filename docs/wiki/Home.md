@@ -15,6 +15,7 @@ Open-source software to design and prepare CNC milling jobs, written in Rust. Dr
 | Install the program | [Installation](Installation) |
 | Prepare my first job | [Quick Start](Quick-Start) |
 | Draw, edit and import shapes | [Design Tools](Design-Tools) |
+| Cut with a drag knife, the knife library | [Drag Knife](Drag-Knife) |
 | Arrange the work area: panes, tabs, windows | [Panes and Tabs](Panes-and-Tabs) |
 | Add my machine and a camera | [Devices and Cameras](Devices-and-Cameras) |
 | Say what is milled and how | [Layers and Operations](Layers-and-Operations) |
@@ -30,6 +31,16 @@ Open-source software to design and prepare CNC milling jobs, written in Rust. Dr
 | Find the settings file | [Settings and Files](Settings-and-Files) |
 | Read about the code | [Architecture](Architecture) |
 | Know what is tested | [Safety and Limitations](Safety-and-Limitations) |
+
+## Tested devices
+
+The program has been tried on these machines and works there:
+
+| Device | Kind | Controller |
+|---|---|---|
+| TwoTrees TTC450Pro | CNC mill | GRBL |
+
+It runs on another machine? Tell me in an [issue](https://github.com/michalsarna/MillCreator/issues) and it goes on the list.
 
 ## At a glance
 
