@@ -466,3 +466,12 @@
 465|ISO 128 (teilgean den chéad uillinn: an Eoraip, an chuid is mó den domhan)
 466|ASME Y14 (teilgean den tríú huillinn: SAM, Ceanada)
 467|JIS B 0001 (teilgean den tríú huillinn: an tSeapáin)
+468|Lann
+469|Fritháireamh {} mm
+470|Fritháireamh an bharr
+471|Cé chomh fada is atá barr na lainne taobh thiar dá hais: tugann déantóir na lainne é
+472|Cas ag coirnéil níos géire ná
+473|Gearr thar an tús
+474|Gearrtar imlíne dhúnta an fad seo thar a tús, ionas go ndúntar í
+475|Scian tarraingthe
+476|Gearrann scian tarraingthe sa choimeádán feadh na línte go doimhneacht na sraithe, an fearsaid stoptha: ceartaítear a fritháireamh ag gach coirnéal, gearrtar na poill ar dtús agus gearrtar líne dhúnta thar a tús.

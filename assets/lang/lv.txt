@@ -466,3 +466,12 @@
 465|ISO 128 (pirmā leņķa projekcija: Eiropa, lielākā daļa pasaules)
 466|ASME Y14 (trešā leņķa projekcija: ASV, Kanāda)
 467|JIS B 0001 (trešā leņķa projekcija: Japāna)
+468|Asmens
+469|Nobīde {} mm
+470|Gala nobīde
+471|Cik tālu asmens gals ir aiz tā ass: to norāda asmens ražotājs
+472|Griezt stūros, kas asāki par
+473|Griezt tālāk par sākumu
+474|Slēgtu kontūru griež tik tālu aiz tās sākuma, lai tā noslēgtos
+475|Velkamais nazis
+476|Turētājā esošais velkamais nazis griež pa līnijām līdz slāņa dziļumam, vārpstai stāvot: tā nobīde tiek izlīdzināta katrā stūrī, vispirms griež caurumus, un slēgtu līniju griež tālāk par tās sākumu.

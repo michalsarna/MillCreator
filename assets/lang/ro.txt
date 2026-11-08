@@ -466,3 +466,12 @@
 465|ISO 128 (proiecție în primul diedru: Europa, cea mai mare parte a lumii)
 466|ASME Y14 (proiecție în al treilea diedru: SUA, Canada)
 467|JIS B 0001 (proiecție în al treilea diedru: Japonia)
+468|Lamă
+469|Decalaj {} mm
+470|Decalajul vârfului
+471|Cât de departe este vârful lamei în spatele axei: îl dă producătorul lamei
+472|Rotește la colțurile mai ascuțite decât
+473|Taie dincolo de început
+474|Un contur închis este tăiat atât dincolo de început, ca să se închidă
+475|Cuțit tras
+476|Un cuțit tras în suport taie de-a lungul liniilor până la adâncimea stratului, cu axul oprit: decalajul său este compensat la fiecare colț, găurile sunt tăiate întâi, iar o linie închisă este tăiată dincolo de început.

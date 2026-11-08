@@ -466,3 +466,12 @@
 465|ISO 128 (projezzjoni tal-ewwel angolu: l-Ewropa, il-biċċa l-kbira tad-dinja)
 466|ASME Y14 (projezzjoni tat-tielet angolu: l-Istati Uniti, il-Kanada)
 467|JIS B 0001 (projezzjoni tat-tielet angolu: il-Ġappun)
+468|Xafra
+469|Offset {} mm
+470|Offset tal-ponta
+471|Kemm il-ponta tax-xafra tinsab wara l-assi tagħha: jagħtih il-manifattur tax-xafra
+472|Dawwar fil-kantunieri iktar ippuntati minn
+473|Aqta' lil hinn mill-bidu
+474|Kontorn magħluq jinqata' daqshekk lil hinn mill-bidu tiegħu, biex jagħlaq
+475|Sikkina mkaxkra
+476|Sikkina mkaxkra fiż-żammiem taqta' tul il-linji sal-fond tas-saff, bl-ispindle wieqaf: l-offset tagħha jiġi kkumpensat f'kull kantuniera, it-toqob jinqatgħu l-ewwel u linja magħluqa tinqata' lil hinn mill-bidu tagħha.

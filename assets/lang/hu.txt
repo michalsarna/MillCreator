@@ -466,3 +466,12 @@
 465|ISO 128 (európai vetítés: Európa, a világ nagy része)
 466|ASME Y14 (amerikai vetítés: USA, Kanada)
 467|JIS B 0001 (amerikai vetítés: Japán)
+468|Penge
+469|Eltolás {} mm
+470|A hegy eltolása
+471|Milyen messze van a penge hegye a tengelye mögött: a penge gyártója adja meg
+472|Fordítás az ennél élesebb sarkoknál
+473|Vágás a kezdeten túl
+474|A zárt körvonalat ennyivel a kezdete után is vágja, hogy bezáródjon
+475|Vonszolt kés
+476|A tartóban lévő vonszolt kés a vonalak mentén a réteg mélységéig vág, álló orsóval: eltolását minden saroknál kiegyenlíti, először a lyukakat vágja, a zárt vonalat pedig a kezdetén túl is vágja.

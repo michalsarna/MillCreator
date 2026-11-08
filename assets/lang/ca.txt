@@ -466,3 +466,12 @@
 465|ISO 128 (primer diedre: Europa, la major part del món)
 466|ASME Y14 (tercer diedre: EUA, Canadà)
 467|JIS B 0001 (tercer diedre: Japó)
+468|Fulla
+469|Desplaçament {} mm
+470|Desplaçament de la punta
+471|A quina distància és la punta de la fulla darrere el seu eix: ho indica el fabricant de la fulla
+472|Gira a les cantonades més agudes que
+473|Talla més enllà de l'inici
+474|Un contorn tancat es talla aquesta distància més enllà del seu inici, perquè es tanqui
+475|Fulla d'arrossegament
+476|Una fulla d'arrossegament al suport talla al llarg de les línies fins a la profunditat de la capa, amb l'eix aturat: el seu desplaçament es compensa a cada cantonada, els forats es tallen primer i una línia tancada es talla més enllà del seu inici.

@@ -466,3 +466,12 @@
 465|ISO 128 (premietanie v 1. kvadrante: Európa, väčšina sveta)
 466|ASME Y14 (premietanie v 3. kvadrante: USA, Kanada)
 467|JIS B 0001 (premietanie v 3. kvadrante: Japonsko)
+468|Čepeľ
+469|Posun {} mm
+470|Posun hrotu
+471|Ako ďaleko je hrot čepele za jej osou: udáva ho výrobca čepele
+472|Otáčať v rohoch ostrejších ako
+473|Rezať ďalej za začiatok
+474|Uzavretý obrys sa reže tak ďaleko za svoj začiatok, aby sa uzavrel
+475|Vlečený nôž
+476|Vlečený nôž v držiaku reže pozdĺž čiar do hĺbky vrstvy pri stojacom vretene: jeho posun sa vyrovná v každom rohu, otvory sa režú najprv a uzavretá čiara sa reže ďalej za svoj začiatok.

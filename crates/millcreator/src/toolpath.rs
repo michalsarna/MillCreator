@@ -456,7 +456,9 @@ fn run_layers(b: &mut Builder, prog: &mut Program, scene: &Scene, layers: &[Mill
             prog.warnings.push(Warn::new("{}", &[&e]));
             continue;
         }
-        let Some(tool) = layer.tool.as_deref().and_then(|id| tools.get(id)) else {
+        // A drag knife needs no bit: the path is that of its axis, as thin as a line.
+        let knife_tool = crate::tools::Tool::new("drag-knife", "Drag knife", crate::tools::ToolKind::FlatEnd, crate::tools::Dims { diameter: 0.0, ..Default::default() });
+        let Some(tool) = (if layer.op == Operation::DragKnife { Some(&knife_tool) } else { layer.tool.as_deref().and_then(|id| tools.get(id)) }) else {
             prog.warnings.push(Warn::new("{}: no bit chosen", &[&layer.name]));
             continue;
         };
@@ -479,7 +481,7 @@ fn run_layers(b: &mut Builder, prog: &mut Program, scene: &Scene, layers: &[Mill
             prog.warnings.push(Warn::new("{}: the depth is limited to the travel of the machine ({} mm)", &[&layer.name, &dev.area.z]));
             layer.depth = dev.area.z;
         }
-        if layer.rpm > dev.spindle.max_rpm || layer.rpm < dev.spindle.min_rpm {
+        if layer.op != Operation::DragKnife && (layer.rpm > dev.spindle.max_rpm || layer.rpm < dev.spindle.min_rpm) {
             prog.warnings.push(Warn::new("{}: {} rpm is outside the spindle range {}…{} rpm", &[&layer.name, &layer.rpm, &dev.spindle.min_rpm, &dev.spindle.max_rpm]));
         }
         // A chamfer is as deep as its width asks for with this V-bit.
@@ -558,7 +560,7 @@ fn first_pass(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyl
                 }
             }
         }
-        Operation::Drill | Operation::Picture | Operation::Face | Operation::VCarve => {}
+        Operation::Drill | Operation::Picture | Operation::Face | Operation::VCarve | Operation::DragKnife => {}
     }
 }
 
@@ -699,6 +701,25 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
                     passes::open_passes(b, line, depths, &plan);
                 }
                 b.note_end(format!("Line {} end", i + 1));
+            }
+        }
+        Operation::DragKnife => {
+            // The holes before the parts round them; every line with the offset of the knife made good, the blade keeping the way
+            // it points from one cut to the next.
+            let rings: Vec<(Vec<Pt>, bool)> = outlines.iter().map(|l| (l.pts.clone(), l.closed)).collect();
+            let mut heading = Pt::new(1.0, 0.0);
+            let order = base_core::drag_knife::inside_first(&rings);
+            for (n, i) in order.iter().enumerate() {
+                let (pts, closed) = &rings[*i];
+                let (axis, end) = base_core::drag_knife::compensate(pts, *closed, heading, &layer.knife);
+                heading = end;
+                if axis.len() < 2 {
+                    continue;
+                }
+                b.note(format!("Cut {} of {} start: {}, {} mm", n + 1, order.len(), if *closed { "closed" } else { "open" }, num(outlines[*i].length())));
+                // One pass at the full depth: passes back and forth would turn the blade the other way.
+                passes::open_passes(b, &Polyline::new(axis, false), &[full], &plan);
+                b.note_end(format!("Cut {} end", n + 1));
             }
         }
         Operation::VCarve => {
@@ -997,7 +1018,16 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
                 }
                 here = Here { layer_name: l.name.clone(), layer_index: layer, total_layers: layers.len(), tool: l.tool.as_deref().and_then(|id| tools.get(id)).cloned() };
                 custom(&mut g, &dev.gcode.operation_change, &|n| value_of(&info, &here, n));
-                if tool_id != l.tool {
+                let knife = l.op == Operation::DragKnife;
+                if knife && tool_id.as_deref() != Some("drag-knife") {
+                    // The knife goes into the holder with the spindle stopped.
+                    if spindle_on {
+                        g.push_str(&format!("G0 Z{}\nM5\n", num(dev.safe_z + dev.z_offset)));
+                        spindle_on = false;
+                    }
+                    g.push_str("M0 (Put in the drag knife)\n");
+                    tool_id = Some("drag-knife".into());
+                } else if !knife && tool_id != l.tool {
                     if spindle_on {
                         g.push_str(&format!("G0 Z{}\nM5\n", num(dev.safe_z + dev.z_offset)));
                     }
@@ -1025,7 +1055,7 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
                     spindle_on = false;
                     custom(&mut g, &dev.gcode.tool_change, &|n| value_of(&info, &here, n));
                 }
-                let rpm = l.rpm.clamp(dev.spindle.min_rpm, dev.spindle.max_rpm);
+                let rpm = if knife { 0.0 } else { l.rpm.clamp(dev.spindle.min_rpm, dev.spindle.max_rpm) };
                 if rpm > 0.0 {
                     // `M3 S…` is the way every sender writes it, and what the controllers are tried with.
                     g.push_str(&format!("M3 S{}\n", num(rpm)));
@@ -1103,6 +1133,32 @@ mod tests {
     /// A square of `s` mm with the corner at (x, y) on the layer, in scene coordinates.
     fn square(scene: &mut Scene, layer: usize, x: f64, y: f64, s: f64) {
         scene.add(layer, Kind::Rect { w: s, h: s }, Xf::translate(x, y));
+    }
+
+    /// A drag knife layer: no bit and no spindle, a stop to put the knife in, the hole cut first, the cuts on the path of the axis
+    /// ahead of the tip, in one pass at the full depth.
+    #[test]
+    fn a_drag_knife_layer_cuts_with_the_spindle_still_and_the_hole_first() {
+        let (lib, dev, stock, mut layers) = setup();
+        layers[0].op = Operation::DragKnife;
+        layers[0].tool = None;
+        layers[0].depth = 0.3;
+        layers[0].step_down = 0.1;
+        layers[0].knife.offset = 0.5;
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 20.0, 20.0, 60.0);
+        square(&mut scene, 0, 40.0, 40.0, 10.0);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(!prog.warnings.iter().any(|w| w.to_string().contains("no bit")), "{:?}", prog.warnings);
+        let cuts: Vec<&Move> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).collect();
+        assert!(!cuts.is_empty());
+        assert!(cuts.iter().all(|m| (m.to[2] + 0.3).abs() < 1e-9), "one pass at the full depth");
+        // The first cut is round the hole (x within 40..50 plus the offset), not the big square.
+        assert!(cuts[0].to[0] < 51.0 && cuts[0].to[0] > 39.0, "the hole first: {:?}", cuts[0].to);
+        // The axis goes ahead of the tip: some points of the path lie the offset beyond the corners of the hole.
+        assert!(cuts.iter().any(|m| (m.to[0] - 50.5).abs() < 1e-6), "past the corner by the offset");
+        let g = to_gcode(&prog, &dev, &layers, &lib, "knife");
+        assert!(g.contains("M0 (Put in the drag knife)") && !g.contains("M3 S"), "{}", &g[..g.len().min(600)]);
     }
 
     fn xy_bounds(prog: &Program) -> (f64, f64, f64, f64) {

@@ -466,3 +466,12 @@
 465|ISO 128 (europska projekcija: Europa, veći dio svijeta)
 466|ASME Y14 (američka projekcija: SAD, Kanada)
 467|JIS B 0001 (američka projekcija: Japan)
+468|Oštrica
+469|Pomak {} mm
+470|Pomak vrha
+471|Koliko je vrh oštrice iza njezine osi: daje ga proizvođač oštrice
+472|Okretanje na kutovima oštrijim od
+473|Reži dalje od početka
+474|Zatvoreni obris reže se toliko dalje od početka da se zatvori
+475|Vučeni nož
+476|Vučeni nož u držaču reže uzduž linija do dubine sloja, uz zaustavljeno vreteno: njegov pomak ispravlja se na svakom kutu, rupe se režu najprije, a zatvorena linija reže se dalje od svog početka.

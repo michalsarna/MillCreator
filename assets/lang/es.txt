@@ -466,3 +466,12 @@
 465|ISO 128 (primer diedro: Europa, la mayor parte del mundo)
 466|ASME Y14 (tercer diedro: EE. UU., Canadá)
 467|JIS B 0001 (tercer diedro: Japón)
+468|Cuchilla
+469|Desplazamiento {} mm
+470|Desplazamiento de la punta
+471|A qué distancia está la punta de la cuchilla detrás de su eje: lo indica el fabricante de la cuchilla
+472|Girar en las esquinas más agudas que
+473|Cortar más allá del inicio
+474|Un contorno cerrado se corta esta distancia más allá de su inicio, para que se cierre
+475|Cuchilla de arrastre
+476|Una cuchilla de arrastre en el soporte corta a lo largo de las líneas hasta la profundidad de la capa, con el husillo parado: su desplazamiento se compensa en cada esquina, los agujeros se cortan primero y una línea cerrada se corta más allá de su inicio.

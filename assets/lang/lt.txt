@@ -466,3 +466,12 @@
 465|ISO 128 (pirmojo kampo projekcija: Europa, didžioji pasaulio dalis)
 466|ASME Y14 (trečiojo kampo projekcija: JAV, Kanada)
 467|JIS B 0001 (trečiojo kampo projekcija: Japonija)
+468|Peilis
+469|Poslinkis {} mm
+470|Smaigalio poslinkis
+471|Kiek peilio smaigalys yra už jo ašies: nurodo peilio gamintojas
+472|Sukti kampuose, aštresniuose nei
+473|Pjauti už pradžios
+474|Uždaras kontūras pjaunamas tiek už pradžios, kad užsidarytų
+475|Velkamas peilis
+476|Laikiklyje esantis velkamas peilis pjauna išilgai linijų iki sluoksnio gylio, verpstei stovint: jo poslinkis ištaisomas kiekviename kampe, pirmiausia pjaunamos skylės, o uždara linija pjaunama už jos pradžios.

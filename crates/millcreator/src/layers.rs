@@ -31,6 +31,8 @@ pub enum Operation {
     DogboneSlot,
     /// A V-bit goes deeper the farther it is from the edge of the shape: sharp, sloping walls (lettering, signs, inlays).
     VCarve,
+    /// A drag knife cuts along the lines with its offset made good, the holes first, the spindle still (vinyl, card, rubber).
+    DragKnife,
 }
 
 /// Which way the bit goes round a profile or a pocket (for a spindle that turns clockwise).
@@ -329,7 +331,7 @@ impl PictureMethod {
 }
 
 impl Operation {
-    pub const ALL: [Operation; 11] = [Operation::ProfileOutside, Operation::ProfileInside, Operation::OnPath, Operation::Pocket, Operation::Drill, Operation::Picture, Operation::Face, Operation::Bore, Operation::Chamfer, Operation::DogboneSlot, Operation::VCarve];
+    pub const ALL: [Operation; 12] = [Operation::ProfileOutside, Operation::ProfileInside, Operation::OnPath, Operation::Pocket, Operation::Drill, Operation::Picture, Operation::Face, Operation::Bore, Operation::Chamfer, Operation::DogboneSlot, Operation::VCarve, Operation::DragKnife];
 
     pub fn label(self) -> &'static str {
         match self {
@@ -344,6 +346,7 @@ impl Operation {
             Operation::Chamfer => "Chamfer",
             Operation::DogboneSlot => "Dogbone slot",
             Operation::VCarve => "V-carve",
+            Operation::DragKnife => "Drag knife",
         }
     }
 
@@ -360,6 +363,7 @@ impl Operation {
             Operation::Chamfer => "The edge of the shapes is chamfered: a V-bit follows the line at the depth that makes the chamfer as wide as asked.",
             Operation::DogboneSlot => "The bit goes round the inside of the line and into every sharp corner, so that a round bit leaves room for a square part.",
             Operation::VCarve => "A V-bit goes deeper the farther it is from the edge of the shape, so the walls slope and the corners are sharp. The depth is the deepest the bit goes; a wider shape gets a flat bottom.",
+            Operation::DragKnife => "A drag knife in the holder cuts along the lines to the depth of the layer, the spindle still: its offset is made good at every corner, the holes are cut first and a closed line is cut on past its start.",
         }
     }
 }
@@ -442,6 +446,9 @@ pub struct MillLayer {
     pub inlay: Inlay,
     #[serde(default)]
     pub inlay_gap: f64,
+    /// The drag knife of the layer (`Operation::DragKnife`): the offset of its tip, the corners it turns round, the overcut.
+    #[serde(default)]
+    pub knife: base_core::drag_knife::Knife,
     /// A relief: which part of it this layer cuts. The stock to leave of a rough part is `leave`.
     #[serde(default)]
     pub relief_part: ReliefPart,
@@ -585,6 +592,7 @@ pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
                 vc_start: 0.0,
                 inlay: Inlay::None,
                 inlay_gap: 0.0,
+                knife: base_core::drag_knife::Knife::default(),
                 relief_part: ReliefPart::Both,
                 coolant: Coolant::Off,
                 dust: false,

@@ -466,3 +466,12 @@
 465|ISO 128 (förstavinkelprojektion: Europa, större delen av världen)
 466|ASME Y14 (tredjevinkelprojektion: USA, Kanada)
 467|JIS B 0001 (tredjevinkelprojektion: Japan)
+468|Blad
+469|Förskjutning {} mm
+470|Spetsens förskjutning
+471|Hur långt bladets spets är bakom axeln: tillverkaren av bladet anger det
+472|Vrid vid hörn skarpare än
+473|Skär vidare förbi starten
+474|En sluten kontur skärs så långt förbi sin start att den sluts
+475|Släpkniv
+476|En släpkniv i hållaren skär längs linjerna till lagrets djup med spindeln stilla: dess förskjutning utjämnas vid varje hörn, hålen skärs först och en sluten linje skärs vidare förbi sin start.

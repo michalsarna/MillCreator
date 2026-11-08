@@ -194,6 +194,27 @@ impl App {
                         changed |= ui.add(egui::DragValue::new(&mut l.scan_angle).range(-360.0..=360.0).suffix(" °")).on_hover_text(tr("The angle of the rows of the engraving")).changed();
                         ui.end_row();
                     }
+                    if l.op == Operation::DragKnife {
+                        ui.label(tr("Blade"));
+                        ui.horizontal(|ui| {
+                            for (name, offset) in [("30°", 0.15), ("45°", 0.25), ("60°", 0.5)] {
+                                if ui.selectable_label((l.knife.offset - offset).abs() < 1e-9, name).on_hover_text(trf("Offset {} mm", &[&offset])).clicked() {
+                                    l.knife.offset = offset;
+                                    changed = true;
+                                }
+                            }
+                        });
+                        ui.end_row();
+                        ui.label(tr("Offset of the tip"));
+                        changed |= drag_len(ui, units, &mut l.knife.offset, 0.01, Some((0.0, 3.0))).on_hover_text(tr("How far the tip of the blade is behind its axis: the maker of the blade gives it")).changed();
+                        ui.end_row();
+                        ui.label(tr("Turn round corners sharper than"));
+                        changed |= ui.add(egui::DragValue::new(&mut l.knife.swivel_deg).range(1.0..=90.0).speed(0.5).suffix("°")).changed();
+                        ui.end_row();
+                        ui.label(tr("Cut on past the start"));
+                        changed |= drag_len(ui, units, &mut l.knife.overcut, 0.05, Some((0.0, 5.0))).on_hover_text(tr("A closed outline is cut on this far past its start, so it closes")).changed();
+                        ui.end_row();
+                    }
                     if l.op == Operation::VCarve {
                         ui.label(tr("Start depth"));
                         changed |= drag_len(ui, units, &mut l.vc_start, 0.05, Some((0.0, 1000.0))).on_hover_text(tr("Nothing is cut shallower than this")).changed();
