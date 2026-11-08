@@ -23,7 +23,7 @@ The keys are written as on Windows and Linux (Ctrl); on macOS Ctrl is Cmd. An en
 | **Project setup…** | | The size and thickness of the material, the zero of the program on it, Z from the bottom, the work area as the material. See [Quick Start](Quick-Start#2-the-project-setup). |
 | **Import ▸ Import image…** | | A picture (PNG, JPG, BMP, GIF, WebP) for the page, with the import dialog. See [Design Tools](Design-Tools). |
 | **Import ▸ Import SVG…** | Ctrl+I | The paths of an SVG are added to the open drawing, each on the layer nearest to its colour, and its pictures on the active layer. **Open…** would make a new tab of the file. |
-| **Import ▸ Import Adobe Illustrator / PDF…** | | The same for a PDF, a PDF-compatible `.ai` or an `.ai` of the old PostScript kind (LightBurn writes those). A file with Illustrator layers asks whether to go by colour or by those layers. |
+| **Import ▸ Import Adobe Illustrator / PDF…** | | The same for a PDF, a PDF-compatible `.ai` or an `.ai` of the old PostScript kind. A file with Illustrator layers asks whether to go by colour or by those layers. |
 | **Import ▸ Import DXF…** | | An ASCII DXF as outlines; its layers go to free layers of the project. |
 | **Import ▸ Import LightBurn / MillMage project…** | | The shapes of a LightBurn project (`.lbrn2` / `.lbrn`) or a MillMage project (`.mage`). |
 | **Import ▸ Import UGS design…** | | A `.ugsd` design of UGS Designer, with its ways of cutting as layers. |
@@ -33,9 +33,9 @@ The keys are written as on Windows and Linux (Ctrl); on macOS Ctrl is Cmd. An en
 | **Export ▸ Export G-code…** | | The same as **Milling → Export G-code…**. |
 | **Export ▸ Export SVG…** | | The whole drawing as SVG, the size of the work area. Curves and pictures are kept. |
 | **Export ▸ Export PLT / DXF…** | | The outlines of the whole drawing as HPGL (`.plt`, one pen per layer) or DXF R12, by the extension you choose. These are the shapes, not the moves of the machine. |
-| **Export ▸ Export DXF…** | | The whole drawing as DXF of the current kind (AutoCAD 2007), the way LightBurn writes it; curves are flattened to 0.01 mm. |
-| **Export ▸ Export DXF R12 (legacy)…** | | The same as DXF R12, for older programs and cutters (LightBurn calls it *legacy*). |
-| **Export ▸ Export Adobe Illustrator…** | | The outlines as an Illustrator file of the PostScript kind (as LightBurn writes it), with the curves, an Illustrator layer for every layer of the project. Pictures are left out. |
+| **Export ▸ Export DXF…** | | The whole drawing as DXF of the current kind (AutoCAD 2007); curves are flattened to 0.01 mm. |
+| **Export ▸ Export DXF R12 (legacy)…** | | The same as DXF R12, for older programs and cutters (also called *legacy*). |
+| **Export ▸ Export Adobe Illustrator…** | | The outlines as an Illustrator file of the PostScript kind, with the curves, an Illustrator layer for every layer of the project. Pictures are left out. |
 | **Export ▸ Export LightBurn project…** | | A LightBurn project (`.lbrn2`, or `.lbrn` when you name the file so): the shapes with their curves and the pictures, a LightBurn layer for every layer of the project. |
 | **Export ▸ Export MillMage project…** | | The same as a MillMage project (`.mage`), the material the size of the work area. |
 | **Export ▸ Export relief as STL…** | | The same as **Milling → Export relief as STL…**. |
