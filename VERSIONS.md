@@ -2,6 +2,23 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.8.1
+
+* **Technical drawing** (a button next to **Preview…** and **Milling → Show technical drawing…**): the views from the front, from the side and from above, the cuts under the top as dashed lines, dimensions of the material, the parts and the depths, the diameters of the holes and a title block with the scale for A4. **Export…** saves it as a PDF page (A4) or as a PNG / JPG picture at 300 dots per inch; it zooms; **Dock as a tab** makes it a tab of the work area.
+* **Project setup** shows the block of material at a slant with its width, height and thickness and the zero of the program with its axes.
+* **Dimensions in the preview** give the block and the milled shapes on it, in 3D and from above.
+* **Dimensions:** a button next to **Toolpaths** shows the drawing as on a technical drawing: the width and height of the whole and of every outline (the outside and the holes), and the diameters of the round ones, the same ones named once (**4 × Ø 6**). The preview has a **Dimensions** button too.
+* **Ruler (M):** a new tool. Drag or click two points for the length, ΔX, ΔY and the angle. It snaps to nodes, to the middles of segments and to the centres of circles and ellipses. A click on a straight segment gives its length; on a circle its radius and diameter; on an ellipse both radii; on a curve its length, and for an arc of a circle the radius drawn from its centre.
+* **Right click with a tool** is a double Escape: back to selecting. In node edit a right click on a node or a segment opens the menu of the node bar.
+* **Node bar:** the keys are in the names (**Break (B)**); **Smooth** has the key **G**; the radius stands after **Round (R)**; **Open / close** is gone (Break opens, dropping an end on the other closes).
+* **Shift** draws a circle with the ellipse tool and a square with the rectangle, also while the shape is being drawn.
+* **Several objects selected:** each one has a thin dashed frame of its own.
+* **Objects of a layer that is not made** are faded clearly towards the work area.
+* **The preview:** its options are buttons, light blue while they are on.
+* **A drag that went on after the button was let go** (an object, a slider or a colour following the pointer) is ended.
+* **TIFF pictures** (`.tif`, `.tiff`) are read like the other pictures.
+* **Device window:** **Connection** is the second page, after **General**.
+
 ## v0.8.0
 
 * **Files of LightBurn and MillMage, both ways:** checked against the same drawings saved by LightBurn 2.2 and MillMage 0.9.
