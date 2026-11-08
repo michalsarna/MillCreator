@@ -2,6 +2,12 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.8.3
+
+* **Drag knife:** a new operation of a layer cuts along its lines with a drag knife in a holder (vinyl, card, rubber, leather, thin sheets), the spindle still, in one pass at the depth of the layer. The offset of the tip is made good at every corner (the blade turns round a sharp corner on the spot), the holes are cut before the parts round them and a closed line is cut on past its start, so it closes. The job stops before the layer with **Put in the drag knife**.
+* **Knife library:** **Milling → Knife library…** has ready-made knives (the 30°, 45° and 60° blades and a drag knife in a holder of a CNC machine) and your own: **Copy** makes one with a name, the offset of the tip, the corners, the overcut and notes. A drag knife layer picks its knife from a list; the library is kept with the settings and in the backup.
+* **Help:** a new wiki page **Drag Knife** (**Nóż wleczony**), and the README and the wiki list the machines MillCreator has been tested on (a TwoTrees TTC450Pro on GRBL).
+
 ## v0.8.2
 
 * **Kinds of technical drawing:** **ISO 128** (first-angle: the view from above under the front, numbers along their lines), **ASME Y14** (third-angle, USA and Canada: the view from above over the front, numbers upright) and **JIS B 0001** (third-angle, Japan). The title block names the kind and shows the sign of the projection; the drawing, the 3D preview and the project setup show the units of the program.
