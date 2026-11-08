@@ -10,6 +10,16 @@ pinned to a tag in `crates/millcreator/Cargo.toml`.
 > ⚠️ A milling machine is dangerous and this program has been tested on a TwoTrees TTC450Pro and works there, but not on other machines. It writes G-code and
 > can **stream it to a GRBL machine** (connect, home, frame, start, stop). Test every job in the air first. See the wiki page *Safety and Limitations*.
 
+## Tested devices
+
+The program has been tried on these machines and works there:
+
+| Device | Kind | Controller |
+|---|---|---|
+| TwoTrees TTC450Pro | CNC mill | GRBL |
+
+It runs on another machine? Tell me in an [issue](https://github.com/michalsarna/MillCreator/issues) and it goes on the list.
+
 ## Screenshots
 
 ![The layers and the 3D view](docs/screenshots/05-layers.png)
@@ -29,6 +39,8 @@ The wiki has the full documentation in English and Polish: <https://github.com/m
   pocket, face, drill, bore, chamfer, dogbone slot, V-carve with inlays, pictures and 3D relief), a bit, depth, pass
   depth, step over, feeds, spindle speed, tabs, ramps or a helix, climb or conventional, stock to leave, coolant;
   settings can be kept as presets.
+* **Drag knife:** a layer can be cut with a drag knife in a holder (vinyl, card, rubber), the spindle still, with the
+  offset of the tip made good and the holes first; a knife library with ready-made blades and your own.
 * **Bit library:** ready-made bits and your own (kept for every device), seven kinds (flat, ball nose, bull nose,
   V-bit, engraving, tapered ball nose, drill), each with a picture that shows the letter of every dimension where it is
   measured; import and export as JSON.
