@@ -461,3 +461,8 @@
 460|Usidri kao karticu
 461|Prikazuje crtež kao karticu radnog područja, uz crteže i pregled
 462|Sprema crtež kao sliku (PNG, JPG) ili kao PDF stranicu (A4)
+463|Vrsta
+464|Mjere u {}
+465|ISO 128 (europska projekcija: Europa, veći dio svijeta)
+466|ASME Y14 (američka projekcija: SAD, Kanada)
+467|JIS B 0001 (američka projekcija: Japan)

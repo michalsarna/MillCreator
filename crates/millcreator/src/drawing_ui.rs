@@ -9,6 +9,41 @@ use base_ui::dims::{self, DimStyle};
 use base_ui::i18n::{tr, trf};
 use egui::{Color32, Pos2, Stroke, Vec2};
 
+/// The kind of technical drawing: how the views are laid out and how the numbers are written. Most of the world draws by ISO
+/// (first-angle projection: the view from above goes under the view from the front, the view from the left to its right; the
+/// numbers lie along their lines); the USA and Canada by ASME (third-angle projection: the view from above over the front, the view
+/// from the right to its right; the numbers always upright); Japan by JIS (third-angle, the numbers along their lines).
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum Standard {
+    #[default]
+    Iso,
+    Asme,
+    Jis,
+}
+
+impl Standard {
+    pub const ALL: [Standard; 3] = [Standard::Iso, Standard::Asme, Standard::Jis];
+    pub fn label(self) -> &'static str {
+        match self {
+            Standard::Iso => "ISO 128 (first-angle: Europe, most of the world)",
+            Standard::Asme => "ASME Y14 (third-angle: USA, Canada)",
+            Standard::Jis => "JIS B 0001 (third-angle: Japan)",
+        }
+    }
+    /// The short name in the title block.
+    pub fn short(self) -> &'static str {
+        match self {
+            Standard::Iso => "ISO 128",
+            Standard::Asme => "ASME Y14.5",
+            Standard::Jis => "JIS B 0001",
+        }
+    }
+    /// Third-angle projection (the view from above over the front one).
+    pub fn third_angle(self) -> bool {
+        self != Standard::Iso
+    }
+}
+
 /// The parts of the drawing, in millimetres of the material: X right from its left edge, Y up from its front edge, Z up from its top
 /// (cuts go below 0).
 pub struct Part {
@@ -25,7 +60,10 @@ pub struct Sheet {
     pub parts: Vec<Part>,
     pub title: String,
     pub material: String,
+    /// The units of the program (the numbers) and of the machine (beside them when the systems differ).
     pub units: base_core::units::Units,
+    pub machine: base_core::units::Units,
+    pub standard: Standard,
     /// The outlines and circles of the parts, for the dimensions of the view from above.
     pub features: base_ui::dims::Features,
 }
@@ -78,7 +116,7 @@ impl App {
             .collect();
         let features = base_ui::dims::Features::of(shapes.iter().copied(), &to);
         let title = self.path.as_ref().and_then(|p| p.file_stem()).map_or_else(|| tr("Untitled").to_string(), |s| s.to_string_lossy().into_owned());
-        Sheet { w, h, t: self.stock.thickness, parts, title, material: tr(self.stock.kind.label()).to_string(), units: self.device.units, features }
+        Sheet { w, h, t: self.stock.thickness, parts, title, material: tr(self.stock.kind.label()).to_string(), units: base_ui::editor::EditorHost::units(self), machine: self.device.units, standard: self.drawing_standard, features }
     }
 
     /// The window of the drawing (when it is not a tab of the work area).
@@ -100,6 +138,13 @@ impl App {
             if ui.button(tr("Export…")).on_hover_text(tr("Save the drawing as a picture (PNG, JPG) or as a PDF page (A4)")).clicked() {
                 self.export_drawing(&sheet);
             }
+            ui.separator();
+            ui.label(tr("Kind of drawing"));
+            egui::ComboBox::from_id_salt("drawing_standard").selected_text(tr(self.drawing_standard.label())).show_ui(ui, |ui| {
+                for k in Standard::ALL {
+                    ui.selectable_value(&mut self.drawing_standard, k, tr(k.label()));
+                }
+            });
             ui.separator();
             if self.drawing_docked {
                 if ui.button(tr("Open in a separate window")).clicked() {
@@ -175,7 +220,7 @@ pub fn save_sheet(sheet: &Sheet, path: &std::path::Path) -> Result<(), String> {
 pub fn paint(p: &egui::Painter, rect: egui::Rect, s: &Sheet) {
     let paper = Color32::WHITE;
     let ink = Color32::from_rgb(0x18, 0x18, 0x20);
-    let st = DimStyle { ink, size: 11.0 };
+    let st = DimStyle { ink, size: 11.0, units: s.units, second: None, upright: s.standard == Standard::Asme }.in_units(s.units, s.machine);
     p.rect_filled(rect, 0.0, paper);
     let frame = rect.shrink(10.0);
     p.rect_stroke(frame, 0.0, Stroke::new(1.4, ink), egui::StrokeKind::Inside);
@@ -187,27 +232,33 @@ pub fn paint(p: &egui::Painter, rect: egui::Rect, s: &Sheet) {
         p.line_segment([Pos2::new(tb.left(), tb.top() + row * i as f32), Pos2::new(tb.right(), tb.top() + row * i as f32)], Stroke::new(0.8, ink));
     }
     let font = |sz: f32| egui::FontId::proportional(sz);
-    let units = match s.units {
-        base_core::units::Units::Mm => tr("Dimensions in mm"),
-        base_core::units::Units::Inch => tr("Dimensions in inches"),
-    };
+    let units = trf("Dimensions in {}", &[&s.units.symbol()]);
     p.text(Pos2::new(tb.left() + 8.0, tb.top() + row * 0.5), egui::Align2::LEFT_CENTER, &s.title, font(15.0), ink);
-    p.text(Pos2::new(tb.left() + 8.0, tb.top() + row * 1.5), egui::Align2::LEFT_CENTER, format!("{} · {}", s.material, dims::number(s.units, s.t)), font(12.0), ink);
-    p.text(Pos2::new(tb.left() + 8.0, tb.top() + row * 2.5), egui::Align2::LEFT_CENTER, format!("{}   {}", trf("Scale {}", &[&scale_for(s.w, s.h, s.t)]), units), font(12.0), ink);
+    p.text(Pos2::new(tb.left() + 8.0, tb.top() + row * 1.5), egui::Align2::LEFT_CENTER, format!("{} · {}", s.material, st.text(s.t)), font(12.0), ink);
+    p.text(Pos2::new(tb.left() + 8.0, tb.top() + row * 2.5), egui::Align2::LEFT_CENTER, format!("{}   {}   {}", trf("Scale {}", &[&scale_for(s.w, s.h, s.t)]), units, s.standard.short()), font(12.0), ink);
     // The three views and the room for their dimensions: front (w × t) at the top left, side (h × t) right of it, top (w × h) below.
     let room = 70.0_f32;
     let area = egui::Rect::from_min_max(frame.min + Vec2::splat(room), Pos2::new(frame.right() - room, tb.top() - room * 0.6));
     let (w, h, t) = (s.w.max(1.0), s.h.max(1.0), s.t.max(0.1));
-    let gap = room as f64 * 1.3;
+    let gap = room as f64 * 1.75;
     let k = ((area.width() as f64 - gap) / (w + h)).min((area.height() as f64 - gap) / (t + h)).max(0.01);
-    let front_o = Pos2::new(area.left(), area.top() + (t * k) as f32);
+    // First-angle: the front at the top left, the view from the left right of it, the view from above under it. Third-angle: the view
+    // from above at the top left, the front under it, the view from the right right of the front.
+    let third = s.standard.third_angle();
+    let (front_o, top_o) = if third {
+        let top_o = Pos2::new(area.left(), area.top() + (h * k) as f32);
+        (Pos2::new(area.left(), top_o.y + (gap + t * k) as f32), top_o)
+    } else {
+        let front_o = Pos2::new(area.left(), area.top() + (t * k) as f32);
+        (front_o, Pos2::new(area.left(), front_o.y + (gap + h * k) as f32))
+    };
     let side_o = Pos2::new(area.left() + (w * k + gap) as f32, front_o.y);
-    let top_o = Pos2::new(area.left(), front_o.y + (gap + h * k) as f32);
-    // Points of each view: (x, z) for the front, (y, z) for the side seen from the left (Y grows to the left there), (x, y) from above.
+    // Points of each view: (x, z) for the front, (y, z) for the side (seen from the left the front edge is on the right, seen from the
+    // right on the left), (x, y) from above.
     let front = |x: f64, z: f64| {
         Pos2::new(front_o.x + (x * k) as f32, front_o.y - (z * k) as f32 - (t * k) as f32)
     };
-    let side = |y: f64, z: f64| Pos2::new(side_o.x + ((h - y) * k) as f32, side_o.y - (z * k) as f32 - (t * k) as f32);
+    let side = |y: f64, z: f64| Pos2::new(side_o.x + ((if third { y } else { h - y }) * k) as f32, side_o.y - (z * k) as f32 - (t * k) as f32);
     let top = |x: f64, y: f64| Pos2::new(top_o.x + (x * k) as f32, top_o.y - (y * k) as f32);
     let full = Stroke::new(1.5, ink);
     let thin = Stroke::new(1.0, ink);
@@ -249,7 +300,7 @@ pub fn paint(p: &egui::Painter, rect: egui::Rect, s: &Sheet) {
     p.extend(egui::Shape::dashed_line(&[top(w / 2.0, -4.0), top(w / 2.0, h + 4.0)], centre, 12.0, 4.0));
     p.extend(egui::Shape::dashed_line(&[top(-4.0, h / 2.0), top(w + 4.0, h / 2.0)], centre, 12.0, 4.0));
     // Dimensions: the material in each view, the parts from above, and the depths in the front view.
-    let n = |v: f64| dims::number(s.units, v);
+    let n = |v: f64| st.text(v);
     dims::dim(p, fr.left_top(), fr.right_top(), Vec2::new(0.0, -1.0), 18.0, &n(w), &st);
     dims::dim(p, fr.right_top(), fr.right_bottom(), Vec2::new(1.0, 0.0), 18.0, &n(t), &st);
     dims::dim(p, sr.left_top(), sr.right_top(), Vec2::new(0.0, -1.0), 18.0, &n(h), &st);
@@ -257,7 +308,7 @@ pub fn paint(p: &egui::Painter, rect: egui::Rect, s: &Sheet) {
     dims::dim(p, tr_.left_bottom(), tr_.right_bottom(), Vec2::new(0.0, 1.0), 40.0, &n(w), &st);
     let to = |q: Pt| top(q.x, q.y);
     if !s.parts.is_empty() {
-        dims::drawing(p, &to, &s.features, Some(Pt::new(0.0, 0.0)), s.units, &st);
+        dims::drawing(p, &to, &s.features, Some(Pt::new(0.0, 0.0)), &st);
     }
     let mut depths: Vec<f64> = s.parts.iter().map(|q| q.depth.clamp(0.0, t)).filter(|d| *d > 0.0 && *d < t - 1e-6).collect();
     depths.sort_by(|a, b| a.total_cmp(b));
@@ -267,9 +318,20 @@ pub fn paint(p: &egui::Painter, rect: egui::Rect, s: &Sheet) {
     }
     // The names of the views.
     let label = |at: Pos2, text: String| p.text(at, egui::Align2::LEFT_BOTTOM, text, font(12.0), ink);
-    label(fr.left_top() + Vec2::new(0.0, -40.0), tr("Front view").to_string());
-    label(sr.left_top() + Vec2::new(0.0, -40.0), tr("Side view").to_string());
+    // Under each view, clear of its dimensions (the view from above has two rows of them under it).
+    label(fr.left_bottom() + Vec2::new(0.0, 24.0), tr("Front view").to_string());
+    label(sr.left_bottom() + Vec2::new(0.0, 24.0), tr("Side view").to_string());
     label(Pos2::new(tr_.left(), tr_.bottom() + 66.0), tr("Top view").to_string());
+    // The sign of the projection in the title block: a truncated cone seen from the side and from its end; the end view on the right
+    // for first-angle, on the left for third-angle.
+    let sym = egui::Rect::from_min_size(Pos2::new(tb.right() - 78.0, tb.top() + row + 4.0), Vec2::new(70.0, row - 8.0));
+    let (cone, circles) = if third { (sym.right() - 34.0, sym.left() + 14.0) } else { (sym.left() + 4.0, sym.right() - 14.0) };
+    let mid = sym.center().y;
+    let hh = (sym.height() / 2.0).min(10.0);
+    let thin_ink = Stroke::new(1.0, ink);
+    p.add(egui::Shape::closed_line(vec![Pos2::new(cone, mid - hh * 0.5), Pos2::new(cone + 30.0, mid - hh), Pos2::new(cone + 30.0, mid + hh), Pos2::new(cone, mid + hh * 0.5)], thin_ink));
+    p.circle_stroke(Pos2::new(circles, mid), hh, thin_ink);
+    p.circle_stroke(Pos2::new(circles, mid), hh * 0.5, thin_ink);
 }
 
 #[cfg(test)]
@@ -299,6 +361,14 @@ mod tests {
         let mut out = ctx.run_ui(Default::default(), |ui| paint(ui.painter(), egui::Rect::from_min_size(Pos2::ZERO, Vec2::new(900.0, 640.0)), &s));
         out.textures_delta.clear();
         assert!(out.shapes.len() > 40, "the views, the dashed cuts, the dimensions and the title: {}", out.shapes.len());
+        // Every kind is drawn; ISO is first-angle, ASME and JIS third-angle; ASME writes the numbers upright.
+        assert!(!Standard::Iso.third_angle() && Standard::Asme.third_angle() && Standard::Jis.third_angle());
+        for k in Standard::ALL {
+            let sheet = Sheet { standard: k, ..a.drawing_sheet() };
+            let mut out = ctx.run_ui(Default::default(), |ui| paint(ui.painter(), egui::Rect::from_min_size(Pos2::ZERO, Vec2::new(900.0, 640.0)), &sheet));
+            out.textures_delta.clear();
+            assert!(out.shapes.len() > 40, "{k:?}");
+        }
         // Saved as a PDF page and a picture of an A4 sheet at 300 dots per inch.
         let dir = std::env::temp_dir().join(format!("mill-drawing-{}", std::process::id()));
         std::fs::create_dir_all(&dir).unwrap();

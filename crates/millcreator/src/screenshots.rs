@@ -922,4 +922,10 @@ fn render_dimensions() {
     shot(&mut h, "42-plan-dimensions.png");
     app(&mut h).drawing_open = true;
     shot(&mut h, "43-technical-drawing.png");
+    if std::env::var("DIMS_OUT").is_ok() {
+        // The American kind, in a program showing inches beside a metric machine.
+        app(&mut h).drawing_standard = crate::drawing_ui::Standard::Asme;
+        app(&mut h).ed.grid_prefs.units = Some(base_core::units::Units::Inch);
+        shot(&mut h, "44-technical-drawing-asme.png");
+    }
 }

@@ -136,7 +136,7 @@ impl App {
                 }
                 ui.label(tr("Units"));
                 egui::ComboBox::from_id_salt("add_units").selected_text(tr(d.units.label())).show_ui(ui, |ui| {
-                    for u in base_core::units::Units::ALL {
+                    for u in base_core::units::Units::DEVICE {
                         ui.selectable_value(&mut d.units, u, tr(u.label()));
                     }
                 });

@@ -461,3 +461,8 @@
 460	Dock as a tab
 461	Show the drawing as a tab of the work area, beside the drawings and the preview
 462	Save the drawing as a picture (PNG, JPG) or as a PDF page (A4)
+463	Kind of drawing
+464	Dimensions in {}
+465	ISO 128 (first-angle: Europe, most of the world)
+466	ASME Y14 (third-angle: USA, Canada)
+467	JIS B 0001 (third-angle: Japan)

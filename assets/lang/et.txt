@@ -461,3 +461,8 @@
 460|Kinnita vahekaardina
 461|Näitab joonist tööala vahekaardina jooniste ja eelvaate kõrval
 462|Salvestab joonise pildina (PNG, JPG) või PDF-leheküljena (A4)
+463|Liik
+464|Mõõtmed ühikutes {}
+465|ISO 128 (esimese nurga projektsioon: Euroopa, suurem osa maailmast)
+466|ASME Y14 (kolmanda nurga projektsioon: USA, Kanada)
+467|JIS B 0001 (kolmanda nurga projektsioon: Jaapan)

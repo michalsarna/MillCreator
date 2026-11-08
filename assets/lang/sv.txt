@@ -461,3 +461,8 @@
 460|Docka som flik
 461|Visar ritningen som en flik i arbetsytan bredvid ritningarna och förhandsvisningen
 462|Sparar ritningen som bild (PNG, JPG) eller som PDF-sida (A4)
+463|Typ
+464|Mått i {}
+465|ISO 128 (förstavinkelprojektion: Europa, större delen av världen)
+466|ASME Y14 (tredjevinkelprojektion: USA, Kanada)
+467|JIS B 0001 (tredjevinkelprojektion: Japan)

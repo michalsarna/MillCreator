@@ -461,3 +461,8 @@
 460|Ukotvit jako kartu
 461|Ukáže výkres jako kartu pracovní plochy vedle kreseb a náhledu
 462|Uloží výkres jako obrázek (PNG, JPG) nebo jako stránku PDF (A4)
+463|Druh
+464|Kóty v {}
+465|ISO 128 (promítání v 1. kvadrantu: Evropa, většina světa)
+466|ASME Y14 (promítání ve 3. kvadrantu: USA, Kanada)
+467|JIS B 0001 (promítání ve 3. kvadrantu: Japonsko)

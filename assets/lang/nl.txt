@@ -461,3 +461,8 @@
 460|Vastzetten als tabblad
 461|Toont de tekening als tabblad van het werkgebied, naast de tekeningen en het voorbeeld
 462|Slaat de tekening op als afbeelding (PNG, JPG) of als PDF-pagina (A4)
+463|Soort
+464|Maten in {}
+465|ISO 128 (Europese projectie: Europa, het grootste deel van de wereld)
+466|ASME Y14 (Amerikaanse projectie: VS, Canada)
+467|JIS B 0001 (Amerikaanse projectie: Japan)

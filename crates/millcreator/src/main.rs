@@ -353,6 +353,8 @@ struct App {
     drawing_open: bool,
     /// The technical drawing is a tab of the work area, not a window.
     drawing_docked: bool,
+    /// The kind of the technical drawing (ISO, ASME, JIS).
+    drawing_standard: drawing_ui::Standard,
     /// The zoom and the shift of the technical drawing.
     drawing_view: (f32, egui::Vec2),
     /// The answer of a request to a Duet board that runs in a thread.
@@ -518,6 +520,7 @@ impl App {
             drawing_open: false,
             drawing_docked: false,
             drawing_view: (1.0, egui::Vec2::ZERO),
+            drawing_standard: drawing_ui::Standard::Iso,
             duet_rx: None,
             // The tests never touch the presets of whoever runs them.
             presets: cfg!(test).then(|| base_ui::layer_presets_ui::Library::from_path(None, &crate::layer_presets::valid)),
@@ -1457,7 +1460,11 @@ impl EditorHost for App {
     fn work_size(&self) -> (f64, f64) {
         self.work_size_mm()
     }
+    /// The units of the program (Settings → Program options), or those of the device.
     fn units(&self) -> Units {
+        self.ed.grid_prefs.display_units(self.device.units)
+    }
+    fn machine_units(&self) -> Units {
         self.device.units
     }
     fn workspace_fill(&self) -> egui::Color32 {
@@ -1839,6 +1846,23 @@ mod tests {
         for f in ["Export DXF…", "Export DXF R12 (legacy)…", "Export Adobe Illustrator…", "Export LightBurn project…", "Export MillMage project…"] {
             assert!(export.contains(&f), "{f}");
         }
+    }
+
+    /// A device in inches gets its G-code in inches: G20, the lengths and the feeds divided by 25.4. The units of the program do not
+    /// change the G-code.
+    #[test]
+    fn a_machine_in_inches_gets_g_code_in_inches_whatever_the_program_shows() {
+        let mut a = app();
+        crate::screenshots::demo_job(&mut a);
+        let (mm, _) = a.gcode_text("job").expect("a program");
+        assert!(mm.contains("G21") && !mm.contains("G20"));
+        a.device.units = base_core::units::Units::Inch;
+        a.ed.grid_prefs.units = Some(base_core::units::Units::Cm);
+        let (inch, _) = a.gcode_text("job").expect("a program");
+        assert!(inch.contains("G20") && !inch.lines().any(|l| l.split(';').next().unwrap_or("").split_whitespace().any(|w| w == "G21")), "{}", &inch[..400.min(inch.len())]);
+        assert_eq!(inch, base_core::gcode_units::to_inches(&mm), "every length and feed in inches");
+        assert_eq!(base_ui::editor::EditorHost::units(&a), base_core::units::Units::Cm, "the program shows centimetres");
+        assert_eq!(base_ui::editor::EditorHost::machine_units(&a), base_core::units::Units::Inch);
     }
 
     pub(crate) fn app() -> App {

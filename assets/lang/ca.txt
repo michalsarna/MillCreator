@@ -461,3 +461,8 @@
 460|Acobla com a pestanya
 461|Mostra el dibuix com una pestanya de l'àrea de treball, al costat dels dibuixos i de la previsualització
 462|Desa el dibuix com a imatge (PNG, JPG) o com a pàgina PDF (A4)
+463|Tipus
+464|Cotes en {}
+465|ISO 128 (primer diedre: Europa, la major part del món)
+466|ASME Y14 (tercer diedre: EUA, Canadà)
+467|JIS B 0001 (tercer diedre: Japó)

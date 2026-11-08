@@ -390,7 +390,7 @@ impl App {
                 } else {
                     base_ui::dims::Features::default()
                 };
-                let sc = Scene3d { surface, prog, region, stock: &stock, dev: &self.device, layers: &self.layers, project, rotary, parts: &parts };
+                let sc = Scene3d { surface, prog, region, stock: &stock, dev: &self.device, layers: &self.layers, project, rotary, parts: &parts, units: base_ui::editor::EditorHost::units(self) };
                 view3d::show(ui, &mut self.view, &sc);
             }
             None => {

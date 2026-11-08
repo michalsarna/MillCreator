@@ -461,3 +461,8 @@
 460|Piestiprināt kā cilni
 461|Rāda rasējumu kā darba zonas cilni blakus zīmējumiem un priekšskatījumam
 462|Saglabā rasējumu kā attēlu (PNG, JPG) vai PDF lapu (A4)
+463|Veids
+464|Izmēri {}
+465|ISO 128 (pirmā leņķa projekcija: Eiropa, lielākā daļa pasaules)
+466|ASME Y14 (trešā leņķa projekcija: ASV, Kanāda)
+467|JIS B 0001 (trešā leņķa projekcija: Japāna)

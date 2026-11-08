@@ -461,3 +461,8 @@
 460|Acoplar como pestaña
 461|Muestra el dibujo como una pestaña del área de trabajo, junto a los dibujos y la vista previa
 462|Guarda el dibujo como imagen (PNG, JPG) o como página PDF (A4)
+463|Tipo
+464|Cotas en {}
+465|ISO 128 (primer diedro: Europa, la mayor parte del mundo)
+466|ASME Y14 (tercer diedro: EE. UU., Canadá)
+467|JIS B 0001 (tercer diedro: Japón)

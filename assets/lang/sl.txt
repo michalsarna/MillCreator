@@ -461,3 +461,8 @@
 460|Zasidraj kot zavihek
 461|Prikaže risbo kot zavihek delovnega območja ob risbah in predogledu
 462|Shrani risbo kot sliko (PNG, JPG) ali kot stran PDF (A4)
+463|Vrsta
+464|Mere v {}
+465|ISO 128 (evropska projekcija: Evropa, večina sveta)
+466|ASME Y14 (ameriška projekcija: ZDA, Kanada)
+467|JIS B 0001 (ameriška projekcija: Japonska)
