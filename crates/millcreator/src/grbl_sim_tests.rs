@@ -255,3 +255,42 @@ fn grbl_sim_a_pocket_that_stays_down_is_accepted_and_ends_at_zero() {
     assert!(s.parser_state().contains("M5"), "the spindle is off");
     assert!(s.errors().is_empty(), "GRBL rejected lines: {:?}", s.errors_described());
 }
+
+/// A drag knife layer only: a frame with a hole, the knife half a millimetre behind its axis.
+fn job_with_a_drag_knife() -> Vec<String> {
+    let (lib, dev, stock) = (Library::new(), Device::dummy(), Stock::default());
+    let mut layers = default_layers(&lib);
+    layers[0].op = crate::layers::Operation::DragKnife;
+    layers[0].tool = None;
+    layers[0].depth = 0.3;
+    layers[0].step_down = 0.3;
+    layers[0].knife = base_core::drag_knife::Knife { offset: 0.5, swivel_deg: 15.0, overcut: 1.0 };
+    let mut scene = Scene::default();
+    square(&mut scene, 0, 20.0, 20.0, 60.0);
+    square(&mut scene, 0, 40.0, 40.0, 10.0);
+    scene.add(0, Kind::Ellipse { w: 12.0, h: 12.0 }, Xf::translate(60.0, 60.0));
+    let prog = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions::default());
+    clean_gcode(&to_gcode(&prog, &dev, &layers, &lib, "sim"))
+}
+
+#[test]
+#[ignore = "needs grbl-sim: tools/grbl-sim/build.sh of baseCreator"]
+fn grbl_sim_a_drag_knife_job_waits_for_the_knife_cuts_with_the_spindle_still_and_ends_at_zero() {
+    let mut s = Session::connect();
+    s.wait_banner();
+    s.fast_machine(&[]);
+    s.link.send(Cmd::Barriers(true));
+    let job = job_with_a_drag_knife();
+    assert!(!job.iter().any(|l| l.starts_with("M3 ") || l.starts_with("M4 ")), "the spindle stays still: {job:?}");
+    assert!(job.iter().any(|l| l.starts_with("G1 Z-0.3")), "{job:?}");
+    let n = job.len();
+    s.link.send(Cmd::Job(job.clone()));
+    s.wait("the knife is put in", 120.0, |v| !v.barriers.is_empty());
+    assert!(s.seen.barriers[0].0.contains("Put in the drag knife"), "{:?}", s.seen.barriers);
+    s.wait("idle at the pause", 60.0, |v| v.state == "Idle");
+    s.link.send(Cmd::Continue);
+    s.wait("job finished", 300.0, |v| v.progress == (n, n));
+    wait_idle_and_ends_at_zero(&mut s, &job, 60.0);
+    assert!(s.parser_state().contains("M5"), "the spindle is off");
+    assert!(s.errors().is_empty(), "GRBL rejected lines: {:?}", s.errors_described());
+}

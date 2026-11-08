@@ -133,6 +133,7 @@ The settings of the machine first, then what runs on it. See [Machine Control](M
 | Entry | Key | What it does |
 |---|---|---|
 | **Bit library…** | | The ready-made bits and yours. See [Bit Library](Bit-Library). |
+| **Knife library…** | | The ready-made drag knives and yours. See [Design Tools](Design-Tools#drag-knife). |
 | **3D view of the job…** | Ctrl+Shift+P | Opens the **Preview** tab: the material, the cuts and the moves in 3D, with the animation. See [3D View and G-code](3D-View-and-G-code). |
 | **Show technical drawing…** | | The part as a technical drawing: the views from the front, from the side and from above, with dimensions and a title block. Also the **Technical drawing** button of the preview. |
 | **Export G-code…** | Ctrl+E | Asks for a file name (`name.nc`) and writes the G-code of the project, through the postprocessors that are on. The same as the **Save G-code** button. |

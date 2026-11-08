@@ -133,6 +133,7 @@ Najpierw ustawienia maszyny, potem to, co na niej działa. Zob. [Sterowanie masz
 | Pozycja | Klawisz | Co robi |
 |---|---|---|
 | **Biblioteka frezów…** (Bit library…) | | Gotowe frezy i twoje. Zob. [Biblioteka frezów](Biblioteka-frezow). |
+| **Biblioteka noży…** (Knife library…) | | Gotowe noże wleczone i twoje. Zob. [Narzędzia projektowe](Narzedzia-projektowe#nóż-wleczony). |
 | **Widok 3D zadania…** (3D view of the job…) | Ctrl+Shift+P | Otwiera kartę **Podgląd**: materiał, cięcia i ruchy w 3D, z animacją. Zob. [Widok 3D i G-code](Widok-3D-i-G-code). |
 | **Pokaż rysunek techniczny…** (Show technical drawing…) | | Element jako rysunek techniczny: widok z przodu, z boku i z góry, z wymiarami i tabliczką. Także przycisk **Rysunek techniczny** podglądu. |
 | **Eksportuj G-code…** (Export G-code…) | Ctrl+E | Pyta o nazwę pliku (`nazwa.nc`) i zapisuje G-code projektu, przez włączone postprocesory. To samo co przycisk **Zapisz G-code**. |
