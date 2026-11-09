@@ -89,6 +89,7 @@ Dalej **Generuj kształt…** (generatory z wtyczek, zob. [Wtyczki](Wtyczki)) i 
 | **Przytnij kształtem…**, **Usuń duplikaty**, **Rozdziel**, **Uprość…** | | Przycinanie linii kształtem, usuwanie podwójnych kształtów, jeden kształt na obrys, mniej punktów. |
 | **Tekst seryjny…**, **Kod kreskowy / QR…**, **Rozmieść kształty (nesting)…**, **Pomiar…** | | Numerowane kopie tekstu, kody jako obrysy, upakowanie kształtów na obszarze, wymiary i odległości. |
 | **Dostosuj obraz…**, **Wektoryzacja obrazu…** | | Zmiana obrazu na stronie; zamiana go na obrysy. |
+| **Obrysuj w stylu…** | | Rysuje zaznaczony obraz na nowo liniami w jednym z 19 stylów. Zobacz [Obrysuj w stylu](Obrys-w-stylu). |
 
 Wszystkie są opisane w [Narzędziach projektowych](Narzedzia-projektowe).
 

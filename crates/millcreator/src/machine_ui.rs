@@ -603,7 +603,8 @@ mod tests {
         let from = all.iter().position(|l| l.starts_with("G1 X")).unwrap() + 2;
         a.start_job_from(from);
         let first_lines = |a: &App| a.machine.console.iter().filter(|l| l.dir == Dir::Tx && !l.poll).map(|l| l.text.clone()).collect::<Vec<_>>();
-        assert!(until(&mut a, 5.0, |a| first_lines(a).len() > 6));
+        // Wait for the lines looked at below, not for a count: on a slow machine the seventh line can come before the move.
+        assert!(until(&mut a, 5.0, |a| { let s = first_lines(a); s.iter().any(|l| l.starts_with("G0 X")) && s.iter().any(|l| l.starts_with("G0 Z")) }), "{:?}", first_lines(&a));
         let sent = first_lines(&a);
         assert!(sent.iter().any(|l| l.starts_with("G0 X")), "{sent:?}");
         assert!(sent.iter().any(|l| l.starts_with("G0 Z")), "{sent:?}");
