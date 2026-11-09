@@ -39,6 +39,8 @@ The wiki has the full documentation in English and Polish: <https://github.com/m
   pocket, face, drill, bore, chamfer, dogbone slot, V-carve with inlays, pictures and 3D relief), a bit, depth, pass
   depth, step over, feeds, spindle speed, tabs, ramps or a helix, climb or conventional, stock to leave, coolant;
   settings can be kept as presets.
+* **Style trace:** a picture drawn again as lines in one of 19 styles (squiggles, a spiral, stippling, one line,
+  hatching, flow lines, a sketch…) on an engraving layer, with a live preview.
 * **Drag knife:** a layer can be cut with a drag knife in a holder (vinyl, card, rubber), the spindle still, with the
   offset of the tip made good and the holes first; a knife library with ready-made blades and your own.
 * **Bit library:** ready-made bits and your own (kept for every device), seven kinds (flat, ball nose, bull nose,

@@ -15,6 +15,7 @@ Open-source software to design and prepare CNC milling jobs, written in Rust. Dr
 | Install the program | [Installation](Installation) |
 | Prepare my first job | [Quick Start](Quick-Start) |
 | Draw, edit and import shapes | [Design Tools](Design-Tools) |
+| Engrave a picture as lines in a style (stippling, squiggles, hatching…) | [Style Trace](Style-Trace) |
 | Cut with a drag knife, the knife library | [Drag Knife](Drag-Knife) |
 | Arrange the work area: panes, tabs, windows | [Panes and Tabs](Panes-and-Tabs) |
 | Add my machine and a camera | [Devices and Cameras](Devices-and-Cameras) |

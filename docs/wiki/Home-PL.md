@@ -15,6 +15,7 @@ Otwartoźródłowy program do projektowania i przygotowania zadań dla frezarek 
 | Zainstalować program | [Instalacja](Instalacja) |
 | Przygotować pierwsze zadanie | [Szybki start](Szybki-start) |
 | Rysować, edytować i importować kształty | [Narzędzia projektowe](Narzedzia-projektowe) |
+| Wygrawerować obraz liniami w stylu (puentylizm, wężyki, kreskowanie…) | [Obrysuj w stylu](Obrys-w-stylu) |
 | Ciąć nożem wleczonym, biblioteka noży | [Nóż wleczony](Noz-wleczony) |
 | Ułożyć obszar roboczy: panele, karty, okna | [Panele i karty](Panele-i-karty) |
 | Dodać maszynę i kamerę | [Urządzenia i kamery](Urzadzenia-i-kamery) |

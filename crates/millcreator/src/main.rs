@@ -1496,6 +1496,23 @@ impl EditorHost for App {
     fn layer_color(&self, layer: usize) -> egui::Color32 {
         self.layers.get(layer).map_or(egui::Color32::from_rgb(0x20, 0x20, 0x30), |l| l.color32())
     }
+    fn layer_count(&self) -> usize {
+        self.layers.len()
+    }
+    fn layer_name(&self, layer: usize) -> String {
+        self.layers.get(layer).map_or_else(|| format!("Layer {}", layer + 1), |l| l.name.clone())
+    }
+    /// The lines of a style trace are engraved: an empty layer that follows the line (Engrave), else any empty one.
+    fn line_layer(&self, picture_layer: usize) -> usize {
+        let empty = |l: usize| l != picture_layer && !self.scene.shapes.iter().any(|s| s.layer == l);
+        let n = self.layers.len();
+        (0..n).find(|&l| empty(l) && self.layers[l].op == layers::Operation::OnPath).or_else(|| (0..n).find(|&l| empty(l))).unwrap_or(picture_layer)
+    }
+    fn make_line_layer(&mut self, layer: usize) {
+        if let Some(l) = self.layers.get_mut(layer) {
+            l.op = layers::Operation::OnPath;
+        }
+    }
     fn paint_over_shapes(&mut self, v: &base_ui::editor::CanvasView) {
         self.paint_toolpaths(v);
         self.paint_hand_tabs(v);
@@ -2069,6 +2086,32 @@ mod tests {
             b.extend(line);
         }
         std::fs::write(path, b).unwrap();
+    }
+
+    /// A style trace of a picture goes on the first empty layer that follows the line (Engrave), not on "Cut out", and is milled.
+    #[test]
+    fn a_style_trace_goes_on_the_engrave_layer_and_is_milled() {
+        use base_ui::editor::{EditorStyleTrace, StyleDlg};
+        let mut a = app();
+        let gray = (0..40 * 30).map(|i| if (i % 40) < 20 { 30 } else { 255 }).collect();
+        let im = base_core::image::ImageData { name: "half.png".into(), px_w: 40, px_h: 30, gray, w: 40.0, h: 30.0, invert: false };
+        let id = a.scene.add(0, base_core::scene::Kind::Image(im.clone()), base_core::geom::Xf::translate(10.0, 10.0));
+        a.ed.sel = vec![id];
+        a.open_style_trace();
+        let mut d: StyleDlg = a.ed.style_dlg.take().expect("the window opened");
+        assert_eq!(a.layers[d.layer].op, layers::Operation::OnPath, "layer {} ({})", d.layer, a.layers[d.layer].name);
+        d.params = base_core::style_trace::Style::Halftone.defaults();
+        let out = base_core::style_trace::style_trace(&im, &d.params, &|| false);
+        a.apply_style_trace(&d, &out);
+        assert_eq!(a.scene.shapes.last().unwrap().layer, d.layer);
+        let prog = toolpath::generate(&a.scene, &a.layers, &a.tools, &a.device, &a.stock);
+        assert!(!prog.moves.is_empty(), "the circles are engraved");
+        // Put on a layer the drawing already uses (the part on "Cut out"), the lines leave the operation of that layer alone.
+        a.scene.add(0, base_core::scene::Kind::Rect { w: 20.0, h: 20.0 }, base_core::geom::Xf::translate(100.0, 10.0));
+        let mut d2: StyleDlg = { a.ed.sel = vec![id]; a.open_style_trace(); a.ed.style_dlg.take().unwrap() };
+        d2.layer = 0;
+        a.apply_style_trace(&d2, &out);
+        assert_eq!(a.layers[0].op, layers::Operation::ProfileOutside, "the cut-out layer is still cut out");
     }
 
     #[test]

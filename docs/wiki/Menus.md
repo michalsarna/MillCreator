@@ -89,6 +89,7 @@ Then **Generate shape…** (the generators of plugins, see [Plugins](Plugins)) a
 | **Trim by shape…**, **Remove duplicates**, **Break apart**, **Simplify…** | | Cut lines by a shape, delete double shapes, one shape per outline, fewer points. |
 | **Serial text…**, **Barcode / QR code…**, **Nest shapes…**, **Measure…** | | Numbered copies of a text, codes as outlines, packing the shapes on an area, sizes and distances. |
 | **Adjust image…**, **Trace image…** | | Change a picture on the page; turn it into outlines. |
+| **Style trace…** | | Draws the selected picture again as lines in one of 19 styles. See [Style Trace](Style-Trace). |
 
 All of them are explained in [Design Tools](Design-Tools).
 
