@@ -2,6 +2,12 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.8.4
+
+* **Style trace:** **Arrange → Style trace…** (also in the right-click menu of a picture and in **Properties**) draws a picture again as lines in one of 19 styles: squiggle, sawtooth, springs, spiral, waves, halftone circles, etching, squares, needles, Truchet tiles, contour lines, Hilbert curve, stippling, one continuous line (TSP), triangles and cells, line art, flow lines, sketch and scribble. A live preview, the settings of each style, tone (black and white point, gamma), a random pattern for the random styles, and the layer the lines go on. The lines go on the first empty layer that follows the line (by default **Engrave**) and are engraved at its depth. A layer that already holds shapes keeps how it works.
+* **Help:** a new wiki page **Style Trace** (**Obrysuj w stylu**).
+* A test of **Start from line** no longer fails now and then on a slow computer.
+
 ## v0.8.3
 
 * **Drag knife:** a new operation of a layer cuts along its lines with a drag knife in a holder (vinyl, card, rubber, leather, thin sheets), the spindle still, in one pass at the depth of the layer. The offset of the tip is made good at every corner (the blade turns round a sharp corner on the spot), the holes are cut before the parts round them and a closed line is cut on past its start, so it closes. The job stops before the layer with **Put in the drag knife**.
