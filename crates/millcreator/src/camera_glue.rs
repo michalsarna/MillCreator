@@ -191,6 +191,8 @@ impl App {
         ui.add_space(4.0);
         ui.separator();
         self.cam_rec.set_project(self.path.as_deref());
+        // A mill lifts its tool: a picture after every lift can be asked for.
+        self.cam_rec.lift_mode = true;
         self.cam_rec.set_source(self.device.cameras.get(self.device.active_camera));
         self.cam_rec.controls(ui);
         if !ui.input(|i| i.pointer.any_down()) {

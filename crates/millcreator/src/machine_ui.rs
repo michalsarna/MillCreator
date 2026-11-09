@@ -76,10 +76,16 @@ impl App {
                 }
                 Notice::ReconnectDue => self.connect_machine(),
                 Notice::Barrier(b) => self.status = trf("The job is paused: {}", &[&b.message()]),
+                Notice::PhotoStop { line } => {
+                    let m = &mut self.machine;
+                    self.trips.stopped(line, &mut |c| m.photo_cmd(c));
+                }
+                Notice::PhotoReady => self.trips.ready(std::time::Instant::now()),
                 Notice::JobFinished { seconds, issues, checked } => {
                     if checked {
                         self.finish_check(issues);
                     } else {
+                        self.trips.stop();
                         for _ in 0..self.layer_watch.finished() {
                             self.cam_rec.layer_done(std::time::Instant::now());
                         }
@@ -152,6 +158,36 @@ impl App {
         for _ in 0..self.layer_watch.progress(self.machine.progress.0) {
             self.cam_rec.layer_done(std::time::Instant::now());
         }
+        // The photos aside: a picture that is due stops the job at its next lift.
+        let m = &mut self.machine;
+        self.trips.frame(&mut self.cam_rec, std::time::Instant::now(), &mut |c| m.photo_cmd(c));
+    }
+
+    /// How this machine goes aside for a photo: it stops before a rapid move after a lift.
+    pub(crate) fn trip_setup(&self) -> base_ui::photo_trip::TripSetup {
+        let mut park = self.device.control.park.clone();
+        // Only a controller that says when it stands still can stop for a photo.
+        park.enabled &= self.machine.controller().stops_for_photos();
+        base_ui::photo_trip::TripSetup {
+            spindle_off: !park.keep_spindle,
+            park,
+            kind: base_core::photo_park::StopKind::Lift,
+            safe_z: self.device.safe_z,
+            spin_up: self.device.spindle.spin_up,
+            hpgl_park: false,
+            every_lift: false,
+        }
+    }
+
+    /// The job is handed to the machine, with its photos aside.
+    fn send_job(&mut self, lines: Vec<String>, before: Vec<String>, after: Vec<String>) {
+        // A picture after each layer of the time-lapse of the camera, when it is on.
+        self.layer_watch.start(link::layer_marks(&lines));
+        let setup = self.trip_setup();
+        let trip_lines = if setup.park.enabled { lines.clone() } else { vec![] };
+        self.machine.start_job(lines, before, after, false);
+        let m = &mut self.machine;
+        self.trips.start(&trip_lines, Some(setup), &mut |c| m.photo_cmd(c));
     }
 
     /// The diameter of the first bit in the layers, for probing an edge with a plate.
@@ -304,18 +340,19 @@ impl App {
                 return;
             }
         };
+        // Long straight cuts in shorter lines, when the device asks for it.
+        let lines = base_core::gcode_split::split_long_lines(&lines, &self.device.control.split);
         let Some((before, after)) = self.hook_lines() else { return };
         self.machine.info(trf("Starting job: {} lines, ~{}", &[&lines.len(), &base_ui::widgets::fmt_time(secs)]));
         if self.device.control.check_first && from == 0 {
             // The real job waits for a clean check run.
             self.after_check = Some(AfterCheck { lines: lines.clone(), before, after });
+            self.trips.stop();
             self.machine.start_job(lines, vec![], vec![], true);
             self.status = tr("Checking the program first…").to_string();
             return;
         }
-        // A picture after each layer of the time-lapse of the camera, when it is on.
-        self.layer_watch.start(link::layer_marks(&lines));
-        self.machine.start_job(lines, before, after, false);
+        self.send_job(lines, before, after);
         self.status = tr("The job is running.").to_string();
     }
 
@@ -327,6 +364,7 @@ impl App {
         }
         let Some((lines, _)) = self.job_lines() else { return };
         self.after_check = None;
+        self.trips.stop();
         self.machine.start_job(lines, vec![], vec![], true);
         self.status = tr("Checking the program…").to_string();
     }
@@ -337,8 +375,7 @@ impl App {
         if issues == 0 {
             match pending {
                 Some(job) => {
-                    self.layer_watch.start(link::layer_marks(&job.lines));
-                    self.machine.start_job(job.lines, job.before, job.after, false);
+                    self.send_job(job.lines, job.before, job.after);
                     self.status = tr("The check found nothing. The job is running.").to_string();
                 }
                 None => self.status = tr("The check found nothing wrong.").to_string(),
@@ -352,6 +389,7 @@ impl App {
     pub(crate) fn abort_job(&mut self) {
         self.after_check = None;
         self.layer_watch.stop();
+        self.trips.stop();
         self.machine.stop_job();
     }
 
@@ -577,6 +615,39 @@ mod tests {
         }));
         assert_eq!(a.device.control.stats.jobs, 1);
         assert_eq!(a.devices[0].control.stats.jobs, 1, "kept with the device in the list");
+    }
+
+    #[test]
+    fn a_time_lapse_after_each_layer_waits_for_a_lift_takes_its_pictures_aside_and_long_cuts_are_split() {
+        use base_ui::camera_rec::{LapseMode, RecSettings};
+        let dir = std::env::temp_dir().join(format!("mill-park-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let mut a = connected_app();
+        a.device.control.park = base_core::photo_park::ParkSettings { enabled: true, x: 1.0, y: 2.0, settle: 0.0, keep_spindle: false };
+        a.device.control.split = base_core::gcode_split::SplitSettings { enabled: true, parts: 2, min_part: 1.0 };
+        a.cam_rec = base_ui::camera_rec::Recorder::new(RecSettings { dir: Some(dir.clone()), interval: 5.0, mode: LapseMode::PerLayer, format: Default::default() });
+        a.cam_rec.feed(Instant::now(), 4, 2, vec![90; 24]);
+        a.cam_rec.start_lapse(Instant::now());
+        let all = a.job_lines().unwrap().0;
+        a.start_job();
+        assert!(until(&mut a, 15.0, |a| {
+            // The camera keeps sending pictures; the bit changes are confirmed.
+            a.cam_rec.feed(Instant::now(), 4, 2, vec![90; 24]);
+            if a.machine.barrier.is_some() {
+                a.machine.continue_job();
+            }
+            !a.machine.job_active()
+        }), "the job ends: {:?}", a.machine.progress);
+        let sent: Vec<&str> = a.machine.console.iter().filter(|l| l.dir == Dir::Tx && !l.poll).map(|l| l.text.as_str()).collect();
+        let trips = sent.iter().filter(|l| **l == "G53 G0 X1 Y2").count();
+        assert!(trips >= 1, "the head went aside: {sent:?}");
+        // A picture for every trip, and the last layer's after the job, in place.
+        assert_eq!(a.cam_rec.lapse_shots(), Some(trips as u32 + 1), "one picture a trip");
+        // More lines than the program: the long cuts went in parts.
+        assert!(a.machine.progress.1 > all.len(), "{} lines for a program of {}", a.machine.progress.1, all.len());
+        assert!(a.trips.trip.is_none(), "the trip ends with the job");
+        std::fs::remove_dir_all(dir).ok();
     }
 
     #[test]
