@@ -57,4 +57,4 @@ It runs on another machine? Tell me in an [issue](https://github.com/michalsarna
 
 > ⚠️ **Safety:** milling machines are dangerous. Test a new job in the air above the material, wear eye and ear protection, clamp the work, never leave a running machine unattended. See [Safety and Limitations](Safety-and-Limitations).
 
-Latest release: **v0.8.4** · [Releases](https://github.com/michalsarna/MillCreator/releases) · [Issues](https://github.com/michalsarna/MillCreator/issues) · Licence: [MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) or [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE), at your option
+Latest release: **v0.8.5** · [Releases](https://github.com/michalsarna/MillCreator/releases) · [Issues](https://github.com/michalsarna/MillCreator/issues) · Licence: [MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) or [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE), at your option
