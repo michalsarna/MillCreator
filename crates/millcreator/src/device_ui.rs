@@ -686,7 +686,7 @@ impl App {
     /// being recorded: nobody takes its frames then. It starts again when the picture is drawn. Returns whether the last frame drew it.
     pub(crate) fn drop_idle_camera(&mut self) -> bool {
         let drawn = std::mem::take(&mut self.cam_drawn);
-        if !drawn && !self.cam_rec.active() {
+        if !drawn && !self.rigs.active(self.device.active_camera) {
             self.cam = None;
         }
         drawn
@@ -708,11 +708,10 @@ impl App {
             got = feed.pump(ctx, &cam);
             if got {
                 if let Some((w, h, rgb)) = feed.last.clone() {
-                    self.cam_rec.feed(now, w as u32, h as u32, rgb);
+                    self.rigs.feed(self.device.active_camera, now, w as u32, h as u32, rgb);
                 }
             }
         }
-        self.cam_rec.tick(now);
         got
     }
 
@@ -866,21 +865,22 @@ mod tests {
         let mut a = App::build(&ctx, None, false);
         a.device.cameras = vec![CameraSource::url("c", "http://127.0.0.1:9/none.mjpg", 0)];
         a.device.active_camera = 0;
+        a.rigs.sync(&a.device.cameras, None);
         let mut out = ctx.run_ui(Default::default(), |ui| a.camera_tab(ui));
         out.textures_delta.clear();
         // A picture has come: a time-lapse is started.
         let now = std::time::Instant::now();
-        a.cam_rec.feed(now, 4, 2, vec![50; 24]);
-        a.cam_rec.settings.dir = Some(std::env::temp_dir().join(format!("mill-keep-{}", std::process::id())));
-        a.cam_rec.start_lapse(now);
-        assert!(a.cam_rec.active());
+        a.rigs.rec(0).unwrap().feed(now, 4, 2, vec![50; 24]);
+        a.rigs.rec(0).unwrap().settings.dir = Some(std::env::temp_dir().join(format!("mill-keep-{}", std::process::id())));
+        a.rigs.rec(0).unwrap().start_lapse(now);
+        assert!(a.rigs.rec(0).unwrap().active());
         assert!(a.drop_idle_camera(), "drawn in the last frame");
         assert!(!a.drop_idle_camera(), "not drawn since");
         assert!(a.cam.is_some(), "but it is recorded: it is not stopped");
-        a.cam_rec.stop_lapse();
+        a.rigs.rec(0).unwrap().stop_lapse();
         assert!(!a.drop_idle_camera());
         assert!(a.cam.is_none(), "nothing is recorded now: stopped");
-        let _ = std::fs::remove_dir_all(a.cam_rec.settings.dir.clone().unwrap());
+        let _ = std::fs::remove_dir_all(a.rigs.rec(0).unwrap().settings.dir.clone().unwrap());
     }
 
     #[test]

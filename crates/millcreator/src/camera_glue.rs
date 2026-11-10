@@ -116,6 +116,23 @@ impl App {
         }
     }
 
+    /// The Recording tab: a panel for each camera, the photos aside and the long lines.
+    pub(crate) fn recording_tab(&mut self, ui: &mut egui::Ui) {
+        let mpos = self.machine.connected.then(|| base_ui::control_ui::ControlTarget::mpos(&self.machine));
+        let view = self.device.camera_view.clone();
+        let d = &mut self.device;
+        let out = base_ui::recording_ui::tab(ui, &mut self.rigs, &mut d.cameras, &view, &mut d.control.park, &mut d.control.split, &base_ui::recording_ui::MachineCtx { mpos, spindle: true });
+        if out.cameras {
+            self.keep_camera_view();
+        }
+        if let Some((i, m)) = out.mode {
+            self.set_camera_mode(i, m);
+        }
+        if out.machine {
+            self.keep_control();
+        }
+    }
+
     /// Is the view shown as a tab of the side panel?
     pub(crate) fn camera_side_tab(&self) -> bool {
         self.show_camera && self.stream_mode == StreamMode::Tab && self.device.camera().is_some()
@@ -187,14 +204,12 @@ impl App {
             ui.label(RichText::new(trf("Stream error: {}", &[&error])).color(Color32::from_rgb(0xd0, 0x50, 0x20)));
         }
         base_ui::editor::EditorBackground::overlay_toggle_button(self, ui);
-        // Photos, video and time-lapse, with their folder.
+        // A photo, a video and the time-lapse of this camera; their settings are on the Recording tab.
         ui.add_space(4.0);
         ui.separator();
-        self.cam_rec.set_project(self.path.as_deref());
-        // A mill lifts its tool: a picture after every lift can be asked for.
-        self.cam_rec.lift_mode = true;
-        self.cam_rec.set_source(self.device.cameras.get(self.device.active_camera));
-        self.cam_rec.controls(ui);
+        if let Some(r) = self.rigs.rec(self.device.active_camera) {
+            r.quick(ui);
+        }
         if !ui.input(|i| i.pointer.any_down()) {
             self.save_camera_view();
         }

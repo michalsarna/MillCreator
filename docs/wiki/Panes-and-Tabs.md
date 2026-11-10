@@ -84,7 +84,7 @@ The **Preview** and the **G-code text** can go to a separate window, for example
 
 ## The right panel
 
-The panel at the right is separate from the panes. It has its own tabs: **Properties**, **Layers**, **Material**, **Device**, **Control**, **Console**, **Clipart** and **Description**, and the camera or a plugin when they ask for one (these two stay at the end of the row).
+The panel at the right is separate from the panes. It has its own tabs: **Properties**, **Layers**, **Material**, **Device**, **Control**, **Console**, **Clipart**, **Description** and **Recording** (a panel for each camera, the photos aside, the long lines), and the camera or a plugin when they ask for one (these two stay at the end of the row).
 
 * **Drag a tab** in its row to change the order. The order is remembered.
 * **Drag the left edge** of the panel to change its width.

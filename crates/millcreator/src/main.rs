@@ -215,6 +215,8 @@ enum SideTab {
     Console,
     Clipart,
     Description,
+    /// The recording of every camera, the photos aside and the long lines.
+    Recording,
     Camera,
     /// The tab of a plugin with settings (which one: `App::plugin_tab`).
     Plugin,
@@ -222,7 +224,7 @@ enum SideTab {
 
 impl SideTab {
     /// The tabs that are always there, in their first order (the camera comes last and only when the device has one).
-    const IDS: [&'static str; 8] = ["properties", "layers", "material", "device", "control", "console", "clipart", "description"];
+    const IDS: [&'static str; 9] = ["properties", "layers", "material", "device", "control", "console", "clipart", "description", "recording"];
 
     fn id(self) -> &'static str {
         match self {
@@ -234,13 +236,14 @@ impl SideTab {
             SideTab::Console => "console",
             SideTab::Clipart => "clipart",
             SideTab::Description => "description",
+            SideTab::Recording => "recording",
             SideTab::Camera => "camera",
             SideTab::Plugin => "plugin",
         }
     }
 
     fn from_id(id: &str) -> Option<SideTab> {
-        [SideTab::Properties, SideTab::Layers, SideTab::Material, SideTab::Device, SideTab::Control, SideTab::Console, SideTab::Clipart, SideTab::Description, SideTab::Camera].into_iter().find(|t| t.id() == id)
+        [SideTab::Properties, SideTab::Layers, SideTab::Material, SideTab::Device, SideTab::Control, SideTab::Console, SideTab::Clipart, SideTab::Description, SideTab::Recording, SideTab::Camera].into_iter().find(|t| t.id() == id)
     }
 
     fn label(self) -> String {
@@ -253,6 +256,7 @@ impl SideTab {
             SideTab::Console => tr("Console").to_string(),
             SideTab::Clipart => clipart_ui::tab_label().to_string(),
             SideTab::Description => base_ui::description_ui::tab_label().to_string(),
+            SideTab::Recording => tr("Recording").to_string(),
             SideTab::Camera => tr("Camera").to_string(),
             SideTab::Plugin => String::new(),
         }
@@ -371,7 +375,8 @@ struct App {
     /// Was the camera picture drawn in the last frame? A stream nobody looks at is stopped (its frames would pile up).
     cam_drawn: bool,
     /// Photos, video and time-lapse of the camera (the folder and the interval are remembered).
-    cam_rec: base_ui::camera_rec::Recorder,
+    /// The recorder of every camera of the device.
+    rigs: base_ui::camera_rec::Rigs,
     /// Where the layers of the job being sent end, for a picture after each layer.
     layer_watch: base_ui::camera_rec::LayerWatch,
     /// The photos of the time-lapse taken with the head moved aside, for the job that runs.
@@ -542,7 +547,7 @@ impl App {
             selection_only: false,
             cam: None,
             cam_drawn: false,
-            cam_rec: base_ui::camera_rec::Recorder::default(),
+            rigs: base_ui::camera_rec::Rigs::default(),
             layer_watch: base_ui::camera_rec::LayerWatch::default(),
             trips: base_ui::photo_trip::Trips::default(),
             cam_fit: Default::default(),
@@ -1148,10 +1153,6 @@ impl App {
                     if let Some(s) = control_ui::panel(ui, &mut self.machine, &mut self.control_ui, &c) {
                         self.status = s;
                     }
-                    let mpos = self.machine.connected.then(|| control_ui::ControlTarget::mpos(&self.machine));
-                    if control_ui::park_and_split_ui(ui, &mut self.device.control.park, &mut self.device.control.split, mpos, true) {
-                        self.keep_control();
-                    }
                 });
             }
             SideTab::Console => {
@@ -1170,6 +1171,9 @@ impl App {
                 egui::ScrollArea::vertical().id_salt("tab_plugin").auto_shrink([false, false]).show(ui, |ui| {
                     self.plugins.side_tab_ui(ui, id);
                 });
+            }
+            SideTab::Recording => {
+                egui::ScrollArea::vertical().id_salt("tab_recording").auto_shrink([false, false]).show(ui, |ui| self.recording_tab(ui));
             }
             SideTab::Camera => {
                 egui::ScrollArea::vertical().id_salt("tab_camera").auto_shrink([false, false]).show(ui, |ui| self.camera_tab(ui));
@@ -1287,7 +1291,15 @@ impl App {
         // Before the editor: a key of the control device is not also a key of the editor.
         self.control_devices_frame(&ctx);
         // A recording goes on when no view shows the camera.
-        if !drawn_last && self.cam_rec.active() {
+        // Every camera records on its own; the one of the view gets its pictures from the view, the others read their own.
+        self.rigs.lift_mode = true;
+        self.rigs.sync(&self.device.cameras, self.path.as_deref());
+        let view = self.device.camera().map(|_| self.device.active_camera);
+        self.rigs.pump(&ctx, &self.device.cameras, view, std::time::Instant::now());
+        if self.rigs.reading() {
+            ctx.request_repaint_after(std::time::Duration::from_millis(100));
+        }
+        if !drawn_last && view.is_some_and(|i| self.rigs.active(i)) {
             self.camera_pump(&ctx);
             ctx.request_repaint_after(std::time::Duration::from_millis(100));
         }
@@ -1963,20 +1975,35 @@ mod tests {
     }
 
     #[test]
+    fn the_recording_tab_is_there_for_an_old_order_of_tabs_and_has_a_panel_for_each_camera() {
+        let tabs = base_ui::side_tabs::SideTabs::new(&SideTab::IDS, "control,properties,layers", false);
+        assert!(tabs.order().contains(&"recording"), "a tab order saved before the tab existed gets it");
+        assert_eq!(SideTab::from_id("recording"), Some(SideTab::Recording));
+        let ctx = egui::Context::default();
+        let mut a = App::build(&ctx, None, false);
+        a.device.cameras = vec![base_core::camimg::CameraSource::url("Top camera", "http://127.0.0.1:1/a", 0), base_core::camimg::CameraSource::url("Side camera", "http://127.0.0.1:1/b", 0)];
+        a.rigs.sync(&a.device.cameras, None);
+        assert_eq!(a.rigs.rigs.len(), 2, "a recorder for each camera");
+        let mut out = ctx.run_ui(Default::default(), |ui| a.recording_tab(ui));
+        out.textures_delta.clear();
+    }
+
+    #[test]
     fn a_time_lapse_after_each_layer_takes_a_picture_when_the_lines_of_the_next_layer_begin() {
         use base_ui::camera_rec::{LapseMode, RecSettings};
         let dir = std::env::temp_dir().join(format!("mill-lapse-{}", std::process::id()));
         let _ = std::fs::remove_dir_all(&dir);
         std::fs::create_dir_all(&dir).unwrap();
         let mut a = app();
-        a.cam_rec = base_ui::camera_rec::Recorder::new(RecSettings { dir: Some(dir.clone()), interval: 5.0, mode: LapseMode::PerLayer, format: Default::default() });
+        a.rigs.sync(&[base_core::camimg::CameraSource::url("t", "http://127.0.0.1:1/x", 0)], None);
+        *a.rigs.rec(0).unwrap() = base_ui::camera_rec::Recorder::new(RecSettings { dir: Some(dir.clone()), interval: 5.0, mode: LapseMode::PerLayer, format: Default::default() });
         let now = std::time::Instant::now();
-        a.cam_rec.feed(now, 4, 2, vec![90; 24]);
-        a.cam_rec.start_lapse(now);
+        a.rigs.rec(0).unwrap().feed(now, 4, 2, vec![90; 24]);
+        a.rigs.rec(0).unwrap().start_lapse(now);
         // A job of three layers: the marks are where the second and the third begin.
         let lines: Vec<String> = ["(MillCreator: t)", "G21", "(Layer: a)", "G1 X1", "G1 X2", "(Layer: b)", "G1 X3", "(Layer: c)", "G1 X4", "M30"].iter().map(|s| s.to_string()).collect();
         a.layer_watch.start(base_ui::link::layer_marks(&lines));
-        let shots = |a: &App| a.cam_rec.lapse_shots().unwrap();
+        let shots = |a: &App| a.rigs.get(0).unwrap().lapse_shots().unwrap();
         a.machine.progress = (4, 10);
         a.poll_machine();
         assert_eq!(shots(&a), 0, "the first layer is not done");
@@ -1988,7 +2015,7 @@ mod tests {
         assert_eq!(shots(&a), 2);
         // The end of the job is the end of the last layer; stopping a job does nothing more.
         for _ in 0..a.layer_watch.finished() {
-            a.cam_rec.layer_done(now);
+            a.rigs.rec(0).unwrap().layer_done(now);
         }
         assert_eq!(shots(&a), 3);
         a.abort_job();
