@@ -87,7 +87,7 @@ impl App {
                     } else {
                         self.trips.stop();
                         for _ in 0..self.layer_watch.finished() {
-                            self.cam_rec.layer_done(std::time::Instant::now());
+                            self.rigs.recorders().into_iter().for_each(|r| r.layer_done(std::time::Instant::now()));
                         }
                         self.device.control.stats.job_done(seconds);
                         self.keep_control();
@@ -156,11 +156,11 @@ impl App {
         }
         // The layers of the job that are done by now: a picture each, for the time-lapse of the camera.
         for _ in 0..self.layer_watch.progress(self.machine.progress.0) {
-            self.cam_rec.layer_done(std::time::Instant::now());
+            self.rigs.recorders().into_iter().for_each(|r| r.layer_done(std::time::Instant::now()));
         }
         // The photos aside: a picture that is due stops the job at its next lift.
         let m = &mut self.machine;
-        self.trips.frame(&mut self.cam_rec, std::time::Instant::now(), &mut |c| m.photo_cmd(c));
+        self.trips.frame_all(self.rigs.recorders(), std::time::Instant::now(), &mut |c| m.photo_cmd(c));
     }
 
     /// How this machine goes aside for a photo: it stops before a rapid move after a lift.
@@ -626,14 +626,15 @@ mod tests {
         let mut a = connected_app();
         a.device.control.park = base_core::photo_park::ParkSettings { enabled: true, x: 1.0, y: 2.0, settle: 0.0, keep_spindle: false };
         a.device.control.split = base_core::gcode_split::SplitSettings { enabled: true, parts: 2, min_part: 1.0 };
-        a.cam_rec = base_ui::camera_rec::Recorder::new(RecSettings { dir: Some(dir.clone()), interval: 5.0, mode: LapseMode::PerLayer, format: Default::default() });
-        a.cam_rec.feed(Instant::now(), 4, 2, vec![90; 24]);
-        a.cam_rec.start_lapse(Instant::now());
+        a.rigs.sync(&[base_core::camimg::CameraSource::url("t", "http://127.0.0.1:1/x", 0)], None);
+        *a.rigs.rec(0).unwrap() = base_ui::camera_rec::Recorder::new(RecSettings { dir: Some(dir.clone()), interval: 5.0, mode: LapseMode::PerLayer, format: Default::default() });
+        a.rigs.rec(0).unwrap().feed(Instant::now(), 4, 2, vec![90; 24]);
+        a.rigs.rec(0).unwrap().start_lapse(Instant::now());
         let all = a.job_lines().unwrap().0;
         a.start_job();
         assert!(until(&mut a, 15.0, |a| {
             // The camera keeps sending pictures; the bit changes are confirmed.
-            a.cam_rec.feed(Instant::now(), 4, 2, vec![90; 24]);
+            a.rigs.rec(0).unwrap().feed(Instant::now(), 4, 2, vec![90; 24]);
             if a.machine.barrier.is_some() {
                 a.machine.continue_job();
             }
@@ -643,7 +644,7 @@ mod tests {
         let trips = sent.iter().filter(|l| **l == "G53 G0 X1 Y2").count();
         assert!(trips >= 1, "the head went aside: {sent:?}");
         // A picture for every trip, and the last layer's after the job, in place.
-        assert_eq!(a.cam_rec.lapse_shots(), Some(trips as u32 + 1), "one picture a trip");
+        assert_eq!(a.rigs.rec(0).unwrap().lapse_shots(), Some(trips as u32 + 1), "one picture a trip");
         // More lines than the program: the long cuts went in parts.
         assert!(a.machine.progress.1 > all.len(), "{} lines for a program of {}", a.machine.progress.1, all.len());
         assert!(a.trips.trip.is_none(), "the trip ends with the job");

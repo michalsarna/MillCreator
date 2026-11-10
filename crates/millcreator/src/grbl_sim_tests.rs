@@ -112,8 +112,9 @@ fn grbl_sim_one_element_at_a_time_runs_with_the_same_bit() {
     }
     let job = job_with(&scene, JobOptions { one_by_one: true });
     assert!(!job.iter().any(|l| l.starts_with("M0")), "the same bit all through: no stop for a bit change");
-    s.run_job(job, 240.0);
-    s.wait_idle_at(0.0, 0.0, 60.0);
+    s.run_job(job.clone(), 240.0);
+    // A long job: the simulator may stop a few tenths of a millimetre away from zero (see `wait_idle_and_ends_at_zero`).
+    wait_idle_and_ends_at_zero(&mut s, &job, 60.0);
     assert!(s.errors().is_empty(), "GRBL rejected lines: {:?}", s.errors_described());
 }
 
