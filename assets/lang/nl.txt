@@ -535,3 +535,5 @@
 534|Een ander nummer geeft andere streken; hetzelfde nummer dezelfde
 535|Hoek van de rijen
 536|{}: open lijnen worden weggelaten bij een textuur
+537|Schetssnijwerk
+538|De afbeelding wordt opnieuw getekend als lijnen in een stijl (zoals Stijl overtrekken doet), en elke lijn wordt met een V-frees dieper, en dus breder, gesneden waar de afbeelding donkerder is, tot de diepte van de laag: het lijkt een potloodschets. De zijstap van de frees is de afstand van de lijnen.

@@ -535,3 +535,5 @@
 534|Un altre número dona altres traços; el mateix número, els mateixos traços
 535|Angle de les files
 536|{}: les línies obertes s'ometen en una textura
+537|Talla d'esbós
+538|La imatge es torna a dibuixar com a línies en un estil (com fa el traçat d'estil), i cada línia es talla amb una fresa en V més profunda, i per tant més ampla, on la imatge és més fosca, fins a la profunditat de la capa: sembla un esbós a llapis. El pas de la fresa és la distància entre línies.

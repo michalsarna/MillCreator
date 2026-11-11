@@ -216,6 +216,9 @@ const MAX_MOVES: usize = 3_000_000;
 /// Returns false when the program got too long and the rest was left out.
 fn engrave_picture(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shape, im: &ImageData, area_y: f64, depth: f64, rest: Option<&Tool>) -> bool {
     let step = (tool.dims.diameter * layer.step_over_pct / 100.0).max(0.05);
+    if layer.picture == PictureMethod::Sketch {
+        return sketch_passes(b, layer, shape, im, area_y, depth, step);
+    }
     if layer.picture == PictureMethod::Relief {
         return relief_passes(b, layer, tool, shape, im, area_y, depth, step, rest);
     }
@@ -270,7 +273,7 @@ fn engrave_picture(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shap
                     cut_any = true;
                 }
             }
-            PictureMethod::Relief => {}
+            PictureMethod::Relief | PictureMethod::Sketch => {}
             PictureMethod::Depth => {
                 for &c in &cols {
                     let level = g.at(c, r) as f64;
@@ -308,6 +311,55 @@ fn engrave_picture(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shap
 
 /// A picture as a relief: passes down to the full depth (the last one is the relief itself), rows `step` apart, the bit kept out
 /// of the relief everywhere under its body. Returns false when the program got too long.
+/// Sketch carving: the lines of a style trace of the picture (the spacing the step over), each carved along at a depth that follows
+/// the darkness of the picture under it (a V-bit: deeper is wider); where the picture is nearly white the bit lifts.
+fn sketch_passes(b: &mut Builder, layer: &MillLayer, shape: &Shape, im: &ImageData, area_y: f64, depth: f64, step: f64) -> bool {
+    use base_core::style_trace::{style_trace, StyleParams};
+    let params = StyleParams { spacing: step.max(0.2), ..StyleParams::default().with_style(layer.sketch_style) };
+    let out = style_trace(im, &params, &|| false);
+    for line in out.lines {
+        // Every 0.3 mm along the line, the darkness under it.
+        let mut pts: Vec<(Pt, f64)> = vec![];
+        for w in line.pts.windows(2) {
+            let n = ((w[0].dist(w[1]) / 0.3).ceil() as usize).max(1);
+            for k in 0..n {
+                let t = k as f64 / n as f64;
+                let p = Pt::new(w[0].x + (w[1].x - w[0].x) * t, w[0].y + (w[1].y - w[0].y) * t);
+                pts.push((p, im.darkness_at(p.x, p.y) as f64));
+            }
+        }
+        if let Some(last) = line.pts.last() {
+            pts.push((*last, im.darkness_at(last.x, last.y) as f64));
+        }
+        let mut down = false;
+        for (p, dark) in pts {
+            let q = shape.xf.apply(p);
+            let (x, y) = (q.x, area_y - q.y);
+            let z = -depth * dark.clamp(0.0, 1.0);
+            if dark < 0.05 {
+                if down {
+                    b.retract();
+                    down = false;
+                }
+                continue;
+            }
+            if down {
+                b.cut_to(x, y, z);
+            } else {
+                b.dive(x, y, z);
+                down = true;
+            }
+        }
+        if down {
+            b.retract();
+        }
+        if b.moves.len() > MAX_MOVES {
+            return false;
+        }
+    }
+    !out.truncated
+}
+
 #[allow(clippy::too_many_arguments)]
 fn relief_passes(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shape, im: &ImageData, area_y: f64, depth: f64, step: f64, rest: Option<&Tool>) -> bool {
     let Some(map) = crate::relief::HeightMap::of(shape, im, step, layer.scan_angle, depth) else { return true };
@@ -2826,6 +2878,29 @@ mod tests {
         // The flat dip (x 32.5…59.4 of the page) is left alone away from its edges (and from the top and the bottom of the picture).
         let in_middle = |p: &Program| p.moves.iter().filter(|m| m.kind == MoveKind::Cut && m.layer == 4 && m.from[0].min(m.to[0]) < 52.0 && m.from[0].max(m.to[0]) > 40.0 && (m.to[1] - (dev.area.y - 40.0)).abs() < 8.0 && (m.to[2] + 0.5).abs() < 0.01).count();
         assert!(in_middle(&full) > 0 && in_middle(&rest) == 0, "the dip is not cut again: {} {}", in_middle(&full), in_middle(&rest));
+    }
+
+    #[test]
+    fn a_sketch_carving_cuts_lines_deeper_where_the_picture_is_darker() {
+        let (lib, dev, stock, _) = setup();
+        let mut g = Scene::default();
+        // Black on the left to white on the right, 40 x 20 mm at (20, 20).
+        picture(&mut g, 3, 20.0, 20.0, 40.0, 20.0, true);
+        let mut layers = engraving(PictureMethod::Sketch);
+        layers[3].tool = Some("std-v-60".into());
+        layers[3].depth = 1.0;
+        layers[3].step_over_pct = 50.0;
+        let prog = generate(&g, &layers, &lib, &dev, &stock);
+        let cuts: Vec<&Move> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).collect();
+        assert!(cuts.len() > 20, "{} cuts", cuts.len());
+        assert!(cuts.iter().all(|m| m.to[2] >= -1.0 - 1e-9 && m.to[2] <= 0.0));
+        let mean = |lo: f64, hi: f64| { let z: Vec<f64> = cuts.iter().filter(|m| m.to[0] >= lo && m.to[0] < hi).map(|m| m.to[2]).collect(); z.iter().sum::<f64>() / z.len().max(1) as f64 };
+        assert!(mean(20.0, 30.0) < mean(45.0, 55.0) - 0.2, "darker is deeper: {} vs {}", mean(20.0, 30.0), mean(45.0, 55.0));
+        // Another style gives other lines.
+        layers[3].sketch_style = base_core::style_trace::Style::Contours;
+        let other = generate(&g, &layers, &lib, &dev, &stock);
+        assert_ne!(other.moves.len(), prog.moves.len());
+        assert!(!serde_json::to_string(&layers[0]).unwrap().contains("sketch_style"));
     }
 
     fn two_layer_job(lib: &Library) -> (Scene, Vec<MillLayer>) {

@@ -535,3 +535,5 @@
 534|Jiné číslo dá jiné tahy; stejné číslo stejné tahy
 535|Úhel řad
 536|{}: otevřené čáry se do textury nezahrnují
+537|Řezba skicy
+538|Obrázek se znovu nakreslí jako čáry ve stylu (jako Obrys ve stylu) a každá čára se vyřeže V frézou hlouběji, a tedy šířeji, kde je obrázek tmavší, až do hloubky vrstvy: vypadá jako skica tužkou. Krok frézy je vzdálenost čar.

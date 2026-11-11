@@ -535,3 +535,5 @@
 534|Iné číslo dá iné ťahy; rovnaké číslo rovnaké ťahy
 535|Uhol radov
 536|{}: otvorené čiary sa do textúry nezahŕňajú
+537|Rezba skice
+538|Obrázok sa znovu nakreslí ako čiary v štýle (ako Obrys v štýle) a každá čiara sa vyreže V frézou hlbšie, a teda širšie, kde je obrázok tmavší, až do hĺbky vrstvy: vyzerá ako skica ceruzkou. Krok frézy je vzdialenosť čiar.

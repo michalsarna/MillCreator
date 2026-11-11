@@ -535,3 +535,5 @@
 534|Annað númer gefur önnur strok; sama númer sömu strok
 535|Horn raðanna
 536|{}: opnar línur eru felldar úr áferð
+537|Skissuskurður
+538|Myndin er teiknuð aftur sem línur í stíl (eins og stílrakning gerir), og hver lína er skorin með V-tönn dýpra, og þar með breiðara, þar sem myndin er dekkri, niður í dýpt lagsins: hún lítur út eins og blýantsskissa. Hliðarfærsla tannarinnar er bilið milli lína.

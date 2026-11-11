@@ -535,3 +535,5 @@
 534|Más szám más vonásokat ad; ugyanaz a szám ugyanazokat
 535|A sorok szöge
 536|{}: a nyitott vonalak kimaradnak a textúrából
+537|Vázlatfaragás
+538|A képet újrarajzolja vonalakként egy stílusban (ahogy a stíluskövetés), és minden vonalat V-maróval mélyebben, így szélesebben vág ott, ahol a kép sötétebb, a réteg mélységéig: ceruzavázlatnak tűnik. A maró fogásköze a vonalak távolsága.

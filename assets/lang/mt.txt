@@ -535,3 +535,5 @@
 534|Numru ieħor jagħti puntati oħra; l-istess numru l-istess puntati
 535|Angolu tar-ringieli
 536|{}: linji miftuħa jitħallew barra mit-tessut
+537|Tinqix ta' skizz
+538|L-istampa terġa' tinġibed bħala linji fi stil (bħalma jagħmel it-traċċar tal-istil), u kull linja tinqata' b'ponta V aktar fonda, u għalhekk aktar wiesgħa, fejn l-istampa hija aktar skura, sal-fond tas-saff: tidher bħal skizz bil-lapes. Il-pass tal-ponta huwa d-distanza bejn il-linji.

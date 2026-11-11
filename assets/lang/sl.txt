@@ -535,3 +535,5 @@
 534|Druga številka da druge poteze; ista številka iste
 535|Kot vrst
 536|{}: odprte črte so izpuščene iz teksture
+537|Rezbarjenje skice
+538|Slika se znova nariše kot črte v slogu (kot sledenje v slogu), vsaka črta pa se z V rezkarjem izreže globlje, torej širše, kjer je slika temnejša, do globine plasti: videti je kot skica s svinčnikom. Korak rezkarja je razmik črt.

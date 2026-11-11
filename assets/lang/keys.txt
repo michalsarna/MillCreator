@@ -535,3 +535,5 @@
 534	Another number gives other strokes; the same number, the same strokes
 535	Angle of the rows
 536	{}: open lines are left out of a texture
+537	Sketch carving
+538	The picture is drawn again as lines in a style (as Style trace does), and every line is carved with a V-bit deeper, and so wider, where the picture is darker, down to the depth of the layer: it looks like a pencil sketch. The step over of the bit is the spacing of the lines.

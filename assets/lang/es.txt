@@ -535,3 +535,5 @@
 534|Otro número da otros trazos; el mismo número, los mismos trazos
 535|Ángulo de las filas
 536|{}: las líneas abiertas se omiten de una textura
+537|Talla de boceto
+538|La imagen se vuelve a dibujar como líneas en un estilo (como hace el trazado de estilo), y cada línea se talla con una fresa en V más profunda, y por tanto más ancha, donde la imagen es más oscura, hasta la profundidad de la capa: parece un boceto a lápiz. El paso de la fresa es la distancia entre líneas.

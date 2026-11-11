@@ -535,3 +535,5 @@
 534|Ett annat nummer ger andra drag; samma nummer samma drag
 535|Radernas vinkel
 536|{}: öppna linjer utelämnas från en textur
+537|Skisskärning
+538|Bilden ritas om som linjer i en stil (som stilspårning gör), och varje linje skärs med en V-fräs djupare, och därmed bredare, där bilden är mörkare, ner till lagrets djup: den ser ut som en blyertsskiss. Fräsens stegning är avståndet mellan linjerna.

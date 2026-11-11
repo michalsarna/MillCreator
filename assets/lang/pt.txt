@@ -535,3 +535,5 @@
 534|Outro número dá outros traços; o mesmo número, os mesmos traços
 535|Ângulo das filas
 536|{}: as linhas abertas são omitidas de uma textura
+537|Entalhe de esboço
+538|A imagem é redesenhada como linhas num estilo (como faz o traçado de estilo), e cada linha é entalhada com uma fresa em V mais funda, e portanto mais larga, onde a imagem é mais escura, até à profundidade da camada: parece um esboço a lápis. O passo da fresa é a distância das linhas.
