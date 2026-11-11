@@ -39,6 +39,7 @@ mod update_glue;
 mod view3d;
 mod workspaces;
 mod texts;
+mod thread;
 mod warn;
 mod tools;
 mod tools_ui;

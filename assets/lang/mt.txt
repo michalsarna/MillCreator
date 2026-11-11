@@ -477,3 +477,18 @@
 476|Sikkina mkaxkra fiż-żammiem taqta' tul il-linji sal-fond tas-saff, bl-ispindle wieqaf: l-offset tagħha jiġi kkumpensat f'kull kantuniera, it-toqob jinqatgħu l-ewwel u linja magħluqa tinqata' lil hinn mill-bidu tagħha.
 477|{}: x'imkien dħul ma daħalx u tħalla barra
 478|{}: x'imkien dħul ma daħalx u ġie ċċekkent
+479|Tħin tal-kamin
+480|Għodda tal-kamin iddur ma' kull ċirku f'elika, pass wieħed kull dawra, sal-fond tas-saff: kamin ġo toqba (skorfina) jew madwar boss (vit). Pinġi ċrieki tad-dijametru ta' barra tal-vit; għal skorfina, l-ewwel itqob jew wessa' t-toqba għal madwar id-dijametru nieqes 1.08 × il-pass.
+481|Kamin
+482|Ġewwa (skorfina)
+483|Barra (vit)
+484|Daqs komuni
+485|Jieħu l-pass ta' vit komuni. Pinġi ċrieki tad-dijametru ta' barra tiegħu (Ø).
+486|Pass
+487|Iż-żieda ta' dawra waħda tal-kamin
+488|Passaġġi radjali
+489|Il-fond tal-kamin jinqata' f'dawn il-passaġġi, kull wieħed ftit iżjed fil-ħajt
+490|Kamin xellugi
+491|{}: forma mhix tonda: il-kamin jinqata' madwar in-nofs tagħha
+492|{}: il-ponta hija kbira wisq għat-toqba tal-kamin: dak il-kamin jitħalla barra
+493|{}: linji miftuħa jitħallew barra minn kamin

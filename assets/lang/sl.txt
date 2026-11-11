@@ -477,3 +477,18 @@
 476|Vlečni nož v držalu reže vzdolž črt do globine plasti, vreteno miruje: njegov zamik se popravi na vsakem vogalu, luknje se režejo najprej, zaprta črta pa se reže naprej mimo svojega začetka.
 477|{}: nekje vstop ni šel in je izpuščen
 478|{}: nekje vstop ni šel in je zmanjšan
+479|Rezkanje navojev
+480|Rezkar za navoje obkroži vsak krog po vijačnici, en korak na obrat, do globine plasti: navoj v luknji (matica) ali okrog čepa (vijak). Narišite kroge zunanjega premera vijaka; za matico najprej izvrtajte ali izstružite luknjo na približno premer minus 1,08 × korak.
+481|Navoj
+482|Notranji (matica)
+483|Zunanji (vijak)
+484|Običajna velikost
+485|Prevzame korak običajnega vijaka. Narišite kroge njegovega zunanjega premera (Ø).
+486|Korak
+487|Dvig enega obrata navoja
+488|Radialni prehodi
+489|Globina navoja se reže v toliko prehodih, vsak malo globlje v steno
+490|Levi navoj
+491|{}: oblika ni okrogla: navoj se rezka okrog njene sredine
+492|{}: rezkar je prevelik za luknjo navoja: ta navoj je izpuščen
+493|{}: odprte črte so izpuščene iz navoja

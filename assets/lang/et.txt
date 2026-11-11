@@ -477,3 +477,18 @@
 476|Hoidikus olev veetav nuga lõikab joonte mööda kihi sügavuseni, spindel seisab: selle nihet korrigeeritakse igas nurgas, augud lõigatakse esimesena ja suletud joon lõigatakse algusest edasi.
 477|{}: kuskil sisenemine ei mahtunud ja jäeti ära
 478|{}: kuskil sisenemine ei mahtunud ja tehti väiksemaks
+479|Keerme freesimine
+480|Keermefrees käib iga ringi ümber kruvijoont mööda, üks samm pöörde kohta, kihi sügavuseni: keere augus (mutter) või tapi ümber (kruvi). Joonista ringid kruvi välisläbimõõduga; mutri jaoks puuri või freesi auk enne umbes läbimõõt miinus 1,08 × samm.
+481|Keere
+482|Sise (mutter)
+483|Välis (kruvi)
+484|Tavaline suurus
+485|Võtab tavalise kruvi sammu. Joonista ringid selle välisläbimõõduga (Ø).
+486|Samm
+487|Keerme ühe pöörde tõus
+488|Radiaalsed läbimised
+489|Keerme sügavus lõigatakse nii mitme korraga, iga kord veidi sügavamale seina
+490|Vasakkeere
+491|{}: kujund pole ümmargune: keere freesitakse selle keskkoha ümber
+492|{}: frees on keerme augu jaoks liiga suur: see keere jäetakse ära
+493|{}: avatud jooned jäetakse keermest välja

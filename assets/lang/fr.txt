@@ -477,3 +477,18 @@
 476|Un couteau à traîne dans le porte-outil coupe le long des lignes jusqu'à la profondeur du calque, broche arrêtée : son décalage est compensé à chaque angle, les trous sont coupés d'abord et une ligne fermée est coupée au-delà de son départ.
 477|{}: une entrée ne tenait pas quelque part et a été omise
 478|{}: une entrée ne tenait pas quelque part et a été réduite
+479|Fraisage de filets
+480|Une fraise à fileter fait le tour de chaque cercle en hélice, un pas par tour, jusqu'à la profondeur du calque : un filetage dans un trou (un écrou) ou autour d'un tenon (une vis). Dessinez des cercles du diamètre extérieur de la vis ; pour un écrou, percez ou alésez d'abord le trou à environ le diamètre moins 1,08 × le pas.
+481|Filetage
+482|Intérieur (écrou)
+483|Extérieur (vis)
+484|Taille courante
+485|Prend le pas d'une vis courante. Dessinez des cercles de son diamètre extérieur (Ø).
+486|Pas
+487|La montée d'un tour du filetage
+488|Passes radiales
+489|La profondeur du filetage est coupée en autant de passes, chacune un peu plus loin dans la paroi
+490|Filetage à gauche
+491|{} : une forme n'est pas ronde : le filetage est fraisé autour de son centre
+492|{} : la fraise est trop grande pour le trou du filetage : ce filetage est omis
+493|{} : les lignes ouvertes sont omises d'un filetage

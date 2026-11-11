@@ -477,3 +477,18 @@
 476|Vlečný nůž v držáku řeže podél čar do hloubky vrstvy při stojícím vřetenu: jeho posun se vyrovná v každém rohu, otvory se řežou nejdřív a uzavřená čára se řeže dál za svůj začátek.
 477|{}: někde se najetí nevešlo a bylo vynecháno
 478|{}: někde se najetí nevešlo a bylo zmenšeno
+479|Frézování závitu
+480|Závitová fréza objede každý kruh po šroubovici, jedno stoupání na otáčku, do hloubky vrstvy: závit v otvoru (matice) nebo kolem čepu (šroub). Nakreslete kruhy vnějšího průměru šroubu; pro matici nejprve vyvrtejte nebo vyfrézujte otvor na zhruba průměr minus 1,08 × stoupání.
+481|Závit
+482|Vnitřní (matice)
+483|Vnější (šroub)
+484|Běžná velikost
+485|Převezme stoupání běžného šroubu. Nakreslete kruhy jeho vnějšího průměru (Ø).
+486|Stoupání
+487|Stoupání jedné otáčky závitu
+488|Radiální průchody
+489|Hloubka závitu se řeže v tolika průchodech, každý o kousek hlouběji do stěny
+490|Levý závit
+491|{}: tvar není kulatý: závit se frézuje kolem jeho středu
+492|{}: fréza je příliš velká pro otvor závitu: ten závit se vynechá
+493|{}: otevřené čáry se do závitu nezahrnují

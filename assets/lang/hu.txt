@@ -477,3 +477,18 @@
 476|A tartóban lévő vonszolt kés a vonalak mentén a réteg mélységéig vág, álló orsóval: eltolását minden saroknál kiegyenlíti, először a lyukakat vágja, a zárt vonalat pedig a kezdetén túl is vágja.
 477|{}: valahol egy ráfutás nem fért el, és kimaradt
 478|{}: valahol egy ráfutás nem fért el, és kisebb lett
+479|Menetmarás
+480|A menetmaró csavarvonalban járja körbe minden kört, fordulatonként egy menetemelkedéssel, a réteg mélységéig: menet egy furatban (anya) vagy egy csap körül (csavar). Rajzoljon köröket a csavar külső átmérőjével; anyához előbb fúrja vagy esztergálja a furatot kb. az átmérő mínusz 1,08 × menetemelkedésre.
+481|Menet
+482|Belső (anya)
+483|Külső (csavar)
+484|Szokásos méret
+485|Átveszi egy szokásos csavar menetemelkedését. Rajzoljon köröket a külső átmérőjével (Ø).
+486|Menetemelkedés
+487|A menet egy fordulatának emelkedése
+488|Radiális fogások
+489|A menet mélységét ennyi fogásban vágja, mindegyiket kicsit mélyebben a falba
+490|Balmenet
+491|{}: egy alakzat nem kerek: a menetet a közepe körül marja
+492|{}: a maró túl nagy a menet furatához: az a menet kimarad
+493|{}: a nyitott vonalak kimaradnak a menetből

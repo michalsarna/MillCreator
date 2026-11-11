@@ -477,3 +477,18 @@
 476|En släpkniv i hållaren skär längs linjerna till lagrets djup med spindeln stilla: dess förskjutning utjämnas vid varje hörn, hålen skärs först och en sluten linje skärs vidare förbi sin start.
 477|{}: ett inlöp fick inte plats någonstans och utelämnades
 478|{}: ett inlöp fick inte plats någonstans och gjordes mindre
+479|Gängfräsning
+480|En gängfräs går runt varje cirkel i en skruvlinje, en stigning per varv, till lagrets djup: en gänga i ett hål (en mutter) eller runt en tapp (en skruv). Rita cirklar med skruvens ytterdiameter; för en mutter borra eller fräs hålet först till ungefär diametern minus 1,08 × stigningen.
+481|Gänga
+482|Invändig (mutter)
+483|Utvändig (skruv)
+484|Vanlig storlek
+485|Tar stigningen från en vanlig skruv. Rita cirklar med dess ytterdiameter (Ø).
+486|Stigning
+487|Stigningen för ett varv av gängan
+488|Radiella passeringar
+489|Gängans djup skärs i så många passeringar, var och en lite djupare in i väggen
+490|Vänstergänga
+491|{}: en form är inte rund: gängan fräses runt dess mitt
+492|{}: fräsen är för stor för gängans hål: den gängan utelämnas
+493|{}: öppna linjer utelämnas från en gänga

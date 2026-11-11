@@ -477,3 +477,18 @@
 476|Gearrann scian tarraingthe sa choimeádán feadh na línte go doimhneacht na sraithe, an fearsaid stoptha: ceartaítear a fritháireamh ag gach coirnéal, gearrtar na poill ar dtús agus gearrtar líne dhúnta thar a tús.
 477|{}: níor oir bealach áit éigin agus fágadh ar lár é
 478|{}: níor oir bealach áit éigin agus laghdaíodh é
+479|Muileann snáithe
+480|Téann muileann snáithe timpeall gach ciorcail i héilics, céim amháin in aghaidh an chasta, go doimhneacht na sraithe: snáithe i bpoll (cnó) nó timpeall boss (scriú). Tarraing ciorcail de thrastomhas seachtrach an scriú; do chnó druileáil nó leathnaigh an poll ar dtús go dtí thart ar an trastomhas lúide 1.08 × an chéim.
+481|Snáithe
+482|Istigh (cnó)
+483|Amuigh (scriú)
+484|Méid choitianta
+485|Glacann sé céim scriú choitianta. Tarraing ciorcail dá thrastomhas seachtrach (Ø).
+486|Céim
+487|Ardú casadh amháin den snáithe
+488|Pasáil gathacha
+489|Gearrtar doimhneacht an tsnáithe i líon seo pasanna, gach ceann beagán níos doimhne sa bhalla
+490|Snáithe ar chlé
+491|{}: níl cruth cruinn: muileann an snáithe timpeall a lárphointe
+492|{}: tá an giotán rómhór do pholl an tsnáithe: fágtar an snáithe sin ar lár
+493|{}: fágtar línte oscailte as snáithe

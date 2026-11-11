@@ -255,6 +255,33 @@ fn grbl_sim_profiles_with_leads_are_accepted_and_end_at_zero() {
     assert!(s.errors().is_empty(), "GRBL rejected lines: {:?}", s.errors_described());
 }
 
+#[test]
+#[ignore = "needs grbl-sim: tools/grbl-sim/build.sh of baseCreator"]
+fn grbl_sim_threads_inside_and_outside_are_accepted_and_end_at_zero() {
+    use crate::thread::Thread;
+    let mut s = Session::connect();
+    s.wait_banner();
+    s.fast_machine(&[]);
+    let (lib, dev, stock) = (Library::new(), Device::dummy(), Stock::default());
+    let mut layers = default_layers(&lib);
+    for (l, internal) in [(2, true), (3, false)] {
+        layers[l].op = crate::layers::Operation::ThreadMill;
+        layers[l].use_tool(lib.get("std-flat-3").unwrap());
+        layers[l].depth = 4.0;
+        layers[l].thread = Thread { pitch: 1.25, internal, left: false, passes: 2 };
+    }
+    let mut scene = Scene::default();
+    scene.add(2, Kind::Ellipse { w: 8.0, h: 8.0 }, Xf::translate(20.0, 20.0));
+    scene.add(3, Kind::Ellipse { w: 10.0, h: 10.0 }, Xf::translate(50.0, 20.0));
+    let prog = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions::default());
+    assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
+    let job = clean_gcode(&to_gcode(&prog, &dev, &layers, &lib, "sim"));
+    s.run_job(job.clone(), 600.0);
+    wait_idle_and_ends_at_zero(&mut s, &job, 120.0);
+    assert!(s.parser_state().contains("M5"), "the spindle is off");
+    assert!(s.errors().is_empty(), "GRBL rejected lines: {:?}", s.errors_described());
+}
+
 /// A pocket by rings that stays down between its rings, at two depths.
 fn job_with_a_pocket_that_stays_down() -> Vec<String> {
     let (lib, dev, stock) = (Library::new(), Device::dummy(), Stock::default());

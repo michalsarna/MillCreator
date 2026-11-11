@@ -477,3 +477,18 @@
 476	A drag knife in the holder cuts along the lines to the depth of the layer, the spindle still: its offset is made good at every corner, the holes are cut first and a closed line is cut on past its start.
 477	{}: a lead did not fit somewhere and was left out
 478	{}: a lead did not fit somewhere and was made smaller
+479	Thread mill
+480	A thread mill goes round every circle in a helix, one pitch a turn, to the depth of the layer: a thread inside a hole (a nut) or round a boss (a screw). Draw circles of the outer diameter of the screw; for a nut drill or bore the hole first to about the diameter minus 1.08 × the pitch.
+481	Thread
+482	Inside (a nut)
+483	Outside (a screw)
+484	Usual size
+485	Takes the pitch of a usual screw. Draw circles of its outer diameter (Ø).
+486	Pitch
+487	The rise of one turn of the thread
+488	Radial passes
+489	The depth of the thread is cut in this many goes, each one a little deeper into the wall
+490	Left-hand thread
+491	{}: a shape is not round: the thread is milled round its middle
+492	{}: the bit is too big for the hole of the thread: that thread is left out
+493	{}: open lines are left out of a thread

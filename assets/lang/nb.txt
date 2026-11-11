@@ -477,3 +477,18 @@
 476|En slepekniv i holderen skjærer langs linjene til lagets dybde mens spindelen står: forskyvningen utlignes i hvert hjørne, hullene skjæres først og en lukket linje skjæres videre forbi starten.
 477|{}: et innløp fikk ikke plass et sted og ble utelatt
 478|{}: et innløp fikk ikke plass et sted og ble gjort mindre
+479|Gjengefresing
+480|En gjengefres går rundt hver sirkel i en skruelinje, én stigning per omdreining, til lagets dybde: gjenger i et hull (en mutter) eller rundt en tapp (en skrue). Tegn sirkler med skruens ytre diameter; for en mutter bores eller freses hullet først til omtrent diameteren minus 1,08 × stigningen.
+481|Gjenger
+482|Innvendig (mutter)
+483|Utvendig (skrue)
+484|Vanlig størrelse
+485|Tar stigningen til en vanlig skrue. Tegn sirkler med dens ytre diameter (Ø).
+486|Stigning
+487|Stigningen for én omdreining av gjengen
+488|Radielle gjennomløp
+489|Gjengedybden skjæres i så mange gjennomløp, hvert litt dypere inn i veggen
+490|Venstregjenge
+491|{}: en form er ikke rund: gjengen freses rundt midten
+492|{}: fresen er for stor for hullet til gjengen: den gjengen utelates
+493|{}: åpne linjer utelates fra en gjenge

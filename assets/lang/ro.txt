@@ -477,3 +477,18 @@
 476|Un cuțit tras în suport taie de-a lungul liniilor până la adâncimea stratului, cu axul oprit: decalajul său este compensat la fiecare colț, găurile sunt tăiate întâi, iar o linie închisă este tăiată dincolo de început.
 477|{}: undeva o intrare nu a încăput și a fost omisă
 478|{}: undeva o intrare nu a încăput și a fost micșorată
+479|Frezarea filetului
+480|O freză de filetat parcurge fiecare cerc pe o elice, un pas pe tură, până la adâncimea stratului: un filet într-o gaură (o piuliță) sau în jurul unui bosaj (un șurub). Desenați cercuri cu diametrul exterior al șurubului; pentru o piuliță, mai întâi găuriți sau alezați gaura la aproximativ diametrul minus 1,08 × pasul.
+481|Filet
+482|Interior (piuliță)
+483|Exterior (șurub)
+484|Mărime uzuală
+485|Ia pasul unui șurub uzual. Desenați cercuri cu diametrul lui exterior (Ø).
+486|Pas
+487|Urcarea unei ture a filetului
+488|Treceri radiale
+489|Adâncimea filetului se taie în atâtea treceri, fiecare puțin mai adânc în perete
+490|Filet pe stânga
+491|{}: o formă nu este rotundă: filetul se frezează în jurul mijlocului ei
+492|{}: freza este prea mare pentru gaura filetului: acel filet este omis
+493|{}: liniile deschise sunt omise dintr-un filet
