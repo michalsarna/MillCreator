@@ -495,3 +495,18 @@
 494|Z 0 je vrh materiala, kot v G-kodi: primež, ki štrli 15 mm nad material, je 0 – 15. Rezkar sega od konice navzgor, zato se je vsak rez pod cono dotakne; gibi na varni višini gredo čez nižjo cono.
 495|Gib po zraku ne more obiti prepovedane cone »{}« (začne ali konča se v njej)
 496|{}: rez se dotakne prepovedane cone »{}«
+497|Stran
+498|Spodnja (obrnjena)
+499|Bočno (levo in desno zamenjata mesti)
+500|Vzdolžno (zadaj in spredaj zamenjata mesti)
+501|Spodnja stran se rezka po obratu materiala: narišite jo, kot se vidi od zgoraj skozi material.
+502|Dve strani
+503|Obračanje
+504|Dodaj luknje za poravnavo
+505|Dve luknji na črti, okoli katere se material obrne, izvrtani skozenj v mizo: vstavite zatiča in material po obratu leži na istem mestu.
+506|Ni prazne plasti za luknje
+507|Luknje za poravnavo
+508|Dve luknji za poravnavo na plasti {}
+509|Stran za rezkanje
+510|Dvostranski posel: rezkajo se le plasti te strani. Za spodnjo obrnite material, kot pravi zavihek Material, in ga postavite na zatiče: risba se obrne z njim.
+511|Velikost materiala ni nastavljena (Datoteka → Novo…): spodnja stran se obrne okoli sredine delovnega območja

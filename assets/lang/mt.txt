@@ -495,3 +495,18 @@
 494|Z 0 hija l-wiċċ tal-materjal, bħal fil-G-code: morsa li toħroġ 15 mm 'il fuq mill-materjal hija 0 – 15. Il-ponta tilħaq 'il fuq mit-tarf tagħha, għalhekk kull qatgħa taħt żona tmissha; il-movimenti fl-għoli sigur jgħaddu minn fuq żona aktar baxxa.
 495|Moviment fl-arja ma jistax idur maż-żona pprojbita "{}" (jibda jew jispiċċa fiha)
 496|{}: qatgħa tmiss iż-żona pprojbita "{}"
+497|Naħa
+498|Taħt (maqlub)
+499|Minn naħa għal oħra (ix-xellug u l-lemin jinbidlu)
+500|Minn tarf għal tarf (wara u quddiem jinbidlu)
+501|In-naħa ta' taħt tinqata' wara li l-materjal jinqaleb: pinġiha kif tidher minn fuq, minn ġol-materjal.
+502|Żewġ naħat
+503|Qlib
+504|Żid toqob tal-allinjament
+505|Żewġ toqob fuq il-linja li madwarha jinqaleb il-materjal, imtaqqbin minnu sal-mejda: poġġi fihom il-pinnijiet u l-materjal jibqa' fl-istess post wara li jinqaleb.
+506|L-ebda saff vojt għat-toqob
+507|Toqob tal-allinjament
+508|Żewġ toqob tal-allinjament fis-saff {}
+509|Naħa li trid tinqata'
+510|Xogħol b'żewġ naħat: jinqatgħu biss is-saffi ta' din in-naħa. Għal taħt, aqleb il-materjal kif jgħid it-tab Materjal u poġġih fuq il-pinnijiet: it-tpinġija tinqaleb miegħu.
+511|Id-daqs tal-materjal mhux issettjat (Fajl → Ġdid…): in-naħa ta' taħt tinqaleb madwar nofs iż-żona tax-xogħol

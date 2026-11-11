@@ -495,3 +495,18 @@
 494|Z 0 est le dessus du matériau, comme dans le G-code : une bride qui dépasse de 15 mm est 0 – 15. La fraise monte depuis sa pointe, donc toute coupe sous une zone la touche ; les déplacements à la hauteur de sécurité passent au-dessus d'une zone plus basse.
 495|Un déplacement en l'air ne peut pas contourner la zone interdite « {} » (il commence ou finit dedans)
 496|{} : une coupe touche la zone interdite « {} »
+497|Face
+498|Dessous (retourné)
+499|Latéralement (gauche et droite s'échangent)
+500|Dans la longueur (arrière et avant s'échangent)
+501|Le dessous est usiné après avoir retourné le matériau : dessinez-le tel qu'on le voit de dessus, à travers le matériau.
+502|Deux faces
+503|Retournement
+504|Ajouter des trous d'alignement
+505|Deux trous sur la ligne autour de laquelle le matériau est retourné, percés à travers lui jusque dans la table : mettez-y des goupilles et le matériau, retourné, revient au même endroit.
+506|Aucun calque vide pour les trous
+507|Trous d'alignement
+508|Deux trous d'alignement sur le calque {}
+509|Face à usiner
+510|Un travail sur deux faces : seuls les calques de cette face sont usinés. Pour le dessous, retournez le matériau comme le dit l'onglet Matériau et posez-le sur les goupilles : le dessin est retourné avec lui.
+511|La taille du matériau n'est pas définie (Fichier → Nouveau…) : le dessous est retourné autour du milieu de la zone de travail

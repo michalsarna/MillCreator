@@ -387,6 +387,28 @@ pub struct JobOptions {
     /// is in none, before the next one, the nearest element first. Off: a layer after a layer. The layers of an element are
     /// meant to use the same bit; with different bits the bit is changed (M0) at every switch.
     pub one_by_one: bool,
+    /// The side of a two-sided job that is cut now: only its layers, the bottom turned over as the material is.
+    pub side: crate::layers::Side,
+}
+
+/// The scene and the layers of one side of a two-sided job: the layers of the other side switched off, and for the bottom the
+/// shapes turned over round the middle line of the material (the size of the project setup, or the work area without one).
+fn one_side(scene: &Scene, layers: &[MillLayer], dev: &Device, stock: &Stock, side: crate::layers::Side) -> (Scene, Vec<MillLayer>) {
+    use crate::materials::FlipAxis;
+    let layers: Vec<MillLayer> = layers.iter().map(|l| MillLayer { enabled: l.enabled && l.side == side, ..l.clone() }).collect();
+    let mut scene = scene.clone();
+    if side == crate::layers::Side::Bottom {
+        let w = if stock.width > 0.0 { stock.width } else { dev.area.x };
+        let h = if stock.height > 0.0 { stock.height } else { dev.area.y };
+        let turn = match stock.flip {
+            FlipAxis::SideToSide => base_core::geom::Xf { a: -1.0, b: 0.0, c: 0.0, d: 1.0, e: w, f: 0.0 },
+            FlipAxis::EndToEnd => base_core::geom::Xf { a: 1.0, b: 0.0, c: 0.0, d: -1.0, e: 0.0, f: h },
+        };
+        for s in &mut scene.shapes {
+            s.xf = s.xf.then(turn);
+        }
+    }
+    (scene, layers)
 }
 
 /// The toolpaths of every enabled layer, in the order the layers are done in (their rank, then their number).
@@ -429,6 +451,24 @@ fn elements_by_distance(scene: &Scene, dev: &Device) -> Vec<Scene> {
 
 /// The toolpaths as `generate` makes them, with what the program asks of the job (`JobOptions`).
 pub fn generate_with(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Device, stock: &Stock, opts: JobOptions) -> Program {
+    let two_sided = opts.side == crate::layers::Side::Bottom || layers.iter().any(|l| l.side == crate::layers::Side::Bottom);
+    if two_sided {
+        let (sided, sided_layers) = one_side(scene, layers, dev, stock, opts.side);
+        let mut prog = generate_side(&sided, &sided_layers, tools, dev, stock, opts);
+        if opts.side == crate::layers::Side::Bottom {
+            prog.notes.insert(0, Note { at: 0, text: format!("Bottom side: the material is turned over {}", if stock.flip == crate::materials::FlipAxis::SideToSide { "side to side" } else { "end to end" }), before_layer: true });
+            if !(stock.width > 0.0 && stock.height > 0.0) {
+                prog.warnings.push(Warn::new("The size of the material is not set (File → New…): the bottom side is turned over the middle of the work area", &[]));
+            }
+        } else {
+            prog.notes.insert(0, Note { at: 0, text: "Top side".into(), before_layer: true });
+        }
+        return prog;
+    }
+    generate_side(scene, layers, tools, dev, stock, opts)
+}
+
+fn generate_side(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Device, stock: &Stock, opts: JobOptions) -> Program {
     let mut prog = Program::default();
     let mut b = Builder { moves: vec![], notes: vec![], at: [0.0, 0.0, dev.safe_z], safe: dev.safe_z, layer: 0, feed: 0.0, plunge: 0.0, dev, zones: zones_of(dev), zone_margin: 1.0, zone_blocked: vec![] };
     if opts.one_by_one {
@@ -1452,6 +1492,46 @@ mod tests {
         assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
     }
 
+    #[test]
+    fn a_two_sided_job_cuts_one_side_at_a_time_and_turns_the_bottom_over() {
+        use crate::layers::Side;
+        use crate::materials::FlipAxis;
+        let (lib, dev, mut stock, mut layers) = setup();
+        stock.width = 200.0;
+        stock.height = 100.0;
+        layers[0].depth = 1.0;
+        layers[3].depth = 1.0;
+        layers[3].side = Side::Bottom;
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 20.0, 20.0, 20.0);
+        // A line on the bottom near the left edge (x 10…30, 50 down from the top of the page).
+        scene.add(3, Kind::Path(vec![Polyline::new(vec![Pt::new(10.0, 50.0), Pt::new(30.0, 50.0)], false)]), Xf::IDENTITY);
+        let xs = |p: &Program, layer: usize| -> Vec<f64> { p.moves.iter().filter(|m| m.kind == MoveKind::Cut && m.layer == layer).flat_map(|m| [m.from[0], m.to[0]]).collect() };
+        let top = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions::default());
+        assert!(xs(&top, 3).is_empty() && !xs(&top, 0).is_empty(), "the top side cuts only its layers");
+        let bottom = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions { side: Side::Bottom, ..Default::default() });
+        assert!(xs(&bottom, 0).is_empty());
+        let b = xs(&bottom, 3);
+        assert!(!b.is_empty() && b.iter().all(|x| *x >= 170.0 - 1e-6 && *x <= 190.0 + 1e-6), "turned over side to side on 200 mm: {b:?}");
+        let g = to_gcode(&bottom, &dev, &layers, &lib, "job");
+        assert!(g.contains("(Bottom side: the material is turned over side to side)"), "{g}");
+        // End to end: y changes, x stays.
+        stock.flip = FlipAxis::EndToEnd;
+        let bottom = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions { side: Side::Bottom, ..Default::default() });
+        let b = xs(&bottom, 3);
+        assert!(b.iter().all(|x| *x >= 10.0 - 1e-6 && *x <= 30.0 + 1e-6), "{b:?}");
+        let ys: Vec<f64> = bottom.moves.iter().filter(|m| m.kind == MoveKind::Cut && m.layer == 3).map(|m| m.to[1]).collect();
+        // Scene y 50 of a 100 mm high piece stays 50 from its top after turning end to end: in the toolpaths (y up) area - 50.
+        assert!(ys.iter().all(|y| (y - (dev.area.y - 50.0)).abs() < 1e-6), "{ys:?}");
+        // A project with only top layers is made as before.
+        layers[3].side = Side::Top;
+        let one = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions::default());
+        assert_eq!(to_gcode(&one, &dev, &layers, &lib, "job"), to_gcode(&generate(&scene, &layers, &lib, &dev, &stock), &dev, &layers, &lib, "job"));
+        assert!(!to_gcode(&one, &dev, &layers, &lib, "job").contains("Top side"));
+        // Old layers are on the top; the side is written only for the bottom.
+        assert!(!serde_json::to_string(&layers[0]).unwrap().contains("\"side\""));
+    }
+
     /// A square of `s` mm with the corner at (x, y) on the layer, in scene coordinates.
     fn square(scene: &mut Scene, layer: usize, x: f64, y: f64, s: f64) {
         scene.add(layer, Kind::Rect { w: s, h: s }, Xf::translate(x, y));
@@ -2329,7 +2409,7 @@ mod tests {
         let by_layer = cut_order(&generate(&scene, &layers, &lib, &dev, &stock));
         assert_eq!(by_layer.iter().map(|c| c.1).collect::<Vec<_>>(), vec![0, 0, 1, 1], "{by_layer:?}");
         // One by one: the group at x = 0 (nearest to the machine's zero) completely, then the other.
-        let one = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions { one_by_one: true });
+        let one = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions { one_by_one: true, ..Default::default() });
         assert_eq!(cut_order(&one), vec![(0, 0), (0, 1), (2, 0), (2, 1)]);
         // The same work in another order, and the warnings of the layers are said once.
         let plain = generate(&scene, &layers, &lib, &dev, &stock);
@@ -2346,7 +2426,7 @@ mod tests {
         for x in [400.0, 0.0, 200.0] {
             scene.add(0, Kind::Rect { w: 40.0, h: 40.0 }, Xf::translate(x, 10.0));
         }
-        let one = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions { one_by_one: true });
+        let one = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions { one_by_one: true, ..Default::default() });
         assert_eq!(cut_order(&one).iter().map(|c| c.0).collect::<Vec<_>>(), vec![0, 2, 4], "nearest first, not as they were drawn");
     }
 

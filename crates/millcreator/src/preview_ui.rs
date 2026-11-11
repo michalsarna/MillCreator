@@ -10,7 +10,7 @@ use eframe::egui::{self, Color32, RichText};
 impl App {
     /// The toolpaths of the project as it is now.
     pub(crate) fn make_program(&self) -> Program {
-        toolpath::generate_with(&self.job_scene(), &self.layers, &self.tools, &self.device, &self.stock, toolpath::JobOptions { one_by_one: self.one_by_one })
+        toolpath::generate_with(&self.job_scene(), &self.layers, &self.tools, &self.device, &self.stock, toolpath::JobOptions { one_by_one: self.one_by_one, side: self.side })
     }
 
     /// What the job is made of: the whole drawing, or with "Selection only" the shapes that are selected now.
@@ -28,7 +28,7 @@ impl App {
     pub(crate) fn job_stamp(&self) -> u64 {
         use std::hash::{Hash, Hasher};
         let mut h = std::collections::hash_map::DefaultHasher::new();
-        (self.rev, self.one_by_one, self.selection_only).hash(&mut h);
+        (self.rev, self.one_by_one, self.selection_only, self.side).hash(&mut h);
         if self.selection_only {
             self.ed.sel.hash(&mut h);
         }

@@ -192,6 +192,29 @@ impl App {
         self.make_room()
     }
 
+    /// New sheets of a nesting: every list of shapes in a new tab with the layers, the material and the description of the shown
+    /// drawing, unsaved; then the shown drawing again. The number of sheets opened (fewer when the tabs run out).
+    pub fn open_sheets(&mut self, sheets: Vec<Vec<base_core::scene::Shape>>) -> usize {
+        self.ensure_tabs();
+        let back = self.tabs_state.active;
+        let (layers, stock, description) = (self.layers.clone(), self.stock.clone(), self.description.clone());
+        let (next_id, next_group) = self.scene.counters();
+        let mut n = 0;
+        for shapes in sheets {
+            if !self.make_room() {
+                break;
+            }
+            self.layers = layers.clone();
+            self.stock = stock.clone();
+            self.description = description.clone();
+            self.scene = Scene::from_parts(shapes, next_id, next_group);
+            self.rev += 1;
+            n += 1;
+        }
+        self.switch_to(back);
+        n
+    }
+
     pub fn switch_to(&mut self, i: usize) {
         self.cam_ws_shown = false;
         self.pv_tab_shown = false;

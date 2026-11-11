@@ -495,3 +495,18 @@
 494|A Z 0 az anyag teteje, mint a G-kódban: egy 15 mm-rel kiálló szorító 0 – 15. A maró a csúcsától felfelé ér, így minden vágás egy zóna alatt érinti azt; a biztonsági magasságon tett mozgások átmennek egy alacsonyabb zóna fölött.
 495|Egy levegőben tett mozgás nem tudja megkerülni a(z) „{}” tiltott zónát (benne kezdődik vagy végződik)
 496|{}: egy vágás érinti a(z) „{}” tiltott zónát
+497|Oldal
+498|Alsó (megfordítva)
+499|Oldalra (bal és jobb helyet cserél)
+500|Hosszában (hátul és elöl helyet cserél)
+501|Az alsó oldalt az anyag megfordítása után marja: rajzolja úgy, ahogy felülről, az anyagon át látszik.
+502|Két oldal
+503|Megfordítás
+504|Illesztőfuratok hozzáadása
+505|Két furat azon a vonalon, amely körül az anyagot megfordítják, rajta át az asztalba fúrva: tegyen beléjük csapokat, és megfordítás után az anyag ugyanott fekszik.
+506|Nincs üres réteg a furatoknak
+507|Illesztőfuratok
+508|Két illesztőfurat a(z) {}. rétegen
+509|Marandó oldal
+510|Kétoldalas munka: csak ennek az oldalnak a rétegeit marja. Az alsóhoz fordítsa meg az anyagot az Anyag lap szerint, és tegye az illesztőcsapokra: a rajz vele együtt fordul.
+511|Az anyag mérete nincs beállítva (Fájl → Új…): az alsó oldal a munkaterület közepe körül fordul

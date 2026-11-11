@@ -495,3 +495,18 @@
 494|Z 0 es la parte superior del material, como en el G-code: una brida que sobresale 15 mm es 0 – 15. La fresa llega hacia arriba desde su punta, así que cada corte bajo una zona la toca; los movimientos a la altura segura pasan por encima de una zona más baja.
 495|Un movimiento por el aire no puede rodear la zona prohibida "{}" (empieza o termina dentro)
 496|{}: un corte toca la zona prohibida "{}"
+497|Cara
+498|Inferior (volteada)
+499|De lado (izquierda y derecha se intercambian)
+500|A lo largo (detrás y delante se intercambian)
+501|La cara inferior se fresa después de voltear el material: dibújala como se ve desde arriba, a través del material.
+502|Dos caras
+503|Volteo
+504|Añadir agujeros de alineación
+505|Dos agujeros en la línea sobre la que se voltea el material, taladrados a través de él hasta la mesa: pon pasadores y el material queda en el mismo sitio después de voltearlo.
+506|No hay ninguna capa vacía para los agujeros
+507|Agujeros de alineación
+508|Dos agujeros de alineación en la capa {}
+509|Cara a fresar
+510|Un trabajo de dos caras: solo se fresan las capas de esta cara. Para la inferior, voltea el material como dice la pestaña Material y ponlo en los pasadores: el dibujo se voltea con él.
+511|El tamaño del material no está definido (Archivo → Nuevo…): la cara inferior se voltea alrededor del centro del área de trabajo

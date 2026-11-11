@@ -495,3 +495,18 @@
 494|Z 0 er materialets overside, som i G-koden: en klemme, der rager 15 mm over materialet, er 0 – 15. Fræseren rækker op fra spidsen, så ethvert snit under en zone rører den; bevægelser i sikker højde går over en lavere zone.
 495|En bevægelse gennem luften kan ikke gå uden om forbudszonen "{}" (den starter eller slutter i den)
 496|{}: et snit rører forbudszonen "{}"
+497|Side
+498|Underside (vendt)
+499|Til siden (venstre og højre bytter plads)
+500|På langs (bag og for bytter plads)
+501|Undersiden fræses, efter at materialet er vendt: tegn den, som den ses oppefra gennem materialet.
+502|To sider
+503|Vending
+504|Tilføj justeringshuller
+505|To huller på linjen, materialet vendes om, boret gennem det ned i bordet: sæt stifter i, og materialet ligger samme sted, når det er vendt.
+506|Intet tomt lag til hullerne
+507|Justeringshuller
+508|To justeringshuller på lag {}
+509|Side der skal fræses
+510|Et tosidet job: kun lagene på denne side fræses. Til undersiden vendes materialet som fanen Materiale siger og lægges på styrestifterne: tegningen vendes med.
+511|Materialets størrelse er ikke sat (Filer → Ny…): undersiden vendes om midten af arbejdsområdet

@@ -495,3 +495,18 @@
 494|Z 0 er efri flötur efnisins, eins og í G-kóðanum: klemma sem stendur 15 mm upp úr efninu er 0 – 15. Fræsitönnin nær upp frá oddinum, svo hver skurður undir svæði snertir það; hreyfingar í öruggri hæð fara yfir lægra svæði.
 495|Hreyfing í lofti kemst ekki fram hjá bannsvæðinu „{}“ (hún byrjar eða endar í því)
 496|{}: skurður snertir bannsvæðið „{}“
+497|Hlið
+498|Neðri (snúið við)
+499|Til hliðar (vinstri og hægri skipta um stað)
+500|Enda á milli (aftur og fram skipta um stað)
+501|Neðri hliðin er fræst eftir að efninu er snúið við: teiknaðu hana eins og hún sést ofan frá, gegnum efnið.
+502|Tvær hliðar
+503|Snúningur
+504|Bæta við stillingargötum
+505|Tvö göt á línunni sem efninu er snúið um, boruð gegnum það niður í borðið: settu pinna í þau og efnið liggur á sama stað eftir að því er snúið.
+506|Ekkert autt lag fyrir götin
+507|Stillingargöt
+508|Tvö stillingargöt á lagi {}
+509|Hlið sem á að fræsa
+510|Tvíhliða verk: aðeins lög þessarar hliðar eru fræst. Fyrir neðri hliðina snúðu efninu eins og Efni-flipinn segir og settu það á stillingarpinnana: teikningunni er snúið með.
+511|Stærð efnisins er ekki stillt (Skrá → Nýtt…): neðri hliðinni er snúið um miðju vinnusvæðisins
