@@ -41,6 +41,8 @@ pub enum Operation {
     Moulding,
     /// Short strokes of a ball nose over the area of the shapes (`special::texture`).
     Texture,
+    /// A dome, a slope or a flat top made of every closed shape and cut like a relief (`shape3d`).
+    Shape3d,
 }
 
 /// The side of the material a layer is cut on: the top, or the bottom after the material is turned over (two-sided jobs).
@@ -365,7 +367,7 @@ impl PictureMethod {
 }
 
 impl Operation {
-    pub const ALL: [Operation; 16] = [Operation::ProfileOutside, Operation::ProfileInside, Operation::OnPath, Operation::Pocket, Operation::Drill, Operation::Picture, Operation::Face, Operation::Bore, Operation::Chamfer, Operation::DogboneSlot, Operation::VCarve, Operation::DragKnife, Operation::ThreadMill, Operation::Fluting, Operation::Moulding, Operation::Texture];
+    pub const ALL: [Operation; 17] = [Operation::ProfileOutside, Operation::ProfileInside, Operation::OnPath, Operation::Pocket, Operation::Drill, Operation::Picture, Operation::Face, Operation::Bore, Operation::Chamfer, Operation::DogboneSlot, Operation::VCarve, Operation::DragKnife, Operation::ThreadMill, Operation::Fluting, Operation::Moulding, Operation::Texture, Operation::Shape3d];
 
     pub fn label(self) -> &'static str {
         match self {
@@ -385,6 +387,7 @@ impl Operation {
             Operation::Fluting => "Fluting",
             Operation::Moulding => "Moulding",
             Operation::Texture => "Texture",
+            Operation::Shape3d => "3D shape",
         }
     }
 
@@ -406,6 +409,7 @@ impl Operation {
             Operation::Fluting => "A groove along every line that ramps down from the surface, runs at the depth of the layer and ramps up again: flutes of a column, decorative grooves. Use a ball nose or a V-bit.",
             Operation::Moulding => "A profile (a roundover, a cove, an ogee, a slope or a half round groove) is swept along every line, as wide as asked and as deep as the layer, in passes side by side: the edge of a board, a frame. The profile lies to the left of the direction of the line. Use a ball nose.",
             Operation::Texture => "The area of the shapes is covered with short scoops of a ball nose in rows, as if carved by hand; the depth of the layer is the deepest scoop. The step over is the distance of the rows.",
+            Operation::Shape3d => "Every closed shape becomes a 3D form — a dome, a slope or a flat top — raised out of the material (the box round it cut down to the depth of the layer) or sunk into it, and is cut like a relief: rough, finish or both, with the shape of the bit taken into account.",
         }
     }
 }
@@ -518,6 +522,9 @@ pub struct MillLayer {
     /// Sketch carving: the style of the lines.
     #[serde(default = "etching", skip_serializing_if = "is_etching")]
     pub sketch_style: base_core::style_trace::Style,
+    /// A 3D shape (`Operation::Shape3d`): its form, raised or sunk, the width of a slope.
+    #[serde(default, skip_serializing_if = "crate::shape3d::Model::is_default")]
+    pub model: crate::shape3d::Model,
 }
 
 fn etching() -> base_core::style_trace::Style {
@@ -585,6 +592,7 @@ impl MillLayer {
         self.lead.check().map_err(|e| format!("layer {}: {e}", self.name))?;
         self.thread.check().map_err(|e| format!("layer {}: {e}", self.name))?;
         self.decor.check().map_err(|e| format!("layer {}: {e}", self.name))?;
+        self.model.check().map_err(|e| format!("layer {}: {e}", self.name))?;
         if self.name.len() > 120 {
             return Err("a layer name is too long".into());
         }
@@ -669,6 +677,7 @@ pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
                 side: Side::Top,
                 decor: Default::default(),
                 sketch_style: etching(),
+                model: Default::default(),
             };
             match bit(tool) {
                 Some(t) => layer.with_tool(&t),

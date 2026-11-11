@@ -537,3 +537,11 @@
 536|{}: las líneas abiertas se omiten de una textura
 537|Talla de boceto
 538|La imagen se vuelve a dibujar como líneas en un estilo (como hace el trazado de estilo), y cada línea se talla con una fresa en V más profunda, y por tanto más ancha, donde la imagen es más oscura, hasta la profundidad de la capa: parece un boceto a lápiz. El paso de la fresa es la distancia entre líneas.
+539|Forma 3D
+540|Cada forma cerrada se convierte en una forma 3D — una cúpula, una pendiente o una cima plana — que sobresale del material (la caja de alrededor se rebaja a la profundidad de la capa) o hundida en él, y se fresa como un relieve: desbaste, acabado o ambos, teniendo en cuenta la forma de la fresa.
+541|Forma
+542|En relieve
+543|Hundido
+544|Ancho de la pendiente
+545|Cúpula
+546|Cima plana

@@ -537,3 +537,11 @@
 536|{}: åbne linjer udelades af en tekstur
 537|Skitseskæring
 538|Billedet tegnes igen som linjer i en stil (som Stilsporing gør), og hver linje skæres med en V-fræser dybere, og derfor bredere, hvor billedet er mørkere, ned til lagets dybde: det ligner en blyantskitse. Fræserens sideforskydning er afstanden mellem linjerne.
+539|3D-form
+540|Hver lukket form bliver en 3D-form — en kuppel, en skråning eller en flad top — hævet over materialet (kassen omkring den fræses ned til lagets dybde) eller sænket ned i det, og fræses som et relief: skrub, slet eller begge, med fræserens form taget i betragtning.
+541|Form
+542|Hævet
+543|Sænket
+544|Skråningens bredde
+545|Kuppel
+546|Flad top

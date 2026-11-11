@@ -537,3 +537,11 @@
 536|{}: odprte črte so izpuščene iz teksture
 537|Rezbarjenje skice
 538|Slika se znova nariše kot črte v slogu (kot sledenje v slogu), vsaka črta pa se z V rezkarjem izreže globlje, torej širše, kjer je slika temnejša, do globine plasti: videti je kot skica s svinčnikom. Korak rezkarja je razmik črt.
+539|3D oblika
+540|Vsaka zaprta oblika postane 3D oblika — kupola, pobočje ali ploščat vrh —, dvignjena iz materiala (okvir okoli nje se porezka do globine plasti) ali pogreznjena vanj, in se rezka kot relief: grobo, fino ali oboje, z upoštevanjem oblike rezkarja.
+541|Oblika
+542|Dvignjen
+543|Pogreznjen
+544|Širina pobočja
+545|Kupola
+546|Ploščat vrh

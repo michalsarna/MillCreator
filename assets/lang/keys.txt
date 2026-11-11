@@ -537,3 +537,11 @@
 536	{}: open lines are left out of a texture
 537	Sketch carving
 538	The picture is drawn again as lines in a style (as Style trace does), and every line is carved with a V-bit deeper, and so wider, where the picture is darker, down to the depth of the layer: it looks like a pencil sketch. The step over of the bit is the spacing of the lines.
+539	3D shape
+540	Every closed shape becomes a 3D form — a dome, a slope or a flat top — raised out of the material (the box round it cut down to the depth of the layer) or sunk into it, and is cut like a relief: rough, finish or both, with the shape of the bit taken into account.
+541	Form
+542	Raised
+543	Sunk
+544	Width of the slope
+545	Dome
+546	Flat top

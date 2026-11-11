@@ -537,3 +537,11 @@
 536|{} : les lignes ouvertes sont omises d'une texture
 537|Gravure en croquis
 538|L'image est redessinée en lignes dans un style (comme le fait le tracé de style), et chaque ligne est gravée à la fraise en V plus profond, donc plus large, là où l'image est plus sombre, jusqu'à la profondeur du calque : on dirait un croquis au crayon. Le pas de la fraise est l'écart des lignes.
+539|Forme 3D
+540|Chaque forme fermée devient une forme 3D — un dôme, une pente ou un dessus plat — en relief sur le matériau (le cadre autour est abaissé à la profondeur du calque) ou enfoncée dedans, et est usinée comme un relief : ébauche, finition ou les deux, en tenant compte de la forme de la fraise.
+541|Forme
+542|En relief
+543|Enfoncé
+544|Largeur de la pente
+545|Dôme
+546|Dessus plat
