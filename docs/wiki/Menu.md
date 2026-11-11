@@ -90,6 +90,7 @@ Dalej **Generuj kształt…** (generatory z wtyczek, zob. [Wtyczki](Wtyczki)) i 
 | **Tekst seryjny…**, **Kod kreskowy / QR…**, **Rozmieść kształty (nesting)…**, **Pomiar…** | | Numerowane kopie tekstu, kody jako obrysy, upakowanie kształtów na obszarze, wymiary i odległości. |
 | **Dostosuj obraz…**, **Wektoryzacja obrazu…** | | Zmiana obrazu na stronie; zamiana go na obrysy. |
 | **Obrysuj w stylu…** | | Rysuje zaznaczony obraz na nowo liniami w jednym z 19 stylów. Zobacz [Obrysuj w stylu](Obrys-w-stylu). |
+| **Dodaj jako strefę zakazaną** (Add as no-go zone) | | Każdy zaznaczony, niezablokowany kształt staje się strefą zakazaną urządzenia (okręgiem, gdy jest okrągły, w przeciwnym razie prostokątem wokół niego) i znika z rysunku. Jest też w menu prawego przycisku. |
 
 Wszystkie są opisane w [Narzędziach projektowych](Narzedzia-projektowe).
 
@@ -106,6 +107,7 @@ Wszystkie są opisane w [Narzędziach projektowych](Narzedzia-projektowe).
 | **Podziel widok: obok siebie**, **Podziel widok: jeden nad drugim** | | Dzielą środkową część okna na panele (gdy jest jeden, dochodzi drugi). |
 | **Jeden widok** (Single view) | | Wszystkie karty znów w jednym panelu. |
 | **Pokaż nakładkę z kamery** | | Pokazuje lub ukrywa obraz pod rysunkiem. |
+| **Pokaż strefy zakazane** (Show no-go zones) | | Rysuje na czerwono strefy zakazane urządzenia; wyszarzona, gdy urządzenie ich nie ma. |
 | **Nakładka z…** | | Zdjęcie albo obraz na żywo z kamery pod rysunkiem, ustawiane czterema narożnikami albo punktami odniesienia. Zapisywana w projekcie. |
 
 Panele i karty: [Narzędzia projektowe](Narzedzia-projektowe).
@@ -121,6 +123,11 @@ Najpierw ustawienia maszyny, potem to, co na niej działa. Zob. [Sterowanie masz
 | **Ustawienia firmware ($$)…** | Ustawienia sterownika GRBL, z kopiami zapasowymi. |
 | **Kalibracja…** (Calibration…) | Kroki na milimetr i prostopadłość osi. |
 | **Czujnik długości narzędzia…** (Tool length sensor…) | Kreator czujnika długości narzędzia. |
+| **Strefy zakazane…** (No-go zones…) | | Okno urządzenia na stronie **Strefy zakazane**. |
+| **Wskaż zero programu** (Pick the zero of the program) | | Następne kliknięcie w obszar roboczy ustawia zero programu (jak **Wskaż na obszarze roboczym** na karcie Urządzenie). |
+| **Znajdź środek** (Find the centre) | | Sonda zawieszona w otworze dotyka jego czterech ścian i robi ze środka zero X i Y (jak na karcie Sterowanie; wymaga połączonej maszyny). |
+| **Zapisane pozycje…** (Saved positions…) | | Pokazuje kartę Sterowanie z zapisanymi pozycjami. |
+| **Strona do frezowania ▸** (Side to cut) | | Wierzch albo spód (po odwróceniu) zadania dwustronnego (jak na karcie Sterowanie). |
 | **Urządzenia sterujące ▸** | Ustawienia urządzeń sterujących… otwiera okno klawiatur i padów oraz ich klawiszy; Urządzenie sterujące tej maszyny… wybiera urządzenie otwartej maszyny. Zobacz [Urządzenia sterujące](Urzadzenia-sterujace). |
 | **Diagnostyka i statystyki…** | Wejścia sterownika, zadania, godziny, alarmy i błędy, przypomnienia o konserwacji, eksport raportu. |
 | **Udostępnij w sieci (ser2net)…** (Share over network (ser2net)…) | Tylko Linux: udostępnia port szeregowy maszyny w sieci. |
@@ -135,7 +142,12 @@ Najpierw ustawienia maszyny, potem to, co na niej działa. Zob. [Sterowanie masz
 |---|---|---|
 | **Biblioteka frezów…** (Bit library…) | | Gotowe frezy i twoje. Zob. [Biblioteka frezów](Biblioteka-frezow). |
 | **Biblioteka noży…** (Knife library…) | | Gotowe noże wleczone i twoje. Zob. [Narzędzia projektowe](Narzedzia-projektowe#nóż-wleczony). |
+| **Presety warstw…** (Layer presets…) | | Okno presetów warstw: zapisz aktywną warstwę pod nazwą albo nałóż na nią preset. |
+| **Operacja aktywnej warstwy ▸** (Operation of the active layer) | | Wszystkie operacje: wybrana staje się operacją aktywnej warstwy (jak na karcie Warstwy). |
+| **Umieść mostki ręcznie** (Place tabs by hand) | | Włącza (i wyłącza) stawianie mostków na konturach myszą (jak na karcie Warstwy). |
+| **Dodaj otwory bazujące** (Add alignment holes) | | Dwa otwory na kołki zadania dwustronnego, na pustej warstwie (jak na karcie Materiał). |
 | **Widok 3D zadania…** (3D view of the job…) | Ctrl+Shift+P | Otwiera kartę **Podgląd**: materiał, cięcia i ruchy w 3D, z animacją. Zob. [Widok 3D i G-code](Widok-3D-i-G-code). |
+| **Podgląd G-code** (Preview G-code) | | G-code zadania jako tekst na karcie, bez zapisywania (to samo co przycisk **Podgląd G-code**). |
 | **Pokaż rysunek techniczny…** (Show technical drawing…) | | Element jako rysunek techniczny: widok z przodu, z boku i z góry, z wymiarami i tabliczką. Także przycisk **Rysunek techniczny** podglądu. |
 | **Eksportuj G-code…** (Export G-code…) | Ctrl+E | Pyta o nazwę pliku (`nazwa.nc`) i zapisuje G-code projektu, przez włączone postprocesory. To samo co przycisk **Zapisz G-code**. |
 | **Eksportuj relief jako STL…** | | Zapisuje relief 3D obrazu jako model STL (tylko gdy na warstwie z metodą relief 3D jest obraz). |

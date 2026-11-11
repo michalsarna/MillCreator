@@ -553,3 +553,5 @@
 552|Cilindras guli išilgai X ant sukimo ašies; brėžinio Y eina aplink jį, o brėžinys yra jo išskleistas paviršius. Z skaičiuojama nuo paviršiaus, giliausias pjūvis yra spindulys. Nulis yra ant paviršiaus; nustatykite tą patį mašinoje.
 553|Projektas nustatytas: cilindras Ø {} mm, {} mm ilgio, ant sukimo ašies (įjungta), nulis: {}
 554|Įrenginio sukimo ašis išjungta.
+555|Pasirinkti programos nulį
+556|Aktyvaus sluoksnio operacija

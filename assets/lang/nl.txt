@@ -553,3 +553,5 @@
 552|De cilinder ligt langs X op de draaias; de Y van de tekening gaat eromheen en de tekening is zijn uitgerolde oppervlak. Z telt vanaf het oppervlak en de diepste snede is de straal. Het nulpunt ligt op het oppervlak; stel hetzelfde in op de machine.
 553|Project ingesteld: een cilinder Ø {} mm en {} mm lang op de draaias (aan), nulpunkt {}
 554|De draaias van het apparaat staat uit.
+555|Kies het nulpunt van het programma
+556|Bewerking van de actieve laag

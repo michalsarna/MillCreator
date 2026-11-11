@@ -553,3 +553,5 @@
 552|A henger X mentén fekszik a forgótengelyen; a rajz Y-ja körbefut rajta, a rajz a kiterített felülete. A Z a felülettől számít, a legmélyebb vágás a sugár. A nullpont a felületen van; ugyanezt állítsd be a gépen.
 553|Projekt beállítva: Ø {} mm-es, {} mm hosszú henger a forgótengelyen (bekapcsolva), nullpont: {}
 554|Az eszköz forgótengelye ki van kapcsolva.
+555|A program nullpontjának kijelölése
+556|Az aktív réteg művelete

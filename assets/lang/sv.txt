@@ -553,3 +553,5 @@
 552|Cylindern ligger längs X på rotationsaxeln; ritningens Y går runt den och ritningen är dess utvikta yta. Z räknas från ytan och det djupaste snittet är radien. Nollpunkten ligger på ytan; ställ in samma på maskinen.
 553|Projektet inställt: en cylinder Ø {} mm och {} mm lång på rotationsaxeln (påslagen), nollpunkt {}
 554|Enhetens rotationsaxel är avslagen.
+555|Välj programmets nollpunkt
+556|Bearbetning av det aktiva lagret

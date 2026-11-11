@@ -553,3 +553,5 @@
 552|Valj leži vzdolž X na vrtljivi osi; Y risbe teče okoli njega, risba pa je njegova razvita površina. Z se šteje od površine, najgloblji rez je polmer. Ničla je na površini; nastavite isto na stroju.
 553|Projekt nastavljen: valj Ø {} mm, dolg {} mm, na vrtljivi osi (vklopljeni), ničla: {}
 554|Vrtljiva os naprave je izklopljena.
+555|Izberi ničlo programa
+556|Operacija aktivne plasti

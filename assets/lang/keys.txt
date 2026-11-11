@@ -553,3 +553,5 @@
 552	The cylinder lies along X on the rotary attachment; Y of the drawing goes round it and the drawing is unrolled from its surface. Z counts from the top of the surface, and the deepest cut is the radius. The zero is on the surface; set the same one on the machine.
 553	Project set up: a cylinder of Ø {} mm and {} mm long on the rotary attachment (switched on), zero at {}
 554	The rotary attachment of the device is off.
+555	Pick the zero of the program
+556	Operation of the active layer

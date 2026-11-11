@@ -90,6 +90,7 @@ Then **Generate shape…** (the generators of plugins, see [Plugins](Plugins)) a
 | **Serial text…**, **Barcode / QR code…**, **Nest shapes…**, **Measure…** | | Numbered copies of a text, codes as outlines, packing the shapes on an area, sizes and distances. |
 | **Adjust image…**, **Trace image…** | | Change a picture on the page; turn it into outlines. |
 | **Style trace…** | | Draws the selected picture again as lines in one of 19 styles. See [Style Trace](Style-Trace). |
+| **Add as no-go zone** | | Every unlocked selected shape becomes a no-go zone of the device (a circle when it is round, otherwise the rectangle round it) and leaves the drawing. Also in the right-click menu. |
 
 All of them are explained in [Design Tools](Design-Tools).
 
@@ -106,6 +107,7 @@ All of them are explained in [Design Tools](Design-Tools).
 | **Split view: side by side**, **Split view: one above the other** | | Divide the central area into panes (a second pane is added when there is one). |
 | **Single view** | | All the tabs in one pane again. |
 | **Show camera overlay** | | Shows or hides the picture under the drawing. |
+| **Show no-go zones** | | Draws the no-go zones of the device in red; greyed out when the device has none. |
 | **Overlay from…** | | A photo or the live picture of the camera under the drawing, aligned by its four corners or by reference points. Saved with the project. |
 
 Panes and tabs: [Panes and Tabs](Panes-and-Tabs).
@@ -121,6 +123,11 @@ The settings of the machine first, then what runs on it. See [Machine Control](M
 | **Firmware settings ($$)…** | The settings of the GRBL controller, with backups. |
 | **Calibration…** | Steps per millimetre and the squareness of the axes. |
 | **Tool length sensor…** | The wizard of the tool length sensor. |
+| **No-go zones…** | | The device window on its **No-go zones** page. |
+| **Pick the zero of the program** | | The next click on the work area sets the zero of the program (as **Pick on the work area** of the Device tab). |
+| **Find the centre** | | The probe, hanging in a hole, touches its four sides and makes the middle the zero of X and Y (as on the Control tab; needs a connected machine). |
+| **Saved positions…** | | Shows the Control tab with the saved positions. |
+| **Side to cut ▸** | | Top or Bottom (turned over) of a two-sided job (as on the Control tab). |
 | **Control devices ▸** | Control device settings… opens the window of the keyboards and pads and their keys; Control device of this machine… chooses the one of the open machine. See [Control Devices](Control-Devices). |
 | **Diagnostics and statistics…** | The input pins, the jobs, the hours, alarms and errors, maintenance reminders, the export of a report. |
 | **Share over network (ser2net)…** | Linux only: shares the serial port of the machine over the network. |
@@ -135,7 +142,12 @@ The settings of the machine first, then what runs on it. See [Machine Control](M
 |---|---|---|
 | **Bit library…** | | The ready-made bits and yours. See [Bit Library](Bit-Library). |
 | **Knife library…** | | The ready-made drag knives and yours. See [Design Tools](Design-Tools#drag-knife). |
+| **Layer presets…** | | The window of the presets of layers: save the active layer under a name, or put a preset on it. |
+| **Operation of the active layer ▸** | | Every operation: the chosen one becomes the operation of the active layer (as on the Layers tab). |
+| **Place tabs by hand** | | Switches on (and off) placing the tabs on the outlines with the mouse (as on the Layers tab). |
+| **Add alignment holes** | | Two holes for the pins of a two-sided job, on an empty layer (as on the Material tab). |
 | **3D view of the job…** | Ctrl+Shift+P | Opens the **Preview** tab: the material, the cuts and the moves in 3D, with the animation. See [3D View and G-code](3D-View-and-G-code). |
+| **Preview G-code** | | The G-code of the job as text in a tab, without saving it (the same as the **Preview G-code** button). |
 | **Show technical drawing…** | | The part as a technical drawing: the views from the front, from the side and from above, with dimensions and a title block. Also the **Technical drawing** button of the preview. |
 | **Export G-code…** | Ctrl+E | Asks for a file name (`name.nc`) and writes the G-code of the project, through the postprocessors that are on. The same as the **Save G-code** button. |
 | **Export relief as STL…** | | Saves the 3D relief of a picture as an STL model (only when there is a picture on a layer with the 3D relief method). |

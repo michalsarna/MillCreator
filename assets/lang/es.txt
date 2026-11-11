@@ -553,3 +553,5 @@
 552|El cilindro está tumbado a lo largo de X en el eje rotativo; la Y del dibujo le da la vuelta y el dibujo es su superficie desenrollada. Z cuenta desde la superficie y el corte más profundo es el radio. El cero está en la superficie; pon el mismo en la máquina.
 553|Proyecto configurado: un cilindro de Ø {} mm y {} mm de largo en el eje rotativo (activado), cero en {}
 554|El eje rotativo del dispositivo está desactivado.
+555|Elegir el cero del programa
+556|Operación de la capa activa

@@ -553,3 +553,5 @@
 552|Luíonn an sorcóir feadh X ar an ais rothlach; téann Y na líníochta timpeall air agus is é an líníocht a dhromchla leata amach. Comhairtear Z ó bharr an dromchla, agus is é an ga an gearradh is doimhne. Tá an náid ar an dromchla; socraigh an ceann céanna ar an meaisín.
 553|Tionscadal socraithe: sorcóir Ø {} mm agus {} mm ar fad ar an ais rothlach (ar siúl), náid ag {}
 554|Tá ais rothlach an ghléis múchta.
+555|Roghnaigh náid an chláir
+556|Oibríocht na sraithe gníomhaí

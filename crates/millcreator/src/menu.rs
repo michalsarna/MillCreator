@@ -62,6 +62,22 @@ pub enum Act {
     Frame,
     StartJob,
     ToggleOverlay,
+    /// Draw the no-go zones on the work area.
+    ToggleZones,
+    /// The device settings, on their page of the no-go zones.
+    ZoneSettings,
+    PreviewGcode,
+    LayerPresets,
+    /// Place tabs on the outlines by hand (the switch of the Layers tab).
+    TabsByHand,
+    AlignmentHoles,
+    /// The operation of the active layer.
+    SetOp(crate::layers::Operation),
+    /// The side of a two-sided job that is cut.
+    SetSide(crate::layers::Side),
+    PickZero,
+    FindCentre,
+    SavedPositions,
 }
 
 impl From<StdAct> for Act {
@@ -106,14 +122,21 @@ pub fn menus() -> Menus<Act> {
         export_first: vec![Item(Act::ExportGcode, "Export G-code…", None)],
         export_extra: vec![Item(Act::ExportRelief, "Export relief as STL…", None)],
         output_extra: vec![Item(Act::Print, "Print…", key("CmdOrCtrl+P", "Ctrl+P"))],
-        view_extra: overlay_entries(Act::ToggleOverlay, Act::Std(StdAct::BackgroundPicture)),
+        view_extra: [overlay_entries(Act::ToggleOverlay, Act::Std(StdAct::BackgroundPicture)), vec![Item(Act::ToggleZones, "Show no-go zones", None)]].concat(),
         background: false,
         machine: machine_menu(MachineMenu {
             switch_device: Act::SwitchDevice,
             device_settings: Act::DeviceSettings,
             firmware: Act::Firmware,
             calibration: Act::Calibration,
-            own: vec![Item(Act::ToolSensor, "Tool length sensor…", None)],
+            own: vec![
+                Item(Act::ToolSensor, "Tool length sensor…", None),
+                Item(Act::ZoneSettings, "No-go zones…", None),
+                Item(Act::PickZero, "Pick the zero of the program", None),
+                Item(Act::FindCentre, "Find the centre", None),
+                Item(Act::SavedPositions, "Saved positions…", None),
+                Entry::Sub("Side to cut", crate::layers::Side::ALL.iter().map(|s| Item(Act::SetSide(*s), s.label(), None)).collect()),
+            ],
             control_devices: Act::ControlDevices,
             control_device_of_machine: Act::ControlDeviceOfMachine,
             diagnostics: Act::Diagnostics,
@@ -123,10 +146,11 @@ pub fn menus() -> Menus<Act> {
             start_from: Act::StartFrom,
             check_program: Act::CheckProgram,
         }),
-        process: ("Milling", vec![Item(Act::ToolLibrary, "Bit library…", None), Item(Act::KnifeLibrary, "Knife library…", None), Sep, Item(Act::Preview3d, "3D view of the job…", key("CmdOrCtrl+Shift+P", "Ctrl+Shift+P")), Item(Act::TechnicalDrawing, "Show technical drawing…", None), Item(Act::ExportGcode, "Export G-code…", key("CmdOrCtrl+E", "Ctrl+E")), Item(Act::ExportRelief, "Export relief as STL…", None)]),
+        process: ("Milling", vec![Item(Act::ToolLibrary, "Bit library…", None), Item(Act::KnifeLibrary, "Knife library…", None), Item(Act::LayerPresets, "Layer presets…", None), Sep, Entry::Sub("Operation of the active layer", crate::layers::Operation::ALL.iter().map(|o| Item(Act::SetOp(*o), o.label(), None)).collect()), Item(Act::TabsByHand, "Place tabs by hand", None), Item(Act::AlignmentHoles, "Add alignment holes", None), Sep, Item(Act::PreviewGcode, "Preview G-code", None), Item(Act::Preview3d, "3D view of the job…", key("CmdOrCtrl+Shift+P", "Ctrl+Shift+P")), Item(Act::TechnicalDrawing, "Show technical drawing…", None), Item(Act::ExportGcode, "Export G-code…", key("CmdOrCtrl+E", "Ctrl+E")), Item(Act::ExportRelief, "Export relief as STL…", None)]),
         settings_extra: vec![],
         help_first: vec![Item(Act::QuickGuide, "Quick guide", key("F1", "F1"))],
         help_extra: vec![Item(Act::ExportDiagnostics, "Export diagnostics (zip)…", None)],
+        zones: true,
     })
 }
 

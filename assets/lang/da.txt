@@ -553,3 +553,5 @@
 552|Cylinderen ligger langs X på drejeaksen; tegningens Y går rundt om den, og tegningen er dens udfoldede overflade. Z tælles fra overfladen, og det dybeste snit er radius. Nulpunktet er på overfladen; sæt det samme på maskinen.
 553|Projekt sat op: en cylinder Ø {} mm og {} mm lang på drejeaksen (slået til), nulpunkt {}
 554|Enhedens drejeakse er slået fra.
+555|Vælg programmets nulpunkt
+556|Bearbejdning af det aktive lag

@@ -553,3 +553,5 @@
 552|Cilindrs guļ gar X uz rotācijas ass; zīmējuma Y iet apkārt tam, un zīmējums ir tā izritinātā virsma. Z skaita no virsmas, un dziļākais griezums ir rādiuss. Nulle ir uz virsmas; iestatiet to pašu mašīnā.
 553|Projekts iestatīts: cilindrs Ø {} mm, {} mm garš, uz rotācijas ass (ieslēgta), nulle: {}
 554|Ierīces rotācijas ass ir izslēgta.
+555|Izvēlēties programmas nulli
+556|Aktīvā slāņa darbība

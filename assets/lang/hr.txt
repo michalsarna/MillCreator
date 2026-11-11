@@ -553,3 +553,5 @@
 552|Valjak leži duž X na rotacijskoj osi; Y crteža ide oko njega, a crtež je njegova razvijena površina. Z se broji od površine, a najdublji rez je polumjer. Nula je na površini; postavite istu na stroju.
 553|Projekt postavljen: valjak Ø {} mm duljine {} mm na rotacijskoj osi (uključenoj), nula: {}
 554|Rotacijska os uređaja je isključena.
+555|Odaberi nulu programa
+556|Operacija aktivnog sloja

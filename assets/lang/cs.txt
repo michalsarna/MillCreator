@@ -553,3 +553,5 @@
 552|Válec leží podél X na otočné ose; Y výkresu jde kolem něj a výkres je jeho rozvinutý povrch. Z se počítá od povrchu a nejhlubší řez je poloměr. Nula je na povrchu; nastavte stejnou na stroji.
 553|Projekt nastaven: válec Ø {} mm dlouhý {} mm na otočné ose (zapnuté), nula: {}
 554|Otočná osa zařízení je vypnutá.
+555|Vybrat nulu programu
+556|Operace aktivní vrstvy
