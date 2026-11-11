@@ -492,3 +492,6 @@
 491	{}: a shape is not round: the thread is milled round its middle
 492	{}: the bit is too big for the hole of the thread: that thread is left out
 493	{}: open lines are left out of a thread
+494	Z 0 is the top of the material, as in the G-code: a clamp that stands 15 mm above the material is 0 – 15. The bit reaches up from its tip, so every cut under a zone touches it; moves at the safe height pass over a zone that is lower.
+495	A move through the air cannot go round the no-go zone "{}" (it starts or ends in it)
+496	{}: a cut touches the no-go zone "{}"

@@ -492,3 +492,6 @@
 491|{}: una forma no es redonda: la rosca se fresa alrededor de su centro
 492|{}: la fresa es demasiado grande para el agujero de la rosca: esa rosca se omite
 493|{}: las líneas abiertas se omiten de una rosca
+494|Z 0 es la parte superior del material, como en el G-code: una brida que sobresale 15 mm es 0 – 15. La fresa llega hacia arriba desde su punta, así que cada corte bajo una zona la toca; los movimientos a la altura segura pasan por encima de una zona más baja.
+495|Un movimiento por el aire no puede rodear la zona prohibida "{}" (empieza o termina dentro)
+496|{}: un corte toca la zona prohibida "{}"

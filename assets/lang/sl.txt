@@ -492,3 +492,6 @@
 491|{}: oblika ni okrogla: navoj se rezka okrog njene sredine
 492|{}: rezkar je prevelik za luknjo navoja: ta navoj je izpuščen
 493|{}: odprte črte so izpuščene iz navoja
+494|Z 0 je vrh materiala, kot v G-kodi: primež, ki štrli 15 mm nad material, je 0 – 15. Rezkar sega od konice navzgor, zato se je vsak rez pod cono dotakne; gibi na varni višini gredo čez nižjo cono.
+495|Gib po zraku ne more obiti prepovedane cone »{}« (začne ali konča se v njej)
+496|{}: rez se dotakne prepovedane cone »{}«

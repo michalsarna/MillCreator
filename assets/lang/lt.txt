@@ -492,3 +492,6 @@
 491|{}: forma nėra apvali: sriegis frezuojamas aplink jos vidurį
 492|{}: freza per didelė sriegio skylei: tas sriegis praleidžiamas
 493|{}: atviros linijos į sriegį neįtraukiamos
+494|Z 0 yra medžiagos viršus, kaip G-kode: spaustukas, kyšantis 15 mm virš medžiagos, yra 0 – 15. Freza siekia aukštyn nuo savo galo, todėl kiekvienas pjūvis po zona jos liečia; judesiai saugiame aukštyje eina virš žemesnės zonos.
+495|Judesys ore negali apeiti draudžiamos zonos „{}“ (jis prasideda arba baigiasi joje)
+496|{}: pjūvis liečia draudžiamą zoną „{}“

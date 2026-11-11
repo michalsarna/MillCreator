@@ -492,3 +492,6 @@
 491|{} : une forme n'est pas ronde : le filetage est fraisé autour de son centre
 492|{} : la fraise est trop grande pour le trou du filetage : ce filetage est omis
 493|{} : les lignes ouvertes sont omises d'un filetage
+494|Z 0 est le dessus du matériau, comme dans le G-code : une bride qui dépasse de 15 mm est 0 – 15. La fraise monte depuis sa pointe, donc toute coupe sous une zone la touche ; les déplacements à la hauteur de sécurité passent au-dessus d'une zone plus basse.
+495|Un déplacement en l'air ne peut pas contourner la zone interdite « {} » (il commence ou finit dedans)
+496|{} : une coupe touche la zone interdite « {} »

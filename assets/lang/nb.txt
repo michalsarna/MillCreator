@@ -492,3 +492,6 @@
 491|{}: en form er ikke rund: gjengen freses rundt midten
 492|{}: fresen er for stor for hullet til gjengen: den gjengen utelates
 493|{}: åpne linjer utelates fra en gjenge
+494|Z 0 er oversiden av materialet, som i G-koden: en klemme som stikker 15 mm over materialet er 0 – 15. Fresen når opp fra spissen, så hvert kutt under en sone berører den; bevegelser i sikker høyde går over en lavere sone.
+495|En bevegelse gjennom luften kan ikke gå rundt forbudssonen «{}» (den starter eller slutter i den)
+496|{}: et kutt berører forbudssonen «{}»

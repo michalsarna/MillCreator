@@ -492,3 +492,6 @@
 491|{}: en form er ikke rund: gevindet fræses om dens midte
 492|{}: fræseren er for stor til gevindets hul: det gevind udelades
 493|{}: åbne linjer udelades af et gevind
+494|Z 0 er materialets overside, som i G-koden: en klemme, der rager 15 mm over materialet, er 0 – 15. Fræseren rækker op fra spidsen, så ethvert snit under en zone rører den; bevægelser i sikker højde går over en lavere zone.
+495|En bevægelse gennem luften kan ikke gå uden om forbudszonen "{}" (den starter eller slutter i den)
+496|{}: et snit rører forbudszonen "{}"

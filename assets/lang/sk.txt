@@ -492,3 +492,6 @@
 491|{}: tvar nie je okrúhly: závit sa frézuje okolo jeho stredu
 492|{}: fréza je príliš veľká pre otvor závitu: ten závit sa vynechá
 493|{}: otvorené čiary sa do závitu nezahŕňajú
+494|Z 0 je horná plocha materiálu, ako v G-kóde: upínka, ktorá vyčnieva 15 mm nad materiál, je 0 – 15. Fréza siaha od špičky nahor, takže každý rez pod zónou sa jej dotkne; pohyby v bezpečnej výške prejdú nad nižšou zónou.
+495|Pohyb vzduchom nemôže obísť zakázanú zónu „{}“ (začína alebo končí v nej)
+496|{}: rez sa dotýka zakázanej zóny „{}“

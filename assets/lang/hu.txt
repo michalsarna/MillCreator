@@ -492,3 +492,6 @@
 491|{}: egy alakzat nem kerek: a menetet a közepe körül marja
 492|{}: a maró túl nagy a menet furatához: az a menet kimarad
 493|{}: a nyitott vonalak kimaradnak a menetből
+494|A Z 0 az anyag teteje, mint a G-kódban: egy 15 mm-rel kiálló szorító 0 – 15. A maró a csúcsától felfelé ér, így minden vágás egy zóna alatt érinti azt; a biztonsági magasságon tett mozgások átmennek egy alacsonyabb zóna fölött.
+495|Egy levegőben tett mozgás nem tudja megkerülni a(z) „{}” tiltott zónát (benne kezdődik vagy végződik)
+496|{}: egy vágás érinti a(z) „{}” tiltott zónát

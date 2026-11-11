@@ -492,3 +492,6 @@
 491|{}: kujund pole ümmargune: keere freesitakse selle keskkoha ümber
 492|{}: frees on keerme augu jaoks liiga suur: see keere jäetakse ära
 493|{}: avatud jooned jäetakse keermest välja
+494|Z 0 on materjali pealispind, nagu G-koodis: klamber, mis ulatub 15 mm materjali kohale, on 0 – 15. Frees ulatub tipust üles, nii et iga lõige tsooni all puudutab seda; liikumised ohutul kõrgusel lähevad madalamast tsoonist üle.
+495|Liikumine õhus ei saa keelutsoonist "{}" mööda minna (see algab või lõpeb selles)
+496|{}: lõige puudutab keelutsooni "{}"
