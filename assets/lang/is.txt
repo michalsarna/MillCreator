@@ -537,3 +537,11 @@
 536|{}: opnar línur eru felldar úr áferð
 537|Skissuskurður
 538|Myndin er teiknuð aftur sem línur í stíl (eins og stílrakning gerir), og hver lína er skorin með V-tönn dýpra, og þar með breiðara, þar sem myndin er dekkri, niður í dýpt lagsins: hún lítur út eins og blýantsskissa. Hliðarfærsla tannarinnar er bilið milli lína.
+539|3D-form
+540|Hver lokuð lögun verður 3D-form — hvelfing, halli eða flatur toppur — upphækkuð úr efninu (kassinn umhverfis er fræstur niður í dýpt lagsins) eða sökkt í það, og hún er fræst eins og upphleypt mynd: grófvinnsla, frágangur eða hvort tveggja, með lögun tannarinnar í huga.
+541|Form
+542|Upphækkaður
+543|Sokkinn
+544|Breidd hallans
+545|Hvelfing
+546|Flatur toppur

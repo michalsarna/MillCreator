@@ -537,3 +537,11 @@
 536|{}: otevřené čáry se do textury nezahrnují
 537|Řezba skicy
 538|Obrázek se znovu nakreslí jako čáry ve stylu (jako Obrys ve stylu) a každá čára se vyřeže V frézou hlouběji, a tedy šířeji, kde je obrázek tmavší, až do hloubky vrstvy: vypadá jako skica tužkou. Krok frézy je vzdálenost čar.
+539|3D tvar
+540|Každý uzavřený tvar se stane 3D tvarem — kupolí, svahem nebo plochým vrcholem — vystupujícím z materiálu (rámeček kolem se srazí do hloubky vrstvy) nebo zapuštěným do něj, a frézuje se jako reliéf: hrubování, dokončení nebo obojí, s ohledem na tvar frézy.
+541|Tvar
+542|Vystouplý
+543|Zapuštěný
+544|Šířka svahu
+545|Kupole
+546|Plochý vrchol

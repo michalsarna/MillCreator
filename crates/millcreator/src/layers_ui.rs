@@ -205,6 +205,33 @@ impl App {
                         changed |= ui.add(egui::DragValue::new(&mut l.scan_angle).range(-360.0..=360.0).suffix(" °")).on_hover_text(tr("The angle of the rows of the engraving")).changed();
                         ui.end_row();
                     }
+                    if l.op == Operation::Shape3d {
+                        ui.label(tr("Form"));
+                        egui::ComboBox::from_id_salt("layer_form").selected_text(tr(l.model.form.label())).width(200.0).show_ui(ui, |ui| {
+                            for f in crate::shape3d::Form::ALL {
+                                changed |= ui.selectable_value(&mut l.model.form, f, tr(f.label())).changed();
+                            }
+                        });
+                        ui.end_row();
+                        ui.label("");
+                        ui.horizontal(|ui| {
+                            changed |= ui.selectable_value(&mut l.model.raised, true, tr("Raised")).changed();
+                            changed |= ui.selectable_value(&mut l.model.raised, false, tr("Sunk")).changed();
+                        });
+                        ui.end_row();
+                        if l.model.form == crate::shape3d::Form::Slope {
+                            ui.label(tr("Width of the slope"));
+                            changed |= drag_len(ui, units, &mut l.model.slope, 0.1, Some((0.1, 1000.0))).changed();
+                            ui.end_row();
+                        }
+                        ui.label(tr("Relief part"));
+                        egui::ComboBox::from_id_salt("layer_relief_part3").selected_text(tr(l.relief_part.label())).width(200.0).show_ui(ui, |ui| {
+                            for k in ReliefPart::ALL {
+                                changed |= ui.selectable_value(&mut l.relief_part, k, tr(k.label())).changed();
+                            }
+                        });
+                        ui.end_row();
+                    }
                     if matches!(l.op, Operation::Fluting | Operation::Moulding | Operation::Texture) {
                         changed |= decor_rows(ui, units, l.op, &mut l.decor, &mut l.raster_angle);
                     }

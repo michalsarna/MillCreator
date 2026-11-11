@@ -537,3 +537,11 @@
 536|{}: otvorene linije izostavljaju se iz teksture
 537|Rezbarenje skice
 538|Slika se ponovno crta kao linije u stilu (kao Stilski obris), a svaka linija reže se V glodalom dublje, a time i šire, gdje je slika tamnija, do dubine sloja: izgleda kao skica olovkom. Korak glodala je razmak linija.
+539|3D oblik
+540|Svaki zatvoreni oblik postaje 3D oblik — kupola, kosina ili ravni vrh — izdignut iz materijala (okvir oko njega skida se do dubine sloja) ili utonuo u njega, i glođe se kao reljef: grubo, završno ili oboje, uz oblik glodala.
+541|Oblik
+542|Izdignut
+543|Utonuo
+544|Širina kosine
+545|Kupola
+546|Ravni vrh

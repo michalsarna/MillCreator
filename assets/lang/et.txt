@@ -537,3 +537,11 @@
 536|{}: avatud jooned jäetakse tekstuurist välja
 537|Visandnikerdus
 538|Pilt joonistatakse uuesti joontena mingis stiilis (nagu stiilijälitus), ja iga joon lõigatakse V-freesiga sügavamale, seega laiemaks, seal kus pilt on tumedam, kuni kihi sügavuseni: see näeb välja nagu pliiatsivisand. Freesi külgsamm on joonte vahe.
+539|3D-kujund
+540|Igast suletud kujundist saab 3D-vorm — kuppel, kalle või lame pealispind —, mis tõuseb materjalist (selle ümber olev kast freesitakse kihi sügavuseni) või on sellesse süvistatud, ja seda freesitakse nagu reljeefi: jämetöötlus, viimistlus või mõlemad, freesi kuju arvestades.
+541|Vorm
+542|Kõrgendatud
+543|Süvistatud
+544|Kalde laius
+545|Kuppel
+546|Lame pealispind

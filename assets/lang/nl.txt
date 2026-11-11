@@ -537,3 +537,11 @@
 536|{}: open lijnen worden weggelaten bij een textuur
 537|Schetssnijwerk
 538|De afbeelding wordt opnieuw getekend als lijnen in een stijl (zoals Stijl overtrekken doet), en elke lijn wordt met een V-frees dieper, en dus breder, gesneden waar de afbeelding donkerder is, tot de diepte van de laag: het lijkt een potloodschets. De zijstap van de frees is de afstand van de lijnen.
+539|3D-vorm
+540|Elke gesloten vorm wordt een 3D-vorm — een koepel, een helling of een vlakke top — die uit het materiaal oprijst (het kader eromheen wordt tot de diepte van de laag weggefreesd) of erin verzonken is, en wordt gefreesd als een reliëf: voorfrezen, nafrezen of beide, met de vorm van de frees meegerekend.
+541|Vorm
+542|Verhoogd
+543|Verzonken
+544|Breedte van de helling
+545|Koepel
+546|Vlakke top

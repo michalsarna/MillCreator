@@ -537,3 +537,11 @@
 536|{}: atviros linijos į tekstūrą neįtraukiamos
 537|Eskizo drožyba
 538|Paveikslas iš naujo nupiešiamas linijomis tam tikru stiliumi (kaip daro stiliaus kontūras), o kiekviena linija išpjaunama V freza giliau, taigi plačiau, ten, kur paveikslas tamsesnis, iki sluoksnio gylio: atrodo kaip pieštuko eskizas. Frezos žingsnis yra linijų atstumas.
+539|3D forma
+540|Kiekviena uždara forma tampa 3D forma — kupolu, nuožulnumu ar plokščiu viršumi —, iškylančia iš medžiagos (dėžė aplink nufrezuojama iki sluoksnio gylio) arba įgilinta į ją, ir frezuojama kaip reljefas: grubiai, apdaila arba abu, atsižvelgiant į frezos formą.
+541|Forma
+542|Iškilus
+543|Įgilintas
+544|Nuožulnumo plotis
+545|Kupolas
+546|Plokščias viršus

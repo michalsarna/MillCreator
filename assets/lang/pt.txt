@@ -537,3 +537,11 @@
 536|{}: as linhas abertas são omitidas de uma textura
 537|Entalhe de esboço
 538|A imagem é redesenhada como linhas num estilo (como faz o traçado de estilo), e cada linha é entalhada com uma fresa em V mais funda, e portanto mais larga, onde a imagem é mais escura, até à profundidade da camada: parece um esboço a lápis. O passo da fresa é a distância das linhas.
+539|Forma 3D
+540|Cada forma fechada torna-se uma forma 3D — uma cúpula, uma rampa ou um topo plano — saliente do material (a caixa à volta é rebaixada até à profundidade da camada) ou afundada nele, e é fresada como um relevo: desbaste, acabamento ou ambos, tendo em conta a forma da fresa.
+541|Forma
+542|Saliente
+543|Afundado
+544|Largura da rampa
+545|Cúpula
+546|Topo plano

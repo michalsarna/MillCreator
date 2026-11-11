@@ -537,3 +537,11 @@
 536|{}: öppna linjer utelämnas från en textur
 537|Skisskärning
 538|Bilden ritas om som linjer i en stil (som stilspårning gör), och varje linje skärs med en V-fräs djupare, och därmed bredare, där bilden är mörkare, ner till lagrets djup: den ser ut som en blyertsskiss. Fräsens stegning är avståndet mellan linjerna.
+539|3D-form
+540|Varje sluten form blir en 3D-form — en kupol, en sluttning eller en platt topp — upphöjd ur materialet (lådan runt den fräses ner till lagrets djup) eller nedsänkt i det, och fräses som en relief: grovbearbetning, finbearbetning eller båda, med fräsens form inräknad.
+541|Form
+542|Upphöjd
+543|Nedsänkt
+544|Sluttningens bredd
+545|Kupol
+546|Platt topp

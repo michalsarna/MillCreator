@@ -537,3 +537,11 @@
 536|{}: fágtar línte oscailte as uigeacht
 537|Snoíodóireacht sceitse
 538|Tarraingítear an pictiúr arís mar línte i stíl (mar a dhéanann rianú stíle), agus gearrtar gach líne le giotán V níos doimhne, agus mar sin níos leithne, áit a bhfuil an pictiúr níos dorcha, go doimhneacht na sraithe: tá cuma sceitse peann luaidhe air. Is é céim an ghiotáin an t-achar idir na línte.
+539|Cruth 3D
+540|Déantar foirm 3D de gach cruth dúnta — cruinneachán, fána nó barr cothrom — ardaithe as an ábhar (gearrtar an bosca timpeall air go doimhneacht na sraithe) nó báite ann, agus gearrtar é mar fhaoiseamh: garbh, críochnú nó an dá rud, ag cur cruth an ghiotáin san áireamh.
+541|Foirm
+542|Ardaithe
+543|Báite
+544|Leithead na fána
+545|Cruinneachán
+546|Barr cothrom

@@ -537,3 +537,11 @@
 536|{}: linji miftuħa jitħallew barra mit-tessut
 537|Tinqix ta' skizz
 538|L-istampa terġa' tinġibed bħala linji fi stil (bħalma jagħmel it-traċċar tal-istil), u kull linja tinqata' b'ponta V aktar fonda, u għalhekk aktar wiesgħa, fejn l-istampa hija aktar skura, sal-fond tas-saff: tidher bħal skizz bil-lapes. Il-pass tal-ponta huwa d-distanza bejn il-linji.
+539|Forma 3D
+540|Kull forma magħluqa ssir forma 3D — koppla, inklinazzjoni jew wiċċ ċatt — mgħollija mill-materjal (il-kaxxa madwarha tinqata' sal-fond tas-saff) jew mgħaddsa fih, u tinqata' bħal riljiev: raff, finitura jew it-tnejn, b'kont tal-forma tal-ponta.
+541|Forma
+542|Mgħolli
+543|Mgħaddas
+544|Wisa' tal-inklinazzjoni
+545|Koppla
+546|Wiċċ ċatt

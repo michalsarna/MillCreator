@@ -537,3 +537,11 @@
 536|{}: les línies obertes s'ometen en una textura
 537|Talla d'esbós
 538|La imatge es torna a dibuixar com a línies en un estil (com fa el traçat d'estil), i cada línia es talla amb una fresa en V més profunda, i per tant més ampla, on la imatge és més fosca, fins a la profunditat de la capa: sembla un esbós a llapis. El pas de la fresa és la distància entre línies.
+539|Forma 3D
+540|Cada forma tancada esdevé una forma 3D — una cúpula, un pendent o un cim pla — sortint del material (la caixa al seu voltant es rebaixa a la profunditat de la capa) o enfonsada en ell, i es fresa com un relleu: desbast, acabat o tots dos, tenint en compte la forma de la fresa.
+541|Forma
+542|En relleu
+543|Enfonsat
+544|Amplada del pendent
+545|Cúpula
+546|Cim pla

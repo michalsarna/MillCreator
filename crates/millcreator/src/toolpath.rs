@@ -363,7 +363,13 @@ fn sketch_passes(b: &mut Builder, layer: &MillLayer, shape: &Shape, im: &ImageDa
 #[allow(clippy::too_many_arguments)]
 fn relief_passes(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shape, im: &ImageData, area_y: f64, depth: f64, step: f64, rest: Option<&Tool>) -> bool {
     let Some(map) = crate::relief::HeightMap::of(shape, im, step, layer.scan_angle, depth) else { return true };
-    let mut tips = crate::relief::tip_heights(&map, tool);
+    relief_map_passes(b, layer, tool, &map, area_y, depth, rest)
+}
+
+/// The passes over a height map: roughing down in passes, finishing over it, or both (the part of the relief of the layer).
+pub(crate) fn relief_map_passes(b: &mut Builder, layer: &MillLayer, tool: &Tool, map: &crate::relief::HeightMap, area_y: f64, depth: f64, rest: Option<&Tool>) -> bool {
+    let map = map;
+    let mut tips = crate::relief::tip_heights(map, tool);
     // Roughing leaves the stock to leave on the relief; finishing is one go over the relief itself.
     use crate::layers::ReliefPart;
     if layer.relief_part == ReliefPart::Rough && layer.leave > 0.0 {
@@ -373,14 +379,14 @@ fn relief_passes(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shape,
     }
     // Rest machining: a finish with a smaller bit after a bigger one goes only where the bigger one could not reach.
     if let (Some(big), ReliefPart::Finish) = (rest, layer.relief_part) {
-        let before = crate::relief::tip_heights(&map, big);
-        crate::relief::rest_only(&map, &mut tips, &before, tool.radius(), 0.02);
+        let before = crate::relief::tip_heights(map, big);
+        crate::relief::rest_only(map, &mut tips, &before, tool.radius(), 0.02);
     }
     let limits = if layer.relief_part == ReliefPart::Finish { vec![depth] } else { crate::relief::pass_limits(depth, layer.step_down) };
     for limit in limits {
         let mut k = 0usize;
         for r in 0..map.grid.rows {
-            let runs = crate::relief::row_runs(&map, &tips, r, limit, k % 2 == 1, area_y);
+            let runs = crate::relief::row_runs(map, &tips, r, limit, k % 2 == 1, area_y);
             if runs.is_empty() {
                 continue;
             }
@@ -655,6 +661,17 @@ fn run_layers(b: &mut Builder, prog: &mut Program, scene: &Scene, layers: &[Mill
         // The tabs placed by hand on this layer, where they lie on the toolpath's side of the page (y turned over).
         let anchors: Vec<Pt> = layer.tabs.manual.iter().filter_map(|t| scene.shape(t.shape).filter(|s| s.layer == li).and_then(|s| crate::handtabs::point_on(s, t.at))).map(|p| Pt::new(p.x, dev.area.y - p.y)).collect();
         run_layer(b, &layer, tool, &outlines, &depths, anchors, rest_r, &mut prog.warnings);
+        // A 3D shape: the closed shapes of the layer (in the coordinates of the page) as a height map, cut like a relief.
+        if layer.op == Operation::Shape3d {
+            let shapes: Vec<Vec<Polyline>> = scene.shapes.iter().filter(|s| s.layer == li && !matches!(s.kind, Kind::Image(_))).map(|s| s.polys().into_iter().filter(|p| p.closed).collect::<Vec<_>>()).filter(|v: &Vec<Polyline>| !v.is_empty()).collect();
+            let step = (tool.dims.diameter * layer.step_over_pct / 100.0).max(0.05);
+            let full = depths.last().copied().unwrap_or(layer.depth);
+            if let Some(map) = crate::shape3d::height_map(&shapes, &layer.model, full, step, tool.dims.diameter) {
+                b.note(format!("3D shape start: {} shapes, {}", shapes.len(), layer.model.form.label()));
+                relief_map_passes(b, &layer, tool, &map, dev.area.y, full, None);
+                b.note_end("3D shape end".into());
+            }
+        }
         // A rest finish of a relief: the bit of the layer it follows, which has to be bigger.
         let rest_tool = layer.rest_of.filter(|_| layer.op == Operation::Picture && layer.picture == PictureMethod::Relief && layer.relief_part == crate::layers::ReliefPart::Finish).and_then(|i| layers.get(i)).and_then(|l| l.tool.as_deref()).and_then(|id| tools.get(id)).filter(|big| {
             let ok = big.radius() > tool.radius();
@@ -723,7 +740,7 @@ fn first_pass(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyl
                 }
             }
         }
-        Operation::Drill | Operation::Picture | Operation::Face | Operation::VCarve | Operation::DragKnife | Operation::ThreadMill | Operation::Fluting | Operation::Moulding | Operation::Texture => {}
+        Operation::Drill | Operation::Picture | Operation::Face | Operation::VCarve | Operation::DragKnife | Operation::ThreadMill | Operation::Fluting | Operation::Moulding | Operation::Texture | Operation::Shape3d => {}
     }
 }
 
@@ -943,6 +960,8 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
                 b.note_end(format!("Moulding {} end", i + 1));
             }
         }
+        // Made from the shapes of the page in `run_layers`.
+        Operation::Shape3d => {}
         Operation::Texture => {
             let rings = closed_only(outlines);
             if rings.len() < outlines.len() {
@@ -2901,6 +2920,37 @@ mod tests {
         let other = generate(&g, &layers, &lib, &dev, &stock);
         assert_ne!(other.moves.len(), prog.moves.len());
         assert!(!serde_json::to_string(&layers[0]).unwrap().contains("sketch_style"));
+    }
+
+    #[test]
+    fn a_closed_shape_becomes_a_raised_dome_or_a_sunken_slope() {
+        use crate::shape3d::{Form, Model};
+        let (lib, dev, stock, mut layers) = setup();
+        layers[3].op = Operation::Shape3d;
+        layers[3].use_tool(lib.get("std-ball-3").unwrap());
+        layers[3].depth = 3.0;
+        layers[3].step_down = 1.0;
+        layers[3].step_over_pct = 20.0;
+        let mut scene = Scene::default();
+        square(&mut scene, 3, 40.0, 40.0, 20.0);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
+        let cuts: Vec<P3> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).map(|m| m.to).collect();
+        assert!(cuts.len() > 50);
+        let deepest = cuts.iter().map(|p| p[2]).fold(0.0f64, f64::min);
+        assert!((deepest + 3.0).abs() < 1e-6, "the background is cut to the depth: {deepest}");
+        // Over the middle of the square the bit stays near the top of the dome.
+        let mid = (50.0, dev.area.y - 50.0);
+        let near: Vec<f64> = cuts.iter().filter(|p| (p[0] - mid.0).abs() < 1.0 && (p[1] - mid.1).abs() < 1.0).map(|p| p[2]).collect();
+        assert!(!near.is_empty() && near.iter().all(|z| *z > -0.5), "{near:?}");
+        // Everything within the box of the square and the margin of a bit.
+        assert!(cuts.iter().all(|p| p[0] > 40.0 - 4.0 && p[0] < 60.0 + 4.0 && p[2] >= -3.0 - 1e-9));
+        // Sunk with a slope: nothing outside the square is cut.
+        layers[3].model = Model { form: Form::Slope, raised: false, slope: 3.0 };
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let cuts: Vec<P3> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).map(|m| m.to).collect();
+        assert!(!cuts.is_empty() && cuts.iter().all(|p| p[0] > 40.0 - 1e-6 && p[0] < 60.0 + 1e-6 && p[1] < dev.area.y - 40.0 + 1e-6 && p[1] > dev.area.y - 60.0 - 1e-6), "inside the square");
+        assert!(!serde_json::to_string(&default_layers(&lib)[0]).unwrap().contains("model"));
     }
 
     fn two_layer_job(lib: &Library) -> (Scene, Vec<MillLayer>) {

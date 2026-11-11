@@ -537,3 +537,11 @@
 536|{}: åpne linjer utelates fra en tekstur
 537|Skisseskjæring
 538|Bildet tegnes på nytt som linjer i en stil (slik stilsporing gjør), og hver linje skjæres med en V-fres dypere, og dermed bredere, der bildet er mørkere, ned til lagets dybde: det ser ut som en blyantskisse. Fresens sideforskyvning er avstanden mellom linjene.
+539|3D-form
+540|Hver lukket form blir en 3D-form — en kuppel, en skråning eller en flat topp — hevet ut av materialet (boksen rundt freses ned til lagets dybde) eller senket ned i det, og freses som et relieff: grovfresing, slettfresing eller begge, med fresens form tatt med.
+541|Form
+542|Hevet
+543|Senket
+544|Skråningens bredde
+545|Kuppel
+546|Flat topp
