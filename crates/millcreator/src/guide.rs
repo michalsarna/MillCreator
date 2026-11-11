@@ -16,6 +16,9 @@ const EN: &[Section] = &[
         lines: &[
             "A shape is milled the way its layer says. Select shapes and click a colour in the row under the work area to put them on that layer. On the Layers tab set the operation (profiles, pocket, drill, V-carve and others), the bit, the depth, the pass depth and the feeds. The tick takes a layer into the job.",
             "Milling > Bit library… keeps your bits; choosing a bit also sets its starting speeds. Tabs keep a part in its place while it is cut out.",
+            "Profiles can have a Lead in and a Lead out: a line or an arc from the waste side, so the mark where the bit starts is not on the part, and an overlap past the start.",
+            "More operations: Thread mill (a helix round every circle, a nut or a screw, with the pitches of usual screws), Fluting (grooves that start and end shallow), Moulding (a roundover, cove or ogee swept along a line), Texture (scoops of a ball nose, as if carved by hand) and 3D shape (a dome, a slope or a flat top out of every closed shape). A picture layer can use Sketch carving, a V-bit cutting lines like a pencil sketch. A relief Finish with Rest of layer cuts only what a bigger bit before it could not reach.",
+            "Two sides: on the Material tab tick Two sides, choose how the material is Turned over and press Add alignment holes; give every layer its side, then choose the Side to cut on the Control tab before each half of the job.",
         ],
     },
     Section {
@@ -44,6 +47,9 @@ const PL: &[Section] = &[
         title: "Warstwy i frezy",
         lines: &[
             "Kształt jest frezowany tak, jak mówi jego warstwa. Zaznacz kształty i kliknij kolor w rzędzie pod obszarem roboczym, żeby przenieść je na tę warstwę. Na karcie Warstwy ustaw operację (kontury, kieszeń, wiercenie, V-carve i inne), frez, głębokość, głębokość przejścia i posuwy. Zaznaczenie bierze warstwę do zadania.",
+            "Kontury mogą mieć Wejście i Wyjście: linię albo łuk od strony odpadu, żeby ślad w miejscu startu freza nie był na części, oraz zakładkę za punktem startu.",
+            "Więcej operacji: Frezowanie gwintu (helisa wokół każdego okręgu, nakrętka albo śruba, ze skokami typowych śrub), Rowkowanie (żłobki) (rowki płytkie na początku i końcu), Listwa profilowa (zaokrąglenie, wklęsłość albo ogee prowadzone wzdłuż linii), Tekstura (wybrania frezem kulowym jak rzeźbione ręcznie) i Kształt 3D (kopuła, skos albo płaski wierzch z każdego zamkniętego kształtu). Warstwa z obrazem może użyć metody Rzeźba szkicowa: frez V wycina linie jak szkic ołówkiem. Wykończenie płaskorzeźby z opcją Resztki po warstwie frezuje tylko to, czego większy frez przed nim nie sięgnął.",
+            "Dwie strony: na karcie Materiał zaznacz Dwie strony, wybierz Odwracanie i naciśnij Dodaj otwory bazujące; daj każdej warstwie jej stronę, a przed każdą połową zadania wybierz Strona do frezowania na karcie Sterowanie.",
             "Frezowanie > Biblioteka frezów… przechowuje Twoje frezy; wybranie freza ustawia też jego prędkości startowe. Mostki trzymają część na miejscu podczas wycinania.",
         ],
     },
