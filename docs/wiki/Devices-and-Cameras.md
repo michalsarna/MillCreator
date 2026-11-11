@@ -18,7 +18,7 @@ Makes, once, a plain device called **Dummy**: a 300 × 200 mm work area with 60 
 | Page | What it holds |
 |---|---|
 | General | name, controller, units (mm or inch; geometry is always stored in mm), **Machine zero (0,0)** (front left, front right, back left, back right), **Work coordinates** (None, or G54 … G59) and the **Zero of the program**; for a new device **Start from** (a usual machine size) |
-| Machine | work area X, Y and Z, **Safe height** (where the spindle moves between cuts), **Speed of moves above the material**; the values read from the controller and the copies of its settings |
+| Machine | work area X, Y and Z, **Safe height** (where the spindle moves between cuts), **Speed of moves above the material**, **Acceleration of X, Y, Z** and **Junction deviation** (0 = not known; with them the time of a job counts the speeding up, the slowing down and the slower corners, as GRBL plans them; **Read the machine** fills them from `$120` – `$122` and `$11`); the values read from the controller and the copies of its settings |
 | Spindle | **Lowest speed**, **Highest speed**, **Wait after switching on**, **Tool changer** |
 | G-code | the device's **own G-code** (eight boxes, see below), the variables and the **Own file format** |
 | Connection | serial port or network socket, port or USB id, baud rate, the GRBL version, streaming, what to do after connecting; or a Duet board over HTTP |

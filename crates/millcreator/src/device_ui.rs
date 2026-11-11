@@ -75,6 +75,7 @@ pub(crate) fn apply_suggestion(d: &mut Device, s: &base_core::firmware::Suggesti
     if let Some(r) = s.rapid {
         d.rapid = r.clamp(1.0, 100_000.0);
     }
+    d.motion.take(s);
 }
 
 impl App {
@@ -335,6 +336,7 @@ impl App {
                             ui.label(tr("Speed of moves above the material"));
                             ui.add(egui::DragValue::new(&mut d.rapid).range(1.0..=100000.0).suffix(" mm/min"));
                             ui.end_row();
+                            base_ui::device_pages::motion_rows(ui, &mut d.motion);
                         });
                         ui.add_space(4.0);
                         ui.label(RichText::new(tr("Z is how far the spindle goes down from the top of the material. The safe height is where the spindle moves between cuts.")).color(theme::text_dim()));

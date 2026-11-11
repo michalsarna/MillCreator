@@ -188,6 +188,9 @@ pub struct Device {
     /// LinuxCNC runs the program by itself: Start saves the G-code file for it, nothing is streamed.
     #[serde(default, skip_serializing_if = "std::ops::Not::not")]
     pub linuxcnc: bool,
+    /// How the machine speeds up and slows down (for the time of a job); not known by default.
+    #[serde(default, skip_serializing_if = "base_core::motion::Motion::is_unset")]
+    pub motion: base_core::motion::Motion,
 }
 
 /// The Duet / RepRapFirmware settings of a device. The password is typed when needed and never saved.
@@ -226,6 +229,7 @@ impl Default for Device {
             changer: false,
             z_offset: 0.0,
             duet: Duet::default(),
+            motion: Default::default(),
         }
     }
 }
@@ -289,6 +293,7 @@ impl Device {
         if !ok(self.rapid, 1.0, 100_000.0) {
             return Err("the speed of the moves is out of range".into());
         }
+        self.motion.check()?;
         let s = &self.spindle;
         if !ok(s.min_rpm, 0.0, 1_000_000.0) || !ok(s.max_rpm, 1.0, 1_000_000.0) || s.min_rpm > s.max_rpm || !ok(s.spin_up, 0.0, 600.0) {
             return Err("the spindle speeds are out of range".into());

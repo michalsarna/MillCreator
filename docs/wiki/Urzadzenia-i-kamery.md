@@ -18,7 +18,7 @@ Tworzy jednorazowo zwykłe urządzenie o nazwie **Dummy**: pole robocze 300 × 2
 | Strona | Co zawiera |
 |---|---|
 | Ogólne (General) | nazwa, sterownik, jednostki (mm lub cale; geometria jest zawsze zapisana w mm), **Zero maszyny (0,0)** (przód po lewej, przód po prawej, tył po lewej, tył po prawej), **Współrzędne robocze** (Brak albo G54 … G59) i **Zero programu**; dla nowego urządzenia **Start od** (zwykły rozmiar maszyny) |
-| Maszyna (Machine) | obszar roboczy X, Y i Z, **Bezpieczna wysokość** (na której wrzeciono porusza się między cięciami), **Prędkość ruchów nad materiałem**; wartości odczytane ze sterownika i kopie jego ustawień |
+| Maszyna (Machine) | obszar roboczy X, Y i Z, **Bezpieczna wysokość** (na której wrzeciono porusza się między cięciami), **Prędkość ruchów nad materiałem**, **Przyspieszenie X, Y, Z** i **Odchyłka w narożnikach** (0 = nieznane; z nimi czas zadania uwzględnia rozpędzanie, hamowanie i wolniejsze narożniki, tak jak planuje je GRBL; **Read the machine** wypełnia je z `$120` – `$122` i `$11`); wartości odczytane ze sterownika i kopie jego ustawień |
 | Wrzeciono (Spindle) | **Najmniejsza prędkość**, **Największa prędkość**, **Czekanie po włączeniu**, **Zmieniacz narzędzi** |
 | G-code | **własny G-code** urządzenia (osiem pól, patrz niżej), zmienne i **Format pliku dla sterowania** (Own file format) |
 | Połączenie (Connection) | port szeregowy lub gniazdo sieciowe, port lub identyfikator USB, szybkość transmisji, wersja GRBL, strumieniowanie, co zrobić po połączeniu; albo płytka Duet przez HTTP |

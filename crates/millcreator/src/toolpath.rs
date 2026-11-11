@@ -69,19 +69,22 @@ impl Program {
         self.moves.iter().filter(|m| m.kind != MoveKind::Rapid).map(|m| m.length()).sum()
     }
 
-    /// The time the machine needs, in seconds, from the feeds and the speed of the moves above the material.
-    pub fn estimate_seconds(&self, rapid: f64) -> f64 {
-        self.moves
+    /// The time the machine needs, in seconds, from the feeds and the speed of the moves above the material; with the
+    /// accelerations of the device (when known) the speeding up, the slowing down and the slower corners count too. The
+    /// machine stops where the layer changes (the spindle, a change of the bit).
+    pub fn estimate_seconds(&self, dev: &Device) -> f64 {
+        let Some(first) = self.moves.first() else { return 0.0 };
+        let blocks: Vec<base_core::motion::Block> = self
+            .moves
             .iter()
-            .map(|m| {
-                let speed = if m.kind == MoveKind::Rapid { rapid } else { m.feed };
-                if speed > 0.0 {
-                    m.length() / speed * 60.0
-                } else {
-                    0.0
-                }
+            .enumerate()
+            .map(|(i, m)| base_core::motion::Block {
+                to: m.to,
+                feed: if m.kind == MoveKind::Rapid { dev.rapid } else { m.feed },
+                stop: i > 0 && (self.moves[i - 1].layer != m.layer || self.moves[i - 1].to != m.from),
             })
-            .sum()
+            .collect();
+        base_core::motion::seconds(first.from, &blocks, &dev.motion)
     }
 
     pub fn is_empty(&self) -> bool {
@@ -2049,9 +2052,29 @@ mod tests {
         square(&mut a, 0, 20.0, 20.0, 20.0);
         let mut b = Scene::default();
         square(&mut b, 0, 20.0, 20.0, 80.0);
-        let ta = generate(&a, &layers, &lib, &dev, &stock).estimate_seconds(dev.rapid);
-        let tb = generate(&b, &layers, &lib, &dev, &stock).estimate_seconds(dev.rapid);
+        let ta = generate(&a, &layers, &lib, &dev, &stock).estimate_seconds(&dev);
+        let tb = generate(&b, &layers, &lib, &dev, &stock).estimate_seconds(&dev);
         assert!(ta > 0.0 && tb > ta);
+    }
+
+    #[test]
+    fn with_the_accelerations_of_the_machine_the_job_takes_longer() {
+        let (lib, mut dev, stock, mut layers) = setup();
+        layers[2].depth = 2.0;
+        let mut scene = Scene::default();
+        square(&mut scene, 2, 20.0, 20.0, 30.0);
+        let plain = generate(&scene, &layers, &lib, &dev, &stock).estimate_seconds(&dev);
+        dev.motion = base_core::motion::Motion { accel: [200.0, 200.0, 20.0], junction: 0.01 };
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let real = prog.estimate_seconds(&dev);
+        assert!(real > plain * 1.05, "{real} vs {plain}");
+        // A faster Z shortens the plunges and the lifts.
+        dev.motion.accel[2] = 200.0;
+        assert!(prog.estimate_seconds(&dev) < real);
+        // The device keeps the settings, and an old device file has none.
+        let back: crate::device::Device = serde_json::from_str(&serde_json::to_string(&dev).unwrap()).unwrap();
+        assert_eq!(back.motion, dev.motion);
+        assert!(back.check().is_ok());
     }
 
     /// A picture of `w` x `h` mm at (x, y): black everywhere, or a gradient from black (left) to white (right).

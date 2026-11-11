@@ -39,7 +39,7 @@ It shows only the area of the job, **10 % larger than the job** in each directio
 
 ![Turned view](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/17-3d-view-turned.png)
 
-The carved block is a picture on a grid (finer for a small job), and the time is an estimate from the feeds, not a simulation of the controller.
+The carved block is a picture on a grid (finer for a small job), and the time is an estimate from the feeds: with the accelerations of the device (the **Machine** page) it counts the speeding up and slowing down of every move, the slower corners and the short lookahead of GRBL (15 moves), and the machine stops where the layer changes; without them it is the length at the feed. The G-code viewer times a file the same way, for the device.
 
 **Export the milled piece as STL…** saves the stock with the grooves in it, as far as the slider has got (at the end: the whole job), as a binary STL model in millimetres. **Milling → Export relief as STL…** is the other export: the relief of a picture alone.
 
