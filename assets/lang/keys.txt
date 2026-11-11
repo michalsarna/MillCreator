@@ -510,3 +510,5 @@
 509	Side to cut
 510	A two-sided job: only the layers of this side are cut. For the bottom turn the material over as the Material tab says and put it on the alignment pins: the drawing is turned over with it.
 511	The size of the material is not set (File → New…): the bottom side is turned over the middle of the work area
+512	A finish with a smaller bit after the finish of that layer: it goes only where the bigger bit could not reach (narrow valleys, sharp corners), so the job takes much less time.
+513	{}: the bit of a rest finish has to be smaller than the bit of the layer it follows

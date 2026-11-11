@@ -510,3 +510,5 @@
 509|Strana za glodanje
 510|Dvostrani posao: glođu se samo slojevi ove strane. Za donju okrenite materijal kako kaže kartica Materijal i stavite ga na zatike: crtež se okreće s njim.
 511|Veličina materijala nije postavljena (Datoteka → Novo…): donja strana okreće se oko sredine radnog područja
+512|Završna obrada manjim glodalom nakon završne obrade tog sloja: ide samo tamo kamo veće glodalo nije doseglo (uske doline, oštri kutovi), pa posao traje mnogo kraće.
+513|{}: glodalo završne obrade ostatka mora biti manje od glodala sloja koji slijedi

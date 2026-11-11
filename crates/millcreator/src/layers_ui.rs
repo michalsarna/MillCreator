@@ -253,6 +253,21 @@ impl App {
                             changed |= drag_len(ui, units, &mut l.leave, 0.05, Some((0.0, 100.0))).changed();
                             ui.end_row();
                         }
+                        if l.relief_part == ReliefPart::Finish {
+                            ui.label(tr("Rest of layer"));
+                            let shown = l.rest_of.and_then(|i| layer_names.get(i)).cloned().unwrap_or_else(|| tr("None").to_string());
+                            egui::ComboBox::from_id_salt("layer_relief_rest").selected_text(shown).width(200.0).show_ui(ui, |ui| {
+                                changed |= ui.selectable_value(&mut l.rest_of, None, tr("None")).changed();
+                                for (i, n) in layer_names.iter().enumerate() {
+                                    if i != li {
+                                        changed |= ui.selectable_value(&mut l.rest_of, Some(i), n).changed();
+                                    }
+                                }
+                            })
+                            .response
+                            .on_hover_text(tr("A finish with a smaller bit after the finish of that layer: it goes only where the bigger bit could not reach (narrow valleys, sharp corners), so the job takes much less time."));
+                            ui.end_row();
+                        }
                     }
                     if matches!(l.op, Operation::Pocket | Operation::Face) {
                         ui.label(tr("Pocket pattern"));

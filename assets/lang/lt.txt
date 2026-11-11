@@ -510,3 +510,5 @@
 509|Frezuojama pusė
 510|Dvipusis darbas: frezuojami tik šios pusės sluoksniai. Apačiai apverskite medžiagą, kaip sako kortelė Medžiaga, ir uždėkite ant kaiščių: brėžinys apverčiamas kartu.
 511|Medžiagos dydis nenustatytas (Failas → Naujas…): apačia apverčiama apie darbo srities vidurį
+512|Apdaila mažesne freza po to sluoksnio apdailos: eina tik ten, kur didesnė freza nepasiekė (siauri slėniai, aštrūs kampai), todėl darbas trunka daug trumpiau.
+513|{}: likučių apdailos freza turi būti mažesnė už sluoksnio, po kurio ji eina, frezą

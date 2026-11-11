@@ -510,3 +510,5 @@
 509|Face a fresar
 510|Um trabalho de duas faces: só as camadas desta face são fresadas. Para a inferior, vire o material como diz o separador Material e ponha-o nos pinos: o desenho é virado com ele.
 511|O tamanho do material não está definido (Ficheiro → Novo…): a face inferior é virada em torno do meio da área de trabalho
+512|Um acabamento com uma fresa mais pequena depois do acabamento dessa camada: só vai onde a fresa maior não chegava (vales estreitos, cantos vivos), por isso o trabalho demora muito menos.
+513|{}: a fresa de um acabamento de restos tem de ser mais pequena do que a da camada que segue

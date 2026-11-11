@@ -510,3 +510,5 @@
 509|Naħa li trid tinqata'
 510|Xogħol b'żewġ naħat: jinqatgħu biss is-saffi ta' din in-naħa. Għal taħt, aqleb il-materjal kif jgħid it-tab Materjal u poġġih fuq il-pinnijiet: it-tpinġija tinqaleb miegħu.
 511|Id-daqs tal-materjal mhux issettjat (Fajl → Ġdid…): in-naħa ta' taħt tinqaleb madwar nofs iż-żona tax-xogħol
+512|Finitura b'ponta iżgħar wara l-finitura ta' dak is-saff: tmur biss fejn il-ponta l-kbira ma laħqitx (widien dojoq, kantunieri jaqtgħu), għalhekk ix-xogħol jieħu ħafna inqas ħin.
+513|{}: il-ponta ta' finitura tal-fdal trid tkun iżgħar mill-ponta tas-saff li ssegwi

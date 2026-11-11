@@ -510,3 +510,5 @@
 509|Te frezen zijde
 510|Een tweezijdige taak: alleen de lagen van deze zijde worden gefreesd. Draai voor de onderkant het materiaal om zoals het tabblad Materiaal zegt en leg het op de uitlijnpennen: de tekening draait mee.
 511|De maat van het materiaal is niet ingesteld (Bestand → Nieuw…): de onderkant wordt om het midden van het werkgebied gedraaid
+512|Een nabewerking met een kleinere frees na de nabewerking van die laag: ze gaat alleen waar de grotere frees niet kon komen (smalle dalen, scherpe hoeken), zodat de taak veel korter duurt.
+513|{}: de frees van een restnabewerking moet kleiner zijn dan de frees van de laag die ze volgt

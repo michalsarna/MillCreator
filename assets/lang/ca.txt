@@ -510,3 +510,5 @@
 509|Cara a fresar
 510|Una feina de dues cares: només es fresen les capes d'aquesta cara. Per a la inferior, gira el material com diu la pestanya Material i posa'l als passadors: el dibuix es gira amb ell.
 511|La mida del material no està definida (Fitxer → Nou…): la cara inferior es gira al voltant del centre de l'àrea de treball
+512|Un acabat amb una fresa més petita després de l'acabat d'aquella capa: només va on la fresa més gran no arribava (valls estretes, cantonades vives), així la feina dura molt menys.
+513|{}: la fresa d'un acabat de residus ha de ser més petita que la de la capa que segueix

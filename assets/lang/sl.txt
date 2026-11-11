@@ -510,3 +510,5 @@
 509|Stran za rezkanje
 510|Dvostranski posel: rezkajo se le plasti te strani. Za spodnjo obrnite material, kot pravi zavihek Material, in ga postavite na zatiče: risba se obrne z njim.
 511|Velikost materiala ni nastavljena (Datoteka → Novo…): spodnja stran se obrne okoli sredine delovnega območja
+512|Fino rezkanje z manjšim rezkarjem po finem rezkanju tiste plasti: gre samo tja, kamor večji rezkar ni segel (ozke doline, ostri vogali), zato posel traja veliko manj časa.
+513|{}: rezkar finega rezkanja ostankov mora biti manjši od rezkarja plasti, ki ji sledi

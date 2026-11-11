@@ -510,3 +510,5 @@
 509|Side der skal fræses
 510|Et tosidet job: kun lagene på denne side fræses. Til undersiden vendes materialet som fanen Materiale siger og lægges på styrestifterne: tegningen vendes med.
 511|Materialets størrelse er ikke sat (Filer → Ny…): undersiden vendes om midten af arbejdsområdet
+512|En sletbearbejdning med en mindre fræser efter sletbearbejdningen af det lag: den går kun derhen, hvor den større fræser ikke kunne nå (smalle dale, skarpe hjørner), så jobbet tager meget kortere tid.
+513|{}: fræseren til en restsletning skal være mindre end fræseren til det lag, den følger

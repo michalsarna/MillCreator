@@ -510,3 +510,5 @@
 509|Fața de frezat
 510|O lucrare pe două fețe: se frezează doar straturile acestei fețe. Pentru dedesubt întoarceți materialul cum spune fila Material și puneți-l pe știfturi: desenul se întoarce odată cu el.
 511|Mărimea materialului nu este setată (Fișier → Nou…): fața de dedesubt se întoarce în jurul mijlocului zonei de lucru
+512|O finisare cu o freză mai mică după finisarea acelui strat: merge doar unde freza mai mare nu a ajuns (văi înguste, colțuri ascuțite), deci lucrarea durează mult mai puțin.
+513|{}: freza unei finisări a resturilor trebuie să fie mai mică decât freza stratului pe care îl urmează
