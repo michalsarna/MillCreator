@@ -2,6 +2,8 @@
 
 # Bezpieczeństwo i ograniczenia
 
+> Maszyny, na których MillCreator na pewno działa, i jak dopisać swoją: [TESTS_ON_DEVICES.md](https://github.com/michalsarna/MillCreator/blob/main/TESTS_ON_DEVICES.md).
+
 > ⚠️ Frezarka może cię zranić i zniszczyć pracę, frez i siebie. Program jest młody i **był testowany na TwoTrees TTC450Pro i na niej działa, ale nie na innych maszynach**. Używasz go na własne ryzyko.
 
 * **Najpierw w powietrzu:** podnieś maszynę tak, żeby frez niczego nie dotknął, uruchom G-code i obserwuj ścieżkę. Dopiero potem tanim kawałkiem.

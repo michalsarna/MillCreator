@@ -96,6 +96,7 @@ const FESTIVE: base_ui::seasonal::Variants = base_ui::seasonal::Variants {
     new_years_eve: (include_bytes!("../../../assets/icons/seasonal/newyear-256.png"), include_bytes!("../../../assets/icons/seasonal/newyear-512.png")),
     halloween: (include_bytes!("../../../assets/icons/seasonal/halloween-256.png"), include_bytes!("../../../assets/icons/seasonal/halloween-512.png")),
     easter: (include_bytes!("../../../assets/icons/seasonal/easter-256.png"), include_bytes!("../../../assets/icons/seasonal/easter-512.png")),
+    chinese_new_year: (include_bytes!("../../../assets/icons/seasonal/chinesenewyear-256.png"), include_bytes!("../../../assets/icons/seasonal/chinesenewyear-512.png")),
 };
 
 /// The 256 px and 512 px logo of the day; the tests (and so the screenshots) always get the normal one.
@@ -351,6 +352,8 @@ struct App {
     quitting: bool,
     /// The last tab was closed: the program closes too.
     close_program: bool,
+    /// The last tab was closed: asking whether to close the program or to go back to the start screen.
+    ask_quit: bool,
     allow_close: bool,
     /// When the tabs that are not shown were last written.
     parked_saved_at: std::time::Instant,
@@ -538,6 +541,7 @@ impl App {
             slot: 0,
             quitting: false,
             close_program: false,
+            ask_quit: false,
             allow_close: false,
             parked_saved_at: std::time::Instant::now(),
             recovery: base_core::autosave::find_all(&data_paths().base, "millcreator"),
@@ -1125,7 +1129,10 @@ impl App {
         match self.side_tab {
             SideTab::Properties => {
                 egui::ScrollArea::vertical().id_salt("tab_props").auto_shrink([false, false]).show(ui, |ui| {
-                    if !base_ui::editor::properties_sections(self, ui) {
+                    if base_ui::editor::properties_sections(self, ui) {
+                        ui.separator();
+                        base_ui::editor::layer_section(self, ui);
+                    } else {
                         ui.label(RichText::new(tr("Nothing selected")).color(theme::text_dim()));
                     }
                 });
@@ -3002,7 +3009,16 @@ mod tests {
         assert_eq!(base_core::autosave::find_all(base, "millcreator").len(), 1);
         a.discard_active();
         a.close_shown_tab();
-        assert!(a.close_program, "the last tab closed: the program closes");
+        assert!(a.ask_quit && !a.close_program, "the last tab closed: the program asks whether to close");
+        // Escape (or "Back to the start screen") keeps the program open on the start screen.
+        a.screen = Screen::Editor;
+        let mut raw = egui::RawInput::default();
+        raw.events.push(egui::Event::Key { key: egui::Key::Escape, physical_key: None, pressed: true, repeat: false, modifiers: Default::default() });
+        let mut out = ctx.run_ui(raw, |ui| a.close_dialogs(ui.ctx()));
+        out.textures_delta.clear();
+        assert!(a.screen == Screen::Start && !a.ask_quit && !a.close_program);
+        // "Close the program" closes it.
+        a.close_program = true;
         // The program asks the window to close, and what it does on the way out saves nothing.
         let mut out = ctx.run_ui(egui::RawInput::default(), |ui| a.close_dialogs(ui.ctx()));
         out.textures_delta.clear();

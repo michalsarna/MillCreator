@@ -2,6 +2,8 @@
 
 # Sterowanie maszyną
 
+> Maszyny, na których MillCreator na pewno działa, i jak dopisać swoją: [TESTS_ON_DEVICES.md](https://github.com/michalsarna/MillCreator/blob/main/TESTS_ON_DEVICES.md).
+
 MillCreator steruje maszyną z GRBL z karty **Sterowanie** i z menu **Maszyna**. Wszystko to pochodzi z baseCreatora, więc MillCreator, PenCreator i LightCreator działają tak samo. **Sprawdzane tylko na TwoTrees TTC450Pro**: próbuj z podniesionym narzędziem albo bez pisaka i miej rękę przy zatrzymaniu.
 
 ## Odczyt maszyny

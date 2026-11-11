@@ -2,6 +2,8 @@
 
 # Devices and Cameras
 
+> The machines MillCreator is confirmed to work on, and how to add yours: [TESTS_ON_DEVICES.md](https://github.com/michalsarna/MillCreator/blob/main/TESTS_ON_DEVICES.md).
+
 A **device** is a milling machine. The list of devices is kept between runs and is the same for every project. The start screen selects the device; **New** and **Open…** then use it. The Device tab of the editor shows the device in use and opens its settings.
 
 ![Add a device](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/02-add-device.png)

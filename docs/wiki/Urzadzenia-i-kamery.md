@@ -2,6 +2,8 @@
 
 # Urządzenia i kamery
 
+> Maszyny, na których MillCreator na pewno działa, i jak dopisać swoją: [TESTS_ON_DEVICES.md](https://github.com/michalsarna/MillCreator/blob/main/TESTS_ON_DEVICES.md).
+
 **Urządzenie** to frezarka. Lista urządzeń jest zapamiętywana między uruchomieniami i jest wspólna dla wszystkich projektów. Ekran startowy wybiera urządzenie; **Nowy** i **Otwórz…** go używają. Karta **Urządzenie** w edytorze pokazuje używane urządzenie i otwiera jego ustawienia.
 
 ![Dodawanie urządzenia](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/02-add-device.png)
