@@ -2,6 +2,19 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.8.6
+
+* **Time of a job** with the acceleration of the machine, its corners and look-ahead.
+* **Leads** of profiles (a line or an arc from the waste side, an overlap) and **thread milling** (a helix in a hole or round a boss, right- or left-hand, ISO and UNC/UNF pitches).
+* **No-go zones** (clamps): moves at the safe height go round them or over a lower one, a cut in one is a warning. **Add as no-go zone** (right-click, Arrange), a **No-go zones** tab, **Machine → No-go zones…**, **View → Show no-go zones**.
+* **Two-sided jobs:** the side of each layer, the material turned over, alignment holes, **Side to cut**.
+* **Nesting** by the real outlines and onto new sheets.
+* **New operations:** fluting, moulding, texture, 3D shapes from closed vectors (dome, slope, flat top), sketch carving, and 3D rest machining with a smaller ball.
+* **Cylinder on the rotary** in the project setup (diameter, length, a picture; the rotary of the device is switched on) and lines of the way round on the work area.
+* **Properties → Layer** as in LightCreator; closing the last drawing asks whether to close the program.
+* **Menus:** Milling → Layer presets…, Operation of the active layer, Place tabs by hand, Add alignment holes, Preview G-code; Machine → Pick the zero of the program, Find the centre, Saved positions…, Side to cut; more in the right-click menu.
+* **Help:** the quick guide (F1) has the new operations; `TESTS_ON_DEVICES.md` lists the machines the program is confirmed on.
+
 ## v0.8.5
 
 * **Recording tab:** a new tab of the side panel with a panel for each camera of the device, named after the camera: **Take a photo**, **Record video**, the **Time-lapse**, the **Video format**, the **Folder** and the way its **Camera view** opens. Each camera records on its own, with its own settings kept with it; a camera that records and is not shown reads its own picture. With more than one camera the names of the files have the camera in them. The camera view keeps only the buttons: a photo, a video, the time-lapse started and stopped.
