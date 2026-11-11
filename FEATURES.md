@@ -44,11 +44,12 @@
 * **V-carve:** a V-bit goes deeper the farther it is from the edge of the shape (sloping walls, sharp corners), with a flat bottom at the depth of the layer, a start depth, and **inlays** (a socket and a plug with a gap).
 * **Machine control:** overrides of feed, spindle and rapids during a job (GRBL 1.1+), coolant buttons (M7/M8/M9) and coolant and dust collector per layer, saved positions to jog back to, **Find the centre** of a hole with the probe, a frame round the outline of the cuts, and a tool changer (`T<n> M6` without a pause).
 * **Relief in two parts:** a layer cuts a 3D relief as **Rough** (flat bit, stock to leave), **Finish** (one go with a ball nose) or both; **Import 3D model as relief…** reads STL, OBJ and 3MF models as a depth map.
+* **No-go zones** (device settings, page *No-go zones*): rectangles and circles for clamps and vices, with the heights they stand between; moves at the safe height go round them (or over a lower one), a cut that touches one is a warning. The same as in LightCreator and PenCreator.
 * **Right-click menu:** on a shape (copy, paste, duplicate, delete, group, lock, flip, turn, arrange, shape operations: union, intersection, subtract, exclusive or, offset, round corners, convert to curves; adjust and trace a picture), the same in all programs.
 
 ## Not there (yet)
 
 The list is a plan, not a promise.
 
-* Tool length offsets, collision checks with clamps.
+* Tool length offsets.
 * Other controllers than GRBL, post-processor settings.

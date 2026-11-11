@@ -102,6 +102,12 @@ pub(crate) struct Builder<'a> {
     pub(crate) feed: f64,
     pub(crate) plunge: f64,
     pub(crate) dev: &'a Device,
+    /// The enabled no-go zones of the device in the coordinates of the toolpaths, with the heights they stand between.
+    pub(crate) zones: Vec<(base_core::zones::ZoneShape, Option<(f64, f64)>, usize)>,
+    /// How far a move through the air keeps from a zone: the radius of the bit and a millimetre.
+    pub(crate) zone_margin: f64,
+    /// The zones a move through the air could not go round.
+    pub(crate) zone_blocked: Vec<usize>,
 }
 
 impl Builder<'_> {
@@ -128,10 +134,33 @@ impl Builder<'_> {
             self.push(kind, to, self.feed);
         }
     }
+    /// At the safe height to (x, y), round the no-go zones that stand that high.
+    pub(crate) fn rapid_to(&mut self, x: f64, y: f64) {
+        let safe = self.safe;
+        let zones: Vec<base_core::zones::ZoneShape> = self.zones.iter().filter(|(_, h, _)| h.is_none_or(|(a, b)| safe <= a.max(b) + 1e-9)).map(|(s, _, _)| *s).collect();
+        if !zones.is_empty() {
+            let (a, b) = (Pt::new(self.at[0], self.at[1]), Pt::new(x, y));
+            match base_core::zones::route(&zones, a, b, self.zone_margin) {
+                Some(way) => {
+                    for p in way {
+                        self.push(MoveKind::Rapid, [p.x, p.y, safe], self.dev.rapid);
+                    }
+                }
+                None => {
+                    for (s, h, i) in &self.zones {
+                        if h.is_none_or(|(lo, hi)| safe <= lo.max(hi) + 1e-9) && base_core::zones::segment_hits(s, a, b) && !self.zone_blocked.contains(i) {
+                            self.zone_blocked.push(*i);
+                        }
+                    }
+                }
+            }
+        }
+        self.push(MoveKind::Rapid, [x, y, safe], self.dev.rapid);
+    }
     /// To a point above the material and down to `z` (negative).
     pub(crate) fn dive(&mut self, x: f64, y: f64, z: f64) {
         self.retract();
-        self.push(MoveKind::Rapid, [x, y, self.safe], self.dev.rapid);
+        self.rapid_to(x, y);
         // Fast to just above the surface, then at the plunge feed.
         if self.safe > 1.0 {
             self.push(MoveKind::Rapid, [x, y, 1.0], self.dev.rapid);
@@ -401,7 +430,7 @@ fn elements_by_distance(scene: &Scene, dev: &Device) -> Vec<Scene> {
 /// The toolpaths as `generate` makes them, with what the program asks of the job (`JobOptions`).
 pub fn generate_with(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Device, stock: &Stock, opts: JobOptions) -> Program {
     let mut prog = Program::default();
-    let mut b = Builder { moves: vec![], notes: vec![], at: [0.0, 0.0, dev.safe_z], safe: dev.safe_z, layer: 0, feed: 0.0, plunge: 0.0, dev };
+    let mut b = Builder { moves: vec![], notes: vec![], at: [0.0, 0.0, dev.safe_z], safe: dev.safe_z, layer: 0, feed: 0.0, plunge: 0.0, dev, zones: zones_of(dev), zone_margin: 1.0, zone_blocked: vec![] };
     if opts.one_by_one {
         let elements = elements_by_distance(scene, dev);
         let total = elements.len();
@@ -415,6 +444,16 @@ pub fn generate_with(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: 
         prog.warnings.retain(|w| seen.insert(w.to_string()));
     } else {
         run_layers(&mut b, &mut prog, scene, layers, tools, dev, stock);
+    }
+    // Back to the zero of the program round the zones (the G-code ends with the move to X0 Y0).
+    if !b.zones.is_empty() && !b.moves.is_empty() {
+        let zero = program_zero(dev);
+        b.retract();
+        b.rapid_to(zero.x, zero.y);
+        b.moves.pop_if(|m| m.kind == MoveKind::Rapid && (m.to[0] - zero.x).abs() < 1e-9 && (m.to[1] - zero.y).abs() < 1e-9);
+    }
+    for i in std::mem::take(&mut b.zone_blocked) {
+        prog.warnings.push(Warn::new("A move through the air cannot go round the no-go zone \"{}\" (it starts or ends in it)", &[&dev.zones[i].name]));
     }
     prog.moves = b.moves;
     prog.notes = b.notes;
@@ -508,6 +547,7 @@ fn run_layers(b: &mut Builder, prog: &mut Program, scene: &Scene, layers: &[Mill
         b.layer = li;
         b.feed = layer.feed;
         b.plunge = layer.plunge;
+        b.zone_margin = tool.radius() + 1.0;
         let start = b.moves.len();
         if stock.first_pass && stock.first_pass_depth > 0.0 && stock.first_pass_depth < layer.depth - 1e-9 {
             b.note(format!("First shallow pass along the edges start: {} mm deep", num(stock.first_pass_depth)));
@@ -530,6 +570,20 @@ fn run_layers(b: &mut Builder, prog: &mut Program, scene: &Scene, layers: &[Mill
         }
         b.retract();
         b.note_end(format!("End of layer {}", layer.name));
+        // A cut under a zone touches it: the bit reaches up from its tip (the edge of the bit counts).
+        let mut hit: Vec<usize> = vec![];
+        for m in b.moves[start..].iter().filter(|m| m.kind != MoveKind::Rapid && m.from[2].min(m.to[2]) < 0.0) {
+            let low = m.from[2].min(m.to[2]);
+            for (s, h, i) in &b.zones {
+                let high_enough = h.is_none_or(|(lo, hi)| low <= lo.max(hi) + 1e-9);
+                if high_enough && !hit.contains(i) && base_core::zones::segment_hits_with(s, Pt::new(m.from[0], m.from[1]), Pt::new(m.to[0], m.to[1]), tool.radius()) {
+                    hit.push(*i);
+                }
+            }
+        }
+        for i in hit {
+            prog.warnings.push(Warn::new("{}: a cut touches the no-go zone \"{}\"", &[&layer.name, &dev.zones[i].name]));
+        }
         if b.moves.len() == start {
             prog.warnings.push(Warn::new("{}: nothing to cut (the line may be too small for the bit)", &[&layer.name]));
         }
@@ -905,6 +959,35 @@ pub fn frame_hull_gcode(points: &[(f64, f64)], dev: &Device) -> String {
         g.push_str(&format!("G1 X{} Y{} F{}\n", num(x), num(y), num(feed)));
     }
     g
+}
+
+/// The enabled no-go zones of the device in the coordinates of the toolpaths (y up), with their heights and their number.
+fn zones_of(dev: &Device) -> Vec<(base_core::zones::ZoneShape, Option<(f64, f64)>, usize)> {
+    use base_core::zones::ZoneShape;
+    let ay = dev.area.y;
+    dev.zones
+        .iter()
+        .enumerate()
+        .filter(|(_, z)| z.enabled)
+        .map(|(i, z)| {
+            let s = match z.shape {
+                ZoneShape::Rect { x, y, w, h } => ZoneShape::Rect { x, y: ay - y - h, w, h },
+                ZoneShape::Circle { x, y, r } => ZoneShape::Circle { x, y: ay - y, r },
+            };
+            (s, z.z_range, i)
+        })
+        .collect()
+}
+
+/// The point of the work area where the program has its zero (X0 Y0).
+fn program_zero(dev: &Device) -> Pt {
+    let (x, y) = match dev.origin {
+        Origin::FrontLeft => (0.0, 0.0),
+        Origin::FrontRight => (dev.area.x, 0.0),
+        Origin::BackLeft => (0.0, dev.area.y),
+        Origin::BackRight => (dev.area.x, dev.area.y),
+    };
+    Pt::new(x + dev.wcs.x, y + dev.wcs.y)
 }
 
 /// The machine zero of the device: the coordinates of a point of the work area as the machine counts them.
@@ -1314,6 +1397,59 @@ mod tests {
         square(&mut scene, 2, 50.0, 50.0, 12.0);
         let prog = generate(&scene, &layers, &lib, &dev, &stock);
         assert!(prog.warnings.iter().any(|w| w.text().contains("not round")), "{:?}", prog.warnings);
+    }
+
+    #[test]
+    fn moves_through_the_air_go_round_a_no_go_zone_and_a_cut_in_one_is_said() {
+        use base_core::zones::{segment_hits, Zone, ZoneShape};
+        let (lib, mut dev, stock, mut layers) = setup();
+        layers[0].depth = 1.0;
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 20.0, 50.0, 20.0);
+        square(&mut scene, 0, 120.0, 50.0, 20.0);
+        let clamp = ZoneShape::Rect { x: 70.0, y: 30.0, w: 20.0, h: 60.0 };
+        dev.zones = vec![Zone { name: "Clamp".into(), enabled: true, shape: clamp, z_range: None }];
+        let plain = generate(&scene, &layers, &lib, &Device { zones: vec![], ..dev.clone() }, &stock);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
+        // In the coordinates of the toolpaths (y up) the clamp is x 70…90, y (area - 90)…(area - 30).
+        let ay = dev.area.y;
+        let up = ZoneShape::Rect { x: 70.0, y: ay - 90.0, w: 20.0, h: 60.0 };
+        for m in prog.moves.iter() {
+            assert!(!segment_hits(&up, Pt::new(m.from[0], m.from[1]), Pt::new(m.to[0], m.to[1])), "{m:?}");
+        }
+        assert!(plain.moves.iter().any(|m| segment_hits(&up, Pt::new(m.from[0], m.from[1]), Pt::new(m.to[0], m.to[1]))), "the test needs a move across it");
+        // A clamp lower than the safe height: the moves pass over it.
+        dev.zones[0].z_range = Some((0.0, dev.safe_z - 1.0));
+        assert_eq!(generate(&scene, &layers, &lib, &dev, &stock).moves.len(), plain.moves.len());
+        // A zone on a part: the cut is said.
+        dev.zones[0] = Zone { name: "Pin".into(), enabled: true, shape: ZoneShape::Circle { x: 30.0, y: 50.0, r: 2.0 }, z_range: Some((0.0, 10.0)) };
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(prog.warnings.iter().any(|w| w.text().contains("Pin")), "{:?}", prog.warnings);
+        // Switched off, it is no zone.
+        dev.zones[0].enabled = false;
+        assert!(generate(&scene, &layers, &lib, &dev, &stock).warnings.is_empty());
+        // An old device has none, and the zones are kept with the device.
+        let back: Device = serde_json::from_str(&serde_json::to_string(&dev).unwrap()).unwrap();
+        assert_eq!(back.zones, dev.zones);
+        assert!(!serde_json::to_string(&Device::dummy()).unwrap().contains("zones"));
+    }
+
+    #[test]
+    fn the_way_back_to_zero_goes_round_a_zone() {
+        use base_core::zones::{segment_hits, Zone, ZoneShape};
+        let (lib, mut dev, stock, mut layers) = setup();
+        layers[0].depth = 1.0;
+        let mut scene = Scene::default();
+        square(&mut scene, 0, 100.0, 50.0, 20.0);
+        // Between the part and the zero at the front left (y up: the zone round (50, area - 100)).
+        let ay = dev.area.y;
+        dev.zones = vec![Zone { name: "Vice".into(), enabled: true, shape: ZoneShape::Circle { x: 50.0, y: 100.0, r: 15.0 }, z_range: None }];
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let last = prog.moves.last().unwrap().to;
+        let circle = ZoneShape::Circle { x: 50.0, y: ay - 100.0, r: 15.0 };
+        assert!(!segment_hits(&circle, Pt::new(last[0], last[1]), Pt::new(0.0, 0.0)), "the last straight way to zero is free: {last:?}");
+        assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
     }
 
     /// A square of `s` mm with the corner at (x, y) on the layer, in scene coordinates.

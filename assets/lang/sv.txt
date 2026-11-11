@@ -492,3 +492,6 @@
 491|{}: en form är inte rund: gängan fräses runt dess mitt
 492|{}: fräsen är för stor för gängans hål: den gängan utelämnas
 493|{}: öppna linjer utelämnas från en gänga
+494|Z 0 är materialets ovansida, som i G-koden: en klämma som sticker upp 15 mm är 0 – 15. Fräsen når uppåt från spetsen, så varje snitt under en zon rör den; rörelser på säker höjd går över en lägre zon.
+495|En rörelse genom luften kan inte gå runt förbudszonen "{}" (den börjar eller slutar i den)
+496|{}: ett snitt rör förbudszonen "{}"

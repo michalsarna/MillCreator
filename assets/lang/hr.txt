@@ -492,3 +492,6 @@
 491|{}: oblik nije okrugao: navoj se glođe oko njegove sredine
 492|{}: glodalo je preveliko za rupu navoja: taj navoj se izostavlja
 493|{}: otvorene linije izostavljaju se iz navoja
+494|Z 0 je vrh materijala, kao u G-kodu: stezaljka koja strši 15 mm iznad materijala je 0 – 15. Glodalo seže prema gore od vrha, pa svaki rez ispod zone dodiruje zonu; kretnje na sigurnoj visini prelaze preko niže zone.
+495|Kretnja kroz zrak ne može obići zabranjenu zonu „{}” (počinje ili završava u njoj)
+496|{}: rez dodiruje zabranjenu zonu „{}”

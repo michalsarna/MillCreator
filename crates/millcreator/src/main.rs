@@ -1537,6 +1537,7 @@ impl EditorHost for App {
         self.paint_toolpaths(v);
         self.paint_hand_tabs(v);
         self.paint_wcs_icon(v);
+        base_ui::zones_ui::paint(v.painter, &|p| self.w2s(v.origin, p), self.ed.view.zoom, &self.device.zones);
     }
     fn pointer_claimed(&mut self, resp: &egui::Response, origin: egui::Pos2, _press: Option<egui::Pos2>, hover: Option<egui::Pos2>) -> bool {
         self.wcs_pointer(resp, origin, hover) || self.hand_tabs_pointer(resp, origin, hover)

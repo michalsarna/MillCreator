@@ -492,3 +492,6 @@
 491|{}: forma mhix tonda: il-kamin jinqata' madwar in-nofs tagħha
 492|{}: il-ponta hija kbira wisq għat-toqba tal-kamin: dak il-kamin jitħalla barra
 493|{}: linji miftuħa jitħallew barra minn kamin
+494|Z 0 hija l-wiċċ tal-materjal, bħal fil-G-code: morsa li toħroġ 15 mm 'il fuq mill-materjal hija 0 – 15. Il-ponta tilħaq 'il fuq mit-tarf tagħha, għalhekk kull qatgħa taħt żona tmissha; il-movimenti fl-għoli sigur jgħaddu minn fuq żona aktar baxxa.
+495|Moviment fl-arja ma jistax idur maż-żona pprojbita "{}" (jibda jew jispiċċa fiha)
+496|{}: qatgħa tmiss iż-żona pprojbita "{}"

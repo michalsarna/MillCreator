@@ -492,3 +492,6 @@
 491|{}: níl cruth cruinn: muileann an snáithe timpeall a lárphointe
 492|{}: tá an giotán rómhór do pholl an tsnáithe: fágtar an snáithe sin ar lár
 493|{}: fágtar línte oscailte as snáithe
+494|Is é Z 0 barr an ábhair, mar atá sa G-code: is é 0 – 15 clampa a sheasann 15 mm os cionn an ábhair. Síneann an giotán suas óna rinn, mar sin baineann gach gearradh faoi chrios leis; téann gluaiseachtaí ag an airde shábháilte thar chrios níos ísle.
+495|Ní féidir le gluaiseacht tríd an aer dul timpeall ar an gcrios coiscthe "{}" (tosaíonn nó críochnaíonn sí ann)
+496|{}: baineann gearradh leis an gcrios coiscthe "{}"

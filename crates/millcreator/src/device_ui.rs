@@ -25,11 +25,12 @@ pub enum Page {
     Probe,
     Macros,
     Maintenance,
+    Zones,
     Notes,
 }
 
 impl Page {
-    const ALL: [Page; 12] = [Page::General, Page::Connection, Page::Machine, Page::Spindle, Page::Gcode, Page::Camera, Page::Rotary, Page::Jog, Page::Probe, Page::Macros, Page::Maintenance, Page::Notes];
+    const ALL: [Page; 13] = [Page::General, Page::Connection, Page::Machine, Page::Spindle, Page::Gcode, Page::Camera, Page::Rotary, Page::Jog, Page::Probe, Page::Macros, Page::Maintenance, Page::Zones, Page::Notes];
     fn label(self) -> &'static str {
         match self {
             Page::General => "General",
@@ -43,6 +44,7 @@ impl Page {
             Page::Macros => "Macros",
             Page::Maintenance => "Maintenance",
             Page::Camera => "Camera",
+            Page::Zones => base_ui::zones_ui::PAGE,
             Page::Notes => "Notes",
         }
     }
@@ -536,6 +538,9 @@ impl App {
                         ui.label(RichText::new(tr("With a rotary attachment the Y axis turns the work: the drawing may not be higher than the way round the workpiece. The model is simple (a chuck turns by the workpiece diameter, rollers move the surface like their own); a real machine needs testing.")).color(theme::text_dim()));
                     }
                     Page::Camera => base_ui::camera_feed::camera_page(ui, &mut d.cameras, &mut d.active_camera, &mut self.cam_test_wanted),
+                    Page::Zones => {
+                        base_ui::zones_ui::page(ui, units, &mut d.zones, true, &tr("Z 0 is the top of the material, as in the G-code: a clamp that stands 15 mm above the material is 0 – 15. The bit reaches up from its tip, so every cut under a zone touches it; moves at the safe height pass over a zone that is lower."));
+                    }
                     Page::Notes => {
                         ui.add(egui::TextEdit::multiline(&mut d.notes).desired_rows(10).desired_width(f32::INFINITY).hint_text(tr("Notes about this machine")));
                     }

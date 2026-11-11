@@ -492,3 +492,6 @@
 491|{}: uma forma não é redonda: a rosca é fresada à volta do seu centro
 492|{}: a fresa é demasiado grande para o furo da rosca: essa rosca é omitida
 493|{}: as linhas abertas são omitidas de uma rosca
+494|Z 0 é o topo do material, como no G-code: um grampo que sobressai 15 mm é 0 – 15. A fresa vai da ponta para cima, por isso cada corte sob uma zona toca-a; os movimentos à altura de segurança passam por cima de uma zona mais baixa.
+495|Um movimento pelo ar não pode contornar a zona proibida "{}" (começa ou acaba dentro dela)
+496|{}: um corte toca a zona proibida "{}"

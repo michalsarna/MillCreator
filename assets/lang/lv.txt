@@ -492,3 +492,6 @@
 491|{}: forma nav apaļa: vītne tiek frēzēta ap tās vidu
 492|{}: frēze ir par lielu vītnes caurumam: šī vītne tiek izlaista
 493|{}: atvērtās līnijas vītnē netiek iekļautas
+494|Z 0 ir materiāla virsma, kā G-kodā: skava, kas paceļas 15 mm virs materiāla, ir 0 – 15. Frēze sniedzas augšup no gala, tāpēc katrs griezums zem zonas to skar; kustības drošajā augstumā iet pāri zemākai zonai.
+495|Kustība pa gaisu nevar apiet aizliegto zonu “{}” (tā sākas vai beidzas tajā)
+496|{}: griezums skar aizliegto zonu “{}”

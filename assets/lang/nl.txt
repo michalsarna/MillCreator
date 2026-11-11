@@ -492,3 +492,6 @@
 491|{}: een vorm is niet rond: de draad wordt rond het midden gefreesd
 492|{}: de frees is te groot voor het gat van de draad: die draad wordt weggelaten
 493|{}: open lijnen worden weggelaten bij schroefdraad
+494|Z 0 is de bovenkant van het materiaal, zoals in de G-code: een klem die 15 mm boven het materiaal uitsteekt is 0 – 15. De frees reikt vanaf zijn punt omhoog, dus elke snede onder een zone raakt die; bewegingen op de veilige hoogte gaan over een lagere zone heen.
+495|Een beweging door de lucht kan niet om de verboden zone "{}" heen (ze begint of eindigt erin)
+496|{}: een snede raakt de verboden zone "{}"

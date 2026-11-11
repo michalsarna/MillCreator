@@ -492,3 +492,6 @@
 491|{}: lögun er ekki hringlaga: gengjan er fræst um miðju hennar
 492|{}: fræsitönnin er of stór fyrir gat gengjunnar: sú gengja er felld niður
 493|{}: opnar línur eru felldar úr gengju
+494|Z 0 er efri flötur efnisins, eins og í G-kóðanum: klemma sem stendur 15 mm upp úr efninu er 0 – 15. Fræsitönnin nær upp frá oddinum, svo hver skurður undir svæði snertir það; hreyfingar í öruggri hæð fara yfir lægra svæði.
+495|Hreyfing í lofti kemst ekki fram hjá bannsvæðinu „{}“ (hún byrjar eða endar í því)
+496|{}: skurður snertir bannsvæðið „{}“

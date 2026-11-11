@@ -191,6 +191,9 @@ pub struct Device {
     /// How the machine speeds up and slows down (for the time of a job); not known by default.
     #[serde(default, skip_serializing_if = "base_core::motion::Motion::is_unset")]
     pub motion: base_core::motion::Motion,
+    /// Parts of the work area the bit must never enter (clamps); the heights count from the top of the material, as Z in the G-code.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub zones: Vec<base_core::zones::Zone>,
 }
 
 /// The Duet / RepRapFirmware settings of a device. The password is typed when needed and never saved.
@@ -230,6 +233,7 @@ impl Default for Device {
             z_offset: 0.0,
             duet: Duet::default(),
             motion: Default::default(),
+            zones: vec![],
         }
     }
 }
@@ -294,6 +298,7 @@ impl Device {
             return Err("the speed of the moves is out of range".into());
         }
         self.motion.check()?;
+        base_core::zones::check_all(&self.zones)?;
         let s = &self.spindle;
         if !ok(s.min_rpm, 0.0, 1_000_000.0) || !ok(s.max_rpm, 1.0, 1_000_000.0) || s.min_rpm > s.max_rpm || !ok(s.spin_up, 0.0, 600.0) {
             return Err("the spindle speeds are out of range".into());

@@ -492,3 +492,6 @@
 491|{}: o formă nu este rotundă: filetul se frezează în jurul mijlocului ei
 492|{}: freza este prea mare pentru gaura filetului: acel filet este omis
 493|{}: liniile deschise sunt omise dintr-un filet
+494|Z 0 este partea de sus a materialului, ca în G-code: o clemă care iese 15 mm deasupra este 0 – 15. Freza se întinde în sus de la vârf, deci orice tăietură sub o zonă o atinge; mișcările la înălțimea de siguranță trec peste o zonă mai joasă.
+495|O mișcare prin aer nu poate ocoli zona interzisă „{}” (începe sau se termină în ea)
+496|{}: o tăietură atinge zona interzisă „{}”
