@@ -512,3 +512,26 @@
 511|Medžiagos dydis nenustatytas (Failas → Naujas…): apačia apverčiama apie darbo srities vidurį
 512|Apdaila mažesne freza po to sluoksnio apdailos: eina tik ten, kur didesnė freza nepasiekė (siauri slėniai, aštrūs kampai), todėl darbas trunka daug trumpiau.
 513|{}: likučių apdailos freza turi būti mažesnė už sluoksnio, po kurio ji eina, frezą
+514|Kaneliūravimas
+515|Profilinė juosta
+516|Tekstūra
+517|Griovelis išilgai kiekvienos linijos, kuris rampa leidžiasi nuo paviršiaus, eina sluoksnio gylyje ir vėl rampa kyla: kolonos kaneliūros, dekoratyvūs grioveliai. Naudokite rutulinę arba V frezą.
+518|Profilis (suapvalinimas, įdubimas, ogė, nuožulnumas arba pusapvalis griovelis) traukiamas išilgai kiekvienos linijos, toks platus, koks nurodytas, ir toks gilus kaip sluoksnis, gretimais praėjimais: lentos kraštas, rėmas. Profilis yra kairėje linijos krypties pusėje. Naudokite rutulinę frezą.
+519|Formų plotas padengiamas trumpais rutulinės frezos įdubimais eilėmis, tarsi išdrožtas rankomis; sluoksnio gylis yra giliausias įdubimas. Žingsnis yra eilių atstumas.
+520|Abiejuose galuose
+521|Suapvalinimas
+522|Įdubimas
+523|Ogė
+524|Nuožulnumas
+525|Pusapvalis griovelis
+526|Profilis
+527|Rampos
+528|Rampos ilgis
+529|Linijos ilgio
+530|Tarpas tarp brūkšnių
+531|Kintamumas
+532|Kiek kinta brūkšnių ilgis ir gylis
+533|Rašto numeris
+534|Kitas numeris duoda kitus brūkšnius; tas pats numeris tuos pačius
+535|Eilių kampas
+536|{}: atviros linijos į tekstūrą neįtraukiamos

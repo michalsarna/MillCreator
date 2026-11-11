@@ -512,3 +512,26 @@
 511|Veľkosť materiálu nie je nastavená (Súbor → Nový…): spodná strana sa otočí okolo stredu pracovnej plochy
 512|Dokončenie menšou frézou po dokončení onej vrstvy: ide len tam, kam väčšia fréza nedosiahla (úzke údolia, ostré rohy), takže úloha trvá oveľa kratšie.
 513|{}: fréza dokončenia zvyškov musí byť menšia ako fréza vrstvy, po ktorej nasleduje
+514|Drážkovanie
+515|Profilová lišta
+516|Textúra
+517|Drážka pozdĺž každej čiary, ktorá zíde rampou z povrchu, vedie v hĺbke vrstvy a rampou zase vyjde: kanelúry stĺpa, ozdobné drážky. Použite guľovú alebo V frézu.
+518|Profil (zaoblenie, žliabok, ogee, skosenie alebo polguľatá drážka) sa ťahá pozdĺž každej čiary, taký široký, ako je zadané, a taký hlboký ako vrstva, v prechodoch vedľa seba: hrana dosky, rám. Profil leží vľavo od smeru čiary. Použite guľovú frézu.
+519|Plocha tvarov sa pokryje krátkymi priehlbinami guľovej frézy v radoch, ako vyrezávaná ručne; hĺbka vrstvy je najhlbšia priehlbina. Krok je vzdialenosť radov.
+520|Na oboch koncoch
+521|Zaoblenie
+522|Žliabok
+523|Ogee
+524|Skosenie
+525|Polguľatá drážka
+526|Profil
+527|Rampy
+528|Dĺžka rampy
+529|Z dĺžky čiary
+530|Medzera medzi ťahmi
+531|Premenlivosť
+532|Ako veľmi sa mení dĺžka a hĺbka ťahov
+533|Číslo vzoru
+534|Iné číslo dá iné ťahy; rovnaké číslo rovnaké ťahy
+535|Uhol radov
+536|{}: otvorené čiary sa do textúry nezahŕňajú

@@ -512,3 +512,26 @@
 511|Stærð efnisins er ekki stillt (Skrá → Nýtt…): neðri hliðinni er snúið um miðju vinnusvæðisins
 512|Frágangur með minni fræsitönn eftir frágang þess lags: hann fer aðeins þangað sem stærri tönnin náði ekki (þröngir dalir, skörp horn), svo verkið tekur miklu styttri tíma.
 513|{}: fræsitönn afgangsfrágangs verður að vera minni en tönn lagsins sem hann fylgir
+514|Rákafræsing
+515|Prófíllisti
+516|Áferð
+517|Rák eftir hverri línu sem fer niður af yfirborðinu á halla, liggur í dýpt lagsins og fer aftur upp á halla: rákir súlu, skrautrákir. Notaðu kúlu- eða V-tönn.
+518|Prófíll (rúnun, hvelfing, ogee, halli eða hálfhringlaga rák) er dreginn eftir hverri línu, eins breiður og beðið er um og eins djúpur og lagið, í umferðum hlið við hlið: brún borðs, rammi. Prófíllinn liggur vinstra megin við stefnu línunnar. Notaðu kúlutönn.
+519|Svæði formanna er þakið stuttum holum kúlutannar í röðum, eins og skorið í höndunum; dýpt lagsins er dýpsta holan. Hliðarfærslan er fjarlægð raðanna.
+520|Í báðum endum
+521|Rúnun
+522|Hvelfing
+523|Ogee
+524|Halli
+525|Hálfhringlaga rák
+526|Prófíll
+527|Hallar
+528|Lengd halla
+529|Af lengd línunnar
+530|Bil milli stroka
+531|Breytileiki
+532|Hve mikið lengd og dýpt strokanna breytist
+533|Mynsturnúmer
+534|Annað númer gefur önnur strok; sama númer sömu strok
+535|Horn raðanna
+536|{}: opnar línur eru felldar úr áferð

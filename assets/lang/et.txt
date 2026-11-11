@@ -512,3 +512,26 @@
 511|Materjali suurus pole määratud (Fail → Uus…): alumine pool pööratakse tööala keskkoha ümber
 512|Viimistlus väiksema freesiga pärast selle kihi viimistlust: see läheb ainult sinna, kuhu suurem frees ei ulatunud (kitsad orud, teravad nurgad), nii et töö võtab palju vähem aega.
 513|{}: jääkide viimistluse frees peab olema väiksem kui selle kihi frees, mida see järgib
+514|Kannelüüride freesimine
+515|Profiilliist
+516|Tekstuur
+517|Soon iga joone pikkuses, mis laskub kaldega pinnalt, jookseb kihi sügavusel ja tõuseb taas kaldega: samba kannelüürid, dekoratiivsed sooned. Kasuta kuul- või V-freesi.
+518|Profiil (ümardus, nõgus, ogee, kalle või poolümar soon) tõmmatakse iga joone pikkuses, nii lai kui antud ja nii sügav kui kiht, kõrvuti läbimistena: laua serv, raam. Profiil on joone suunast vasakul. Kasuta kuulfreesi.
+519|Kujundite ala kaetakse kuulfreesi lühikeste lohkudega ridades, nagu käsitsi nikerdatud; kihi sügavus on sügavaim lohk. Külgsamm on ridade vahe.
+520|Mõlemas otsas
+521|Ümardus
+522|Nõgus
+523|Ogee
+524|Kalle
+525|Poolümar soon
+526|Profiil
+527|Kalded
+528|Kalde pikkus
+529|Joone pikkusest
+530|Vahe tõmmete vahel
+531|Varieeruvus
+532|Kui palju tõmmete pikkus ja sügavus varieeruvad
+533|Mustri number
+534|Teine number annab teised tõmbed; sama number samad
+535|Ridade nurk
+536|{}: avatud jooned jäetakse tekstuurist välja

@@ -512,3 +512,26 @@
 511|Materialets størrelse er ikke sat (Filer → Ny…): undersiden vendes om midten af arbejdsområdet
 512|En sletbearbejdning med en mindre fræser efter sletbearbejdningen af det lag: den går kun derhen, hvor den større fræser ikke kunne nå (smalle dale, skarpe hjørner), så jobbet tager meget kortere tid.
 513|{}: fræseren til en restsletning skal være mindre end fræseren til det lag, den følger
+514|Riffelfræsning
+515|Profilliste
+516|Tekstur
+517|En rille langs hver linje, der går ned fra overfladen i en rampe, løber i lagets dybde og går op igen i en rampe: riller i en søjle, pyntriller. Brug en kuglefræser eller en V-fræser.
+518|En profil (afrunding, hulkel, karnis, skråning eller halvrund rille) trækkes langs hver linje, så bred som angivet og så dyb som laget, i baner side om side: kanten af et bræt, en ramme. Profilet ligger til venstre for linjens retning. Brug en kuglefræser.
+519|Formernes område dækkes med korte fordybninger fra en kuglefræser i rækker, som skåret i hånden; lagets dybde er den dybeste fordybning. Sideforskydningen er afstanden mellem rækkerne.
+520|I begge ender
+521|Afrunding
+522|Hulkel
+523|Karnis
+524|Skråning
+525|Halvrund rille
+526|Profil
+527|Ramper
+528|Rampens længde
+529|Af linjens længde
+530|Afstand mellem strøg
+531|Variation
+532|Hvor meget strøgenes længde og dybde varierer
+533|Mønsternummer
+534|Et andet nummer giver andre strøg; samme nummer, samme strøg
+535|Rækkernes vinkel
+536|{}: åbne linjer udelades af en tekstur

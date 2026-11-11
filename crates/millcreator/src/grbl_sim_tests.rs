@@ -282,6 +282,35 @@ fn grbl_sim_threads_inside_and_outside_are_accepted_and_end_at_zero() {
     assert!(s.errors().is_empty(), "GRBL rejected lines: {:?}", s.errors_described());
 }
 
+#[test]
+#[ignore = "needs grbl-sim: tools/grbl-sim/build.sh of baseCreator"]
+fn grbl_sim_fluting_moulding_and_texture_are_accepted_and_end_at_zero() {
+    use crate::layers::Operation;
+    let mut s = Session::connect();
+    s.wait_banner();
+    s.fast_machine(&[]);
+    let (lib, dev, stock) = (Library::new(), Device::dummy(), Stock::default());
+    let mut layers = default_layers(&lib);
+    for (l, op) in [(2, Operation::Fluting), (3, Operation::Moulding), (4, Operation::Texture)] {
+        layers[l].op = op;
+        layers[l].use_tool(lib.get("std-ball-3").unwrap());
+        layers[l].depth = 1.0;
+        layers[l].step_down = 0.0;
+        layers[l].step_over_pct = 40.0;
+    }
+    layers[3].decor.width = 4.0;
+    let mut scene = Scene::default();
+    scene.add(2, Kind::Path(vec![Polyline::new(vec![Pt::new(10.0, 20.0), Pt::new(60.0, 20.0)], false)]), Xf::IDENTITY);
+    scene.add(3, Kind::Path(vec![Polyline::new(vec![Pt::new(10.0, 40.0), Pt::new(60.0, 40.0)], false)]), Xf::IDENTITY);
+    scene.add(4, Kind::Rect { w: 20.0, h: 10.0 }, Xf::translate(10.0, 60.0));
+    let prog = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions::default());
+    assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
+    let job = clean_gcode(&to_gcode(&prog, &dev, &layers, &lib, "sim"));
+    s.run_job(job.clone(), 900.0);
+    wait_idle_and_ends_at_zero(&mut s, &job, 120.0);
+    assert!(s.errors().is_empty(), "GRBL rejected lines: {:?}", s.errors_described());
+}
+
 /// A pocket by rings that stays down between its rings, at two depths.
 fn job_with_a_pocket_that_stays_down() -> Vec<String> {
     let (lib, dev, stock) = (Library::new(), Device::dummy(), Stock::default());

@@ -512,3 +512,26 @@
 511|Materiāla izmērs nav iestatīts (Fails → Jauns…): apakšpuse tiek apgriezta ap darba laukuma vidu
 512|Apdare ar mazāku frēzi pēc tā slāņa apdares: tā iet tikai tur, kur lielākā frēze nesniedza (šauras ielejas, asi stūri), tāpēc darbs aizņem daudz mazāk laika.
 513|{}: atlikuma apdares frēzei jābūt mazākai par tā slāņa frēzi, kuram tā seko
+514|Kannelēšana
+515|Profila līste
+516|Tekstūra
+517|Rieva gar katru līniju, kas ar slīpumu nolaižas no virsmas, iet slāņa dziļumā un ar slīpumu atkal paceļas: kolonnas kanelūras, dekoratīvas rievas. Izmantojiet lodveida vai V frēzi.
+518|Profils (noapaļojums, ieliekums, ogee, slīpums vai pusapaļa rieva) tiek vilkts gar katru līniju, tik plats, cik norādīts, un tik dziļš kā slānis, blakus esošos gājienos: dēļa mala, rāmis. Profils atrodas pa kreisi no līnijas virziena. Izmantojiet lodveida frēzi.
+519|Formu laukums tiek pārklāts ar lodveida frēzes īsiem iedobumiem rindās, kā griezts ar roku; slāņa dziļums ir dziļākais iedobums. Solis ir rindu attālums.
+520|Abos galos
+521|Noapaļojums
+522|Ieliekums
+523|Ogee
+524|Slīpums
+525|Pusapaļa rieva
+526|Profils
+527|Slīpumi
+528|Slīpuma garums
+529|No līnijas garuma
+530|Atstarpe starp vilcieniem
+531|Mainīgums
+532|Cik ļoti mainās vilcienu garums un dziļums
+533|Raksta numurs
+534|Cits numurs dod citus vilcienus; tas pats numurs tos pašus
+535|Rindu leņķis
+536|{}: atvērtās līnijas tekstūrā netiek iekļautas

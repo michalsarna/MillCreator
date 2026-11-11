@@ -512,3 +512,26 @@
 511	The size of the material is not set (File → New…): the bottom side is turned over the middle of the work area
 512	A finish with a smaller bit after the finish of that layer: it goes only where the bigger bit could not reach (narrow valleys, sharp corners), so the job takes much less time.
 513	{}: the bit of a rest finish has to be smaller than the bit of the layer it follows
+514	Fluting
+515	Moulding
+516	Texture
+517	A groove along every line that ramps down from the surface, runs at the depth of the layer and ramps up again: flutes of a column, decorative grooves. Use a ball nose or a V-bit.
+518	A profile (a roundover, a cove, an ogee, a slope or a half round groove) is swept along every line, as wide as asked and as deep as the layer, in passes side by side: the edge of a board, a frame. The profile lies to the left of the direction of the line. Use a ball nose.
+519	The area of the shapes is covered with short scoops of a ball nose in rows, as if carved by hand; the depth of the layer is the deepest scoop. The step over is the distance of the rows.
+520	At both ends
+521	Roundover
+522	Cove
+523	Ogee
+524	Slope
+525	Half round groove
+526	Profile
+527	Ramps
+528	Ramp length
+529	Of the length of the line
+530	Gap between strokes
+531	Variation
+532	How much the length and the depth of the strokes vary
+533	Pattern number
+534	Another number gives other strokes; the same number, the same strokes
+535	Angle of the rows
+536	{}: open lines are left out of a texture

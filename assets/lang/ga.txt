@@ -512,3 +512,26 @@
 511|Níl méid an ábhair socraithe (Comhad → Nua…): iompaítear an taobh íochtair timpeall lár an limistéir oibre
 512|Críochnú le giotán níos lú tar éis chríochnú na sraithe sin: ní théann sé ach áit nach raibh an giotán níos mó in ann sroicheadh (gleannta cúnga, cúinní géara), mar sin glacann an jab i bhfad níos lú ama.
 513|{}: caithfidh giotán chríochnú an fhuílligh a bheith níos lú ná giotán na sraithe a leanann sé
+514|Feadánú
+515|Múnlú
+516|Uigeacht
+517|Eitre feadh gach líne a théann síos ón dromchla ar fhána, a ritheann ag doimhneacht na sraithe agus a thagann aníos arís ar fhána: feadáin colúin, eitrí maisiúla. Úsáid giotán liathróide nó V.
+518|Tarraingítear próifíl (cruinniú, cuas, ogee, fána nó eitre leathchruinn) feadh gach líne, chomh leathan agus a iarradh agus chomh domhain leis an tsraith, i bpasanna taobh le taobh: imeall cláir, fráma. Tá an próifíl ar thaobh clé threo na líne. Úsáid giotán liathróide.
+519|Clúdaítear limistéar na gcruthanna le scúpanna gearra de ghiotán liathróide i sraitheanna, amhail is dá mba lámhshnoite é; is í doimhneacht na sraithe an scúp is doimhne. Is é an chéim an t-achar idir na sraitheanna.
+520|Ag an dá cheann
+521|Cruinniú
+522|Cuas
+523|Ogee
+524|Fána
+525|Eitre leathchruinn
+526|Próifíl
+527|Fánaí
+528|Fad na fána
+529|D'fhad na líne
+530|Bearna idir stríoca
+531|Éagsúlacht
+532|Cé mhéad a athraíonn fad agus doimhneacht na stríoc
+533|Uimhir an phatrúin
+534|Tugann uimhir eile stríoca eile; an uimhir chéanna, na stríoca céanna
+535|Uillinn na sraitheanna
+536|{}: fágtar línte oscailte as uigeacht

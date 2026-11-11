@@ -512,3 +512,26 @@
 511|O tamanho do material não está definido (Ficheiro → Novo…): a face inferior é virada em torno do meio da área de trabalho
 512|Um acabamento com uma fresa mais pequena depois do acabamento dessa camada: só vai onde a fresa maior não chegava (vales estreitos, cantos vivos), por isso o trabalho demora muito menos.
 513|{}: a fresa de um acabamento de restos tem de ser mais pequena do que a da camada que segue
+514|Caneluras
+515|Moldura
+516|Textura
+517|Um rasgo ao longo de cada linha que desce em rampa a partir da superfície, corre à profundidade da camada e volta a subir em rampa: caneluras de uma coluna, rasgos decorativos. Use uma fresa esférica ou em V.
+518|Um perfil (boleado, meia-cana, ogiva, chanfro ou rasgo de meia-cana) é arrastado ao longo de cada linha, tão largo como pedido e tão fundo como a camada, em passagens lado a lado: a borda de uma tábua, uma moldura. O perfil fica à esquerda da direção da linha. Use uma fresa esférica.
+519|A área das formas é coberta com covas curtas de uma fresa esférica em filas, como esculpida à mão; a profundidade da camada é a cova mais funda. O passo é a distância das filas.
+520|Nas duas pontas
+521|Boleado
+522|Meia-cana
+523|Ogiva
+524|Chanfro
+525|Rasgo de meia-cana
+526|Perfil
+527|Rampas
+528|Comprimento da rampa
+529|Do comprimento da linha
+530|Espaço entre traços
+531|Variação
+532|Quanto variam o comprimento e a profundidade dos traços
+533|Número do padrão
+534|Outro número dá outros traços; o mesmo número, os mesmos traços
+535|Ângulo das filas
+536|{}: as linhas abertas são omitidas de uma textura
