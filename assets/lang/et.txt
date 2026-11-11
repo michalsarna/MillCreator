@@ -553,3 +553,5 @@
 552|Silinder asub pöördteljel X-i suunas; joonise Y käib ümber selle ja joonis on selle lahtirullitud pind. Z loetakse pinnast ja sügavaim lõige on raadius. Null on pinnal; sea sama ka masinal.
 553|Projekt seadistatud: silinder Ø {} mm, pikkus {} mm, pöördteljel (sees), null: {}
 554|Seadme pöördtelg on väljas.
+555|Vali programmi nullpunkt
+556|Aktiivse kihi toiming

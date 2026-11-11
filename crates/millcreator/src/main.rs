@@ -204,6 +204,16 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::Frame => Some("square-dashed"),
         Act::StartJob => Some("play"),
         Act::ToggleOverlay => Some("layers"),
+        Act::ToggleZones => Some("eye"),
+        Act::ZoneSettings => Some("ban"),
+        Act::PreviewGcode => Some("file-code"),
+        Act::LayerPresets => Some("layers"),
+        Act::TabsByHand => Some("square-dashed"),
+        Act::AlignmentHoles => Some("target"),
+        Act::PickZero => Some("target"),
+        Act::FindCentre => Some("target"),
+        Act::SavedPositions => Some("save"),
+        Act::SetOp(_) | Act::SetSide(_) => None,
         Act::SetLang(_) | Act::SetScheme(_) => None,
     }
 }
@@ -352,6 +362,8 @@ struct App {
     quitting: bool,
     /// The last tab was closed: the program closes too.
     close_program: bool,
+    /// Draw the no-go zones on the work area (kept between runs).
+    zones_visible: bool,
     /// The last tab was closed: asking whether to close the program or to go back to the start screen.
     ask_quit: bool,
     allow_close: bool,
@@ -599,6 +611,7 @@ impl App {
             pv_tab_seen: false,
             show_options: false,
             check_updates: on("check_updates", true),
+            zones_visible: on("zones_visible", true),
             update: Default::default(),
             show_program_options: false,
             show_about: false,
@@ -628,6 +641,7 @@ impl App {
             ("tools", self.tools.save_text()),
             ("knives", self.knives.save_text()),
             ("check_updates", flag(self.check_updates)),
+            ("zones_visible", flag(self.zones_visible)),
             ("tab_order", self.tabs.order_string()),
             ("panes", self.panes.to_json()),
             ("side_collapsed", flag(self.tabs.collapsed)),
@@ -1576,7 +1590,9 @@ impl EditorHost for App {
         self.paint_toolpaths(v);
         self.paint_hand_tabs(v);
         self.paint_wcs_icon(v);
-        base_ui::zones_ui::paint(v.painter, &|p| self.w2s(v.origin, p), self.ed.view.zoom, &self.device.zones);
+        if self.zones_visible {
+            base_ui::zones_ui::paint(v.painter, &|p| self.w2s(v.origin, p), self.ed.view.zoom, &self.device.zones);
+        }
         let units = base_ui::editor::EditorHost::units(self);
         base_ui::rotary_ui::paint(v.painter, &|p| self.w2s(v.origin, p), v.bed, units, &self.device.rotary, self.device.area.y);
     }
@@ -1597,6 +1613,9 @@ impl MenuHost for App {
             Act::Frame => self.screen == Screen::Editor && self.machine.connected && !self.machine.job_running(),
             Act::StartJob => self.screen == Screen::Editor && self.can_start(),
             Act::ToggleOverlay => self.ed.background.is_some(),
+            Act::ToggleZones => !self.device.zones.is_empty(),
+            Act::PreviewGcode | Act::LayerPresets | Act::TabsByHand | Act::AlignmentHoles | Act::SetOp(_) | Act::SetSide(_) | Act::PickZero | Act::SavedPositions => self.screen == Screen::Editor,
+            Act::FindCentre => self.screen == Screen::Editor && self.machine.connected && !self.machine.job_running() && !self.machine.center_running(),
             Act::Save | Act::SaveAs | Act::Preview3d | Act::TechnicalDrawing | Act::ExportGcode | Act::ExportSvg | Act::ExportCam => self.screen == Screen::Editor,
             Act::ExportRelief => self.screen == Screen::Editor && self.relief_picture().is_some(),
             _ => true,
@@ -1606,6 +1625,10 @@ impl MenuHost for App {
         match a {
             Act::Std(s) => s.checked(self),
             Act::ToggleOverlay => Some(self.ed.background.as_ref().is_some_and(|b| b.visible)),
+            Act::ToggleZones => Some(self.zones_visible),
+            Act::TabsByHand => Some(self.tab_edit),
+            Act::SetOp(o) => Some(self.layers.get(self.ed.active_layer).is_some_and(|l| l.op == o)),
+            Act::SetSide(s) => Some(self.side == s),
             Act::SetLang(l) => Some(self.lang == l),
             Act::SetScheme(s) => Some(self.scheme == s),
             _ => None,
@@ -1650,6 +1673,38 @@ impl MenuHost for App {
             Act::DeviceSettings => self.open_device_settings(),
             Act::Firmware => self.fw_open = true,
             Act::ToolSensor => self.tls_ui.open = true,
+            Act::ToggleZones => self.zones_visible = !self.zones_visible,
+            Act::ZoneSettings => {
+                self.open_device_settings();
+                if let Some(e) = self.dev_edit.as_mut() {
+                    e.page = device_ui::Page::Zones;
+                }
+            }
+            Act::PreviewGcode => self.preview_gcode(),
+            Act::LayerPresets => self.presets_ui.show(),
+            Act::TabsByHand => {
+                self.tab_edit = !self.tab_edit;
+                self.side_tab = SideTab::Layers;
+            }
+            Act::AlignmentHoles => self.add_alignment_holes(),
+            Act::SetOp(o) => {
+                if let Some(l) = self.layers.get_mut(self.ed.active_layer) {
+                    if l.op != o {
+                        l.op = o;
+                        self.touch();
+                    }
+                }
+                self.side_tab = SideTab::Layers;
+            }
+            Act::SetSide(s) => self.side = s,
+            Act::PickZero => self.pick_origin = true,
+            Act::FindCentre => {
+                let control = self.device.control.clone();
+                if let Err(e) = base_ui::control_ui::ControlTarget::center_hole(&mut self.machine, &control) {
+                    self.status = e;
+                }
+            }
+            Act::SavedPositions => self.side_tab = SideTab::Control,
             Act::Calibration => self.cal.open = true,
             Act::ControlDevices => self.control_devices.open = true,
             Act::ControlDeviceOfMachine => self.control_devices.choice_open = true,

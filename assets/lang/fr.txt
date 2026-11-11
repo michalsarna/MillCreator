@@ -553,3 +553,5 @@
 552|Le cylindre est couché le long de X sur l'axe rotatif ; le Y du dessin en fait le tour et le dessin est sa surface déroulée. Z compte depuis la surface et la coupe la plus profonde est le rayon. Le zéro est sur la surface ; réglez le même sur la machine.
 553|Projet configuré : un cylindre de Ø {} mm et {} mm de long sur l'axe rotatif (activé), zéro en {}
 554|L'axe rotatif de l'appareil est désactivé.
+555|Choisir le zéro du programme
+556|Opération du calque actif

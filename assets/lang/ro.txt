@@ -553,3 +553,5 @@
 552|Cilindrul stă de-a lungul lui X pe axa rotativă; Y al desenului merge în jurul lui, iar desenul este suprafața lui desfășurată. Z se numără de la suprafață, iar cea mai adâncă tăietură este raza. Zero este pe suprafață; setați același pe mașină.
 553|Proiect configurat: un cilindru de Ø {} mm și {} mm lungime pe axa rotativă (pornită), zero la {}
 554|Axa rotativă a dispozitivului este oprită.
+555|Alege zeroul programului
+556|Operația stratului activ

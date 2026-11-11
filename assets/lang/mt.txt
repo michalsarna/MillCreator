@@ -553,3 +553,5 @@
 552|Iċ-ċilindru jinsab tul X fuq il-fus li jdur; il-Y tad-disinn idur madwaru u d-disinn huwa l-wiċċ tiegħu miftuħ. Z jingħadd mill-wiċċ u l-qtugħ l-aktar fond huwa r-raġġ. Iż-żero huwa fuq il-wiċċ; issettja l-istess fuq il-magna.
 553|Proġett issettjat: ċilindru ta' Ø {} mm u {} mm twil fuq il-fus li jdur (mixgħul), żero f'{}
 554|Il-fus li jdur tal-apparat huwa mitfi.
+555|Agħżel iż-żero tal-programm
+556|Operazzjoni tas-saff attiv
