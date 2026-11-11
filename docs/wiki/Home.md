@@ -42,6 +42,7 @@ The program has been tried on these machines and works there:
 | TwoTrees TTC450Pro | CNC mill | GRBL |
 
 It runs on another machine? Tell me in an [issue](https://github.com/michalsarna/MillCreator/issues) and it goes on the list.
+The list with how to add a machine: [TESTS_ON_DEVICES.md](https://github.com/michalsarna/MillCreator/blob/main/TESTS_ON_DEVICES.md).
 
 ## At a glance
 

@@ -2,6 +2,8 @@
 
 # Safety and Limitations
 
+> The machines MillCreator is confirmed to work on, and how to add yours: [TESTS_ON_DEVICES.md](https://github.com/michalsarna/MillCreator/blob/main/TESTS_ON_DEVICES.md).
+
 > ⚠️ A milling machine can injure you and destroy the work, the cutter and itself. This program is young and **has been tested on a TwoTrees TTC450Pro and works there, but not on other machines**. Use it at your own risk.
 
 * **Test in the air first:** raise the machine so that the bit cannot touch anything, run the G-code and watch the path. Then run it on a cheap piece.

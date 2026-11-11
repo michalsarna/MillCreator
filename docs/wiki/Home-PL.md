@@ -42,6 +42,7 @@ Program został wypróbowany na tych maszynach i na nich działa:
 | TwoTrees TTC450Pro | frezarka CNC | GRBL |
 
 Działa na innej maszynie? Napisz w [zgłoszeniu](https://github.com/michalsarna/MillCreator/issues), a trafi na listę.
+Lista i opis, jak dopisać maszynę: [TESTS_ON_DEVICES.md](https://github.com/michalsarna/MillCreator/blob/main/TESTS_ON_DEVICES.md).
 
 ## W skrócie
 

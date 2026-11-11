@@ -2,6 +2,8 @@
 
 # Machine control
 
+> The machines MillCreator is confirmed to work on, and how to add yours: [TESTS_ON_DEVICES.md](https://github.com/michalsarna/MillCreator/blob/main/TESTS_ON_DEVICES.md).
+
 MillCreator drives a GRBL machine from the **Control** tab and the **Machine** menu. All of it comes from baseCreator, so MillCreator, PenCreator and LightCreator behave the same. **Tested on a TwoTrees TTC450Pro only**: test with the tool lifted or no pen, and keep a hand on the stop.
 
 ## Reading the machine
