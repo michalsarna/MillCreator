@@ -196,6 +196,9 @@ impl App {
                         changed |= ui.add(egui::DragValue::new(&mut l.scan_angle).range(-360.0..=360.0).suffix(" °")).on_hover_text(tr("The angle of the rows of the engraving")).changed();
                         ui.end_row();
                     }
+                    if l.op == Operation::ThreadMill {
+                        changed |= crate::thread::rows(ui, units, &mut l.thread);
+                    }
                     if l.op == Operation::DragKnife {
                         changed |= base_ui::knives_ui::library_row(ui, "layer", knives, &mut l.knife, &mut open_knives);
                         ui.label(tr("Offset of the tip"));
@@ -332,7 +335,7 @@ impl App {
                         changed |= ui.checkbox(&mut l.dust, tr("Dust collector")).on_hover_text(tr("Switches the dust collector on with the device's own lines (Device settings, G-code)")).changed();
                     });
                     ui.end_row();
-                    if l.op != Operation::Drill {
+                    if !matches!(l.op, Operation::Drill | Operation::ThreadMill) {
                         ui.label(tr("Entry"));
                         egui::ComboBox::from_id_salt("layer_entry").selected_text(tr(l.entry.label())).width(200.0).show_ui(ui, |ui| {
                             for e in Entry::ALL {

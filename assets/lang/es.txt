@@ -477,3 +477,18 @@
 476|Una cuchilla de arrastre en el soporte corta a lo largo de las líneas hasta la profundidad de la capa, con el husillo parado: su desplazamiento se compensa en cada esquina, los agujeros se cortan primero y una línea cerrada se corta más allá de su inicio.
 477|{}: en algún sitio una entrada no cabía y se omitió
 478|{}: en algún sitio una entrada no cabía y se redujo
+479|Fresado de roscas
+480|Una fresa de roscar recorre cada círculo en hélice, un paso por vuelta, hasta la profundidad de la capa: una rosca dentro de un agujero (una tuerca) o alrededor de un saliente (un tornillo). Dibuja círculos del diámetro exterior del tornillo; para una tuerca, taladra o mandrina primero el agujero a aproximadamente el diámetro menos 1,08 × el paso.
+481|Rosca
+482|Interior (tuerca)
+483|Exterior (tornillo)
+484|Tamaño habitual
+485|Toma el paso de un tornillo habitual. Dibuja círculos de su diámetro exterior (Ø).
+486|Paso
+487|La subida de una vuelta de la rosca
+488|Pasadas radiales
+489|La profundidad de la rosca se corta en tantas pasadas, cada una un poco más dentro de la pared
+490|Rosca a izquierdas
+491|{}: una forma no es redonda: la rosca se fresa alrededor de su centro
+492|{}: la fresa es demasiado grande para el agujero de la rosca: esa rosca se omite
+493|{}: las líneas abiertas se omiten de una rosca

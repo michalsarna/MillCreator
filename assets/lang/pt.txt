@@ -477,3 +477,18 @@
 476|Uma lâmina de arrasto no suporte corta ao longo das linhas até à profundidade da camada, com o fuso parado: o seu desvio é compensado em cada canto, os furos são cortados primeiro e uma linha fechada é cortada para além do seu início.
 477|{}: em algum lugar uma entrada não cabia e foi omitida
 478|{}: em algum lugar uma entrada não cabia e foi reduzida
+479|Fresagem de roscas
+480|Uma fresa de roscar percorre cada círculo em hélice, um passo por volta, até à profundidade da camada: uma rosca dentro de um furo (uma porca) ou à volta de um ressalto (um parafuso). Desenhe círculos do diâmetro exterior do parafuso; para uma porca, fure ou mandrile primeiro o furo para cerca do diâmetro menos 1,08 × o passo.
+481|Rosca
+482|Interior (porca)
+483|Exterior (parafuso)
+484|Tamanho habitual
+485|Usa o passo de um parafuso habitual. Desenhe círculos do seu diâmetro exterior (Ø).
+486|Passo
+487|A subida de uma volta da rosca
+488|Passagens radiais
+489|A profundidade da rosca é cortada nestas passagens, cada uma um pouco mais funda na parede
+490|Rosca esquerda
+491|{}: uma forma não é redonda: a rosca é fresada à volta do seu centro
+492|{}: a fresa é demasiado grande para o furo da rosca: essa rosca é omitida
+493|{}: as linhas abertas são omitidas de uma rosca

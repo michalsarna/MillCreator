@@ -477,3 +477,18 @@
 476|Turētājā esošais velkamais nazis griež pa līnijām līdz slāņa dziļumam, vārpstai stāvot: tā nobīde tiek izlīdzināta katrā stūrī, vispirms griež caurumus, un slēgtu līniju griež tālāk par tās sākumu.
 477|{}: kaut kur ieeja neietilpa un tika izlaista
 478|{}: kaut kur ieeja neietilpa un tika samazināta
+479|Vītņu frēzēšana
+480|Vītņu frēze apiet katru apli pa skrūves līniju, viens solis apgriezienā, līdz slāņa dziļumam: vītne caurumā (uzgrieznis) vai ap tapu (skrūve). Zīmējiet apļus ar skrūves ārējo diametru; uzgrieznim vispirms izurbiet vai izvirpojiet caurumu līdz aptuveni diametrs mīnus 1,08 × solis.
+481|Vītne
+482|Iekšējā (uzgrieznis)
+483|Ārējā (skrūve)
+484|Parasts izmērs
+485|Paņem parastas skrūves soli. Zīmējiet apļus ar tās ārējo diametru (Ø).
+486|Solis
+487|Vītnes viena apgrieziena pacēlums
+488|Radiālie gājieni
+489|Vītnes dziļums tiek griezts tik gājienos, katrs nedaudz dziļāk sienā
+490|Kreisā vītne
+491|{}: forma nav apaļa: vītne tiek frēzēta ap tās vidu
+492|{}: frēze ir par lielu vītnes caurumam: šī vītne tiek izlaista
+493|{}: atvērtās līnijas vītnē netiek iekļautas

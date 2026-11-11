@@ -563,7 +563,7 @@ fn first_pass(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyl
                 }
             }
         }
-        Operation::Drill | Operation::Picture | Operation::Face | Operation::VCarve | Operation::DragKnife => {}
+        Operation::Drill | Operation::Picture | Operation::Face | Operation::VCarve | Operation::DragKnife | Operation::ThreadMill => {}
     }
 }
 
@@ -767,6 +767,31 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
                     }
                     b.note_end("V-carve end".into());
                 }
+            }
+        }
+        Operation::ThreadMill => {
+            let rings = closed_only(outlines);
+            let t = &layer.thread;
+            let circles: Vec<(Pt, f64, bool)> = rings.iter().filter_map(crate::thread::circle_of).collect();
+            let n = circles.len();
+            let (mut not_round, mut too_big) = (false, false);
+            for (i, (c, rr, round)) in circles.into_iter().enumerate() {
+                not_round |= !round;
+                let size = crate::thread::Thread::standard_of(2.0 * rr).map_or(format!("{} mm", num(2.0 * rr)), |s| s.0.to_string());
+                b.note(format!("Thread {} of {n} start: {size}, {} x {} mm, {}{}", i + 1, if t.internal { "inside" } else { "outside" }, num(t.pitch), if t.left { "left-hand" } else { "right-hand" }, if t.passes > 1 { format!(", {} passes", t.passes) } else { String::new() }));
+                if crate::thread::mill(b, c, rr, full, r, t).is_err() {
+                    too_big = true;
+                }
+                b.note_end(format!("Thread {} end", i + 1));
+            }
+            if not_round {
+                warnings.push(Warn::new("{}: a shape is not round: the thread is milled round its middle", &[&layer.name]));
+            }
+            if too_big {
+                warnings.push(Warn::new("{}: the bit is too big for the hole of the thread: that thread is left out", &[&layer.name]));
+            }
+            if rings.len() < outlines.len() {
+                warnings.push(Warn::new("{}: open lines are left out of a thread", &[&layer.name]));
             }
         }
         Operation::Drill => {
@@ -1208,6 +1233,87 @@ mod tests {
         let back: MillLayer = serde_json::from_str(&text).unwrap();
         assert!(back.lead.is_off());
         assert!(MillLayer { lead: Lead { angle: 1.0, ..Lead::default() }, ..plain.clone() }.check().is_err());
+    }
+
+    /// A circle of the diameter `d` with the middle at (x, y), in scene coordinates.
+    fn circle(scene: &mut Scene, layer: usize, x: f64, y: f64, d: f64) {
+        scene.add(layer, Kind::Ellipse { w: d, h: d }, Xf::translate(x - d / 2.0, y - d / 2.0));
+    }
+
+    /// The thread job of one circle: the cut moves, the middle in the coordinates of the toolpaths and the radius of the bit.
+    fn thread_job(t: crate::thread::Thread, d: f64, tool: &str) -> (Program, Pt, f64) {
+        let (lib, dev, stock, mut layers) = setup();
+        layers[2].op = Operation::ThreadMill;
+        layers[2].use_tool(lib.get(tool).unwrap());
+        layers[2].depth = 6.0;
+        layers[2].thread = t;
+        let mut scene = Scene::default();
+        circle(&mut scene, 2, 60.0, 60.0, d);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        (prog, Pt::new(60.0, dev.area.y - 60.0), lib.get(tool).unwrap().radius())
+    }
+
+    #[test]
+    fn a_nut_is_milled_upwards_anticlockwise_out_to_the_full_depth_of_the_thread() {
+        use crate::thread::Thread;
+        let t = Thread { pitch: 1.25, internal: true, left: false, passes: 2 };
+        let (prog, c, br) = thread_job(t, 8.0, "std-flat-3");
+        assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
+        let cuts: Vec<&Move> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).collect();
+        let dist = |p: P3| Pt::new(p[0], p[1]).dist(c);
+        // The last pass reaches the outer diameter with the edge of the bit, the first stops half the depth of the thread short.
+        let far = cuts.iter().map(|m| dist(m.to)).fold(0.0, f64::max);
+        assert!((far - (4.0 - br)).abs() < 1e-6, "{far}");
+        let h = t.depth();
+        assert!(cuts.iter().any(|m| (dist(m.to) - (4.0 - h / 2.0 - br)).abs() < 1e-6), "a first pass at half the depth");
+        // Up from the bottom of the layer, anticlockwise.
+        let helix: Vec<&&Move> = cuts.iter().filter(|m| (dist(m.from) - (4.0 - br)).abs() < 1e-6 && (dist(m.to) - (4.0 - br)).abs() < 1e-6).collect();
+        assert!(helix.len() > 100);
+        assert!(helix.iter().all(|m| m.to[2] >= m.from[2] - 1e-9));
+        let (a, b) = (helix[0].from, helix[0].to);
+        let cross = (a[0] - c.x) * (b[1] - c.y) - (a[1] - c.y) * (b[0] - c.x);
+        assert!(cross > 0.0, "anticlockwise");
+        // One pitch a turn: the 6 mm of the layer in 4.8 turns.
+        let rise: f64 = helix.iter().map(|m| m.to[2] - m.from[2]).sum();
+        assert!((rise - 6.0).abs() < 1e-6, "{rise}");
+        let g = to_gcode(&prog, &Device::dummy(), &default_layers(&Library::new()), &Library::new(), "job");
+        assert!(g.contains("Thread 1 of 1 start: M8"), "{g}");
+    }
+
+    #[test]
+    fn a_screw_is_milled_downwards_clockwise_and_a_left_hand_nut_downwards() {
+        use crate::thread::Thread;
+        let t = Thread { pitch: 1.5, internal: false, left: false, passes: 1 };
+        let (prog, c, br) = thread_job(t, 10.0, "std-flat-3");
+        assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
+        let dist = |p: P3| Pt::new(p[0], p[1]).dist(c);
+        let inner = 5.0 - t.depth() + br;
+        let helix: Vec<&Move> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut && (dist(m.from) - inner).abs() < 1e-6 && (dist(m.to) - inner).abs() < 1e-6).collect();
+        assert!(helix.len() > 100);
+        assert!(helix.iter().all(|m| m.to[2] <= m.from[2] + 1e-9), "down");
+        let (a, b) = (helix[0].from, helix[0].to);
+        assert!((a[0] - c.x) * (b[1] - c.y) - (a[1] - c.y) * (b[0] - c.x) < 0.0, "clockwise");
+        // Nothing of the bit comes inside the small diameter of the screw.
+        assert!(prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).all(|m| dist(m.to) >= inner - 1e-6));
+        let left = Thread { pitch: 1.0, internal: true, left: true, passes: 1 };
+        let (prog, _, _) = thread_job(left, 8.0, "std-flat-3");
+        let rises = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut && (m.to[2] - m.from[2]).abs() > 1e-9);
+        assert!(rises.clone().count() > 50 && rises.into_iter().all(|m| m.to[2] < m.from[2]), "a left-hand nut goes down");
+    }
+
+    #[test]
+    fn a_bit_too_big_for_the_hole_and_a_shape_that_is_not_round_are_said() {
+        use crate::thread::Thread;
+        let (prog, _, _) = thread_job(Thread { pitch: 0.7, ..Thread::default() }, 4.0, "std-flat-6");
+        assert!(prog.warnings.iter().any(|w| w.text().contains("too big")), "{:?}", prog.warnings);
+        assert!(!prog.moves.iter().any(|m| m.kind == MoveKind::Cut));
+        let (lib, dev, stock, mut layers) = setup();
+        layers[2].op = Operation::ThreadMill;
+        layers[2].depth = 3.0;
+        let mut scene = Scene::default();
+        square(&mut scene, 2, 50.0, 50.0, 12.0);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(prog.warnings.iter().any(|w| w.text().contains("not round")), "{:?}", prog.warnings);
     }
 
     /// A square of `s` mm with the corner at (x, y) on the layer, in scene coordinates.

@@ -477,3 +477,18 @@
 476|Vučeni nož u držaču reže uzduž linija do dubine sloja, uz zaustavljeno vreteno: njegov pomak ispravlja se na svakom kutu, rupe se režu najprije, a zatvorena linija reže se dalje od svog početka.
 477|{}: negdje ulaz nije stao i izostavljen je
 478|{}: negdje ulaz nije stao i smanjen je
+479|Glodanje navoja
+480|Glodalo za navoje obilazi svaki krug po zavojnici, jedan korak po okretaju, do dubine sloja: navoj u rupi (matica) ili oko čepa (vijak). Nacrtajte krugove vanjskog promjera vijka; za maticu najprije izbušite ili istokarite rupu na otprilike promjer minus 1,08 × korak.
+481|Navoj
+482|Unutarnji (matica)
+483|Vanjski (vijak)
+484|Uobičajena veličina
+485|Uzima korak uobičajenog vijka. Nacrtajte krugove njegova vanjskog promjera (Ø).
+486|Korak
+487|Uspon jednog okretaja navoja
+488|Radijalni prolazi
+489|Dubina navoja reže se u toliko prolaza, svaki malo dublje u stijenku
+490|Lijevi navoj
+491|{}: oblik nije okrugao: navoj se glođe oko njegove sredine
+492|{}: glodalo je preveliko za rupu navoja: taj navoj se izostavlja
+493|{}: otvorene linije izostavljaju se iz navoja

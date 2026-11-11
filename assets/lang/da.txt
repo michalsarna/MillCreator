@@ -477,3 +477,18 @@
 476|En slæbekniv i holderen skærer langs linjerne til lagets dybde med spindlen i ro: dens forskydning udlignes ved hvert hjørne, hullerne skæres først, og en lukket linje skæres videre forbi sin start.
 477|{}: et indløb passede ikke et sted og blev udeladt
 478|{}: et indløb passede ikke et sted og blev gjort mindre
+479|Gevindfræsning
+480|En gevindfræser kører rundt om hver cirkel i en skruelinje, én stigning pr. omgang, til lagets dybde: et gevind i et hul (en møtrik) eller rundt om en tap (en skrue). Tegn cirkler med skruens yderdiameter; til en møtrik bores eller fræses hullet først til ca. diameteren minus 1,08 × stigningen.
+481|Gevind
+482|Indvendigt (møtrik)
+483|Udvendigt (skrue)
+484|Almindelig størrelse
+485|Tager stigningen fra en almindelig skrue. Tegn cirkler med dens yderdiameter (Ø).
+486|Stigning
+487|Stigningen på én omgang af gevindet
+488|Radiale gennemløb
+489|Gevindets dybde skæres i så mange gennemløb, hvert lidt dybere ind i væggen
+490|Venstregevind
+491|{}: en form er ikke rund: gevindet fræses om dens midte
+492|{}: fræseren er for stor til gevindets hul: det gevind udelades
+493|{}: åbne linjer udelades af et gevind

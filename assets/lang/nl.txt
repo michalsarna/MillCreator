@@ -477,3 +477,18 @@
 476|Een sleepmes in de houder snijdt langs de lijnen tot de diepte van de laag, met de spindel stil: de verschuiving wordt bij elke hoek gecompenseerd, de gaten worden eerst gesneden en een gesloten lijn wordt voorbij het begin doorgesneden.
 477|{}: ergens paste een inloop niet en is weggelaten
 478|{}: ergens paste een inloop niet en is kleiner gemaakt
+479|Draadfrezen
+480|Een draadfrees gaat in een schroeflijn rond elke cirkel, één spoed per omwenteling, tot de diepte van de laag: schroefdraad in een gat (een moer) of rond een tap (een bout). Teken cirkels met de buitendiameter van de bout; boor of frees voor een moer eerst het gat tot ongeveer de diameter min 1,08 × de spoed.
+481|Schroefdraad
+482|Binnen (moer)
+483|Buiten (bout)
+484|Gangbare maat
+485|Neemt de spoed van een gangbare bout over. Teken cirkels met zijn buitendiameter (Ø).
+486|Spoed
+487|De stijging van één omwenteling van de draad
+488|Radiale gangen
+489|De diepte van de draad wordt in zoveel gangen gesneden, elk iets dieper in de wand
+490|Linkse draad
+491|{}: een vorm is niet rond: de draad wordt rond het midden gefreesd
+492|{}: de frees is te groot voor het gat van de draad: die draad wordt weggelaten
+493|{}: open lijnen worden weggelaten bij schroefdraad

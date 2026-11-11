@@ -33,6 +33,8 @@ pub enum Operation {
     VCarve,
     /// A drag knife cuts along the lines with its offset made good, the holes first, the spindle still (vinyl, card, rubber).
     DragKnife,
+    /// A thread mill goes round every circle in a helix: a thread inside a hole or round a boss (`thread::Thread`).
+    ThreadMill,
 }
 
 /// Which way the bit goes round a profile or a pocket (for a spindle that turns clockwise).
@@ -331,7 +333,7 @@ impl PictureMethod {
 }
 
 impl Operation {
-    pub const ALL: [Operation; 12] = [Operation::ProfileOutside, Operation::ProfileInside, Operation::OnPath, Operation::Pocket, Operation::Drill, Operation::Picture, Operation::Face, Operation::Bore, Operation::Chamfer, Operation::DogboneSlot, Operation::VCarve, Operation::DragKnife];
+    pub const ALL: [Operation; 13] = [Operation::ProfileOutside, Operation::ProfileInside, Operation::OnPath, Operation::Pocket, Operation::Drill, Operation::Picture, Operation::Face, Operation::Bore, Operation::Chamfer, Operation::DogboneSlot, Operation::VCarve, Operation::DragKnife, Operation::ThreadMill];
 
     pub fn label(self) -> &'static str {
         match self {
@@ -347,6 +349,7 @@ impl Operation {
             Operation::DogboneSlot => "Dogbone slot",
             Operation::VCarve => "V-carve",
             Operation::DragKnife => "Drag knife",
+            Operation::ThreadMill => "Thread mill",
         }
     }
 
@@ -364,6 +367,7 @@ impl Operation {
             Operation::DogboneSlot => "The bit goes round the inside of the line and into every sharp corner, so that a round bit leaves room for a square part.",
             Operation::VCarve => "A V-bit goes deeper the farther it is from the edge of the shape, so the walls slope and the corners are sharp. The depth is the deepest the bit goes; a wider shape gets a flat bottom.",
             Operation::DragKnife => "A drag knife in the holder cuts along the lines to the depth of the layer, the spindle still: its offset is made good at every corner, the holes are cut first and a closed line is cut on past its start.",
+            Operation::ThreadMill => "A thread mill goes round every circle in a helix, one pitch a turn, to the depth of the layer: a thread inside a hole (a nut) or round a boss (a screw). Draw circles of the outer diameter of the screw; for a nut drill or bore the hole first to about the diameter minus 1.08 × the pitch.",
         }
     }
 }
@@ -464,6 +468,9 @@ pub struct MillLayer {
     /// How a profile comes onto its line and leaves it (a line or an arc from the waste side) and how far it goes on past its start.
     #[serde(default, skip_serializing_if = "base_core::lead::Lead::is_default")]
     pub lead: base_core::lead::Lead,
+    /// A thread (`Operation::ThreadMill`): its pitch, inside or outside, the hand and the passes.
+    #[serde(default, skip_serializing_if = "crate::thread::Thread::is_default")]
+    pub thread: crate::thread::Thread,
 }
 
 fn is_false(b: &bool) -> bool {
@@ -521,6 +528,7 @@ impl MillLayer {
             return Err(format!("layer {}: a number of the tabs is out of range", self.name));
         }
         self.lead.check().map_err(|e| format!("layer {}: {e}", self.name))?;
+        self.thread.check().map_err(|e| format!("layer {}: {e}", self.name))?;
         if self.name.len() > 120 {
             return Err("a layer name is too long".into());
         }
@@ -601,6 +609,7 @@ pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
                 coolant: Coolant::Off,
                 dust: false,
                 lead: Default::default(),
+                thread: Default::default(),
             };
             match bit(tool) {
                 Some(t) => layer.with_tool(&t),

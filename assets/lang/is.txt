@@ -477,3 +477,18 @@
 476|Dráttarhnífur í haldaranum sker eftir línunum niður á dýpt lagsins, snælda kyrr: hliðrun hans er leiðrétt við hvert horn, götin eru skorin fyrst og lokuð lína er skorin fram hjá byrjun sinni.
 477|{}: innkoma komst ekki fyrir einhvers staðar og var sleppt
 478|{}: innkoma komst ekki fyrir einhvers staðar og var minnkuð
+479|Gengjufræsing
+480|Gengjufræsari fer hring eftir hring í gormlínu, eitt stig á snúning, niður í dýpt lagsins: gengja í gati (ró) eða utan um tapp (skrúfa). Teiknaðu hringi með ytra þvermáli skrúfunnar; fyrir ró skaltu fyrst bora eða fræsa gatið í um það bil þvermál mínus 1,08 × stig.
+481|Gengja
+482|Innri (ró)
+483|Ytri (skrúfa)
+484|Algeng stærð
+485|Tekur stig algengrar skrúfu. Teiknaðu hringi með ytra þvermáli hennar (Ø).
+486|Stig
+487|Hækkun eins snúnings gengjunnar
+488|Geislalægar umferðir
+489|Dýpt gengjunnar er skorin í svo mörgum umferðum, hver aðeins dýpra inn í vegginn
+490|Vinstri gengja
+491|{}: lögun er ekki hringlaga: gengjan er fræst um miðju hennar
+492|{}: fræsitönnin er of stór fyrir gat gengjunnar: sú gengja er felld niður
+493|{}: opnar línur eru felldar úr gengju

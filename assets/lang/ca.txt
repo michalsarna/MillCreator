@@ -477,3 +477,18 @@
 476|Una fulla d'arrossegament al suport talla al llarg de les línies fins a la profunditat de la capa, amb l'eix aturat: el seu desplaçament es compensa a cada cantonada, els forats es tallen primer i una línia tancada es talla més enllà del seu inici.
 477|{}: en algun lloc una entrada no hi cabia i s'ha omès
 478|{}: en algun lloc una entrada no hi cabia i s'ha fet més petita
+479|Fresat de rosques
+480|Una fresa de rosques fa cada cercle en hèlix, un pas per volta, fins a la profunditat de la capa: una rosca dins d'un forat (una femella) o al voltant d'un tetó (un cargol). Dibuixa cercles del diàmetre exterior del cargol; per a una femella, primer trepa o mandrina el forat a aproximadament el diàmetre menys 1,08 × el pas.
+481|Rosca
+482|Interior (femella)
+483|Exterior (cargol)
+484|Mida habitual
+485|Pren el pas d'un cargol habitual. Dibuixa cercles del seu diàmetre exterior (Ø).
+486|Pas
+487|La pujada d'una volta de la rosca
+488|Passades radials
+489|La profunditat de la rosca es talla en aquestes passades, cadascuna una mica més endins de la paret
+490|Rosca a l'esquerra
+491|{}: una forma no és rodona: la rosca es fresa al voltant del seu centre
+492|{}: la fresa és massa gran per al forat de la rosca: aquesta rosca s'omet
+493|{}: les línies obertes s'ometen en una rosca
