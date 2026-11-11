@@ -545,3 +545,11 @@
 544|Širina kosine
 545|Kupola
 546|Ravni vrh
+547|Oblik materijala
+548|Blok
+549|Valjak (rotacijska os)
+550|Okrugli izradak koji okreće rotacijska os uređaja. Primjena uključuje rotacijsku os s ovim promjerom.
+551|Duljina izratka
+552|Valjak leži duž X na rotacijskoj osi; Y crteža ide oko njega, a crtež je njegova razvijena površina. Z se broji od površine, a najdublji rez je polumjer. Nula je na površini; postavite istu na stroju.
+553|Projekt postavljen: valjak Ø {} mm duljine {} mm na rotacijskoj osi (uključenoj), nula: {}
+554|Rotacijska os uređaja je isključena.

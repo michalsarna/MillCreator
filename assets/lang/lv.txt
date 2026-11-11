@@ -545,3 +545,11 @@
 544|Slīpuma platums
 545|Kupols
 546|Plakana virsa
+547|Materiāla forma
+548|Bloks
+549|Cilindrs (rotācijas ass)
+550|Apaļa sagatave, ko griež ierīces rotācijas ass. Lietot ieslēdz rotācijas asi ar šo diametru.
+551|Sagataves garums
+552|Cilindrs guļ gar X uz rotācijas ass; zīmējuma Y iet apkārt tam, un zīmējums ir tā izritinātā virsma. Z skaita no virsmas, un dziļākais griezums ir rādiuss. Nulle ir uz virsmas; iestatiet to pašu mašīnā.
+553|Projekts iestatīts: cilindrs Ø {} mm, {} mm garš, uz rotācijas ass (ieslēgta), nulle: {}
+554|Ierīces rotācijas ass ir izslēgta.

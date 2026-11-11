@@ -545,3 +545,11 @@
 544|Ancho de la pendiente
 545|Cúpula
 546|Cima plana
+547|Forma del material
+548|Bloque
+549|Cilindro (eje rotativo)
+550|Una pieza redonda que gira el eje rotativo del dispositivo. Aplicar activa el eje rotativo con este diámetro.
+551|Longitud de la pieza
+552|El cilindro está tumbado a lo largo de X en el eje rotativo; la Y del dibujo le da la vuelta y el dibujo es su superficie desenrollada. Z cuenta desde la superficie y el corte más profundo es el radio. El cero está en la superficie; pon el mismo en la máquina.
+553|Proyecto configurado: un cilindro de Ø {} mm y {} mm de largo en el eje rotativo (activado), cero en {}
+554|El eje rotativo del dispositivo está desactivado.

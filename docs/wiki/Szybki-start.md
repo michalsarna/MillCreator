@@ -28,6 +28,8 @@ Po **Nowy** okno **Ustawienia projektu** (Project setup) pyta o kawałek materia
 
 Materiał leży w lewym górnym rogu strony. **Zastosuj** (Apply) pisze program dla układu współrzędnych roboczych **G54** (albo tego, który wybrano w urządzeniu) z zerem w wybranym miejscu: ustaw to zero na maszynie w tym miejscu kawałka (dojedź tam i naciśnij **X0**, **Y0** i **Z0** albo **Zeruj wszystko** na karcie **Sterowanie**, albo użyj sondy). **Pomiń** (Skip) zostawia zero urządzenia. Wybory są zapisywane z projektem.
 
+**Kształt materiału → Walec (obrotnica)** (Cylinder (rotary)) służy do okrągłego przedmiotu na obrotnicy: podaj **Średnicę przedmiotu** i **Długość przedmiotu**, a okno pokaże walec w uchwycie z wymiarami, obrót Y wokół niego i zero na jego powierzchni. **Zastosuj** włącza obrotnicę urządzenia z tą średnicą (zostaje zapisana przy urządzeniu); materiał to wtedy rozwinięta powierzchnia — długość wzdłuż X, obwód (π × średnica) wzdłuż Y — Z liczy się od wierzchu powierzchni, a najgłębsze cięcie to promień. Obszar roboczy pokazuje niebieską linię co jeden obwód. Wybranie znów **Blok** wyłącza obrotnicę.
+
 ## 3. Materiał
 
 Karta **Materiał**: **Materiał obrabianego przedmiotu** (**Drewno, jasne**, **Drewno, średnie**, **Drewno, ciemne**, **Metal**, **Tworzywa** w wybranym **Kolorze**) i **Grubość**. Kolor służy tylko widokowi 3D; posuwy pochodzą z frezów i warstw. **Pierwsze przejście** może zaczynać każdą warstwę płytkim przejściem wzdłuż krawędzi. Zob. [Materiał](Material-obrabiany).

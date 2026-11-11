@@ -545,3 +545,11 @@
 544|Lățimea pantei
 545|Cupolă
 546|Vârf plat
+547|Forma materialului
+548|Bloc
+549|Cilindru (axă rotativă)
+550|O piesă rotundă rotită de axa rotativă a dispozitivului. Aplicarea pornește axa rotativă cu acest diametru.
+551|Lungimea piesei
+552|Cilindrul stă de-a lungul lui X pe axa rotativă; Y al desenului merge în jurul lui, iar desenul este suprafața lui desfășurată. Z se numără de la suprafață, iar cea mai adâncă tăietură este raza. Zero este pe suprafață; setați același pe mașină.
+553|Proiect configurat: un cilindru de Ø {} mm și {} mm lungime pe axa rotativă (pornită), zero la {}
+554|Axa rotativă a dispozitivului este oprită.

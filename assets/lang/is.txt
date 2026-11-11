@@ -545,3 +545,11 @@
 544|Breidd hallans
 545|Hvelfing
 546|Flatur toppur
+547|Lögun efnisins
+548|Kubbur
+549|Sívalningur (snúningsás)
+550|Kringlótt vinnustykki sem snúningsás tækisins snýr. Nota kveikir á snúningsásnum með þessu þvermáli.
+551|Lengd vinnustykkis
+552|Sívalningurinn liggur eftir X á snúningsásnum; Y teikningarinnar fer hringinn í kringum hann og teikningin er útflatt yfirborð hans. Z er talið frá yfirborðinu og dýpsti skurður er geislinn. Núllpunkturinn er á yfirborðinu; stilltu þann sama á vélinni.
+553|Verkefni stillt: sívalningur Ø {} mm og {} mm langur á snúningsásnum (kveikt), núll: {}
+554|Slökkt er á snúningsás tækisins.

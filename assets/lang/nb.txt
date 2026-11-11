@@ -545,3 +545,11 @@
 544|Skråningens bredde
 545|Kuppel
 546|Flat topp
+547|Materialets form
+548|Blokk
+549|Sylinder (dreieakse)
+550|Et rundt emne som dreies av enhetens dreieakse. Bruk slår på dreieaksen med denne diameteren.
+551|Emnets lengde
+552|Sylinderen ligger langs X på dreieaksen; tegningens Y går rundt den, og tegningen er dens utbrettede overflate. Z telles fra overflaten, og det dypeste kuttet er radien. Nullpunktet er på overflaten; sett det samme på maskinen.
+553|Prosjekt satt opp: en sylinder Ø {} mm og {} mm lang på dreieaksen (slått på), nullpunkt {}
+554|Enhetens dreieakse er slått av.

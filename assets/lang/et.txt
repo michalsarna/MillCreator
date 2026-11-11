@@ -545,3 +545,11 @@
 544|Kalde laius
 545|Kuppel
 546|Lame pealispind
+547|Materjali kuju
+548|Plokk
+549|Silinder (pöördtelg)
+550|Ümar toorik, mida seadme pöördtelg pöörab. Rakenda lülitab pöördtelje sisse selle läbimõõduga.
+551|Tooriku pikkus
+552|Silinder asub pöördteljel X-i suunas; joonise Y käib ümber selle ja joonis on selle lahtirullitud pind. Z loetakse pinnast ja sügavaim lõige on raadius. Null on pinnal; sea sama ka masinal.
+553|Projekt seadistatud: silinder Ø {} mm, pikkus {} mm, pöördteljel (sees), null: {}
+554|Seadme pöördtelg on väljas.

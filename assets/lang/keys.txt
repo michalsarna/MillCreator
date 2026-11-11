@@ -545,3 +545,11 @@
 544	Width of the slope
 545	Dome
 546	Flat top
+547	Shape of the material
+548	Block
+549	Cylinder (rotary)
+550	A round workpiece turned by the rotary attachment of the device. Applying switches the rotary attachment on with this diameter.
+551	Workpiece length
+552	The cylinder lies along X on the rotary attachment; Y of the drawing goes round it and the drawing is unrolled from its surface. Z counts from the top of the surface, and the deepest cut is the radius. The zero is on the surface; set the same one on the machine.
+553	Project set up: a cylinder of Ø {} mm and {} mm long on the rotary attachment (switched on), zero at {}
+554	The rotary attachment of the device is off.

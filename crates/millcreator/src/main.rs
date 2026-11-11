@@ -221,6 +221,8 @@ enum SideTab {
     /// The recording of every camera, the photos aside and the long lines.
     Recording,
     Camera,
+    /// The no-go zones of the device, while it has any.
+    Zones,
     /// The tab of a plugin with settings (which one: `App::plugin_tab`).
     Plugin,
 }
@@ -241,12 +243,13 @@ impl SideTab {
             SideTab::Description => "description",
             SideTab::Recording => "recording",
             SideTab::Camera => "camera",
+            SideTab::Zones => "zones",
             SideTab::Plugin => "plugin",
         }
     }
 
     fn from_id(id: &str) -> Option<SideTab> {
-        [SideTab::Properties, SideTab::Layers, SideTab::Material, SideTab::Device, SideTab::Control, SideTab::Console, SideTab::Clipart, SideTab::Description, SideTab::Recording, SideTab::Camera].into_iter().find(|t| t.id() == id)
+        [SideTab::Properties, SideTab::Layers, SideTab::Material, SideTab::Device, SideTab::Control, SideTab::Console, SideTab::Clipart, SideTab::Description, SideTab::Recording, SideTab::Camera, SideTab::Zones].into_iter().find(|t| t.id() == id)
     }
 
     fn label(self) -> String {
@@ -261,6 +264,7 @@ impl SideTab {
             SideTab::Description => base_ui::description_ui::tab_label().to_string(),
             SideTab::Recording => tr("Recording").to_string(),
             SideTab::Camera => tr("Camera").to_string(),
+            SideTab::Zones => tr(base_ui::zones_ui::PAGE).to_string(),
             SideTab::Plugin => String::new(),
         }
     }
@@ -1065,7 +1069,7 @@ impl App {
 
     /// The ids of the tabs that exist only sometimes: the camera view, and the tab of every plugin that has settings.
     fn extra_tabs(&self) -> Vec<&'static str> {
-        self.camera_side_tab().then_some("camera").into_iter().chain(self.plugins.side_tabs().into_iter().map(|(id, _)| id)).collect()
+        self.camera_side_tab().then_some("camera").into_iter().chain((!self.device.zones.is_empty()).then_some("zones")).chain(self.plugins.side_tabs().into_iter().map(|(id, _)| id)).collect()
     }
 
     /// The label of a tab, also of a tab of a plugin.
@@ -1109,7 +1113,7 @@ impl App {
     fn side_panel(&mut self, ui: &mut egui::Ui) {
         let extra = self.extra_tabs();
         // A tab that is gone (no camera, the plugin removed or switched off) gives way to the first one.
-        if self.side_tab == SideTab::Camera && !extra.contains(&"camera") || self.side_tab == SideTab::Plugin && !extra.contains(&self.plugin_tab) {
+        if self.side_tab == SideTab::Camera && !extra.contains(&"camera") || self.side_tab == SideTab::Zones && !extra.contains(&"zones") || self.side_tab == SideTab::Plugin && !extra.contains(&self.plugin_tab) {
             self.side_tab = SideTab::Properties;
         }
         let labels: std::collections::HashMap<&str, String> = SideTab::IDS.iter().copied().chain(extra.iter().copied()).map(|id| (id, self.tab_label(id))).collect();
@@ -1180,6 +1184,13 @@ impl App {
             }
             SideTab::Recording => {
                 egui::ScrollArea::vertical().id_salt("tab_recording").auto_shrink([false, false]).show(ui, |ui| self.recording_tab(ui));
+            }
+            SideTab::Zones => {
+                let units = base_ui::editor::EditorHost::units(self);
+                let mut zones = self.device.zones.clone();
+                if base_ui::zones_ui::panel(ui, units, &mut zones, true, &tr(device_ui::ZONE_HEIGHTS)) {
+                    self.set_zones(zones);
+                }
             }
             SideTab::Camera => {
                 egui::ScrollArea::vertical().id_salt("tab_camera").auto_shrink([false, false]).show(ui, |ui| self.camera_tab(ui));
@@ -1496,6 +1507,16 @@ impl EditorHost for App {
     fn can_add_sheets(&self) -> bool {
         true
     }
+    fn can_add_zones(&self) -> bool {
+        true
+    }
+    fn add_zones(&mut self, zones: Vec<base_core::zones::Zone>) {
+        let mut all = self.device.zones.clone();
+        all.extend(zones);
+        all.truncate(100);
+        self.set_zones(all);
+        self.side_tab = SideTab::Zones;
+    }
     fn add_sheets(&mut self, sheets: Vec<Vec<base_core::scene::Shape>>) -> usize {
         self.open_sheets(sheets)
     }
@@ -1549,6 +1570,8 @@ impl EditorHost for App {
         self.paint_hand_tabs(v);
         self.paint_wcs_icon(v);
         base_ui::zones_ui::paint(v.painter, &|p| self.w2s(v.origin, p), self.ed.view.zoom, &self.device.zones);
+        let units = base_ui::editor::EditorHost::units(self);
+        base_ui::rotary_ui::paint(v.painter, &|p| self.w2s(v.origin, p), v.bed, units, &self.device.rotary, self.device.area.y);
     }
     fn pointer_claimed(&mut self, resp: &egui::Response, origin: egui::Pos2, _press: Option<egui::Pos2>, hover: Option<egui::Pos2>) -> bool {
         self.wcs_pointer(resp, origin, hover) || self.hand_tabs_pointer(resp, origin, hover)

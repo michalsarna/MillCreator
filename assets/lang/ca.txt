@@ -545,3 +545,11 @@
 544|Amplada del pendent
 545|Cúpula
 546|Cim pla
+547|Forma del material
+548|Bloc
+549|Cilindre (eix rotatiu)
+550|Una peça rodona que fa girar l'eix rotatiu del dispositiu. Aplicar activa l'eix rotatiu amb aquest diàmetre.
+551|Longitud de la peça
+552|El cilindre jeu al llarg de X a l'eix rotatiu; la Y del dibuix li fa la volta i el dibuix és la seva superfície desplegada. La Z compta des de la superfície i el tall més profund és el radi. El zero és a la superfície; posa el mateix a la màquina.
+553|Projecte configurat: un cilindre de Ø {} mm i {} mm de llarg a l'eix rotatiu (activat), zero a {}
+554|L'eix rotatiu del dispositiu està desactivat.
