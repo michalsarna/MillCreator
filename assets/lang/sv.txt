@@ -510,3 +510,5 @@
 509|Sida som ska fräsas
 510|Ett tvåsidigt jobb: bara lagren på den här sidan fräses. För undersidan vänds materialet som fliken Material säger och läggs på styrstiften: ritningen vänds med.
 511|Materialets storlek är inte inställd (Arkiv → Ny…): undersidan vänds runt mitten av arbetsytan
+512|En finbearbetning med en mindre fräs efter finbearbetningen av det lagret: den går bara dit den större fräsen inte nådde (smala dalar, skarpa hörn), så jobbet tar mycket kortare tid.
+513|{}: fräsen för en restfinbearbetning måste vara mindre än fräsen för lagret den följer

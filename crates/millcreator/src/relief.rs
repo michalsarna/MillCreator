@@ -104,6 +104,40 @@ pub fn tip_heights(map: &HeightMap, tool: &Tool) -> Vec<f64> {
     out
 }
 
+/// Rest machining with a smaller bit after a bigger one: the tip heights of this bit kept only where it goes deeper than the
+/// bigger one (`before`, its tip heights) by more than `tol`, and within the radius of this bit of such a place, so that the edges
+/// blend; elsewhere the bit does not cut (its tip is set to the surface of the material). The number of cells that are cut.
+pub fn rest_only(map: &HeightMap, tips: &mut [f64], before: &[f64], tool_r: f64, tol: f64) -> usize {
+    let (cols, rows, step) = (map.grid.cols, map.grid.rows, map.grid.step);
+    let deeper: Vec<bool> = tips.iter().zip(before).map(|(t, b)| b - t > tol).collect();
+    let reach = (tool_r / step).ceil() as i64;
+    let mut keep = vec![false; cols * rows];
+    for r in 0..rows as i64 {
+        for c in 0..cols as i64 {
+            if !deeper[r as usize * cols + c as usize] {
+                continue;
+            }
+            for dr in -reach..=reach {
+                for dc in -reach..=reach {
+                    let (rr, cc) = (r + dr, c + dc);
+                    if rr >= 0 && cc >= 0 && rr < rows as i64 && cc < cols as i64 && ((dr * dr + dc * dc) as f64).sqrt() <= reach as f64 {
+                        keep[rr as usize * cols + cc as usize] = true;
+                    }
+                }
+            }
+        }
+    }
+    let mut n = 0;
+    for (t, k) in tips.iter_mut().zip(&keep) {
+        if *k {
+            n += 1;
+        } else {
+            *t = 0.0;
+        }
+    }
+    n
+}
+
 /// The depths of the passes: `step_down`, twice that, ... up to the full `depth` (the last one is the relief itself). A
 /// `step_down` of 0 is the full depth in one pass.
 pub fn pass_limits(depth: f64, step_down: f64) -> Vec<f64> {

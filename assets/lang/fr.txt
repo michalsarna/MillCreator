@@ -510,3 +510,5 @@
 509|Face à usiner
 510|Un travail sur deux faces : seuls les calques de cette face sont usinés. Pour le dessous, retournez le matériau comme le dit l'onglet Matériau et posez-le sur les goupilles : le dessin est retourné avec lui.
 511|La taille du matériau n'est pas définie (Fichier → Nouveau…) : le dessous est retourné autour du milieu de la zone de travail
+512|Une finition avec une fraise plus petite après la finition de ce calque : elle ne passe que là où la plus grande ne pouvait pas aller (vallées étroites, angles vifs), le travail prend donc beaucoup moins de temps.
+513|{} : la fraise d'une finition des restes doit être plus petite que celle du calque qu'elle suit

@@ -510,3 +510,5 @@
 509|Hlið sem á að fræsa
 510|Tvíhliða verk: aðeins lög þessarar hliðar eru fræst. Fyrir neðri hliðina snúðu efninu eins og Efni-flipinn segir og settu það á stillingarpinnana: teikningunni er snúið með.
 511|Stærð efnisins er ekki stillt (Skrá → Nýtt…): neðri hliðinni er snúið um miðju vinnusvæðisins
+512|Frágangur með minni fræsitönn eftir frágang þess lags: hann fer aðeins þangað sem stærri tönnin náði ekki (þröngir dalir, skörp horn), svo verkið tekur miklu styttri tíma.
+513|{}: fræsitönn afgangsfrágangs verður að vera minni en tönn lagsins sem hann fylgir

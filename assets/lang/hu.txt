@@ -510,3 +510,5 @@
 509|Marandó oldal
 510|Kétoldalas munka: csak ennek az oldalnak a rétegeit marja. Az alsóhoz fordítsa meg az anyagot az Anyag lap szerint, és tegye az illesztőcsapokra: a rajz vele együtt fordul.
 511|Az anyag mérete nincs beállítva (Fájl → Új…): az alsó oldal a munkaterület közepe körül fordul
+512|Simítás kisebb maróval annak a rétegnek a simítása után: csak oda megy, ahová a nagyobb maró nem ért el (szűk völgyek, éles sarkok), így a munka sokkal rövidebb.
+513|{}: a maradékanyag-simítás marójának kisebbnek kell lennie, mint a követett réteg marója

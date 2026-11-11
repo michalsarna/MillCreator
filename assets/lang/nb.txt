@@ -510,3 +510,5 @@
 509|Side som skal freses
 510|En tosidig jobb: bare lagene på denne siden freses. For undersiden snus materialet slik fanen Materiale sier og legges på styretappene: tegningen snus med.
 511|Materialets størrelse er ikke satt (Fil → Ny…): undersiden snus rundt midten av arbeidsområdet
+512|En slettfresing med en mindre fres etter slettfresingen av det laget: den går bare dit den større fresen ikke nådde (smale daler, skarpe hjørner), så jobben tar mye kortere tid.
+513|{}: fresen til en restslettfresing må være mindre enn fresen til laget den følger

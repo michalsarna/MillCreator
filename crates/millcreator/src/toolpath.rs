@@ -214,10 +214,10 @@ const MAX_MOVES: usize = 3_000_000;
 
 /// Engrave a picture: dots, rows, or rows whose depth follows the tone. The distance of the rows is the step over of the bit.
 /// Returns false when the program got too long and the rest was left out.
-fn engrave_picture(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shape, im: &ImageData, area_y: f64, depth: f64) -> bool {
+fn engrave_picture(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shape, im: &ImageData, area_y: f64, depth: f64, rest: Option<&Tool>) -> bool {
     let step = (tool.dims.diameter * layer.step_over_pct / 100.0).max(0.05);
     if layer.picture == PictureMethod::Relief {
-        return relief_passes(b, layer, tool, shape, im, area_y, depth, step);
+        return relief_passes(b, layer, tool, shape, im, area_y, depth, step, rest);
     }
     let mode = if layer.picture == PictureMethod::Depth { raster::Dither::Grayscale } else { layer.dither };
     let Some(g) = raster::sample(shape, im, step, layer.scan_angle, mode) else { return true };
@@ -308,7 +308,8 @@ fn engrave_picture(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shap
 
 /// A picture as a relief: passes down to the full depth (the last one is the relief itself), rows `step` apart, the bit kept out
 /// of the relief everywhere under its body. Returns false when the program got too long.
-fn relief_passes(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shape, im: &ImageData, area_y: f64, depth: f64, step: f64) -> bool {
+#[allow(clippy::too_many_arguments)]
+fn relief_passes(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shape, im: &ImageData, area_y: f64, depth: f64, step: f64, rest: Option<&Tool>) -> bool {
     let Some(map) = crate::relief::HeightMap::of(shape, im, step, layer.scan_angle, depth) else { return true };
     let mut tips = crate::relief::tip_heights(&map, tool);
     // Roughing leaves the stock to leave on the relief; finishing is one go over the relief itself.
@@ -317,6 +318,11 @@ fn relief_passes(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shape,
         for t in tips.iter_mut() {
             *t = (*t + layer.leave).min(0.0);
         }
+    }
+    // Rest machining: a finish with a smaller bit after a bigger one goes only where the bigger one could not reach.
+    if let (Some(big), ReliefPart::Finish) = (rest, layer.relief_part) {
+        let before = crate::relief::tip_heights(&map, big);
+        crate::relief::rest_only(&map, &mut tips, &before, tool.radius(), 0.02);
     }
     let limits = if layer.relief_part == ReliefPart::Finish { vec![depth] } else { crate::relief::pass_limits(depth, layer.step_down) };
     for limit in limits {
@@ -597,11 +603,19 @@ fn run_layers(b: &mut Builder, prog: &mut Program, scene: &Scene, layers: &[Mill
         // The tabs placed by hand on this layer, where they lie on the toolpath's side of the page (y turned over).
         let anchors: Vec<Pt> = layer.tabs.manual.iter().filter_map(|t| scene.shape(t.shape).filter(|s| s.layer == li).and_then(|s| crate::handtabs::point_on(s, t.at))).map(|p| Pt::new(p.x, dev.area.y - p.y)).collect();
         run_layer(b, &layer, tool, &outlines, &depths, anchors, rest_r, &mut prog.warnings);
+        // A rest finish of a relief: the bit of the layer it follows, which has to be bigger.
+        let rest_tool = layer.rest_of.filter(|_| layer.op == Operation::Picture && layer.picture == PictureMethod::Relief && layer.relief_part == crate::layers::ReliefPart::Finish).and_then(|i| layers.get(i)).and_then(|l| l.tool.as_deref()).and_then(|id| tools.get(id)).filter(|big| {
+            let ok = big.radius() > tool.radius();
+            if !ok && !pictures.is_empty() {
+                prog.warnings.push(Warn::new("{}: the bit of a rest finish has to be smaller than the bit of the layer it follows", &[&layer.name]));
+            }
+            ok
+        });
         // A picture is engraved at the depth of the layer in one go (a shallow depth: the dots and the rows are many).
         let full = depths.last().copied().unwrap_or(layer.depth);
         for (i, (shape, im)) in pictures.iter().enumerate() {
             b.note(format!("Picture {} of {} start: {} x {} mm, {} mm deep", i + 1, pictures.len(), num(im.w), num(im.h), num(full)));
-            let whole = engrave_picture(b, &layer, tool, shape, im, dev.area.y, full);
+            let whole = engrave_picture(b, &layer, tool, shape, im, dev.area.y, full, rest_tool);
             b.note_end(format!("Picture {} end", i + 1));
             if !whole {
                 prog.warnings.push(Warn::new("{}: the program of the picture is too long: the rest was left out (use a bigger step over)", &[&layer.name]));
@@ -2677,6 +2691,38 @@ mod tests {
         let deepest = |p: &Program| cut_points(p).iter().map(|q| q[2]).fold(0.0f64, f64::min);
         assert!((deepest(&finish) + 2.0).abs() < 1e-6, "the finish reaches the relief: {}", deepest(&finish));
         assert!(deepest(&rough) > -2.0 + 0.25, "the rough stays above the relief: {}", deepest(&rough));
+    }
+
+    #[test]
+    fn a_rest_finish_with_a_smaller_ball_goes_only_where_the_bigger_one_could_not_reach() {
+        use crate::layers::ReliefPart;
+        let (lib, dev, stock, _) = setup();
+        // Narrow grooves (black stripes 1.25 mm wide) in a white field, and a wide flat dip: a 6 mm ball does not reach the
+        // bottom of the grooves, a 3 mm one does better; the dip both reach.
+        let (pw, ph) = (64usize, 16usize);
+        let gray: Vec<u8> = (0..pw * ph).map(|i| { let c = i % pw; if c < 16 { if (c / 2) % 2 == 0 { 0 } else { 255 } } else if (20..63).contains(&c) { 128 } else { 255 } }).collect();
+        let im = base_core::image::ImageData { name: "g".into(), px_w: pw as u32, px_h: ph as u32, gray, w: 40.0, h: 40.0, invert: false };
+        let mut g = Scene::default();
+        g.add(3, Kind::Image(im.clone()), Xf::translate(20.0, 20.0));
+        g.add(4, Kind::Image(im), Xf::translate(20.0, 20.0));
+        let mut layers = engraving(PictureMethod::Relief);
+        layers[3].tool = Some("std-ball-6".into());
+        layers[3].depth = 1.0;
+        layers[3].relief_part = ReliefPart::Finish;
+        layers[3].step_over_pct = 10.0;
+        layers[4] = MillLayer { tool: Some("std-ball-3".into()), color: layers[4].color, name: "Rest".into(), ..layers[3].clone() };
+        let full = generate(&g, &layers, &lib, &dev, &stock);
+        layers[4].rest_of = Some(3);
+        let rest = generate(&g, &layers, &lib, &dev, &stock);
+        let cuts = |p: &Program, l: usize| p.moves.iter().filter(|m| m.kind == MoveKind::Cut && m.layer == l).map(|m| m.length()).sum::<f64>();
+        assert!(cuts(&rest, 4) > 0.0, "the rest finish cuts the grooves");
+        assert!(cuts(&rest, 4) < 0.85 * cuts(&full, 4), "only a part of the relief: {} of {} mm", cuts(&rest, 4), cuts(&full, 4));
+        // In the grooves (x 20…30) it goes deeper than the big ball went.
+        let deepest = |p: &Program, l: usize| p.moves.iter().filter(|m| m.kind == MoveKind::Cut && m.layer == l && m.to[0] < 31.0).map(|m| m.to[2]).fold(0.0f64, f64::min);
+        assert!(deepest(&rest, 4) < deepest(&rest, 3) - 0.05, "{} vs {}", deepest(&rest, 4), deepest(&rest, 3));
+        // The flat dip (x 32.5…59.4 of the page) is left alone away from its edges (and from the top and the bottom of the picture).
+        let in_middle = |p: &Program| p.moves.iter().filter(|m| m.kind == MoveKind::Cut && m.layer == 4 && m.from[0].min(m.to[0]) < 52.0 && m.from[0].max(m.to[0]) > 40.0 && (m.to[1] - (dev.area.y - 40.0)).abs() < 8.0 && (m.to[2] + 0.5).abs() < 0.01).count();
+        assert!(in_middle(&full) > 0 && in_middle(&rest) == 0, "the dip is not cut again: {} {}", in_middle(&full), in_middle(&rest));
     }
 
     fn two_layer_job(lib: &Library) -> (Scene, Vec<MillLayer>) {

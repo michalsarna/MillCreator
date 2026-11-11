@@ -510,3 +510,5 @@
 509|Strana na frézovanie
 510|Obojstranná úloha: frézujú sa len vrstvy tejto strany. Pre spodnú otočte materiál podľa karty Materiál a nasaďte ho na kolíky: výkres sa otočí s ním.
 511|Veľkosť materiálu nie je nastavená (Súbor → Nový…): spodná strana sa otočí okolo stredu pracovnej plochy
+512|Dokončenie menšou frézou po dokončení onej vrstvy: ide len tam, kam väčšia fréza nedosiahla (úzke údolia, ostré rohy), takže úloha trvá oveľa kratšie.
+513|{}: fréza dokončenia zvyškov musí byť menšia ako fréza vrstvy, po ktorej nasleduje

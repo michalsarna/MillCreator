@@ -510,3 +510,5 @@
 509|Taobh le gearradh
 510|Jab dhá thaobh: ní ghearrtar ach sraitheanna an taoibh seo. Don íochtar, iompaigh an t-ábhar mar a deir an cluaisín Ábhar agus cuir ar na bioráin é: iompaítear an líníocht leis.
 511|Níl méid an ábhair socraithe (Comhad → Nua…): iompaítear an taobh íochtair timpeall lár an limistéir oibre
+512|Críochnú le giotán níos lú tar éis chríochnú na sraithe sin: ní théann sé ach áit nach raibh an giotán níos mó in ann sroicheadh (gleannta cúnga, cúinní géara), mar sin glacann an jab i bhfad níos lú ama.
+513|{}: caithfidh giotán chríochnú an fhuílligh a bheith níos lú ná giotán na sraithe a leanann sé

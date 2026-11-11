@@ -510,3 +510,5 @@
 509|Freesitav pool
 510|Kahepoolne töö: freesitakse ainult selle poole kihte. Alumise jaoks pööra materjal ümber, nagu ütleb vahekaart Materjal, ja pane see joondustihvtidele: joonis pöördub sellega kaasa.
 511|Materjali suurus pole määratud (Fail → Uus…): alumine pool pööratakse tööala keskkoha ümber
+512|Viimistlus väiksema freesiga pärast selle kihi viimistlust: see läheb ainult sinna, kuhu suurem frees ei ulatunud (kitsad orud, teravad nurgad), nii et töö võtab palju vähem aega.
+513|{}: jääkide viimistluse frees peab olema väiksem kui selle kihi frees, mida see järgib
