@@ -535,3 +535,5 @@
 534|Et annet nummer gir andre strøk; samme nummer samme strøk
 535|Radenes vinkel
 536|{}: åpne linjer utelates fra en tekstur
+537|Skisseskjæring
+538|Bildet tegnes på nytt som linjer i en stil (slik stilsporing gjør), og hver linje skjæres med en V-fres dypere, og dermed bredere, der bildet er mørkere, ned til lagets dybde: det ser ut som en blyantskisse. Fresens sideforskyvning er avstanden mellom linjene.

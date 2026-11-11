@@ -243,6 +243,15 @@ impl App {
                             ui.end_row();
                         }
                     }
+                    if l.op == Operation::Picture && l.picture == PictureMethod::Sketch {
+                        ui.label(tr("Style"));
+                        egui::ComboBox::from_id_salt("layer_sketch_style").selected_text(tr(l.sketch_style.label())).width(200.0).show_ui(ui, |ui| {
+                            for s in base_core::style_trace::Style::ALL {
+                                changed |= ui.selectable_value(&mut l.sketch_style, s, tr(s.label())).changed();
+                            }
+                        });
+                        ui.end_row();
+                    }
                     if l.op == Operation::Picture && l.picture == PictureMethod::Relief {
                         ui.label(tr("Relief part"));
                         egui::ComboBox::from_id_salt("layer_relief_part").selected_text(tr(l.relief_part.label())).width(200.0).show_ui(ui, |ui| {

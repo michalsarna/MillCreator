@@ -330,10 +330,13 @@ pub enum PictureMethod {
     Depth,
     /// A 3D relief: roughing passes down to the full depth, with the shape of the bit taken into account (a drop cutter).
     Relief,
+    /// Sketch carving: the picture drawn again as lines in a style (style trace), each line V-carved deeper (and so wider) where
+    /// the picture is darker.
+    Sketch,
 }
 
 impl PictureMethod {
-    pub const ALL: [PictureMethod; 4] = [PictureMethod::Rows, PictureMethod::Dots, PictureMethod::Depth, PictureMethod::Relief];
+    pub const ALL: [PictureMethod; 5] = [PictureMethod::Rows, PictureMethod::Dots, PictureMethod::Depth, PictureMethod::Relief, PictureMethod::Sketch];
 
     pub fn label(self) -> &'static str {
         match self {
@@ -341,6 +344,7 @@ impl PictureMethod {
             PictureMethod::Dots => "Dots",
             PictureMethod::Depth => "Depth by tone",
             PictureMethod::Relief => "3D relief",
+            PictureMethod::Sketch => "Sketch carving",
         }
     }
 
@@ -350,6 +354,7 @@ impl PictureMethod {
             PictureMethod::Dots => "A hole to the depth of the layer for every dark cell of the dithered picture.",
             PictureMethod::Depth => "The rows are cut with a depth that follows the tone of the picture: the darker, the deeper, down to the depth of the layer.",
             PictureMethod::Relief => "A relief: black is the deepest, white is left uncut. Passes of the pass depth down to the full depth, and the shape of the bit is taken into account. The model can be exported as STL.",
+            PictureMethod::Sketch => "The picture is drawn again as lines in a style (as Style trace does), and every line is carved with a V-bit deeper, and so wider, where the picture is darker, down to the depth of the layer: it looks like a pencil sketch. The step over of the bit is the spacing of the lines.",
         }
     }
 
@@ -510,6 +515,17 @@ pub struct MillLayer {
     /// The settings of fluting, moulding and texture.
     #[serde(default, skip_serializing_if = "crate::special::Decor::is_default")]
     pub decor: crate::special::Decor,
+    /// Sketch carving: the style of the lines.
+    #[serde(default = "etching", skip_serializing_if = "is_etching")]
+    pub sketch_style: base_core::style_trace::Style,
+}
+
+fn etching() -> base_core::style_trace::Style {
+    base_core::style_trace::Style::Etching
+}
+
+fn is_etching(s: &base_core::style_trace::Style) -> bool {
+    *s == base_core::style_trace::Style::Etching
 }
 
 fn is_false(b: &bool) -> bool {
@@ -652,6 +668,7 @@ pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
                 thread: Default::default(),
                 side: Side::Top,
                 decor: Default::default(),
+                sketch_style: etching(),
             };
             match bit(tool) {
                 Some(t) => layer.with_tool(&t),

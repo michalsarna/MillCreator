@@ -535,3 +535,5 @@
 534|Cits numurs dod citus vilcienus; tas pats numurs tos pašus
 535|Rindu leņķis
 536|{}: atvērtās līnijas tekstūrā netiek iekļautas
+537|Skices grebšana
+538|Attēls tiek uzzīmēts no jauna kā līnijas kādā stilā (kā to dara stila izsekošana), un katra līnija tiek grebta ar V frēzi dziļāk, un tātad platāk, tur, kur attēls ir tumšāks, līdz slāņa dziļumam: tas izskatās kā zīmuļa skice. Frēzes solis ir līniju atstatums.

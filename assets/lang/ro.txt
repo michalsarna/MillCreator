@@ -535,3 +535,5 @@
 534|Alt număr dă alte trăsături; același număr, aceleași
 535|Unghiul rândurilor
 536|{}: liniile deschise sunt omise dintr-o textură
+537|Sculptură schiță
+538|Imaginea este redesenată ca linii într-un stil (cum face trasarea în stil), iar fiecare linie este sculptată cu o freză V mai adânc, deci mai lat, unde imaginea este mai întunecată, până la adâncimea stratului: arată ca o schiță în creion. Pasul frezei este distanța liniilor.

@@ -535,3 +535,5 @@
 534|Kitas numeris duoda kitus brūkšnius; tas pats numeris tuos pačius
 535|Eilių kampas
 536|{}: atviros linijos į tekstūrą neįtraukiamos
+537|Eskizo drožyba
+538|Paveikslas iš naujo nupiešiamas linijomis tam tikru stiliumi (kaip daro stiliaus kontūras), o kiekviena linija išpjaunama V freza giliau, taigi plačiau, ten, kur paveikslas tamsesnis, iki sluoksnio gylio: atrodo kaip pieštuko eskizas. Frezos žingsnis yra linijų atstumas.

@@ -535,3 +535,5 @@
 534|Teine number annab teised tõmbed; sama number samad
 535|Ridade nurk
 536|{}: avatud jooned jäetakse tekstuurist välja
+537|Visandnikerdus
+538|Pilt joonistatakse uuesti joontena mingis stiilis (nagu stiilijälitus), ja iga joon lõigatakse V-freesiga sügavamale, seega laiemaks, seal kus pilt on tumedam, kuni kihi sügavuseni: see näeb välja nagu pliiatsivisand. Freesi külgsamm on joonte vahe.

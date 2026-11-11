@@ -535,3 +535,5 @@
 534|Et andet nummer giver andre strøg; samme nummer, samme strøg
 535|Rækkernes vinkel
 536|{}: åbne linjer udelades af en tekstur
+537|Skitseskæring
+538|Billedet tegnes igen som linjer i en stil (som Stilsporing gør), og hver linje skæres med en V-fræser dybere, og derfor bredere, hvor billedet er mørkere, ned til lagets dybde: det ligner en blyantskitse. Fræserens sideforskydning er afstanden mellem linjerne.

@@ -535,3 +535,5 @@
 534|Tugann uimhir eile stríoca eile; an uimhir chéanna, na stríoca céanna
 535|Uillinn na sraitheanna
 536|{}: fágtar línte oscailte as uigeacht
+537|Snoíodóireacht sceitse
+538|Tarraingítear an pictiúr arís mar línte i stíl (mar a dhéanann rianú stíle), agus gearrtar gach líne le giotán V níos doimhne, agus mar sin níos leithne, áit a bhfuil an pictiúr níos dorcha, go doimhneacht na sraithe: tá cuma sceitse peann luaidhe air. Is é céim an ghiotáin an t-achar idir na línte.

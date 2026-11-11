@@ -535,3 +535,5 @@
 534|Drugi broj daje druge poteze; isti broj, iste poteze
 535|Kut redova
 536|{}: otvorene linije izostavljaju se iz teksture
+537|Rezbarenje skice
+538|Slika se ponovno crta kao linije u stilu (kao Stilski obris), a svaka linija reže se V glodalom dublje, a time i šire, gdje je slika tamnija, do dubine sloja: izgleda kao skica olovkom. Korak glodala je razmak linija.
