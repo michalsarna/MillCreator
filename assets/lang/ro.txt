@@ -495,3 +495,18 @@
 494|Z 0 este partea de sus a materialului, ca în G-code: o clemă care iese 15 mm deasupra este 0 – 15. Freza se întinde în sus de la vârf, deci orice tăietură sub o zonă o atinge; mișcările la înălțimea de siguranță trec peste o zonă mai joasă.
 495|O mișcare prin aer nu poate ocoli zona interzisă „{}” (începe sau se termină în ea)
 496|{}: o tăietură atinge zona interzisă „{}”
+497|Față
+498|Dedesubt (întoarsă)
+499|Lateral (stânga și dreapta își schimbă locul)
+500|În lungime (spatele și fața își schimbă locul)
+501|Fața de dedesubt se frezează după întoarcerea materialului: desenați-o cum se vede de sus, prin material.
+502|Două fețe
+503|Întoarcere
+504|Adaugă găuri de aliniere
+505|Două găuri pe linia în jurul căreia se întoarce materialul, găurite prin el în masă: puneți știfturi în ele și materialul stă în același loc după întoarcere.
+506|Niciun strat gol pentru găuri
+507|Găuri de aliniere
+508|Două găuri de aliniere pe stratul {}
+509|Fața de frezat
+510|O lucrare pe două fețe: se frezează doar straturile acestei fețe. Pentru dedesubt întoarceți materialul cum spune fila Material și puneți-l pe știfturi: desenul se întoarce odată cu el.
+511|Mărimea materialului nu este setată (Fișier → Nou…): fața de dedesubt se întoarce în jurul mijlocului zonei de lucru

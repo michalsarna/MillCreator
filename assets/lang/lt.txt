@@ -495,3 +495,18 @@
 494|Z 0 yra medžiagos viršus, kaip G-kode: spaustukas, kyšantis 15 mm virš medžiagos, yra 0 – 15. Freza siekia aukštyn nuo savo galo, todėl kiekvienas pjūvis po zona jos liečia; judesiai saugiame aukštyje eina virš žemesnės zonos.
 495|Judesys ore negali apeiti draudžiamos zonos „{}“ (jis prasideda arba baigiasi joje)
 496|{}: pjūvis liečia draudžiamą zoną „{}“
+497|Pusė
+498|Apačia (apversta)
+499|Į šonus (kairė ir dešinė susikeičia)
+500|Išilgai (galas ir priekis susikeičia)
+501|Apatinė pusė frezuojama apvertus medžiagą: braižykite ją taip, kaip matoma iš viršaus per medžiagą.
+502|Dvi pusės
+503|Apvertimas
+504|Pridėti centravimo skyles
+505|Dvi skylės ant linijos, apie kurią medžiaga apverčiama, išgręžtos per ją į stalą: įkiškite kaiščius ir apversta medžiaga guli toje pačioje vietoje.
+506|Nėra tuščio sluoksnio skylėms
+507|Centravimo skylės
+508|Dvi centravimo skylės sluoksnyje {}
+509|Frezuojama pusė
+510|Dvipusis darbas: frezuojami tik šios pusės sluoksniai. Apačiai apverskite medžiagą, kaip sako kortelė Medžiaga, ir uždėkite ant kaiščių: brėžinys apverčiamas kartu.
+511|Medžiagos dydis nenustatytas (Failas → Naujas…): apačia apverčiama apie darbo srities vidurį

@@ -164,6 +164,15 @@ impl App {
                     ui.label(tr("Depth"));
                     changed |= drag_len(ui, units, &mut l.depth, 0.1, Some((0.0, 1000.0))).changed();
                     ui.end_row();
+                    ui.label(tr("Side"));
+                    egui::ComboBox::from_id_salt("layer_side").selected_text(tr(l.side.label())).width(200.0).show_ui(ui, |ui| {
+                        for s in crate::layers::Side::ALL {
+                            changed |= ui.selectable_value(&mut l.side, s, tr(s.label())).changed();
+                        }
+                    })
+                    .response
+                    .on_hover_text(tr("The bottom side is cut after the material is turned over: draw it as seen from the top, through the material."));
+                    ui.end_row();
                     ui.label(tr("Pass depth"));
                     changed |= drag_len(ui, units, &mut l.step_down, 0.05, Some((0.0, 1000.0))).changed();
                     if l.step_down <= 0.0 {
@@ -480,6 +489,19 @@ impl App {
                 changed |= drag_len(ui, units, &mut self.stock.first_pass_depth, 0.05, Some((0.01, MAX_THICKNESS))).changed();
             });
         });
+        ui.add_space(8.0);
+        ui.label(RichText::new(tr("Two sides")).strong());
+        ui.horizontal(|ui| {
+            ui.label(tr("Turned over"));
+            egui::ComboBox::from_id_salt("stock_flip").selected_text(tr(self.stock.flip.label())).show_ui(ui, |ui| {
+                for f in crate::materials::FlipAxis::ALL {
+                    changed |= ui.selectable_value(&mut self.stock.flip, f, tr(f.label())).changed();
+                }
+            });
+        });
+        if ui.button(tr("Add alignment holes")).on_hover_text(tr("Two holes on the line the material is turned over round, drilled through it into the table: put pins in them and the material lies in the same place after it is turned over.")).clicked() {
+            self.add_alignment_holes();
+        }
         ui.add_space(4.0);
         ui.label(RichText::new(tr("Only the colour of a plastic can be changed. The material and its thickness are shown in the 3D view and saved in the project.")).color(theme::text_dim()));
         if changed {
@@ -514,5 +536,40 @@ impl App {
                 self.touch();
             }
         }
+    }
+}
+
+impl App {
+    /// Two drilled holes on the line the material is turned over round, 10 mm in from its ends, on the first empty layer (made a Drill
+    /// layer of the top side, through the material and 2 mm into the table).
+    pub(crate) fn add_alignment_holes(&mut self) {
+        use base_core::scene::Kind;
+        let (w, h) = if self.stock.width > 0.0 && self.stock.height > 0.0 { (self.stock.width, self.stock.height) } else { (self.device.area.x, self.device.area.y) };
+        let Some(li) = (0..self.layers.len()).find(|&l| !self.scene.shapes.iter().any(|s| s.layer == l)) else {
+            self.status = tr("No empty layer for the holes").to_string();
+            return;
+        };
+        let places = match self.stock.flip {
+            crate::materials::FlipAxis::SideToSide => [(w / 2.0, 10.0), (w / 2.0, h - 10.0)],
+            crate::materials::FlipAxis::EndToEnd => [(10.0, h / 2.0), (w - 10.0, h / 2.0)],
+        };
+        base_ui::editor::EditorHost::checkpoint(self);
+        let d = 3.0;
+        for (x, y) in places {
+            self.scene.add(li, Kind::Ellipse { w: d, h: d }, base_core::geom::Xf::translate(x - d / 2.0, y - d / 2.0));
+        }
+        let drill = self.tools.get("std-drill-3").cloned();
+        let l = &mut self.layers[li];
+        l.name = tr("Alignment holes").to_string();
+        l.op = Operation::Drill;
+        l.side = crate::layers::Side::Top;
+        l.enabled = true;
+        l.visible = true;
+        if let Some(t) = drill {
+            l.use_tool(&t);
+        }
+        l.depth = self.stock.thickness + 2.0;
+        self.touch();
+        self.status = base_ui::i18n::trf("Two alignment holes on layer {}", &[&(li + 1)]);
     }
 }

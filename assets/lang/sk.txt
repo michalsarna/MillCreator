@@ -495,3 +495,18 @@
 494|Z 0 je horná plocha materiálu, ako v G-kóde: upínka, ktorá vyčnieva 15 mm nad materiál, je 0 – 15. Fréza siaha od špičky nahor, takže každý rez pod zónou sa jej dotkne; pohyby v bezpečnej výške prejdú nad nižšou zónou.
 495|Pohyb vzduchom nemôže obísť zakázanú zónu „{}“ (začína alebo končí v nej)
 496|{}: rez sa dotýka zakázanej zóny „{}“
+497|Strana
+498|Spodná (otočená)
+499|Do strán (ľavá a pravá sa vymenia)
+500|Pozdĺžne (zadná a predná sa vymenia)
+501|Spodná strana sa frézuje po otočení materiálu: kreslite ju, ako je vidieť zhora cez materiál.
+502|Dve strany
+503|Otočenie
+504|Pridať stredové otvory
+505|Dva otvory na čiare, okolo ktorej sa materiál otáča, vŕtané cez neho do stola: vložte do nich kolíky a materiál po otočení leží na rovnakom mieste.
+506|Žiadna prázdna vrstva pre otvory
+507|Stredové otvory
+508|Dva stredové otvory na vrstve {}
+509|Strana na frézovanie
+510|Obojstranná úloha: frézujú sa len vrstvy tejto strany. Pre spodnú otočte materiál podľa karty Materiál a nasaďte ho na kolíky: výkres sa otočí s ním.
+511|Veľkosť materiálu nie je nastavená (Súbor → Nový…): spodná strana sa otočí okolo stredu pracovnej plochy

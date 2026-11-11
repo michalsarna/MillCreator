@@ -372,6 +372,8 @@ struct App {
     presets: Option<base_ui::layer_presets_ui::Library<layers::MillLayer>>,
     presets_ui: base_ui::layer_presets_ui::PresetsUi,
     selection_only: bool,
+    /// The side of a two-sided job that is cut now (this session only).
+    side: layers::Side,
     cam: Option<CamState>,
     /// Was the camera picture drawn in the last frame? A stream nobody looks at is stopped (its frames would pile up).
     cam_drawn: bool,
@@ -546,6 +548,7 @@ impl App {
             presets: cfg!(test).then(|| base_ui::layer_presets_ui::Library::from_path(None, &crate::layer_presets::valid)),
             presets_ui: Default::default(),
             selection_only: false,
+            side: layers::Side::Top,
             cam: None,
             cam_drawn: false,
             rigs: base_ui::camera_rec::Rigs::default(),
@@ -1487,6 +1490,12 @@ impl EditorHost for App {
     }
     fn say(&mut self, msg: String) {
         self.status = msg;
+    }
+    fn can_add_sheets(&self) -> bool {
+        true
+    }
+    fn add_sheets(&mut self, sheets: Vec<Vec<base_core::scene::Shape>>) -> usize {
+        self.open_sheets(sheets)
     }
     fn said(&self) -> &str {
         &self.status
@@ -2537,6 +2546,38 @@ mod tests {
         h.run_steps(3);
         assert_eq!(h.state().description, "Birch plywood 3 mm");
         assert_eq!(h.state().to_project().description, "Birch plywood 3 mm");
+    }
+
+    #[test]
+    fn a_nesting_opens_new_sheets_in_tabs_with_the_same_layers() {
+        use base_core::scene::Kind;
+        let mut a = app();
+        a.layers[0].depth = 7.5;
+        a.scene.add(0, Kind::Rect { w: 10.0, h: 10.0 }, base_core::geom::Xf::IDENTITY);
+        let mut other = base_core::scene::Scene::default();
+        other.add(0, Kind::Rect { w: 20.0, h: 20.0 }, base_core::geom::Xf::IDENTITY);
+        let n = a.open_sheets(vec![other.shapes.clone(), other.shapes.clone()]);
+        assert_eq!(n, 2);
+        assert_eq!(a.tab_count(), 3);
+        assert_eq!(a.scene.shapes.len(), 1, "the first drawing is shown again");
+        a.switch_to(1);
+        assert_eq!(a.scene.shapes.len(), 1);
+        assert_eq!(a.layers[0].depth, 7.5, "the same layers");
+        assert!(a.is_dirty(), "a new sheet is not saved yet");
+    }
+
+    #[test]
+    fn alignment_holes_lie_on_the_line_the_material_is_turned_over_round() {
+        let mut a = app();
+        a.stock.width = 200.0;
+        a.stock.height = 100.0;
+        a.add_alignment_holes();
+        let holes: Vec<_> = a.scene.shapes.iter().filter_map(|s| s.bounds()).map(|b| b.center()).collect();
+        assert_eq!(holes.len(), 2, "{}", a.status);
+        assert!(holes.iter().all(|p| (p.x - 100.0).abs() < 1e-6), "{holes:?}");
+        let l = &a.layers[a.scene.shapes[0].layer];
+        assert_eq!((l.op, l.side), (layers::Operation::Drill, layers::Side::Top));
+        assert!(l.depth > a.stock.thickness);
     }
 
     #[test]

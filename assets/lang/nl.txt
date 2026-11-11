@@ -495,3 +495,18 @@
 494|Z 0 is de bovenkant van het materiaal, zoals in de G-code: een klem die 15 mm boven het materiaal uitsteekt is 0 – 15. De frees reikt vanaf zijn punt omhoog, dus elke snede onder een zone raakt die; bewegingen op de veilige hoogte gaan over een lagere zone heen.
 495|Een beweging door de lucht kan niet om de verboden zone "{}" heen (ze begint of eindigt erin)
 496|{}: een snede raakt de verboden zone "{}"
+497|Zijde
+498|Onderkant (omgedraaid)
+499|Zijwaarts (links en rechts wisselen)
+500|In de lengte (achter en voor wisselen)
+501|De onderkant wordt gefreesd nadat het materiaal is omgedraaid: teken hem zoals je hem van boven door het materiaal ziet.
+502|Twee zijden
+503|Omdraaien
+504|Uitlijngaten toevoegen
+505|Twee gaten op de lijn waarom het materiaal wordt omgedraaid, erdoorheen in de tafel geboord: zet er pennen in en het materiaal ligt na het omdraaien op dezelfde plek.
+506|Geen lege laag voor de gaten
+507|Uitlijngaten
+508|Twee uitlijngaten op laag {}
+509|Te frezen zijde
+510|Een tweezijdige taak: alleen de lagen van deze zijde worden gefreesd. Draai voor de onderkant het materiaal om zoals het tabblad Materiaal zegt en leg het op de uitlijnpennen: de tekening draait mee.
+511|De maat van het materiaal is niet ingesteld (Bestand → Nieuw…): de onderkant wordt om het midden van het werkgebied gedraaid

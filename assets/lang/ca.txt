@@ -495,3 +495,18 @@
 494|Z 0 és la part superior del material, com al G-code: una brida que sobresurt 15 mm és 0 – 15. La fresa arriba cap amunt des de la punta, així que cada tall sota una zona la toca; els moviments a l'altura segura passen per sobre d'una zona més baixa.
 495|Un moviment per l'aire no pot envoltar la zona prohibida "{}" (comença o acaba dins)
 496|{}: un tall toca la zona prohibida "{}"
+497|Cara
+498|Inferior (girada)
+499|De costat (esquerra i dreta s'intercanvien)
+500|De punta a punta (darrere i davant s'intercanvien)
+501|La cara inferior es fresa després de girar el material: dibuixa-la com es veu des de dalt, a través del material.
+502|Dues cares
+503|Gir
+504|Afegeix forats d'alineació
+505|Dos forats a la línia al voltant de la qual es gira el material, trepats a través seu fins a la taula: posa-hi passadors i el material queda al mateix lloc després de girar-lo.
+506|No hi ha cap capa buida per als forats
+507|Forats d'alineació
+508|Dos forats d'alineació a la capa {}
+509|Cara a fresar
+510|Una feina de dues cares: només es fresen les capes d'aquesta cara. Per a la inferior, gira el material com diu la pestanya Material i posa'l als passadors: el dibuix es gira amb ell.
+511|La mida del material no està definida (Fitxer → Nou…): la cara inferior es gira al voltant del centre de l'àrea de treball

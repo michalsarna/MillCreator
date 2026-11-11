@@ -495,3 +495,18 @@
 494|Is é Z 0 barr an ábhair, mar atá sa G-code: is é 0 – 15 clampa a sheasann 15 mm os cionn an ábhair. Síneann an giotán suas óna rinn, mar sin baineann gach gearradh faoi chrios leis; téann gluaiseachtaí ag an airde shábháilte thar chrios níos ísle.
 495|Ní féidir le gluaiseacht tríd an aer dul timpeall ar an gcrios coiscthe "{}" (tosaíonn nó críochnaíonn sí ann)
 496|{}: baineann gearradh leis an gcrios coiscthe "{}"
+497|Taobh
+498|Íochtar (iompaithe)
+499|Taobh le taobh (malartaíonn clé agus deas)
+500|Ó cheann go ceann (malartaíonn cúl agus tosach)
+501|Gearrtar an taobh íochtair tar éis an t-ábhar a iompú: tarraing é mar a fheictear ó bharr é, tríd an ábhar.
+502|Dhá thaobh
+503|Iompú
+504|Cuir poill ailínithe leis
+505|Dhá pholl ar an líne a iompaítear an t-ábhar timpeall air, druileáilte tríd isteach sa bhord: cuir bioráin iontu agus luíonn an t-ábhar san áit chéanna tar éis é a iompú.
+506|Níl aon sraith fholamh do na poill
+507|Poill ailínithe
+508|Dhá pholl ailínithe ar shraith {}
+509|Taobh le gearradh
+510|Jab dhá thaobh: ní ghearrtar ach sraitheanna an taoibh seo. Don íochtar, iompaigh an t-ábhar mar a deir an cluaisín Ábhar agus cuir ar na bioráin é: iompaítear an líníocht leis.
+511|Níl méid an ábhair socraithe (Comhad → Nua…): iompaítear an taobh íochtair timpeall lár an limistéir oibre

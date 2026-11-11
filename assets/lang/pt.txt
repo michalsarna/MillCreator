@@ -495,3 +495,18 @@
 494|Z 0 é o topo do material, como no G-code: um grampo que sobressai 15 mm é 0 – 15. A fresa vai da ponta para cima, por isso cada corte sob uma zona toca-a; os movimentos à altura de segurança passam por cima de uma zona mais baixa.
 495|Um movimento pelo ar não pode contornar a zona proibida "{}" (começa ou acaba dentro dela)
 496|{}: um corte toca a zona proibida "{}"
+497|Face
+498|Inferior (virada)
+499|De lado (esquerda e direita trocam)
+500|Ao comprido (trás e frente trocam)
+501|A face inferior é fresada depois de virar o material: desenhe-a como se vê de cima, através do material.
+502|Duas faces
+503|Virar
+504|Adicionar furos de alinhamento
+505|Dois furos na linha em torno da qual o material é virado, furados através dele até à mesa: coloque pinos e o material fica no mesmo sítio depois de virado.
+506|Nenhuma camada vazia para os furos
+507|Furos de alinhamento
+508|Dois furos de alinhamento na camada {}
+509|Face a fresar
+510|Um trabalho de duas faces: só as camadas desta face são fresadas. Para a inferior, vire o material como diz o separador Material e ponha-o nos pinos: o desenho é virado com ele.
+511|O tamanho do material não está definido (Ficheiro → Novo…): a face inferior é virada em torno do meio da área de trabalho

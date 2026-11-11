@@ -495,3 +495,18 @@
 494|Z 0 er oversiden av materialet, som i G-koden: en klemme som stikker 15 mm over materialet er 0 – 15. Fresen når opp fra spissen, så hvert kutt under en sone berører den; bevegelser i sikker høyde går over en lavere sone.
 495|En bevegelse gjennom luften kan ikke gå rundt forbudssonen «{}» (den starter eller slutter i den)
 496|{}: et kutt berører forbudssonen «{}»
+497|Side
+498|Underside (snudd)
+499|Sideveis (venstre og høyre bytter plass)
+500|På langs (bak og foran bytter plass)
+501|Undersiden freses etter at materialet er snudd: tegn den slik den ses ovenfra gjennom materialet.
+502|To sider
+503|Vending
+504|Legg til justeringshull
+505|To hull på linjen materialet snus rundt, boret gjennom det ned i bordet: sett tapper i dem, så ligger materialet på samme sted etter at det er snudd.
+506|Ingen tomme lag for hullene
+507|Justeringshull
+508|To justeringshull på lag {}
+509|Side som skal freses
+510|En tosidig jobb: bare lagene på denne siden freses. For undersiden snus materialet slik fanen Materiale sier og legges på styretappene: tegningen snus med.
+511|Materialets størrelse er ikke satt (Fil → Ny…): undersiden snus rundt midten av arbeidsområdet

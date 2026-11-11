@@ -495,3 +495,18 @@
 494|Z 0 ir materiāla virsma, kā G-kodā: skava, kas paceļas 15 mm virs materiāla, ir 0 – 15. Frēze sniedzas augšup no gala, tāpēc katrs griezums zem zonas to skar; kustības drošajā augstumā iet pāri zemākai zonai.
 495|Kustība pa gaisu nevar apiet aizliegto zonu “{}” (tā sākas vai beidzas tajā)
 496|{}: griezums skar aizliegto zonu “{}”
+497|Puse
+498|Apakša (apgriezta)
+499|Uz sāniem (kreisā un labā mainās vietām)
+500|Garenvirzienā (aizmugure un priekša mainās vietām)
+501|Apakšpuse tiek frēzēta pēc materiāla apgriešanas: zīmējiet to tā, kā to redz no augšas cauri materiālam.
+502|Divas puses
+503|Apgriešana
+504|Pievienot centrēšanas caurumus
+505|Divi caurumi uz līnijas, ap kuru materiāls tiek apgriezts, izurbti cauri tam galdā: ielieciet tapas, un pēc apgriešanas materiāls atrodas tajā pašā vietā.
+506|Caurumiem nav tukša slāņa
+507|Centrēšanas caurumi
+508|Divi centrēšanas caurumi slānī {}
+509|Frēzējamā puse
+510|Divpusējs darbs: frēzē tikai šīs puses slāņus. Apakšai apgrieziet materiālu, kā saka cilne Materiāls, un uzlieciet to uz tapām: zīmējums apgriežas līdzi.
+511|Materiāla izmērs nav iestatīts (Fails → Jauns…): apakšpuse tiek apgriezta ap darba laukuma vidu

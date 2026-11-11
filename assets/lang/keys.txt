@@ -495,3 +495,18 @@
 494	Z 0 is the top of the material, as in the G-code: a clamp that stands 15 mm above the material is 0 – 15. The bit reaches up from its tip, so every cut under a zone touches it; moves at the safe height pass over a zone that is lower.
 495	A move through the air cannot go round the no-go zone "{}" (it starts or ends in it)
 496	{}: a cut touches the no-go zone "{}"
+497	Side
+498	Bottom (turned over)
+499	Side to side (left and right change places)
+500	End to end (back and front change places)
+501	The bottom side is cut after the material is turned over: draw it as seen from the top, through the material.
+502	Two sides
+503	Turned over
+504	Add alignment holes
+505	Two holes on the line the material is turned over round, drilled through it into the table: put pins in them and the material lies in the same place after it is turned over.
+506	No empty layer for the holes
+507	Alignment holes
+508	Two alignment holes on layer {}
+509	Side to cut
+510	A two-sided job: only the layers of this side are cut. For the bottom turn the material over as the Material tab says and put it on the alignment pins: the drawing is turned over with it.
+511	The size of the material is not set (File → New…): the bottom side is turned over the middle of the work area

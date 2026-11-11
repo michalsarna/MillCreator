@@ -27,6 +27,7 @@ Inne kształty na tej samej warstwie są prowadzone jak linie. Na warstwie z inn
 | Operacja (Operation) | patrz niżej |
 | Frez (Bit) | dowolny frez z [Biblioteki frezów](Biblioteka-frezow). Wybór freza bierze jego posuw, posuw wejścia, obroty, głębokość przejścia równą połowie średnicy i krok boczny |
 | Głębokość (Depth) | całkowita głębokość pod powierzchnią materiału |
+| Strona (Side) | **Wierzch** albo **Spód (po odwróceniu)**: zadanie dwustronne (zob. [Materiał obrabiany](Material-obrabiany)). Spód rysuj tak, jak widać go z góry, przez materiał; jest odwracany przy frezowaniu |
 | Głębokość przejścia (Pass depth) | jak głęboko idzie jedno przejście; ostatnie zawsze kończy się na pełnej głębokości. **0 oznacza pełną głębokość w jednym przejściu** (ostrzeżenie mówi o tym, gdy to głębiej niż część tnąca freza); tak samo *Głębokość przejścia (część średnicy)* freza w bibliotece |
 | Rozstaw przejść (Step over) | dla kieszeni: odstęp między pierścieniami jako część średnicy |
 | Posuw, Posuw wcięcia (Feed, Plunge feed) | mm/min w materiale i przy zagłębianiu |

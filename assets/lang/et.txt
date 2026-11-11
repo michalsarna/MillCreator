@@ -495,3 +495,18 @@
 494|Z 0 on materjali pealispind, nagu G-koodis: klamber, mis ulatub 15 mm materjali kohale, on 0 – 15. Frees ulatub tipust üles, nii et iga lõige tsooni all puudutab seda; liikumised ohutul kõrgusel lähevad madalamast tsoonist üle.
 495|Liikumine õhus ei saa keelutsoonist "{}" mööda minna (see algab või lõpeb selles)
 496|{}: lõige puudutab keelutsooni "{}"
+497|Pool
+498|Alumine (ümber pööratud)
+499|Külgsuunas (vasak ja parem vahetuvad)
+500|Pikisuunas (taga ja ees vahetuvad)
+501|Alumine pool freesitakse pärast materjali ümberpööramist: joonista see nii, nagu seda näeb ülalt läbi materjali.
+502|Kaks poolt
+503|Ümberpööramine
+504|Lisa joondusaugud
+505|Kaks auku joonel, mille ümber materjal pööratakse, puuritud läbi selle lauda: pane neisse tihvtid ja materjal on pärast pööramist samas kohas.
+506|Aukude jaoks pole tühja kihti
+507|Joondusaugud
+508|Kaks joondusauku kihil {}
+509|Freesitav pool
+510|Kahepoolne töö: freesitakse ainult selle poole kihte. Alumise jaoks pööra materjal ümber, nagu ütleb vahekaart Materjal, ja pane see joondustihvtidele: joonis pöördub sellega kaasa.
+511|Materjali suurus pole määratud (Fail → Uus…): alumine pool pööratakse tööala keskkoha ümber

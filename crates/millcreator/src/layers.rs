@@ -37,6 +37,27 @@ pub enum Operation {
     ThreadMill,
 }
 
+/// The side of the material a layer is cut on: the top, or the bottom after the material is turned over (two-sided jobs).
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum Side {
+    #[default]
+    Top,
+    Bottom,
+}
+
+impl Side {
+    pub const ALL: [Side; 2] = [Side::Top, Side::Bottom];
+    pub fn label(self) -> &'static str {
+        match self {
+            Side::Top => "Top",
+            Side::Bottom => "Bottom (turned over)",
+        }
+    }
+    pub fn is_top(&self) -> bool {
+        *self == Side::Top
+    }
+}
+
 /// Which way the bit goes round a profile or a pocket (for a spindle that turns clockwise).
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub enum CutDir {
@@ -471,6 +492,9 @@ pub struct MillLayer {
     /// A thread (`Operation::ThreadMill`): its pitch, inside or outside, the hand and the passes.
     #[serde(default, skip_serializing_if = "crate::thread::Thread::is_default")]
     pub thread: crate::thread::Thread,
+    /// The side of the material the layer is cut on.
+    #[serde(default, skip_serializing_if = "Side::is_top")]
+    pub side: Side,
 }
 
 fn is_false(b: &bool) -> bool {
@@ -610,6 +634,7 @@ pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
                 dust: false,
                 lead: Default::default(),
                 thread: Default::default(),
+                side: Side::Top,
             };
             match bit(tool) {
                 Some(t) => layer.with_tool(&t),
