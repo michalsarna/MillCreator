@@ -512,3 +512,26 @@
 511|La mida del material no està definida (Fitxer → Nou…): la cara inferior es gira al voltant del centre de l'àrea de treball
 512|Un acabat amb una fresa més petita després de l'acabat d'aquella capa: només va on la fresa més gran no arribava (valls estretes, cantonades vives), així la feina dura molt menys.
 513|{}: la fresa d'un acabat de residus ha de ser més petita que la de la capa que segueix
+514|Acanalat
+515|Motllura
+516|Textura
+517|Un solc al llarg de cada línia que baixa en rampa des de la superfície, corre a la profunditat de la capa i torna a pujar en rampa: acanalats d'una columna, solcs decoratius. Fes servir una fresa esfèrica o en V.
+518|Un perfil (arrodoniment, mitja canya, gola, xamfrà o solc de mitja canya) s'arrossega al llarg de cada línia, tan ample com es demana i tan profund com la capa, en passades una al costat de l'altra: la vora d'un tauler, un marc. El perfil queda a l'esquerra de la direcció de la línia. Fes servir una fresa esfèrica.
+519|L'àrea de les formes es cobreix amb buidats curts d'una fresa esfèrica en files, com tallada a mà; la profunditat de la capa és el buidat més profund. El pas és la distància entre files.
+520|Als dos extrems
+521|Arrodoniment
+522|Mitja canya
+523|Gola
+524|Xamfrà
+525|Solc de mitja canya
+526|Perfil
+527|Rampes
+528|Longitud de la rampa
+529|De la longitud de la línia
+530|Espai entre traços
+531|Variació
+532|Quant varien la longitud i la profunditat dels traços
+533|Número del patró
+534|Un altre número dona altres traços; el mateix número, els mateixos traços
+535|Angle de les files
+536|{}: les línies obertes s'ometen en una textura

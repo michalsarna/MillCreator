@@ -512,3 +512,26 @@
 511|Az anyag mérete nincs beállítva (Fájl → Új…): az alsó oldal a munkaterület közepe körül fordul
 512|Simítás kisebb maróval annak a rétegnek a simítása után: csak oda megy, ahová a nagyobb maró nem ért el (szűk völgyek, éles sarkok), így a munka sokkal rövidebb.
 513|{}: a maradékanyag-simítás marójának kisebbnek kell lennie, mint a követett réteg marója
+514|Hornyolás
+515|Profilléc
+516|Textúra
+517|Horony minden vonal mentén, amely rámpán ereszkedik le a felszínről, a réteg mélységében fut, majd rámpán újra feljön: oszlop hornyai, díszhornyok. Használjon gömbvégű vagy V-marót.
+518|Egy profilt (lekerekítés, homorú, karnis, rézsű vagy félkör horony) húz végig minden vonalon, olyan szélesen, amilyet megad, és olyan mélyen, mint a réteg, egymás melletti fogásokban: egy deszka éle, egy keret. A profil a vonal irányától balra van. Használjon gömbvégű marót.
+519|Az alakzatok területét gömbvégű maró rövid mélyedései borítják sorokban, mintha kézzel faragták volna; a réteg mélysége a legmélyebb mélyedés. A fogásköz a sorok távolsága.
+520|Mindkét végén
+521|Lekerekítés
+522|Homorú
+523|Karnis
+524|Rézsű
+525|Félkör horony
+526|Profil
+527|Rámpák
+528|Rámpa hossza
+529|A vonal hosszából
+530|Hézag a vonások között
+531|Változatosság
+532|Mennyire változik a vonások hossza és mélysége
+533|Mintaszám
+534|Más szám más vonásokat ad; ugyanaz a szám ugyanazokat
+535|A sorok szöge
+536|{}: a nyitott vonalak kimaradnak a textúrából

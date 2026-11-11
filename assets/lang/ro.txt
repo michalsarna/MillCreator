@@ -512,3 +512,26 @@
 511|Mărimea materialului nu este setată (Fișier → Nou…): fața de dedesubt se întoarce în jurul mijlocului zonei de lucru
 512|O finisare cu o freză mai mică după finisarea acelui strat: merge doar unde freza mai mare nu a ajuns (văi înguste, colțuri ascuțite), deci lucrarea durează mult mai puțin.
 513|{}: freza unei finisări a resturilor trebuie să fie mai mică decât freza stratului pe care îl urmează
+514|Canelare
+515|Profil
+516|Textură
+517|O canelură de-a lungul fiecărei linii care coboară în rampă de la suprafață, merge la adâncimea stratului și urcă iar în rampă: canelurile unei coloane, șanțuri decorative. Folosiți o freză sferică sau V.
+518|Un profil (rotunjire, scobitură, ogivă, teșitură sau canal semirotund) este tras de-a lungul fiecărei linii, cât de lat se cere și cât de adânc este stratul, în treceri alăturate: muchia unei scânduri, o ramă. Profilul se află la stânga direcției liniei. Folosiți o freză sferică.
+519|Suprafața formelor este acoperită cu scobituri scurte ale unei freze sferice în rânduri, ca sculptată de mână; adâncimea stratului este cea mai adâncă scobitură. Pasul este distanța rândurilor.
+520|La ambele capete
+521|Rotunjire
+522|Scobitură
+523|Ogivă
+524|Teșitură
+525|Canal semirotund
+526|Profil
+527|Rampe
+528|Lungimea rampei
+529|Din lungimea liniei
+530|Spațiu între trăsături
+531|Variație
+532|Cât de mult variază lungimea și adâncimea trăsăturilor
+533|Numărul modelului
+534|Alt număr dă alte trăsături; același număr, aceleași
+535|Unghiul rândurilor
+536|{}: liniile deschise sunt omise dintr-o textură

@@ -512,3 +512,26 @@
 511|La taille du matériau n'est pas définie (Fichier → Nouveau…) : le dessous est retourné autour du milieu de la zone de travail
 512|Une finition avec une fraise plus petite après la finition de ce calque : elle ne passe que là où la plus grande ne pouvait pas aller (vallées étroites, angles vifs), le travail prend donc beaucoup moins de temps.
 513|{} : la fraise d'une finition des restes doit être plus petite que celle du calque qu'elle suit
+514|Cannelures
+515|Moulure
+516|Texture
+517|Une rainure le long de chaque ligne qui descend en rampe depuis la surface, court à la profondeur du calque et remonte en rampe : cannelures d'une colonne, rainures décoratives. Utilisez une fraise hémisphérique ou en V.
+518|Un profil (arrondi, gorge, doucine, chanfrein ou rainure demi-ronde) est tiré le long de chaque ligne, aussi large que demandé et aussi profond que le calque, en passes côte à côte : le bord d'une planche, un cadre. Le profil se trouve à gauche du sens de la ligne. Utilisez une fraise hémisphérique.
+519|La surface des formes est couverte de courtes cuvettes d'une fraise hémisphérique en rangées, comme sculptée à la main ; la profondeur du calque est la cuvette la plus profonde. Le pas est la distance des rangées.
+520|Aux deux extrémités
+521|Arrondi
+522|Gorge
+523|Doucine
+524|Chanfrein
+525|Rainure demi-ronde
+526|Profil
+527|Rampes
+528|Longueur de la rampe
+529|De la longueur de la ligne
+530|Espace entre les traits
+531|Variation
+532|Combien la longueur et la profondeur des traits varient
+533|Numéro du motif
+534|Un autre numéro donne d'autres traits ; le même numéro, les mêmes traits
+535|Angle des rangées
+536|{} : les lignes ouvertes sont omises d'une texture

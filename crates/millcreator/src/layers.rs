@@ -35,6 +35,12 @@ pub enum Operation {
     DragKnife,
     /// A thread mill goes round every circle in a helix: a thread inside a hole or round a boss (`thread::Thread`).
     ThreadMill,
+    /// A groove along the line that ramps in and out (`special::flute`).
+    Fluting,
+    /// A profile swept along the line (`special::moulding`).
+    Moulding,
+    /// Short strokes of a ball nose over the area of the shapes (`special::texture`).
+    Texture,
 }
 
 /// The side of the material a layer is cut on: the top, or the bottom after the material is turned over (two-sided jobs).
@@ -354,7 +360,7 @@ impl PictureMethod {
 }
 
 impl Operation {
-    pub const ALL: [Operation; 13] = [Operation::ProfileOutside, Operation::ProfileInside, Operation::OnPath, Operation::Pocket, Operation::Drill, Operation::Picture, Operation::Face, Operation::Bore, Operation::Chamfer, Operation::DogboneSlot, Operation::VCarve, Operation::DragKnife, Operation::ThreadMill];
+    pub const ALL: [Operation; 16] = [Operation::ProfileOutside, Operation::ProfileInside, Operation::OnPath, Operation::Pocket, Operation::Drill, Operation::Picture, Operation::Face, Operation::Bore, Operation::Chamfer, Operation::DogboneSlot, Operation::VCarve, Operation::DragKnife, Operation::ThreadMill, Operation::Fluting, Operation::Moulding, Operation::Texture];
 
     pub fn label(self) -> &'static str {
         match self {
@@ -371,6 +377,9 @@ impl Operation {
             Operation::VCarve => "V-carve",
             Operation::DragKnife => "Drag knife",
             Operation::ThreadMill => "Thread mill",
+            Operation::Fluting => "Fluting",
+            Operation::Moulding => "Moulding",
+            Operation::Texture => "Texture",
         }
     }
 
@@ -389,6 +398,9 @@ impl Operation {
             Operation::VCarve => "A V-bit goes deeper the farther it is from the edge of the shape, so the walls slope and the corners are sharp. The depth is the deepest the bit goes; a wider shape gets a flat bottom.",
             Operation::DragKnife => "A drag knife in the holder cuts along the lines to the depth of the layer, the spindle still: its offset is made good at every corner, the holes are cut first and a closed line is cut on past its start.",
             Operation::ThreadMill => "A thread mill goes round every circle in a helix, one pitch a turn, to the depth of the layer: a thread inside a hole (a nut) or round a boss (a screw). Draw circles of the outer diameter of the screw; for a nut drill or bore the hole first to about the diameter minus 1.08 × the pitch.",
+            Operation::Fluting => "A groove along every line that ramps down from the surface, runs at the depth of the layer and ramps up again: flutes of a column, decorative grooves. Use a ball nose or a V-bit.",
+            Operation::Moulding => "A profile (a roundover, a cove, an ogee, a slope or a half round groove) is swept along every line, as wide as asked and as deep as the layer, in passes side by side: the edge of a board, a frame. The profile lies to the left of the direction of the line. Use a ball nose.",
+            Operation::Texture => "The area of the shapes is covered with short scoops of a ball nose in rows, as if carved by hand; the depth of the layer is the deepest scoop. The step over is the distance of the rows.",
         }
     }
 }
@@ -495,6 +507,9 @@ pub struct MillLayer {
     /// The side of the material the layer is cut on.
     #[serde(default, skip_serializing_if = "Side::is_top")]
     pub side: Side,
+    /// The settings of fluting, moulding and texture.
+    #[serde(default, skip_serializing_if = "crate::special::Decor::is_default")]
+    pub decor: crate::special::Decor,
 }
 
 fn is_false(b: &bool) -> bool {
@@ -553,6 +568,7 @@ impl MillLayer {
         }
         self.lead.check().map_err(|e| format!("layer {}: {e}", self.name))?;
         self.thread.check().map_err(|e| format!("layer {}: {e}", self.name))?;
+        self.decor.check().map_err(|e| format!("layer {}: {e}", self.name))?;
         if self.name.len() > 120 {
             return Err("a layer name is too long".into());
         }
@@ -635,6 +651,7 @@ pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
                 lead: Default::default(),
                 thread: Default::default(),
                 side: Side::Top,
+                decor: Default::default(),
             };
             match bit(tool) {
                 Some(t) => layer.with_tool(&t),

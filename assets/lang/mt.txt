@@ -512,3 +512,26 @@
 511|Id-daqs tal-materjal mhux issettjat (Fajl → Ġdid…): in-naħa ta' taħt tinqaleb madwar nofs iż-żona tax-xogħol
 512|Finitura b'ponta iżgħar wara l-finitura ta' dak is-saff: tmur biss fejn il-ponta l-kbira ma laħqitx (widien dojoq, kantunieri jaqtgħu), għalhekk ix-xogħol jieħu ħafna inqas ħin.
 513|{}: il-ponta ta' finitura tal-fdal trid tkun iżgħar mill-ponta tas-saff li ssegwi
+514|Skanalatura
+515|Modanatura
+516|Tessut
+517|Kanal tul kull linja li jinżel b'rampa mill-wiċċ, jgħaddi fil-fond tas-saff u jerġa' jitla' b'rampa: skanalaturi ta' kolonna, kanali dekorattivi. Uża ponta tonda jew V.
+518|Profil (dawra, kavità, ogee, inklinazzjoni jew kanal nofs tond) jinġibed tul kull linja, wiesa' kemm mitlub u fond daqs is-saff, f'passaġġi ħdejn xulxin: it-tarf ta' bord, gwarniċ. Il-profil jinsab fuq ix-xellug tad-direzzjoni tal-linja. Uża ponta tonda.
+519|Iż-żona tal-forom tiġi koperta b'ħofor qosra ta' ponta tonda f'ringieli, qisha minquxa bl-idejn; il-fond tas-saff huwa l-ħofra l-aktar fonda. Il-pass huwa d-distanza tar-ringieli.
+520|Fiż-żewġ truf
+521|Dawra
+522|Kavità
+523|Ogee
+524|Inklinazzjoni
+525|Kanal nofs tond
+526|Profil
+527|Rampi
+528|Tul tar-rampa
+529|Mit-tul tal-linja
+530|Spazju bejn il-puntati
+531|Varjazzjoni
+532|Kemm ivarjaw it-tul u l-fond tal-puntati
+533|Numru tal-mudell
+534|Numru ieħor jagħti puntati oħra; l-istess numru l-istess puntati
+535|Angolu tar-ringieli
+536|{}: linji miftuħa jitħallew barra mit-tessut

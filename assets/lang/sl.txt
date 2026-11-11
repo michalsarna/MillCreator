@@ -512,3 +512,26 @@
 511|Velikost materiala ni nastavljena (Datoteka → Novo…): spodnja stran se obrne okoli sredine delovnega območja
 512|Fino rezkanje z manjšim rezkarjem po finem rezkanju tiste plasti: gre samo tja, kamor večji rezkar ni segel (ozke doline, ostri vogali), zato posel traja veliko manj časa.
 513|{}: rezkar finega rezkanja ostankov mora biti manjši od rezkarja plasti, ki ji sledi
+514|Kaneliranje
+515|Profilna letev
+516|Tekstura
+517|Utor vzdolž vsake črte, ki se z rampo spusti s površine, teče na globini plasti in se z rampo spet dvigne: kanelure stebra, okrasni utori. Uporabite krogelni ali V rezkar.
+518|Profil (zaokrožitev, žleb, ogee, posnetje ali polkrožni utor) se povleče vzdolž vsake črte, tako širok, kot je zahtevano, in tako globok kot plast, v prehodih drug ob drugem: rob deske, okvir. Profil leži levo od smeri črte. Uporabite krogelni rezkar.
+519|Površina oblik se prekrije s kratkimi vdolbinami krogelnega rezkarja v vrstah, kot ročno rezljana; globina plasti je najgloblja vdolbina. Korak je razmik vrst.
+520|Na obeh koncih
+521|Zaokrožitev
+522|Žleb
+523|Ogee
+524|Posnetje
+525|Polkrožni utor
+526|Profil
+527|Rampe
+528|Dolžina rampe
+529|Od dolžine črte
+530|Razmik med potezami
+531|Spremenljivost
+532|Koliko se spreminjata dolžina in globina potez
+533|Številka vzorca
+534|Druga številka da druge poteze; ista številka iste
+535|Kot vrst
+536|{}: odprte črte so izpuščene iz teksture

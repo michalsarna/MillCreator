@@ -671,7 +671,7 @@ fn first_pass(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyl
                 }
             }
         }
-        Operation::Drill | Operation::Picture | Operation::Face | Operation::VCarve | Operation::DragKnife | Operation::ThreadMill => {}
+        Operation::Drill | Operation::Picture | Operation::Face | Operation::VCarve | Operation::DragKnife | Operation::ThreadMill | Operation::Fluting | Operation::Moulding | Operation::Texture => {}
     }
 }
 
@@ -876,6 +876,29 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
                     b.note_end("V-carve end".into());
                 }
             }
+        }
+        Operation::Fluting => {
+            for (i, line) in outlines.iter().enumerate() {
+                b.note(format!("Flute {} of {} start: {} mm", i + 1, outlines.len(), num(line.length())));
+                crate::special::flute(b, line, depths, &layer.decor);
+                b.note_end(format!("Flute {} end", i + 1));
+            }
+        }
+        Operation::Moulding => {
+            for (i, line) in outlines.iter().enumerate() {
+                b.note(format!("Moulding {} of {} start: {}, {} mm wide", i + 1, outlines.len(), layer.decor.profile.label(), num(layer.decor.width)));
+                crate::special::moulding(b, line, depths, &layer.decor, tool, step);
+                b.note_end(format!("Moulding {} end", i + 1));
+            }
+        }
+        Operation::Texture => {
+            let rings = closed_only(outlines);
+            if rings.len() < outlines.len() {
+                warnings.push(Warn::new("{}: open lines are left out of a texture", &[&layer.name]));
+            }
+            b.note(format!("Texture start: strokes of {} mm", num(layer.decor.stroke)));
+            crate::special::texture(b, &rings, full, &layer.decor, step, layer.raster_angle);
+            b.note_end("Texture end".into());
         }
         Operation::ThreadMill => {
             let rings = closed_only(outlines);
@@ -1544,6 +1567,86 @@ mod tests {
         assert!(!to_gcode(&one, &dev, &layers, &lib, "job").contains("Top side"));
         // Old layers are on the top; the side is written only for the bottom.
         assert!(!serde_json::to_string(&layers[0]).unwrap().contains("\"side\""));
+    }
+
+    #[test]
+    fn a_flute_ramps_in_runs_at_the_depth_and_ramps_out() {
+        use crate::special::FluteRamp;
+        let (lib, dev, stock, mut layers) = setup();
+        layers[3].op = Operation::Fluting;
+        layers[3].use_tool(lib.get("std-ball-6").unwrap());
+        layers[3].depth = 3.0;
+        layers[3].step_down = 0.0;
+        let mut scene = Scene::default();
+        scene.add(3, Kind::Path(vec![Polyline::new(vec![Pt::new(10.0, 50.0), Pt::new(110.0, 50.0)], false)]), Xf::IDENTITY);
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let cuts: Vec<&Move> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).collect();
+        let z_at = |x: f64| cuts.iter().find(|m| (m.to[0] - x).abs() < 0.3).map(|m| m.to[2]).unwrap();
+        let deepest = cuts.iter().map(|m| m.to[2]).fold(0.0f64, f64::min);
+        assert!(z_at(10.5) > -0.2 && (deepest + 3.0).abs() < 1e-6 && z_at(109.5) > -0.2, "{} {} {}", z_at(10.5), deepest, z_at(109.5));
+        assert!((z_at(85.0) + 3.0).abs() < 1e-6, "at the depth up to the last ramp");
+        assert!((z_at(22.5) + 1.5).abs() < 0.1, "half way down the ramp of 25 mm: {}", z_at(22.5));
+        layers[3].decor.ramp = FluteRamp::Start;
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let last = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).last().unwrap();
+        assert!((last.to[2] + 3.0).abs() < 1e-6, "no ramp at the end: {last:?}");
+    }
+
+    #[test]
+    fn a_moulding_follows_its_profile_beside_the_line() {
+        use crate::special::Profile;
+        let (lib, dev, stock, mut layers) = setup();
+        layers[3].op = Operation::Moulding;
+        layers[3].use_tool(lib.get("std-ball-3").unwrap());
+        layers[3].depth = 4.0;
+        layers[3].step_down = 0.0;
+        layers[3].step_over_pct = 20.0;
+        layers[3].decor.width = 8.0;
+        let mut scene = Scene::default();
+        // Along +x in the scene; the toolpaths turn y over, so the left of the line is towards the front (smaller y in the toolpaths
+        // means… the line is at toolpath y = area - 50 and the profile on its left side of travel).
+        scene.add(3, Kind::Path(vec![Polyline::new(vec![Pt::new(10.0, 50.0), Pt::new(110.0, 50.0)], false)]), Xf::IDENTITY);
+        for p in Profile::ALL {
+            layers[3].decor.profile = p;
+            let prog = generate(&scene, &layers, &lib, &dev, &stock);
+            let cuts: Vec<&Move> = prog.moves.iter().filter(|m| m.kind == MoveKind::Cut).collect();
+            assert!(cuts.len() > 10, "{p:?}");
+            assert!(cuts.iter().all(|m| m.to[2] >= -4.0 - 1e-9), "{p:?}");
+            let ys: Vec<f64> = cuts.iter().map(|m| m.to[1]).collect();
+            let line_y = dev.area.y - 50.0;
+            let (lo, hi) = (ys.iter().cloned().fold(f64::MAX, f64::min), ys.iter().cloned().fold(f64::MIN, f64::max));
+            assert!(hi - lo <= 8.0 + 1e-6, "{p:?}: the passes span the width");
+            if p == Profile::HalfRound {
+                assert!(lo < line_y && hi > line_y, "centred on the line");
+            } else {
+                assert!(lo >= line_y - 1e-6, "{p:?}: to the left of the line");
+            }
+        }
+        // A roundover is shallow by the line and deep at the edge.
+        layers[3].decor.profile = Profile::Roundover;
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let line_y = dev.area.y - 50.0;
+        let at = |dy: f64| prog.moves.iter().filter(|m| m.kind == MoveKind::Cut && (m.to[1] - line_y - dy).abs() < 0.9).map(|m| m.to[2]).fold(0.0f64, f64::min);
+        assert!(at(1.6) > at(6.4), "{} {}", at(1.6), at(6.4));
+    }
+
+    #[test]
+    fn a_texture_scoops_the_inside_of_the_shapes_the_same_way_for_the_same_number() {
+        let (lib, dev, stock, mut layers) = setup();
+        layers[3].op = Operation::Texture;
+        layers[3].use_tool(lib.get("std-ball-6").unwrap());
+        layers[3].depth = 1.0;
+        let mut scene = Scene::default();
+        square(&mut scene, 3, 20.0, 20.0, 40.0);
+        let a = generate(&scene, &layers, &lib, &dev, &stock);
+        let b = generate(&scene, &layers, &lib, &dev, &stock);
+        let pts = |p: &Program| p.moves.iter().filter(|m| m.kind == MoveKind::Cut).map(|m| m.to).collect::<Vec<_>>();
+        assert_eq!(pts(&a), pts(&b));
+        assert!(pts(&a).len() > 100);
+        let y = |sy: f64| dev.area.y - sy;
+        assert!(pts(&a).iter().all(|p| p[0] >= 20.0 - 1e-6 && p[0] <= 60.0 + 1e-6 && p[1] <= y(20.0) + 1e-6 && p[1] >= y(60.0) - 1e-6 && p[2] >= -1.0 - 1e-9 && p[2] <= 0.0));
+        layers[3].decor.seed = 7;
+        assert_ne!(pts(&generate(&scene, &layers, &lib, &dev, &stock)), pts(&a));
     }
 
     /// A square of `s` mm with the corner at (x, y) on the layer, in scene coordinates.

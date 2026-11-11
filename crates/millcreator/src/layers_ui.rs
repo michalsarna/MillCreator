@@ -205,6 +205,9 @@ impl App {
                         changed |= ui.add(egui::DragValue::new(&mut l.scan_angle).range(-360.0..=360.0).suffix(" °")).on_hover_text(tr("The angle of the rows of the engraving")).changed();
                         ui.end_row();
                     }
+                    if matches!(l.op, Operation::Fluting | Operation::Moulding | Operation::Texture) {
+                        changed |= decor_rows(ui, units, l.op, &mut l.decor, &mut l.raster_angle);
+                    }
                     if l.op == Operation::ThreadMill {
                         changed |= crate::thread::rows(ui, units, &mut l.thread);
                     }
@@ -587,4 +590,54 @@ impl App {
         self.touch();
         self.status = base_ui::i18n::trf("Two alignment holes on layer {}", &[&(li + 1)]);
     }
+}
+
+/// The rows of the settings of fluting, moulding and texture. True when something changed.
+fn decor_rows(ui: &mut egui::Ui, units: base_core::units::Units, op: Operation, d: &mut crate::special::Decor, angle: &mut f64) -> bool {
+    use crate::special::{FluteRamp, Profile};
+    let mut changed = false;
+    match op {
+        Operation::Fluting => {
+            ui.label(tr("Ramps"));
+            egui::ComboBox::from_id_salt("flute_ramp").selected_text(tr(d.ramp.label())).width(200.0).show_ui(ui, |ui| {
+                for r in FluteRamp::ALL {
+                    changed |= ui.selectable_value(&mut d.ramp, r, tr(r.label())).changed();
+                }
+            });
+            ui.end_row();
+            ui.label(tr("Ramp length"));
+            changed |= ui.add(egui::DragValue::new(&mut d.ramp_pct).range(1.0..=50.0).suffix(" %")).on_hover_text(tr("Of the length of the line")).changed();
+            ui.end_row();
+        }
+        Operation::Moulding => {
+            ui.label(tr("Profile"));
+            egui::ComboBox::from_id_salt("moulding_profile").selected_text(tr(d.profile.label())).width(200.0).show_ui(ui, |ui| {
+                for p in Profile::ALL {
+                    changed |= ui.selectable_value(&mut d.profile, p, tr(p.label())).changed();
+                }
+            });
+            ui.end_row();
+            ui.label(tr("Width"));
+            changed |= drag_len(ui, units, &mut d.width, 0.1, Some((0.1, 1000.0))).changed();
+            ui.end_row();
+        }
+        _ => {
+            ui.label(tr("Stroke length"));
+            changed |= drag_len(ui, units, &mut d.stroke, 0.1, Some((0.5, 1000.0))).changed();
+            ui.end_row();
+            ui.label(tr("Gap between strokes"));
+            changed |= drag_len(ui, units, &mut d.gap, 0.1, Some((0.0, 1000.0))).changed();
+            ui.end_row();
+            ui.label(tr("Variation"));
+            changed |= ui.add(egui::Slider::new(&mut d.vary, 0.0..=1.0)).on_hover_text(tr("How much the length and the depth of the strokes vary")).changed();
+            ui.end_row();
+            ui.label(tr("Pattern number"));
+            changed |= ui.add(egui::DragValue::new(&mut d.seed)).on_hover_text(tr("Another number gives other strokes; the same number, the same strokes")).changed();
+            ui.end_row();
+            ui.label(tr("Angle of the rows"));
+            changed |= ui.add(egui::DragValue::new(angle).range(-360.0..=360.0).suffix(" °")).changed();
+            ui.end_row();
+        }
+    }
+    changed
 }

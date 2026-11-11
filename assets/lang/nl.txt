@@ -512,3 +512,26 @@
 511|De maat van het materiaal is niet ingesteld (Bestand → Nieuw…): de onderkant wordt om het midden van het werkgebied gedraaid
 512|Een nabewerking met een kleinere frees na de nabewerking van die laag: ze gaat alleen waar de grotere frees niet kon komen (smalle dalen, scherpe hoeken), zodat de taak veel korter duurt.
 513|{}: de frees van een restnabewerking moet kleiner zijn dan de frees van de laag die ze volgt
+514|Cannelures
+515|Profiellijst
+516|Textuur
+517|Een groef langs elke lijn die met een helling van het oppervlak duikt, op de diepte van de laag loopt en weer met een helling omhoog komt: cannelures van een zuil, sierlijke groeven. Gebruik een bolkop- of V-frees.
+518|Een profiel (afronding, holle lijst, ojief, schuine kant of halfronde groef) wordt langs elke lijn getrokken, zo breed als gevraagd en zo diep als de laag, in banen naast elkaar: de rand van een plank, een lijst. Het profiel ligt links van de richting van de lijn. Gebruik een bolkopfrees.
+519|Het gebied van de vormen wordt bedekt met korte holtes van een bolkopfrees in rijen, als met de hand gesneden; de diepte van de laag is de diepste holte. De zijstap is de afstand van de rijen.
+520|Aan beide uiteinden
+521|Afronding
+522|Holle lijst
+523|Ojief
+524|Schuine kant
+525|Halfronde groef
+526|Profiel
+527|Hellingen
+528|Lengte van de helling
+529|Van de lengte van de lijn
+530|Ruimte tussen de streken
+531|Variatie
+532|Hoeveel lengte en diepte van de streken variëren
+533|Patroonnummer
+534|Een ander nummer geeft andere streken; hetzelfde nummer dezelfde
+535|Hoek van de rijen
+536|{}: open lijnen worden weggelaten bij een textuur

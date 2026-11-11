@@ -512,3 +512,26 @@
 511|Materialets storlek är inte inställd (Arkiv → Ny…): undersidan vänds runt mitten av arbetsytan
 512|En finbearbetning med en mindre fräs efter finbearbetningen av det lagret: den går bara dit den större fräsen inte nådde (smala dalar, skarpa hörn), så jobbet tar mycket kortare tid.
 513|{}: fräsen för en restfinbearbetning måste vara mindre än fräsen för lagret den följer
+514|Räffling
+515|Profillist
+516|Textur
+517|Ett spår längs varje linje som går ner från ytan i en ramp, löper på lagrets djup och går upp igen i en ramp: räfflor i en pelare, dekorspår. Använd en kulfräs eller en V-fräs.
+518|En profil (rundning, hålkäl, karnis, fas eller halvrunt spår) dras längs varje linje, så bred som angiven och så djup som lagret, i banor sida vid sida: kanten på en bräda, en ram. Profilen ligger till vänster om linjens riktning. Använd en kulfräs.
+519|Formernas yta täcks med korta gropar från en kulfräs i rader, som snidad för hand; lagrets djup är den djupaste gropen. Stegningen är avståndet mellan raderna.
+520|I båda ändarna
+521|Rundning
+522|Hålkäl
+523|Karnis
+524|Fas
+525|Halvrunt spår
+526|Profil
+527|Ramper
+528|Rampens längd
+529|Av linjens längd
+530|Avstånd mellan dragen
+531|Variation
+532|Hur mycket dragens längd och djup varierar
+533|Mönsternummer
+534|Ett annat nummer ger andra drag; samma nummer samma drag
+535|Radernas vinkel
+536|{}: öppna linjer utelämnas från en textur

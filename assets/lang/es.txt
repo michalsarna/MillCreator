@@ -512,3 +512,26 @@
 511|El tamaño del material no está definido (Archivo → Nuevo…): la cara inferior se voltea alrededor del centro del área de trabajo
 512|Un acabado con una fresa más pequeña después del acabado de esa capa: solo va donde la fresa más grande no llegaba (valles estrechos, esquinas vivas), así el trabajo dura mucho menos.
 513|{}: la fresa de un acabado de restos tiene que ser más pequeña que la de la capa que sigue
+514|Acanalado
+515|Moldura
+516|Textura
+517|Una ranura a lo largo de cada línea que baja en rampa desde la superficie, corre a la profundidad de la capa y vuelve a subir en rampa: estrías de una columna, ranuras decorativas. Usa una fresa esférica o en V.
+518|Un perfil (redondeo, media caña, gola, chaflán o ranura de media caña) se arrastra a lo largo de cada línea, tan ancho como se pide y tan profundo como la capa, en pasadas una al lado de otra: el borde de una tabla, un marco. El perfil queda a la izquierda de la dirección de la línea. Usa una fresa esférica.
+519|El área de las formas se cubre con cortos vaciados de una fresa esférica en filas, como tallada a mano; la profundidad de la capa es el vaciado más profundo. El paso es la distancia de las filas.
+520|En ambos extremos
+521|Redondeo
+522|Media caña
+523|Gola
+524|Chaflán
+525|Ranura de media caña
+526|Perfil
+527|Rampas
+528|Longitud de la rampa
+529|De la longitud de la línea
+530|Espacio entre trazos
+531|Variación
+532|Cuánto varían la longitud y la profundidad de los trazos
+533|Número del patrón
+534|Otro número da otros trazos; el mismo número, los mismos trazos
+535|Ángulo de las filas
+536|{}: las líneas abiertas se omiten de una textura

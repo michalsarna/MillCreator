@@ -512,3 +512,26 @@
 511|Veličina materijala nije postavljena (Datoteka → Novo…): donja strana okreće se oko sredine radnog područja
 512|Završna obrada manjim glodalom nakon završne obrade tog sloja: ide samo tamo kamo veće glodalo nije doseglo (uske doline, oštri kutovi), pa posao traje mnogo kraće.
 513|{}: glodalo završne obrade ostatka mora biti manje od glodala sloja koji slijedi
+514|Kaneliranje
+515|Profilna letva
+516|Tekstura
+517|Utor duž svake linije koji se rampom spušta s površine, ide na dubini sloja i rampom se opet diže: kanelure stupa, ukrasni utori. Koristite kuglasto ili V glodalo.
+518|Profil (zaobljenje, žlijeb, ogee, kosina ili polukružni utor) povlači se duž svake linije, širok koliko je zadano i dubok koliko sloj, u prolazima jedan uz drugi: rub daske, okvir. Profil leži lijevo od smjera linije. Koristite kuglasto glodalo.
+519|Površina oblika prekriva se kratkim udubljenjima kuglastog glodala u redovima, kao rezbareno rukom; dubina sloja je najdublje udubljenje. Korak je razmak redova.
+520|Na oba kraja
+521|Zaobljenje
+522|Žlijeb
+523|Ogee
+524|Kosina
+525|Polukružni utor
+526|Profil
+527|Rampe
+528|Duljina rampe
+529|Od duljine linije
+530|Razmak između poteza
+531|Varijacija
+532|Koliko se mijenjaju duljina i dubina poteza
+533|Broj uzorka
+534|Drugi broj daje druge poteze; isti broj, iste poteze
+535|Kut redova
+536|{}: otvorene linije izostavljaju se iz teksture

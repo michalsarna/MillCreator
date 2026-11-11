@@ -512,3 +512,26 @@
 511|Velikost materiálu není nastavena (Soubor → Nový…): spodní strana se otočí kolem středu pracovní plochy
 512|Dokončení menší frézou po dokončení oné vrstvy: jde jen tam, kam větší fréza nedosáhla (úzká údolí, ostré rohy), takže úloha trvá mnohem kratší dobu.
 513|{}: fréza dokončení zbytků musí být menší než fréza vrstvy, po které následuje
+514|Drážkování
+515|Profilová lišta
+516|Textura
+517|Drážka podél každé čáry, která sjede rampou z povrchu, vede v hloubce vrstvy a rampou zase vyjede: kanelury sloupu, ozdobné drážky. Použijte kulovou nebo V frézu.
+518|Profil (zaoblení, žlábek, ogee, zkosení nebo půlkulatá drážka) se táhne podél každé čáry, tak široký, jak je zadáno, a tak hluboký jako vrstva, v průchodech vedle sebe: hrana desky, rám. Profil leží vlevo od směru čáry. Použijte kulovou frézu.
+519|Plocha tvarů se pokryje krátkými prohlubněmi kulové frézy v řadách, jako vyřezávaná ručně; hloubka vrstvy je nejhlubší prohlubeň. Krok je vzdálenost řad.
+520|Na obou koncích
+521|Zaoblení
+522|Žlábek
+523|Ogee
+524|Zkosení
+525|Půlkulatá drážka
+526|Profil
+527|Rampy
+528|Délka rampy
+529|Z délky čáry
+530|Mezera mezi tahy
+531|Proměnlivost
+532|Jak moc se mění délka a hloubka tahů
+533|Číslo vzoru
+534|Jiné číslo dá jiné tahy; stejné číslo stejné tahy
+535|Úhel řad
+536|{}: otevřené čáry se do textury nezahrnují
