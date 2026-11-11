@@ -144,6 +144,7 @@ impl App {
             self.status.push_str(&format!(" ({})", prog.warnings.iter().map(|w| w.text()).collect::<Vec<_>>().join("; ")));
         }
         if self.ed.grid_prefs.gcode_preview_after_save && p.exists() {
+            self.time_gcode_for_device();
             if let Err(e) = base_ui::gcode_view_ui::open(&mut self.gcode_view, p) {
                 self.status = e;
             }
@@ -350,7 +351,7 @@ impl App {
         ui.horizontal(|ui| {
             self.playback.show(ui, &mut self.view.progress);
         });
-        let secs = prog.estimate_seconds(self.device.rapid);
+        let secs = prog.estimate_seconds(&self.device);
         ui.label(RichText::new(trf("Time {} / {}", &[&base_ui::widgets::fmt_time(secs * self.view.progress as f64), &base_ui::widgets::fmt_time(secs)])).strong());
         ui.label(RichText::new(trf("Cuts: {} m, about {} min", &[&format!("{:.2}", prog.cut_length() / 1000.0), &format!("{:.1}", secs / 60.0)])).color(theme::text_dim()));
         for w in &prog.warnings {

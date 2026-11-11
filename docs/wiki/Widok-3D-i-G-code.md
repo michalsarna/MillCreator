@@ -39,7 +39,7 @@ Pokazuje tylko obszar zadania, **o 10 % większy niż zadanie** w każdym kierun
 
 ![Obrócony widok](https://raw.githubusercontent.com/michalsarna/MillCreator/main/docs/screenshots/17-3d-view-turned.png)
 
-Wyżłobiony blok to obraz na siatce (gęstszej dla małego zadania), a czas to szacunek z posuwów, nie symulacja sterownika.
+Wyżłobiony blok to obraz na siatce (gęstszej dla małego zadania), a czas to szacunek z posuwów: z przyspieszeniami urządzenia (strona **Machine**) uwzględnia rozpędzanie i hamowanie każdego ruchu, wolniejsze narożniki i krótkie planowanie naprzód GRBL (15 ruchów), a maszyna staje tam, gdzie zmienia się warstwa; bez nich to długość przy posuwie. Podgląd G-code liczy czas pliku tak samo, dla urządzenia.
 
 **Eksportuj sfrezowany element jako STL…** zapisuje materiał z rowkami, do miejsca, do którego doszedł suwak (na końcu: całe zadanie), jako binarny model STL w milimetrach. **Frezowanie → Eksportuj relief jako STL…** to drugi eksport: sam relief obrazu.
 

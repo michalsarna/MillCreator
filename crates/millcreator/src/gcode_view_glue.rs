@@ -16,7 +16,13 @@ impl App {
         }
     }
 
+    /// The files opened in the viewer are timed for the machine of the device.
+    pub(crate) fn time_gcode_for_device(&self) {
+        base_ui::gcode_view_ui::set_machine(self.device.motion, self.device.rapid);
+    }
+
     pub(crate) fn open_gcode(&mut self, p: PathBuf) {
+        self.time_gcode_for_device();
         if let Err(e) = base_ui::gcode_view_ui::open(&mut self.gcode_view, p) {
             self.status = e;
         }

@@ -271,7 +271,7 @@ impl App {
         let name = self.path.as_ref().and_then(|p| p.file_stem()).map(|s| s.to_string_lossy().into_owned()).unwrap_or_else(|| "untitled".into());
         let lines = link::clean_gcode(&toolpath::to_gcode_info(&prog, &self.device.with_stock(&self.stock), &self.layers, &self.tools, &self.gcode_info(&name)));
         let lines = self.scale_spindle(lines);
-        Some((lines, prog.estimate_seconds(self.device.rapid)))
+        Some((lines, prog.estimate_seconds(&self.device)))
     }
 
     /// The S values of the program are spindle speeds in rpm; the controller's S runs from 0 to its `$30`. When the controller
