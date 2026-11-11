@@ -461,6 +461,9 @@ pub struct MillLayer {
     /// (when the whole way is inside the pocket) instead of a lift. Off: every ring goes through all depths, with a lift between.
     #[serde(default, skip_serializing_if = "is_false")]
     pub stay_down: bool,
+    /// How a profile comes onto its line and leaves it (a line or an arc from the waste side) and how far it goes on past its start.
+    #[serde(default, skip_serializing_if = "base_core::lead::Lead::is_default")]
+    pub lead: base_core::lead::Lead,
 }
 
 fn is_false(b: &bool) -> bool {
@@ -517,6 +520,7 @@ impl MillLayer {
         if !ok(t.length, 0.1, 1000.0) || !ok(t.height, 0.0, 1000.0) || !ok(t.slope, 5.0, 89.0) || !ok(t.spacing, 1.0, 100_000.0) || t.min > 100 || t.max > 100 || t.min > t.max {
             return Err(format!("layer {}: a number of the tabs is out of range", self.name));
         }
+        self.lead.check().map_err(|e| format!("layer {}: {e}", self.name))?;
         if self.name.len() > 120 {
             return Err("a layer name is too long".into());
         }
@@ -596,6 +600,7 @@ pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
                 relief_part: ReliefPart::Both,
                 coolant: Coolant::Off,
                 dust: false,
+                lead: Default::default(),
             };
             match bit(tool) {
                 Some(t) => layer.with_tool(&t),

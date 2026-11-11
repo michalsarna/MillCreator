@@ -475,3 +475,5 @@
 474|Een gesloten contour wordt zo ver voorbij het begin gesneden, zodat hij sluit
 475|Sleepmes
 476|Een sleepmes in de houder snijdt langs de lijnen tot de diepte van de laag, met de spindel stil: de verschuiving wordt bij elke hoek gecompenseerd, de gaten worden eerst gesneden en een gesloten lijn wordt voorbij het begin doorgesneden.
+477|{}: ergens paste een inloop niet en is weggelaten
+478|{}: ergens paste een inloop niet en is kleiner gemaakt

@@ -601,7 +601,17 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
         for (i, (ring, hole)) in rings.iter().zip(&hole).enumerate() {
             let what = if *hole { "Contour of a hole" } else { "Contour" };
             b.note(format!("{what} {} of {n} start: {} mm round", i + 1, num(ring.length())));
-            passes::ring_passes(b, ring, depths, &plan, *hole, &holes, i > 0, notes);
+            match &plan.lead {
+                Some(lead) => {
+                    // The waste is inside the ring of an inside profile, and inside a hole of an outside one.
+                    let ring = base_core::lead::good_start(ring);
+                    let leads = base_core::lead::plan(&ring, inner_profile != *hole, lead, &rings);
+                    notes.lead_shrunk |= leads.shrunk;
+                    notes.lead_dropped |= leads.dropped;
+                    passes::ring_passes_with_leads(b, &ring, depths, &plan, *hole, &holes, i > 0, notes, &leads);
+                }
+                None => passes::ring_passes(b, ring, depths, &plan, *hole, &holes, i > 0, notes),
+            }
             b.note_end(format!("{what} {} end", i + 1));
         }
     };
@@ -777,6 +787,11 @@ fn run_layer(b: &mut Builder, layer: &MillLayer, tool: &Tool, outlines: &[Polyli
     }
     if notes.helix_fallback {
         warnings.push(Warn::new("{}: a helix did not fit somewhere: the ramp along the contour was used there", &[&layer.name]));
+    }
+    if notes.lead_dropped {
+        warnings.push(Warn::new("{}: a lead did not fit somewhere and was left out", &[&layer.name]));
+    } else if notes.lead_shrunk {
+        warnings.push(Warn::new("{}: a lead did not fit somewhere and was made smaller", &[&layer.name]));
     }
     if notes.tabs_fewer {
         warnings.push(Warn::new("{}: some rings are too short for all their tabs: they have fewer", &[&layer.name]));
@@ -1131,6 +1146,68 @@ mod tests {
         let dev = Device::dummy();
         let layers = default_layers(&lib);
         (lib, dev, Stock::default(), layers)
+    }
+
+    /// Where the bit goes down into the material: the ends of the plunges below the surface.
+    fn plunge_points(prog: &Program) -> Vec<P3> {
+        prog.moves.iter().filter(|m| m.kind == MoveKind::Plunge && m.to[2] < 0.0 && m.from[2] >= 0.0).map(|m| m.to).collect()
+    }
+
+    #[test]
+    fn a_profile_with_leads_goes_down_in_the_waste_and_comes_onto_the_line() {
+        use base_core::lead::{Lead, LeadKind};
+        let (lib, dev, stock, mut layers) = setup();
+        let mut scene = Scene::default();
+        // Scene y goes down: the square is x 50…90, and 50…90 down from the top of the page.
+        square(&mut scene, 0, 50.0, 50.0, 40.0);
+        square(&mut scene, 1, 120.0, 50.0, 40.0);
+        for l in [0, 1] {
+            layers[l].depth = 3.0;
+            layers[l].step_down = 1.5;
+        }
+        let plain = generate(&scene, &layers, &lib, &dev, &stock);
+        let r = lib.get(layers[0].tool.as_deref().unwrap()).unwrap().radius();
+        for kind in [LeadKind::Line, LeadKind::Arc] {
+            for l in [0, 1] {
+                layers[l].lead = Lead { lead_in: kind, lead_out: kind, length: 4.0, overlap: 2.0, ..Lead::default() };
+            }
+            let prog = generate(&scene, &layers, &lib, &dev, &stock);
+            assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
+            let y = |sy: f64| dev.area.y - sy;
+            let downs = plunge_points(&prog);
+            // Two depths of two profiles.
+            assert_eq!(downs.len(), 4, "{downs:?}");
+            for p in &downs {
+                let outside = p[0] < 50.0 - r - 0.5 || p[0] > 90.0 + r + 0.5 || p[1] > y(50.0) + r + 0.5 || p[1] < y(90.0) - r - 0.5;
+                let in_hole = p[0] > 120.0 + r + 0.5 && p[0] < 160.0 - r - 0.5 && p[1] < y(50.0) - r - 0.5 && p[1] > y(90.0) + r + 0.5;
+                // The left square is cut out, the right one is a hole.
+                let ok = if p[0] < 105.0 { outside } else { in_hole };
+                assert!(ok, "{kind:?}: the bit goes down at {p:?}, on the part");
+            }
+            // The overlap and the leads make the cut longer.
+            assert!(prog.cut_length() > plain.cut_length() + 4.0 * 2.0, "{kind:?}");
+            let g = to_gcode(&prog, &dev, &layers, &lib, "job");
+            assert!(g.contains("(Lead in)") && g.contains("(Lead out)"), "{g}");
+        }
+    }
+
+    #[test]
+    fn a_lead_too_big_for_a_hole_is_made_smaller_and_old_layers_have_none() {
+        use base_core::lead::{Lead, LeadKind};
+        let (lib, dev, stock, mut layers) = setup();
+        let mut scene = Scene::default();
+        square(&mut scene, 1, 50.0, 50.0, 10.0);
+        layers[1].depth = 1.0;
+        layers[1].lead = Lead { lead_in: LeadKind::Arc, lead_out: LeadKind::None, length: 6.0, ..Lead::default() };
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        assert!(prog.warnings.iter().any(|w| w.text().contains("made smaller")), "{:?}", prog.warnings);
+        // A layer without leads writes nothing of them, and an old layer reads as none.
+        let plain = &default_layers(&lib)[0];
+        let text = serde_json::to_string(plain).unwrap();
+        assert!(!text.contains("lead"), "{text}");
+        let back: MillLayer = serde_json::from_str(&text).unwrap();
+        assert!(back.lead.is_off());
+        assert!(MillLayer { lead: Lead { angle: 1.0, ..Lead::default() }, ..plain.clone() }.check().is_err());
     }
 
     /// A square of `s` mm with the corner at (x, y) on the layer, in scene coordinates.

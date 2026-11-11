@@ -229,6 +229,32 @@ fn grbl_sim_the_new_operations_are_accepted_and_end_at_zero_with_the_spindle_off
 }
 
 
+#[test]
+#[ignore = "needs grbl-sim: tools/grbl-sim/build.sh of baseCreator"]
+fn grbl_sim_profiles_with_leads_are_accepted_and_end_at_zero() {
+    use base_core::lead::{Lead, LeadKind};
+    let mut s = Session::connect();
+    s.wait_banner();
+    s.fast_machine(&[]);
+    let (lib, dev, stock) = (Library::new(), Device::dummy(), Stock::default());
+    let mut layers = default_layers(&lib);
+    for (l, kind) in [(0, LeadKind::Arc), (1, LeadKind::Line)] {
+        layers[l].depth = 2.0;
+        layers[l].step_down = 1.0;
+        layers[l].lead = Lead { lead_in: kind, lead_out: kind, length: 3.0, overlap: 1.5, ..Lead::default() };
+    }
+    let mut scene = Scene::default();
+    square(&mut scene, 0, 10.0, 10.0, 30.0);
+    square(&mut scene, 1, 60.0, 10.0, 30.0);
+    let prog = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions::default());
+    assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
+    let job = clean_gcode(&to_gcode(&prog, &dev, &layers, &lib, "sim"));
+    s.run_job(job.clone(), 600.0);
+    wait_idle_and_ends_at_zero(&mut s, &job, 120.0);
+    assert!(s.parser_state().contains("M5"), "the spindle is off");
+    assert!(s.errors().is_empty(), "GRBL rejected lines: {:?}", s.errors_described());
+}
+
 /// A pocket by rings that stays down between its rings, at two depths.
 fn job_with_a_pocket_that_stays_down() -> Vec<String> {
     let (lib, dev, stock) = (Library::new(), Device::dummy(), Stock::default());

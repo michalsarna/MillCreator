@@ -475,3 +475,5 @@
 474|Zatvoreni obris reže se toliko dalje od početka da se zatvori
 475|Vučeni nož
 476|Vučeni nož u držaču reže uzduž linija do dubine sloja, uz zaustavljeno vreteno: njegov pomak ispravlja se na svakom kutu, rupe se režu najprije, a zatvorena linija reže se dalje od svog početka.
+477|{}: negdje ulaz nije stao i izostavljen je
+478|{}: negdje ulaz nije stao i smanjen je

@@ -475,3 +475,5 @@
 474|En lukket kontur skjæres så langt forbi starten at den lukkes
 475|Slepekniv
 476|En slepekniv i holderen skjærer langs linjene til lagets dybde mens spindelen står: forskyvningen utlignes i hvert hjørne, hullene skjæres først og en lukket linje skjæres videre forbi starten.
+477|{}: et innløp fikk ikke plass et sted og ble utelatt
+478|{}: et innløp fikk ikke plass et sted og ble gjort mindre

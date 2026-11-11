@@ -475,3 +475,5 @@
 474|En sluten kontur skärs så långt förbi sin start att den sluts
 475|Släpkniv
 476|En släpkniv i hållaren skär längs linjerna till lagrets djup med spindeln stilla: dess förskjutning utjämnas vid varje hörn, hålen skärs först och en sluten linje skärs vidare förbi sin start.
+477|{}: ett inlöp fick inte plats någonstans och utelämnades
+478|{}: ett inlöp fick inte plats någonstans och gjordes mindre

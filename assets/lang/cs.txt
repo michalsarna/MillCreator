@@ -475,3 +475,5 @@
 474|Uzavřený obrys se řeže tak daleko za svůj začátek, aby se uzavřel
 475|Vlečný nůž
 476|Vlečný nůž v držáku řeže podél čar do hloubky vrstvy při stojícím vřetenu: jeho posun se vyrovná v každém rohu, otvory se řežou nejdřív a uzavřená čára se řeže dál za svůj začátek.
+477|{}: někde se najetí nevešlo a bylo vynecháno
+478|{}: někde se najetí nevešlo a bylo zmenšeno

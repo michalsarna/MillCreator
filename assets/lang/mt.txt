@@ -475,3 +475,5 @@
 474|Kontorn magħluq jinqata' daqshekk lil hinn mill-bidu tiegħu, biex jagħlaq
 475|Sikkina mkaxkra
 476|Sikkina mkaxkra fiż-żammiem taqta' tul il-linji sal-fond tas-saff, bl-ispindle wieqaf: l-offset tagħha jiġi kkumpensat f'kull kantuniera, it-toqob jinqatgħu l-ewwel u linja magħluqa tinqata' lil hinn mill-bidu tagħha.
+477|{}: x'imkien dħul ma daħalx u tħalla barra
+478|{}: x'imkien dħul ma daħalx u ġie ċċekkent
