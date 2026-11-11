@@ -475,3 +475,5 @@
 474|Slēgtu kontūru griež tik tālu aiz tās sākuma, lai tā noslēgtos
 475|Velkamais nazis
 476|Turētājā esošais velkamais nazis griež pa līnijām līdz slāņa dziļumam, vārpstai stāvot: tā nobīde tiek izlīdzināta katrā stūrī, vispirms griež caurumus, un slēgtu līniju griež tālāk par tās sākumu.
+477|{}: kaut kur ieeja neietilpa un tika izlaista
+478|{}: kaut kur ieeja neietilpa un tika samazināta

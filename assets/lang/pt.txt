@@ -475,3 +475,5 @@
 474|Um contorno fechado é cortado esta distância para além do seu início, para que feche
 475|Lâmina de arrasto
 476|Uma lâmina de arrasto no suporte corta ao longo das linhas até à profundidade da camada, com o fuso parado: o seu desvio é compensado em cada canto, os furos são cortados primeiro e uma linha fechada é cortada para além do seu início.
+477|{}: em algum lugar uma entrada não cabia e foi omitida
+478|{}: em algum lugar uma entrada não cabia e foi reduzida

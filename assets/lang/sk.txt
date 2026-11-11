@@ -475,3 +475,5 @@
 474|Uzavretý obrys sa reže tak ďaleko za svoj začiatok, aby sa uzavrel
 475|Vlečený nôž
 476|Vlečený nôž v držiaku reže pozdĺž čiar do hĺbky vrstvy pri stojacom vretene: jeho posun sa vyrovná v každom rohu, otvory sa režú najprv a uzavretá čiara sa reže ďalej za svoj začiatok.
+477|{}: niekde sa nábeh nezmestil a bol vynechaný
+478|{}: niekde sa nábeh nezmestil a bol zmenšený

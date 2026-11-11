@@ -475,3 +475,5 @@
 474|Un contorno cerrado se corta esta distancia más allá de su inicio, para que se cierre
 475|Cuchilla de arrastre
 476|Una cuchilla de arrastre en el soporte corta a lo largo de las líneas hasta la profundidad de la capa, con el husillo parado: su desplazamiento se compensa en cada esquina, los agujeros se cortan primero y una línea cerrada se corta más allá de su inicio.
+477|{}: en algún sitio una entrada no cabía y se omitió
+478|{}: en algún sitio una entrada no cabía y se redujo

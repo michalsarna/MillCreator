@@ -19,10 +19,15 @@ pub(crate) struct Notes {
     pub helix_fallback: bool,
     /// A ring was too short for a tab, or too small for its tabs: it has fewer, or none.
     pub tabs_fewer: bool,
+    /// A lead did not fit: it was made smaller, or left out.
+    pub lead_shrunk: bool,
+    pub lead_dropped: bool,
 }
 
 /// The way down and the tabs of a layer, for the passes of one ring.
 pub(crate) struct Plan {
+    /// The leads of a profile (none for the other operations).
+    pub lead: Option<base_core::lead::Lead>,
     pub entry: Entry,
     /// The slope of the ramp or the helix, degrees from the horizontal.
     pub angle: f64,
@@ -42,7 +47,8 @@ pub(crate) struct Plan {
 impl Plan {
     pub fn of(layer: &MillLayer, diameter: f64, ramp_default: f64) -> Plan {
         let tabs = (layer.tabs.enabled && matches!(layer.op, Operation::ProfileOutside | Operation::ProfileInside | Operation::OnPath)).then(|| layer.tabs.clone());
-        Plan { entry: layer.entry, angle: layer.ramp_angle.clamp(0.1, 89.0), ramp_feed: if layer.ramp_feed > 0.0 { layer.ramp_feed } else if ramp_default > 0.0 { ramp_default } else { layer.plunge }, tabs, anchors: vec![], reach: 0.0, pocket: layer.op == Operation::Pocket, depth: layer.depth, diameter }
+        let lead = (matches!(layer.op, Operation::ProfileOutside | Operation::ProfileInside) && !layer.lead.is_off()).then_some(layer.lead);
+        Plan { lead, entry: layer.entry, angle: layer.ramp_angle.clamp(0.1, 89.0), ramp_feed: if layer.ramp_feed > 0.0 { layer.ramp_feed } else if ramp_default > 0.0 { ramp_default } else { layer.plunge }, tabs, anchors: vec![], reach: 0.0, pocket: layer.op == Operation::Pocket, depth: layer.depth, diameter }
     }
 }
 
@@ -293,6 +299,35 @@ pub(crate) fn ring_passes(b: &mut Builder, ring: &Polyline, depths: &[f64], plan
             b.note(format!("Depth {} of {}: {} mm", i + 1, depths.len(), crate::toolpath::num(*d)));
         }
         rp.pass(b, *d, i == 0, notes);
+    }
+}
+
+/// Go round a ring at every depth with its leads: down at the start of the lead in (in the waste), along it onto the ring, once round
+/// and on for the overlap (raised over the tabs), out along the lead out, and up. The ring starts where the lead in meets it.
+#[allow(clippy::too_many_arguments)]
+pub(crate) fn ring_passes_with_leads(b: &mut Builder, ring: &Polyline, depths: &[f64], plan: &Plan, hole: bool, holes: &[Polyline], quiet: bool, notes: &mut Notes, leads: &base_core::lead::Leads) {
+    let Some(rp) = RingPass::new(ring, plan, hole, holes, quiet, notes) else { return };
+    let ride = Ride { path: &rp.path, tabs: &rp.tabs, plan };
+    let start = leads.lead_in.first().copied().unwrap_or(ring.pts[0]);
+    for (i, d) in depths.iter().enumerate() {
+        if depths.len() > 1 {
+            b.note(format!("Depth {} of {}: {} mm", i + 1, depths.len(), crate::toolpath::num(*d)));
+        }
+        let z = -d;
+        b.dive(start.x, start.y, z);
+        if leads.lead_in.len() > 1 {
+            b.note("Lead in".into());
+        }
+        for p in leads.lead_in.iter().skip(1) {
+            b.cut_to(p.x, p.y, z);
+        }
+        ride.follow(b, 0.0, rp.path.len + leads.overlap, b.feed, &|_| z, &[]);
+        if leads.lead_out.len() > 1 {
+            b.note("Lead out".into());
+        }
+        for p in leads.lead_out.iter().skip(1) {
+            b.cut_to(p.x, p.y, z);
+        }
     }
 }
 

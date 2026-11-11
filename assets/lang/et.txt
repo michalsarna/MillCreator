@@ -475,3 +475,5 @@
 474|Suletud kontuur lõigatakse nii kaugele algusest edasi, et see sulguks
 475|Veetav nuga
 476|Hoidikus olev veetav nuga lõikab joonte mööda kihi sügavuseni, spindel seisab: selle nihet korrigeeritakse igas nurgas, augud lõigatakse esimesena ja suletud joon lõigatakse algusest edasi.
+477|{}: kuskil sisenemine ei mahtunud ja jäeti ära
+478|{}: kuskil sisenemine ei mahtunud ja tehti väiksemaks

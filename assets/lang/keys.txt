@@ -475,3 +475,5 @@
 474	A closed outline is cut on this far past its start, so it closes
 475	Drag knife
 476	A drag knife in the holder cuts along the lines to the depth of the layer, the spindle still: its offset is made good at every corner, the holes are cut first and a closed line is cut on past its start.
+477	{}: a lead did not fit somewhere and was left out
+478	{}: a lead did not fit somewhere and was made smaller

@@ -475,3 +475,5 @@
 474|A zárt körvonalat ennyivel a kezdete után is vágja, hogy bezáródjon
 475|Vonszolt kés
 476|A tartóban lévő vonszolt kés a vonalak mentén a réteg mélységéig vág, álló orsóval: eltolását minden saroknál kiegyenlíti, először a lyukakat vágja, a zárt vonalat pedig a kezdetén túl is vágja.
+477|{}: valahol egy ráfutás nem fért el, és kimaradt
+478|{}: valahol egy ráfutás nem fért el, és kisebb lett

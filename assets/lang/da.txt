@@ -475,3 +475,5 @@
 474|En lukket kontur skæres så langt forbi sin start, så den lukkes
 475|Slæbekniv
 476|En slæbekniv i holderen skærer langs linjerne til lagets dybde med spindlen i ro: dens forskydning udlignes ved hvert hjørne, hullerne skæres først, og en lukket linje skæres videre forbi sin start.
+477|{}: et indløb passede ikke et sted og blev udeladt
+478|{}: et indløb passede ikke et sted og blev gjort mindre

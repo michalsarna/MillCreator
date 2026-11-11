@@ -475,3 +475,5 @@
 474|Lokuð útlína er skorin svona langt fram hjá byrjun sinni svo hún lokist
 475|Dráttarhnífur
 476|Dráttarhnífur í haldaranum sker eftir línunum niður á dýpt lagsins, snælda kyrr: hliðrun hans er leiðrétt við hvert horn, götin eru skorin fyrst og lokuð lína er skorin fram hjá byrjun sinni.
+477|{}: innkoma komst ekki fyrir einhvers staðar og var sleppt
+478|{}: innkoma komst ekki fyrir einhvers staðar og var minnkuð

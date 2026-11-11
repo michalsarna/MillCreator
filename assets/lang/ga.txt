@@ -475,3 +475,5 @@
 474|Gearrtar imlíne dhúnta an fad seo thar a tús, ionas go ndúntar í
 475|Scian tarraingthe
 476|Gearrann scian tarraingthe sa choimeádán feadh na línte go doimhneacht na sraithe, an fearsaid stoptha: ceartaítear a fritháireamh ag gach coirnéal, gearrtar na poill ar dtús agus gearrtar líne dhúnta thar a tús.
+477|{}: níor oir bealach áit éigin agus fágadh ar lár é
+478|{}: níor oir bealach áit éigin agus laghdaíodh é

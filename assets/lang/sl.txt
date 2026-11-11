@@ -475,3 +475,5 @@
 474|Zaprt obris se reže toliko mimo začetek, da se zapre
 475|Vlečni nož
 476|Vlečni nož v držalu reže vzdolž črt do globine plasti, vreteno miruje: njegov zamik se popravi na vsakem vogalu, luknje se režejo najprej, zaprta črta pa se reže naprej mimo svojega začetka.
+477|{}: nekje vstop ni šel in je izpuščen
+478|{}: nekje vstop ni šel in je zmanjšan

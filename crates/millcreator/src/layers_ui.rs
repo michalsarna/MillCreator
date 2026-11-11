@@ -349,6 +349,9 @@ impl App {
                             ui.end_row();
                         }
                     }
+                    if matches!(l.op, Operation::ProfileOutside | Operation::ProfileInside) {
+                        changed |= base_ui::lead_ui::rows(ui, units, &mut l.lead);
+                    }
                     if matches!(l.op, Operation::ProfileOutside | Operation::ProfileInside | Operation::OnPath) {
                         ui.label(tr("Tabs"));
                         changed |= ui.checkbox(&mut l.tabs.enabled, "").changed();
