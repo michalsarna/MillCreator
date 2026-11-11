@@ -28,6 +28,8 @@ After **New** the window **Project setup** asks about the piece of material (it 
 
 The material lies at the top left of the page. **Apply** writes the program for the work coordinate system **G54** (or the one chosen in the device) with its zero at the place you chose: set that zero on the machine at that place of the piece (jog there and press **X0**, **Y0** and **Z0** or **Zero all** on the **Control** tab, or probe). **Skip** leaves the zero of the device. The choices are saved with the project.
 
+**Shape of the material → Cylinder (rotary)** is for a round workpiece on the rotary attachment: give its **Workpiece diameter** and **Workpiece length**, and the window shows the cylinder in the chuck with its dimensions, the turn of Y round it and the zero on its surface. **Apply** switches the rotary attachment of the device on with that diameter (it is kept with the device); the material is then the unrolled surface — the length along X, the way round (π × diameter) along Y — Z counts from the top of the surface and the deepest cut is the radius. The work area shows a blue line at every way round. Choosing **Block** again switches the rotary off.
+
 ## 3. The material
 
 The **Material** tab: **Material of the workpiece** (**Wood, light**, **Wood, medium**, **Wood, dark**, **Metal**, **Plastic** with a **Colour** you choose) and the **Thickness**. The colour is only for the 3D view; the feeds come from the bits and the layers. **First pass** can start every layer with a shallow pass along the edges. See [Material](Material).

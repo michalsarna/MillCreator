@@ -545,3 +545,11 @@
 544|Šířka svahu
 545|Kupole
 546|Plochý vrchol
+547|Tvar materiálu
+548|Blok
+549|Válec (otočná osa)
+550|Kulatý obrobek otáčený otočnou osou zařízení. Použití zapne otočnou osu s tímto průměrem.
+551|Délka obrobku
+552|Válec leží podél X na otočné ose; Y výkresu jde kolem něj a výkres je jeho rozvinutý povrch. Z se počítá od povrchu a nejhlubší řez je poloměr. Nula je na povrchu; nastavte stejnou na stroji.
+553|Projekt nastaven: válec Ø {} mm dlouhý {} mm na otočné ose (zapnuté), nula: {}
+554|Otočná osa zařízení je vypnutá.

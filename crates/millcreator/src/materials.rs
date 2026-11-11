@@ -69,6 +69,10 @@ pub struct Stock {
     /// to right (end to end).
     #[serde(default, skip_serializing_if = "FlipAxis::is_side_to_side")]
     pub flip: FlipAxis,
+    /// The material is a cylinder turned by the rotary attachment of the device: `width` is its length, `height` the way round it
+    /// and `thickness` its radius (the deepest a cut can go).
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub round: bool,
 }
 
 /// The line the material is turned over round for its bottom side.
@@ -131,7 +135,7 @@ pub const MAX_THICKNESS: f64 = 500.0;
 
 impl Stock {
     pub fn of(kind: MaterialKind) -> Stock {
-        Stock { kind, color: kind.color(), thickness: 10.0, first_pass: false, first_pass_depth: default_first_pass_depth(), width: 0.0, height: 0.0, zero: None, z_bottom: false, flip: FlipAxis::SideToSide }
+        Stock { kind, color: kind.color(), thickness: 10.0, first_pass: false, first_pass_depth: default_first_pass_depth(), width: 0.0, height: 0.0, zero: None, z_bottom: false, flip: FlipAxis::SideToSide, round: false }
     }
 
     /// Choose another material: its own colour comes with it (a plastic keeps the colour it has).
@@ -186,9 +190,9 @@ mod tests {
         s.set_kind(MaterialKind::Metal);
         assert_eq!(s.color, MaterialKind::Metal.color());
         // A colour written into the file for a wood is ignored.
-        let wood = Stock { kind: MaterialKind::WoodDark, color: [1, 2, 3], thickness: f64::NAN, first_pass: false, first_pass_depth: f64::NAN, width: 0.0, height: 0.0, zero: None, z_bottom: false, flip: FlipAxis::SideToSide }.sane();
+        let wood = Stock { kind: MaterialKind::WoodDark, color: [1, 2, 3], thickness: f64::NAN, first_pass: false, first_pass_depth: f64::NAN, width: 0.0, height: 0.0, zero: None, z_bottom: false, flip: FlipAxis::SideToSide, round: false }.sane();
         assert_eq!((wood.color, wood.thickness), (MaterialKind::WoodDark.color(), 10.0));
-        let plastic = Stock { kind: MaterialKind::Plastic, color: [1, 2, 3], thickness: 1e9, first_pass: false, first_pass_depth: 0.1, width: 0.0, height: 0.0, zero: None, z_bottom: false, flip: FlipAxis::SideToSide }.sane();
+        let plastic = Stock { kind: MaterialKind::Plastic, color: [1, 2, 3], thickness: 1e9, first_pass: false, first_pass_depth: 0.1, width: 0.0, height: 0.0, zero: None, z_bottom: false, flip: FlipAxis::SideToSide, round: false }.sane();
         assert_eq!((plastic.color, plastic.thickness), ([1, 2, 3], MAX_THICKNESS));
     }
 }

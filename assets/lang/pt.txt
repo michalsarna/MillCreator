@@ -545,3 +545,11 @@
 544|Largura da rampa
 545|Cúpula
 546|Topo plano
+547|Forma do material
+548|Bloco
+549|Cilindro (eixo rotativo)
+550|Uma peça redonda rodada pelo eixo rotativo do dispositivo. Aplicar liga o eixo rotativo com este diâmetro.
+551|Comprimento da peça
+552|O cilindro está deitado ao longo de X no eixo rotativo; o Y do desenho dá-lhe a volta e o desenho é a sua superfície desenrolada. Z conta a partir da superfície e o corte mais fundo é o raio. O zero está na superfície; defina o mesmo na máquina.
+553|Projeto configurado: um cilindro de Ø {} mm e {} mm de comprimento no eixo rotativo (ligado), zero em {}
+554|O eixo rotativo do dispositivo está desligado.

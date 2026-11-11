@@ -545,3 +545,11 @@
 544|Širina pobočja
 545|Kupola
 546|Ploščat vrh
+547|Oblika materiala
+548|Blok
+549|Valj (vrtljiva os)
+550|Okrogel obdelovanec, ki ga vrti vrtljiva os naprave. Uporabi vklopi vrtljivo os s tem premerom.
+551|Dolžina obdelovanca
+552|Valj leži vzdolž X na vrtljivi osi; Y risbe teče okoli njega, risba pa je njegova razvita površina. Z se šteje od površine, najgloblji rez je polmer. Ničla je na površini; nastavite isto na stroju.
+553|Projekt nastavljen: valj Ø {} mm, dolg {} mm, na vrtljivi osi (vklopljeni), ničla: {}
+554|Vrtljiva os naprave je izklopljena.

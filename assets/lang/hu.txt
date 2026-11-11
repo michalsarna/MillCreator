@@ -545,3 +545,11 @@
 544|A rézsű szélessége
 545|Kupola
 546|Lapos tető
+547|Az anyag alakja
+548|Tömb
+549|Henger (forgótengely)
+550|Kerek munkadarab, amelyet az eszköz forgótengelye forgat. Az alkalmazás ezzel az átmérővel bekapcsolja a forgótengelyt.
+551|Munkadarab hossza
+552|A henger X mentén fekszik a forgótengelyen; a rajz Y-ja körbefut rajta, a rajz a kiterített felülete. A Z a felülettől számít, a legmélyebb vágás a sugár. A nullpont a felületen van; ugyanezt állítsd be a gépen.
+553|Projekt beállítva: Ø {} mm-es, {} mm hosszú henger a forgótengelyen (bekapcsolva), nullpont: {}
+554|Az eszköz forgótengelye ki van kapcsolva.

@@ -545,3 +545,11 @@
 544|Nuožulnumo plotis
 545|Kupolas
 546|Plokščias viršus
+547|Medžiagos forma
+548|Blokas
+549|Cilindras (sukimo ašis)
+550|Apvalus ruošinys, kurį suka įrenginio sukimo ašis. Taikyti įjungia sukimo ašį su šiuo skersmeniu.
+551|Ruošinio ilgis
+552|Cilindras guli išilgai X ant sukimo ašies; brėžinio Y eina aplink jį, o brėžinys yra jo išskleistas paviršius. Z skaičiuojama nuo paviršiaus, giliausias pjūvis yra spindulys. Nulis yra ant paviršiaus; nustatykite tą patį mašinoje.
+553|Projektas nustatytas: cilindras Ø {} mm, {} mm ilgio, ant sukimo ašies (įjungta), nulis: {}
+554|Įrenginio sukimo ašis išjungta.

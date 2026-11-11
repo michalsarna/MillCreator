@@ -2,7 +2,7 @@
 //! editor and the camera view of the device.
 use crate::device::{self, Device, Origin, DUMMY_NAME, MAX_DEVICES};
 use crate::App;
-use base_core::machine::{GrblVersion, LinkKind, RotaryKind, Streaming};
+use base_core::machine::{GrblVersion, LinkKind, Streaming};
 use base_core::units::Units;
 use base_ui::editor::EditorHost;
 use base_ui::i18n::{tr, trf};
@@ -11,6 +11,9 @@ use base_ui::units_ui::{drag_len, fmt_len};
 use base_ui::widgets::centered_row;
 use base_ui::window::{delete_button, import_button, popup, save_button_enabled};
 use eframe::egui::{self, Color32, RichText};
+
+/// What the heights of a no-go zone count from in MillCreator.
+pub(crate) const ZONE_HEIGHTS: &str = "Z 0 is the top of the material, as in the G-code: a clamp that stands 15 mm above the material is 0 – 15. The bit reaches up from its tip, so every cut under a zone touches it; moves at the safe height pass over a zone that is lower.";
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Page {
@@ -507,39 +510,11 @@ impl App {
                         });
                     }
                     Page::Rotary => {
-                        ui.checkbox(&mut d.rotary.enabled, tr("A rotary attachment is connected"));
-                        ui.add_enabled_ui(d.rotary.enabled, |ui| {
-                            egui::Grid::new("dev_rotary").num_columns(2).min_col_width(150.0).spacing([12.0, 6.0]).show(ui, |ui| {
-                                ui.label(tr("Kind"));
-                                ui.horizontal(|ui| {
-                                    ui.radio_value(&mut d.rotary.kind, RotaryKind::Chuck, tr("Chuck"));
-                                    ui.radio_value(&mut d.rotary.kind, RotaryKind::Roller, tr("Rollers"));
-                                });
-                                ui.end_row();
-                                ui.label(tr("Workpiece diameter"));
-                                drag_len(ui, units, &mut d.rotary.diameter, 0.5, Some((1.0, 1000.0)));
-                                ui.end_row();
-                                if d.rotary.kind == RotaryKind::Roller {
-                                    ui.label(tr("Roller diameter"));
-                                    drag_len(ui, units, &mut d.rotary.roller_diameter, 0.5, Some((1.0, 1000.0)));
-                                    ui.end_row();
-                                }
-                                ui.label(tr("Microsteps per turn"));
-                                ui.add(egui::DragValue::new(&mut d.rotary.microsteps_per_rev).range(1.0..=1_000_000.0)).on_hover_text(tr("Microsteps of the motor for one full turn of what it drives (the chuck, or one roller)."));
-                                ui.end_row();
-                                ui.label(tr("Circumference"));
-                                ui.label(fmt_len(units, d.rotary.circumference(), 2)).on_hover_text(tr("The way round the workpiece: the design may not be higher."));
-                                ui.end_row();
-                            });
-                            ui.label(RichText::new(tr("GRBL 1.1 has three axes: the A axis is not available, Y is used.")).color(Color32::from_rgb(0xe8, 0x8a, 0x1f)));
-                            ui.label(trf("The controller needs {} steps per mm on the Y axis ($101).", &[&format!("{:.3}", d.rotary.steps_per_mm())]));
-                        });
-                        ui.add_space(4.0);
-                        ui.label(RichText::new(tr("With a rotary attachment the Y axis turns the work: the drawing may not be higher than the way round the workpiece. The model is simple (a chuck turns by the workpiece diameter, rollers move the surface like their own); a real machine needs testing.")).color(theme::text_dim()));
+                        base_ui::rotary_ui::page(ui, units, &mut d.rotary);
                     }
                     Page::Camera => base_ui::camera_feed::camera_page(ui, &mut d.cameras, &mut d.active_camera, &mut self.cam_test_wanted),
                     Page::Zones => {
-                        base_ui::zones_ui::page(ui, units, &mut d.zones, true, &tr("Z 0 is the top of the material, as in the G-code: a clamp that stands 15 mm above the material is 0 – 15. The bit reaches up from its tip, so every cut under a zone touches it; moves at the safe height pass over a zone that is lower."));
+                        base_ui::zones_ui::page(ui, units, &mut d.zones, true, &tr(ZONE_HEIGHTS));
                     }
                     Page::Notes => {
                         ui.add(egui::TextEdit::multiline(&mut d.notes).desired_rows(10).desired_width(f32::INFINITY).hint_text(tr("Notes about this machine")));
@@ -620,6 +595,15 @@ impl App {
         if open {
             self.dev_edit = Some(edit);
         }
+    }
+
+    /// New no-go zones of the device in use: into the project's device and into the list, where they are kept.
+    pub(crate) fn set_zones(&mut self, zones: Vec<base_core::zones::Zone>) {
+        if let Some(d) = self.active.and_then(|i| self.devices.get_mut(i)) {
+            d.zones = zones.clone();
+        }
+        self.device.zones = zones;
+        self.touch_rev();
     }
 
     /// The edited device goes into the list (and into the project, when it is the device in use).
@@ -731,6 +715,28 @@ mod tests {
 
     fn app() -> App {
         App::build(&egui::Context::default(), None, false)
+    }
+
+    #[test]
+    fn shapes_made_into_zones_go_to_the_device_and_its_tab_shows_while_it_has_zones() {
+        use base_core::geom::Xf;
+        use base_core::scene::Kind;
+        let mut a = app();
+        let i = a.use_dummy_device();
+        a.active = Some(i);
+        a.device = a.devices[i].clone();
+        a.device.zones.clear();
+        a.devices[i].zones.clear();
+        assert!(!a.extra_tabs().contains(&"zones"), "no tab without zones");
+        let id = a.scene.add(0, Kind::Rect { w: 30.0, h: 20.0 }, Xf::translate(10.0, 10.0));
+        a.ed.sel = vec![id];
+        base_ui::editor::add_as_zones(&mut a);
+        assert!(a.scene.shape(id).is_none(), "the shape left the drawing");
+        assert_eq!(a.device.zones.len(), 1);
+        assert_eq!(a.devices[i].zones, a.device.zones, "kept with the device");
+        assert!(a.extra_tabs().contains(&"zones") && a.side_tab == crate::SideTab::Zones);
+        a.set_zones(vec![]);
+        assert!(!a.extra_tabs().contains(&"zones"));
     }
 
     #[test]

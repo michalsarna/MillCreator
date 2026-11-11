@@ -545,3 +545,11 @@
 544|Sluttningens bredd
 545|Kupol
 546|Platt topp
+547|Materialets form
+548|Block
+549|Cylinder (rotationsaxel)
+550|Ett runt arbetsstycke som vrids av enhetens rotationsaxel. Verkställ slår på rotationsaxeln med denna diameter.
+551|Arbetsstyckets längd
+552|Cylindern ligger längs X på rotationsaxeln; ritningens Y går runt den och ritningen är dess utvikta yta. Z räknas från ytan och det djupaste snittet är radien. Nollpunkten ligger på ytan; ställ in samma på maskinen.
+553|Projektet inställt: en cylinder Ø {} mm och {} mm lång på rotationsaxeln (påslagen), nollpunkt {}
+554|Enhetens rotationsaxel är avslagen.

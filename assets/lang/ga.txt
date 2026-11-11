@@ -545,3 +545,11 @@
 544|Leithead na fána
 545|Cruinneachán
 546|Barr cothrom
+547|Cruth an ábhair
+548|Bloc
+549|Sorcóir (ais rothlach)
+550|Píosa cruinn a chasann ais rothlach an ghléis. Cuireann Cuir i bhfeidhm an ais rothlach ar siúl leis an trastomhas seo.
+551|Fad an phíosa
+552|Luíonn an sorcóir feadh X ar an ais rothlach; téann Y na líníochta timpeall air agus is é an líníocht a dhromchla leata amach. Comhairtear Z ó bharr an dromchla, agus is é an ga an gearradh is doimhne. Tá an náid ar an dromchla; socraigh an ceann céanna ar an meaisín.
+553|Tionscadal socraithe: sorcóir Ø {} mm agus {} mm ar fad ar an ais rothlach (ar siúl), náid ag {}
+554|Tá ais rothlach an ghléis múchta.
