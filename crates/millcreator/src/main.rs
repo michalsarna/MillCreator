@@ -32,6 +32,7 @@ mod preview_ui;
 mod relief;
 mod section;
 mod setup_ui;
+mod sides;
 mod drawing_ui;
 mod toolpath;
 mod ugs_import;
@@ -331,6 +332,10 @@ struct App {
     /// The stock with the cuts as the 3D view draws it, and the key for which it was found empty.
     surface: Option<view3d::Surface>,
     surface_none: Option<(u64, usize, [u64; 5])>,
+    /// The bottom face of a two-sided project in the 3D view, carved by side B (with the key it was made for).
+    surface_b: Option<((u64, usize, [u64; 5]), Option<view3d::Surface>)>,
+    /// The two sides of a two-sided project for the 3D view, seen from side A: (the program stamp, top, bottom).
+    sides3d: Option<(u64, toolpath::Program, toolpath::Program)>,
     /// The lines of the drawing for the 3D window, kept while the drawing, the work area and the shown layers stay as they are.
     project_lines: Option<((u64, u64, Vec<bool>), Vec<view3d::ProjectLine>)>,
     show_3d: bool,
@@ -400,6 +405,8 @@ struct App {
     selection_only: bool,
     /// The side of a two-sided job that is cut now (this session only).
     side: layers::Side,
+    /// A two-sided project: the side that is not shown, and how the two lie (File → Project setup…).
+    two: Option<sides::Sides>,
     cam: Option<CamState>,
     /// Was the camera picture drawn in the last frame? A stream nobody looks at is stopped (its frames would pile up).
     cam_drawn: bool,
@@ -540,6 +547,8 @@ impl App {
             hand_tab_drag: handtabs::Editing::default(),
             surface: None,
             surface_none: None,
+            surface_b: None,
+            sides3d: None,
             project_lines: None,
             show_3d: false,
             prog: None,
@@ -576,6 +585,7 @@ impl App {
             presets_ui: Default::default(),
             selection_only: false,
             side: layers::Side::Top,
+            two: None,
             cam: None,
             cam_drawn: false,
             rigs: base_ui::camera_rec::Rigs::default(),
@@ -679,6 +689,8 @@ impl App {
         self.background_from_project(&Project::default());
         self.layers = layers::default_layers(&self.tools);
         self.stock = Stock::default();
+        self.two = None;
+        self.side = layers::Side::Top;
         self.touch_rev();
         self.reset_picture_layers();
         self.autosave_in_sync();
@@ -750,8 +762,9 @@ impl App {
                 self.description = file.as_ref().map(|p| p.description.clone()).unwrap_or_default();
                 self.kept = file.unwrap_or_default();
                 self.kept.scene = Scene::default();
-                let kept = std::mem::take(&mut self.kept);
+                let mut kept = std::mem::take(&mut self.kept);
                 self.background_from_project(&kept);
+                self.sides_from_project(&mut kept);
                 self.kept = kept;
                 self.status = format!("Opened {name}: {} shapes", scene.shapes.len());
                 if let Some(m) = loaded.machine.as_ref().and_then(|m| m.differences(&self.device)) {
@@ -846,6 +859,7 @@ impl App {
         p.restore_sections(&self.kept.other_sections(section::SECTION));
         p.restore_extra(self.kept.extra());
         self.background_to_project(&mut p);
+        self.sides_to_project(&mut p);
         p
     }
 
@@ -1600,6 +1614,9 @@ impl EditorHost for App {
         if let Some(l) = self.layers.get_mut(layer) {
             l.op = layers::Operation::OnPath;
         }
+    }
+    fn paint_under_shapes(&mut self, v: &base_ui::editor::CanvasView) {
+        self.paint_sides(v);
     }
     fn paint_over_shapes(&mut self, v: &base_ui::editor::CanvasView) {
         self.paint_toolpaths(v);
@@ -2677,6 +2694,7 @@ mod tests {
         let holes: Vec<_> = a.scene.shapes.iter().filter_map(|s| s.bounds()).map(|b| b.center()).collect();
         assert_eq!(holes.len(), 2, "{}", a.status);
         assert!(holes.iter().all(|p| (p.x - 100.0).abs() < 1e-6), "{holes:?}");
+        assert_eq!(a.scene.shapes[0].layer, a.layers.len() - 1, "on the last layer");
         let l = &a.layers[a.scene.shapes[0].layer];
         assert_eq!((l.op, l.side), (layers::Operation::Drill, layers::Side::Top));
         assert!(l.depth > a.stock.thickness);

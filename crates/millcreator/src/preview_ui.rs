@@ -10,7 +10,13 @@ use eframe::egui::{self, Color32, RichText};
 impl App {
     /// The toolpaths of the project as it is now.
     pub(crate) fn make_program(&self) -> Program {
-        toolpath::generate_with(&self.job_scene(), &self.layers, &self.tools, &self.device, &self.stock, toolpath::JobOptions { one_by_one: self.one_by_one, side: self.side })
+        let shown = self.job_scene();
+        let (a, b) = match &self.two {
+            Some(t) if t.shown_b => (&t.other, Some(&*shown)),
+            Some(t) => (&*shown, Some(&t.other)),
+            None => (&*shown, None),
+        };
+        toolpath::generate_sides(a, b, &self.layers, &self.tools, &self.device, &self.stock, toolpath::JobOptions { one_by_one: self.one_by_one, side: self.side })
     }
 
     /// What the job is made of: the whole drawing, or with "Selection only" the shapes that are selected now.
@@ -40,6 +46,24 @@ impl App {
     pub(crate) fn shapes_box(&self) -> Option<[f64; 4]> {
         let h = self.device.area.y;
         self.scene.shapes.iter().filter_map(|s| s.bounds()).reduce(base_core::geom::Rect::union).map(|b| [b.min.x, h - b.max.y, b.max.x, h - b.min.y])
+    }
+
+    /// The two sides of a two-sided project for the 3D view, as seen from side A: the top and the bottom (made again with the program).
+    pub(crate) fn refresh_sides3d(&mut self) {
+        let stamp = self.job_stamp();
+        if self.two.is_none() {
+            self.sides3d = None;
+            return;
+        }
+        if self.sides3d.as_ref().is_some_and(|(k, _, _)| *k == stamp) {
+            return;
+        }
+        let (a, b) = self.sides_scenes();
+        let b = b.cloned().unwrap_or_default();
+        let opts = toolpath::JobOptions { one_by_one: self.one_by_one, side: crate::layers::Side::Top };
+        let top = toolpath::generate_sides(a, None, &self.layers, &self.tools, &self.device, &self.stock, opts);
+        let bottom = toolpath::bottom_seen_from_a(a, &b, &self.layers, &self.tools, &self.device, &self.stock, opts);
+        self.sides3d = Some((stamp, top, bottom));
     }
 
     /// The program is made again when the project changed since it was made.
@@ -327,8 +351,19 @@ impl App {
 
     /// The options, totals and the picture (the same in the window and in the tab).
     pub(crate) fn preview_body(&mut self, ui: &mut egui::Ui) {
+        self.refresh_sides3d();
+        self.view.under = self.two.is_some();
         let prog = self.prog.as_ref().expect("the program was made above");
-        let (region, rotary) = self.rotary_view(Region::of(prog, self.shapes_box()));
+        // A two-sided project shows both sides on one block: side A from the top, side B from the bottom (the side shown in the
+        // editor plays, the other is done).
+        let sides = self.sides3d.as_ref().map(|(_, top, bottom)| (top, bottom));
+        let shown_b = self.two.as_ref().is_some_and(|t| t.shown_b);
+        let top_prog = sides.map_or(prog, |(t, _)| t);
+        let region = match sides {
+            Some((t, b)) => Region::of_two(t, b, self.shapes_box()),
+            None => Region::of(prog, self.shapes_box()),
+        };
+        let (region, rotary) = self.rotary_view(region);
         // The depth the cuts can go: the thickness of the material, or the radius of a workpiece on a rotary.
         let depth = rotary.map_or(self.stock.thickness, |c| c.r);
         let mut stl = false;
@@ -360,12 +395,20 @@ impl App {
         match region {
             Some(region) => {
                 // The carved stock is made again only when the program, the slider or the stock changed.
-                let done = view3d::position_at(prog, self.view.progress).0.min(prog.moves.len());
+                let done = if sides.is_some() && shown_b { top_prog.moves.len() } else { view3d::position_at(top_prog, self.view.progress).0.min(top_prog.moves.len()) };
                 let bits = |v: f64| v.to_bits();
                 let key = (self.prog_rev, done, [bits(region.min[0]), bits(region.min[1]), bits(region.max[0]), bits(region.max[1]), bits(depth)]);
+                let tool_of = |layer: usize| self.layers.get(layer).and_then(|l| l.tool.as_deref()).and_then(|id| self.tools.get(id)).cloned();
+                // The bottom face of a two-sided project, carved by side B the same way.
+                if let (Some((_, b)), true) = (sides, self.view.show_stock) {
+                    let b_done = if shown_b { view3d::position_at(b, self.view.progress).0.min(b.moves.len()) } else { b.moves.len() };
+                    let b_key = (self.prog_rev, b_done, key.2);
+                    if self.surface_b.as_ref().map(|(k, _)| *k) != Some(b_key) {
+                        self.surface_b = Some((b_key, view3d::Surface::of(b_key, &b.moves[..b_done], tool_of, region, depth)));
+                    }
+                }
                 if self.view.show_stock && self.surface.as_ref().map(|s| s.key) != Some(key) {
-                    let tool_of = |layer: usize| self.layers.get(layer).and_then(|l| l.tool.as_deref()).and_then(|id| self.tools.get(id)).cloned();
-                    self.surface = view3d::Surface::of(key, &prog.moves[..done], tool_of, region, depth);
+                    self.surface = view3d::Surface::of(key, &top_prog.moves[..done], tool_of, region, depth);
                     if self.surface.is_none() {
                         // Nothing is cut: remember that by a surface that is not there (no key to compare), so it is not tried again each frame.
                         self.surface_none = Some(key);
@@ -391,7 +434,8 @@ impl App {
                 } else {
                     base_ui::dims::Features::default()
                 };
-                let sc = Scene3d { surface, prog, region, stock: &stock, dev: &self.device, layers: &self.layers, project, rotary, parts: &parts, units: base_ui::editor::EditorHost::units(self) };
+                let bottom = sides.map(|(_, b)| view3d::Bottom { prog: b, surface: self.surface_b.as_ref().and_then(|(_, s)| s.as_ref()), animated: shown_b });
+                let sc = Scene3d { surface, prog: top_prog, region, stock: &stock, dev: &self.device, layers: &self.layers, project, rotary, parts: &parts, units: base_ui::editor::EditorHost::units(self), bottom };
                 view3d::show(ui, &mut self.view, &sc);
             }
             None => {
