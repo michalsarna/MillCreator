@@ -1687,6 +1687,7 @@ mod tests {
         assert!(lo > 0.0 && hi < 20.0, "only the square of side B, where it is drawn: {lo} {hi}");
         assert_ne!(cut_xs(&top), cut_xs(&with_b), "the top side does not cut side B");
         // For the 3D view side B is seen from side A: turned back over (200 mm side to side: 5…15 becomes 185…195).
+        stock.flip = FlipAxis::SideToSide;
         let seen = bottom_seen_from_a(&scene, &b, &layers, &lib, &dev, &stock, JobOptions::default());
         let (lo, hi) = cut_xs(&seen);
         assert!(lo > 180.0 && hi < 200.0, "{lo} {hi}");
