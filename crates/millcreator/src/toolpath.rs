@@ -526,6 +526,23 @@ fn bottom_with_side_b(a: &Scene, b: &Scene, layers: &[MillLayer], dev: &Device, 
     (Scene::from_parts(shapes, next_id + b_next, next_group + b_group), layers)
 }
 
+/// The cuts of the bottom of a two-sided project as they lie in the material seen from side A, for the 3D view: side B turned back
+/// over, with the shapes of side A on bottom layers as they are. The depths count from the face the bit comes from (the view puts
+/// them on the bottom face, coming up).
+pub fn bottom_seen_from_a(a: &Scene, b: &Scene, layers: &[MillLayer], tools: &Library, dev: &Device, stock: &Stock, opts: JobOptions) -> Program {
+    use crate::layers::Side;
+    let w = if stock.width > 0.0 { stock.width } else { dev.area.x };
+    let h = if stock.height > 0.0 { stock.height } else { dev.area.y };
+    let turn = base_core::setup::turn(stock.flip, w, h);
+    let mut shapes: Vec<Shape> = a.shapes.iter().filter(|s| layers.get(s.layer).is_some_and(|l| l.side == Side::Bottom)).cloned().collect();
+    let (next_id, next_group) = a.counters();
+    let (b_next, b_group) = b.counters();
+    shapes.extend(b.shapes.iter().map(|s| Shape { id: s.id + next_id, group: s.group.map(|g| g + next_group), xf: s.xf.then(turn), ..s.clone() }));
+    let layers: Vec<MillLayer> = layers.iter().enumerate().map(|(i, l)| MillLayer { enabled: l.enabled && (l.side == Side::Bottom || b.shapes.iter().any(|s| s.layer == i)), ..l.clone() }).collect();
+    let scene = Scene::from_parts(shapes, next_id + b_next, next_group + b_group);
+    generate_side(&scene, &layers, tools, dev, stock, JobOptions { side: Side::Top, ..opts })
+}
+
 /// The toolpaths as `generate` makes them, with what the program asks of the job (`JobOptions`).
 #[cfg(test)]
 pub fn generate_with(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Device, stock: &Stock, opts: JobOptions) -> Program {
@@ -1669,6 +1686,10 @@ mod tests {
         let (lo, hi) = cut_xs(&with_b);
         assert!(lo > 0.0 && hi < 20.0, "only the square of side B, where it is drawn: {lo} {hi}");
         assert_ne!(cut_xs(&top), cut_xs(&with_b), "the top side does not cut side B");
+        // For the 3D view side B is seen from side A: turned back over (200 mm side to side: 5…15 becomes 185…195).
+        let seen = bottom_seen_from_a(&scene, &b, &layers, &lib, &dev, &stock, JobOptions::default());
+        let (lo, hi) = cut_xs(&seen);
+        assert!(lo > 180.0 && hi < 200.0, "{lo} {hi}");
         let one = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions::default());
         assert_eq!(to_gcode(&one, &dev, &layers, &lib, "job"), to_gcode(&generate(&scene, &layers, &lib, &dev, &stock), &dev, &layers, &lib, "job"));
         assert!(!to_gcode(&one, &dev, &layers, &lib, "job").contains("Top side"));

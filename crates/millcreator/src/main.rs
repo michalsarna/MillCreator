@@ -332,6 +332,10 @@ struct App {
     /// The stock with the cuts as the 3D view draws it, and the key for which it was found empty.
     surface: Option<view3d::Surface>,
     surface_none: Option<(u64, usize, [u64; 5])>,
+    /// The bottom face of a two-sided project in the 3D view, carved by side B (with the key it was made for).
+    surface_b: Option<((u64, usize, [u64; 5]), Option<view3d::Surface>)>,
+    /// The two sides of a two-sided project for the 3D view, seen from side A: (the program stamp, top, bottom).
+    sides3d: Option<(u64, toolpath::Program, toolpath::Program)>,
     /// The lines of the drawing for the 3D window, kept while the drawing, the work area and the shown layers stay as they are.
     project_lines: Option<((u64, u64, Vec<bool>), Vec<view3d::ProjectLine>)>,
     show_3d: bool,
@@ -543,6 +547,8 @@ impl App {
             hand_tab_drag: handtabs::Editing::default(),
             surface: None,
             surface_none: None,
+            surface_b: None,
+            sides3d: None,
             project_lines: None,
             show_3d: false,
             prog: None,

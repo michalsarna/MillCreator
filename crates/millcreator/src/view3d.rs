@@ -104,6 +104,8 @@ pub struct View3d {
     pub top: bool,
     /// Asked for by a button, done by the next picture (which knows the size of its window).
     pub fit: Option<Fit>,
+    /// The camera may go under the block (a two-sided project: the cuts of side B are on its bottom face).
+    pub under: bool,
 }
 
 /// What the view is fitted to.
@@ -117,7 +119,7 @@ pub enum Fit {
 
 impl Default for View3d {
     fn default() -> View3d {
-        View3d { yaw: START_YAW, pitch: START_PITCH, zoom: 1.0, pan: Vec2::ZERO, show_cuts: true, show_rapids: true, show_stock: true, show_project: false, show_dims: false, progress: 1.0, top: false, fit: None }
+        View3d { yaw: START_YAW, pitch: START_PITCH, zoom: 1.0, pan: Vec2::ZERO, show_cuts: true, show_rapids: true, show_stock: true, show_project: false, show_dims: false, progress: 1.0, top: false, fit: None, under: false }
     }
 }
 
@@ -128,12 +130,17 @@ impl View3d {
         *self = keep;
     }
 
+    /// The lowest the camera goes: just above the table, or under the block for a two-sided project.
+    fn min_pitch(&self) -> f32 {
+        if self.under { -MAX_PITCH } else { MIN_PITCH }
+    }
+
     pub fn rotate(&mut self, dx: f32, dy: f32) {
         if self.top {
             return;
         }
         self.yaw = (self.yaw - dx * 0.01).rem_euclid(std::f32::consts::TAU);
-        self.pitch = (self.pitch + dy * 0.01).clamp(MIN_PITCH, MAX_PITCH);
+        self.pitch = (self.pitch + dy * 0.01).clamp(self.min_pitch(), MAX_PITCH);
     }
 
     /// Look at the model from a direction of the world (from the model to the eye), as the navigation cube asks. The camera cannot
@@ -142,7 +149,7 @@ impl View3d {
         if self.top {
             return;
         }
-        self.pitch = d[2].clamp(-1.0, 1.0).asin().clamp(MIN_PITCH, MAX_PITCH);
+        self.pitch = d[2].clamp(-1.0, 1.0).asin().clamp(self.min_pitch(), MAX_PITCH);
         if d[0].hypot(d[1]) > 1e-4 {
             self.yaw = d[0].atan2(-d[1]).rem_euclid(std::f32::consts::TAU);
         }
@@ -288,6 +295,27 @@ pub struct Scene3d<'a> {
     pub parts: &'a base_ui::dims::Features,
     /// The units of the program, for the dimensions (those of the machine are in `dev`).
     pub units: base_core::units::Units,
+    /// A two-sided project: the cuts of side B, coming from the bottom face.
+    pub bottom: Option<Bottom<'a>>,
+}
+
+/// The bottom of a two-sided project in the view: its program as seen from side A (`toolpath::bottom_seen_from_a`, the depths from
+/// the bottom face), the bottom face carved by it, and whether it is the side that plays (the other side is shown done).
+pub struct Bottom<'a> {
+    pub prog: &'a Program,
+    pub surface: Option<&'a Surface>,
+    pub animated: bool,
+}
+
+impl Region {
+    /// The region of two programs together (the two sides of a project), or of one of them.
+    pub fn of_two(a: &Program, b: &Program, shapes: Option<[f64; 4]>) -> Option<Region> {
+        let (ra, rb) = (Region::of(a, shapes), Region::of(b, None));
+        match (ra, rb) {
+            (Some(x), Some(y)) => Some(Region { min: [x.min[0].min(y.min[0]), x.min[1].min(y.min[1])], max: [x.max[0].max(y.max[0]), x.max[1].max(y.max[1])] }),
+            (x, y) => x.or(y),
+        }
+    }
 }
 
 /// The middle of the picture and the radius of the sphere that holds what is shown, the same for the picture and for the fitting.
@@ -426,8 +454,12 @@ pub fn fit_to(view: &mut View3d, rect: Rect, sc: &Scene3d, lo: [f64; 2], hi: [f6
 }
 
 /// The surface as a mesh of triangles, the far ones first (a height field is drawn correctly from any side that way).
-fn draw_surface(painter: &egui::Painter, pj: &Projector, s: &Surface, color: [u8; 3], eye: [f32; 3]) {
-    let at = |c: usize, r: usize| [s.lo[0] + (c as f64 + 0.5) * s.step, s.top - (r as f64 + 0.5) * s.step, s.z[r * s.cols + c]];
+/// `under`: the surface of the bottom face of a block of that thickness (its depths count up from the bottom).
+fn draw_surface(painter: &egui::Painter, pj: &Projector, s: &Surface, color: [u8; 3], eye: [f32; 3], under: Option<f64>) {
+    let at = |c: usize, r: usize| {
+        let z = s.z[r * s.cols + c];
+        [s.lo[0] + (c as f64 + 0.5) * s.step, s.top - (r as f64 + 0.5) * s.step, under.map_or(z, |t| -t - z)]
+    };
     let mut mesh = egui::epaint::Mesh::default();
     mesh.vertices.reserve(s.cols * s.rows);
     for r in 0..s.rows {
@@ -549,14 +581,62 @@ pub fn draw(painter: &egui::Painter, rect: Rect, view: &View3d, sc: &Scene3d) {
             let pts: Vec<Pos2> = corners.iter().map(|c| pj.project(*c)).collect();
             painter.add(Shape::convex_polygon(pts, shade(sc.stock.color, light), Stroke::new(1.0, shade(sc.stock.color, light * 0.6))));
         }
-        // The cuts made so far, carved into the top of the stock (the whole top when nothing is cut yet).
-        if let Some(s) = sc.surface {
-            draw_surface(painter, &pj, s, sc.stock.color, eye);
+        // The cuts made so far, carved into the top of the stock (the whole top when nothing is cut yet); in a two-sided project
+        // the bottom face carved by side B, seen when the block is turned to show its underside.
+        if eye[2] >= 0.0 || sc.bottom.is_none() {
+            if let Some(s) = sc.surface {
+                draw_surface(painter, &pj, s, sc.stock.color, eye, None);
+            }
+        } else if let Some(s) = sc.bottom.as_ref().and_then(|b| b.surface) {
+            draw_surface(painter, &pj, s, sc.stock.color, eye, Some(t));
         }
     }
-    let (done, here) = position_at(sc.prog, view.progress);
+    // The side that plays goes as far as the slider; the other one is shown done.
+    let bottom_plays = sc.bottom.as_ref().is_some_and(|b| b.animated);
+    let (done, mut here) = if bottom_plays { (sc.prog.moves.len(), None) } else { position_at(sc.prog, view.progress) };
+    let (b_done, b_here) = match &sc.bottom {
+        Some(b) if b.animated => position_at(b.prog, view.progress),
+        Some(b) => (b.prog.moves.len(), None),
+        None => (0, None),
+    };
+    // A point of side B in the block: its depth counts up from the bottom face.
+    let up = |p: P3| [p[0], p[1], -t - p[2]];
     let cut_color = |layer: usize| sc.layers.get(layer).map(|l| l.color32()).unwrap_or(Color32::RED);
-    if view.show_cuts {
+    // In a two-sided project each side's paths are seen from its own face.
+    let from_below = eye[2] < 0.0;
+    if let (Some(b), true) = (&sc.bottom, from_below) {
+        if view.show_cuts {
+            for m in b.prog.moves.iter().take(b_done) {
+                if m.kind == MoveKind::Rapid || m.to[2] > 0.0 {
+                    continue;
+                }
+                painter.add(Shape::line(vec![pj.project(up(m.from)), pj.project(up(m.to))], Stroke::new(1.2, cut_color(m.layer))));
+            }
+        }
+        if view.show_rapids {
+            let rapid = Color32::from_rgb(0x30, 0x7f, 0xd0);
+            for m in b.prog.moves.iter().take(b_done) {
+                if m.kind == MoveKind::Cut || (m.kind == MoveKind::Plunge && m.to[2] <= 0.0 && m.from[2] <= 0.0) {
+                    continue;
+                }
+                painter.extend(Shape::dashed_line(&[pj.project(up(m.from)), pj.project(up(m.to))], Stroke::new(1.0, rapid), 5.0, 4.0));
+            }
+        }
+        if let (true, Some(p)) = (b.animated, b_here) {
+            if view.progress < 1.0 && !b.prog.is_empty() {
+                // The bit comes from below.
+                let tip = pj.project(up(p));
+                let top = pj.project([p[0], p[1], -t - p[2] - 12.0]);
+                painter.line_segment([top, tip], Stroke::new(3.0, Color32::from_rgb(0xe0, 0x50, 0x20)));
+                painter.circle_filled(tip, 3.5, Color32::from_rgb(0xe0, 0x50, 0x20));
+            }
+        }
+    }
+    if bottom_plays || (sc.bottom.is_some() && from_below) {
+        here = None;
+    }
+    let top_paths = sc.bottom.is_none() || !from_below;
+    if view.show_cuts && top_paths {
         // The paths of the bit in the colour of the layer, over the carved stock.
         for m in sc.prog.moves.iter().take(done) {
             if m.kind == MoveKind::Rapid || m.to[2] > 0.0 {
@@ -565,7 +645,7 @@ pub fn draw(painter: &egui::Painter, rect: Rect, view: &View3d, sc: &Scene3d) {
             painter.add(Shape::line(line(m.from, m.to), Stroke::new(1.2, cut_color(m.layer))));
         }
     }
-    if view.show_rapids {
+    if view.show_rapids && top_paths {
         // The safe height as a frame over the block, and the moves above the material as dashed lines.
         let z = safe;
         let frame = PathStroke::new(1.0, Color32::from_rgba_unmultiplied(0x40, 0x90, 0xe0, 120));
@@ -820,7 +900,7 @@ mod tests {
     fn the_picture_is_drawn_for_a_job() {
         let (prog, dev, stock, layers, _lib) = job();
         let region = Region::of(&prog, None).unwrap();
-        let sc = Scene3d { surface: None, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary: None, parts: &base_ui::dims::Features::default(), units: base_core::units::Units::Mm };
+        let sc = Scene3d { surface: None, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary: None, parts: &base_ui::dims::Features::default(), units: base_core::units::Units::Mm, bottom: None };
         let ctx = egui::Context::default();
         let mut view = View3d::default();
         view.progress = 0.5;
@@ -882,7 +962,7 @@ mod tests {
                 Surface::of((0, 0, [0; 5]), moves, tool_of, region, 15.0)
             };
             for sf in [None, surface.as_ref()] {
-                let sc = Scene3d { surface: sf, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary, parts: &base_ui::dims::Features::default(), units: base_core::units::Units::Mm };
+                let sc = Scene3d { surface: sf, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary, parts: &base_ui::dims::Features::default(), units: base_core::units::Units::Mm, bottom: None };
                 view.fit = Some(Fit::Elements);
                 let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
                     show(ui, &mut view, &sc);
