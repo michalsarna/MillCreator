@@ -598,15 +598,13 @@ impl App {
 }
 
 impl App {
-    /// Two drilled holes on the line the material is turned over round, 10 mm in from its ends, on the first empty layer (made a Drill
+    /// Two drilled holes on the line the material is turned over round, 10 mm in from its ends, on the last layer (64; made a Drill
     /// layer of the top side, through the material and 2 mm into the table).
     pub(crate) fn add_alignment_holes(&mut self) {
         use base_core::scene::Kind;
         let (w, h) = if self.stock.width > 0.0 && self.stock.height > 0.0 { (self.stock.width, self.stock.height) } else { (self.device.area.x, self.device.area.y) };
-        let Some(li) = (0..self.layers.len()).find(|&l| !self.scene.shapes.iter().any(|s| s.layer == l)) else {
-            self.status = tr("No empty layer for the holes").to_string();
-            return;
-        };
+        // The last layer (64), out of the way of the layers of the job.
+        let Some(li) = self.layers.len().checked_sub(1) else { return };
         let places = match self.stock.flip {
             crate::materials::FlipAxis::SideToSide => [(w / 2.0, 10.0), (w / 2.0, h - 10.0)],
             crate::materials::FlipAxis::EndToEnd => [(10.0, h / 2.0), (w - 10.0, h / 2.0)],

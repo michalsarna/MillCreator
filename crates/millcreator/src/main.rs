@@ -2694,6 +2694,7 @@ mod tests {
         let holes: Vec<_> = a.scene.shapes.iter().filter_map(|s| s.bounds()).map(|b| b.center()).collect();
         assert_eq!(holes.len(), 2, "{}", a.status);
         assert!(holes.iter().all(|p| (p.x - 100.0).abs() < 1e-6), "{holes:?}");
+        assert_eq!(a.scene.shapes[0].layer, a.layers.len() - 1, "on the last layer");
         let l = &a.layers[a.scene.shapes[0].layer];
         assert_eq!((l.op, l.side), (layers::Operation::Drill, layers::Side::Top));
         assert!(l.depth > a.stock.thickness);
