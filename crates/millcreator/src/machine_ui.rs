@@ -344,6 +344,7 @@ impl App {
         let lines = base_core::gcode_split::split_long_lines(&lines, &self.device.control.split);
         let Some((before, after)) = self.hook_lines() else { return };
         self.machine.info(trf("Starting job: {} lines, ~{}", &[&lines.len(), &base_ui::widgets::fmt_time(secs)]));
+        self.web_job = Some((std::time::Instant::now(), secs));
         if self.device.control.check_first && from == 0 {
             // The real job waits for a clean check run.
             self.after_check = Some(AfterCheck { lines: lines.clone(), before, after });
