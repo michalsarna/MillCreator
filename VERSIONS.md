@@ -2,6 +2,11 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.8.7
+
+* **Web server and API** (Settings → Program options…, off by default): a page in the browser, also on a phone, with the machine, the job, the camera and the project, and STOP / Home / jog buttons; an API for other programs at `http://localhost:8766`, behind an access phrase (at first `MillCreator`; no encryption). The same server as in LightCreator (8765), PenCreator (8767) and BaseCreator (8768).
+* **File dialogs:** rfd 0.18.
+
 ## v0.8.6
 
 * **Time of a job** with the acceleration of the machine, its corners and look-ahead.
