@@ -18,6 +18,7 @@ fn kind(colour: [u8; 3]) -> Kind {
         block_note: "The material lies at the top left of the page. The program is written for the work coordinate system G54 with its zero at the place you choose: set that zero on the machine there. Z counts from the top of the material, or from its bottom.",
         cylinder_note: "The cylinder lies along X on the rotary attachment; Y of the drawing goes round it and the drawing is unrolled from its surface. Z counts from the top of the surface, and the deepest cut is the radius. The zero is on the surface; set the same one on the machine.",
         colour,
+        paper: false,
     }
 }
 
@@ -40,6 +41,7 @@ impl App {
             flip: s.flip,
             // The marks are offered for a project that becomes two-sided; one that is already has them (or not) by now.
             marks: self.two.is_none(),
+            max: (self.device.area.x, self.device.area.y),
         };
     }
 
