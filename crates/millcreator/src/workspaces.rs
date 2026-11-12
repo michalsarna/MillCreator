@@ -30,6 +30,8 @@ pub struct Workspace {
     pub view: DocView,
     /// The number of the recovery file of this tab.
     pub slot: usize,
+    /// A two-sided project: the side that is not shown.
+    pub two: Option<crate::sides::Sides>,
 }
 
 impl Workspace {
@@ -47,6 +49,7 @@ impl Workspace {
             autosaved_clean: true,
             view: DocView::default(),
             slot,
+            two: None,
         }
     }
 
@@ -62,6 +65,7 @@ impl Workspace {
         p.restore_sections(&self.kept.other_sections(crate::section::SECTION));
         p.restore_extra(self.kept.extra());
         base_ui::editor::background_section(&self.view.background, &self.view.background_pending, &mut p);
+        crate::sides::sides_into(&mut p, &self.scene, self.two.as_ref());
         p
     }
 }
@@ -79,7 +83,12 @@ impl App {
     /// The shown tab with a parked one: a swap of every field that belongs to a drawing. The pattern has no `..`, so a field
     /// added to `Workspace` has to be handled here.
     fn swap_ws(&mut self, w: &mut Workspace) {
-        let Workspace { scene, history, path, description, kept, layers, stock, picture_layers, clean, autosaved_clean, view, slot } = w;
+        let Workspace { scene, history, path, description, kept, layers, stock, picture_layers, clean, autosaved_clean, view, slot, two } = w;
+        std::mem::swap(&mut self.two, two);
+        self.side = match &self.two {
+            Some(t) if t.shown_b => crate::layers::Side::Bottom,
+            _ => crate::layers::Side::Top,
+        };
         std::mem::swap(&mut self.scene, scene);
         std::mem::swap(&mut self.history, history);
         std::mem::swap(&mut self.path, path);

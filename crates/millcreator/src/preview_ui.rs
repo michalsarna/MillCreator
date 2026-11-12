@@ -10,7 +10,13 @@ use eframe::egui::{self, Color32, RichText};
 impl App {
     /// The toolpaths of the project as it is now.
     pub(crate) fn make_program(&self) -> Program {
-        toolpath::generate_with(&self.job_scene(), &self.layers, &self.tools, &self.device, &self.stock, toolpath::JobOptions { one_by_one: self.one_by_one, side: self.side })
+        let shown = self.job_scene();
+        let (a, b) = match &self.two {
+            Some(t) if t.shown_b => (&t.other, Some(&*shown)),
+            Some(t) => (&*shown, Some(&t.other)),
+            None => (&*shown, None),
+        };
+        toolpath::generate_sides(a, b, &self.layers, &self.tools, &self.device, &self.stock, toolpath::JobOptions { one_by_one: self.one_by_one, side: self.side })
     }
 
     /// What the job is made of: the whole drawing, or with "Selection only" the shapes that are selected now.

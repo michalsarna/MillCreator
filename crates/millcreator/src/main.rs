@@ -32,6 +32,7 @@ mod preview_ui;
 mod relief;
 mod section;
 mod setup_ui;
+mod sides;
 mod drawing_ui;
 mod toolpath;
 mod ugs_import;
@@ -400,6 +401,8 @@ struct App {
     selection_only: bool,
     /// The side of a two-sided job that is cut now (this session only).
     side: layers::Side,
+    /// A two-sided project: the side that is not shown, and how the two lie (File → Project setup…).
+    two: Option<sides::Sides>,
     cam: Option<CamState>,
     /// Was the camera picture drawn in the last frame? A stream nobody looks at is stopped (its frames would pile up).
     cam_drawn: bool,
@@ -576,6 +579,7 @@ impl App {
             presets_ui: Default::default(),
             selection_only: false,
             side: layers::Side::Top,
+            two: None,
             cam: None,
             cam_drawn: false,
             rigs: base_ui::camera_rec::Rigs::default(),
@@ -679,6 +683,8 @@ impl App {
         self.background_from_project(&Project::default());
         self.layers = layers::default_layers(&self.tools);
         self.stock = Stock::default();
+        self.two = None;
+        self.side = layers::Side::Top;
         self.touch_rev();
         self.reset_picture_layers();
         self.autosave_in_sync();
@@ -750,8 +756,9 @@ impl App {
                 self.description = file.as_ref().map(|p| p.description.clone()).unwrap_or_default();
                 self.kept = file.unwrap_or_default();
                 self.kept.scene = Scene::default();
-                let kept = std::mem::take(&mut self.kept);
+                let mut kept = std::mem::take(&mut self.kept);
                 self.background_from_project(&kept);
+                self.sides_from_project(&mut kept);
                 self.kept = kept;
                 self.status = format!("Opened {name}: {} shapes", scene.shapes.len());
                 if let Some(m) = loaded.machine.as_ref().and_then(|m| m.differences(&self.device)) {
@@ -846,6 +853,7 @@ impl App {
         p.restore_sections(&self.kept.other_sections(section::SECTION));
         p.restore_extra(self.kept.extra());
         self.background_to_project(&mut p);
+        self.sides_to_project(&mut p);
         p
     }
 
@@ -1600,6 +1608,9 @@ impl EditorHost for App {
         if let Some(l) = self.layers.get_mut(layer) {
             l.op = layers::Operation::OnPath;
         }
+    }
+    fn paint_under_shapes(&mut self, v: &base_ui::editor::CanvasView) {
+        self.paint_sides(v);
     }
     fn paint_over_shapes(&mut self, v: &base_ui::editor::CanvasView) {
         self.paint_toolpaths(v);

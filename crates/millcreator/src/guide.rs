@@ -8,7 +8,7 @@ const EN: &[Section] = &[
         title: "Getting started",
         lines: &[
             "The start screen lists your machines. Click one, or press I have no device for a stand-in called Dummy. Add device… makes a new one: the work area, the safe height, the spindle and the connection. Then press New or Open….",
-            "After New, the window of File > Project setup… asks about the piece of material and where the zero of the program is on it. Set the same zero on the machine. For a round workpiece choose Cylinder (rotary): its diameter and length, and the rotary attachment of the device is switched on.",
+            "After New, the window of File > Project setup… asks about the piece of material and where the zero of the program is on it. Set the same zero on the machine. A Two-sided job gives side A and side B: a switch over the work area shows one or the other, with the ghosts of the other side turned over. For a round workpiece choose Cylinder (rotary): its diameter and length, and the rotary attachment of the device is switched on.",
         ],
     },
     Section {
@@ -40,7 +40,7 @@ const PL: &[Section] = &[
         title: "Pierwsze kroki",
         lines: &[
             "Ekran startowy pokazuje Twoje maszyny. Kliknij jedną albo naciśnij Nie mam urządzenia, żeby użyć zastępczego urządzenia Dummy. Dodaj urządzenie… tworzy nowe: obszar roboczy, wysokość bezpieczną, wrzeciono i połączenie. Potem naciśnij Nowy albo Otwórz….",
-            "Po wybraniu Nowy okno Plik > Ustawienia projektu… pyta o kawałek materiału i o to, gdzie na nim jest zero programu. To samo zero ustaw na maszynie. Dla okrągłego przedmiotu wybierz Walec (obrotnica): jego średnicę i długość, a obrotnica urządzenia zostanie włączona.",
+            "Po wybraniu Nowy okno Plik > Ustawienia projektu… pyta o kawałek materiału i o to, gdzie na nim jest zero programu. To samo zero ustaw na maszynie. Zadanie dwustronne daje stronę A i stronę B: przełącznik nad obszarem roboczym pokazuje jedną albo drugą, z duchami drugiej strony odwróconymi. Dla okrągłego przedmiotu wybierz Walec (obrotnica): jego średnicę i długość, a obrotnica urządzenia zostanie włączona.",
         ],
     },
     Section {

@@ -458,16 +458,12 @@ pub struct JobOptions {
 /// The scene and the layers of one side of a two-sided job: the layers of the other side switched off, and for the bottom the
 /// shapes turned over round the middle line of the material (the size of the project setup, or the work area without one).
 fn one_side(scene: &Scene, layers: &[MillLayer], dev: &Device, stock: &Stock, side: crate::layers::Side) -> (Scene, Vec<MillLayer>) {
-    use crate::materials::FlipAxis;
     let layers: Vec<MillLayer> = layers.iter().map(|l| MillLayer { enabled: l.enabled && l.side == side, ..l.clone() }).collect();
     let mut scene = scene.clone();
     if side == crate::layers::Side::Bottom {
         let w = if stock.width > 0.0 { stock.width } else { dev.area.x };
         let h = if stock.height > 0.0 { stock.height } else { dev.area.y };
-        let turn = match stock.flip {
-            FlipAxis::SideToSide => base_core::geom::Xf { a: -1.0, b: 0.0, c: 0.0, d: 1.0, e: w, f: 0.0 },
-            FlipAxis::EndToEnd => base_core::geom::Xf { a: 1.0, b: 0.0, c: 0.0, d: -1.0, e: 0.0, f: h },
-        };
+        let turn = base_core::setup::turn(stock.flip, w, h);
         for s in &mut scene.shapes {
             s.xf = s.xf.then(turn);
         }
@@ -513,8 +509,38 @@ fn elements_by_distance(scene: &Scene, dev: &Device) -> Vec<Scene> {
     out
 }
 
+/// The bottom side of a two-sided project (File → Project setup…): the shapes drawn on side B as they are (side B is drawn as the
+/// material lies after it is turned over), with the shapes of side A on layers marked for the bottom turned over as before. A layer
+/// is cut when it is on, and it is a bottom layer or side B has shapes on it.
+fn bottom_with_side_b(a: &Scene, b: &Scene, layers: &[MillLayer], dev: &Device, stock: &Stock) -> (Scene, Vec<MillLayer>) {
+    use crate::layers::Side;
+    let w = if stock.width > 0.0 { stock.width } else { dev.area.x };
+    let h = if stock.height > 0.0 { stock.height } else { dev.area.y };
+    let turn = base_core::setup::turn(stock.flip, w, h);
+    let mut shapes: Vec<Shape> = a.shapes.iter().filter(|s| layers.get(s.layer).is_some_and(|l| l.side == Side::Bottom)).map(|s| Shape { xf: s.xf.then(turn), ..s.clone() }).collect();
+    // The ids and groups of side B come after those of side A, so that the two never mix.
+    let (next_id, next_group) = a.counters();
+    let (b_next, b_group) = b.counters();
+    shapes.extend(b.shapes.iter().map(|s| Shape { id: s.id + next_id, group: s.group.map(|g| g + next_group), ..s.clone() }));
+    let layers = layers.iter().enumerate().map(|(i, l)| MillLayer { enabled: l.enabled && (l.side == Side::Bottom || b.shapes.iter().any(|s| s.layer == i)), ..l.clone() }).collect();
+    (Scene::from_parts(shapes, next_id + b_next, next_group + b_group), layers)
+}
+
 /// The toolpaths as `generate` makes them, with what the program asks of the job (`JobOptions`).
+#[cfg(test)]
 pub fn generate_with(scene: &Scene, layers: &[MillLayer], tools: &Library, dev: &Device, stock: &Stock, opts: JobOptions) -> Program {
+    generate_sides(scene, None, layers, tools, dev, stock, opts)
+}
+
+/// The toolpaths of side A (`scene`) or, for `JobOptions::side` Bottom, of side B: `side_b` is the second work area of a two-sided
+/// project, cut as it is drawn.
+pub fn generate_sides(scene: &Scene, side_b: Option<&Scene>, layers: &[MillLayer], tools: &Library, dev: &Device, stock: &Stock, opts: JobOptions) -> Program {
+    if let (crate::layers::Side::Bottom, Some(b)) = (opts.side, side_b) {
+        let (sided, sided_layers) = bottom_with_side_b(scene, b, layers, dev, stock);
+        let mut prog = generate_side(&sided, &sided_layers, tools, dev, stock, opts);
+        prog.notes.insert(0, Note { at: 0, text: format!("Side B: the material is turned over {}", if stock.flip == crate::materials::FlipAxis::SideToSide { "side to side" } else { "end to end" }), before_layer: true });
+        return prog;
+    }
     let two_sided = opts.side == crate::layers::Side::Bottom || layers.iter().any(|l| l.side == crate::layers::Side::Bottom);
     if two_sided {
         let (sided, sided_layers) = one_side(scene, layers, dev, stock, opts.side);
@@ -1633,6 +1659,16 @@ mod tests {
         assert!(ys.iter().all(|y| (y - (dev.area.y - 50.0)).abs() < 1e-6), "{ys:?}");
         // A project with only top layers is made as before.
         layers[3].side = Side::Top;
+        // A second work area (side B, File → Project setup…): its shapes are cut as drawn on the bottom, not turned over, and only there.
+        let mut b = Scene::default();
+        b.add(0, Kind::Rect { w: 10.0, h: 10.0 }, Xf::translate(5.0, 5.0));
+        let with_b = generate_sides(&scene, Some(&b), &layers, &lib, &dev, &stock, JobOptions { side: Side::Bottom, ..Default::default() });
+        let top = generate_sides(&scene, Some(&b), &layers, &lib, &dev, &stock, JobOptions::default());
+        assert!(with_b.notes[0].text.starts_with("Side B"));
+        let cut_xs = |p: &Program| p.moves.iter().filter(|m| m.kind == MoveKind::Cut).map(|m| m.to[0]).fold((f64::INFINITY, f64::NEG_INFINITY), |a, x| (a.0.min(x), a.1.max(x)));
+        let (lo, hi) = cut_xs(&with_b);
+        assert!(lo > 0.0 && hi < 20.0, "only the square of side B, where it is drawn: {lo} {hi}");
+        assert_ne!(cut_xs(&top), cut_xs(&with_b), "the top side does not cut side B");
         let one = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions::default());
         assert_eq!(to_gcode(&one, &dev, &layers, &lib, "job"), to_gcode(&generate(&scene, &layers, &lib, &dev, &stock), &dev, &layers, &lib, "job"));
         assert!(!to_gcode(&one, &dev, &layers, &lib, "job").contains("Top side"));

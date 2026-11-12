@@ -75,51 +75,9 @@ pub struct Stock {
     pub round: bool,
 }
 
-/// The line the material is turned over round for its bottom side.
-#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub enum FlipAxis {
-    /// Round the line from the back to the front: left and right change places.
-    #[default]
-    SideToSide,
-    /// Round the line from left to right: the back and the front change places.
-    EndToEnd,
-}
+/// The line the material is turned over round, and the place of the zero: shared with LightCreator (`base_core::setup`).
+pub use base_core::setup::{FlipAxis, ZeroPoint};
 
-impl FlipAxis {
-    pub const ALL: [FlipAxis; 2] = [FlipAxis::SideToSide, FlipAxis::EndToEnd];
-    pub fn label(self) -> &'static str {
-        match self {
-            FlipAxis::SideToSide => "Side to side (left and right change places)",
-            FlipAxis::EndToEnd => "End to end (back and front change places)",
-        }
-    }
-    pub fn is_side_to_side(&self) -> bool {
-        *self == FlipAxis::SideToSide
-    }
-}
-
-/// A place on the piece of material that is the zero of X and Y.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
-pub enum ZeroPoint {
-    FrontLeft,
-    FrontRight,
-    BackLeft,
-    BackRight,
-    Center,
-}
-
-impl ZeroPoint {
-    pub const ALL: [ZeroPoint; 5] = [ZeroPoint::FrontLeft, ZeroPoint::FrontRight, ZeroPoint::BackLeft, ZeroPoint::BackRight, ZeroPoint::Center];
-    pub fn label(self) -> &'static str {
-        match self {
-            ZeroPoint::FrontLeft => "Front left",
-            ZeroPoint::FrontRight => "Front right",
-            ZeroPoint::BackLeft => "Back left",
-            ZeroPoint::BackRight => "Back right",
-            ZeroPoint::Center => "Centre",
-        }
-    }
-}
 
 fn default_first_pass_depth() -> f64 {
     0.1
