@@ -37,6 +37,7 @@ impl App {
     /// Take the settings of a backup (the strings of `settings_pairs`) into the running program.
     pub(crate) fn apply_settings(&mut self, ctx: &egui::Context, m: &BTreeMap<String, String>) {
         let get = |k: &str| m.get(k).map(String::as_str);
+        self.web.restore(&|k| get(k).map(String::from));
         if let Some(l) = get("lang").and_then(Lang::from_code) {
             self.lang = l;
             i18n::set_lang(l);

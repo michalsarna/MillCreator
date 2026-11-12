@@ -35,6 +35,7 @@ mod setup_ui;
 mod drawing_ui;
 mod toolpath;
 mod ugs_import;
+mod web_glue;
 mod update_glue;
 mod view3d;
 mod workspaces;
@@ -364,6 +365,10 @@ struct App {
     close_program: bool,
     /// Draw the no-go zones on the work area (kept between runs).
     zones_visible: bool,
+    /// The web server and API (Program options).
+    web: base_ui::web_api::WebApi,
+    /// When the running job started and how long it was thought to take (for the web page).
+    web_job: Option<(std::time::Instant, f64)>,
     /// The last tab was closed: asking whether to close the program or to go back to the start screen.
     ask_quit: bool,
     allow_close: bool,
@@ -612,6 +617,8 @@ impl App {
             show_options: false,
             check_updates: on("check_updates", true),
             zones_visible: on("zones_visible", true),
+            web: base_ui::web_api::WebApi::from_saved("MillCreator", base_ui::web_api::PORT_MILLCREATOR, &|k| saved(k)),
+            web_job: None,
             update: Default::default(),
             show_program_options: false,
             show_about: false,
@@ -647,6 +654,9 @@ impl App {
             ("side_collapsed", flag(self.tabs.collapsed)),
             ("recent_files", self.recent.iter().map(|p| p.to_string_lossy().into_owned()).collect::<Vec<_>>().join("\n")),
         ]
+        .into_iter()
+        .chain(self.web.settings_pairs())
+        .collect()
     }
 
     fn add_recent(&mut self, p: &std::path::Path) {
@@ -1072,6 +1082,10 @@ impl App {
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                 base_ui::editor::zoom_and_cursor(self, ui);
                 ui.separator();
+                if let Some((word, colour)) = self.web.status_word() {
+                    ui.label(RichText::new(word).color(colour));
+                    ui.separator();
+                }
                 ui.label(RichText::new(&self.device.name).color(theme::text_dim())).on_hover_text(tr("The device of this project"));
                 ui.separator();
                 let (text, color) = if self.machine.connected {
@@ -1326,6 +1340,7 @@ impl App {
     fn draw(&mut self, ui: &mut egui::Ui) {
         let drawn_last = self.drop_idle_camera();
         let ctx = ui.ctx().clone();
+        self.web_tick(&ctx);
         // Before the editor: a key of the control device is not also a key of the editor.
         self.control_devices_frame(&ctx);
         // A recording goes on when no view shows the camera.

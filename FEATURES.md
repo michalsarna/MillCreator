@@ -55,3 +55,5 @@ The list is a plan, not a promise.
 
 * Tool length offsets.
 * Other controllers than GRBL, post-processor settings.
+
+* **Web server and API** (Settings → Program options…, off by default): a page in the browser (also on a phone) with the state of the machine, the job, the camera, the project and STOP / Home / jog buttons, and an API for other programs, at `http://localhost:8766` behind an access phrase (no encryption). The same server as in LightCreator; each program has its own port (8765 LightCreator, 8766 MillCreator, 8767 PenCreator, 8768 BaseCreator).
