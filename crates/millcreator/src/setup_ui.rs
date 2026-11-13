@@ -27,10 +27,12 @@ impl App {
     /// Open the window with what the project has now (or the work area and the thickness when it has nothing yet).
     pub(crate) fn open_setup(&mut self) {
         let s = &self.stock;
+        // Without a material of its own the project takes the whole work area of the machine.
+        let (mx, my) = self.machine_area();
         self.setup = Setup {
             open: true,
-            w: if s.width > 0.0 { s.width } else { self.device.area.x.min(300.0) },
-            h: if s.height > 0.0 { s.height } else { self.device.area.y.min(200.0) },
+            w: if s.width > 0.0 { s.width } else { mx },
+            h: if s.height > 0.0 { s.height } else { my },
             t: s.thickness,
             zero: s.zero.unwrap_or(ZeroPoint::FrontLeft),
             z_bottom: s.z_bottom,
@@ -41,7 +43,7 @@ impl App {
             flip: s.flip,
             // The marks are offered for a project that becomes two-sided; one that is already has them (or not) by now.
             marks: self.two.is_none(),
-            max: (self.device.area.x, self.device.area.y),
+            max: (mx, my),
             ..Setup::default()
         };
         let solid = self.solid();
@@ -77,6 +79,9 @@ impl App {
         if work_area {
             self.device.area.x = w.max(10.0);
             self.device.area.y = h.max(10.0);
+        } else {
+            // The work area of the machine again (a job on more than one side, or the material, may have changed it).
+            (self.device.area.x, self.device.area.y) = self.machine_area();
         }
         self.device.area.z = self.device.area.z.max(t.min(2000.0));
         self.touch_rev();
@@ -132,6 +137,12 @@ impl App {
         self.touch_rev();
         self.ed.view.need_fit = true;
         self.status = trf("Project set up: a cylinder of Ø {} mm and {} mm long on the rotary attachment (switched on), zero at {}", &[&format!("{d:.1}"), &format!("{len:.1}"), &tr(zero.label())]);
+    }
+
+    /// The work area of the machine itself (from the list of devices), whatever a project made of it.
+    pub(crate) fn machine_area(&self) -> (f64, f64) {
+        let a = self.active.and_then(|i| self.devices.get(i)).map_or(self.device.area, |d| d.area);
+        (a.x, a.y)
     }
 
     /// Switch the rotary attachment of the device in use on or off, with the diameter of the workpiece, in the project and in the
@@ -255,6 +266,32 @@ mod tests {
         // A project file from before has no width, height, zero or z_bottom.
         let old: Stock = serde_json::from_str("{\"kind\":\"WoodLight\",\"color\":[1,2,3],\"thickness\":8.0}").unwrap();
         assert_eq!((old.width, old.height, old.zero, old.z_bottom), (0.0, 0.0, None, false));
+    }
+
+    /// A post makes the work area of the project as big as a face; one side again (without "Work area is the material") and a new
+    /// project have the work area of the machine, and the setup of one side starts from it.
+    #[test]
+    fn the_work_area_of_the_machine_comes_back_for_one_side() {
+        let mut a = crate::tests::app();
+        a.devices = vec![a.device.clone()];
+        a.active = Some(0);
+        let (mx, my) = a.machine_area();
+        a.open_setup();
+        assert_eq!((a.setup.w, a.setup.h), (mx, my));
+        a.setup.sides = base_ui::project_setup::Sides::Post;
+        a.setup.post = [60.0, 40.0, 250.0];
+        a.apply_setup();
+        assert_eq!((a.device.area.x, a.device.area.y), (250.0, 60.0));
+        a.open_setup();
+        a.setup.sides = base_ui::project_setup::Sides::One;
+        a.setup.work_area = false;
+        a.apply_setup();
+        assert_eq!((a.device.area.x, a.device.area.y), (mx, my));
+        a.open_setup();
+        a.setup.sides = base_ui::project_setup::Sides::Block;
+        a.apply_setup();
+        a.new_design();
+        assert_eq!((a.device.area.x, a.device.area.y), (mx, my));
     }
 }
 

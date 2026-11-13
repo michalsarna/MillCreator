@@ -171,6 +171,7 @@ impl View3d {
 pub struct Projector {
     right: [f32; 3],
     up: [f32; 3],
+    eye: [f32; 3],
     target: [f32; 3],
     scale: f32,
     centre: Pos2,
@@ -178,9 +179,9 @@ pub struct Projector {
 
 impl Projector {
     pub fn new(v: &View3d, target: P3, radius: f64, area: Rect) -> Projector {
-        let (_, right, up) = v.axes();
+        let (eye, right, up) = v.axes();
         let fit = area.width().min(area.height()) / (2.0 * radius.max(1.0) as f32) * 0.92;
-        Projector { right, up, target: [target[0] as f32, target[1] as f32, target[2] as f32], scale: fit * v.zoom, centre: area.center() + v.pan }
+        Projector { right, up, eye, target: [target[0] as f32, target[1] as f32, target[2] as f32], scale: fit * v.zoom, centre: area.center() + v.pan }
     }
     pub fn project(&self, p: P3) -> Pos2 {
         let d = [p[0] as f32 - self.target[0], p[1] as f32 - self.target[1], p[2] as f32 - self.target[2]];
@@ -266,14 +267,6 @@ impl Surface {
                 }
             }
         }
-    }
-
-    /// A face of `size` with no cuts, on a grid of `step` (as fine as another face's, at most 600 points each way).
-    pub fn plain(key: (u64, usize, [u64; 5]), size: [f64; 2], step: f64) -> Surface {
-        let step = step.max(size[0] / 600.0).max(size[1] / 600.0).max(1e-3);
-        let cols = ((size[0] / step).round() as usize).max(2);
-        let rows = ((size[1] / step).round() as usize).max(2);
-        Surface { key, cols, rows, step, lo: [0.0, 0.0], top: rows as f64 * step, z: vec![0.0; cols * rows], light: vec![1.0; cols * rows] }
     }
 
     /// A face with no cuts on the same grid.
@@ -401,9 +394,6 @@ pub struct FaceView<'a> {
     /// Its size (width, height) and how deep the object is under it.
     pub size: [f64; 2],
     pub depth: f64,
-    /// The face on the other side of the object, and the move from this face's coordinates to that one's (a cut through the
-    /// object from both faces is a hole).
-    pub opposite: Option<(usize, Affine3)>,
     pub letter: char,
 }
 
@@ -411,9 +401,10 @@ pub struct FaceView<'a> {
 pub struct SolidView<'a> {
     pub faces: Vec<FaceView<'a>>,
     pub shown: usize,
-    /// The sides of the object that are not worked on (the ends of a post), in the coordinates of the picture, and its middle.
-    pub caps: Vec<[P3; 4]>,
-    pub centre: P3,
+    /// What the faces were made of (the picture is made again when it changes, or when the view does).
+    pub key: u64,
+    /// The picture of the object that was made last, and its key.
+    pub cache: &'a std::cell::RefCell<Option<(u64, egui::TextureHandle)>>,
 }
 
 /// The bottom of a two-sided project in the view: its program as seen from side A (`toolpath::bottom_seen_from_a`, the depths from
@@ -436,7 +427,7 @@ impl Region {
 }
 
 /// The middle of the picture and the radius of the sphere that holds what is shown, the same for the picture and for the fitting.
-fn framing(sc: &Scene3d) -> (P3, f64) {
+pub(crate) fn framing(sc: &Scene3d) -> (P3, f64) {
     let r = sc.region;
     let [w, h] = r.size();
     let t = sc.stock.thickness;
@@ -608,100 +599,171 @@ fn draw_surface(painter: &egui::Painter, pj: &Projector, s: &Surface, color: [u8
     painter.add(Shape::mesh(mesh));
 }
 
-/// A post or a block: every face that is turned to the eye, carved by its program (or flat), where it lies to the shown face, and
-/// its letter; the far faces first. A point cut through the object from a face and the one on the other side is a hole.
+/// A post or a block, drawn into a picture that is kept while nothing changes: a point of the object is material only when no face
+/// has cut it away, so the cuts of a face take the material of the faces beside it and of the ends (see `solid_picture`).
 fn draw_solid(painter: &egui::Painter, pj: &Projector, sc: &Scene3d, solid: &SolidView, eye: [f32; 3]) {
-    let e = [eye[0] as f64, eye[1] as f64, eye[2] as f64];
-    let hole = background(painter.ctx().global_style().visuals.dark_mode);
-    let light = [-0.35f64, -0.45, 0.82];
-    let surface_of = |i: usize| if i == solid.shown { sc.surface } else { solid.faces.get(i).and_then(|f| f.surface) };
-    let mut order: Vec<(f64, usize)> = vec![];
-    for (i, f) in solid.faces.iter().enumerate() {
-        let n = f.to_view.dir([0.0, 0.0, 1.0]);
-        if n[0] * e[0] + n[1] * e[1] + n[2] * e[2] <= 1e-6 {
-            continue;
-        }
-        let c = f.to_view.apply([f.size[0] / 2.0, f.size[1] / 2.0, 0.0]);
-        order.push((c[0] * e[0] + c[1] * e[1] + c[2] * e[2], i));
+    use std::hash::{Hash, Hasher};
+    let rect = painter.clip_rect();
+    if rect.width() < 2.0 || rect.height() < 2.0 {
+        return;
     }
-    order.sort_by(|a, b| a.0.total_cmp(&b.0));
-    // The ends of a post: plain wood, the one turned to the eye.
-    for cap in &solid.caps {
-        let mid = [(cap[0][0] + cap[2][0]) / 2.0, (cap[0][1] + cap[2][1]) / 2.0, (cap[0][2] + cap[2][2]) / 2.0];
-        let out = [mid[0] - solid.centre[0], mid[1] - solid.centre[1], mid[2] - solid.centre[2]];
-        if out[0] * e[0] + out[1] * e[1] + out[2] * e[2] <= 1e-6 {
-            continue;
-        }
-        let len = (out[0] * out[0] + out[1] * out[1] + out[2] * out[2]).sqrt().max(1e-9);
-        let lit = (0.5 + 0.35 * ((out[0] * light[0] + out[1] * light[1] + out[2] * light[2]) / len).max(0.0)) as f32;
-        let pts: Vec<Pos2> = cap.iter().map(|q| pj.project(*q)).collect();
-        painter.add(Shape::convex_polygon(pts, shade(sc.stock.color, lit), Stroke::new(1.0, shade(sc.stock.color, lit * 0.6))));
+    // As sharp as the screen, but not more than about 2.5 million pixels.
+    let ppp = painter.ctx().pixels_per_point();
+    let s = ppp.min((1_500_000.0 / (rect.width() * rect.height())).sqrt()).max(0.25);
+    let (iw, ih) = ((rect.width() * s).round() as usize, (rect.height() * s).round() as usize);
+    let mut h = std::collections::hash_map::DefaultHasher::new();
+    solid.key.hash(&mut h);
+    sc.surface.map(|x| x.key).hash(&mut h);
+    for v in pj.right.iter().chain(pj.up.iter()).chain(pj.target.iter()).chain([pj.scale, pj.centre.x, pj.centre.y, rect.min.x, rect.min.y].iter()) {
+        v.to_bits().hash(&mut h);
     }
-    for (_, i) in order {
-        let f = &solid.faces[i];
-        let n = f.to_view.dir([0.0, 0.0, 1.0]);
-        // Each face lit by how it turns to the light, so that the edges of the object show.
-        let lit = (0.6 + 0.4 * (n[0] * light[0] + n[1] * light[1] + n[2] * light[2]).max(0.0)) as f32;
-        let through = f.opposite.and_then(|(k, m)| surface_of(k).map(|s| (s, m)));
-        let carved;
-        let s = match (surface_of(i), through) {
-            (Some(s), _) => Some(s),
-            // Not cut, but the face on the other side is: drawn flat on that grid so that what goes through shows.
-            (None, Some((o, _))) => {
-                carved = Surface::plain(o.key, f.size, o.step);
-                Some(&carved)
+    (iw, ih, sc.stock.color).hash(&mut h);
+    let key = h.finish();
+    let mut cache = solid.cache.borrow_mut();
+    if cache.as_ref().map(|(k, _)| *k) != Some(key) {
+        let img = solid_picture(pj, sc, solid, rect, s, iw, ih);
+        match cache.as_mut() {
+            Some((k, tex)) => {
+                tex.set(img, egui::TextureOptions::LINEAR);
+                *k = key;
             }
-            (None, None) => None,
-        };
-        match s {
-            Some(s) => {
-                let eye_local = f.to_view.dir_back(e);
-                draw_face_surface(painter, pj, s, sc.stock.color, eye_local, &f.to_view, through, f.depth, hole, lit);
-            }
-            None => {
-                let pts: Vec<Pos2> = [[0.0, 0.0], [f.size[0], 0.0], [f.size[0], f.size[1]], [0.0, f.size[1]]].iter().map(|q| pj.project(f.to_view.apply([q[0], q[1], 0.0]))).collect();
-                painter.add(Shape::convex_polygon(pts, shade(sc.stock.color, lit), Stroke::new(1.0, shade(sc.stock.color, lit * 0.6))));
-            }
+            None => *cache = Some((key, painter.ctx().load_texture("mill_solid_view", img, egui::TextureOptions::LINEAR))),
         }
-        // The letter of the face in its middle, faint.
-        let mid = pj.project(f.to_view.apply([f.size[0] / 2.0, f.size[1] / 2.0, 0.0]));
-        painter.text(mid, egui::Align2::CENTER_CENTER, f.letter, egui::FontId::proportional(18.0), shade(sc.stock.color, 0.45).gamma_multiply(0.7));
+    }
+    if let Some((_, tex)) = cache.as_ref() {
+        painter.image(tex.id(), rect, egui::Rect::from_min_max(Pos2::ZERO, Pos2::new(1.0, 1.0)), Color32::WHITE);
+    }
+    // The letters of the faces turned to the eye, faint, in their middle.
+    for f in &solid.faces {
+        let n = f.to_view.dir([0.0, 0.0, 1.0]);
+        if n[0] * eye[0] as f64 + n[1] * eye[1] as f64 + n[2] * eye[2] as f64 > 0.2 {
+            let mid = pj.project(f.to_view.apply([f.size[0] / 2.0, f.size[1] / 2.0, 0.0]));
+            painter.text(mid, egui::Align2::CENTER_CENTER, f.letter, egui::FontId::proportional(18.0), shade(sc.stock.color, 0.45).gamma_multiply(0.7));
+        }
     }
 }
 
-/// A carved face of a post or a block, moved into the picture by `to_view`; `eye_local` is the eye in its own coordinates (the far
-/// cells first, as `draw_surface` does). `through`: the face on the other side and the move to its coordinates; `t` how deep the
-/// object is; `lit` how light the face is.
-#[allow(clippy::too_many_arguments)]
-fn draw_face_surface(painter: &egui::Painter, pj: &Projector, s: &Surface, color: [u8; 3], eye_local: [f64; 3], to_view: &Affine3, through: Option<(&Surface, Affine3)>, t: f64, hole: Color32, lit: f32) {
-    let x_of = |c: usize| s.lo[0] + (c as f64 + 0.5) * s.step;
-    let y_of = |r: usize| s.top - (r as f64 + 0.5) * s.step;
-    let mut mesh = egui::epaint::Mesh::default();
-    mesh.vertices.reserve(s.cols * s.rows);
-    for r in 0..s.rows {
-        for c in 0..s.cols {
-            let i = r * s.cols + c;
-            let (x, y) = (x_of(c), y_of(r));
-            let other = through.map_or(0.0, |(o, m)| {
-                let q = m.apply([x, y, 0.0]);
-                o.depth_at(q[0], q[1])
-            });
-            let open = -s.z[i] + other >= t - 0.01;
-            let p = to_view.apply([x, y, s.z[i]]);
-            mesh.colored_vertex(pj.project(p), if open { hole } else { shade(color, s.light[i] * lit) });
+/// The picture of the object (see `draw_solid`): `iw` × `ih` pixels over `rect`, `s` pixels a point. Every pixel is a ray into the
+/// object (the view is parallel): the first point of it that no face has cut away is what is seen there. A ray through a cut that
+/// goes through the object sees what is behind it, or nothing.
+pub(crate) fn solid_picture(pj: &Projector, sc: &Scene3d, solid: &SolidView, rect: Rect, s: f32, iw: usize, ih: usize) -> egui::ColorImage {
+    let surfaces: Vec<Option<&Surface>> = (0..solid.faces.len()).map(|i| if i == solid.shown { sc.surface } else { solid.faces[i].surface }).collect();
+    let deepest: Vec<f64> = surfaces.iter().map(|x| x.map_or(0.0, |s| s.z.iter().fold(0.0f64, |m, z| m.max(-z)))).collect();
+    let step = surfaces.iter().flatten().map(|x| x.step).fold(f64::INFINITY, f64::min);
+    let step = if step.is_finite() { step * 0.5 } else { 1.0 };
+    // The object in the coordinates of the picture: the block of the shown face.
+    let shown = &solid.faces[solid.shown];
+    let (lo, hi) = ([0.0, 0.0, -shown.depth], [shown.size[0], shown.size[1], 0.0]);
+    let f3 = |v: [f32; 3]| [v[0] as f64, v[1] as f64, v[2] as f64];
+    let (right, up, eye) = (f3(pj.right), f3(pj.up), f3(pj.eye));
+    let target = f3(pj.target);
+    let dir = [-eye[0], -eye[1], -eye[2]];
+    // Which face (if any) has cut the point away.
+    let cutter = |p: P3| -> Option<usize> {
+        for (g, f) in solid.faces.iter().enumerate() {
+            let Some(sg) = surfaces[g] else { continue };
+            let q = f.to_view.dir_back([p[0] - f.to_view.t[0], p[1] - f.to_view.t[1], p[2] - f.to_view.t[2]]);
+            let under = -q[2];
+            if under > deepest[g] + 0.02 || q[0] < 0.0 || q[1] < 0.0 || q[0] > f.size[0] || q[1] > f.size[1] {
+                continue;
+            }
+            // A cut the whole depth of the object takes it all, to the far side.
+            let cut = sg.depth_at(q[0], q[1]);
+            if under < cut || cut >= f.depth - 0.01 {
+                return Some(g);
+            }
+        }
+        None
+    };
+    let light = {
+        let l = [-0.35f64, -0.45, 0.82];
+        let n = (l[0] * l[0] + l[1] * l[1] + l[2] * l[2]).sqrt();
+        [l[0] / n, l[1] / n, l[2] / n]
+    };
+    let colour = sc.stock.color;
+    let shade_of = |n: P3, deep: f64| {
+        let len = (n[0] * n[0] + n[1] * n[1] + n[2] * n[2]).sqrt().max(1e-12);
+        let lit = 0.4 + 0.6 * ((n[0] * light[0] + n[1] * light[1] + n[2] * light[2]) / len).max(0.0);
+        shade(colour, (lit * (1.0 - 0.25 * deep.clamp(0.0, 1.0))) as f32)
+    };
+    let mut px = vec![Color32::TRANSPARENT; iw * ih];
+    for j in 0..ih {
+        for i in 0..iw {
+            // The point of the pixel on the plane through the middle of the picture, and the ray from it away from the eye.
+            let sx = (rect.min.x + (i as f32 + 0.5) / s - pj.centre.x) as f64 / pj.scale as f64;
+            let sy = -((rect.min.y + (j as f32 + 0.5) / s - pj.centre.y) as f64) / pj.scale as f64;
+            let o = [target[0] + right[0] * sx + up[0] * sy, target[1] + right[1] * sx + up[1] * sy, target[2] + right[2] * sx + up[2] * sy];
+            // Where the ray is in the block.
+            let (mut t0, mut t1, mut axis) = (f64::NEG_INFINITY, f64::INFINITY, 0usize);
+            let mut hit_box = true;
+            for k in 0..3 {
+                if dir[k].abs() < 1e-12 {
+                    if o[k] < lo[k] || o[k] > hi[k] {
+                        hit_box = false;
+                    }
+                    continue;
+                }
+                let (a, b) = ((lo[k] - o[k]) / dir[k], (hi[k] - o[k]) / dir[k]);
+                let (a, b) = if a < b { (a, b) } else { (b, a) };
+                if a > t0 {
+                    t0 = a;
+                    axis = k;
+                }
+                t1 = t1.min(b);
+            }
+            if !hit_box || t0 > t1 {
+                continue;
+            }
+            let at = |t: f64| [o[0] + dir[0] * t, o[1] + dir[1] * t, o[2] + dir[2] * t];
+            let first = at(t0 + 1e-6);
+            let Some(mut by) = cutter(first) else {
+                // The side of the block itself.
+                let mut n = [0.0; 3];
+                n[axis] = -dir[axis].signum();
+                px[j * iw + i] = shade_of(n, 0.0);
+                continue;
+            };
+            // Through the air of the cuts until the material.
+            let mut t = t0;
+            let mut found = None;
+            while t < t1 {
+                let next = (t + step).min(t1);
+                match cutter(at(next)) {
+                    Some(g) => by = g,
+                    None => {
+                        // Closer to the surface between the last point in the air and the first in the material.
+                        let (mut a, mut b) = (t, next);
+                        for _ in 0..5 {
+                            let m = (a + b) / 2.0;
+                            match cutter(at(m)) {
+                                Some(g) => {
+                                    by = g;
+                                    a = m;
+                                }
+                                None => b = m,
+                            }
+                        }
+                        found = Some(b);
+                        break;
+                    }
+                }
+                t = next;
+            }
+            let Some(th) = found else { continue };
+            // The surface of the face that cut the air there: its slope, turned into the picture.
+            let f = &solid.faces[by];
+            let sg = surfaces[by].expect("a face that cuts has a surface");
+            let p = at(th);
+            let q = f.to_view.dir_back([p[0] - f.to_view.t[0], p[1] - f.to_view.t[1], p[2] - f.to_view.t[2]]);
+            let e = sg.step;
+            let d = |x: f64, y: f64| sg.depth_at(x, y);
+            let dzdx = -(d(q[0] + e, q[1]) - d(q[0] - e, q[1])) / (2.0 * e);
+            let dzdy = -(d(q[0], q[1] + e) - d(q[0], q[1] - e)) / (2.0 * e);
+            let n = f.to_view.dir([-dzdx, -dzdy, 1.0]);
+            px[j * iw + i] = shade_of(n, -q[2] / f.depth.max(0.1));
         }
     }
-    let cs: Vec<usize> = if eye_local[0] > 0.0 { (0..s.cols - 1).collect() } else { (0..s.cols - 1).rev().collect() };
-    let rs: Vec<usize> = if eye_local[1] > 0.0 { (0..s.rows - 1).rev().collect() } else { (0..s.rows - 1).collect() };
-    let w = s.cols as u32;
-    for r in rs {
-        for c in cs.iter().copied() {
-            let i = (r * s.cols + c) as u32;
-            mesh.add_triangle(i, i + 1, i + w);
-            mesh.add_triangle(i + 1, i + w + 1, i + w);
-        }
-    }
-    painter.add(Shape::mesh(mesh));
+    egui::ColorImage::new([iw, ih], px)
 }
 
 /// A cylinder that has not been cut: the same grid as a carved surface, all at the top.
