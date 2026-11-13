@@ -555,3 +555,7 @@
 554	The rotary attachment of the device is off.
 555	Pick the zero of the program
 556	Operation of the active layer
+557	Toolpath
+558	Entry and lead
+559	Tabs / bridges
+560	Feeds and speeds

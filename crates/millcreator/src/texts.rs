@@ -346,7 +346,7 @@ const TABLE: &[[&str; 7]] = &[
     ["Conventional", "Przeciwbieżne", "Gegenlauf", "Discorde", "Vastajyrsintä", "逆铣", "पारंपरिक"],
     ["Stock to leave", "Naddatek", "Aufmaß", "Sovrametallo", "Työvara", "预留余量", "छोड़ने की सामग्री"],
     ["Finishing pass", "Przejście wykańczające", "Schlichtdurchgang", "Passata di finitura", "Viimeistelykierros", "精加工走刀", "फिनिशिंग पास"],
-    ["Entry", "Wejście", "Einstieg", "Ingresso", "Sisäänmeno", "进刀方式", "प्रवेश"],
+    ["Entry", "Wejście w materiał", "Einstieg", "Ingresso", "Sisäänmeno", "进刀方式", "प्रवेश"],
     ["Plunge", "Wbicie", "Eintauchen", "Tuffo", "Upotus", "直插", "प्लंज"],
     ["Zigzag ramp", "Rampa zygzakiem", "Zickzack-Rampe", "Rampa a zigzag", "Siksak-ramppi", "锯齿斜坡", "ज़िगज़ैग रैंप"],
     ["Ramp along the contour", "Rampa po konturze", "Rampe entlang der Kontur", "Rampa lungo il contorno", "Ramppi ääriviivaa pitkin", "沿轮廓斜坡", "आकृति के साथ रैंप"],
@@ -600,6 +600,10 @@ const TABLE: &[[&str; 7]] = &[
     ["The rotary attachment of the device is off.", "Obrotnica urządzenia jest wyłączona.", "Die Drehachse des Geräts ist aus.", "L'asse rotante del dispositivo è disattivato.", "Laitteen pyörityslaite on pois päältä.", "设备的旋转轴已关闭。", "डिवाइस का रोटरी अटैचमेंट बंद है।"],
     ["Pick the zero of the program", "Wskaż zero programu", "Nullpunkt des Programms wählen", "Scegli lo zero del programma", "Valitse ohjelman nollapiste", "选取程序零点", "प्रोग्राम का शून्य चुनें"],
     ["Operation of the active layer", "Operacja aktywnej warstwy", "Bearbeitung der aktiven Ebene", "Operazione del livello attivo", "Aktiivisen tason työstö", "当前图层的操作", "सक्रिय लेयर का ऑपरेशन"],
+    ["Toolpath", "Ścieżka narzędzia", "Werkzeugweg", "Percorso utensile", "Työkalurata", "刀具路径", "टूलपाथ"],
+    ["Entry and lead", "Wejście i dojazd", "Einstieg und Anfahrt", "Ingresso e attacco", "Sisäänmeno ja lähestyminen", "进刀与引入", "प्रवेश और लीड"],
+    ["Tabs / bridges", "Mostki", "Haltestege", "Ponticelli", "Kiinnikkeet", "连接桥", "टैब / ब्रिज"],
+    ["Feeds and speeds", "Posuwy i obroty", "Vorschübe und Drehzahlen", "Avanzamenti e velocità", "Syötöt ja nopeudet", "进给与转速", "फ़ीड और गति"],
 ];
 
 #[cfg(test)]

@@ -555,3 +555,7 @@
 554|Enhetens dreieakse er slått av.
 555|Velg programmets nullpunkt
 556|Bearbeiding av det aktive laget
+557|Verktøybane
+558|Inngang og tilkjøring
+559|Broer
+560|Mating og turtall

@@ -555,3 +555,7 @@
 554|Enhedens drejeakse er slået fra.
 555|Vælg programmets nulpunkt
 556|Bearbejdning af det aktive lag
+557|Værktøjsbane
+558|Indgang og tilkørsel
+559|Broer
+560|Tilspænding og omdrejninger

@@ -555,3 +555,7 @@
 554|Slökkt er á snúningsás tækisins.
 555|Velja núllpunkt forritsins
 556|Aðgerð virka lagsins
+557|Verkfærabraut
+558|Innkoma og aðkoma
+559|Brýr
+560|Færsla og snúningshraði

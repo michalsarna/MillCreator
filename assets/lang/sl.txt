@@ -555,3 +555,7 @@
 554|Vrtljiva os naprave je izklopljena.
 555|Izberi ničlo programa
 556|Operacija aktivne plasti
+557|Pot orodja
+558|Vstop in prihod
+559|Mostički
+560|Podajanja in vrtljaji

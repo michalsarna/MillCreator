@@ -247,6 +247,32 @@ impl Surface {
         }
         Some(Surface { key, cols, rows, step, lo: region.min, top: region.min[1] + rows as f64 * step, z, light })
     }
+
+    /// A face with no cuts on the same grid.
+    pub fn flat(&self) -> Surface {
+        Surface { key: self.key, cols: self.cols, rows: self.rows, step: self.step, lo: self.lo, top: self.top, z: vec![0.0; self.z.len()], light: vec![1.0; self.z.len()] }
+    }
+
+    /// How deep the surface is cut at (x, y) (mm, from its face; 0 off the grid).
+    pub fn depth_at(&self, x: f64, y: f64) -> f64 {
+        let c = ((x - self.lo[0]) / self.step - 0.5).round();
+        let r = ((self.top - y) / self.step - 0.5).round();
+        if c < 0.0 || r < 0.0 || c >= self.cols as f64 || r >= self.rows as f64 {
+            return 0.0;
+        }
+        -self.z[r as usize * self.cols + c as usize]
+    }
+}
+
+/// Is the material cut through at (x, y): the cut of this face (`depth`) and the one of the other face meet (a two-sided project),
+/// or this cut alone goes the whole thickness `t`.
+pub fn cut_through(depth: f64, other: Option<&Surface>, x: f64, y: f64, t: f64) -> bool {
+    depth + other.map_or(0.0, |o| o.depth_at(x, y)) >= t - 0.01
+}
+
+/// The colour behind the model (what is seen through a hole cut through the material).
+pub fn background(dark: bool) -> Color32 {
+    if dark { Color32::from_rgb(0x1c, 0x1e, 0x24) } else { Color32::from_rgb(0xe9, 0xec, 0xf1) }
 }
 
 /// A line of a shape of the drawing, in the coordinates of the program.
@@ -381,7 +407,7 @@ pub fn show(ui: &mut egui::Ui, view: &mut View3d, sc: &Scene3d) {
         fit_to(view, rect, sc, lo, hi);
     }
     let painter = ui.painter_at(rect);
-    painter.rect_filled(rect, 4.0, if ui.visuals().dark_mode { Color32::from_rgb(0x1c, 0x1e, 0x24) } else { Color32::from_rgb(0xe9, 0xec, 0xf1) });
+    painter.rect_filled(rect, 4.0, background(ui.visuals().dark_mode));
     draw(&painter, rect, view, sc);
     // The navigation cube (the plan from above cannot be turned).
     if !view.top {
@@ -455,16 +481,26 @@ pub fn fit_to(view: &mut View3d, rect: Rect, sc: &Scene3d, lo: [f64; 2], hi: [f6
 
 /// The surface as a mesh of triangles, the far ones first (a height field is drawn correctly from any side that way).
 /// `under`: the surface of the bottom face of a block of that thickness (its depths count up from the bottom).
-fn draw_surface(painter: &egui::Painter, pj: &Projector, s: &Surface, color: [u8; 3], eye: [f32; 3], under: Option<f64>) {
+/// Where the material is cut through (`cut_through` with the cuts of the other face, `other`, and the thickness `t`) the cell is a
+/// hole: the background is seen through it.
+fn draw_surface(painter: &egui::Painter, pj: &Projector, s: &Surface, color: [u8; 3], eye: [f32; 3], under: Option<f64>, through: (Option<&Surface>, f64, Color32)) {
     let at = |c: usize, r: usize| {
         let z = s.z[r * s.cols + c];
         [s.lo[0] + (c as f64 + 0.5) * s.step, s.top - (r as f64 + 0.5) * s.step, under.map_or(z, |t| -t - z)]
     };
+    let (other, t, hole) = through;
+    let open: Vec<bool> = (0..s.rows * s.cols).map(|i| {
+        let (r, c) = (i / s.cols, i % s.cols);
+        cut_through(-s.z[i], other, s.lo[0] + (c as f64 + 0.5) * s.step, s.top - (r as f64 + 0.5) * s.step, t)
+    }).collect();
     let mut mesh = egui::epaint::Mesh::default();
     mesh.vertices.reserve(s.cols * s.rows);
     for r in 0..s.rows {
         for c in 0..s.cols {
-            mesh.colored_vertex(pj.project(at(c, r)), shade(color, s.light[r * s.cols + c]));
+            // A point where the material is cut through has the colour of the background; a narrow slot through the material (a
+            // few points of the grid wide) shows as a dark line.
+            let i = r * s.cols + c;
+            mesh.colored_vertex(pj.project(at(c, r)), if open[i] { hole } else { shade(color, s.light[i]) });
         }
     }
     // The far side first: the columns and rows are walked from the side the eye is not on.
@@ -583,12 +619,34 @@ pub fn draw(painter: &egui::Painter, rect: Rect, view: &View3d, sc: &Scene3d) {
         }
         // The cuts made so far, carved into the top of the stock (the whole top when nothing is cut yet); in a two-sided project
         // the bottom face carved by side B, seen when the block is turned to show its underside.
+        let hole = background(painter.ctx().global_style().visuals.dark_mode);
+        let bottom_surface = sc.bottom.as_ref().and_then(|b| b.surface);
+        // A face that is not cut is drawn flat when the other face has cuts, so that those that go through show on it too.
+        let flat;
         if eye[2] >= 0.0 || sc.bottom.is_none() {
-            if let Some(s) = sc.surface {
-                draw_surface(painter, &pj, s, sc.stock.color, eye, None);
+            let top = match (sc.surface, bottom_surface) {
+                (Some(s), _) => Some(s),
+                (None, Some(b)) => {
+                    flat = b.flat();
+                    Some(&flat)
+                }
+                (None, None) => None,
+            };
+            if let Some(s) = top {
+                draw_surface(painter, &pj, s, sc.stock.color, eye, None, (bottom_surface, t, hole));
             }
-        } else if let Some(s) = sc.bottom.as_ref().and_then(|b| b.surface) {
-            draw_surface(painter, &pj, s, sc.stock.color, eye, Some(t));
+        } else {
+            let under = match (bottom_surface, sc.surface) {
+                (Some(s), _) => Some(s),
+                (None, Some(a)) => {
+                    flat = a.flat();
+                    Some(&flat)
+                }
+                (None, None) => None,
+            };
+            if let Some(s) = under {
+                draw_surface(painter, &pj, s, sc.stock.color, eye, Some(t), (sc.surface, t, hole));
+            }
         }
     }
     // The side that plays goes as far as the slider; the other one is shown done.
@@ -693,7 +751,7 @@ pub fn draw(painter: &egui::Painter, rect: Rect, view: &View3d, sc: &Scene3d) {
         }
     }
     if view.show_dims {
-        let st = base_ui::dims::DimStyle::on(if painter.ctx().global_style().visuals.dark_mode { Color32::from_rgb(0x1c, 0x1e, 0x24) } else { Color32::from_rgb(0xe9, 0xec, 0xf1) }).in_units(sc.units, sc.dev.units);
+        let st = base_ui::dims::DimStyle::on(background(painter.ctx().global_style().visuals.dark_mode)).in_units(sc.units, sc.dev.units);
         if view.top {
             let to = |p: base_core::geom::Pt| place([p.x, p.y, 0.0]);
             base_ui::dims::drawing(painter, &to, sc.parts, Some(base_core::geom::Pt::new(0.0, 0.0)), &st);
@@ -973,5 +1031,35 @@ mod tests {
         }
         assert!(counts.iter().all(|n| *n > 0), "{counts:?}");
         assert!(view.zoom > 0.2 && view.zoom.is_finite());
+    }
+}
+#[cfg(test)]
+mod through_tests {
+    /// A cut the whole thickness goes through; so do two cuts from both faces that meet; a shallower one does not.
+    #[test]
+    fn a_cut_through_the_material_is_a_hole_and_so_are_two_that_meet() {
+        use crate::toolpath::generate;
+        use base_core::geom::Xf;
+        use base_core::scene::{Kind, Scene};
+        let lib = crate::tools::Library::new();
+        let dev = crate::device::Device::dummy();
+        let mut stock = crate::materials::Stock::default();
+        stock.thickness = 10.0;
+        let mut layers = crate::layers::default_layers(&lib);
+        layers[2].depth = 6.0;
+        let mut scene = Scene::default();
+        scene.add(2, Kind::Rect { w: 30.0, h: 30.0 }, Xf::translate(20.0, 20.0));
+        let prog = generate(&scene, &layers, &lib, &dev, &stock);
+        let region = super::Region::of(&prog, None).unwrap();
+        let tool_of = |l: usize| layers.get(l).and_then(|l| l.tool.as_deref()).and_then(|id| lib.get(id)).cloned();
+        let s = super::Surface::of((0, 0, [0; 5]), &prog.moves, tool_of, region, 10.0).unwrap();
+        // The middle of the pocket, in the coordinates of the program (Y up from the bottom of the work area).
+        let (x, y) = (35.0, dev.area.y - 35.0);
+        assert!((s.depth_at(x, y) - 6.0).abs() < 1e-6, "{}", s.depth_at(x, y));
+        assert!(!super::cut_through(s.depth_at(x, y), None, x, y, 10.0), "6 of 10 mm");
+        assert!(super::cut_through(s.depth_at(x, y), Some(&s), x, y, 10.0), "6 from each face meet");
+        assert!(super::cut_through(10.0, None, x, y, 10.0), "the whole thickness");
+        assert_eq!(s.depth_at(-1000.0, 0.0), 0.0, "off the grid");
+        assert!(s.flat().z.iter().all(|z| *z == 0.0));
     }
 }

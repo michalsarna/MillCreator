@@ -154,6 +154,11 @@ impl App {
 
     /// Ask where to write the G-code and write it.
     pub(crate) fn export_gcode(&mut self) {
+        if self.two.is_some() && !self.selection_only {
+            // A two-sided project: asked first whether in one file or in two (`export_sides`).
+            self.sides_save.open = true;
+            return;
+        }
         let name = self.gcode_name();
         let Some((text, prog)) = self.gcode_text(&name) else { return };
         let Some(p) = rfd::FileDialog::new().add_filter("G-code", &["nc", "gcode", "ngc"]).set_file_name(format!("{name}.nc")).save_file() else { return };

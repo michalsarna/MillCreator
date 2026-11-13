@@ -164,6 +164,9 @@ impl App {
                     ui.label(tr("Depth"));
                     changed |= drag_len(ui, units, &mut l.depth, 0.1, Some((0.0, 1000.0))).changed();
                     ui.end_row();
+                    // The side of a layer is from projects made before two-sided jobs had sides A and B (File → Project setup…):
+                    // it is shown only on such a layer, to put it back on the top.
+                    if l.side == crate::layers::Side::Bottom {
                     ui.label(tr("Side"));
                     egui::ComboBox::from_id_salt("layer_side").selected_text(tr(l.side.label())).width(200.0).show_ui(ui, |ui| {
                         for s in crate::layers::Side::ALL {
@@ -173,12 +176,18 @@ impl App {
                     .response
                     .on_hover_text(tr("The bottom side is cut after the material is turned over: draw it as seen from the top, through the material."));
                     ui.end_row();
+                    }
                     ui.label(tr("Pass depth"));
                     changed |= drag_len(ui, units, &mut l.step_down, 0.05, Some((0.0, 1000.0))).changed();
                     if l.step_down <= 0.0 {
                         ui.label(RichText::new(tr("0 = full depth in one pass")).small().color(theme::text_dim()));
                     }
                     ui.end_row();
+                });
+                // The settings in sections, as in the other programs: what the bit does, how it goes in, the tabs, and the feeds.
+                ui.separator();
+                egui::CollapsingHeader::new(tr("Toolpath")).id_salt("layer_sec_path").default_open(true).show(ui, |ui| {
+                egui::Grid::new("layer_grid_path").num_columns(2).spacing([10.0, 6.0]).show(ui, |ui| {
                     if matches!(l.op, Operation::Pocket | Operation::Picture | Operation::Face) {
                         ui.label(tr("Step over"));
                         changed |= ui.add(egui::DragValue::new(&mut l.step_over_pct).range(1.0..=100.0).suffix(" %")).changed();
@@ -388,17 +397,13 @@ impl App {
                         });
                         ui.end_row();
                     }
-                    ui.label(tr("Coolant"));
-                    ui.horizontal(|ui| {
-                        egui::ComboBox::from_id_salt("layer_coolant").selected_text(tr(l.coolant.label())).width(100.0).show_ui(ui, |ui| {
-                            for k in Coolant::ALL {
-                                changed |= ui.selectable_value(&mut l.coolant, k, tr(k.label())).changed();
-                            }
-                        });
-                        changed |= ui.checkbox(&mut l.dust, tr("Dust collector")).on_hover_text(tr("Switches the dust collector on with the device's own lines (Device settings, G-code)")).changed();
-                    });
-                    ui.end_row();
-                    if !matches!(l.op, Operation::Drill | Operation::ThreadMill) {
+                });
+                });
+                if !matches!(l.op, Operation::Drill | Operation::ThreadMill) {
+                ui.separator();
+                egui::CollapsingHeader::new(tr("Entry and lead")).id_salt("layer_sec_entry").default_open(true).show(ui, |ui| {
+                egui::Grid::new("layer_grid_entry").num_columns(2).spacing([10.0, 6.0]).show(ui, |ui| {
+                    {
                         ui.label(tr("Entry"));
                         egui::ComboBox::from_id_salt("layer_entry").selected_text(tr(l.entry.label())).width(200.0).show_ui(ui, |ui| {
                             for e in Entry::ALL {
@@ -418,7 +423,14 @@ impl App {
                     if matches!(l.op, Operation::ProfileOutside | Operation::ProfileInside) {
                         changed |= base_ui::lead_ui::rows(ui, units, &mut l.lead);
                     }
-                    if matches!(l.op, Operation::ProfileOutside | Operation::ProfileInside | Operation::OnPath) {
+                });
+                });
+                }
+                if matches!(l.op, Operation::ProfileOutside | Operation::ProfileInside | Operation::OnPath) {
+                ui.separator();
+                egui::CollapsingHeader::new(tr("Tabs / bridges")).id_salt("layer_sec_tabs").default_open(true).show(ui, |ui| {
+                egui::Grid::new("layer_grid_tabs").num_columns(2).spacing([10.0, 6.0]).show(ui, |ui| {
+                    {
                         ui.label(tr("Tabs"));
                         changed |= ui.checkbox(&mut l.tabs.enabled, "").changed();
                         ui.end_row();
@@ -467,6 +479,12 @@ impl App {
                             ui.end_row();
                         }
                     }
+                });
+                });
+                }
+                ui.separator();
+                egui::CollapsingHeader::new(tr("Feeds and speeds")).id_salt("layer_sec_feeds").default_open(true).show(ui, |ui| {
+                egui::Grid::new("layer_grid_feeds").num_columns(2).spacing([10.0, 6.0]).show(ui, |ui| {
                     ui.label(tr("Feed"));
                     changed |= ui.add(egui::DragValue::new(&mut l.feed).range(1.0..=100000.0).suffix(" mm/min")).changed();
                     ui.end_row();
@@ -479,7 +497,19 @@ impl App {
                     // Vc and the feed per tooth, from the bit of the layer.
                     let (diameter, flutes) = l.tool.as_deref().and_then(|id| self.tools.get(id)).map_or((0.0, 0), |t| (t.dims.diameter, t.cutting.flutes));
                     changed |= crate::cutting_calc::rows(ui, true, diameter, flutes, &mut l.rpm, &mut l.feed, &mut l.plunge);
+                    ui.label(tr("Coolant"));
+                    ui.horizontal(|ui| {
+                        egui::ComboBox::from_id_salt("layer_coolant").selected_text(tr(l.coolant.label())).width(100.0).show_ui(ui, |ui| {
+                            for k in Coolant::ALL {
+                                changed |= ui.selectable_value(&mut l.coolant, k, tr(k.label())).changed();
+                            }
+                        });
+                        changed |= ui.checkbox(&mut l.dust, tr("Dust collector")).on_hover_text(tr("Switches the dust collector on with the device's own lines (Device settings, G-code)")).changed();
+                    });
+                    ui.end_row();
                 });
+                });
+                ui.separator();
                 ui.add_space(4.0);
                 ui.label(RichText::new(tr(l.op.hint())).color(theme::text_dim()));
                 ui.add_space(6.0);

@@ -555,3 +555,7 @@
 554|Įrenginio sukimo ašis išjungta.
 555|Pasirinkti programos nulį
 556|Aktyvaus sluoksnio operacija
+557|Įrankio trajektorija
+558|Įėjimas ir priartėjimas
+559|Tilteliai
+560|Pastūmos ir apsukos

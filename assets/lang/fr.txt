@@ -555,3 +555,7 @@
 554|L'axe rotatif de l'appareil est désactivé.
 555|Choisir le zéro du programme
 556|Opération du calque actif
+557|Trajectoire d'outil
+558|Entrée et approche
+559|Attaches
+560|Avances et vitesses

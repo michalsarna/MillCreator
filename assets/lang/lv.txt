@@ -555,3 +555,7 @@
 554|Ierīces rotācijas ass ir izslēgta.
 555|Izvēlēties programmas nulli
 556|Aktīvā slāņa darbība
+557|Instrumenta trajektorija
+558|Ieeja un pieeja
+559|Tiltiņi
+560|Padeves un apgriezieni
