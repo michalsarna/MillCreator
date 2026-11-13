@@ -555,3 +555,7 @@
 554|El eje rotativo del dispositivo está desactivado.
 555|Elegir el cero del programa
 556|Operación de la capa activa
+557|Trayectoria de herramienta
+558|Entrada y aproximación
+559|Puentes
+560|Avances y velocidades

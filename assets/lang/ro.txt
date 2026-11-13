@@ -555,3 +555,7 @@
 554|Axa rotativă a dispozitivului este oprită.
 555|Alege zeroul programului
 556|Operația stratului activ
+557|Traiectoria sculei
+558|Intrare și apropiere
+559|Punți
+560|Avansuri și turații

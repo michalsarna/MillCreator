@@ -555,3 +555,7 @@
 554|Az eszköz forgótengelye ki van kapcsolva.
 555|A program nullpontjának kijelölése
 556|Az aktív réteg művelete
+557|Szerszámpálya
+558|Belépés és rávezetés
+559|Hidak
+560|Előtolások és fordulatszámok

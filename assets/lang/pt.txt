@@ -555,3 +555,7 @@
 554|O eixo rotativo do dispositivo está desligado.
 555|Escolher o zero do programa
 556|Operação da camada ativa
+557|Trajetória da ferramenta
+558|Entrada e aproximação
+559|Pontes
+560|Avanços e velocidades

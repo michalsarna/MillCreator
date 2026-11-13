@@ -57,6 +57,7 @@ impl App {
         two.shown_b = b;
         self.side = if b { Side::Bottom } else { Side::Top };
         self.ed.sel.clear();
+        self.ed.ghost_sel.clear();
         self.ed.node_sel.clear();
         self.reset_picture_layers();
         self.touch_rev();
@@ -124,12 +125,95 @@ impl App {
         }
     }
 
+    /// The ghosts of the other side as they lie under the shown one (turned over), while they are shown.
+    pub(crate) fn ghosts(&self) -> Vec<base_core::scene::Shape> {
+        match &self.two {
+            Some(t) if t.ghosts => {
+                let (w, h) = self.sides_size();
+                setup::turned(&t.other, t.flip, w, h)
+            }
+            _ => vec![],
+        }
+    }
+
+    /// The question of Save G-code in a two-sided project, and the saving when it is answered.
+    pub(crate) fn sides_save_window(&mut self, ctx: &egui::Context) {
+        let Some(flip) = self.two.as_ref().map(|t| t.flip) else {
+            self.sides_save.open = false;
+            return;
+        };
+        if let Some(c) = base_ui::two_sided::save_window(ctx, &mut self.sides_save, flip) {
+            self.export_sides(c);
+        }
+    }
+
+    /// The programs of side A and side B, each with the name of its side at its head.
+    pub(crate) fn side_programs(&self) -> (crate::toolpath::Program, crate::toolpath::Program) {
+        use crate::toolpath::{generate_sides, JobOptions};
+        let (a, b) = self.sides_scenes();
+        let empty = Scene::default();
+        let b = b.unwrap_or(&empty);
+        let opts = |side| JobOptions { one_by_one: self.one_by_one, side };
+        (generate_sides(a, Some(b), &self.layers, &self.tools, &self.device, &self.stock, opts(Side::Top)), generate_sides(a, Some(b), &self.layers, &self.tools, &self.device, &self.stock, opts(Side::Bottom)))
+    }
+
+    /// Side B after side A in one program, with a stop to turn the material over between them when `hold`.
+    pub(crate) fn sides_in_one(&self, mut a: crate::toolpath::Program, mut b: crate::toolpath::Program, hold: bool) -> crate::toolpath::Program {
+        let flip = self.two.as_ref().map_or(FlipAxis::SideToSide, |t| t.flip);
+        // The name of side B goes in once, where it starts.
+        let note = if b.notes.first().is_some_and(|n| n.at == 0 && n.text.starts_with("Side B")) { b.notes.remove(0).text } else { base_ui::two_sided::side_comment(true, flip) };
+        a.then(b, note, hold.then(|| base_ui::two_sided::hold_comment(flip)));
+        a
+    }
+
+    /// The G-code of both sides of a two-sided project: in one file (side A, a stop to turn the material over or none, side B) or in
+    /// two files named `_A` and `_B`. Each side says at its head which one it is.
+    pub(crate) fn export_sides(&mut self, how: base_ui::two_sided::SaveSides) {
+        use base_ui::i18n::trf;
+        use base_ui::two_sided::{side_paths, SaveSides};
+        if !self.gcode_variables_ok() {
+            return;
+        }
+        let name = self.gcode_name();
+        let (a, b) = self.side_programs();
+        if a.is_empty() && b.is_empty() {
+            self.status = self.nothing_to_cut();
+            return;
+        }
+        let Some(p) = rfd::FileDialog::new().add_filter("G-code", &["nc", "gcode", "ngc"]).set_file_name(format!("{name}.nc")).save_file() else { return };
+        let info = self.gcode_info(&name);
+        let dev = self.device.with_stock(&self.stock);
+        let text = |prog: &crate::toolpath::Program| crate::toolpath::to_gcode_info(prog, &dev, &self.layers, &self.tools, &info);
+        let files: Vec<(std::path::PathBuf, String)> = match how {
+            SaveSides::Separate => {
+                let (pa, pb) = side_paths(&p);
+                vec![(pa, text(&a)), (pb, text(&b))]
+            }
+            SaveSides::OneFile | SaveSides::OneFileWithHold => vec![(p, text(&self.sides_in_one(a, b, how == SaveSides::OneFileWithHold)))],
+        };
+        let mut saved = vec![];
+        for (path, text) in files {
+            let Some(text) = self.postprocessed(text) else { return };
+            if let Err(e) = std::fs::write(&path, text) {
+                self.status = trf("Could not save: {}", &[&e]);
+                return;
+            }
+            saved.push(path);
+        }
+        self.status = trf("Saved {}", &[&saved.iter().map(|p| p.display().to_string()).collect::<Vec<_>>().join(", ")]);
+        if let Some(first) = saved.into_iter().next().filter(|p| self.ed.grid_prefs.gcode_preview_after_save && p.exists()) {
+            self.time_gcode_for_device();
+            if let Err(e) = base_ui::gcode_view_ui::open(&mut self.gcode_view, first) {
+                self.status = e;
+            }
+        }
+    }
+
     /// The ghosts of the other side, under the shapes of the shown one, and the name of the shown side.
     pub(crate) fn paint_sides(&self, v: &base_ui::editor::CanvasView) {
         let Some(t) = &self.two else { return };
         if t.ghosts {
-            let (w, h) = self.sides_size();
-            let ghosts = setup::turned(&t.other, t.flip, w, h);
+            let ghosts = self.ghosts();
             let colour = base_ui::two_sided::ghost_colour(self.ed.grid_prefs.bed_fill(self.scheme.is_dark()));
             base_ui::two_sided::paint_ghosts(v.painter, &|p| base_ui::editor::EditorHost::w2s(self, v.origin, p), &ghosts, colour);
         }
@@ -167,5 +251,51 @@ mod tests {
         assert!(!a.make_one_sided());
         a.scene.shapes.clear();
         assert!(a.make_one_sided() && a.two.is_none() && a.scene.shape(on_a).is_some(), "back on side A");
+    }
+
+    /// Both sides in one file: each says which side it is, the spindle stops with the bit up before the stop that waits for the
+    /// material to be turned over, starts again after it, and the job ends once.
+    #[test]
+    fn both_sides_in_one_file_with_a_stop_between_them() {
+        let mut a = crate::tests::app();
+        a.stock.width = 200.0;
+        a.stock.height = 100.0;
+        a.scene.add(0, Kind::Rect { w: 20.0, h: 20.0 }, Xf::translate(20.0, 20.0));
+        a.make_two_sided(crate::materials::FlipAxis::SideToSide);
+        a.show_side(true);
+        a.scene.add(0, Kind::Rect { w: 20.0, h: 20.0 }, Xf::translate(120.0, 40.0));
+        let (pa, pb) = a.side_programs();
+        assert!(!pa.is_empty() && !pb.is_empty());
+        let dev = a.device.with_stock(&a.stock);
+        let info = a.gcode_info("job");
+        let g = crate::toolpath::to_gcode_info(&a.sides_in_one(pa.clone(), pb.clone(), true), &dev, &a.layers, &a.tools, &info);
+        let at = |t: &str| g.find(t).unwrap_or_else(|| panic!("no {t:?} in\n{g}"));
+        let (side_a, stop, side_b) = (at("(Side A)"), at("M0 (Turn the material over"), at("(Side B:"));
+        assert!(side_a < stop && stop < side_b, "{g}");
+        let last_m5 = g[..stop].rfind("M5").unwrap();
+        assert!(!g[last_m5..stop].contains("G1"), "nothing is cut after the spindle stopped");
+        assert!(g[stop..].contains("M3 S"), "the spindle starts again for side B");
+        assert_eq!(g.matches("M30").count(), 1);
+        // Without the stop; and each side alone says which it is.
+        let g = crate::toolpath::to_gcode_info(&a.sides_in_one(pa.clone(), pb.clone(), false), &dev, &a.layers, &a.tools, &info);
+        assert!(!g.contains("M0 (Turn") && g.contains("(Side B:"));
+        let g = crate::toolpath::to_gcode_info(&pa, &dev, &a.layers, &a.tools, &info);
+        assert!(g.contains("(Side A)") && !g.contains("Side B"));
+    }
+
+    /// The ghosts are the shapes of the other side turned over; they can be picked to align to (base-ui does the rest).
+    #[test]
+    fn the_ghosts_are_the_other_side_turned_over() {
+        let mut a = crate::tests::app();
+        a.stock.width = 200.0;
+        a.stock.height = 100.0;
+        a.scene.add(0, Kind::Rect { w: 10.0, h: 10.0 }, Xf::translate(5.0, 5.0));
+        a.make_two_sided(crate::materials::FlipAxis::SideToSide);
+        a.show_side(true);
+        let g = base_ui::editor::EditorHost::ghost_shapes(&a);
+        let b = g[0].bounds().unwrap();
+        assert!((b.min.x - 185.0).abs() < 1e-9 && (b.max.x - 195.0).abs() < 1e-9, "{b:?}");
+        a.two.as_mut().unwrap().ghosts = false;
+        assert!(base_ui::editor::EditorHost::ghost_shapes(&a).is_empty());
     }
 }

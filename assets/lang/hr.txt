@@ -555,3 +555,7 @@
 554|Rotacijska os uređaja je isključena.
 555|Odaberi nulu programa
 556|Operacija aktivnog sloja
+557|Putanja alata
+558|Ulaz i prilaz
+559|Mostići
+560|Posmaci i brzine

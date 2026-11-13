@@ -389,6 +389,8 @@ struct App {
     frame_hull: bool,
     /// The project setup window (material, zero, Z from the bottom).
     setup: setup_ui::Setup,
+    /// The question how the G-code of a two-sided project is saved.
+    sides_save: base_ui::two_sided::SaveDialog,
     /// The window of the technical drawing is open.
     drawing_open: bool,
     /// The technical drawing is a tab of the work area, not a window.
@@ -575,6 +577,7 @@ impl App {
             one_by_one: false,
             frame_hull: false,
             setup: setup_ui::Setup::default(),
+            sides_save: Default::default(),
             drawing_open: false,
             drawing_docked: false,
             drawing_view: (1.0, egui::Vec2::ZERO),
@@ -1332,6 +1335,7 @@ impl App {
         self.camera_window(ctx);
         self.shared_windows(ctx);
         self.setup_window(ctx);
+        self.sides_save_window(ctx);
         self.drawing_window(ctx);
         self.preview_window(ctx);
         self.show_options = show;
@@ -1517,6 +1521,15 @@ impl EditorHost for App {
     }
     fn scene_mut(&mut self) -> &mut Scene {
         &mut self.scene
+    }
+    /// Tests never read the clipboard of the system: there is one for the whole machine, and parallel tests that read it at once
+    /// crash in AppKit.
+    #[cfg(test)]
+    fn clipboard_image(&self) -> Option<base_ui::clip_image::ClipImage> {
+        None
+    }
+    fn ghost_shapes(&self) -> Vec<base_core::scene::Shape> {
+        self.ghosts()
     }
     fn layer_visible(&self, layer: usize) -> bool {
         self.layers.get(layer).is_none_or(|l| l.visible)

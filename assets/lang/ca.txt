@@ -555,3 +555,7 @@
 554|L'eix rotatiu del dispositiu està desactivat.
 555|Tria el zero del programa
 556|Operació de la capa activa
+557|Trajectòria de l'eina
+558|Entrada i aproximació
+559|Ponts
+560|Avanços i velocitats

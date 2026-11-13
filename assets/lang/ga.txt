@@ -555,3 +555,7 @@
 554|Tá ais rothlach an ghléis múchta.
 555|Roghnaigh náid an chláir
 556|Oibríocht na sraithe gníomhaí
+557|Conair an uirlis
+558|Iontráil agus cur isteach
+559|Táib / droichid
+560|Fothaí agus luasanna

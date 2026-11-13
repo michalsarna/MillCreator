@@ -555,3 +555,7 @@
 554|Seadme pöördtelg on väljas.
 555|Vali programmi nullpunkt
 556|Aktiivse kihi toiming
+557|Tööriista teekond
+558|Sisenemine ja lähenemine
+559|Sillad
+560|Etteanded ja pöörded

@@ -61,9 +61,29 @@ pub struct Program {
     pub warnings: Vec<Warn>,
     /// The box that holds the cuts: the lowest and the highest corner (X, Y, Z).
     pub bounds: Option<(P3, P3)>,
+    /// Stops of the machine (M0) before a move, with what they say: the material is turned over between the sides of a job.
+    pub holds: Vec<(usize, String)>,
 }
 
 impl Program {
+    /// `other` cut after this program in the same file (side B of a two-sided job), with `note` at its head and, when `hold` is
+    /// given, a stop before it: the bit goes up, the spindle stops, the head goes home and the machine waits.
+    pub fn then(&mut self, other: Program, note: String, hold: Option<String>) {
+        let at = self.moves.len();
+        if let Some(h) = hold {
+            self.holds.push((at, h));
+        }
+        self.notes.push(Note { at, text: note, before_layer: true });
+        self.notes.extend(other.notes.into_iter().map(|n| Note { at: n.at + at, ..n }));
+        self.holds.extend(other.holds.into_iter().map(|(i, h)| (i + at, h)));
+        self.moves.extend(other.moves);
+        self.warnings.extend(other.warnings);
+        self.bounds = match (self.bounds, other.bounds) {
+            (Some((a0, a1)), Some((b0, b1))) => Some(([a0[0].min(b0[0]), a0[1].min(b0[1]), a0[2].min(b0[2])], [a1[0].max(b1[0]), a1[1].max(b1[1]), a1[2].max(b1[2])])),
+            (a, b) => a.or(b),
+        };
+    }
+
     /// The length of the cuts and the plunges, in mm.
     pub fn cut_length(&self) -> f64 {
         self.moves.iter().filter(|m| m.kind != MoveKind::Rapid).map(|m| m.length()).sum()
@@ -556,6 +576,11 @@ pub fn generate_sides(scene: &Scene, side_b: Option<&Scene>, layers: &[MillLayer
         let (sided, sided_layers) = bottom_with_side_b(scene, b, layers, dev, stock);
         let mut prog = generate_side(&sided, &sided_layers, tools, dev, stock, opts);
         prog.notes.insert(0, Note { at: 0, text: format!("Side B: the material is turned over {}", if stock.flip == crate::materials::FlipAxis::SideToSide { "side to side" } else { "end to end" }), before_layer: true });
+        return prog;
+    }
+    if side_b.is_some() && opts.side == crate::layers::Side::Top && !layers.iter().any(|l| l.side == crate::layers::Side::Bottom) {
+        let mut prog = generate_side(scene, layers, tools, dev, stock, opts);
+        prog.notes.insert(0, Note { at: 0, text: "Side A".into(), before_layer: true });
         return prog;
     }
     let two_sided = opts.side == crate::layers::Side::Bottom || layers.iter().any(|l| l.side == crate::layers::Side::Bottom);
@@ -1311,12 +1336,38 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
         (x, y, p[2] + dev.z_offset)
     };
     for (i, m) in prog.moves.iter().enumerate() {
+        // A stop to turn the material over: the bit up, the spindle, the coolant and the dust collector off, the head home; after it
+        // the layer is started again (its spindle on).
+        let hold = prog.holds.iter().find(|(at, _)| *at == i).map(|(_, h)| h.clone());
+        if hold.is_some() {
+            g.push_str(&format!("G0 Z{}\nM5\n", num(dev.safe_z + dev.z_offset)));
+            spindle_on = false;
+            if coolant != crate::layers::Coolant::Off {
+                g.push_str("M9\n");
+                coolant = crate::layers::Coolant::Off;
+            }
+            if dust {
+                custom(&mut g, &dev.gcode.dust_off, &|n| value_of(&info, &here, n));
+                dust = false;
+            }
+            let (hx, hy) = machine_xy(dev, 0.0, 0.0);
+            g.push_str(&format!("G0 X{} Y{}\n", num(hx), num(hy)));
+        }
         // The comments at this move in their order: the ends of what came before (and the start of an element) go before a
         // new layer, from the first one that starts something on everything comes after the commands of the layer.
         let here_notes: Vec<&Note> = prog.notes[next_note..].iter().take_while(|n| n.at == i).collect();
         next_note += here_notes.len();
         let lead = here_notes.iter().take_while(|n| n.before_layer).count();
-        for n in &here_notes[..lead] {
+        // The ends of side A go before the stop, the name of side B after it.
+        let (ends, starts) = if hold.is_some() { here_notes[..lead].split_at(here_notes[..lead].iter().position(|n| n.text.starts_with("Side B")).unwrap_or(lead)) } else { (&here_notes[..lead], &here_notes[lead..lead]) };
+        for n in ends {
+            g.push_str(&format!("({})\n", note_text(&n.text)));
+        }
+        if let Some(h) = &hold {
+            g.push_str(&format!("M0 ({})\n", note_text(h)));
+            layer = usize::MAX;
+        }
+        for n in starts {
             g.push_str(&format!("({})\n", note_text(&n.text)));
         }
         if m.layer != layer {

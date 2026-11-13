@@ -66,6 +66,29 @@ impl App {
         self.sides3d = Some((stamp, top, bottom));
     }
 
+    /// The pieces that fall out of the material when the job is done, of side A and of side B (turned back over as it lies under side
+    /// A), in the coordinates of the program: the insides of closed shapes on a layer that cuts inside the line the whole thickness and
+    /// leaves no tabs.
+    pub(crate) fn fallen_pieces(&self) -> (Vec<base_core::geom::Polyline>, Vec<base_core::geom::Polyline>) {
+        use base_core::geom::{Polyline, Pt};
+        let t = self.stock.thickness;
+        let falls = |layer: usize| self.layers.get(layer).is_some_and(|l| l.enabled && l.op == crate::layers::Operation::ProfileInside && !l.tabs.enabled && l.depth >= t - 1e-6);
+        let h = self.device.area.y;
+        let of = |scene: &base_core::scene::Scene, xf: Option<base_core::geom::Xf>| -> Vec<Polyline> {
+            scene.shapes.iter().filter(|s| falls(s.layer)).flat_map(|s| {
+                let s = match xf {
+                    Some(x) => base_core::scene::Shape { xf: s.xf.then(x), ..s.clone() },
+                    None => s.clone(),
+                };
+                s.polys().into_iter().filter(|p| p.closed).map(|p| Polyline::new(p.pts.iter().map(|q| Pt::new(q.x, h - q.y)).collect(), true)).collect::<Vec<_>>()
+            }).collect()
+        };
+        let (a, b) = self.sides_scenes();
+        let (w, hh) = self.sides_size();
+        let turn = base_core::setup::turn(self.stock.flip, w, hh);
+        (of(a, None), b.map_or(vec![], |b| of(b, Some(turn))))
+    }
+
     /// The program is made again when the project changed since it was made.
     pub(crate) fn refresh_program(&mut self) {
         if self.prog.is_none() || self.prog_rev != self.job_stamp() {
@@ -154,6 +177,11 @@ impl App {
 
     /// Ask where to write the G-code and write it.
     pub(crate) fn export_gcode(&mut self) {
+        if self.two.is_some() && !self.selection_only {
+            // A two-sided project: asked first whether in one file or in two (`export_sides`).
+            self.sides_save.open = true;
+            return;
+        }
         let name = self.gcode_name();
         let Some((text, prog)) = self.gcode_text(&name) else { return };
         let Some(p) = rfd::FileDialog::new().add_filter("G-code", &["nc", "gcode", "ngc"]).set_file_name(format!("{name}.nc")).save_file() else { return };
@@ -400,15 +428,28 @@ impl App {
                 let key = (self.prog_rev, done, [bits(region.min[0]), bits(region.min[1]), bits(region.max[0]), bits(region.max[1]), bits(depth)]);
                 let tool_of = |layer: usize| self.layers.get(layer).and_then(|l| l.tool.as_deref()).and_then(|id| self.tools.get(id)).cloned();
                 // The bottom face of a two-sided project, carved by side B the same way.
+                // The windows cut round the whole thickness fall out once their side is done, out of both faces.
+                let a_done = done == top_prog.moves.len();
+                let (fallen_a, fallen_b) = if rotary.is_none() { self.fallen_pieces() } else { (vec![], vec![]) };
                 if let (Some((_, b)), true) = (sides, self.view.show_stock) {
                     let b_done = if shown_b { view3d::position_at(b, self.view.progress).0.min(b.moves.len()) } else { b.moves.len() };
                     let b_key = (self.prog_rev, b_done, key.2);
                     if self.surface_b.as_ref().map(|(k, _)| *k) != Some(b_key) {
-                        self.surface_b = Some((b_key, view3d::Surface::of(b_key, &b.moves[..b_done], tool_of, region, depth)));
+                        let mut s = view3d::Surface::of(b_key, &b.moves[..b_done], tool_of, region, depth);
+                        if let Some(s) = s.as_mut() {
+                            s.fall_out(if b_done == b.moves.len() { &fallen_b } else { &[] }, depth);
+                            s.fall_out(if a_done { &fallen_a } else { &[] }, depth);
+                        }
+                        self.surface_b = Some((b_key, s));
                     }
                 }
+                let b_complete = sides.is_some_and(|(_, b)| !shown_b || view3d::position_at(b, self.view.progress).0 >= b.moves.len());
                 if self.view.show_stock && self.surface.as_ref().map(|s| s.key) != Some(key) {
                     self.surface = view3d::Surface::of(key, &top_prog.moves[..done], tool_of, region, depth);
+                    if let Some(s) = self.surface.as_mut() {
+                        s.fall_out(if a_done { &fallen_a } else { &[] }, depth);
+                        s.fall_out(if b_complete { &fallen_b } else { &[] }, depth);
+                    }
                     if self.surface.is_none() {
                         // Nothing is cut: remember that by a surface that is not there (no key to compare), so it is not tried again each frame.
                         self.surface_none = Some(key);

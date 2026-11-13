@@ -555,3 +555,7 @@
 554|Enhetens rotationsaxel är avslagen.
 555|Välj programmets nollpunkt
 556|Bearbetning av det aktiva lagret
+557|Verktygsbana
+558|Ingång och inkörning
+559|Bryggor
+560|Matningar och varvtal

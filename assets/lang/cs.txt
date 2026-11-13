@@ -555,3 +555,7 @@
 554|Otočná osa zařízení je vypnutá.
 555|Vybrat nulu programu
 556|Operace aktivní vrstvy
+557|Dráha nástroje
+558|Vstup a nájezd
+559|Můstky
+560|Posuvy a otáčky

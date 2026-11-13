@@ -929,3 +929,62 @@ fn render_dimensions() {
         shot(&mut h, "44-technical-drawing-asme.png");
     }
 }
+
+/// A two-sided block with cuts that go through: a window cut on side A the whole thickness, and two pockets, one from each side, that
+/// meet in the middle. `SHOT_OUT=<folder> cargo test -p millcreator pictures_of_cuts_through -- --ignored` (nothing is written without
+/// `SHOT_OUT`; the name does not start with `render_`, so the screenshots of a release leave it out).
+#[test]
+#[ignore = "writes pictures; run explicitly"]
+fn pictures_of_cuts_through() {
+    use base_core::geom::Xf;
+    use base_core::scene::Kind;
+    let Ok(out) = std::env::var("SHOT_OUT").map(PathBuf::from) else { return };
+    let shot = |h: &mut Shot, name: &str| {
+        h.run_steps(5);
+        let img = h.render().expect("render");
+        std::fs::create_dir_all(&out).unwrap();
+        img.save(out.join(name)).unwrap();
+    };
+    let mut h: Shot = Harness::builder().with_accessibility_check(false).with_size([1280.0, 800.0]).build_ui_state(
+        |ui, state: &mut Option<App>| {
+            let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
+            a.draw(ui);
+        },
+        None,
+    );
+    h.run_steps(2);
+    {
+        let a = app(&mut h);
+        a.use_dummy_device();
+        a.new_design();
+        a.stock.width = 200.0;
+        a.stock.height = 120.0;
+        a.stock.thickness = 10.0;
+        a.layers[1].depth = 10.0;
+        a.layers[2].depth = 6.0;
+        a.scene.add(1, Kind::Rect { w: 40.0, h: 30.0 }, Xf::translate(20.0, 20.0));
+        a.scene.add(2, Kind::Ellipse { w: 30.0, h: 30.0 }, Xf::translate(100.0, 45.0));
+        a.make_two_sided(crate::materials::FlipAxis::SideToSide);
+        a.show_side(true);
+        // Under the pocket of side A (turned over: 200 - 130 .. 200 - 100), a little to one side so that only a part goes through.
+        a.scene.add(2, Kind::Ellipse { w: 30.0, h: 30.0 }, Xf::translate(60.0, 55.0));
+        a.show_side(false);
+        a.open_preview();
+        a.view.show_cuts = false;
+        a.view.show_rapids = false;
+        a.view.zoom = 1.8;
+    }
+    shot(&mut h, "through-top.png");
+    app(&mut h).view.top = true;
+    shot(&mut h, "through-plan.png");
+    app(&mut h).view.top = false;
+    app(&mut h).view.look_from([0.3, -0.5, -0.8]);
+    shot(&mut h, "through-bottom.png");
+    {
+        let a = app(&mut h);
+        a.preview_close();
+        a.side_tab = crate::SideTab::Layers;
+        a.ed.active_layer = 0;
+    }
+    shot(&mut h, "layers-sections.png");
+}

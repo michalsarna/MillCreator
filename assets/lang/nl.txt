@@ -555,3 +555,7 @@
 554|De draaias van het apparaat staat uit.
 555|Kies het nulpunt van het programma
 556|Bewerking van de actieve laag
+557|Gereedschapsbaan
+558|Instap en aanloop
+559|Bruggetjes
+560|Voedingen en toerentallen
