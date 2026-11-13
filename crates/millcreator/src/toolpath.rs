@@ -1335,12 +1335,15 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
         let (x, y) = machine_xy(dev, p[0], p[1]);
         (x, y, p[2] + dev.z_offset)
     };
+    let hold_z = prog.moves.iter().map(|m| m.from[2].max(m.to[2])).fold(dev.safe_z, f64::max);
     for (i, m) in prog.moves.iter().enumerate() {
         // A stop to turn the material over: the bit up, the spindle, the coolant and the dust collector off, the head home; after it
         // the layer is started again (its spindle on).
         let hold = prog.holds.iter().find(|(at, _)| *at == i).map(|(_, h)| h.clone());
         if hold.is_some() {
-            g.push_str(&format!("G0 Z{}\nM5\n", num(dev.safe_z + dev.z_offset)));
+            // Above the highest the job goes (the faces of a post or a block that come later stand higher), so that the object can be
+            // turned under the bit.
+            g.push_str(&format!("G0 Z{}\nM5\n", num(hold_z + dev.z_offset)));
             spindle_on = false;
             if coolant != crate::layers::Coolant::Off {
                 g.push_str("M9\n");
@@ -1358,8 +1361,8 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
         let here_notes: Vec<&Note> = prog.notes[next_note..].iter().take_while(|n| n.at == i).collect();
         next_note += here_notes.len();
         let lead = here_notes.iter().take_while(|n| n.before_layer).count();
-        // The ends of side A go before the stop, the name of side B after it.
-        let (ends, starts) = if hold.is_some() { here_notes[..lead].split_at(here_notes[..lead].iter().position(|n| n.text.starts_with("Side B")).unwrap_or(lead)) } else { (&here_notes[..lead], &here_notes[lead..lead]) };
+        // The ends of side A go before the stop, the name of side B (or of the next face) after it.
+        let (ends, starts) = if hold.is_some() { here_notes[..lead].split_at(here_notes[..lead].iter().position(|n| n.text.starts_with("Side B") || n.text.starts_with("Face ")).unwrap_or(lead)) } else { (&here_notes[..lead], &here_notes[lead..lead]) };
         for n in ends {
             g.push_str(&format!("({})\n", note_text(&n.text)));
         }

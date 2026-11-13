@@ -560,3 +560,7 @@
 559|Puentes
 560|Avances y velocidades
 561|las formas de las capas de la cara inferior ahora son la cara B
+562|Las caras que desaparecerían tienen formas: el proyecto se queda como estaba. Bórrelas primero.
+563|un poste
+564|un bloque
+565|Proyecto configurado: {} de {} x {} x {} mm, cero en {}

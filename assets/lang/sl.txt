@@ -560,3 +560,7 @@
 559|Mostički
 560|Podajanja in vrtljaji
 561|oblike plasti za spodnjo stran so zdaj stran B
+562|Ploskve, ki bi izginile, imajo oblike: projekt ostane, kot je bil. Najprej jih izbrišite.
+563|steber
+564|kocka
+565|Projekt nastavljen: {} {} x {} x {} mm, ničla v {}

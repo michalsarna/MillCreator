@@ -560,3 +560,7 @@
 559|Brýr
 560|Færsla og snúningshraði
 561|form laganna fyrir neðri hliðina eru nú hlið B
+562|Hliðarnar sem myndu hverfa hafa form: verkefnið helst óbreytt. Eyddu þeim fyrst.
+563|stólpi
+564|kubbur
+565|Verkefni sett upp: {} {} x {} x {} mm, núll við {}

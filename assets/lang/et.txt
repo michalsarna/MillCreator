@@ -560,3 +560,7 @@
 559|Sillad
 560|Etteanded ja pöörded
 561|alumise poole kihtide kujundid on nüüd pool B
+562|Kaduvatel külgedel on kujundeid: projekt jääb samaks. Kustutage need enne.
+563|post
+564|plokk
+565|Projekt seadistatud: {} {} x {} x {} mm, null: {}

@@ -560,3 +560,7 @@
 559|Punți
 560|Avansuri și turații
 561|formele straturilor pentru fața de jos sunt acum fața B
+562|Fețele care ar dispărea au forme: proiectul rămâne cum era. Ștergeți-le mai întâi.
+563|un stâlp
+564|un bloc
+565|Proiect configurat: {} de {} x {} x {} mm, zero la {}

@@ -560,3 +560,7 @@
 559|Můstky
 560|Posuvy a otáčky
 561|tvary vrstev pro spodní stranu jsou nyní stranou B
+562|Stěny, které by zmizely, mají tvary: projekt zůstává, jak byl. Nejprve je smažte.
+563|sloupek
+564|kostka
+565|Projekt nastaven: {} {} x {} x {} mm, nula v {}

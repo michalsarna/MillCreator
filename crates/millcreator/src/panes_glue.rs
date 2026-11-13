@@ -154,7 +154,9 @@ impl App {
     pub(crate) fn refresh_gcode_text_after(&mut self, wait: std::time::Duration) -> bool {
         // The tab of the project, and the one of side B when the sides of a two-sided job are shown apart.
         let mut waiting = false;
-        for key in [self.slot, self.slot | base_ui::two_sided::SIDE_B_TEXT] {
+        // The tab of the project, and those of the other faces when they are shown apart.
+        let keys: Vec<usize> = (0..self.face_count()).map(|i| base_ui::two_sided::face_text(self.slot, i)).collect();
+        for key in keys {
             if !self.gcode_texts.iter().any(|g| g.slot == key) {
                 continue;
             }
@@ -174,11 +176,10 @@ impl App {
     /// Make the G-code text of the tab `key` again (its project becomes the active one first: the program is made from it). A text of a
     /// two-sided job is made the way it was chosen: the whole job, or the side of the tab.
     fn remake_gcode_text(&mut self, key: usize) {
-        use base_ui::two_sided::SIDE_B_TEXT;
         self.activate_slot(base_ui::two_sided::text_slot(key));
         let sides = self.gcode_texts.iter().find(|g| g.slot == key).and_then(|g| g.sides);
         let text = match sides {
-            Some(how) if self.two.is_some() => self.sides_texts(how).and_then(|t| t.into_iter().nth(usize::from(key & SIDE_B_TEXT != 0))),
+            Some(how) if self.two.is_some() => self.sides_texts(how).and_then(|t| t.into_iter().nth(base_ui::two_sided::text_face(key))),
             _ => {
                 let name = self.gcode_name();
                 self.gcode_text(&name).map(|(text, _)| text)

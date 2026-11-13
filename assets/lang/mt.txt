@@ -560,3 +560,7 @@
 559|Pontijiet
 560|Għalf u veloċitajiet
 561|il-forom tas-saffi għan-naħa t'isfel issa huma n-naħa B
+562|Il-wiċċijiet li jitneħħew għandhom forom: il-proġett jibqa' kif kien. Ħassarhom l-ewwel.
+563|arblu
+564|blokk
+565|Proġett issettjat: {} ta' {} x {} x {} mm, żero f'{}

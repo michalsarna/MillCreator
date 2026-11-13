@@ -560,3 +560,7 @@
 559|Broer
 560|Tilspænding og omdrejninger
 561|formerne på lagene til undersiden er nu side B
+562|Siderne, der ville forsvinde, har former: projektet forbliver som det var. Slet dem først.
+563|en stolpe
+564|en klods
+565|Projekt sat op: {} på {} x {} x {} mm, nulpunkt {}

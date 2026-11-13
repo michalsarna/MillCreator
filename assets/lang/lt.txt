@@ -560,3 +560,7 @@
 559|Tilteliai
 560|Pastūmos ir apsukos
 561|apatinės pusės sluoksnių figūros dabar yra B pusė
+562|Sienose, kurios išnyktų, yra figūrų: projektas lieka koks buvo. Pirmiau jas ištrinkite.
+563|stulpelis
+564|kaladėlė
+565|Projektas nustatytas: {} {} x {} x {} mm, nulis: {}

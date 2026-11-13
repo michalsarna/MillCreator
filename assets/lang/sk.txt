@@ -560,3 +560,7 @@
 559|Mostíky
 560|Posuvy a otáčky
 561|tvary vrstiev pre spodnú stranu sú teraz stranou B
+562|Steny, ktoré by zmizli, majú tvary: projekt zostáva, aký bol. Najprv ich zmažte.
+563|stĺpik
+564|kocka
+565|Projekt nastavený: {} {} x {} x {} mm, nula v {}

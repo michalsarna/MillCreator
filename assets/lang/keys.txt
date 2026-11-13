@@ -560,3 +560,7 @@
 559	Tabs / bridges
 560	Feeds and speeds
 561	the shapes of the layers for the bottom are now side B
+562	The faces that would go have shapes: the project stays as it was. Delete them first.
+563	a post
+564	a block
+565	Project set up: {} of {} x {} x {} mm, zero at {}

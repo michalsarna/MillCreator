@@ -560,3 +560,7 @@
 559|Attaches
 560|Avances et vitesses
 561|les formes des calques de la face inférieure sont maintenant la face B
+562|Les faces qui disparaîtraient ont des formes : le projet reste tel quel. Supprimez-les d'abord.
+563|un poteau
+564|un bloc
+565|Projet configuré : {} de {} x {} x {} mm, zéro à {}
