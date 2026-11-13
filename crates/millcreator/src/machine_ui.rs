@@ -441,18 +441,6 @@ impl App {
             ui.checkbox(&mut self.one_by_one, tr("One element at a time")).on_hover_text(tr("Each element (a group, or a shape that is in none) is cut completely, all its layers and all their passes, before the next one; the nearest element goes first. Off: layer after layer, pass after pass."));
             ui.checkbox(&mut self.frame_hull, tr("Frame round the outline")).on_hover_text(tr("The frame goes round the outline of the cuts (a rubber band) instead of the box"));
             ui.checkbox(&mut self.selection_only, tr("Selection only")).on_hover_text(tr("Only the shapes that are selected on the work area when the G-code is saved or the job is started are cut."));
-            if self.layers.iter().any(|l| l.side == crate::layers::Side::Bottom) || self.side == crate::layers::Side::Bottom {
-                ui.horizontal(|ui| {
-                    ui.label(tr("Side to cut"));
-                    egui::ComboBox::from_id_salt("job_side").selected_text(tr(self.side.label())).show_ui(ui, |ui| {
-                        for s in crate::layers::Side::ALL {
-                            ui.selectable_value(&mut self.side, s, tr(s.label()));
-                        }
-                    });
-                })
-                .response
-                .on_hover_text(tr("A two-sided job: only the layers of this side are cut. For the bottom turn the material over as the Material tab says and put it on the alignment pins: the drawing is turned over with it."));
-            }
         });
         ui.add_space(4.0);
         ui.separator();

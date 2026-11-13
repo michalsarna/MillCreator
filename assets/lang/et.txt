@@ -559,3 +559,4 @@
 558|Sisenemine ja lähenemine
 559|Sillad
 560|Etteanded ja pöörded
+561|alumise poole kihtide kujundid on nüüd pool B

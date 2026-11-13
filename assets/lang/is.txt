@@ -559,3 +559,4 @@
 558|Innkoma og aðkoma
 559|Brýr
 560|Færsla og snúningshraði
+561|form laganna fyrir neðri hliðina eru nú hlið B
