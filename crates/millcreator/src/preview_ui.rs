@@ -179,7 +179,7 @@ impl App {
     pub(crate) fn export_gcode(&mut self) {
         if self.two.is_some() && !self.selection_only {
             // A two-sided project: asked first whether in one file or in two (`export_sides`).
-            self.sides_save.open = true;
+            self.sides_save.ask_save();
             return;
         }
         let name = self.gcode_name();
@@ -206,6 +206,11 @@ impl App {
     /// The G-code of the project as text in a tab of its own (coloured, open to edits); nothing is written to the disk. A project has
     /// one such tab: when it is open already it is shown (and made again when nothing was changed by hand).
     pub(crate) fn preview_gcode(&mut self) {
+        if self.two.is_some() && !self.selection_only {
+            // A two-sided job: asked first whether as one text or one for each side (`show_sides`).
+            self.sides_save.ask_show();
+            return;
+        }
         // The name of the project goes into the G-code (as when it is exported); the name of the file is the tab's.
         let stem = self.gcode_name();
         let name = format!("{stem}.nc");
