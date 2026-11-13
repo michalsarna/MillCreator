@@ -64,7 +64,7 @@ pub(crate) fn sides_into(p: &mut Project, shown: &Scene, two: Option<&Sides>, so
     p.remove_section(base_core::faces::SECTION);
     if let (Some(t), Some(solid)) = (two, solid) {
         let scenes = (0..solid.count()).map(|i| if i == t.shown { shown.clone() } else { t.others[i].clone() }).collect();
-        Faces { solid, ghosts: t.ghosts, scenes }.write(p);
+        Faces { solid, ghosts: t.ghosts, scenes, marks: false }.write(p);
     }
 }
 
