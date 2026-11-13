@@ -111,6 +111,8 @@ impl App {
         }
         *clean = was_clean;
         *autosaved_clean = was_autosaved_clean;
+        // A post or a block: the work area is the one of its shown face again (the device is not a field of a tab).
+        self.apply_face_size();
         // Whatever was made from the drawing that was shown.
         self.prog = None;
         self.playback = Default::default();

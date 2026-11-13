@@ -112,7 +112,7 @@ impl App {
     }
 
     /// The material and the work area follow the shown face of a post or a block.
-    fn apply_face_size(&mut self) {
+    pub(crate) fn apply_face_size(&mut self) {
         let Some(i) = self.two.as_ref().filter(|t| t.is_solid()).map(|t| t.shown) else { return };
         let (stock, dev) = self.face_stock(i);
         self.stock = stock;
@@ -361,8 +361,9 @@ impl App {
     }
 
     /// The faces of a post or a block in one program, each after a stop to turn the object when `hold`. The program of each face is
-    /// moved so that the device of face A writes it where the device of its own face would (the zero of the program, Z from the
-    /// bottom): every face counts from its own corner of the zero.
+    /// moved so that the device of face A writes it where the device of its own face would: X and Y from its own corner of the zero,
+    /// and Z from the one zero of Z set for face A. The object rests on the table, so the top of face i is `depth_i - depth_A` above
+    /// the top of face A (with Z from the bottom the table is the zero for all of them).
     pub(crate) fn faces_in_one(&self, faces: Vec<(Program, crate::materials::Stock, crate::device::Device)>, hold: bool) -> Option<Program> {
         let solid = self.solid()?;
         let mut it = faces.into_iter().enumerate();
@@ -370,12 +371,12 @@ impl App {
         let out0 = d0.with_stock(&s0);
         let zero = |d: &crate::device::Device| {
             let (x, y) = crate::toolpath::machine_xy(d, 0.0, 0.0);
-            [-x, -y, -d.z_offset]
+            [-x, -y]
         };
         let z0 = zero(&out0);
         for (i, (mut p, s, d)) in it {
             let zi = zero(&d.with_stock(&s));
-            let shift = [z0[0] - zi[0], z0[1] - zi[1], z0[2] - zi[2]];
+            let shift = [z0[0] - zi[0], z0[1] - zi[1], s.thickness - s0.thickness];
             for m in &mut p.moves {
                 for k in 0..3 {
                     m.from[k] += shift[k];
@@ -384,10 +385,6 @@ impl App {
             }
             p.bounds = p.bounds.map(|(lo, hi)| ([lo[0] + shift[0], lo[1] + shift[1], lo[2] + shift[2]], [hi[0] + shift[0], hi[1] + shift[1], hi[2] + shift[2]]));
             let note = if p.notes.first().is_some_and(|n| n.at == 0) { p.notes.remove(0).text } else { solid.head_comment(i) };
-            // The top of the next face is at another height (unless Z counts from the table): its zero is set again.
-            if !s.z_bottom {
-                p.notes.insert(0, crate::toolpath::Note { at: 0, text: format!("Set the zero of Z on the top of face {}", Solid::letter(i)), before_layer: true });
-            }
             first.then(p, note, hold.then(|| solid.turn_comment(i)));
         }
         Some(first)
@@ -748,6 +745,17 @@ mod tests {
         assert!(lo > -10.0 && hi < 10.0, "every face from its own middle: {lo} {hi}");
         let sep = a.sides_texts(SaveSides::Separate).unwrap();
         assert_eq!(sep.len(), 4);
+        // Z of face B counts from the one zero of Z set on the top of face A: face B (60 high) stands 20 mm higher than face A (40).
+        let zs = |text: &str, cmd: &str| -> Vec<f64> { text.lines().filter(|l| l.starts_with(cmd)).flat_map(|l| l.split_whitespace().filter(|w| w.starts_with('Z')).map(|w| w[1..].parse::<f64>().unwrap()).collect::<Vec<_>>()).collect() };
+        let b_part = &g[at("(Face B of 4")..at("(Face C of 4")];
+        let low = |v: Vec<f64>| v.into_iter().fold(f64::MAX, f64::min);
+        let high = |v: Vec<f64>| v.into_iter().fold(f64::MIN, f64::max);
+        assert!((low(zs(b_part, "G1")) - (low(zs(&sep[1], "G1")) + 20.0)).abs() < 1e-6, "the deepest cut of face B is 20 mm higher");
+        assert!((high(zs(b_part, "G0")) - (high(zs(&sep[1], "G0")) + 20.0)).abs() < 1e-6, "its moves above the material too");
+        // Before each stop the bit goes above the highest face, so that the post can be rolled under it.
+        let before_stop = &g[..at("M0 (Roll it a quarter turn back: face B up")];
+        let lift = before_stop.lines().rev().find(|l| l.starts_with("G0 Z")).unwrap();
+        assert!(lift[4..].parse::<f64>().unwrap() >= a.device.safe_z + 20.0 - 1e-6, "{lift}");
         assert!(sep[2].contains("(Face C of 4, bottom of the post: 250 x 60 mm, 40 mm high)") && !sep[2].contains("M0 (Roll"), "{}", sep[2]);
         // The tabs of the faces: one each, and one for the whole when it is shown in one.
         a.show_sides(SaveSides::Separate);
