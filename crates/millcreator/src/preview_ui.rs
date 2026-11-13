@@ -103,31 +103,10 @@ impl App {
         (of(a, None), b.map_or(vec![], |b| of(b, Some(turn))))
     }
 
-    /// A point of the object (as it lies for face A) in the coordinates of the program of the shown face.
-    fn solid_point(&self, q: base_core::faces::V3) -> crate::toolpath::P3 {
-        let (Some(solid), Some(shown)) = (self.solid(), self.two.as_ref().map(|t| t.shown)) else { return q };
-        let t = solid.face(shown);
-        let (d, depth) = t.local(q);
-        [d.x, t.h - d.y, -depth]
-    }
-
-    /// The ends of a post (they are not worked on) in the coordinates of the program of the shown face.
-    fn solid_caps(&self) -> Vec<[crate::toolpath::P3; 4]> {
-        let Some(solid) = self.solid().filter(|s| s.body == base_core::faces::Body::Post) else { return vec![] };
-        let [x, y, z] = solid.bbox();
-        [0.0, x].iter().map(|&e| [[e, 0.0, 0.0], [e, y, 0.0], [e, y, z], [e, 0.0, z]].map(|q| self.solid_point(q))).collect()
-    }
-
-    /// The middle of the object in the coordinates of the program of the shown face.
-    fn solid_centre(&self) -> crate::toolpath::P3 {
-        let b = self.solid().map_or([0.0; 3], |s| s.bbox());
-        self.solid_point([b[0] / 2.0, b[1] / 2.0, b[2] / 2.0])
-    }
-
     /// The faces of a post or a block for the 3D view: each carved by its program (the shown one is carved by the view itself, up to
     /// the slider), with its windows fallen out, and where it lies to the shown face. Made again when the project changes.
-    pub(crate) fn solid_faces(&mut self) -> Option<Vec<(Option<usize>, view3d::Affine3, [f64; 2], f64, Option<(usize, view3d::Affine3)>, char)>> {
-        use base_core::faces::{Relation, Solid};
+    pub(crate) fn solid_faces(&mut self) -> Option<Vec<(Option<usize>, view3d::Affine3, [f64; 2], f64, char)>> {
+        use base_core::faces::Solid;
         use base_core::geom::{Polyline, Pt};
         let solid = self.solid().filter(|_| self.two.as_ref().is_some_and(|t| t.is_solid()))?;
         let shown = self.two.as_ref()?.shown;
@@ -162,8 +141,7 @@ impl App {
             (0..n)
                 .map(|j| {
                     let f = solid.face(j);
-                    let opposite = (0..n).find(|k| solid.relation(*k, j) == Relation::Opposite).map(|k| (k, moved(j, k)));
-                    (Some(j).filter(|j| *j != shown), moved(j, shown), [f.w, f.h], f.depth, opposite, Solid::letter(j))
+                    (Some(j).filter(|j| *j != shown), moved(j, shown), [f.w, f.h], f.depth, Solid::letter(j))
                 })
                 .collect(),
         )
@@ -579,15 +557,14 @@ impl App {
                     base_ui::dims::Features::default()
                 };
                 let bottom = sides.map(|(_, b)| view3d::Bottom { prog: b, surface: self.surface_b.as_ref().and_then(|(_, s)| s.as_ref()), animated: shown_b });
-                let (caps, centre) = (self.solid_caps(), self.solid_centre());
                 let solid_view = solid_faces.as_ref().zip(shown_face).map(|(faces, shown)| view3d::SolidView {
                     faces: faces
                         .iter()
-                        .map(|(j, to_view, size, depth, opposite, letter)| view3d::FaceView { surface: j.and_then(|j| self.face_surfaces.get(j).and_then(|s| s.as_ref()).and_then(|(_, s)| s.as_ref())), to_view: *to_view, size: *size, depth: *depth, opposite: *opposite, letter: *letter })
+                        .map(|(j, to_view, size, depth, letter)| view3d::FaceView { surface: j.and_then(|j| self.face_surfaces.get(j).and_then(|s| s.as_ref()).and_then(|(_, s)| s.as_ref())), to_view: *to_view, size: *size, depth: *depth, letter: *letter })
                         .collect(),
                     shown,
-                    caps,
-                    centre,
+                    key: self.solid3d.as_ref().map_or(0, |(k, _)| *k),
+                    cache: &self.solid_pic,
                 });
                 let sc = Scene3d { surface, prog: top_prog, region, stock: &stock, dev: &self.device, layers: &self.layers, project, rotary, parts: &parts, units: base_ui::editor::EditorHost::units(self), bottom, solid: solid_view };
                 view3d::show(ui, &mut self.view, &sc);

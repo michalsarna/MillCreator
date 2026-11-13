@@ -340,6 +340,8 @@ struct App {
     solid3d: Option<(u64, Vec<toolpath::Program>)>,
     /// The faces of a post or a block carved by their programs (the shown face is `surface`), by face.
     face_surfaces: Vec<Option<(u64, Option<view3d::Surface>)>>,
+    /// The picture of a post or a block in the 3D view that was made last (made again when the object or the view changes).
+    solid_pic: std::cell::RefCell<Option<(u64, egui::TextureHandle)>>,
     /// The lines of the drawing for the 3D window, kept while the drawing, the work area and the shown layers stay as they are.
     project_lines: Option<((u64, u64, Vec<bool>), Vec<view3d::ProjectLine>)>,
     show_3d: bool,
@@ -557,6 +559,7 @@ impl App {
             sides3d: None,
             solid3d: None,
             face_surfaces: vec![],
+            solid_pic: Default::default(),
             project_lines: None,
             show_3d: false,
             prog: None,
@@ -700,6 +703,8 @@ impl App {
         self.stock = Stock::default();
         self.two = None;
         self.side = layers::Side::Top;
+        // A new project has the work area of the machine, not the one an earlier project made of it.
+        (self.device.area.x, self.device.area.y) = self.machine_area();
         self.touch_rev();
         self.reset_picture_layers();
         self.autosave_in_sync();
@@ -1604,6 +1609,17 @@ impl EditorHost for App {
     }
     fn machine_units(&self) -> Units {
         self.device.units
+    }
+    /// A click on a face of a post or a block unfolded beside the shown one shows that face.
+    fn click_empty(&mut self, p: base_core::geom::Pt) -> bool {
+        let (Some(solid), Some(shown)) = (self.solid(), self.two.as_ref().map(|t| t.shown)) else { return false };
+        match solid.face_at(shown, p).filter(|_| solid.count() > 2) {
+            Some(j) => {
+                self.show_face(j);
+                true
+            }
+            None => false,
+        }
     }
     fn workspace_fill(&self) -> egui::Color32 {
         self.ed.grid_prefs.workspace_fill()

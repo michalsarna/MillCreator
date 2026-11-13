@@ -45,11 +45,22 @@ impl Standard {
 }
 
 /// The parts of the drawing, in millimetres of the material: X right from its left edge, Y up from its front edge, Z up from its top
-/// (cuts go below 0).
+/// (cuts go below 0). A part is cut into a face of the object (the top for a job on one side; any face of a two-sided sheet, a post
+/// or a block): `lines` are its outlines on that face, `inward` the way into the object from it.
 pub struct Part {
-    pub outline: Vec<Vec<Pt>>,
-    pub bounds: Rect,
     pub depth: f64,
+    pub lines: Vec<Vec<[f64; 3]>>,
+    pub inward: [f64; 3],
+}
+
+impl Part {
+    /// The box of its lines seen from above.
+    #[cfg(test)]
+    pub fn bounds(&self) -> Rect {
+        let pts = self.lines.iter().flatten();
+        let f = |k: usize, lo: bool| pts.clone().map(|q| q[k]).fold(if lo { f64::MAX } else { f64::MIN }, if lo { f64::min } else { f64::max });
+        Rect { min: Pt::new(f(0, true), f(1, true)), max: Pt::new(f(0, false), f(1, false)) }
+    }
 }
 
 /// What the drawing shows.
@@ -80,10 +91,35 @@ pub fn scale_for(w: f64, h: f64, t: f64) -> String {
     "1:100".into()
 }
 
+/// A shape cut into the top, with `to` from the page to the drawing.
+fn top_part(s: &base_core::scene::Shape, to: &dyn Fn(Pt) -> Pt, depth: f64) -> Option<Part> {
+    let lines: Vec<Vec<[f64; 3]>> = s
+        .polys()
+        .iter()
+        .map(|p| {
+            let mut v: Vec<[f64; 3]> = p.pts.iter().map(|q| to(*q)).map(|q| [q.x, q.y, 0.0]).collect();
+            if p.closed {
+                if let Some(f) = v.first().copied() {
+                    v.push(f);
+                }
+            }
+            v
+        })
+        .filter(|v| v.len() >= 2)
+        .collect();
+    (!lines.is_empty()).then_some(Part { depth, lines, inward: [0.0, 0.0, -1.0] })
+}
+
 impl App {
-    /// The sheet of the project: the material (from the setup, or the box of the shapes), and the shapes on the layers that are milled.
+    /// The sheet of the project: the material (from the setup, or the box of the shapes), and the shapes on the layers that are milled
+    /// (all of them, shown or hidden in the editor). A job on more than one side draws the whole object with the parts of every face.
     pub(crate) fn drawing_sheet(&self) -> Sheet {
-        let shapes: Vec<&base_core::scene::Shape> = self.scene.shapes.iter().filter(|s| self.layers.get(s.layer).is_some_and(|l| l.enabled && l.visible)).collect();
+        let title = self.path.as_ref().and_then(|p| p.file_stem()).map_or_else(|| tr("Untitled").to_string(), |s| s.to_string_lossy().into_owned());
+        let milled = |s: &&base_core::scene::Shape| self.layers.get(s.layer).is_some_and(|l| l.enabled);
+        if let Some(solid) = self.solid() {
+            return self.solid_sheet(&solid, title);
+        }
+        let shapes: Vec<&base_core::scene::Shape> = self.scene.shapes.iter().filter(milled).collect();
         // The material lies at the top left of the page; without a setup the box of the shapes stands for it.
         let (x0, y0, w, h) = if self.stock.width > 0.0 && self.stock.height > 0.0 {
             (0.0, 0.0, self.stock.width, self.stock.height)
@@ -96,27 +132,46 @@ impl App {
         };
         // The page counts Y down from its top; the drawing counts it up from the front edge of the material.
         let to = |p: Pt| Pt::new(p.x - x0, h - (p.y - y0));
-        let parts = shapes
-            .iter()
-            .filter_map(|s| {
-                let outline: Vec<Vec<Pt>> = s.polys().iter().map(|p| {
-                    let mut v: Vec<Pt> = p.pts.iter().map(|q| to(*q)).collect();
-                    if p.closed {
-                        if let Some(f) = v.first().copied() {
-                            v.push(f);
-                        }
-                    }
-                    v
-                }).collect();
-                let b = s.bounds()?;
-                let (a, c) = (to(b.min), to(b.max));
-                let bounds = Rect { min: Pt::new(a.x.min(c.x), a.y.min(c.y)), max: Pt::new(a.x.max(c.x), a.y.max(c.y)) };
-                Some(Part { outline, bounds, depth: self.layers[s.layer].depth.min(self.stock.thickness) })
-            })
-            .collect();
+        let parts = shapes.iter().filter_map(|s| top_part(s, &to, self.layers[s.layer].depth.min(self.stock.thickness))).collect();
         let features = base_ui::dims::Features::of(shapes.iter().copied(), &to);
-        let title = self.path.as_ref().and_then(|p| p.file_stem()).map_or_else(|| tr("Untitled").to_string(), |s| s.to_string_lossy().into_owned());
         Sheet { w, h, t: self.stock.thickness, parts, title, material: tr(self.stock.kind.label()).to_string(), units: base_ui::editor::EditorHost::units(self), machine: self.device.units, standard: self.drawing_standard, features }
+    }
+
+    /// The sheet of a job on more than one side: the box of the object as it lies for face A, the parts of every face where they are on
+    /// it.
+    fn solid_sheet(&self, solid: &base_core::faces::Solid, title: String) -> Sheet {
+        let [bx, by, bz] = solid.bbox();
+        // The space of the object (Y from the back to the front, Z up from the bottom) to that of the drawing.
+        let to3 = |q: base_core::faces::V3| [q[0], by - q[1], q[2] - bz];
+        let mut parts = vec![];
+        for i in 0..solid.count() {
+            let f = solid.face(i);
+            // Into the object from the face, in the drawing (its Y the other way round).
+            let inward = [-f.out[0], f.out[1], -f.out[2]];
+            for s in self.face_scene(i).shapes.iter().filter(|s| self.layers.get(s.layer).is_some_and(|l| l.enabled)) {
+                let depth = self.layers[s.layer].depth.min(f.depth);
+                let lines: Vec<Vec<[f64; 3]>> = s
+                    .polys()
+                    .iter()
+                    .map(|p| {
+                        let mut v: Vec<[f64; 3]> = p.pts.iter().map(|q| to3(f.at(*q, 0.0))).collect();
+                        if p.closed {
+                            if let Some(first) = v.first().copied() {
+                                v.push(first);
+                            }
+                        }
+                        v
+                    })
+                    .collect();
+                if !lines.is_empty() {
+                    parts.push(Part { depth, lines, inward });
+                }
+            }
+        }
+        let tops: Vec<&base_core::scene::Shape> = self.face_scene(0).shapes.iter().filter(|s| self.layers.get(s.layer).is_some_and(|l| l.enabled)).collect();
+        let features = base_ui::dims::Features::of(tops.into_iter(), &|p: Pt| Pt::new(p.x, by - p.y));
+        let material = format!("{} · {}", tr(self.stock.kind.label()), base_ui::two_sided::job_title(solid));
+        Sheet { w: bx, h: by, t: bz, parts, title, material, units: base_ui::editor::EditorHost::units(self), machine: self.device.units, standard: self.drawing_standard, features }
     }
 
     /// The window of the drawing (when it is not a tab of the work area).
@@ -271,28 +326,62 @@ pub fn paint(p: &egui::Painter, rect: egui::Rect, s: &Sheet) {
     for r in [fr, sr, tr_] {
         p.rect_stroke(r, 0.0, full, egui::StrokeKind::Middle);
     }
-    // Cuts under the top: dashed in the front and the side view, from the top down to the depth over the width of each part.
-    let dashed = |a: Pos2, b: Pos2| p.extend(egui::Shape::dashed_line(&[a, b], hidden, 5.0, 3.0));
+    // The parts in each view: seen (the face they are cut into is turned to the view) as full lines, on the far side of the object
+    // as hidden (dashed) lines, and on a face across the view as the dashed box of the cut, from that face to its depth.
+    let dashed = |pts: &[Pos2]| p.extend(egui::Shape::dashed_line(pts, hidden, 5.0, 3.0));
+    // Each view: the way to the eye, the two coordinates it shows and where they are on the sheet, and the size of the block in it.
+    let side_eye = if third { [1.0, 0.0, 0.0] } else { [-1.0, 0.0, 0.0] };
+    let views: [([f64; 3], [usize; 2], &dyn Fn(f64, f64) -> Pos2, [f64; 4]); 3] = [
+        ([0.0, -1.0, 0.0], [0, 2], &front, [0.0, -t, w, 0.0]),
+        (side_eye, [1, 2], &side, [0.0, -t, h, 0.0]),
+        ([0.0, 0.0, 1.0], [0, 1], &top, [0.0, 0.0, w, h]),
+    ];
     for part in &s.parts {
-        let d = part.depth.clamp(0.0, t);
-        let b = part.bounds;
-        if d <= 0.0 {
+        let d = part.depth.clamp(0.0, t.max(w).max(h));
+        if d <= 0.0 && part.inward[2] > -0.5 {
             continue;
         }
-        for (x, view) in [(b.min.x, 0), (b.max.x, 0), (b.min.y, 1), (b.max.y, 1)] {
-            let (a, c) = if view == 0 { (front(x, 0.0), front(x, -d)) } else { (side(x, 0.0), side(x, -d)) };
-            dashed(a, c);
-        }
-        if d < t - 1e-6 {
-            dashed(front(b.min.x, -d), front(b.max.x, -d));
-            dashed(side(b.min.y, -d), side(b.max.y, -d));
-        }
-    }
-    // The outlines in the view from above.
-    for part in &s.parts {
-        for line in &part.outline {
-            let pts: Vec<Pos2> = line.iter().map(|q| top(q.x, q.y)).collect();
-            p.add(egui::Shape::line(pts, thin));
+        for (eye, [ia, ib], at, bx) in &views {
+            let out = [-part.inward[0], -part.inward[1], -part.inward[2]];
+            let k = out[0] * eye[0] + out[1] * eye[1] + out[2] * eye[2];
+            if k > 0.5 {
+                for line in &part.lines {
+                    let pts: Vec<Pos2> = line.iter().map(|q| at(q[*ia], q[*ib])).collect();
+                    p.add(egui::Shape::line(pts, thin));
+                }
+            } else if k < -0.5 {
+                for line in &part.lines {
+                    let pts: Vec<Pos2> = line.iter().map(|q| at(q[*ia], q[*ib])).collect();
+                    dashed(&pts);
+                }
+            } else {
+                // The box of the cut seen from the side: its edges that are not edges of the block.
+                let (mut lo, mut hi) = ([f64::MAX; 2], [f64::MIN; 2]);
+                for q in part.lines.iter().flatten() {
+                    for e in [0.0, d] {
+                        let r = [q[0] + part.inward[0] * e, q[1] + part.inward[1] * e, q[2] + part.inward[2] * e];
+                        for (n, ax) in [*ia, *ib].iter().enumerate() {
+                            lo[n] = lo[n].min(r[*ax]);
+                            hi[n] = hi[n].max(r[*ax]);
+                        }
+                    }
+                }
+                if lo[0] > hi[0] {
+                    continue;
+                }
+                let on_edge = |v: f64, edge: f64| (v - edge).abs() < 1e-6;
+                let edges = [
+                    (on_edge(lo[1], bx[1]), [lo[0], lo[1]], [hi[0], lo[1]]),
+                    (on_edge(hi[1], bx[3]), [lo[0], hi[1]], [hi[0], hi[1]]),
+                    (on_edge(lo[0], bx[0]), [lo[0], lo[1]], [lo[0], hi[1]]),
+                    (on_edge(hi[0], bx[2]), [hi[0], lo[1]], [hi[0], hi[1]]),
+                ];
+                for (skip, a2, b2) in edges {
+                    if !skip {
+                        dashed(&[at(a2[0], a2[1]), at(b2[0], b2[1])]);
+                    }
+                }
+            }
         }
     }
     // Centre lines of the views (dash and dot as on a drawing are dashes here).
@@ -310,7 +399,7 @@ pub fn paint(p: &egui::Painter, rect: egui::Rect, s: &Sheet) {
     if !s.parts.is_empty() {
         dims::drawing(p, &to, &s.features, Some(Pt::new(0.0, 0.0)), &st);
     }
-    let mut depths: Vec<f64> = s.parts.iter().map(|q| q.depth.clamp(0.0, t)).filter(|d| *d > 0.0 && *d < t - 1e-6).collect();
+    let mut depths: Vec<f64> = s.parts.iter().filter(|q| q.inward[2] < -0.5).map(|q| q.depth.clamp(0.0, t)).filter(|d| *d > 0.0 && *d < t - 1e-6).collect();
     depths.sort_by(|a, b| a.total_cmp(b));
     depths.dedup_by(|a, b| (*a - *b).abs() < 0.05);
     for (i, d) in depths.iter().take(4).enumerate() {
@@ -351,7 +440,7 @@ mod tests {
         assert_eq!((s.w, s.h, s.t), (200.0, 100.0, 12.0));
         assert_eq!(s.parts.len(), 1);
         // Y counts up from the front edge: a rectangle 10 mm under the top edge of the page is 70..90 from the front.
-        let b = s.parts[0].bounds;
+        let b = s.parts[0].bounds();
         assert!((b.min.x - 10.0).abs() < 1e-9 && (b.min.y - 70.0).abs() < 1e-9 && (b.max.y - 90.0).abs() < 1e-9, "{b:?}");
         assert_eq!(s.parts[0].depth, 5.0);
         assert_eq!(scale_for(200.0, 100.0, 12.0), "1:2", "the three views do not fit A4 at 1:1");
@@ -379,5 +468,35 @@ mod tests {
         save_sheet(&s, &dir.join("d.pdf")).unwrap();
         assert!(std::fs::read(dir.join("d.pdf")).unwrap().starts_with(b"%PDF"));
         let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    /// A post: the drawing is of the whole object, with the parts of every face where they are on it; a layer hidden in the editor is
+    /// still milled, so it is drawn.
+    #[test]
+    fn the_drawing_of_a_post_has_the_parts_of_all_its_faces_and_of_hidden_layers() {
+        let mut a = crate::tests::app();
+        a.open_setup();
+        a.setup.sides = base_ui::project_setup::Sides::Post;
+        a.setup.post = [60.0, 40.0, 250.0];
+        a.apply_setup();
+        a.layers[2].depth = 5.0;
+        a.layers[2].visible = false;
+        a.scene.add(2, base_core::scene::Kind::Rect { w: 40.0, h: 20.0 }, base_core::geom::Xf::translate(10.0, 10.0));
+        a.show_face(1);
+        a.scene.add(2, base_core::scene::Kind::Ellipse { w: 20.0, h: 20.0 }, base_core::geom::Xf::translate(100.0, 10.0));
+        a.show_face(2);
+        a.scene.add(2, base_core::scene::Kind::Rect { w: 30.0, h: 10.0 }, base_core::geom::Xf::translate(200.0, 5.0));
+        let s = a.drawing_sheet();
+        assert_eq!((s.w, s.h, s.t), (250.0, 60.0, 40.0), "the post as it lies for face A");
+        assert_eq!(s.parts.len(), 3);
+        // Into the post from the top, from the front (Y up from the front) and from the bottom.
+        let ins: Vec<[f64; 3]> = s.parts.iter().map(|p| p.inward).collect();
+        assert!(ins.contains(&[0.0, 0.0, -1.0]) && ins.contains(&[0.0, 1.0, 0.0]) && ins.contains(&[0.0, 0.0, 1.0]), "{ins:?}");
+        // The round part of face B lies on the front of the post: Y = 0, Z between the top (0) and the bottom (-40).
+        let b = s.parts.iter().find(|p| p.inward == [0.0, 1.0, 0.0]).unwrap();
+        assert!(b.lines.iter().flatten().all(|q| q[1].abs() < 1e-9 && q[2] <= 1e-9 && q[2] >= -40.0 - 1e-9));
+        if let Ok(dir) = std::env::var("SHOT_OUT") {
+            save_sheet(&s, &std::path::Path::new(&dir).join("post-drawing.png")).unwrap();
+        }
     }
 }

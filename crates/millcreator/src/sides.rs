@@ -786,4 +786,46 @@ mod tests {
         assert_eq!(a.two.as_ref().unwrap().others.len(), 4);
         assert_eq!(a.two.as_ref().unwrap().shown, 0, "back on face A");
     }
+
+    /// The 3D view of a block: a window cut through it from face A is a hole (seen from above the table shows through it), the
+    /// material round it is drawn, and a pocket of face B by the edge takes the material of face A there.
+    #[test]
+    fn the_object_in_3d_has_a_hole_where_a_window_goes_through_it() {
+        use crate::view3d::{self, Region, Scene3d, SolidView, FaceView, View3d};
+        let mut a = crate::tests::app();
+        a.open_setup();
+        a.setup.sides = base_ui::project_setup::Sides::Block;
+        a.setup.block = [120.0, 80.0, 50.0];
+        a.apply_setup();
+        a.layers[1].depth = 50.0;
+        // A window in the middle of face A, through the block.
+        a.scene.add(1, Kind::Rect { w: 30.0, h: 30.0 }, Xf::translate(45.0, 25.0));
+        a.show_face(1);
+        a.show_face(0);
+        a.open_preview();
+        a.refresh_sides3d();
+        let faces = a.solid_faces().unwrap();
+        let prog = a.prog.clone().unwrap();
+        let region = Region { min: [0.0, 0.0], max: [120.0, 80.0] };
+        let tool_of = |layer: usize| a.layers.get(layer).and_then(|l| l.tool.as_deref()).and_then(|id| a.tools.get(id)).cloned();
+        let mut surface = view3d::Surface::of((1, 0, [0; 5]), &prog.moves, tool_of, region, 50.0).unwrap();
+        surface.fall_out(&a.fallen_pieces().0, 50.0);
+        let cache = Default::default();
+        let views = faces.iter().map(|(j, to_view, size, depth, letter)| FaceView { surface: j.and_then(|j| a.face_surfaces[j].as_ref().and_then(|(_, s)| s.as_ref())), to_view: *to_view, size: *size, depth: *depth, letter: *letter }).collect();
+        let solid = SolidView { faces: views, shown: 0, key: 1, cache: &cache };
+        let parts = base_ui::dims::Features::default();
+        let sc = Scene3d { surface: Some(&surface), prog: &prog, region, stock: &a.stock, dev: &a.device, layers: &a.layers, project: &[], rotary: None, parts: &parts, units: base_core::units::Units::Mm, bottom: None, solid: Some(solid) };
+        let view = View3d { top: true, ..View3d::default() };
+        let rect = egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(400.0, 300.0));
+        let (target, radius) = view3d::framing(&sc);
+        let pj = view3d::Projector::new(&view, target, radius, rect);
+        let img = view3d::solid_picture(&pj, &sc, sc.solid.as_ref().unwrap(), rect, 1.0, 400, 300);
+        let at = |x: f64, y: f64| {
+            let p = pj.project([x, y, 0.0]);
+            img.pixels[p.y as usize * 400 + p.x as usize]
+        };
+        // The window: 45..75 across, 25..55 from the top of the page (program Y up: 80 - 55 .. 80 - 25).
+        assert_eq!(at(60.0, 40.0), egui::Color32::TRANSPARENT, "through the window");
+        assert_ne!(at(20.0, 40.0), egui::Color32::TRANSPARENT, "material");
+    }
 }

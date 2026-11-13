@@ -1088,4 +1088,21 @@ fn pictures_of_posts_and_blocks() {
         a.view.show_rapids = false;
     }
     shot(&mut h, "block-3d.png");
+    {
+        // A wide pocket on face A by its front edge, and a deep round hole from face B that goes into it.
+        let a = app(&mut h);
+        a.preview_close();
+        a.layers[3].op = crate::layers::Operation::Pocket;
+        a.layers[3].depth = 20.0;
+        a.layers[4].op = crate::layers::Operation::Pocket;
+        a.layers[4].depth = 45.0;
+        a.show_face(0);
+        a.scene.add(3, Kind::Rect { w: 90.0, h: 40.0 }, Xf::translate(15.0, 35.0));
+        a.show_face(1);
+        a.scene.add(4, Kind::Ellipse { w: 30.0, h: 30.0 }, Xf::translate(45.0, 4.0));
+        a.open_preview();
+        a.view.show_cuts = false;
+        a.view.show_rapids = false;
+    }
+    shot(&mut h, "block-3d-b.png");
 }
