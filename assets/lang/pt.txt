@@ -560,3 +560,7 @@
 559|Pontes
 560|Avanços e velocidades
 561|as formas das camadas do lado de baixo são agora o lado B
+562|As faces que desapareceriam têm formas: o projeto fica como estava. Apague-as primeiro.
+563|um poste
+564|um bloco
+565|Projeto configurado: {} de {} x {} x {} mm, zero em {}

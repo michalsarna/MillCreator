@@ -1358,8 +1358,8 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
         let here_notes: Vec<&Note> = prog.notes[next_note..].iter().take_while(|n| n.at == i).collect();
         next_note += here_notes.len();
         let lead = here_notes.iter().take_while(|n| n.before_layer).count();
-        // The ends of side A go before the stop, the name of side B after it.
-        let (ends, starts) = if hold.is_some() { here_notes[..lead].split_at(here_notes[..lead].iter().position(|n| n.text.starts_with("Side B")).unwrap_or(lead)) } else { (&here_notes[..lead], &here_notes[lead..lead]) };
+        // The ends of side A go before the stop, the name of side B (or of the next face) after it.
+        let (ends, starts) = if hold.is_some() { here_notes[..lead].split_at(here_notes[..lead].iter().position(|n| n.text.starts_with("Side B") || n.text.starts_with("Face ")).unwrap_or(lead)) } else { (&here_notes[..lead], &here_notes[lead..lead]) };
         for n in ends {
             g.push_str(&format!("({})\n", note_text(&n.text)));
         }

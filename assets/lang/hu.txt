@@ -560,3 +560,7 @@
 559|Hidak
 560|Előtolások és fordulatszámok
 561|az alsó oldal rétegeinek alakzatai most a B oldal
+562|A megszűnő lapokon alakzatok vannak: a projekt marad, ahogy volt. Előbb törölje őket.
+563|oszlop
+564|tömb
+565|A projekt beállítva: {} {} x {} x {} mm, nullpont: {}

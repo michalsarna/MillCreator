@@ -560,3 +560,7 @@
 559|Tiltiņi
 560|Padeves un apgriezieni
 561|apakšpuses slāņu formas tagad ir B puse
+562|Skaldnēm, kas pazustu, ir figūras: projekts paliek, kāds bija. Vispirms tās izdzēsiet.
+563|stabiņš
+564|klucis
+565|Projekts iestatīts: {} {} x {} x {} mm, nulle: {}

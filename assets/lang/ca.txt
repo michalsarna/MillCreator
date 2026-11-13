@@ -560,3 +560,7 @@
 559|Ponts
 560|Avanços i velocitats
 561|les formes de les capes de la cara inferior ara són la cara B
+562|Les cares que desapareixerien tenen formes: el projecte queda com era. Esborreu-les primer.
+563|un pilar
+564|un bloc
+565|Projecte configurat: {} de {} x {} x {} mm, zero a {}

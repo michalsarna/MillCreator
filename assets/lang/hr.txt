@@ -560,3 +560,7 @@
 559|Mostići
 560|Posmaci i brzine
 561|oblici slojeva za donju stranu sada su strana B
+562|Strane koje bi nestale imaju oblike: projekt ostaje kakav je bio. Najprije ih izbrišite.
+563|stup
+564|blok
+565|Projekt postavljen: {} {} x {} x {} mm, nula u {}

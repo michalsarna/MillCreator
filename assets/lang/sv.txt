@@ -560,3 +560,7 @@
 559|Bryggor
 560|Matningar och varvtal
 561|formerna i lagren för undersidan är nu sida B
+562|Sidorna som skulle försvinna har former: projektet förblir som det var. Ta bort dem först.
+563|en stolpe
+564|en kloss
+565|Projekt inställt: {} på {} x {} x {} mm, nollpunkt {}

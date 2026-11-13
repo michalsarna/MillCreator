@@ -560,3 +560,7 @@
 559|Táib / droichid
 560|Fothaí agus luasanna
 561|is iad cruthanna na sraitheanna don bhun taobh B anois
+562|Tá cruthanna ar na taobhanna a d'imeodh: fanann an tionscadal mar a bhí. Scrios iad ar dtús.
+563|cuaille
+564|bloc
+565|Tionscadal socraithe: {} {} x {} x {} mm, nialas ag {}

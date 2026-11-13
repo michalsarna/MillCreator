@@ -560,3 +560,7 @@
 559|Bruggetjes
 560|Voedingen en toerentallen
 561|de vormen van de lagen voor de onderkant zijn nu kant B
+562|De vlakken die zouden verdwijnen hebben vormen: het project blijft zoals het was. Verwijder ze eerst.
+563|een paal
+564|een blok
+565|Project ingesteld: {} van {} x {} x {} mm, nulpunt {}

@@ -988,3 +988,104 @@ fn pictures_of_cuts_through() {
     }
     shot(&mut h, "layers-sections.png");
 }
+
+/// A post and a block worked on all their faces: the project setup with the pictures, the editor of a face with the ghosts and
+/// the net of the faces round it, and the 3D view of the object carved on every face. `SHOT_OUT=<folder> cargo test -p millcreator
+/// pictures_of_posts_and_blocks -- --ignored` (nothing is written without `SHOT_OUT`).
+#[test]
+#[ignore = "writes pictures; run explicitly"]
+fn pictures_of_posts_and_blocks() {
+    use base_core::geom::Xf;
+    use base_core::scene::Kind;
+    use base_ui::project_setup::Sides;
+    let Ok(out) = std::env::var("SHOT_OUT").map(PathBuf::from) else { return };
+    let shot = |h: &mut Shot, name: &str| {
+        h.run_steps(5);
+        let img = h.render().expect("render");
+        std::fs::create_dir_all(&out).unwrap();
+        img.save(out.join(name)).unwrap();
+    };
+    let mut h: Shot = Harness::builder().with_accessibility_check(false).with_size([1280.0, 860.0]).build_ui_state(
+        |ui, state: &mut Option<App>| {
+            let a = state.get_or_insert_with(|| App::build(ui.ctx(), None, false));
+            a.draw(ui);
+        },
+        None,
+    );
+    h.run_steps(2);
+    {
+        let a = app(&mut h);
+        a.use_dummy_device();
+        a.new_design();
+        a.open_setup();
+        a.setup.sides = Sides::Post;
+        a.setup.post = [60.0, 40.0, 250.0];
+    }
+    shot(&mut h, "post-setup.png");
+    {
+        let a = app(&mut h);
+        a.apply_setup();
+        a.setup.open = false;
+        a.layers[1].depth = 40.0;
+        a.layers[2].depth = 4.0;
+        // Face A: a window through to face C and a round pocket; face B: a slot along it; face C: a pocket, face D: two rounds.
+        a.scene.add(1, Kind::Rect { w: 60.0, h: 30.0 }, Xf::translate(30.0, 15.0));
+        a.scene.add(2, Kind::Ellipse { w: 26.0, h: 26.0 }, Xf::translate(150.0, 17.0));
+        a.show_face(1);
+        a.scene.add(2, Kind::Rect { w: 150.0, h: 12.0 }, Xf::translate(50.0, 14.0));
+        a.show_face(2);
+        a.scene.add(2, Kind::Rect { w: 40.0, h: 40.0 }, Xf::translate(170.0, 10.0));
+        a.show_face(3);
+        a.scene.add(2, Kind::Ellipse { w: 20.0, h: 20.0 }, Xf::translate(40.0, 10.0));
+        a.scene.add(2, Kind::Ellipse { w: 20.0, h: 20.0 }, Xf::translate(190.0, 10.0));
+        a.show_face(1);
+        a.ed.view.need_fit = true;
+    }
+    shot(&mut h, "post-editor-face-b.png");
+    {
+        let a = app(&mut h);
+        a.show_face(0);
+        a.open_preview();
+        a.view.show_rapids = false;
+    }
+    shot(&mut h, "post-3d-face-a.png");
+    app(&mut h).view.look_from([0.4, -0.7, -0.6]);
+    shot(&mut h, "post-3d-under.png");
+    {
+        let a = app(&mut h);
+        a.view.reset();
+        a.show_face(1);
+        a.refresh_program();
+    }
+    shot(&mut h, "post-3d-face-b.png");
+    {
+        let a = app(&mut h);
+        a.preview_close();
+        a.new_design();
+        a.open_setup();
+        a.setup.sides = Sides::Block;
+        a.setup.block = [120.0, 80.0, 60.0];
+    }
+    shot(&mut h, "block-setup.png");
+    {
+        let a = app(&mut h);
+        a.apply_setup();
+        a.setup.open = false;
+        a.layers[2].depth = 5.0;
+        for i in 0..6 {
+            a.show_face(i);
+            let (w, hh) = (a.stock.width, a.stock.height);
+            a.scene.add(2, Kind::Ellipse { w: 16.0 + 4.0 * i as f64, h: 16.0 + 4.0 * i as f64 }, Xf::translate(w / 2.0 - 8.0 - 2.0 * i as f64, hh / 2.0 - 8.0 - 2.0 * i as f64));
+        }
+        a.show_face(4);
+        a.ed.view.need_fit = true;
+    }
+    shot(&mut h, "block-editor-face-e.png");
+    {
+        let a = app(&mut h);
+        a.show_face(0);
+        a.open_preview();
+        a.view.show_rapids = false;
+    }
+    shot(&mut h, "block-3d.png");
+}

@@ -65,7 +65,7 @@ impl Workspace {
         p.restore_sections(&self.kept.other_sections(crate::section::SECTION));
         p.restore_extra(self.kept.extra());
         base_ui::editor::background_section(&self.view.background, &self.view.background_pending, &mut p);
-        crate::sides::sides_into(&mut p, &self.scene, self.two.as_ref());
+        crate::sides::sides_into(&mut p, &self.scene, self.two.as_ref(), crate::sides::solid_of(self.two.as_ref(), &self.stock, device));
         p
     }
 }
@@ -86,7 +86,7 @@ impl App {
         let Workspace { scene, history, path, description, kept, layers, stock, picture_layers, clean, autosaved_clean, view, slot, two } = w;
         std::mem::swap(&mut self.two, two);
         self.side = match &self.two {
-            Some(t) if t.shown_b => crate::layers::Side::Bottom,
+            Some(t) if t.shown_b() => crate::layers::Side::Bottom,
             _ => crate::layers::Side::Top,
         };
         std::mem::swap(&mut self.scene, scene);

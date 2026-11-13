@@ -336,6 +336,10 @@ struct App {
     surface_b: Option<((u64, usize, [u64; 5]), Option<view3d::Surface>)>,
     /// The two sides of a two-sided project for the 3D view, seen from side A: (the program stamp, top, bottom).
     sides3d: Option<(u64, toolpath::Program, toolpath::Program)>,
+    /// A post or a block: the programs of all its faces for the 3D view, made for the project as it was then.
+    solid3d: Option<(u64, Vec<toolpath::Program>)>,
+    /// The faces of a post or a block carved by their programs (the shown face is `surface`), by face.
+    face_surfaces: Vec<Option<(u64, Option<view3d::Surface>)>>,
     /// The lines of the drawing for the 3D window, kept while the drawing, the work area and the shown layers stay as they are.
     project_lines: Option<((u64, u64, Vec<bool>), Vec<view3d::ProjectLine>)>,
     show_3d: bool,
@@ -551,6 +555,8 @@ impl App {
             surface_none: None,
             surface_b: None,
             sides3d: None,
+            solid3d: None,
+            face_surfaces: vec![],
             project_lines: None,
             show_3d: false,
             prog: None,

@@ -11,9 +11,11 @@ impl App {
     /// The toolpaths of the project as it is now.
     pub(crate) fn make_program(&self) -> Program {
         let shown = self.job_scene();
+        // A post or a block: the shown face alone, on its own material; a sheet: side A, or side B with side A beside it.
         let (a, b) = match &self.two {
-            Some(t) if t.shown_b => (&t.other, Some(&*shown)),
-            Some(t) => (&*shown, Some(&t.other)),
+            Some(t) if t.is_solid() => (&*shown, None),
+            Some(t) if t.shown_b() => (t.other(), Some(&*shown)),
+            Some(t) => (&*shown, Some(t.other())),
             None => (&*shown, None),
         };
         toolpath::generate_sides(a, b, &self.layers, &self.tools, &self.device, &self.stock, toolpath::JobOptions { one_by_one: self.one_by_one, side: self.side })
@@ -51,6 +53,14 @@ impl App {
     /// The two sides of a two-sided project for the 3D view, as seen from side A: the top and the bottom (made again with the program).
     pub(crate) fn refresh_sides3d(&mut self) {
         let stamp = self.job_stamp();
+        if self.two.as_ref().is_some_and(|t| t.is_solid()) {
+            self.sides3d = None;
+            if self.solid3d.as_ref().is_none_or(|(k, _)| *k != stamp) {
+                self.solid3d = Some((stamp, self.face_programs().into_iter().map(|(p, _, _)| p).collect()));
+            }
+            return;
+        }
+        self.solid3d = None;
         if self.two.is_none() {
             self.sides3d = None;
             return;
@@ -83,10 +93,80 @@ impl App {
                 s.polys().into_iter().filter(|p| p.closed).map(|p| Polyline::new(p.pts.iter().map(|q| Pt::new(q.x, h - q.y)).collect(), true)).collect::<Vec<_>>()
             }).collect()
         };
+        // A post or a block: the windows of the shown face (those of the other faces fall out of them, `solid_view`).
+        if self.two.as_ref().is_some_and(|t| t.is_solid()) {
+            return (of(&self.scene, None), vec![]);
+        }
         let (a, b) = self.sides_scenes();
         let (w, hh) = self.sides_size();
         let turn = base_core::setup::turn(self.stock.flip, w, hh);
         (of(a, None), b.map_or(vec![], |b| of(b, Some(turn))))
+    }
+
+    /// A point of the object (as it lies for face A) in the coordinates of the program of the shown face.
+    fn solid_point(&self, q: base_core::faces::V3) -> crate::toolpath::P3 {
+        let (Some(solid), Some(shown)) = (self.solid(), self.two.as_ref().map(|t| t.shown)) else { return q };
+        let t = solid.face(shown);
+        let (d, depth) = t.local(q);
+        [d.x, t.h - d.y, -depth]
+    }
+
+    /// The ends of a post (they are not worked on) in the coordinates of the program of the shown face.
+    fn solid_caps(&self) -> Vec<[crate::toolpath::P3; 4]> {
+        let Some(solid) = self.solid().filter(|s| s.body == base_core::faces::Body::Post) else { return vec![] };
+        let [x, y, z] = solid.bbox();
+        [0.0, x].iter().map(|&e| [[e, 0.0, 0.0], [e, y, 0.0], [e, y, z], [e, 0.0, z]].map(|q| self.solid_point(q))).collect()
+    }
+
+    /// The middle of the object in the coordinates of the program of the shown face.
+    fn solid_centre(&self) -> crate::toolpath::P3 {
+        let b = self.solid().map_or([0.0; 3], |s| s.bbox());
+        self.solid_point([b[0] / 2.0, b[1] / 2.0, b[2] / 2.0])
+    }
+
+    /// The faces of a post or a block for the 3D view: each carved by its program (the shown one is carved by the view itself, up to
+    /// the slider), with its windows fallen out, and where it lies to the shown face. Made again when the project changes.
+    pub(crate) fn solid_faces(&mut self) -> Option<Vec<(Option<usize>, view3d::Affine3, [f64; 2], f64, Option<(usize, view3d::Affine3)>, char)>> {
+        use base_core::faces::{Relation, Solid};
+        use base_core::geom::{Polyline, Pt};
+        let solid = self.solid().filter(|_| self.two.as_ref().is_some_and(|t| t.is_solid()))?;
+        let shown = self.two.as_ref()?.shown;
+        let (stamp, progs) = self.solid3d.as_ref()?;
+        let stamp = *stamp;
+        let n = solid.count();
+        let moved = |from: usize, to: usize| {
+            let (f, t) = (solid.face(from), solid.face(to));
+            view3d::Affine3::of(|p| {
+                let (d, depth) = t.local(f.at(Pt::new(p[0], f.h - p[1]), -p[2]));
+                [d.x, t.h - d.y, -depth]
+            })
+        };
+        self.face_surfaces.resize_with(n, || None);
+        let tool_of = |layer: usize| self.layers.get(layer).and_then(|l| l.tool.as_deref()).and_then(|id| self.tools.get(id)).cloned();
+        for j in (0..n).filter(|j| *j != shown) {
+            if self.face_surfaces[j].as_ref().is_some_and(|(k, _)| *k == stamp) {
+                continue;
+            }
+            let f = solid.face(j);
+            let region = Region { min: [0.0, 0.0], max: [f.w, f.h] };
+            let mut s = progs.get(j).and_then(|p| view3d::Surface::of((stamp, j, [0; 5]), &p.moves, tool_of, region, f.depth));
+            // The windows of the face, cut round its whole depth without tabs, fall out.
+            let falls = |layer: usize| self.layers.get(layer).is_some_and(|l| l.enabled && l.op == crate::layers::Operation::ProfileInside && !l.tabs.enabled && l.depth >= f.depth - 1e-6);
+            let pieces: Vec<Polyline> = self.face_scene(j).shapes.iter().filter(|s| falls(s.layer)).flat_map(|s| s.polys().into_iter().filter(|p| p.closed).map(|p| Polyline::new(p.pts.iter().map(|q| Pt::new(q.x, f.h - q.y)).collect(), true)).collect::<Vec<_>>()).collect();
+            if let Some(s) = s.as_mut() {
+                s.fall_out(&pieces, f.depth);
+            }
+            self.face_surfaces[j] = Some((stamp, s));
+        }
+        Some(
+            (0..n)
+                .map(|j| {
+                    let f = solid.face(j);
+                    let opposite = (0..n).find(|k| solid.relation(*k, j) == Relation::Opposite).map(|k| (k, moved(j, k)));
+                    (Some(j).filter(|j| *j != shown), moved(j, shown), [f.w, f.h], f.depth, opposite, Solid::letter(j))
+                })
+                .collect(),
+        )
     }
 
     /// The program is made again when the project changed since it was made.
@@ -385,22 +465,40 @@ impl App {
     /// The options, totals and the picture (the same in the window and in the tab).
     pub(crate) fn preview_body(&mut self, ui: &mut egui::Ui) {
         self.refresh_sides3d();
+        // A post or a block: all its faces round the shown one, which lies as the machine sees it.
+        let solid_faces = self.solid_faces();
+        let shown_face = self.two.as_ref().map(|t| t.shown);
+        let solid = self.solid();
+        let mut want_face = None;
         self.view.under = self.two.is_some();
         let prog = self.prog.as_ref().expect("the program was made above");
         // A two-sided project shows both sides on one block: side A from the top, side B from the bottom (the side shown in the
         // editor plays, the other is done).
         let sides = self.sides3d.as_ref().map(|(_, top, bottom)| (top, bottom));
-        let shown_b = self.two.as_ref().is_some_and(|t| t.shown_b);
+        let shown_b = self.two.as_ref().is_some_and(|t| t.shown_b());
         let top_prog = sides.map_or(prog, |(t, _)| t);
         let region = match sides {
             Some((t, b)) => Region::of_two(t, b, self.shapes_box()),
             None => Region::of(prog, self.shapes_box()),
         };
+        // The whole shown face of a post or a block (its work area is the face).
+        let region = if solid_faces.is_some() { Some(Region { min: [0.0, 0.0], max: [self.stock.width.max(1.0), self.stock.height.max(1.0)] }) } else { region };
         let (region, rotary) = self.rotary_view(region);
         // The depth the cuts can go: the thickness of the material, or the radius of a workpiece on a rotary.
         let depth = rotary.map_or(self.stock.thickness, |c| c.r);
         let mut stl = false;
         ui.horizontal_wrapped(|ui| {
+            // A job on more than one side: the side or the face to look at and to play, the same as the one of the work area.
+            if let (Some(solid), Some(shown)) = (solid.as_ref(), shown_face) {
+                for i in 0..solid.count() {
+                    let r = ui.selectable_label(shown == i, base_ui::two_sided::face_label(solid, i));
+                    let r = if solid.count() > 2 { r.on_hover_text(base_ui::two_sided::face_tip(solid, i)) } else { r };
+                    if r.clicked() && shown != i {
+                        want_face = Some(i);
+                    }
+                }
+                ui.separator();
+            }
             ui.selectable_value(&mut self.view.top, false, "3D");
             ui.selectable_value(&mut self.view.top, true, tr("From above"));
             ui.separator();
@@ -481,7 +579,17 @@ impl App {
                     base_ui::dims::Features::default()
                 };
                 let bottom = sides.map(|(_, b)| view3d::Bottom { prog: b, surface: self.surface_b.as_ref().and_then(|(_, s)| s.as_ref()), animated: shown_b });
-                let sc = Scene3d { surface, prog: top_prog, region, stock: &stock, dev: &self.device, layers: &self.layers, project, rotary, parts: &parts, units: base_ui::editor::EditorHost::units(self), bottom };
+                let (caps, centre) = (self.solid_caps(), self.solid_centre());
+                let solid_view = solid_faces.as_ref().zip(shown_face).map(|(faces, shown)| view3d::SolidView {
+                    faces: faces
+                        .iter()
+                        .map(|(j, to_view, size, depth, opposite, letter)| view3d::FaceView { surface: j.and_then(|j| self.face_surfaces.get(j).and_then(|s| s.as_ref()).and_then(|(_, s)| s.as_ref())), to_view: *to_view, size: *size, depth: *depth, opposite: *opposite, letter: *letter })
+                        .collect(),
+                    shown,
+                    caps,
+                    centre,
+                });
+                let sc = Scene3d { surface, prog: top_prog, region, stock: &stock, dev: &self.device, layers: &self.layers, project, rotary, parts: &parts, units: base_ui::editor::EditorHost::units(self), bottom, solid: solid_view };
                 view3d::show(ui, &mut self.view, &sc);
             }
             None => {
@@ -491,6 +599,10 @@ impl App {
         }
         if stl {
             self.export_view();
+        }
+        if let Some(i) = want_face {
+            self.show_face(i);
+            self.refresh_program();
         }
     }
 

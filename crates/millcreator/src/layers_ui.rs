@@ -590,9 +590,11 @@ impl App {
         ui.label(RichText::new(tr("Only the colour of a plastic can be changed. The material and its thickness are shown in the 3D view and saved in the project.")).color(theme::text_dim()));
         if changed {
             // The way it is turned over is one: the one of the two sides follows the material.
-            if let Some(t) = self.two.as_mut() {
-                t.flip = self.stock.flip;
+            if let Some(t) = self.two.as_mut().filter(|t| !t.is_solid()) {
+                t.solid = base_core::faces::Solid::sheet(1.0, 1.0, 1.0, self.stock.flip);
             }
+            // A post or a block: the size of the shown face is the size of the object there.
+            self.solid_from_stock();
             self.touch();
         }
     }

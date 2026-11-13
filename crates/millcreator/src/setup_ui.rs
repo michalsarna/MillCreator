@@ -4,7 +4,7 @@
 use crate::materials::{ZeroPoint, MAX_THICKNESS};
 use crate::App;
 use base_ui::i18n::{tr, trf};
-use base_ui::project_setup::{Answer, Kind};
+use base_ui::project_setup::{Answer, Kind, Sides};
 use eframe::egui;
 
 pub use base_ui::project_setup::Setup;
@@ -19,6 +19,7 @@ fn kind(colour: [u8; 3]) -> Kind {
         cylinder_note: "The cylinder lies along X on the rotary attachment; Y of the drawing goes round it and the drawing is unrolled from its surface. Z counts from the top of the surface, and the deepest cut is the radius. The zero is on the surface; set the same one on the machine.",
         colour,
         paper: false,
+        solids: true,
     }
 }
 
@@ -37,18 +38,29 @@ impl App {
             round: s.round || self.device.rotary.enabled,
             diameter: self.device.rotary.diameter.clamp(1.0, 1000.0),
             length: if s.round && s.width > 0.0 { s.width } else { self.device.area.x.min(150.0) },
-            two_sided: self.two.is_some(),
             flip: s.flip,
             // The marks are offered for a project that becomes two-sided; one that is already has them (or not) by now.
             marks: self.two.is_none(),
             max: (self.device.area.x, self.device.area.y),
+            ..Setup::default()
         };
+        let solid = self.solid();
+        self.setup.take_solid(solid.as_ref());
+        // A job on more than one side has the material as its work area.
+        self.setup.work_area = self.setup.sides.many();
     }
 
     /// Put the choices into the project: the material, the zero and the work area.
     pub(crate) fn apply_setup(&mut self) {
         if self.setup.round {
             return self.apply_cylinder();
+        }
+        // A job on more than one side has the material as its work area.
+        if self.setup.sides.many() {
+            self.setup.work_area = true;
+        }
+        if matches!(self.setup.sides, Sides::Post | Sides::Block) {
+            return self.apply_solid();
         }
         // A block: the rotary attachment of the device is not used.
         let was_round = self.device.rotary.enabled;
@@ -71,6 +83,29 @@ impl App {
         self.ed.view.need_fit = true;
         self.status = trf("Project set up: material {} x {} x {} mm, zero at {}", &[&format!("{w:.1}"), &format!("{h:.1}"), &format!("{t:.1}"), &tr(zero.label())]);
         self.apply_two_sided();
+        if was_round {
+            self.status = format!("{} {}", self.status, tr("The rotary attachment of the device is off."));
+        }
+    }
+
+    /// A post or a block: every face is a work area of its own (as big as the face) on the material as thick as the object is deep
+    /// there; the shown face sets the material and the work area now. The faces that are drawn stay; going to fewer faces is refused
+    /// while the faces that would go have shapes.
+    fn apply_solid(&mut self) {
+        let Some(solid) = self.setup.solid() else { return };
+        let was_round = self.device.rotary.enabled;
+        self.stock.round = false;
+        self.set_rotary(false, self.device.rotary.diameter);
+        self.stock.zero = Some(self.setup.zero);
+        self.stock.z_bottom = self.setup.z_bottom;
+        if !self.make_faces(solid) {
+            self.status = tr("The faces that would go have shapes: the project stays as it was. Delete them first.").to_string();
+            return;
+        }
+        self.ed.view.need_fit = true;
+        let s = solid.size;
+        let what = if solid.body == base_core::faces::Body::Post { tr("a post") } else { tr("a block") };
+        self.status = trf("Project set up: {} of {} x {} x {} mm, zero at {}", &[&what, &format!("{:.1}", s[0]), &format!("{:.1}", s[1]), &format!("{:.1}", s[2]), &tr(self.setup.zero.label())]);
         if was_round {
             self.status = format!("{} {}", self.status, tr("The rotary attachment of the device is off."));
         }
@@ -113,9 +148,12 @@ impl App {
     /// A block chosen as two-sided: the project gets side B (or the new way of turning it over) and, when asked, the alignment holes
     /// on side A; chosen as one-sided, side B goes when it is empty.
     fn apply_two_sided(&mut self) {
-        if self.setup.two_sided {
+        if self.setup.sides == Sides::Two {
             let first = self.two.is_none();
-            self.make_two_sided(self.setup.flip);
+            if !self.make_two_sided(self.setup.flip) {
+                self.status = tr("The faces that would go have shapes: the project stays as it was. Delete them first.").to_string();
+                return;
+            }
             if first && self.setup.marks {
                 self.show_side(false);
                 self.add_alignment_holes();

@@ -268,6 +268,14 @@ impl Surface {
         }
     }
 
+    /// A face of `size` with no cuts, on a grid of `step` (as fine as another face's, at most 600 points each way).
+    pub fn plain(key: (u64, usize, [u64; 5]), size: [f64; 2], step: f64) -> Surface {
+        let step = step.max(size[0] / 600.0).max(size[1] / 600.0).max(1e-3);
+        let cols = ((size[0] / step).round() as usize).max(2);
+        let rows = ((size[1] / step).round() as usize).max(2);
+        Surface { key, cols, rows, step, lo: [0.0, 0.0], top: rows as f64 * step, z: vec![0.0; cols * rows], light: vec![1.0; cols * rows] }
+    }
+
     /// A face with no cuts on the same grid.
     pub fn flat(&self) -> Surface {
         Surface { key: self.key, cols: self.cols, rows: self.rows, step: self.step, lo: self.lo, top: self.top, z: vec![0.0; self.z.len()], light: vec![1.0; self.z.len()] }
@@ -343,6 +351,69 @@ pub struct Scene3d<'a> {
     pub units: base_core::units::Units,
     /// A two-sided project: the cuts of side B, coming from the bottom face.
     pub bottom: Option<Bottom<'a>>,
+    /// A post or a block: all its faces, carved, round the shown one.
+    pub solid: Option<SolidView<'a>>,
+}
+
+/// A move of the space of one face (the coordinates of its program: X, Y up, Z up from its top) into the space of another: a turn
+/// and a shift, `p' = m·p + t`.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Affine3 {
+    pub m: [[f64; 3]; 3],
+    pub t: [f64; 3],
+}
+
+impl Affine3 {
+    /// The move that `f` makes (it must be one: a turn and a shift).
+    pub fn of(f: impl Fn(P3) -> P3) -> Affine3 {
+        let t = f([0.0; 3]);
+        let col = |k: usize| {
+            let mut e = [0.0; 3];
+            e[k] = 1.0;
+            let p = f(e);
+            [p[0] - t[0], p[1] - t[1], p[2] - t[2]]
+        };
+        let (c0, c1, c2) = (col(0), col(1), col(2));
+        Affine3 { m: [[c0[0], c1[0], c2[0]], [c0[1], c1[1], c2[1]], [c0[2], c1[2], c2[2]]], t }
+    }
+    pub fn apply(&self, p: P3) -> P3 {
+        let d = self.dir(p);
+        [d[0] + self.t[0], d[1] + self.t[1], d[2] + self.t[2]]
+    }
+    /// A direction moved (the turn alone).
+    pub fn dir(&self, p: P3) -> P3 {
+        let m = &self.m;
+        [m[0][0] * p[0] + m[0][1] * p[1] + m[0][2] * p[2], m[1][0] * p[0] + m[1][1] * p[1] + m[1][2] * p[2], m[2][0] * p[0] + m[2][1] * p[1] + m[2][2] * p[2]]
+    }
+    /// A direction moved back (the turn undone: its transpose).
+    pub fn dir_back(&self, p: P3) -> P3 {
+        let m = &self.m;
+        [m[0][0] * p[0] + m[1][0] * p[1] + m[2][0] * p[2], m[0][1] * p[0] + m[1][1] * p[1] + m[2][1] * p[2], m[0][2] * p[0] + m[1][2] * p[1] + m[2][2] * p[2]]
+    }
+}
+
+/// A face of a post or a block in the view.
+pub struct FaceView<'a> {
+    /// The face carved by its program (its own coordinates); `None` while nothing is cut on it.
+    pub surface: Option<&'a Surface>,
+    /// From its coordinates to those of the shown face (the coordinates of the picture).
+    pub to_view: Affine3,
+    /// Its size (width, height) and how deep the object is under it.
+    pub size: [f64; 2],
+    pub depth: f64,
+    /// The face on the other side of the object, and the move from this face's coordinates to that one's (a cut through the
+    /// object from both faces is a hole).
+    pub opposite: Option<(usize, Affine3)>,
+    pub letter: char,
+}
+
+/// A post or a block: its faces (A first), the shown one carved by `Scene3d::surface` and lying as the machine sees it.
+pub struct SolidView<'a> {
+    pub faces: Vec<FaceView<'a>>,
+    pub shown: usize,
+    /// The sides of the object that are not worked on (the ends of a post), in the coordinates of the picture, and its middle.
+    pub caps: Vec<[P3; 4]>,
+    pub centre: P3,
 }
 
 /// The bottom of a two-sided project in the view: its program as seen from side A (`toolpath::bottom_seen_from_a`, the depths from
@@ -537,6 +608,102 @@ fn draw_surface(painter: &egui::Painter, pj: &Projector, s: &Surface, color: [u8
     painter.add(Shape::mesh(mesh));
 }
 
+/// A post or a block: every face that is turned to the eye, carved by its program (or flat), where it lies to the shown face, and
+/// its letter; the far faces first. A point cut through the object from a face and the one on the other side is a hole.
+fn draw_solid(painter: &egui::Painter, pj: &Projector, sc: &Scene3d, solid: &SolidView, eye: [f32; 3]) {
+    let e = [eye[0] as f64, eye[1] as f64, eye[2] as f64];
+    let hole = background(painter.ctx().global_style().visuals.dark_mode);
+    let light = [-0.35f64, -0.45, 0.82];
+    let surface_of = |i: usize| if i == solid.shown { sc.surface } else { solid.faces.get(i).and_then(|f| f.surface) };
+    let mut order: Vec<(f64, usize)> = vec![];
+    for (i, f) in solid.faces.iter().enumerate() {
+        let n = f.to_view.dir([0.0, 0.0, 1.0]);
+        if n[0] * e[0] + n[1] * e[1] + n[2] * e[2] <= 1e-6 {
+            continue;
+        }
+        let c = f.to_view.apply([f.size[0] / 2.0, f.size[1] / 2.0, 0.0]);
+        order.push((c[0] * e[0] + c[1] * e[1] + c[2] * e[2], i));
+    }
+    order.sort_by(|a, b| a.0.total_cmp(&b.0));
+    // The ends of a post: plain wood, the one turned to the eye.
+    for cap in &solid.caps {
+        let mid = [(cap[0][0] + cap[2][0]) / 2.0, (cap[0][1] + cap[2][1]) / 2.0, (cap[0][2] + cap[2][2]) / 2.0];
+        let out = [mid[0] - solid.centre[0], mid[1] - solid.centre[1], mid[2] - solid.centre[2]];
+        if out[0] * e[0] + out[1] * e[1] + out[2] * e[2] <= 1e-6 {
+            continue;
+        }
+        let len = (out[0] * out[0] + out[1] * out[1] + out[2] * out[2]).sqrt().max(1e-9);
+        let lit = (0.5 + 0.35 * ((out[0] * light[0] + out[1] * light[1] + out[2] * light[2]) / len).max(0.0)) as f32;
+        let pts: Vec<Pos2> = cap.iter().map(|q| pj.project(*q)).collect();
+        painter.add(Shape::convex_polygon(pts, shade(sc.stock.color, lit), Stroke::new(1.0, shade(sc.stock.color, lit * 0.6))));
+    }
+    for (_, i) in order {
+        let f = &solid.faces[i];
+        let n = f.to_view.dir([0.0, 0.0, 1.0]);
+        // Each face lit by how it turns to the light, so that the edges of the object show.
+        let lit = (0.6 + 0.4 * (n[0] * light[0] + n[1] * light[1] + n[2] * light[2]).max(0.0)) as f32;
+        let through = f.opposite.and_then(|(k, m)| surface_of(k).map(|s| (s, m)));
+        let carved;
+        let s = match (surface_of(i), through) {
+            (Some(s), _) => Some(s),
+            // Not cut, but the face on the other side is: drawn flat on that grid so that what goes through shows.
+            (None, Some((o, _))) => {
+                carved = Surface::plain(o.key, f.size, o.step);
+                Some(&carved)
+            }
+            (None, None) => None,
+        };
+        match s {
+            Some(s) => {
+                let eye_local = f.to_view.dir_back(e);
+                draw_face_surface(painter, pj, s, sc.stock.color, eye_local, &f.to_view, through, f.depth, hole, lit);
+            }
+            None => {
+                let pts: Vec<Pos2> = [[0.0, 0.0], [f.size[0], 0.0], [f.size[0], f.size[1]], [0.0, f.size[1]]].iter().map(|q| pj.project(f.to_view.apply([q[0], q[1], 0.0]))).collect();
+                painter.add(Shape::convex_polygon(pts, shade(sc.stock.color, lit), Stroke::new(1.0, shade(sc.stock.color, lit * 0.6))));
+            }
+        }
+        // The letter of the face in its middle, faint.
+        let mid = pj.project(f.to_view.apply([f.size[0] / 2.0, f.size[1] / 2.0, 0.0]));
+        painter.text(mid, egui::Align2::CENTER_CENTER, f.letter, egui::FontId::proportional(18.0), shade(sc.stock.color, 0.45).gamma_multiply(0.7));
+    }
+}
+
+/// A carved face of a post or a block, moved into the picture by `to_view`; `eye_local` is the eye in its own coordinates (the far
+/// cells first, as `draw_surface` does). `through`: the face on the other side and the move to its coordinates; `t` how deep the
+/// object is; `lit` how light the face is.
+#[allow(clippy::too_many_arguments)]
+fn draw_face_surface(painter: &egui::Painter, pj: &Projector, s: &Surface, color: [u8; 3], eye_local: [f64; 3], to_view: &Affine3, through: Option<(&Surface, Affine3)>, t: f64, hole: Color32, lit: f32) {
+    let x_of = |c: usize| s.lo[0] + (c as f64 + 0.5) * s.step;
+    let y_of = |r: usize| s.top - (r as f64 + 0.5) * s.step;
+    let mut mesh = egui::epaint::Mesh::default();
+    mesh.vertices.reserve(s.cols * s.rows);
+    for r in 0..s.rows {
+        for c in 0..s.cols {
+            let i = r * s.cols + c;
+            let (x, y) = (x_of(c), y_of(r));
+            let other = through.map_or(0.0, |(o, m)| {
+                let q = m.apply([x, y, 0.0]);
+                o.depth_at(q[0], q[1])
+            });
+            let open = -s.z[i] + other >= t - 0.01;
+            let p = to_view.apply([x, y, s.z[i]]);
+            mesh.colored_vertex(pj.project(p), if open { hole } else { shade(color, s.light[i] * lit) });
+        }
+    }
+    let cs: Vec<usize> = if eye_local[0] > 0.0 { (0..s.cols - 1).collect() } else { (0..s.cols - 1).rev().collect() };
+    let rs: Vec<usize> = if eye_local[1] > 0.0 { (0..s.rows - 1).rev().collect() } else { (0..s.rows - 1).collect() };
+    let w = s.cols as u32;
+    for r in rs {
+        for c in cs.iter().copied() {
+            let i = (r * s.cols + c) as u32;
+            mesh.add_triangle(i, i + 1, i + w);
+            mesh.add_triangle(i + 1, i + w + 1, i + w);
+        }
+    }
+    painter.add(Shape::mesh(mesh));
+}
+
 /// A cylinder that has not been cut: the same grid as a carved surface, all at the top.
 fn plain_surface(region: Region, c: Cyl) -> Surface {
     let step = (2.0 * std::f64::consts::PI * c.r / 160.0).max(0.05);
@@ -629,6 +796,8 @@ pub fn draw(painter: &egui::Painter, rect: Rect, view: &View3d, sc: &Scene3d) {
     let max = [r.max[0], r.max[1], 0.0];
     if let (true, Some(c)) = (view.show_stock, sc.rotary) {
         draw_cylinder(painter, &pj, sc, c, eye);
+    } else if let (true, Some(solid)) = (view.show_stock, sc.solid.as_ref()) {
+        draw_solid(painter, &pj, sc, solid, eye);
     } else if view.show_stock {
         for (corners, normal, light) in faces(min, max) {
             if normal[0] * eye[0] + normal[1] * eye[1] + normal[2] * eye[2] <= 0.0 {
@@ -713,7 +882,8 @@ pub fn draw(painter: &egui::Painter, rect: Rect, view: &View3d, sc: &Scene3d) {
     if bottom_plays || (sc.bottom.is_some() && from_below) {
         here = None;
     }
-    let top_paths = sc.bottom.is_none() || !from_below;
+    // A post or a block: the paths of the shown face only while it is turned to the eye.
+    let top_paths = (sc.bottom.is_none() && sc.solid.is_none()) || !from_below;
     if view.show_cuts && top_paths {
         // The paths of the bit in the colour of the layer, over the carved stock.
         for m in sc.prog.moves.iter().take(done) {
@@ -978,7 +1148,7 @@ mod tests {
     fn the_picture_is_drawn_for_a_job() {
         let (prog, dev, stock, layers, _lib) = job();
         let region = Region::of(&prog, None).unwrap();
-        let sc = Scene3d { surface: None, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary: None, parts: &base_ui::dims::Features::default(), units: base_core::units::Units::Mm, bottom: None };
+        let sc = Scene3d { surface: None, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary: None, parts: &base_ui::dims::Features::default(), units: base_core::units::Units::Mm, bottom: None, solid: None };
         let ctx = egui::Context::default();
         let mut view = View3d::default();
         view.progress = 0.5;
@@ -1040,7 +1210,7 @@ mod tests {
                 Surface::of((0, 0, [0; 5]), moves, tool_of, region, 15.0)
             };
             for sf in [None, surface.as_ref()] {
-                let sc = Scene3d { surface: sf, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary, parts: &base_ui::dims::Features::default(), units: base_core::units::Units::Mm, bottom: None };
+                let sc = Scene3d { surface: sf, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary, parts: &base_ui::dims::Features::default(), units: base_core::units::Units::Mm, bottom: None, solid: None };
                 view.fit = Some(Fit::Elements);
                 let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
                     show(ui, &mut view, &sc);

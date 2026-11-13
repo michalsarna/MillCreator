@@ -605,6 +605,10 @@ const TABLE: &[[&str; 7]] = &[
     ["Tabs / bridges", "Mostki", "Haltestege", "Ponticelli", "Kiinnikkeet", "连接桥", "टैब / ब्रिज"],
     ["Feeds and speeds", "Posuwy i obroty", "Vorschübe und Drehzahlen", "Avanzamenti e velocità", "Syötöt ja nopeudet", "进给与转速", "फ़ीड और गति"],
     ["the shapes of the layers for the bottom are now side B", "kształty warstw na spód są teraz stroną B", "die Formen der Ebenen für die Unterseite sind jetzt Seite B", "le forme dei livelli per il lato inferiore ora sono il lato B", "alapuolen tasojen muodot ovat nyt puoli B", "底面图层的形状现在属于 B 面", "निचली तरफ़ की परतों की आकृतियाँ अब तरफ़ B हैं"],
+    ["The faces that would go have shapes: the project stays as it was. Delete them first.", "Ściany, które by zniknęły, mają kształty: projekt zostaje bez zmian. Najpierw je usuń.", "Die Seiten, die wegfallen würden, haben Formen: Das Projekt bleibt, wie es war. Löschen Sie sie zuerst.", "Le facce che sparirebbero hanno forme: il progetto resta com'era. Eliminale prima.", "Poistuvilla sivuilla on muotoja: projekti pysyy ennallaan. Poista ne ensin.", "将被移除的面上还有形状：项目保持不变。请先删除它们。", "जो सतहें हटेंगी उन पर आकृतियाँ हैं: प्रोजेक्ट जैसा था वैसा रहेगा। पहले उन्हें मिटाएँ।"],
+    ["a post", "słupek", "ein Pfosten", "un montante", "pylväs", "立柱", "खंभा"],
+    ["a block", "kostka", "ein Block", "un blocco", "kappale", "方块", "ब्लॉक"],
+    ["Project set up: {} of {} x {} x {} mm, zero at {}", "Projekt ustawiony: {} {} x {} x {} mm, zero: {}", "Projekt eingerichtet: {} von {} x {} x {} mm, Nullpunkt {}", "Progetto impostato: {} di {} x {} x {} mm, zero in {}", "Projekti asetettu: {} {} x {} x {} mm, nolla {}", "项目已设置：{}，{} x {} x {} mm，零点在{}", "प्रोजेक्ट तैयार: {} {} x {} x {} mm, शून्य {} पर"],
 ];
 
 #[cfg(test)]

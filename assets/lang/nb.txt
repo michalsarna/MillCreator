@@ -560,3 +560,7 @@
 559|Broer
 560|Mating og turtall
 561|formene på lagene for undersiden er nå side B
+562|Sidene som ville forsvinne har former: prosjektet forblir som det var. Slett dem først.
+563|en stolpe
+564|en kloss
+565|Prosjekt satt opp: {} på {} x {} x {} mm, nullpunkt {}
