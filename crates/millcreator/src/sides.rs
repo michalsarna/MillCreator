@@ -87,6 +87,36 @@ impl App {
         self.side = Side::Top;
     }
 
+    /// A project made before two-sided jobs had sides A and B gave some layers the bottom side. Their shapes go to side B, turned over
+    /// as the material is (side B is drawn as the material lies after it is turned over), and the layers are layers of either side
+    /// again. True when something was moved.
+    pub(crate) fn sides_from_bottom_layers(&mut self) -> bool {
+        let bottom: Vec<usize> = self.layers.iter().enumerate().filter(|(_, l)| l.side == Side::Bottom).map(|(i, _)| i).collect();
+        if bottom.is_empty() {
+            return false;
+        }
+        for i in &bottom {
+            self.layers[*i].side = Side::Top;
+        }
+        let moving: Vec<base_core::scene::Shape> = self.scene.shapes.iter().filter(|s| bottom.contains(&s.layer)).cloned().collect();
+        if moving.is_empty() {
+            return false;
+        }
+        if self.two.is_none() {
+            self.two = Some(Sides::new(self.stock.flip));
+        }
+        let (w, h) = self.sides_size();
+        let turn = setup::turn(self.stock.flip, w, h);
+        self.scene.shapes.retain(|s| !bottom.contains(&s.layer));
+        let t = self.two.as_mut().expect("made above");
+        let side_b = if t.shown_b { &mut self.scene } else { &mut t.other };
+        for s in moving {
+            side_b.add_shape(base_core::scene::Shape { xf: s.xf.then(turn), ..s });
+        }
+        self.touch_rev();
+        true
+    }
+
     /// Make the project two-sided (or change how it is turned over); nothing happens to the drawings.
     pub(crate) fn make_two_sided(&mut self, flip: FlipAxis) {
         self.stock.flip = flip;
@@ -297,5 +327,24 @@ mod tests {
         assert!((b.min.x - 185.0).abs() < 1e-9 && (b.max.x - 195.0).abs() < 1e-9, "{b:?}");
         a.two.as_mut().unwrap().ghosts = false;
         assert!(base_ui::editor::EditorHost::ghost_shapes(&a).is_empty());
+    }
+
+    /// An old project with a layer for the bottom: its shapes become side B, turned over, and the layer is an ordinary one again.
+    #[test]
+    fn the_shapes_of_an_old_bottom_layer_become_side_b() {
+        let mut a = crate::tests::app();
+        a.stock.width = 200.0;
+        a.stock.height = 100.0;
+        a.layers[1].side = crate::layers::Side::Bottom;
+        let top = a.scene.add(0, Kind::Rect { w: 10.0, h: 10.0 }, Xf::translate(5.0, 5.0));
+        a.scene.add(1, Kind::Rect { w: 20.0, h: 10.0 }, Xf::translate(10.0, 20.0));
+        assert!(a.sides_from_bottom_layers());
+        assert!(a.layers.iter().all(|l| l.side == crate::layers::Side::Top));
+        assert!(a.scene.shape(top).is_some() && a.scene.shapes.len() == 1, "side A keeps the rest");
+        let (_, b) = a.sides_scenes();
+        let b = b.expect("two-sided now");
+        let bb = b.shapes[0].bounds().unwrap();
+        assert!((bb.min.x - 170.0).abs() < 1e-9 && (bb.max.x - 190.0).abs() < 1e-9 && b.shapes[0].layer == 1, "turned over side to side: {bb:?}");
+        assert!(!a.sides_from_bottom_layers(), "once");
     }
 }

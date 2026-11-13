@@ -559,3 +559,4 @@
 558|Įėjimas ir priartėjimas
 559|Tilteliai
 560|Pastūmos ir apsukos
+561|apatinės pusės sluoksnių figūros dabar yra B pusė

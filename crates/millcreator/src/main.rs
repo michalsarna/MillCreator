@@ -215,7 +215,7 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::PickZero => Some("target"),
         Act::FindCentre => Some("target"),
         Act::SavedPositions => Some("save"),
-        Act::SetOp(_) | Act::SetSide(_) => None,
+        Act::SetOp(_) => None,
         Act::SetLang(_) | Act::SetScheme(_) => None,
     }
 }
@@ -778,6 +778,9 @@ impl App {
                     self.tools_win.changed = true;
                 }
                 self.scene = scene;
+                if self.sides_from_bottom_layers() {
+                    self.status.push_str(&format!(" — {}", tr("the shapes of the layers for the bottom are now side B")));
+                }
                 self.reset_picture_layers();
                 self.history = History::default();
                 self.ed.sel.clear();
@@ -1659,7 +1662,7 @@ impl MenuHost for App {
             Act::StartJob => self.screen == Screen::Editor && self.can_start(),
             Act::ToggleOverlay => self.ed.background.is_some(),
             Act::ToggleZones => !self.device.zones.is_empty(),
-            Act::PreviewGcode | Act::LayerPresets | Act::TabsByHand | Act::AlignmentHoles | Act::SetOp(_) | Act::SetSide(_) | Act::PickZero | Act::SavedPositions => self.screen == Screen::Editor,
+            Act::PreviewGcode | Act::LayerPresets | Act::TabsByHand | Act::AlignmentHoles | Act::SetOp(_) | Act::PickZero | Act::SavedPositions => self.screen == Screen::Editor,
             Act::FindCentre => self.screen == Screen::Editor && self.machine.connected && !self.machine.job_running() && !self.machine.center_running(),
             Act::Save | Act::SaveAs | Act::Preview3d | Act::TechnicalDrawing | Act::ExportGcode | Act::ExportSvg | Act::ExportCam => self.screen == Screen::Editor,
             Act::ExportRelief => self.screen == Screen::Editor && self.relief_picture().is_some(),
@@ -1673,7 +1676,6 @@ impl MenuHost for App {
             Act::ToggleZones => Some(self.zones_visible),
             Act::TabsByHand => Some(self.tab_edit),
             Act::SetOp(o) => Some(self.layers.get(self.ed.active_layer).is_some_and(|l| l.op == o)),
-            Act::SetSide(s) => Some(self.side == s),
             Act::SetLang(l) => Some(self.lang == l),
             Act::SetScheme(s) => Some(self.scheme == s),
             _ => None,
@@ -1741,7 +1743,6 @@ impl MenuHost for App {
                 }
                 self.side_tab = SideTab::Layers;
             }
-            Act::SetSide(s) => self.side = s,
             Act::PickZero => self.pick_origin = true,
             Act::FindCentre => {
                 let control = self.device.control.clone();

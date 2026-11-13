@@ -604,6 +604,7 @@ const TABLE: &[[&str; 7]] = &[
     ["Entry and lead", "Wejście i dojazd", "Einstieg und Anfahrt", "Ingresso e attacco", "Sisäänmeno ja lähestyminen", "进刀与引入", "प्रवेश और लीड"],
     ["Tabs / bridges", "Mostki", "Haltestege", "Ponticelli", "Kiinnikkeet", "连接桥", "टैब / ब्रिज"],
     ["Feeds and speeds", "Posuwy i obroty", "Vorschübe und Drehzahlen", "Avanzamenti e velocità", "Syötöt ja nopeudet", "进给与转速", "फ़ीड और गति"],
+    ["the shapes of the layers for the bottom are now side B", "kształty warstw na spód są teraz stroną B", "die Formen der Ebenen für die Unterseite sind jetzt Seite B", "le forme dei livelli per il lato inferiore ora sono il lato B", "alapuolen tasojen muodot ovat nyt puoli B", "底面图层的形状现在属于 B 面", "निचली तरफ़ की परतों की आकृतियाँ अब तरफ़ B हैं"],
 ];
 
 #[cfg(test)]

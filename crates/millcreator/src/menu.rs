@@ -74,7 +74,6 @@ pub enum Act {
     /// The operation of the active layer.
     SetOp(crate::layers::Operation),
     /// The side of a two-sided job that is cut.
-    SetSide(crate::layers::Side),
     PickZero,
     FindCentre,
     SavedPositions,
@@ -135,7 +134,6 @@ pub fn menus() -> Menus<Act> {
                 Item(Act::PickZero, "Pick the zero of the program", None),
                 Item(Act::FindCentre, "Find the centre", None),
                 Item(Act::SavedPositions, "Saved positions…", None),
-                Entry::Sub("Side to cut", crate::layers::Side::ALL.iter().map(|s| Item(Act::SetSide(*s), s.label(), None)).collect()),
             ],
             control_devices: Act::ControlDevices,
             control_device_of_machine: Act::ControlDeviceOfMachine,
