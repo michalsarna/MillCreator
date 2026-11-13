@@ -248,6 +248,26 @@ impl Surface {
         Some(Surface { key, cols, rows, step, lo: region.min, top: region.min[1] + rows as f64 * step, z, light })
     }
 
+    /// The pieces that fall out of the material once they are cut round the whole thickness `t` (windows without tabs): the points of
+    /// the grid inside them go down through the material. `pieces` are closed outlines in the coordinates of the program.
+    pub fn fall_out(&mut self, pieces: &[base_core::geom::Polyline], t: f64) {
+        for p in pieces {
+            let Some(b) = p.bounds() else { continue };
+            let c0 = (((b.min.x - self.lo[0]) / self.step - 0.5).floor().max(0.0)) as usize;
+            let c1 = (((b.max.x - self.lo[0]) / self.step - 0.5).ceil().max(0.0) as usize).min(self.cols.saturating_sub(1));
+            let r0 = (((self.top - b.max.y) / self.step - 0.5).floor().max(0.0)) as usize;
+            let r1 = (((self.top - b.min.y) / self.step - 0.5).ceil().max(0.0) as usize).min(self.rows.saturating_sub(1));
+            for r in r0..=r1 {
+                for c in c0..=c1 {
+                    let q = base_core::geom::Pt::new(self.lo[0] + (c as f64 + 0.5) * self.step, self.top - (r as f64 + 0.5) * self.step);
+                    if p.contains(q) {
+                        self.z[r * self.cols + c] = -t;
+                    }
+                }
+            }
+        }
+    }
+
     /// A face with no cuts on the same grid.
     pub fn flat(&self) -> Surface {
         Surface { key: self.key, cols: self.cols, rows: self.rows, step: self.step, lo: self.lo, top: self.top, z: vec![0.0; self.z.len()], light: vec![1.0; self.z.len()] }
@@ -1061,5 +1081,18 @@ mod through_tests {
         assert!(super::cut_through(10.0, None, x, y, 10.0), "the whole thickness");
         assert_eq!(s.depth_at(-1000.0, 0.0), 0.0, "off the grid");
         assert!(s.flat().z.iter().all(|z| *z == 0.0));
+    }
+
+    /// A piece cut round falls out: the points inside it go through the material, those outside stay as they were.
+    #[test]
+    fn a_piece_cut_round_falls_out() {
+        use base_core::geom::{Polyline, Pt};
+        let region = super::Region { min: [0.0, 0.0], max: [20.0, 20.0] };
+        let mut s = super::Surface { key: (0, 0, [0; 5]), cols: 20, rows: 20, step: 1.0, lo: region.min, top: 20.0, z: vec![-1.0; 400], light: vec![1.0; 400] };
+        let square = Polyline::new(vec![Pt::new(5.0, 5.0), Pt::new(15.0, 5.0), Pt::new(15.0, 15.0), Pt::new(5.0, 15.0)], true);
+        s.fall_out(&[square], 10.0);
+        assert_eq!(s.depth_at(10.0, 10.0), 10.0);
+        assert_eq!(s.depth_at(2.0, 2.0), 1.0);
+        assert!(super::cut_through(s.depth_at(10.0, 10.0), None, 10.0, 10.0, 10.0));
     }
 }

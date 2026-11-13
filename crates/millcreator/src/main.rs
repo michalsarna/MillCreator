@@ -1522,6 +1522,12 @@ impl EditorHost for App {
     fn scene_mut(&mut self) -> &mut Scene {
         &mut self.scene
     }
+    /// Tests never read the clipboard of the system: there is one for the whole machine, and parallel tests that read it at once
+    /// crash in AppKit.
+    #[cfg(test)]
+    fn clipboard_image(&self) -> Option<base_ui::clip_image::ClipImage> {
+        None
+    }
     fn ghost_shapes(&self) -> Vec<base_core::scene::Shape> {
         self.ghosts()
     }

@@ -931,13 +931,14 @@ fn render_dimensions() {
 }
 
 /// A two-sided block with cuts that go through: a window cut on side A the whole thickness, and two pockets, one from each side, that
-/// meet in the middle. `cargo test -p millcreator render_through -- --ignored`, into `$SHOT_OUT` (or `docs/screenshots`).
+/// meet in the middle. `SHOT_OUT=<folder> cargo test -p millcreator pictures_of_cuts_through -- --ignored` (nothing is written without
+/// `SHOT_OUT`; the name does not start with `render_`, so the screenshots of a release leave it out).
 #[test]
 #[ignore = "writes pictures; run explicitly"]
-fn render_through_cuts() {
+fn pictures_of_cuts_through() {
     use base_core::geom::Xf;
     use base_core::scene::Kind;
-    let out = std::env::var("SHOT_OUT").map(PathBuf::from).unwrap_or_else(|_| PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../docs/screenshots"));
+    let Ok(out) = std::env::var("SHOT_OUT").map(PathBuf::from) else { return };
     let shot = |h: &mut Shot, name: &str| {
         h.run_steps(5);
         let img = h.render().expect("render");
