@@ -2,6 +2,10 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.9.1 (not released yet)
+
+* Updated dependencies (zip 9.5.0).
+
 ## v0.9.0
 
 * **Project setup** (File → Project setup…, and the window of every new project): a block of material or a cylinder on the rotary attachment, with the zero of the program and Z from the top or the bottom, a picture and its sizes. **Work area is the material**; with 2, 4 or 6 sides it is always on and cannot be unticked.
