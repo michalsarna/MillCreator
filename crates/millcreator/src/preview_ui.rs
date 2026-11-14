@@ -158,7 +158,11 @@ impl App {
         if !self.toolpaths_on {
             return;
         }
-        self.refresh_program();
+        // Not made again while a shape is being dragged (a big job would be made at every frame of the drag): the old toolpaths
+        // stay until the drag ends.
+        if self.ed.drag.is_none() || self.prog.is_none() {
+            self.refresh_program();
+        }
         let Some(prog) = self.prog.as_ref() else { return };
         let h = self.device.area.y;
         let to_screen = |p: toolpath::P3| self.w2s(v.origin, base_core::geom::Pt::new(p[0], h - p[1]));

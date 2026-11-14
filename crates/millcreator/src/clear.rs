@@ -97,23 +97,23 @@ pub fn raster_paths(region: &[Polyline], angle_deg: f64, step: f64) -> Vec<Polyl
 /// The rings of a pocket with the strip in the middle that the step over leaves when the width is not a multiple of it: after the last
 /// ring a ring that goes along the middle of what is left.
 pub fn rings_with_middle(region: &[Polyline], step: f64) -> Vec<Polyline> {
-    let mut rings = ops::inset_rings(region, step, 500);
-    // The rings of the last step: found by going in again until the next step would leave nothing.
-    let mut cur = ops::offset(region, 0.0);
-    let mut innermost = cur.clone();
-    for _ in 0..500 {
-        if cur.is_empty() {
+    let step = step.max(0.01);
+    // Every ring is the region taken in by its whole distance (going in by a disc adds up), not the ring before taken in again: the
+    // round corners of one ring would be more points in the next, and the rings are made once (they were made twice).
+    let start = ops::offset(region, 0.0);
+    let mut rings = vec![];
+    let mut innermost: Vec<Polyline> = vec![];
+    for k in 0..500 {
+        let ring = if k == 0 { start.clone() } else { ops::offset(&start, -(k as f64) * step) };
+        if ring.is_empty() || ring.iter().all(|p| p.area().abs() < 1e-4) {
             break;
         }
-        innermost = cur.clone();
-        cur = ops::offset(&cur, -step);
-        if cur.iter().all(|p| p.area().abs() < 1e-4) {
-            break;
-        }
+        rings.extend(ring.iter().cloned());
+        innermost = ring;
     }
     // A ring at the middle of what is left: as far in as it still fits (half the step, or less).
     let mut d = step / 2.0;
-    while d >= 0.02 {
+    while d >= 0.02 && !innermost.is_empty() {
         let mid = ops::offset(&innermost, -d);
         if mid.iter().any(|p| p.area().abs() > 1e-4) {
             rings.extend(mid);
@@ -293,6 +293,23 @@ mod tests {
         // A width that is a multiple of the step has nothing to add that is not already there or empty.
         let exact = rings_with_middle(&[rect(0.0, 0.0, 8.0, 30.0)], 4.0);
         assert!(exact.len() <= ops::inset_rings(&[rect(0.0, 0.0, 8.0, 30.0)], 4.0, 500).len() + 1);
+    }
+
+    /// The rings of a star pocket keep about the points of the star: they are the star taken in by their distance, not the ring
+    /// before taken in again (whose round corners came back as more points every ring: 224 000 moves and 14 s for a star).
+    #[test]
+    fn the_rings_of_a_pocket_do_not_gather_points() {
+        let star: Vec<Pt> = (0..10)
+            .map(|k| {
+                let a = k as f64 * std::f64::consts::PI / 5.0;
+                let r = if k % 2 == 0 { 50.0 } else { 20.0 };
+                Pt::new(60.0 + r * a.cos(), 60.0 + r * a.sin())
+            })
+            .collect();
+        let rings = rings_with_middle(&[Polyline::new(star, true)], 0.6);
+        assert!(rings.len() > 25, "{}", rings.len());
+        let points: usize = rings.iter().map(|r| r.pts.len()).sum();
+        assert!(points < rings.len() * 300, "{points} points in {} rings", rings.len());
     }
 
     #[test]
