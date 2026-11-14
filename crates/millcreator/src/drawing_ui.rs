@@ -190,9 +190,16 @@ impl App {
     pub(crate) fn drawing_body(&mut self, ui: &mut egui::Ui) {
         let sheet = self.drawing_sheet();
         ui.horizontal(|ui| {
-            if ui.button(tr("Export…")).on_hover_text(tr("Save the drawing as a picture (PNG, JPG) or as a PDF page (A4)")).clicked() {
-                self.export_drawing(&sheet);
-            }
+            ui.menu_button(tr("Export…"), |ui| {
+                for f in DrawingFormat::ALL {
+                    if ui.button(tr(f.menu_label())).clicked() {
+                        self.export_drawing_as(&sheet, f);
+                        ui.close();
+                    }
+                }
+            })
+            .response
+            .on_hover_text(tr("Save the drawing as a PDF page (A4), as a picture (PNG, JPG) or as a DXF (the A4 sheet in millimetres)"));
             ui.separator();
             ui.label(tr("Kind of drawing"));
             egui::ComboBox::from_id_salt("drawing_standard").selected_text(tr(self.drawing_standard.label())).show_ui(ui, |ui| {
@@ -248,11 +255,12 @@ impl App {
         self.drawing_view = (zoom, pan);
     }
 
-    /// Save the drawing: PNG or JPG at 300 dots per inch on an A4 sheet, or a PDF page of A4.
-    fn export_drawing(&mut self, sheet: &Sheet) {
+    /// Save the drawing in format `f`: a PDF page of A4, PNG or JPG at 300 dots per inch on an A4 sheet, or a DXF of the sheet.
+    pub(crate) fn export_drawing_as(&mut self, sheet: &Sheet, f: DrawingFormat) {
         let stem = self.drawing_file_stem();
-        let Some(path) = rfd::FileDialog::new().add_filter("PDF", &["pdf"]).add_filter("PNG", &["png"]).add_filter("JPEG", &["jpg", "jpeg"]).set_file_name(format!("{stem}.pdf")).save_file() else { return };
-        self.status = match save_sheet(sheet, &path) {
+        let (name, exts) = f.filter();
+        let Some(path) = rfd::FileDialog::new().add_filter(name, exts).set_file_name(format!("{stem}.{}", exts[0])).save_file() else { return };
+        self.status = match save_sheet_as(sheet, &path, f) {
             Ok(()) => trf("Exported {}", &[&path.display()]),
             Err(e) => trf("Export failed: {}", &[&e]),
         };
@@ -263,10 +271,66 @@ impl App {
     }
 }
 
+/// The kinds of file the drawing is exported as.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum DrawingFormat {
+    Pdf,
+    Png,
+    Jpg,
+    /// DXF of the current kind (AutoCAD 2007).
+    Dxf,
+    /// DXF of the old kind (R12).
+    DxfR12,
+}
+
+impl DrawingFormat {
+    pub const ALL: [DrawingFormat; 5] = [DrawingFormat::Pdf, DrawingFormat::Png, DrawingFormat::Jpg, DrawingFormat::Dxf, DrawingFormat::DxfR12];
+
+    /// The entry of the menu.
+    pub fn menu_label(self) -> &'static str {
+        match self {
+            DrawingFormat::Pdf => "Export as PDF…",
+            DrawingFormat::Png => "Export as PNG…",
+            DrawingFormat::Jpg => "Export as JPG…",
+            DrawingFormat::Dxf => "Export DXF…",
+            DrawingFormat::DxfR12 => "Export DXF R12 (legacy)…",
+        }
+    }
+
+    /// The filter of the file dialog: its name and the extensions, the first one given to the name of the file.
+    fn filter(self) -> (&'static str, &'static [&'static str]) {
+        match self {
+            DrawingFormat::Pdf => ("PDF", &["pdf"]),
+            DrawingFormat::Png => ("PNG", &["png"]),
+            DrawingFormat::Jpg => ("JPEG", &["jpg", "jpeg"]),
+            DrawingFormat::Dxf | DrawingFormat::DxfR12 => ("DXF", &["dxf"]),
+        }
+    }
+}
+
+/// The size of the sheet in points of 1/96 inch (A4 lying down) and the millimetres of a point.
+const SHEET_PT: Vec2 = Vec2::new(1122.5, 793.7);
+const MM_PER_PT: f64 = 297.0 / 1122.5;
+
+/// The drawing as a file of the kind `f`. A DXF is the A4 sheet as it is printed, in millimetres (297 × 210): its lines (the
+/// outlines on OUTLINE, the thin and the dashed ones on THIN) and its words (TEXT); the numbers of the dimensions are the real sizes.
+pub fn save_sheet_as(sheet: &Sheet, path: &std::path::Path, f: DrawingFormat) -> Result<(), String> {
+    match f {
+        DrawingFormat::Dxf | DrawingFormat::DxfR12 => std::fs::write(path, dxf_of_sheet(sheet, f == DrawingFormat::Dxf)).map_err(|e| e.to_string()),
+        _ => save_sheet(sheet, path),
+    }
+}
+
+/// The DXF of the sheet: of the current kind or of the old one.
+pub fn dxf_of_sheet(sheet: &Sheet, modern: bool) -> String {
+    let d = base_ui::picture_out::drawing_of(SHEET_PT, MM_PER_PT, 1.3, |ui| paint(ui.painter(), egui::Rect::from_min_size(Pos2::ZERO, SHEET_PT), sheet));
+    base_core::export::dxf_drawing(&d, modern)
+}
+
 /// The drawing as a file: an A4 sheet lying down (297 × 210 mm) at 300 dots per inch; the kind by the extension of the path.
 pub fn save_sheet(sheet: &Sheet, path: &std::path::Path) -> Result<(), String> {
     // A4 in points of 1/96 inch, drawn at 300/96 pixels a point: 3508 × 2480 pixels.
-    let size = Vec2::new(1122.5, 793.7);
+    let size = SHEET_PT;
     let img = base_ui::picture_out::render(size, 300.0 / 96.0, |ui| paint(ui.painter(), egui::Rect::from_min_size(Pos2::ZERO, size), sheet));
     base_ui::picture_out::save(&img, path)
 }
@@ -497,6 +561,29 @@ mod tests {
         assert!(b.lines.iter().flatten().all(|q| q[1].abs() < 1e-9 && q[2] <= 1e-9 && q[2] >= -40.0 - 1e-9));
         if let Ok(dir) = std::env::var("SHOT_OUT") {
             save_sheet(&s, &std::path::Path::new(&dir).join("post-drawing.png")).unwrap();
+        }
+    }
+
+    #[test]
+    fn the_drawing_as_dxf_has_the_views_their_words_and_the_sheet_in_millimetres_in_both_kinds() {
+        let mut a = crate::tests::app();
+        a.stock.width = 200.0;
+        a.stock.height = 100.0;
+        a.stock.thickness = 12.0;
+        a.layers[0].enabled = true;
+        a.layers[0].depth = 5.0;
+        a.scene.add(0, base_core::scene::Kind::Rect { w: 40.0, h: 20.0 }, base_core::geom::Xf::translate(10.0, 10.0));
+        let s = a.drawing_sheet();
+        for modern in [true, false] {
+            let text = dxf_of_sheet(&s, modern);
+            assert!(text.contains(if modern { "AC1021" } else { "AC1009" }));
+            assert!(text.contains("OUTLINE") && text.contains("THIN") && text.contains("\nTEXT\n"), "lines and words");
+            assert!(text.contains(&tr("Front view").to_string()) || !modern, "the names of the views");
+            // The frame of the sheet: 10 points in from the edge of A4, so about 291.7 × 204.4 mm.
+            let read = base_core::dxf::parse(text.as_bytes(), 210.0).unwrap();
+            let outlines = read.outlines.iter().filter(|o| o.layer.as_deref() == Some("OUTLINE"));
+            let widest = outlines.flat_map(|o| o.contours.iter()).filter_map(|c| c.flatten(0.01).bounds()).map(|b| b.max.x - b.min.x).fold(0.0, f64::max);
+            assert!((widest - (1122.5 - 20.0) * MM_PER_PT).abs() < 0.05, "{widest}");
         }
     }
 }

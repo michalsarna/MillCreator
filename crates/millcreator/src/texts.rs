@@ -609,6 +609,10 @@ const TABLE: &[[&str; 7]] = &[
     ["a post", "słupek", "ein Pfosten", "un montante", "pylväs", "立柱", "खंभा"],
     ["a block", "kostka", "ein Block", "un blocco", "kappale", "方块", "ब्लॉक"],
     ["Project set up: {} of {} x {} x {} mm, zero at {}", "Projekt ustawiony: {} {} x {} x {} mm, zero: {}", "Projekt eingerichtet: {} von {} x {} x {} mm, Nullpunkt {}", "Progetto impostato: {} di {} x {} x {} mm, zero in {}", "Projekti asetettu: {} {} x {} x {} mm, nolla {}", "项目已设置：{}，{} x {} x {} mm，零点在{}", "प्रोजेक्ट तैयार: {} {} x {} x {} mm, शून्य {} पर"],
+    ["Export as PDF…", "Eksportuj jako PDF…", "Als PDF exportieren…", "Esporta come PDF…", "Vie PDF-muodossa…", "导出为 PDF…", "PDF के रूप में निर्यात करें…"],
+    ["Export as PNG…", "Eksportuj jako PNG…", "Als PNG exportieren…", "Esporta come PNG…", "Vie PNG-muodossa…", "导出为 PNG…", "PNG के रूप में निर्यात करें…"],
+    ["Export as JPG…", "Eksportuj jako JPG…", "Als JPG exportieren…", "Esporta come JPG…", "Vie JPG-muodossa…", "导出为 JPG…", "JPG के रूप में निर्यात करें…"],
+    ["Save the drawing as a PDF page (A4), as a picture (PNG, JPG) or as a DXF (the A4 sheet in millimetres)", "Zapisz rysunek jako stronę PDF (A4), obraz (PNG, JPG) albo DXF (arkusz A4 w milimetrach)", "Zeichnung als PDF-Seite (A4), als Bild (PNG, JPG) oder als DXF (das A4-Blatt in Millimetern) speichern", "Salva il disegno come pagina PDF (A4), come immagine (PNG, JPG) o come DXF (il foglio A4 in millimetri)", "Tallenna piirustus PDF-sivuna (A4), kuvana (PNG, JPG) tai DXF-tiedostona (A4-arkki millimetreinä)", "将图纸保存为 PDF 页面（A4）、图片（PNG、JPG）或 DXF（以毫米为单位的 A4 图纸）", "चित्र को PDF पृष्ठ (A4), तस्वीर (PNG, JPG) या DXF (मिलीमीटर में A4 शीट) के रूप में सहेजें"],
 ];
 
 #[cfg(test)]

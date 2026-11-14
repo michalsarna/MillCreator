@@ -791,7 +791,7 @@ mod tests {
     /// material round it is drawn, and a pocket of face B by the edge takes the material of face A there.
     #[test]
     fn the_object_in_3d_has_a_hole_where_a_window_goes_through_it() {
-        use crate::view3d::{self, Region, Scene3d, SolidView, FaceView, View3d};
+        use crate::view3d::{self, Camera, Region, Scene3d, SolidFace, SolidView, View3d};
         let mut a = crate::tests::app();
         a.open_setup();
         a.setup.sides = base_ui::project_setup::Sides::Block;
@@ -808,18 +808,27 @@ mod tests {
         let prog = a.prog.clone().unwrap();
         let region = Region { min: [0.0, 0.0], max: [120.0, 80.0] };
         let tool_of = |layer: usize| a.layers.get(layer).and_then(|l| l.tool.as_deref()).and_then(|id| a.tools.get(id)).cloned();
-        let mut surface = view3d::Surface::of((1, 0, [0; 5]), &prog.moves, tool_of, region, 50.0).unwrap();
+        let mut surface = view3d::Surface::of((1, 0, [0; 5]), &prog.moves, tool_of, region, 50.0, 1.0).unwrap();
         surface.fall_out(&a.fallen_pieces().0, 50.0);
         let cache = Default::default();
-        let views = faces.iter().map(|(j, to_view, size, depth, letter)| FaceView { surface: j.and_then(|j| a.face_surfaces[j].as_ref().and_then(|(_, s)| s.as_ref())), to_view: *to_view, size: *size, depth: *depth, letter: *letter }).collect();
-        let solid = SolidView { faces: views, shown: 0, key: 1, cache: &cache };
+        let views = faces
+            .iter()
+            .map(|(j, to_view, size, depth, letter)| {
+                let carved = match j {
+                    Some(j) => a.face_surfaces[*j].as_ref().and_then(|(_, s)| s.as_ref()),
+                    None => Some(&surface),
+                };
+                SolidFace { carved: carved.map(|c| c as &dyn view3d::Carved), to_view: *to_view, size: *size, depth: *depth, letter: *letter }
+            })
+            .collect();
+        let solid = SolidView { faces: views, shown: 0, colour: a.stock.color, key: 1, cache: &cache };
         let parts = base_ui::dims::Features::default();
-        let sc = Scene3d { surface: Some(&surface), prog: &prog, region, stock: &a.stock, dev: &a.device, layers: &a.layers, project: &[], rotary: None, parts: &parts, units: base_core::units::Units::Mm, bottom: None, solid: Some(solid) };
-        let view = View3d { top: true, ..View3d::default() };
+        let sc = Scene3d { surface: Some(&surface), prog: &prog, region, stock: &a.stock, dev: &a.device, layers: &a.layers, project: &[], rotary: None, parts: &parts, units: base_core::units::Units::Mm, bottom: None, solid: Some(solid), quality: 3 };
+        let view = View3d { cam: Camera { top: true, ..Camera::default() }, ..View3d::default() };
         let rect = egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(400.0, 300.0));
         let (target, radius) = view3d::framing(&sc);
         let pj = view3d::Projector::new(&view, target, radius, rect);
-        let img = view3d::solid_picture(&pj, &sc, sc.solid.as_ref().unwrap(), rect, 1.0, 400, 300);
+        let img = base_ui::view3d::solid_picture(&pj, sc.solid.as_ref().unwrap(), rect, 1.0, 400, 300, 1.0);
         let at = |x: f64, y: f64| {
             let p = pj.project([x, y, 0.0]);
             img.pixels[p.y as usize * 400 + p.x as usize]

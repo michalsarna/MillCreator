@@ -186,9 +186,10 @@ pub fn act_icon(a: Act) -> Option<&'static str> {
         Act::StartFrom => Some("play"),
         Act::CheckProgram => Some("check"),
         Act::Preview3d => Some("eye"),
-        Act::TechnicalDrawing => Some("ruler"),
+        Act::TechnicalDrawing | Act::ToggleDrawing => Some("ruler"),
+        Act::TogglePreview => Some("eye"),
         Act::ExportGcode => Some("file-code"),
-        Act::ExportRelief | Act::ExportSvg | Act::ExportCam => Some("file-output"),
+        Act::ExportRelief | Act::ExportSvg | Act::ExportCam | Act::ExportDrawing(_) => Some("file-output"),
         Act::OpenRecent(_) | Act::ClearRecent => None,
         Act::Quit => Some("x"),
         Act::ViewOptions => Some("sliders-horizontal"),
@@ -689,7 +690,7 @@ impl App {
     }
 
     /// A new, empty design.
-    fn new_design(&mut self) {
+    pub(crate) fn new_design(&mut self) {
         if self.screen == Screen::Start {
             self.take_selected_device();
         }
@@ -1686,7 +1687,7 @@ impl MenuHost for App {
             Act::ToggleZones => !self.device.zones.is_empty(),
             Act::PreviewGcode | Act::LayerPresets | Act::TabsByHand | Act::AlignmentHoles | Act::SetOp(_) | Act::PickZero | Act::SavedPositions => self.screen == Screen::Editor,
             Act::FindCentre => self.screen == Screen::Editor && self.machine.connected && !self.machine.job_running() && !self.machine.center_running(),
-            Act::Save | Act::SaveAs | Act::Preview3d | Act::TechnicalDrawing | Act::ExportGcode | Act::ExportSvg | Act::ExportCam => self.screen == Screen::Editor,
+            Act::Save | Act::SaveAs | Act::Preview3d | Act::TechnicalDrawing | Act::ToggleDrawing | Act::TogglePreview | Act::ExportDrawing(_) | Act::ExportGcode | Act::ExportSvg | Act::ExportCam => self.screen == Screen::Editor,
             Act::ExportRelief => self.screen == Screen::Editor && self.relief_picture().is_some(),
             _ => true,
         }
@@ -1697,6 +1698,8 @@ impl MenuHost for App {
             Act::ToggleOverlay => Some(self.ed.background.as_ref().is_some_and(|b| b.visible)),
             Act::ToggleZones => Some(self.zones_visible),
             Act::TabsByHand => Some(self.tab_edit),
+            Act::ToggleDrawing => Some(self.drawing_open),
+            Act::TogglePreview => Some(self.show_3d),
             Act::SetOp(o) => Some(self.layers.get(self.ed.active_layer).is_some_and(|l| l.op == o)),
             Act::SetLang(l) => Some(self.lang == l),
             Act::SetScheme(s) => Some(self.scheme == s),
@@ -1719,7 +1722,7 @@ impl MenuHost for App {
         match a {
             Act::New => {
                 if self.new_tab() {
-                    self.open_setup();
+                    self.open_start_setup();
                 }
             }
             Act::ProjectSetup => self.open_setup(),
@@ -1789,6 +1792,12 @@ impl MenuHost for App {
             Act::CheckProgram => self.check_program(),
             Act::Preview3d => self.open_preview(),
             Act::TechnicalDrawing => self.drawing_open = true,
+            Act::ToggleDrawing => self.drawing_open = !self.drawing_open,
+            Act::TogglePreview => self.toggle_preview(),
+            Act::ExportDrawing(f) => {
+                let sheet = self.drawing_sheet();
+                self.export_drawing_as(&sheet, f);
+            }
             Act::ExportGcode => self.export_gcode(),
             Act::ExportSvg => {
                 let stem = self.file_stem();

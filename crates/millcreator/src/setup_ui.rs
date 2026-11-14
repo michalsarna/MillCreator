@@ -177,9 +177,28 @@ impl App {
 
     pub(crate) fn setup_window(&mut self, ctx: &egui::Context) {
         let units = base_ui::editor::EditorHost::units(self);
-        if base_ui::project_setup::window(ctx, &mut self.setup, units, kind(self.stock.color)) == Some(Answer::Apply) {
-            self.apply_setup();
+        match base_ui::project_setup::window(ctx, &mut self.setup, units, kind(self.stock.color)) {
+            Some(Answer::Apply) => self.apply_setup(),
+            Some(Answer::Skip) if self.setup.start => self.skip_start_setup(),
+            _ => {}
         }
+    }
+
+    /// The window of a new project: Skip (or closing it) leaves the project as the program starts one.
+    pub(crate) fn open_start_setup(&mut self) {
+        self.open_setup();
+        self.setup.start = true;
+    }
+
+    /// Skip of the window of a new project: one side, the material and the work area as big as the work area of the machine, the
+    /// whole of it in the view.
+    pub(crate) fn skip_start_setup(&mut self) {
+        if self.two.is_some() && !self.make_one_sided() {
+            return;
+        }
+        (self.device.area.x, self.device.area.y) = self.machine_area();
+        self.touch_rev();
+        self.ed.view.need_fit = true;
     }
 }
 
@@ -292,6 +311,30 @@ mod tests {
         a.apply_setup();
         a.new_design();
         assert_eq!((a.device.area.x, a.device.area.y), (mx, my));
+    }
+
+    #[test]
+    fn skipping_the_window_of_a_new_project_gives_one_side_and_the_work_area_of_the_machine() {
+        let mut a = crate::tests::app();
+        a.devices = vec![a.device.clone()];
+        a.active = Some(0);
+        let machine = a.machine_area();
+        a.open_setup();
+        a.setup.sides = base_ui::project_setup::Sides::Block;
+        a.setup.block = [100.0, 80.0, 60.0];
+        a.apply_setup();
+        assert_ne!((a.device.area.x, a.device.area.y), machine);
+        // A new project: its window skipped.
+        a.new_design();
+        a.open_start_setup();
+        assert!(a.setup.start);
+        a.skip_start_setup();
+        assert!(a.two.is_none());
+        assert_eq!((a.device.area.x, a.device.area.y), machine);
+        assert!(a.ed.view.need_fit);
+        // The window opened from the menu (not a new project) is only closed by Skip.
+        a.open_setup();
+        assert!(!a.setup.start);
     }
 }
 

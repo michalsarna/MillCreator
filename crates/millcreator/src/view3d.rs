@@ -6,13 +6,10 @@ use crate::layers::MillLayer;
 use crate::materials::Stock;
 use crate::toolpath::{MoveKind, Program, P3};
 use egui::{epaint::PathStroke, Color32, Pos2, Rect, Sense, Shape, Stroke, Vec2};
+pub use base_ui::view3d::{shade, Affine3, Camera, Carved, Fit, Projector, SolidFace, SolidView};
 
 /// How much larger than the project the shown area is.
 pub const MARGIN: f64 = 0.10;
-const START_YAW: f32 = 0.55;
-const START_PITCH: f32 = 0.62;
-const MIN_PITCH: f32 = 0.03;
-const MAX_PITCH: f32 = 1.5;
 
 /// The area of the block that is shown, in the coordinates of the work area.
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -83,14 +80,10 @@ impl Region {
     }
 }
 
-/// How the model is looked at.
+/// How the model is looked at (the camera of base: turned, zoomed, moved; `top` and `under` are its) and what is shown.
 #[derive(Clone, Debug, PartialEq)]
 pub struct View3d {
-    pub yaw: f32,
-    pub pitch: f32,
-    /// 1.0 = the whole block fits in the window.
-    pub zoom: f32,
-    pub pan: Vec2,
+    pub cam: Camera,
     pub show_cuts: bool,
     pub show_rapids: bool,
     pub show_stock: bool,
@@ -100,99 +93,29 @@ pub struct View3d {
     pub show_dims: bool,
     /// How much of the program is shown, 0..=1.
     pub progress: f32,
-    /// Looked at from straight above: the plan of the job. It cannot be turned.
-    pub top: bool,
     /// Asked for by a button, done by the next picture (which knows the size of its window).
     pub fit: Option<Fit>,
-    /// The camera may go under the block (a two-sided project: the cuts of side B are on its bottom face).
-    pub under: bool,
+    /// The view is being turned or moved by the mouse (the picture of a post or a block is made coarser meanwhile).
+    pub moving: bool,
 }
 
-/// What the view is fitted to.
-#[derive(Clone, Copy, Debug, PartialEq)]
-pub enum Fit {
-    /// The whole work area of the machine.
-    Area,
-    /// The cuts of the program (the shapes when there are none yet).
-    Elements,
+impl std::ops::Deref for View3d {
+    type Target = Camera;
+    fn deref(&self) -> &Camera {
+        &self.cam
+    }
+}
+
+impl std::ops::DerefMut for View3d {
+    fn deref_mut(&mut self) -> &mut Camera {
+        &mut self.cam
+    }
 }
 
 impl Default for View3d {
     fn default() -> View3d {
-        View3d { yaw: START_YAW, pitch: START_PITCH, zoom: 1.0, pan: Vec2::ZERO, show_cuts: true, show_rapids: true, show_stock: true, show_project: false, show_dims: false, progress: 1.0, top: false, fit: None, under: false }
+        View3d { cam: Camera::default(), show_cuts: true, show_rapids: true, show_stock: true, show_project: false, show_dims: false, progress: 1.0, fit: None, moving: false }
     }
-}
-
-impl View3d {
-    /// Back to the first position of the view (the choices of what to show stay).
-    pub fn reset(&mut self) {
-        let keep = View3d { show_cuts: self.show_cuts, show_rapids: self.show_rapids, show_stock: self.show_stock, show_project: self.show_project, top: self.top, ..View3d::default() };
-        *self = keep;
-    }
-
-    /// The lowest the camera goes: just above the table, or under the block for a two-sided project.
-    fn min_pitch(&self) -> f32 {
-        if self.under { -MAX_PITCH } else { MIN_PITCH }
-    }
-
-    pub fn rotate(&mut self, dx: f32, dy: f32) {
-        if self.top {
-            return;
-        }
-        self.yaw = (self.yaw - dx * 0.01).rem_euclid(std::f32::consts::TAU);
-        self.pitch = (self.pitch + dy * 0.01).clamp(self.min_pitch(), MAX_PITCH);
-    }
-
-    /// Look at the model from a direction of the world (from the model to the eye), as the navigation cube asks. The camera cannot
-    /// go below the horizon or straight above (the plan has its own button), so those are as near as it goes.
-    pub fn look_from(&mut self, d: [f32; 3]) {
-        if self.top {
-            return;
-        }
-        self.pitch = d[2].clamp(-1.0, 1.0).asin().clamp(self.min_pitch(), MAX_PITCH);
-        if d[0].hypot(d[1]) > 1e-4 {
-            self.yaw = d[0].atan2(-d[1]).rem_euclid(std::f32::consts::TAU);
-        }
-    }
-
-    pub fn zoom_by(&mut self, factor: f32) {
-        self.zoom = (self.zoom * factor).clamp(0.2, 40.0);
-    }
-
-    /// The direction from the model to the eye, and the right and up directions of the picture.
-    fn axes(&self) -> ([f32; 3], [f32; 3], [f32; 3]) {
-        let (yaw, pitch) = if self.top { (0.0, std::f32::consts::FRAC_PI_2) } else { (self.yaw, self.pitch) };
-        let (sy, cy, sp, cp) = (yaw.sin(), yaw.cos(), pitch.sin(), pitch.cos());
-        ([sy * cp, -cy * cp, sp], [cy, sy, 0.0], [-sy * sp, cy * sp, cp])
-    }
-}
-
-/// Turns points of the model into points of the picture.
-pub struct Projector {
-    right: [f32; 3],
-    up: [f32; 3],
-    eye: [f32; 3],
-    target: [f32; 3],
-    scale: f32,
-    centre: Pos2,
-}
-
-impl Projector {
-    pub fn new(v: &View3d, target: P3, radius: f64, area: Rect) -> Projector {
-        let (eye, right, up) = v.axes();
-        let fit = area.width().min(area.height()) / (2.0 * radius.max(1.0) as f32) * 0.92;
-        Projector { right, up, eye, target: [target[0] as f32, target[1] as f32, target[2] as f32], scale: fit * v.zoom, centre: area.center() + v.pan }
-    }
-    pub fn project(&self, p: P3) -> Pos2 {
-        let d = [p[0] as f32 - self.target[0], p[1] as f32 - self.target[1], p[2] as f32 - self.target[2]];
-        let dot = |a: &[f32; 3]| a[0] * d[0] + a[1] * d[1] + a[2] * d[2];
-        Pos2::new(self.centre.x + dot(&self.right) * self.scale, self.centre.y - dot(&self.up) * self.scale)
-    }
-}
-
-fn shade(c: [u8; 3], f: f32) -> Color32 {
-    let m = |v: u8| ((v as f32) * f).round().clamp(0.0, 255.0) as u8;
-    Color32::from_rgb(m(c[0]), m(c[1]), m(c[2]))
 }
 
 /// The six faces of the block: the corners, the outward direction and how light the face is.
@@ -225,8 +148,12 @@ pub struct Surface {
 
 impl Surface {
     /// The surface of the stock with the cuts of `moves`; `None` when nothing is cut.
-    pub fn of(key: (u64, usize, [u64; 5]), moves: &[crate::toolpath::Move], tool_of: impl Fn(usize) -> Option<crate::tools::Tool>, region: Region, thickness: f64) -> Option<Surface> {
-        let (cols, rows, step, z) = crate::relief::carved_surface(moves, tool_of, (region.min, region.max), thickness, crate::relief::Limits::VIEW);
+    /// `detail`: how fine the grid is over the one of the view (`base_ui::view3d::quality_detail` of the rendering quality).
+    pub fn of(key: (u64, usize, [u64; 5]), moves: &[crate::toolpath::Move], tool_of: impl Fn(usize) -> Option<crate::tools::Tool>, region: Region, thickness: f64, detail: f64) -> Option<Surface> {
+        let v = crate::relief::Limits::VIEW;
+        let d2 = detail * detail;
+        let limits = crate::relief::Limits { cells: ((v.cells as f64) * d2) as usize, work: v.work * d2 };
+        let (cols, rows, step, z) = crate::relief::carved_surface(moves, tool_of, (region.min, region.max), thickness, limits);
         if z.iter().all(|h| *h == 0.0) {
             return None;
         }
@@ -282,6 +209,18 @@ impl Surface {
             return 0.0;
         }
         -self.z[r as usize * self.cols + c as usize]
+    }
+}
+
+impl Carved for Surface {
+    fn depth_at(&self, x: f64, y: f64) -> f64 {
+        Surface::depth_at(self, x, y)
+    }
+    fn step(&self) -> f64 {
+        self.step
+    }
+    fn deepest(&self) -> f64 {
+        self.z.iter().fold(0.0f64, |m, z| m.max(-z))
     }
 }
 
@@ -346,65 +285,8 @@ pub struct Scene3d<'a> {
     pub bottom: Option<Bottom<'a>>,
     /// A post or a block: all its faces, carved, round the shown one.
     pub solid: Option<SolidView<'a>>,
-}
-
-/// A move of the space of one face (the coordinates of its program: X, Y up, Z up from its top) into the space of another: a turn
-/// and a shift, `p' = m·p + t`.
-#[derive(Clone, Copy, Debug, PartialEq)]
-pub struct Affine3 {
-    pub m: [[f64; 3]; 3],
-    pub t: [f64; 3],
-}
-
-impl Affine3 {
-    /// The move that `f` makes (it must be one: a turn and a shift).
-    pub fn of(f: impl Fn(P3) -> P3) -> Affine3 {
-        let t = f([0.0; 3]);
-        let col = |k: usize| {
-            let mut e = [0.0; 3];
-            e[k] = 1.0;
-            let p = f(e);
-            [p[0] - t[0], p[1] - t[1], p[2] - t[2]]
-        };
-        let (c0, c1, c2) = (col(0), col(1), col(2));
-        Affine3 { m: [[c0[0], c1[0], c2[0]], [c0[1], c1[1], c2[1]], [c0[2], c1[2], c2[2]]], t }
-    }
-    pub fn apply(&self, p: P3) -> P3 {
-        let d = self.dir(p);
-        [d[0] + self.t[0], d[1] + self.t[1], d[2] + self.t[2]]
-    }
-    /// A direction moved (the turn alone).
-    pub fn dir(&self, p: P3) -> P3 {
-        let m = &self.m;
-        [m[0][0] * p[0] + m[0][1] * p[1] + m[0][2] * p[2], m[1][0] * p[0] + m[1][1] * p[1] + m[1][2] * p[2], m[2][0] * p[0] + m[2][1] * p[1] + m[2][2] * p[2]]
-    }
-    /// A direction moved back (the turn undone: its transpose).
-    pub fn dir_back(&self, p: P3) -> P3 {
-        let m = &self.m;
-        [m[0][0] * p[0] + m[1][0] * p[1] + m[2][0] * p[2], m[0][1] * p[0] + m[1][1] * p[1] + m[2][1] * p[2], m[0][2] * p[0] + m[1][2] * p[1] + m[2][2] * p[2]]
-    }
-}
-
-/// A face of a post or a block in the view.
-pub struct FaceView<'a> {
-    /// The face carved by its program (its own coordinates); `None` while nothing is cut on it.
-    pub surface: Option<&'a Surface>,
-    /// From its coordinates to those of the shown face (the coordinates of the picture).
-    pub to_view: Affine3,
-    /// Its size (width, height) and how deep the object is under it.
-    pub size: [f64; 2],
-    pub depth: f64,
-    pub letter: char,
-}
-
-/// A post or a block: its faces (A first), the shown one carved by `Scene3d::surface` and lying as the machine sees it.
-pub struct SolidView<'a> {
-    pub faces: Vec<FaceView<'a>>,
-    pub shown: usize,
-    /// What the faces were made of (the picture is made again when it changes, or when the view does).
-    pub key: u64,
-    /// The picture of the object that was made last, and its key.
-    pub cache: &'a std::cell::RefCell<Option<(u64, egui::TextureHandle)>>,
+    /// The quality of the rendering (1 to 5) of the program options.
+    pub quality: u8,
 }
 
 /// The bottom of a two-sided project in the view: its program as seen from side A (`toolpath::bottom_seen_from_a`, the depths from
@@ -461,24 +343,7 @@ pub fn position_at(prog: &Program, part: f32) -> (usize, Option<P3>) {
 /// The picture, in the space the ui gives. Turns, pans and zooms with the mouse.
 pub fn show(ui: &mut egui::Ui, view: &mut View3d, sc: &Scene3d) {
     let (rect, resp) = ui.allocate_exact_size(base_ui::window::fill_size(ui).max(Vec2::splat(120.0)), Sense::click_and_drag());
-    // Shift+drag moves, as in the G-code viewer.
-    let shift = ui.input(|i| i.modifiers.shift);
-    if resp.dragged_by(egui::PointerButton::Primary) && !shift {
-        let d = resp.drag_delta();
-        view.rotate(d.x, d.y);
-    }
-    if resp.dragged_by(egui::PointerButton::Secondary) || resp.dragged_by(egui::PointerButton::Middle) || (shift && resp.dragged_by(egui::PointerButton::Primary)) {
-        view.pan += resp.drag_delta();
-    }
-    if resp.hovered() {
-        let scroll = ui.input(|i| i.smooth_scroll_delta.y);
-        if scroll != 0.0 {
-            view.zoom_by((scroll * 0.004).exp());
-        }
-    }
-    if resp.double_clicked() {
-        view.reset();
-    }
+    view.moving = base_ui::view3d::handle_input(ui, &resp, &mut view.cam);
     if let Some(f) = view.fit.take() {
         let area = [0.0, 0.0, sc.dev.area.x, sc.dev.area.y];
         let r = sc.region;
@@ -491,31 +356,10 @@ pub fn show(ui: &mut egui::Ui, view: &mut View3d, sc: &Scene3d) {
     let painter = ui.painter_at(rect);
     painter.rect_filled(rect, 4.0, background(ui.visuals().dark_mode));
     draw(&painter, rect, view, sc);
-    // The navigation cube (the plan from above cannot be turned).
-    if !view.top {
-        let (eye, right, up) = view.axes();
-        match base_ui::navicube::show(ui, rect, &[right, up, eye]) {
-            Some(base_ui::navicube::Nav::LookFrom(d)) => view.look_from(d),
-            Some(base_ui::navicube::Nav::Home) => view.reset(),
-            None => {}
-        }
-    }
-    // The zoom bar of every picture, in the lower left corner: the same as the wheel and the double click.
-    let about_middle = |view: &mut View3d, f: f32| {
-        let before = view.zoom;
-        view.zoom_by(f);
-        view.pan *= view.zoom / before;
-    };
-    // Its third button is the first view fitted to the work area, its fourth fits all the objects.
-    match base_ui::zoom_bar::overlay_with(ui, rect, view.zoom, &base_ui::i18n::tr("Drag: rotate · right drag or Shift+drag: move · wheel: zoom"), true) {
-        Some(base_ui::zoom_bar::ZoomCmd::FitObjects) => view.fit = Some(Fit::Elements),
-        Some(base_ui::zoom_bar::ZoomCmd::In) => about_middle(view, base_ui::zoom_bar::STEP),
-        Some(base_ui::zoom_bar::ZoomCmd::Out) => about_middle(view, 1.0 / base_ui::zoom_bar::STEP),
-        Some(base_ui::zoom_bar::ZoomCmd::Whole) => {
-            view.reset();
-            view.fit = Some(Fit::Area);
-        }
-        None => {}
+    // The navigation cube (not on the plan from above) and the zoom bar: its third button is the first view fitted to the work
+    // area, its fourth fits all the objects.
+    if let Some(f) = base_ui::view3d::overlays(ui, rect, &mut view.cam) {
+        view.fit = Some(f);
     }
 }
 
@@ -524,7 +368,7 @@ pub fn fit_to(view: &mut View3d, rect: Rect, sc: &Scene3d, lo: [f64; 2], hi: [f6
     let t = sc.stock.thickness;
     let (target, radius) = framing(sc);
     // The picture at zoom 1 and no pan: its points are a fixed multiple of their distance from the middle of the window.
-    let base = View3d { zoom: 1.0, pan: Vec2::ZERO, fit: None, ..view.clone() };
+    let base = View3d { cam: Camera { zoom: 1.0, pan: Vec2::ZERO, ..view.cam }, fit: None, ..view.clone() };
     let pj = Projector::new(&base, target, radius, rect);
     let (mut min, mut max) = (Pos2::new(f32::MAX, f32::MAX), Pos2::new(f32::MIN, f32::MIN));
     let mut take = |p: P3| {
@@ -597,173 +441,6 @@ fn draw_surface(painter: &egui::Painter, pj: &Projector, s: &Surface, color: [u8
         }
     }
     painter.add(Shape::mesh(mesh));
-}
-
-/// A post or a block, drawn into a picture that is kept while nothing changes: a point of the object is material only when no face
-/// has cut it away, so the cuts of a face take the material of the faces beside it and of the ends (see `solid_picture`).
-fn draw_solid(painter: &egui::Painter, pj: &Projector, sc: &Scene3d, solid: &SolidView, eye: [f32; 3]) {
-    use std::hash::{Hash, Hasher};
-    let rect = painter.clip_rect();
-    if rect.width() < 2.0 || rect.height() < 2.0 {
-        return;
-    }
-    // As sharp as the screen, but not more than about 2.5 million pixels.
-    let ppp = painter.ctx().pixels_per_point();
-    let s = ppp.min((1_500_000.0 / (rect.width() * rect.height())).sqrt()).max(0.25);
-    let (iw, ih) = ((rect.width() * s).round() as usize, (rect.height() * s).round() as usize);
-    let mut h = std::collections::hash_map::DefaultHasher::new();
-    solid.key.hash(&mut h);
-    sc.surface.map(|x| x.key).hash(&mut h);
-    for v in pj.right.iter().chain(pj.up.iter()).chain(pj.target.iter()).chain([pj.scale, pj.centre.x, pj.centre.y, rect.min.x, rect.min.y].iter()) {
-        v.to_bits().hash(&mut h);
-    }
-    (iw, ih, sc.stock.color).hash(&mut h);
-    let key = h.finish();
-    let mut cache = solid.cache.borrow_mut();
-    if cache.as_ref().map(|(k, _)| *k) != Some(key) {
-        let img = solid_picture(pj, sc, solid, rect, s, iw, ih);
-        match cache.as_mut() {
-            Some((k, tex)) => {
-                tex.set(img, egui::TextureOptions::LINEAR);
-                *k = key;
-            }
-            None => *cache = Some((key, painter.ctx().load_texture("mill_solid_view", img, egui::TextureOptions::LINEAR))),
-        }
-    }
-    if let Some((_, tex)) = cache.as_ref() {
-        painter.image(tex.id(), rect, egui::Rect::from_min_max(Pos2::ZERO, Pos2::new(1.0, 1.0)), Color32::WHITE);
-    }
-    // The letters of the faces turned to the eye, faint, in their middle.
-    for f in &solid.faces {
-        let n = f.to_view.dir([0.0, 0.0, 1.0]);
-        if n[0] * eye[0] as f64 + n[1] * eye[1] as f64 + n[2] * eye[2] as f64 > 0.2 {
-            let mid = pj.project(f.to_view.apply([f.size[0] / 2.0, f.size[1] / 2.0, 0.0]));
-            painter.text(mid, egui::Align2::CENTER_CENTER, f.letter, egui::FontId::proportional(18.0), shade(sc.stock.color, 0.45).gamma_multiply(0.7));
-        }
-    }
-}
-
-/// The picture of the object (see `draw_solid`): `iw` × `ih` pixels over `rect`, `s` pixels a point. Every pixel is a ray into the
-/// object (the view is parallel): the first point of it that no face has cut away is what is seen there. A ray through a cut that
-/// goes through the object sees what is behind it, or nothing.
-pub(crate) fn solid_picture(pj: &Projector, sc: &Scene3d, solid: &SolidView, rect: Rect, s: f32, iw: usize, ih: usize) -> egui::ColorImage {
-    let surfaces: Vec<Option<&Surface>> = (0..solid.faces.len()).map(|i| if i == solid.shown { sc.surface } else { solid.faces[i].surface }).collect();
-    let deepest: Vec<f64> = surfaces.iter().map(|x| x.map_or(0.0, |s| s.z.iter().fold(0.0f64, |m, z| m.max(-z)))).collect();
-    let step = surfaces.iter().flatten().map(|x| x.step).fold(f64::INFINITY, f64::min);
-    let step = if step.is_finite() { step * 0.5 } else { 1.0 };
-    // The object in the coordinates of the picture: the block of the shown face.
-    let shown = &solid.faces[solid.shown];
-    let (lo, hi) = ([0.0, 0.0, -shown.depth], [shown.size[0], shown.size[1], 0.0]);
-    let f3 = |v: [f32; 3]| [v[0] as f64, v[1] as f64, v[2] as f64];
-    let (right, up, eye) = (f3(pj.right), f3(pj.up), f3(pj.eye));
-    let target = f3(pj.target);
-    let dir = [-eye[0], -eye[1], -eye[2]];
-    // Which face (if any) has cut the point away.
-    let cutter = |p: P3| -> Option<usize> {
-        for (g, f) in solid.faces.iter().enumerate() {
-            let Some(sg) = surfaces[g] else { continue };
-            let q = f.to_view.dir_back([p[0] - f.to_view.t[0], p[1] - f.to_view.t[1], p[2] - f.to_view.t[2]]);
-            let under = -q[2];
-            if under > deepest[g] + 0.02 || q[0] < 0.0 || q[1] < 0.0 || q[0] > f.size[0] || q[1] > f.size[1] {
-                continue;
-            }
-            // A cut the whole depth of the object takes it all, to the far side.
-            let cut = sg.depth_at(q[0], q[1]);
-            if under < cut || cut >= f.depth - 0.01 {
-                return Some(g);
-            }
-        }
-        None
-    };
-    let light = {
-        let l = [-0.35f64, -0.45, 0.82];
-        let n = (l[0] * l[0] + l[1] * l[1] + l[2] * l[2]).sqrt();
-        [l[0] / n, l[1] / n, l[2] / n]
-    };
-    let colour = sc.stock.color;
-    let shade_of = |n: P3, deep: f64| {
-        let len = (n[0] * n[0] + n[1] * n[1] + n[2] * n[2]).sqrt().max(1e-12);
-        let lit = 0.4 + 0.6 * ((n[0] * light[0] + n[1] * light[1] + n[2] * light[2]) / len).max(0.0);
-        shade(colour, (lit * (1.0 - 0.25 * deep.clamp(0.0, 1.0))) as f32)
-    };
-    let mut px = vec![Color32::TRANSPARENT; iw * ih];
-    for j in 0..ih {
-        for i in 0..iw {
-            // The point of the pixel on the plane through the middle of the picture, and the ray from it away from the eye.
-            let sx = (rect.min.x + (i as f32 + 0.5) / s - pj.centre.x) as f64 / pj.scale as f64;
-            let sy = -((rect.min.y + (j as f32 + 0.5) / s - pj.centre.y) as f64) / pj.scale as f64;
-            let o = [target[0] + right[0] * sx + up[0] * sy, target[1] + right[1] * sx + up[1] * sy, target[2] + right[2] * sx + up[2] * sy];
-            // Where the ray is in the block.
-            let (mut t0, mut t1, mut axis) = (f64::NEG_INFINITY, f64::INFINITY, 0usize);
-            let mut hit_box = true;
-            for k in 0..3 {
-                if dir[k].abs() < 1e-12 {
-                    if o[k] < lo[k] || o[k] > hi[k] {
-                        hit_box = false;
-                    }
-                    continue;
-                }
-                let (a, b) = ((lo[k] - o[k]) / dir[k], (hi[k] - o[k]) / dir[k]);
-                let (a, b) = if a < b { (a, b) } else { (b, a) };
-                if a > t0 {
-                    t0 = a;
-                    axis = k;
-                }
-                t1 = t1.min(b);
-            }
-            if !hit_box || t0 > t1 {
-                continue;
-            }
-            let at = |t: f64| [o[0] + dir[0] * t, o[1] + dir[1] * t, o[2] + dir[2] * t];
-            let first = at(t0 + 1e-6);
-            let Some(mut by) = cutter(first) else {
-                // The side of the block itself.
-                let mut n = [0.0; 3];
-                n[axis] = -dir[axis].signum();
-                px[j * iw + i] = shade_of(n, 0.0);
-                continue;
-            };
-            // Through the air of the cuts until the material.
-            let mut t = t0;
-            let mut found = None;
-            while t < t1 {
-                let next = (t + step).min(t1);
-                match cutter(at(next)) {
-                    Some(g) => by = g,
-                    None => {
-                        // Closer to the surface between the last point in the air and the first in the material.
-                        let (mut a, mut b) = (t, next);
-                        for _ in 0..5 {
-                            let m = (a + b) / 2.0;
-                            match cutter(at(m)) {
-                                Some(g) => {
-                                    by = g;
-                                    a = m;
-                                }
-                                None => b = m,
-                            }
-                        }
-                        found = Some(b);
-                        break;
-                    }
-                }
-                t = next;
-            }
-            let Some(th) = found else { continue };
-            // The surface of the face that cut the air there: its slope, turned into the picture.
-            let f = &solid.faces[by];
-            let sg = surfaces[by].expect("a face that cuts has a surface");
-            let p = at(th);
-            let q = f.to_view.dir_back([p[0] - f.to_view.t[0], p[1] - f.to_view.t[1], p[2] - f.to_view.t[2]]);
-            let e = sg.step;
-            let d = |x: f64, y: f64| sg.depth_at(x, y);
-            let dzdx = -(d(q[0] + e, q[1]) - d(q[0] - e, q[1])) / (2.0 * e);
-            let dzdy = -(d(q[0], q[1] + e) - d(q[0], q[1] - e)) / (2.0 * e);
-            let n = f.to_view.dir([-dzdx, -dzdy, 1.0]);
-            px[j * iw + i] = shade_of(n, -q[2] / f.depth.max(0.1));
-        }
-    }
-    egui::ColorImage::new([iw, ih], px)
 }
 
 /// A cylinder that has not been cut: the same grid as a carved surface, all at the top.
@@ -859,7 +536,7 @@ pub fn draw(painter: &egui::Painter, rect: Rect, view: &View3d, sc: &Scene3d) {
     if let (true, Some(c)) = (view.show_stock, sc.rotary) {
         draw_cylinder(painter, &pj, sc, c, eye);
     } else if let (true, Some(solid)) = (view.show_stock, sc.solid.as_ref()) {
-        draw_solid(painter, &pj, sc, solid, eye);
+        base_ui::view3d::draw_solid(painter, &pj, solid, sc.quality, view.moving);
     } else if view.show_stock {
         for (corners, normal, light) in faces(min, max) {
             if normal[0] * eye[0] + normal[1] * eye[1] + normal[2] * eye[2] <= 0.0 {
@@ -1033,6 +710,7 @@ pub fn draw(painter: &egui::Painter, rect: Rect, view: &View3d, sc: &Scene3d) {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use base_ui::view3d::{MAX_PITCH, MIN_PITCH, START_PITCH, START_YAW};
     use crate::layers::default_layers;
     use crate::tools::Library;
     use crate::toolpath::generate;
@@ -1116,7 +794,7 @@ mod tests {
         v.look_from([0.0, 0.0, -1.0]);
         assert_eq!(v.pitch, MIN_PITCH);
         // The plan is not turned.
-        let mut plan = View3d { top: true, ..View3d::default() };
+        let mut plan = View3d { cam: Camera { top: true, ..Camera::default() }, ..View3d::default() };
         plan.look_from([1.0, 0.0, 0.0]);
         assert_eq!((plan.yaw, plan.pitch), (START_YAW, START_PITCH));
     }
@@ -1143,7 +821,7 @@ mod tests {
     #[test]
     fn from_straight_above_the_plan_is_drawn_as_on_the_map_and_cannot_be_turned() {
         let area = Rect::from_min_size(Pos2::ZERO, Vec2::new(800.0, 600.0));
-        let mut v = View3d { top: true, ..View3d::default() };
+        let mut v = View3d { cam: Camera { top: true, ..Camera::default() }, ..View3d::default() };
         v.rotate(200.0, 100.0);
         assert_eq!((v.yaw, v.pitch), (START_YAW, START_PITCH), "turning does nothing");
         let pj = Projector::new(&v, [0.0, 0.0, 0.0], 50.0, area);
@@ -1185,11 +863,11 @@ mod tests {
             let (eye, _, _) = v.axes();
             faces([0.0; 3], [1.0; 3]).iter().filter(|(_, n, _)| n[0] * eye[0] + n[1] * eye[1] + n[2] * eye[2] > 1e-3).count()
         };
-        let top = View3d { pitch: 1.5707, yaw: 0.0, ..View3d::default() };
+        let top = View3d { cam: Camera { pitch: 1.5707, yaw: 0.0, ..Camera::default() }, ..View3d::default() };
         assert_eq!(visible(&top), 1);
-        let front = View3d { pitch: 0.4, yaw: 0.0, ..View3d::default() };
+        let front = View3d { cam: Camera { pitch: 0.4, yaw: 0.0, ..Camera::default() }, ..View3d::default() };
         assert_eq!(visible(&front), 2);
-        let corner = View3d { pitch: 0.4, yaw: 0.7, ..View3d::default() };
+        let corner = View3d { cam: Camera { pitch: 0.4, yaw: 0.7, ..Camera::default() }, ..View3d::default() };
         assert_eq!(visible(&corner), 3);
     }
 
@@ -1210,7 +888,7 @@ mod tests {
     fn the_picture_is_drawn_for_a_job() {
         let (prog, dev, stock, layers, _lib) = job();
         let region = Region::of(&prog, None).unwrap();
-        let sc = Scene3d { surface: None, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary: None, parts: &base_ui::dims::Features::default(), units: base_core::units::Units::Mm, bottom: None, solid: None };
+        let sc = Scene3d { surface: None, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary: None, parts: &base_ui::dims::Features::default(), units: base_core::units::Units::Mm, bottom: None, solid: None, quality: 3 };
         let ctx = egui::Context::default();
         let mut view = View3d::default();
         view.progress = 0.5;
@@ -1269,10 +947,10 @@ mod tests {
                 let moves = &prog.moves;
                 let lib = Library::new();
                 let tool_of = |l: usize| layers.get(l).and_then(|l| l.tool.as_deref()).and_then(|id| lib.get(id)).cloned();
-                Surface::of((0, 0, [0; 5]), moves, tool_of, region, 15.0)
+                Surface::of((0, 0, [0; 5]), moves, tool_of, region, 15.0, 1.0)
             };
             for sf in [None, surface.as_ref()] {
-                let sc = Scene3d { surface: sf, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary, parts: &base_ui::dims::Features::default(), units: base_core::units::Units::Mm, bottom: None, solid: None };
+                let sc = Scene3d { surface: sf, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary, parts: &base_ui::dims::Features::default(), units: base_core::units::Units::Mm, bottom: None, solid: None, quality: 3 };
                 view.fit = Some(Fit::Elements);
                 let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
                     show(ui, &mut view, &sc);
@@ -1304,7 +982,7 @@ mod through_tests {
         let prog = generate(&scene, &layers, &lib, &dev, &stock);
         let region = super::Region::of(&prog, None).unwrap();
         let tool_of = |l: usize| layers.get(l).and_then(|l| l.tool.as_deref()).and_then(|id| lib.get(id)).cloned();
-        let s = super::Surface::of((0, 0, [0; 5]), &prog.moves, tool_of, region, 10.0).unwrap();
+        let s = super::Surface::of((0, 0, [0; 5]), &prog.moves, tool_of, region, 10.0, 1.0).unwrap();
         // The middle of the pocket, in the coordinates of the program (Y up from the bottom of the work area).
         let (x, y) = (35.0, dev.area.y - 35.0);
         assert!((s.depth_at(x, y) - 6.0).abs() < 1e-6, "{}", s.depth_at(x, y));
