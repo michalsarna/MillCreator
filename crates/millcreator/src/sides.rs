@@ -823,7 +823,7 @@ mod tests {
             .collect();
         let solid = SolidView { faces: views, shown: 0, colour: a.stock.color, key: 1, cache: &cache };
         let parts = base_ui::dims::Features::default();
-        let sc = Scene3d { surface: Some(&surface), prog: &prog, region, stock: &a.stock, dev: &a.device, layers: &a.layers, project: &[], rotary: None, parts: &parts, units: base_core::units::Units::Mm, bottom: None, solid: Some(solid), quality: 3 };
+        let sc = Scene3d { surface: Some(&surface), prog: &prog, region, stock: &a.stock, dev: &a.device, layers: &a.layers, project: &[], rotary: None, parts: &parts, units: base_core::units::Units::Mm, bottom: None, solid: Some(solid), quality: 3, back: None };
         let view = View3d { cam: Camera { top: true, ..Camera::default() }, ..View3d::default() };
         let rect = egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(400.0, 300.0));
         let (target, radius) = view3d::framing(&sc);
