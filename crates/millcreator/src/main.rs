@@ -901,7 +901,7 @@ impl App {
     }
 
     fn open_dialog(&mut self) {
-        if let Some(p) = rfd::FileDialog::new().add_filter("Project, SVG, PDF, Illustrator, DXF, 3D model", &[project::EXTENSION, "svg", "pdf", "ai", "ugsd", "dxf", "stl", "obj", "3mf"]).pick_file() {
+        if let Some(p) = rfd::FileDialog::new().add_filter("Project, SVG, PDF, Illustrator, EPS, VectorCraft, DXF, 3D model", &[project::EXTENSION, "svg", "pdf", "ai", "eps", "vectorcraft", "ugsd", "dxf", "stl", "obj", "3mf"]).pick_file() {
             self.open(p);
         }
     }
@@ -913,7 +913,7 @@ impl App {
         }
     }
 
-    /// File > Import > Import SVG… and Import Adobe Illustrator / PDF…: the paths are added to the drawing. (*Open…* makes a new tab of them.)
+    /// File > Import > Import SVG… and Import Adobe Illustrator / PDF / EPS / VectorCraft…: the paths are added to the drawing. (*Open…* makes a new tab of them.)
     fn import_drawing_dialog(&mut self, what: &str, extensions: &[&str]) {
         if let Some(p) = rfd::FileDialog::new().add_filter(what, extensions).pick_file() {
             if self.screen == Screen::Start {
@@ -1731,7 +1731,7 @@ impl MenuHost for App {
             Act::SaveAs => self.save(true),
             Act::ImportLightburn => self.import_lightburn_dialog(),
             Act::ImportSvg => self.import_drawing_dialog("SVG", &["svg"]),
-            Act::ImportAi => self.import_drawing_dialog("Adobe Illustrator / PDF", &["ai", "pdf"]),
+            Act::ImportAi => self.import_drawing_dialog("Adobe Illustrator / PDF / EPS / VectorCraft", &["ai", "pdf", "eps", "vectorcraft"]),
             Act::ImportDxf => self.import_dxf_dialog(),
             Act::ImportUgsd => self.import_ugsd_dialog(),
             Act::ImportModel => self.import_model_dialog(),
@@ -2042,7 +2042,7 @@ mod tests {
         let labels = |title: &str| -> Vec<&str> {
             m[0].1.iter().find_map(|e| match e { base_ui::menu::Entry::Sub(t, inner) if *t == title => Some(inner), _ => None }).unwrap().iter().filter_map(|e| match e { base_ui::menu::Entry::Item(_, l, _) => Some(*l), _ => None }).collect()
         };
-        for f in ["Import SVG…", "Import Adobe Illustrator / PDF…", "Import DXF…", "Import LightBurn / MillMage project…", "Import UGS design…"] {
+        for f in ["Import SVG…", "Import Adobe Illustrator / PDF / EPS / VectorCraft…", "Import DXF…", "Import LightBurn / MillMage project…", "Import UGS design…"] {
             assert!(labels("Import").contains(&f), "{f}");
         }
         for f in ["Export G-code…", "Export SVG…", "Export PLT / DXF…"] {

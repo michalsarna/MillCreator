@@ -2,6 +2,11 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.9.2 (not released yet)
+
+* **Import of EPS and VectorCraft drawings** (File → Import → Import Adobe Illustrator / PDF / EPS / VectorCraft…, File → Open…, or a file dropped on the window): a `.vectorcraft` file (VectorCraft 0.8 and later) with its paths, colours, layers and pictures; an EPS (also with a TIFF preview): the one VectorCraft writes with its pictures, others as PostScript (their paths).
+* baseCreator v2.1.0.
+
 ## v0.9.1
 
 * **Rendering quality** now makes the 3D view finer: a higher quality gives a finer grid of the carved surface (it was half the smallest bit whatever the quality), the walls of the cuts are smooth instead of steps of the grid, and the picture of a post or a block is made by all the cores of the computer – at quality 5 several times faster, so the program is no longer held up.
