@@ -161,7 +161,7 @@ The settings of the machine first, then what runs on it. See [Machine Control](M
 | Entry | What it does |
 |---|---|
 | **View options…** | The main and the secondary grid, the colours of the work area, the line thickness, **Show layer names**, **Preview G-code after saving**, **Show variable names**. See [Settings and Files](Settings-and-Files). The font size and colours of the **G-code console**. |
-| **Program options…** | **Look for a newer version when the program starts**; **Rendering quality** (1 quick … 5 sharp) of the 3D view. |
+| **Program options…** | **Look for a newer version when the program starts**; **Rendering quality** (1 quick … 5 sharp) of the 3D view.; **Auto-save**: save the work automatically (a file with a name in place, one without a name to a recovery file) and how often (10 s to an hour, 2 min to begin with). |
 | **Plugins…** | Install, switch on and off and remove plugins, the official list. See [Plugins](Plugins). |
 | **Language ▸** | The 30 languages of the program. |
 | **Colour scheme ▸** | The 18 colour schemes of the window, and festive ones around Christmas, the New Year, Halloween, Easter and the Chinese New Year. |

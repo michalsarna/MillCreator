@@ -2,6 +2,11 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.9.3 (not released yet)
+
+* **Auto-save in the program options** (from baseCreator, the same in every program): on or off, and how often (10 s to an hour, 2 minutes to begin with).
+* baseCreator v2.3.0.
+
 ## v0.9.2
 
 * **Pockets a hundred times lighter, with the same path**: the rings of a pocket were each made from the ring before, whose round corners came back as more points every time. A star pocket had 224 000 moves and took 14 s to make, and the program, the 3D preview and the drawing of the lines stood still meanwhile; now it has 2 300 moves and takes 2 ms. The G-code is as much shorter.
