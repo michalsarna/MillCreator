@@ -154,7 +154,7 @@ impl Surface {
     pub fn of(key: (u64, usize, [u64; 5]), moves: &[crate::toolpath::Move], tool_of: impl Fn(usize) -> Option<crate::tools::Tool>, region: Region, thickness: f64, detail: f64) -> Option<Surface> {
         let v = crate::relief::Limits::VIEW;
         let d2 = detail * detail;
-        let limits = crate::relief::Limits { cells: ((v.cells as f64) * d2) as usize, work: v.work * d2 };
+        let limits = crate::relief::Limits { cells: ((v.cells as f64) * d2) as usize, work: v.work * d2, ..v };
         let (cols, rows, step, z) = crate::relief::carved_surface(moves, tool_of, (region.min, region.max), thickness, limits);
         if z.iter().all(|h| *h == 0.0) {
             return None;
@@ -203,14 +203,22 @@ impl Surface {
         Surface { key: self.key, cols: self.cols, rows: self.rows, step: self.step, lo: self.lo, top: self.top, z: vec![0.0; self.z.len()], light: vec![1.0; self.z.len()] }
     }
 
-    /// How deep the surface is cut at (x, y) (mm, from its face; 0 off the grid).
+    /// How deep the surface is cut at (x, y) (mm, from its face; 0 off the grid). Between the points of the grid the depth goes
+    /// over smoothly from one to the next, so that the walls of a cut are not steps of the grid in the picture.
     pub fn depth_at(&self, x: f64, y: f64) -> f64 {
-        let c = ((x - self.lo[0]) / self.step - 0.5).round();
-        let r = ((self.top - y) / self.step - 0.5).round();
-        if c < 0.0 || r < 0.0 || c >= self.cols as f64 || r >= self.rows as f64 {
+        let fx = (x - self.lo[0]) / self.step - 0.5;
+        let fy = (self.top - y) / self.step - 0.5;
+        if fx < -0.5 || fy < -0.5 || fx >= self.cols as f64 - 0.5 || fy >= self.rows as f64 - 0.5 {
             return 0.0;
         }
-        -self.z[r as usize * self.cols + c as usize]
+        let (last_c, last_r) = (self.cols - 1, self.rows - 1);
+        let (c0, r0) = ((fx.floor().max(0.0) as usize).min(last_c), (fy.floor().max(0.0) as usize).min(last_r));
+        let (c1, r1) = ((c0 + 1).min(last_c), (r0 + 1).min(last_r));
+        let (tx, ty) = ((fx - c0 as f64).clamp(0.0, 1.0), (fy - r0 as f64).clamp(0.0, 1.0));
+        let z = |c: usize, r: usize| self.z[r * self.cols + c];
+        let top = z(c0, r0) + (z(c1, r0) - z(c0, r0)) * tx;
+        let bottom = z(c0, r1) + (z(c1, r1) - z(c0, r1)) * tx;
+        -(top + (bottom - top) * ty)
     }
 }
 
@@ -719,7 +727,7 @@ mod tests {
     use base_core::geom::Xf;
     use base_core::scene::{Kind, Scene};
 
-    fn job() -> (Program, Device, Stock, Vec<MillLayer>, Library) {
+    pub(super) fn job() -> (Program, Device, Stock, Vec<MillLayer>, Library) {
         let lib = Library::new();
         let dev = Device::dummy();
         let stock = Stock::default();
@@ -993,6 +1001,22 @@ mod through_tests {
         assert!(super::cut_through(10.0, None, x, y, 10.0), "the whole thickness");
         assert_eq!(s.depth_at(-1000.0, 0.0), 0.0, "off the grid");
         assert!(s.flat().z.iter().all(|z| *z == 0.0));
+    }
+
+    /// A higher quality makes the grid of the carved surface finer, also with a large bit (it was half the bit, whatever the
+    /// quality); between the points of the grid the depth goes over smoothly, with no steps.
+    #[test]
+    fn a_higher_quality_makes_a_finer_surface_and_its_depth_has_no_steps() {
+        let (prog, _dev, _stock, layers, lib) = super::tests::job();
+        let region = super::Region::of(&prog, None).unwrap();
+        let tool_of = |l: usize| layers.get(l).and_then(|l| l.tool.as_deref()).and_then(|id| lib.get(id)).cloned();
+        let steps: Vec<f64> = [1u8, 3, 5].iter().map(|q| super::Surface::of((0, 0, [0; 5]), &prog.moves, tool_of, region, 10.0, base_ui::view3d::quality_detail(*q)).unwrap().step).collect();
+        assert!(steps[0] > steps[1] && steps[1] > steps[2], "{steps:?}");
+        let s = super::Surface { key: (0, 0, [0; 5]), cols: 2, rows: 1, step: 1.0, lo: [0.0, 0.0], top: 1.0, z: vec![0.0, -4.0], light: vec![1.0; 2] };
+        assert_eq!(s.depth_at(0.5, 0.5), 0.0);
+        assert_eq!(s.depth_at(1.5, 0.5), 4.0);
+        assert!((s.depth_at(1.0, 0.5) - 2.0).abs() < 1e-9, "half way between: {}", s.depth_at(1.0, 0.5));
+        assert_eq!(s.depth_at(2.5, 0.5), 0.0, "off the grid");
     }
 
     /// A piece cut round falls out: the points inside it go through the material, those outside stay as they were.

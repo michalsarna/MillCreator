@@ -71,7 +71,7 @@ A letter without Ctrl chooses a tool of the left palette. The letters are in the
 | Action | What it does |
 |---|---|
 | Wheel, or a pinch on a touchpad | Zooms about the pointer. |
-| Middle button drag | Moves the view (with the **Pan** tool also the left button). |
+| Middle or right button drag | Moves the view, on the work area and beside it (with the **Pan** tool also the left button; a right click that does not move opens the menu). |
 | Shift + click, Ctrl + click | Adds a shape to the selection, or takes it out. |
 | Right click (Select tool) | Selects the shape under the pointer and opens the context menu. |
 | Shift with the zoom tools | Swaps zoom in and zoom out. |

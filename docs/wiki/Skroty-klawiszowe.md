@@ -71,7 +71,7 @@ Litera bez Ctrl wybiera narzędzie lewej palety. Litery są w nazwach narzędzi 
 | Czynność | Co robi |
 |---|---|
 | Kółko albo szczypnięcie na touchpadzie | Powiększa wokół wskaźnika. |
-| Przeciąganie środkowym przyciskiem | Przesuwa widok (z narzędziem **Przesuwanie widoku** także lewym). |
+| Przeciąganie środkowym lub prawym przyciskiem | Przesuwa widok, na obszarze roboczym i obok niego (z narzędziem **Przesuwanie widoku** także lewym; prawy klik bez ruchu otwiera menu). |
 | Shift + klik, Ctrl + klik | Dodaje kształt do zaznaczenia albo go z niego wyjmuje. |
 | Prawy przycisk (narzędzie Zaznaczanie) | Zaznacza kształt pod wskaźnikiem i otwiera menu kontekstowe. |
 | Shift z narzędziami powiększania | Zamienia powiększanie z pomniejszaniem. |
