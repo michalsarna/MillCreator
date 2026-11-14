@@ -23,7 +23,7 @@ Klawisze są zapisane jak w Windows i Linuksie (Ctrl); na macOS Ctrl to Cmd. Poz
 | **Ustawienia projektu…** (Project setup…) | | Rozmiar i grubość materiału, zero programu na nim, Z od spodu, obszar roboczy jako materiał. Zob. [Szybki start](Szybki-start#2-ustawienia-projektu). |
 | **Importuj ▸ Importuj obraz…** | | Obraz (PNG, JPG, BMP, GIF, WebP) na stronę, z oknem importu. Zob. [Narzędzia projektowe](Narzedzia-projektowe). |
 | **Importuj ▸ Importuj SVG…** | Ctrl+I | Ścieżki pliku SVG są dodawane do otwartego rysunku, każda na warstwę o najbliższym kolorze, a jego obrazy na aktywną warstwę. **Otwórz…** zrobiłoby z pliku nową kartę. |
-| **Importuj ▸ Importuj Adobe Illustrator / PDF…** | | To samo dla pliku PDF, zgodnego z PDF `.ai` albo `.ai` starego rodzaju w PostScripcie. Plik z warstwami Illustratora pyta, czy układać według koloru, czy według tych warstw. |
+| **Importuj ▸ Importuj Adobe Illustrator / PDF / EPS / VectorCraft…** | | To samo dla pliku PDF, zgodnego z PDF `.ai`, `.ai` starego rodzaju w PostScripcie, pliku EPS albo rysunku VectorCrafta (`.vectorcraft`, razem z obrazami). Plik z warstwami Illustratora pyta, czy układać według koloru, czy według tych warstw. |
 | **Importuj ▸ Importuj DXF…** | | DXF w ASCII jako obrysy; jego warstwy trafiają na wolne warstwy projektu. |
 | **Importuj ▸ Importuj projekt LightBurn / MillMage…** | | Kształty projektu LightBurna (`.lbrn2` / `.lbrn`) albo MillMage'a (`.mage`). |
 | **Importuj ▸ Importuj projekt UGS…** | | Projekt `.ugsd` z UGS Designera, ze sposobami cięcia jako warstwami. |

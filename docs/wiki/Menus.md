@@ -23,7 +23,7 @@ The keys are written as on Windows and Linux (Ctrl); on macOS Ctrl is Cmd. An en
 | **Project setup…** | | The size and thickness of the material, the zero of the program on it, Z from the bottom, the work area as the material. See [Quick Start](Quick-Start#2-the-project-setup). |
 | **Import ▸ Import image…** | | A picture (PNG, JPG, BMP, GIF, WebP) for the page, with the import dialog. See [Design Tools](Design-Tools). |
 | **Import ▸ Import SVG…** | Ctrl+I | The paths of an SVG are added to the open drawing, each on the layer nearest to its colour, and its pictures on the active layer. **Open…** would make a new tab of the file. |
-| **Import ▸ Import Adobe Illustrator / PDF…** | | The same for a PDF, a PDF-compatible `.ai` or an `.ai` of the old PostScript kind. A file with Illustrator layers asks whether to go by colour or by those layers. |
+| **Import ▸ Import Adobe Illustrator / PDF / EPS / VectorCraft…** | | The same for a PDF, a PDF-compatible `.ai`, an `.ai` of the old PostScript kind, an EPS or a VectorCraft drawing (`.vectorcraft`, with its pictures). A file with Illustrator layers asks whether to go by colour or by those layers. |
 | **Import ▸ Import DXF…** | | An ASCII DXF as outlines; its layers go to free layers of the project. |
 | **Import ▸ Import LightBurn / MillMage project…** | | The shapes of a LightBurn project (`.lbrn2` / `.lbrn`) or a MillMage project (`.mage`). |
 | **Import ▸ Import UGS design…** | | A `.ugsd` design of UGS Designer, with its ways of cutting as layers. |
