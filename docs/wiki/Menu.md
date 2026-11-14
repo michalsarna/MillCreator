@@ -39,6 +39,7 @@ Klawisze są zapisane jak w Windows i Linuksie (Ctrl); na macOS Ctrl to Cmd. Poz
 | **Eksportuj ▸ Eksportuj projekt LightBurn…** | | Projekt LightBurna (`.lbrn2`, albo `.lbrn`, gdy tak nazwiesz plik): kształty z krzywymi i obrazy, osobna warstwa LightBurna dla każdej warstwy projektu. |
 | **Eksportuj ▸ Eksportuj projekt MillMage…** | | To samo jako projekt MillMage (`.mage`), materiał w rozmiarze obszaru roboczego. |
 | **Eksportuj ▸ Eksportuj relief jako STL…** | | To samo co **Frezowanie → Eksportuj relief jako STL…**. |
+| **Eksportuj ▸ Rysunek techniczny ▸** | | Rysunek techniczny jako **PDF**, **PNG**, **JPG**, **DXF** albo **DXF R12 (starszy)**. DXF to arkusz A4 taki, jak drukowany, w milimetrach: obrysy, linie cienkie i przerywane oraz napisy na osobnych warstwach; wymiary podają prawdziwe rozmiary. |
 | **Eksportuj ▸ Eksportuj zaznaczenie jako SVG…** | | Zapisuje zaznaczone kształty (wszystkie, gdy nic nie jest zaznaczone) jako SVG. |
 | **Eksportuj ▸ Eksportuj zaznaczenie jako DXF…** | | To samo jako DXF obecnego rodzaju, z warstwą DXF dla każdej warstwy projektu. |
 | **Pokaż plik G-code…** (View G-code file…) | | Otwiera plik G-code w analizie G-code: jego ścieżkę w 2D lub 3D, długość cięcia i czas. |
@@ -108,6 +109,9 @@ Wszystkie są opisane w [Narzędziach projektowych](Narzedzia-projektowe).
 | **Jeden widok** (Single view) | | Wszystkie karty znów w jednym panelu. |
 | **Pokaż nakładkę z kamery** | | Pokazuje lub ukrywa obraz pod rysunkiem. |
 | **Pokaż strefy zakazane** (Show no-go zones) | | Rysuje na czerwono strefy zakazane urządzenia; wyszarzona, gdy urządzenie ich nie ma. |
+| **Rysunek techniczny** (Technical drawing) | | Pokazuje albo chowa rysunek techniczny (wcześniej przycisk nad edytorem). |
+| **Podgląd** (Preview) | | Pokazuje albo chowa podgląd, jak przycisk **Podgląd…**. |
+| **Podgląd G-code** (Preview G-code) | | G-code zadania w karcie, jak przycisk **Podgląd G-code**. |
 | **Nakładka z…** | | Zdjęcie albo obraz na żywo z kamery pod rysunkiem, ustawiane czterema narożnikami albo punktami odniesienia. Zapisywana w projekcie. |
 
 Panele i karty: [Narzędzia projektowe](Narzedzia-projektowe).
@@ -148,7 +152,7 @@ Najpierw ustawienia maszyny, potem to, co na niej działa. Zob. [Sterowanie masz
 | **Dodaj otwory bazujące** (Add alignment holes) | | Dwa otwory na kołki zadania dwustronnego, na pustej warstwie (jak na karcie Materiał). |
 | **Widok 3D zadania…** (3D view of the job…) | Ctrl+Shift+P | Otwiera kartę **Podgląd**: materiał, cięcia i ruchy w 3D, z animacją. Zob. [Widok 3D i G-code](Widok-3D-i-G-code). |
 | **Podgląd G-code** (Preview G-code) | | G-code zadania jako tekst na karcie, bez zapisywania (to samo co przycisk **Podgląd G-code**). |
-| **Pokaż rysunek techniczny…** (Show technical drawing…) | | Element jako rysunek techniczny: widok z przodu, z boku i z góry, z wymiarami i tabliczką. Także przycisk **Rysunek techniczny** podglądu. |
+| **Pokaż rysunek techniczny…** (Show technical drawing…) | | Element jako rysunek techniczny: widok z przodu, z boku i z góry, z wymiarami i tabliczką. Także **Widok → Rysunek techniczny**. |
 | **Eksportuj G-code…** (Export G-code…) | Ctrl+E | Pyta o nazwę pliku (`nazwa.nc`) i zapisuje G-code projektu, przez włączone postprocesory. To samo co przycisk **Zapisz G-code**. |
 | **Eksportuj relief jako STL…** | | Zapisuje relief 3D obrazu jako model STL (tylko gdy na warstwie z metodą relief 3D jest obraz). |
 
@@ -157,7 +161,7 @@ Najpierw ustawienia maszyny, potem to, co na niej działa. Zob. [Sterowanie masz
 | Pozycja | Co robi |
 |---|---|
 | **Opcje widoku…** (View options…) | Siatka główna i pomocnicza, kolory obszaru roboczego, grubość linii, **Pokaż nazwy warstw**, **Podgląd G-code po zapisaniu**, **Pokaż nazwy zmiennych**. Zob. [Ustawienia i pliki](Ustawienia-i-pliki). Rozmiar czcionki i kolory **konsoli G-code**. |
-| **Opcje programu…** (Program options…) | **Szukaj nowszej wersji przy uruchamianiu programu**. |
+| **Opcje programu…** (Program options…) | **Szukaj nowszej wersji przy uruchamianiu programu**; **Jakość renderowania** (1 szybko … 5 ostro) widoku 3D. |
 | **Wtyczki…** (Plugins…) | Instalowanie, włączanie, wyłączanie i usuwanie wtyczek, oficjalna lista. Zob. [Wtyczki](Wtyczki). |
 | **Język ▸** (Language) | 30 języków programu. |
 | **Schemat kolorów ▸** (Colour scheme) | 18 schematów kolorów okna oraz świąteczne w okolicy Bożego Narodzenia, Nowego Roku, Halloween, Wielkanocy i Chińskiego Nowego Roku. |

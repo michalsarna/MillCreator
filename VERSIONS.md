@@ -12,7 +12,7 @@ Each release gets the next version number. Newest first.
 * **Rendering quality** (Settings → Program options…): a slider from 1 (quick, coarse) to 5 (sharp, slower) for how fine the 3D view is; while the view is turned it is drawn coarser for a moment.
 * **Technical drawing**: shows the whole object, every face and every milled layer (also one hidden in the editor). It moved from the button over the editor to the **View** menu, together with **Preview** and **Preview G-code**, which do what the buttons of the main window do. **File → Export → Technical drawing** saves it as PDF, PNG, JPG, **DXF** or **DXF R12**; a DXF is the A4 sheet as it is printed, in millimetres, with its lines and words, and its dimensions give the real sizes. The Export… of the drawing window has the same formats.
 * **The start window of the project setup**: the green **Apply** and the blue **Skip** are bigger, in the middle at the bottom under a line; the pictures are bigger and in the middle. **Skip** or closing the window gives a project on one side as big as the work area of the machine.
-* **The work area of the machine stays its own** and a new project gets it back; the switch of the sides and faces over the work area has the colour of the theme.
+* **The work area of the machine stays its own** and a new project gets it back; saving the device settings keeps the work area of the face or of the material in the project; the switch of the sides and faces over the work area has the colour of the theme.
 
 ## v0.8.7
 

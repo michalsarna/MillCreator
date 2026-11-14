@@ -625,7 +625,13 @@ impl App {
                 let others: Vec<String> = self.devices.iter().enumerate().filter(|(j, _)| *j != i).map(|(_, d)| d.name.clone()).collect();
                 d.name = Device::free_name(&d.name, &others);
                 if self.active == Some(i) {
+                    // A work area the project made as big as its material (or as a face of a post or a block) stays the project's.
+                    let (x, y) = (self.device.area.x, self.device.area.y);
+                    let own = (x, y) != self.machine_area();
                     self.device = d.clone();
+                    if own {
+                        (self.device.area.x, self.device.area.y) = (x, y);
+                    }
                     self.touch();
                 }
                 if let Some(slot) = self.devices.get_mut(i) {

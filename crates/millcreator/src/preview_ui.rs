@@ -489,9 +489,10 @@ impl App {
             // Only the icon: what it does is in the tooltip.
             stl = Self::preview_stl_button(ui);
         });
-        ui.horizontal(|ui| {
-            self.playback.show(ui, &mut self.view.progress);
-        });
+        // While the job plays or the slider is dragged the pictures are made coarser, so they follow; when it stops they are made
+        // again at the quality of the program options.
+        let slid = ui.horizontal(|ui| self.playback.show(ui, &mut self.view.progress)).inner;
+        self.view.busy = slid || self.playback.playing;
         let secs = prog.estimate_seconds(&self.device);
         ui.label(RichText::new(trf("Time {} / {}", &[&base_ui::widgets::fmt_time(secs * self.view.progress as f64), &base_ui::widgets::fmt_time(secs)])).strong());
         ui.label(RichText::new(trf("Cuts: {} m, about {} min", &[&format!("{:.2}", prog.cut_length() / 1000.0), &format!("{:.1}", secs / 60.0)])).color(theme::text_dim()));
@@ -504,7 +505,7 @@ impl App {
                 let done = if sides.is_some() && shown_b { top_prog.moves.len() } else { view3d::position_at(top_prog, self.view.progress).0.min(top_prog.moves.len()) };
                 let bits = |v: f64| v.to_bits();
                 // The quality of the rendering is in the key: another one makes the surface again.
-                let quality = self.ed.grid_prefs.render_quality;
+                let quality = if self.view.busy { self.ed.grid_prefs.render_quality.min(2) } else { self.ed.grid_prefs.render_quality };
                 let detail = base_ui::view3d::quality_detail(quality);
                 let key = (self.prog_rev, done, [bits(region.min[0]), bits(region.min[1]), bits(region.max[0]), bits(region.max[1]), bits(depth) ^ (quality as u64).rotate_left(56)]);
                 let tool_of = |layer: usize| self.layers.get(layer).and_then(|l| l.tool.as_deref()).and_then(|id| self.tools.get(id)).cloned();

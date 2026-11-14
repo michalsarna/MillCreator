@@ -97,6 +97,8 @@ pub struct View3d {
     pub fit: Option<Fit>,
     /// The view is being turned or moved by the mouse (the picture of a post or a block is made coarser meanwhile).
     pub moving: bool,
+    /// The job plays or its slider is dragged: the pictures are made coarser meanwhile, as while the view is turned.
+    pub busy: bool,
 }
 
 impl std::ops::Deref for View3d {
@@ -114,7 +116,7 @@ impl std::ops::DerefMut for View3d {
 
 impl Default for View3d {
     fn default() -> View3d {
-        View3d { cam: Camera::default(), show_cuts: true, show_rapids: true, show_stock: true, show_project: false, show_dims: false, progress: 1.0, fit: None, moving: false }
+        View3d { cam: Camera::default(), show_cuts: true, show_rapids: true, show_stock: true, show_project: false, show_dims: false, progress: 1.0, fit: None, moving: false, busy: false }
     }
 }
 
@@ -343,7 +345,7 @@ pub fn position_at(prog: &Program, part: f32) -> (usize, Option<P3>) {
 /// The picture, in the space the ui gives. Turns, pans and zooms with the mouse.
 pub fn show(ui: &mut egui::Ui, view: &mut View3d, sc: &Scene3d) {
     let (rect, resp) = ui.allocate_exact_size(base_ui::window::fill_size(ui).max(Vec2::splat(120.0)), Sense::click_and_drag());
-    view.moving = base_ui::view3d::handle_input(ui, &resp, &mut view.cam);
+    view.moving = base_ui::view3d::handle_input(ui, &resp, &mut view.cam) || view.busy;
     if let Some(f) = view.fit.take() {
         let area = [0.0, 0.0, sc.dev.area.x, sc.dev.area.y];
         let r = sc.region;

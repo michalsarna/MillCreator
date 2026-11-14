@@ -336,5 +336,30 @@ mod tests {
         a.open_setup();
         assert!(!a.setup.start);
     }
+
+    /// Saving the device settings while face B of a block is shown keeps the work area of the device its own, and the one of the
+    /// project the face's.
+    #[test]
+    fn saving_the_device_settings_on_a_face_keeps_both_work_areas() {
+        let mut a = crate::tests::app();
+        a.devices = vec![a.device.clone()];
+        a.active = Some(0);
+        let machine = a.machine_area();
+        a.open_setup();
+        a.setup.sides = base_ui::project_setup::Sides::Block;
+        a.setup.block = [100.0, 80.0, 60.0];
+        a.apply_setup();
+        a.show_face(1);
+        let face = (a.device.area.x, a.device.area.y);
+        assert_ne!(face, machine);
+        a.start_edit_device(0);
+        let mut edit = a.dev_edit.take().unwrap();
+        edit.draft.rapid = 4321.0;
+        a.commit_device(&edit);
+        assert_eq!((a.devices[0].area.x, a.devices[0].area.y), machine, "the device keeps its own");
+        assert_eq!(a.devices[0].rapid, 4321.0);
+        assert_eq!((a.device.area.x, a.device.area.y), face, "the project keeps the face's");
+        assert_eq!(a.device.rapid, 4321.0);
+    }
 }
 
