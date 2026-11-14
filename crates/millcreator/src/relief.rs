@@ -449,13 +449,16 @@ mod tests {
 pub struct Limits {
     pub cells: usize,
     pub work: f64,
+    /// The grid as fine as the cells allow, also finer than half the smallest bit (the picture: a finer grid at a higher quality,
+    /// with no steps along the walls of the cuts).
+    pub fill: bool,
 }
 
 impl Limits {
     /// For a model that is exported: as fine as the bit allows.
-    pub const EXPORT: Limits = Limits { cells: MAX_CELLS, work: MAX_WORK as f64 };
+    pub const EXPORT: Limits = Limits { cells: MAX_CELLS, work: MAX_WORK as f64, fill: false };
     /// For the picture of the 3D view, which is made again whenever the slider moves.
-    pub const VIEW: Limits = Limits { cells: 90_000, work: 40_000_000.0 };
+    pub const VIEW: Limits = Limits { cells: 90_000, work: 40_000_000.0, fill: true };
 }
 
 pub fn carved_surface(moves: &[crate::toolpath::Move], tool_of: impl Fn(usize) -> Option<Tool>, area: ([f64; 2], [f64; 2]), thickness: f64, limits: Limits) -> (usize, usize, f64, Vec<f64>) {
@@ -465,6 +468,9 @@ pub fn carved_surface(moves: &[crate::toolpath::Move], tool_of: impl Fn(usize) -
     let cuts: Vec<(&crate::toolpath::Move, Tool)> = moves.iter().filter(|m| m.kind != MoveKind::Rapid && m.from[2].min(m.to[2]) < 0.0).filter_map(|m| tool_of(m.layer).map(|t| (m, t))).collect();
     let smallest = cuts.iter().map(|(_, t)| t.radius()).fold(f64::MAX, f64::min);
     let mut step = if smallest.is_finite() { (smallest / 2.0).max(0.05) } else { 0.5 };
+    if limits.fill {
+        step = step.min((w * h / limits.cells.max(1) as f64).sqrt()).max(0.05);
+    }
     // The grid stays small enough, and so does the work of the sweep (samples along the moves times the cells under the bit).
     let work = |step: f64| -> f64 { cuts.iter().map(|(m, t)| (m.length() / step * 2.0 + 1.0) * std::f64::consts::PI * (t.radius() / step).powi(2)).sum() };
     while (w / step) * (h / step) > limits.cells as f64 || work(step) > limits.work {

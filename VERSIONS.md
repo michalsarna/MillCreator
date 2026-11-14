@@ -4,6 +4,9 @@ Each release gets the next version number. Newest first.
 
 ## v0.9.1 (not released yet)
 
+* **Rendering quality** now makes the 3D view finer: a higher quality gives a finer grid of the carved surface (it was half the smallest bit whatever the quality), the walls of the cuts are smooth instead of steps of the grid, and the picture of a post or a block is made by all the cores of the computer – at quality 5 several times faster, so the program is no longer held up.
+* **A drag with the right mouse button moves the view of the editor**, on the work area and beside it (before only the middle button did, or the Pan tool); a right click that does not move still opens the menu.
+* baseCreator v2.0.1.
 * Updated dependencies (zip 9.5.0).
 
 ## v0.9.0
