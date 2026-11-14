@@ -4,6 +4,7 @@ Each release gets the next version number. Newest first.
 
 ## v0.9.2 (not released yet)
 
+* **Faster drawing of the toolpaths** (the 3D preview and the Toolpaths button): moves that follow each other are one line, straight runs one piece, points closer than half a pixel and what is out of sight are left out, and with more than 2000 rapid moves they are drawn thin instead of dashed. A raster job of 400 000 moves went from 3.3 million points a frame to about 110 thousand, and from 36 to about 15 ms.
 * **Import of EPS and VectorCraft drawings** (File → Import → Import Adobe Illustrator / PDF / EPS / VectorCraft…, File → Open…, or a file dropped on the window): a `.vectorcraft` file (VectorCraft 0.8 and later) with its paths, colours, layers and pictures; an EPS (also with a TIFF preview): the one VectorCraft writes with its pictures, others as PostScript (their paths).
 * baseCreator v2.1.0.
 
