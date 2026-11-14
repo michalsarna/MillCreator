@@ -1058,6 +1058,12 @@ fn pictures_of_posts_and_blocks() {
         a.refresh_program();
     }
     shot(&mut h, "post-3d-face-b.png");
+    // The same at the lowest and the highest quality of the rendering.
+    for q in [1u8, 5] {
+        app(&mut h).ed.grid_prefs.render_quality = q;
+        shot(&mut h, &format!("post-3d-face-b-quality-{q}.png"));
+    }
+    app(&mut h).ed.grid_prefs.render_quality = 3;
     {
         let a = app(&mut h);
         a.preview_close();
