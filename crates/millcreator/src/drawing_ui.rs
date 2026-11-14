@@ -4,7 +4,7 @@
 //! top as dashed (hidden) lines down to the depth of their layer. Dimensions give the size of the material, of the parts, where they
 //! are from the corner of the material, and the depths; a title block names the project, the material and the scale for an A4 sheet.
 use crate::App;
-use base_core::geom::{Pt, Rect};
+use base_core::geom::Pt;
 use base_ui::dims::{self, DimStyle};
 use base_ui::i18n::{tr, trf};
 use egui::{Color32, Pos2, Stroke, Vec2};
@@ -56,10 +56,10 @@ pub struct Part {
 impl Part {
     /// The box of its lines seen from above.
     #[cfg(test)]
-    pub fn bounds(&self) -> Rect {
+    pub fn bounds(&self) -> base_core::geom::Rect {
         let pts = self.lines.iter().flatten();
         let f = |k: usize, lo: bool| pts.clone().map(|q| q[k]).fold(if lo { f64::MAX } else { f64::MIN }, if lo { f64::min } else { f64::max });
-        Rect { min: Pt::new(f(0, true), f(1, true)), max: Pt::new(f(0, false), f(1, false)) }
+        base_core::geom::Rect { min: Pt::new(f(0, true), f(1, true)), max: Pt::new(f(0, false), f(1, false)) }
     }
 }
 
