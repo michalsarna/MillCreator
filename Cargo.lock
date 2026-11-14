@@ -2282,7 +2282,7 @@ dependencies = [
 
 [[package]]
 name = "millcreator"
-version = "0.9.1"
+version = "0.9.2"
 dependencies = [
  "base-core",
  "base-ui",
