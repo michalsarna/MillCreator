@@ -113,13 +113,10 @@ impl App {
         let (stamp, progs) = self.solid3d.as_ref()?;
         let stamp = *stamp;
         let n = solid.count();
-        let moved = |from: usize, to: usize| {
-            let (f, t) = (solid.face(from), solid.face(to));
-            view3d::Affine3::of(|p| {
-                let (d, depth) = t.local(f.at(Pt::new(p[0], f.h - p[1]), -p[2]));
-                [d.x, t.h - d.y, -depth]
-            })
-        };
+        let moved = |from: usize, to: usize| base_ui::view3d::face_move(&solid, from, to);
+        // The faces are made again for another quality of the rendering too.
+        let detail = base_ui::view3d::quality_detail(self.ed.grid_prefs.render_quality);
+        let stamp = stamp ^ (self.ed.grid_prefs.render_quality as u64).rotate_left(56);
         self.face_surfaces.resize_with(n, || None);
         let tool_of = |layer: usize| self.layers.get(layer).and_then(|l| l.tool.as_deref()).and_then(|id| self.tools.get(id)).cloned();
         for j in (0..n).filter(|j| *j != shown) {
@@ -128,7 +125,7 @@ impl App {
             }
             let f = solid.face(j);
             let region = Region { min: [0.0, 0.0], max: [f.w, f.h] };
-            let mut s = progs.get(j).and_then(|p| view3d::Surface::of((stamp, j, [0; 5]), &p.moves, tool_of, region, f.depth));
+            let mut s = progs.get(j).and_then(|p| view3d::Surface::of((stamp, j, [0; 5]), &p.moves, tool_of, region, f.depth, detail));
             // The windows of the face, cut round its whole depth without tabs, fall out.
             let falls = |layer: usize| self.layers.get(layer).is_some_and(|l| l.enabled && l.op == crate::layers::Operation::ProfileInside && !l.tabs.enabled && l.depth >= f.depth - 1e-6);
             let pieces: Vec<Polyline> = self.face_scene(j).shapes.iter().filter(|s| falls(s.layer)).flat_map(|s| s.polys().into_iter().filter(|p| p.closed).map(|p| Polyline::new(p.pts.iter().map(|q| Pt::new(q.x, f.h - q.y)).collect(), true)).collect::<Vec<_>>()).collect();
@@ -492,9 +489,10 @@ impl App {
             // Only the icon: what it does is in the tooltip.
             stl = Self::preview_stl_button(ui);
         });
-        ui.horizontal(|ui| {
-            self.playback.show(ui, &mut self.view.progress);
-        });
+        // While the job plays or the slider is dragged the pictures are made coarser, so they follow; when it stops they are made
+        // again at the quality of the program options.
+        let slid = ui.horizontal(|ui| self.playback.show(ui, &mut self.view.progress)).inner;
+        self.view.busy = slid || self.playback.playing;
         let secs = prog.estimate_seconds(&self.device);
         ui.label(RichText::new(trf("Time {} / {}", &[&base_ui::widgets::fmt_time(secs * self.view.progress as f64), &base_ui::widgets::fmt_time(secs)])).strong());
         ui.label(RichText::new(trf("Cuts: {} m, about {} min", &[&format!("{:.2}", prog.cut_length() / 1000.0), &format!("{:.1}", secs / 60.0)])).color(theme::text_dim()));
@@ -506,7 +504,10 @@ impl App {
                 // The carved stock is made again only when the program, the slider or the stock changed.
                 let done = if sides.is_some() && shown_b { top_prog.moves.len() } else { view3d::position_at(top_prog, self.view.progress).0.min(top_prog.moves.len()) };
                 let bits = |v: f64| v.to_bits();
-                let key = (self.prog_rev, done, [bits(region.min[0]), bits(region.min[1]), bits(region.max[0]), bits(region.max[1]), bits(depth)]);
+                // The quality of the rendering is in the key: another one makes the surface again.
+                let quality = if self.view.busy { self.ed.grid_prefs.render_quality.min(2) } else { self.ed.grid_prefs.render_quality };
+                let detail = base_ui::view3d::quality_detail(quality);
+                let key = (self.prog_rev, done, [bits(region.min[0]), bits(region.min[1]), bits(region.max[0]), bits(region.max[1]), bits(depth) ^ (quality as u64).rotate_left(56)]);
                 let tool_of = |layer: usize| self.layers.get(layer).and_then(|l| l.tool.as_deref()).and_then(|id| self.tools.get(id)).cloned();
                 // The bottom face of a two-sided project, carved by side B the same way.
                 // The windows cut round the whole thickness fall out once their side is done, out of both faces.
@@ -516,7 +517,7 @@ impl App {
                     let b_done = if shown_b { view3d::position_at(b, self.view.progress).0.min(b.moves.len()) } else { b.moves.len() };
                     let b_key = (self.prog_rev, b_done, key.2);
                     if self.surface_b.as_ref().map(|(k, _)| *k) != Some(b_key) {
-                        let mut s = view3d::Surface::of(b_key, &b.moves[..b_done], tool_of, region, depth);
+                        let mut s = view3d::Surface::of(b_key, &b.moves[..b_done], tool_of, region, depth, detail);
                         if let Some(s) = s.as_mut() {
                             s.fall_out(if b_done == b.moves.len() { &fallen_b } else { &[] }, depth);
                             s.fall_out(if a_done { &fallen_a } else { &[] }, depth);
@@ -526,7 +527,7 @@ impl App {
                 }
                 let b_complete = sides.is_some_and(|(_, b)| !shown_b || view3d::position_at(b, self.view.progress).0 >= b.moves.len());
                 if self.view.show_stock && self.surface.as_ref().map(|s| s.key) != Some(key) {
-                    self.surface = view3d::Surface::of(key, &top_prog.moves[..done], tool_of, region, depth);
+                    self.surface = view3d::Surface::of(key, &top_prog.moves[..done], tool_of, region, depth, detail);
                     if let Some(s) = self.surface.as_mut() {
                         s.fall_out(if a_done { &fallen_a } else { &[] }, depth);
                         s.fall_out(if b_complete { &fallen_b } else { &[] }, depth);
@@ -557,16 +558,29 @@ impl App {
                     base_ui::dims::Features::default()
                 };
                 let bottom = sides.map(|(_, b)| view3d::Bottom { prog: b, surface: self.surface_b.as_ref().and_then(|(_, s)| s.as_ref()), animated: shown_b });
+                // The shown face is carved by the view itself (up to the slider), the others by their whole jobs.
                 let solid_view = solid_faces.as_ref().zip(shown_face).map(|(faces, shown)| view3d::SolidView {
                     faces: faces
                         .iter()
-                        .map(|(j, to_view, size, depth, letter)| view3d::FaceView { surface: j.and_then(|j| self.face_surfaces.get(j).and_then(|s| s.as_ref()).and_then(|(_, s)| s.as_ref())), to_view: *to_view, size: *size, depth: *depth, letter: *letter })
+                        .map(|(j, to_view, size, depth, letter)| {
+                            let carved = match j {
+                                Some(j) => self.face_surfaces.get(*j).and_then(|s| s.as_ref()).and_then(|(_, s)| s.as_ref()),
+                                None => surface,
+                            };
+                            view3d::SolidFace { carved: carved.map(|c| c as &dyn view3d::Carved), to_view: *to_view, size: *size, depth: *depth, letter: *letter }
+                        })
                         .collect(),
                     shown,
-                    key: self.solid3d.as_ref().map_or(0, |(k, _)| *k),
+                    colour: stock.color,
+                    key: {
+                        use std::hash::{Hash, Hasher};
+                        let mut h = std::collections::hash_map::DefaultHasher::new();
+                        (self.solid3d.as_ref().map_or(0, |(k, _)| *k), surface.map(|s| s.key)).hash(&mut h);
+                        h.finish()
+                    },
                     cache: &self.solid_pic,
                 });
-                let sc = Scene3d { surface, prog: top_prog, region, stock: &stock, dev: &self.device, layers: &self.layers, project, rotary, parts: &parts, units: base_ui::editor::EditorHost::units(self), bottom, solid: solid_view };
+                let sc = Scene3d { surface, prog: top_prog, region, stock: &stock, dev: &self.device, layers: &self.layers, project, rotary, parts: &parts, units: base_ui::editor::EditorHost::units(self), bottom, solid: solid_view, quality };
                 view3d::show(ui, &mut self.view, &sc);
             }
             None => {

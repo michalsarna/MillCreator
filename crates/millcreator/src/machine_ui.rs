@@ -458,17 +458,19 @@ impl App {
         }
         base_ui::editor::dims_button(ui, &mut self.ed);
         if base_ui::widgets::window_toggle(ui, &tr("Preview…"), &tr("Open the preview window"), self.show_3d, self.screen == crate::Screen::Editor) {
-            if self.show_3d {
-                self.show_3d = false;
-            } else {
-                self.open_preview();
-            }
-        }
-        if base_ui::widgets::window_toggle(ui, &tr("Technical drawing"), &tr("The part as a technical drawing: the views from the front, from the side and from above, with dimensions"), self.drawing_open, self.screen == crate::Screen::Editor) {
-            self.drawing_open = !self.drawing_open;
+            self.toggle_preview();
         }
         if self.device.camera().is_some() && base_ui::widgets::window_toggle(ui, &tr("Camera view"), &tr("Show the live camera picture of this machine"), self.show_camera, true) {
             self.toggle_camera_view();
+        }
+    }
+
+    /// The preview shown or hidden, as its button does.
+    pub(crate) fn toggle_preview(&mut self) {
+        if self.show_3d {
+            self.show_3d = false;
+        } else {
+            self.open_preview();
         }
     }
 

@@ -37,6 +37,11 @@ pub enum Act {
     CheckProgram,
     Preview3d,
     TechnicalDrawing,
+    /// View: the technical drawing and the preview shown or hidden, as the buttons of the main window do.
+    ToggleDrawing,
+    TogglePreview,
+    /// File → Export → Technical drawing: the drawing in one of the formats.
+    ExportDrawing(crate::drawing_ui::DrawingFormat),
     ExportGcode,
     ExportSvg,
     ExportCam,
@@ -119,9 +124,15 @@ pub fn menus() -> Menus<Act> {
         export_cam: Act::ExportCam,
         import_extra: vec![Item(Act::ImportModel, "Import 3D model as relief…", None)],
         export_first: vec![Item(Act::ExportGcode, "Export G-code…", None)],
-        export_extra: vec![Item(Act::ExportRelief, "Export relief as STL…", None)],
+        export_extra: vec![Item(Act::ExportRelief, "Export relief as STL…", None), Sep, Entry::Sub("Technical drawing", crate::drawing_ui::DrawingFormat::ALL.iter().map(|f| Item(Act::ExportDrawing(*f), f.menu_label(), None)).collect())],
         output_extra: vec![Item(Act::Print, "Print…", key("CmdOrCtrl+P", "Ctrl+P"))],
-        view_extra: [overlay_entries(Act::ToggleOverlay, Act::Std(StdAct::BackgroundPicture)), vec![Item(Act::ToggleZones, "Show no-go zones", None)]].concat(),
+        view_extra: [
+            overlay_entries(Act::ToggleOverlay, Act::Std(StdAct::BackgroundPicture)),
+            vec![Item(Act::ToggleZones, "Show no-go zones", None)],
+            // What the buttons of the main window show: the technical drawing, the preview and the G-code.
+            vec![Sep, Item(Act::ToggleDrawing, "Technical drawing", None), Item(Act::TogglePreview, "Preview", None), Item(Act::PreviewGcode, "Preview G-code", None)],
+        ]
+        .concat(),
         background: false,
         machine: machine_menu(MachineMenu {
             switch_device: Act::SwitchDevice,
@@ -165,5 +176,13 @@ mod tests {
         let titles: Vec<&str> = m.iter().map(|(t, _)| *t).collect();
         assert_eq!(&titles[..6], ["File", "Edit", "Insert", "Arrange", "View", "Machine"]);
         assert_eq!(&titles[7..], ["Settings", "Help"]);
+        // View ends with the drawing, the preview and the G-code; Export has the technical drawing in five formats.
+        let items = |e: &[Entry<Act>]| e.iter().filter_map(|e| match e { Entry::Item(a, ..) => Some(*a), _ => None }).collect::<Vec<_>>();
+        let view = &m.iter().find(|(t, _)| *t == "View").unwrap().1;
+        assert_eq!(items(view).iter().rev().take(3).copied().collect::<Vec<_>>(), [Act::PreviewGcode, Act::TogglePreview, Act::ToggleDrawing]);
+        let file = &m[0].1;
+        let Some(Entry::Sub(_, export)) = file.iter().find(|e| matches!(e, Entry::Sub("Export", _))) else { panic!("no Export") };
+        let Some(Entry::Sub(_, drawing)) = export.iter().find(|e| matches!(e, Entry::Sub("Technical drawing", _))) else { panic!("no Technical drawing in Export") };
+        assert_eq!(items(drawing).len(), 5);
     }
 }

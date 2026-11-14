@@ -39,6 +39,7 @@ The keys are written as on Windows and Linux (Ctrl); on macOS Ctrl is Cmd. An en
 | **Export ▸ Export LightBurn project…** | | A LightBurn project (`.lbrn2`, or `.lbrn` when you name the file so): the shapes with their curves and the pictures, a LightBurn layer for every layer of the project. |
 | **Export ▸ Export MillMage project…** | | The same as a MillMage project (`.mage`), the material the size of the work area. |
 | **Export ▸ Export relief as STL…** | | The same as **Milling → Export relief as STL…**. |
+| **Export ▸ Technical drawing ▸** | | The technical drawing as **PDF**, **PNG**, **JPG**, **DXF** or **DXF R12 (legacy)**. A DXF is the A4 sheet as it is printed, in millimetres: the outlines, the thin and dashed lines and the words on layers of their own; the dimensions give the real sizes. |
 | **Export ▸ Export selection as SVG…** | | Writes the selected shapes (all of them when nothing is selected) as SVG. |
 | **Export ▸ Export selection as DXF…** | | The same as DXF of the current kind, a DXF layer for every layer of the project. |
 | **View G-code file…** | | Opens a G-code file in the **G-code analysis**: its toolpath in 2D or 3D, the length of the cuts and the time. |
@@ -108,6 +109,9 @@ All of them are explained in [Design Tools](Design-Tools).
 | **Single view** | | All the tabs in one pane again. |
 | **Show camera overlay** | | Shows or hides the picture under the drawing. |
 | **Show no-go zones** | | Draws the no-go zones of the device in red; greyed out when the device has none. |
+| **Technical drawing** | | Shows or hides the technical drawing (it was a button over the editor). |
+| **Preview** | | Shows or hides the preview, as the **Preview…** button. |
+| **Preview G-code** | | The G-code of the job in a tab, as the **Preview G-code** button. |
 | **Overlay from…** | | A photo or the live picture of the camera under the drawing, aligned by its four corners or by reference points. Saved with the project. |
 
 Panes and tabs: [Panes and Tabs](Panes-and-Tabs).
@@ -148,7 +152,7 @@ The settings of the machine first, then what runs on it. See [Machine Control](M
 | **Add alignment holes** | | Two holes for the pins of a two-sided job, on an empty layer (as on the Material tab). |
 | **3D view of the job…** | Ctrl+Shift+P | Opens the **Preview** tab: the material, the cuts and the moves in 3D, with the animation. See [3D View and G-code](3D-View-and-G-code). |
 | **Preview G-code** | | The G-code of the job as text in a tab, without saving it (the same as the **Preview G-code** button). |
-| **Show technical drawing…** | | The part as a technical drawing: the views from the front, from the side and from above, with dimensions and a title block. Also the **Technical drawing** button of the preview. |
+| **Show technical drawing…** | | The part as a technical drawing: the views from the front, from the side and from above, with dimensions and a title block. Also **View → Technical drawing**. |
 | **Export G-code…** | Ctrl+E | Asks for a file name (`name.nc`) and writes the G-code of the project, through the postprocessors that are on. The same as the **Save G-code** button. |
 | **Export relief as STL…** | | Saves the 3D relief of a picture as an STL model (only when there is a picture on a layer with the 3D relief method). |
 
@@ -157,7 +161,7 @@ The settings of the machine first, then what runs on it. See [Machine Control](M
 | Entry | What it does |
 |---|---|
 | **View options…** | The main and the secondary grid, the colours of the work area, the line thickness, **Show layer names**, **Preview G-code after saving**, **Show variable names**. See [Settings and Files](Settings-and-Files). The font size and colours of the **G-code console**. |
-| **Program options…** | **Look for a newer version when the program starts**. |
+| **Program options…** | **Look for a newer version when the program starts**; **Rendering quality** (1 quick … 5 sharp) of the 3D view. |
 | **Plugins…** | Install, switch on and off and remove plugins, the official list. See [Plugins](Plugins). |
 | **Language ▸** | The 30 languages of the program. |
 | **Colour scheme ▸** | The 18 colour schemes of the window, and festive ones around Christmas, the New Year, Halloween, Easter and the Chinese New Year. |

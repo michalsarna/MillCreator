@@ -2,6 +2,18 @@
 
 Each release gets the next version number. Newest first.
 
+## v0.8.8 (not released yet)
+
+* **Project setup** (File → Project setup…, and the window of every new project): a block of material or a cylinder on the rotary attachment, with the zero of the program and Z from the top or the bottom, a picture and its sizes. **Work area is the material**; with 2, 4 or 6 sides it is always on and cannot be unticked.
+* **Two-sided jobs**: side A and side B, each a work area of its own, turned over round the axis chosen, with the alignment holes; the shapes of the other side show as **ghosts**, which can be clicked to align and snap to. The layer settings are in sections; an old project's layers for the bottom become side B; **Side to cut** is gone from the Control tab and the menu.
+* **Posts and blocks**: **4 sides (post)** mills the four long faces of a post a × b, H long, rolled a quarter turn back between them; **6 sides (block)** mills all six faces of a block a × b × c. Each face is a work area of its own on material as thick as the object is deep there; the faces beside it are unfolded round it with their ghosts. A click on an unfolded face shows that face.
+* **Save G-code and Preview G-code of a job on several sides** ask how: one file with a stop to turn the object (each face from its own corner, Z from the one zero set for face A, the bit above the highest face before each stop), one file without stops, or a file for each face (`_A` … `_F`); the preview in one tab or a tab for each side.
+* **The 3D view of a post or a block** shows the whole object carved on every face, lying as the machine sees the shown face: cuts that meet from different faces, and holes through the material, are seen as they are. It now comes from baseCreator, shared with LightCreator.
+* **Rendering quality** (Settings → Program options…): a slider from 1 (quick, coarse) to 5 (sharp, slower) for how fine the 3D view is; while the view is turned it is drawn coarser for a moment.
+* **Technical drawing**: shows the whole object, every face and every milled layer (also one hidden in the editor). It moved from the button over the editor to the **View** menu, together with **Preview** and **Preview G-code**, which do what the buttons of the main window do. **File → Export → Technical drawing** saves it as PDF, PNG, JPG, **DXF** or **DXF R12**; a DXF is the A4 sheet as it is printed, in millimetres, with its lines and words, and its dimensions give the real sizes. The Export… of the drawing window has the same formats.
+* **The start window of the project setup**: the green **Apply** and the blue **Skip** are bigger, in the middle at the bottom under a line; the pictures are bigger and in the middle. **Skip** or closing the window gives a project on one side as big as the work area of the machine.
+* **The work area of the machine stays its own** and a new project gets it back; saving the device settings keeps the work area of the face or of the material in the project; the switch of the sides and faces over the work area has the colour of the theme.
+
 ## v0.8.7
 
 * **Web server and API** (Settings → Program options…, off by default): a page in the browser, also on a phone, with the machine, the job, the camera and the project, and STOP / Home / jog buttons; an API for other programs at `http://localhost:8766`, behind an access phrase (at first `MillCreator`; no encryption). The same server as in LightCreator (8765), PenCreator (8767) and BaseCreator (8768).
