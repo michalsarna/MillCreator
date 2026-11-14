@@ -2,7 +2,7 @@
 
 Each release gets the next version number. Newest first.
 
-## v0.8.8 (not released yet)
+## v0.9.0
 
 * **Project setup** (File → Project setup…, and the window of every new project): a block of material or a cylinder on the rotary attachment, with the zero of the program and Z from the top or the bottom, a picture and its sizes. **Work area is the material**; with 2, 4 or 6 sides it is always on and cannot be unticked.
 * **Two-sided jobs**: side A and side B, each a work area of its own, turned over round the axis chosen, with the alignment holes; the shapes of the other side show as **ghosts**, which can be clicked to align and snap to. The layer settings are in sections; an old project's layers for the bottom become side B; **Side to cut** is gone from the Control tab and the menu.
