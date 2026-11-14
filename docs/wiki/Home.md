@@ -58,4 +58,4 @@ The list with how to add a machine: [TESTS_ON_DEVICES.md](https://github.com/mic
 
 > ⚠️ **Safety:** milling machines are dangerous. Test a new job in the air above the material, wear eye and ear protection, clamp the work, never leave a running machine unattended. See [Safety and Limitations](Safety-and-Limitations).
 
-Latest release: **v0.9.0** · [Releases](https://github.com/michalsarna/MillCreator/releases) · [Issues](https://github.com/michalsarna/MillCreator/issues) · Licence: [MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) or [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE), at your option
+Latest release: **v0.9.1** · [Releases](https://github.com/michalsarna/MillCreator/releases) · [Issues](https://github.com/michalsarna/MillCreator/issues) · Licence: [MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) or [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE), at your option
