@@ -568,3 +568,7 @@
 567|Exporta com a PNG…
 568|Exporta com a JPG…
 569|Desa el dibuix com a pàgina PDF (A4), com a imatge (PNG, JPG) o com a DXF (el full A4 en mil·límetres)
+570|Foto V-carve
+571|Línies a través de la imatge, tallades amb una fresa en V: com més fosca és la imatge, més profund i per tant més ample és el solc; el solc més ample és tan ample com la separació de les línies (no més profund que la capa). El blanc no es talla.
+572|La distància entre les línies del tallat: més a prop és més fi i triga més. El solc més profund és així d'ample.
+573|{}: el Foto V-carve necessita una fresa en V o de gravar: l'amplada dels solcs segueix la imatge només amb una fresa punxeguda

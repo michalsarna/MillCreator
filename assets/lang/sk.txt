@@ -568,3 +568,7 @@
 567|Exportovať ako PNG…
 568|Exportovať ako JPG…
 569|Uložiť výkres ako stranu PDF (A4), ako obrázok (PNG, JPG) alebo ako DXF (list A4 v milimetroch)
+570|Foto V-carve
+571|Čiary cez obrázok rezané V-frézou: čím tmavší obrázok, tým hlbšia, a teda širšia drážka; najširšia drážka je široká ako rozostup čiar (nie hlbšie ako vrstva). Biela zostane nerezaná.
+572|Vzdialenosť medzi čiarami rezby: menšia je jemnejšia a trvá dlhšie. Najhlbšia drážka je takto široká.
+573|{}: Foto V-carve potrebuje V-frézu alebo gravírovaciu frézu: šírka drážok sleduje obrázok len so špicatou frézou

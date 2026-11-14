@@ -4,6 +4,7 @@ Each release gets the next version number. Newest first.
 
 ## v0.9.3 (not released yet)
 
+* **Photo V-carve** (a picture method of the Picture operation, as PhotoVCarve does it): lines across the picture, the **line spacing** apart at the scan angle, each cut with a V-bit as deep as makes its groove as wide as the picture is dark there; black makes the groove as wide as the spacing, white is not cut, the layer depth only limits it. The picture is read finely along the line, straight slopes are one move; a bit that is not a V-bit or an engraver is warned about.
 * **The preview has the colour under the work area** (of the theme, or the one chosen in the view options) instead of black: the tab round the options, and behind the object in 3D.
 * **Auto-save in the program options** (from baseCreator, the same in every program): on or off, and how often (10 s to an hour, 2 minutes to begin with).
 * baseCreator v2.3.0.

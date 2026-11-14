@@ -568,3 +568,7 @@
 567|Eksportuoti kaip PNG…
 568|Eksportuoti kaip JPG…
 569|Įrašyti brėžinį kaip PDF puslapį (A4), kaip paveikslą (PNG, JPG) arba kaip DXF (A4 lapas milimetrais)
+570|Nuotraukos V raižymas
+571|Linijos per paveikslą, pjaunamos V frezeriu: kuo tamsesnis paveikslas, tuo gilesnis, taigi platesnis griovelis; plačiausias griovelis yra toks platus kaip tarpas tarp linijų (ne giliau nei sluoksnis). Balta nepjaunama.
+572|Atstumas tarp raižinio linijų: mažesnis yra tikslesnis ir trunka ilgiau. Giliausias griovelis yra tokio pločio.
+573|{}: nuotraukos V raižymui reikia V frezerio arba graviravimo frezerio: griovelių plotis seka paveikslą tik su smailiu frezeriu

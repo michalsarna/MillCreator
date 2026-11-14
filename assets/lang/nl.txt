@@ -568,3 +568,7 @@
 567|Exporteren als PNG…
 568|Exporteren als JPG…
 569|De tekening opslaan als PDF-pagina (A4), als afbeelding (PNG, JPG) of als DXF (het A4-blad in millimeters)
+570|Foto-V-carve
+571|Lijnen over de afbeelding, gesneden met een V-frees: hoe donkerder de afbeelding, hoe dieper en dus breder de groef; de breedste groef is zo breed als de lijnafstand (niet dieper dan de laag). Wit wordt niet gesneden.
+572|De afstand tussen de lijnen van het snijwerk: dichter is fijner en duurt langer. De diepste groef is zo breed.
+573|{}: Foto-V-carve heeft een V-frees of een graveerfrees nodig: alleen met een spitse frees volgt de breedte van de groeven de afbeelding

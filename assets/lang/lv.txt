@@ -568,3 +568,7 @@
 567|Eksportēt kā PNG…
 568|Eksportēt kā JPG…
 569|Saglabāt rasējumu kā PDF lapu (A4), kā attēlu (PNG, JPG) vai kā DXF (A4 lapa milimetros)
+570|Foto V grebšana
+571|Līnijas pāri attēlam, grieztas ar V frēzi: jo tumšāks attēls, jo dziļāka un tātad platāka rieva; platākā rieva ir tik plata kā attālums starp līnijām (ne dziļāk par slāni). Baltais netiek griezts.
+572|Attālums starp grebuma līnijām: mazāks ir smalkāks un aizņem ilgāku laiku. Dziļākā rieva ir tik plata.
+573|{}: Foto V grebšanai vajag V frēzi vai gravēšanas frēzi: rievu platums seko attēlam tikai ar smailu frēzi

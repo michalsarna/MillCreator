@@ -232,6 +232,104 @@ fn layer_pictures(scene: &Scene, layer: usize) -> Vec<(&Shape, &ImageData)> {
 /// The most moves a program may have: a picture with a very fine step makes millions.
 const MAX_MOVES: usize = 3_000_000;
 
+/// How deep a V-bit goes for a groove `width` mm wide on the surface (0 when the tip alone is as wide), and the deepest groove a
+/// line spacing of `spacing` allows (as wide as the spacing), at most `max_depth`.
+pub(crate) fn photo_vcarve_depths(tool: &Tool, spacing: f64, max_depth: f64) -> (impl Fn(f64) -> f64, f64) {
+    let half = (tool.dims.angle / 2.0).clamp(5.0, 89.0).to_radians();
+    let tip = tool.dims.tip.max(0.0);
+    let per_mm = 2.0 * half.tan();
+    let depth_of = move |width: f64| ((width - tip) / per_mm).max(0.0);
+    let deepest = depth_of(spacing).min(max_depth.max(0.0));
+    (depth_of, deepest)
+}
+
+/// Photo V-carve: lines across the picture, `photo_spacing` apart at the scan angle, each cut with the V-bit as deep as makes its
+/// groove as wide as the picture is dark there (black: as wide as the spacing, so the lines meet; white: not cut). The picture is
+/// read along a line much finer than the spacing, and points on a straight slope are left out. Returns false when the program got
+/// too long.
+fn photo_vcarve_passes(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shape, im: &ImageData, area_y: f64, depth: f64) -> bool {
+    let spacing = layer.photo_spacing.clamp(0.1, 50.0);
+    let (depth_of, deepest) = photo_vcarve_depths(tool, spacing, depth);
+    if deepest <= 0.0 {
+        return true;
+    }
+    let (Some(wb), Some(inv)) = (shape.bounds(), shape.xf.inverse()) else { return true };
+    let rot = raster::scan_rotation(layer.scan_angle);
+    let back = rot.inverse().unwrap_or(base_core::geom::Xf::IDENTITY);
+    let r = base_core::geom::Rect::from_pts([wb.min, Pt::new(wb.max.x, wb.min.y), wb.max, Pt::new(wb.min.x, wb.max.y)].map(|p| back.apply(p))).unwrap_or(wb);
+    // Along a line the picture is read every sixth of the spacing (0.05 to 0.25 mm).
+    let ds = (spacing / 6.0).clamp(0.05, 0.25);
+    let n = ((r.width() / ds).ceil() as usize).max(1);
+    let rows = ((r.height() / spacing).ceil() as usize).max(1);
+    let to_machine = |p: Pt| -> (f64, f64) {
+        let q = rot.apply(p);
+        (q.x, area_y - q.y)
+    };
+    // Shallower than this is not cut (a hundredth of the deepest groove, at least 0.01 mm).
+    let least = (deepest * 0.01).max(0.01);
+    let mut k = 0usize;
+    for row in 0..rows {
+        let y = r.min.y + (row as f64 + 0.5) * spacing;
+        let mut zs: Vec<f64> = (0..=n)
+            .map(|i| {
+                let x = r.min.x + i as f64 * ds;
+                let l = inv.apply(rot.apply(Pt::new(x, y)));
+                let dark = (im.darkness_at(l.x, l.y) as f64).clamp(0.0, 1.0);
+                depth_of(dark * spacing).min(deepest)
+            })
+            .collect();
+        let mut xs: Vec<f64> = (0..=n).map(|i| r.min.x + i as f64 * ds).collect();
+        // Every second line the other way round.
+        if k % 2 == 1 {
+            zs.reverse();
+            xs.reverse();
+        }
+        let mut run: Vec<(f64, f64)> = vec![];
+        let mut cut_any = false;
+        let flush = |b: &mut Builder, run: &mut Vec<(f64, f64)>| {
+            if run.is_empty() {
+                return;
+            }
+            // Points on the straight slope between their neighbours are not needed.
+            let mut kept: Vec<(f64, f64)> = vec![run[0]];
+            for i in 1..run.len() {
+                if i + 1 < run.len() {
+                    let (a, m, c) = (kept[kept.len() - 1], run[i], run[i + 1]);
+                    let t = if (c.0 - a.0).abs() > 1e-12 { (m.0 - a.0) / (c.0 - a.0) } else { 0.0 };
+                    if (a.1 + (c.1 - a.1) * t - m.1).abs() < 0.003 {
+                        continue;
+                    }
+                }
+                kept.push(run[i]);
+            }
+            let (x0, y0) = to_machine(Pt::new(kept[0].0, y));
+            b.dive(x0, y0, -kept[0].1);
+            for p in &kept[1..] {
+                let (x, yy) = to_machine(Pt::new(p.0, y));
+                b.cut_to(x, yy, -p.1);
+            }
+            b.retract();
+            run.clear();
+        };
+        for (x, z) in xs.iter().zip(&zs) {
+            if *z < least {
+                flush(b, &mut run);
+                continue;
+            }
+            run.push((*x, *z));
+            cut_any = true;
+        }
+        flush(b, &mut run);
+        if cut_any {
+            k += 1;
+        }
+        if b.moves.len() > MAX_MOVES {
+            return false;
+        }
+    }
+    true
+}
+
 /// Engrave a picture: dots, rows, or rows whose depth follows the tone. The distance of the rows is the step over of the bit.
 /// Returns false when the program got too long and the rest was left out.
 fn engrave_picture(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shape, im: &ImageData, area_y: f64, depth: f64, rest: Option<&Tool>) -> bool {
@@ -241,6 +339,9 @@ fn engrave_picture(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shap
     }
     if layer.picture == PictureMethod::Relief {
         return relief_passes(b, layer, tool, shape, im, area_y, depth, step, rest);
+    }
+    if layer.picture == PictureMethod::PhotoVCarve {
+        return photo_vcarve_passes(b, layer, tool, shape, im, area_y, depth);
     }
     let mode = if layer.picture == PictureMethod::Depth { raster::Dither::Grayscale } else { layer.dither };
     let Some(g) = raster::sample(shape, im, step, layer.scan_angle, mode) else { return true };
@@ -293,7 +394,7 @@ fn engrave_picture(b: &mut Builder, layer: &MillLayer, tool: &Tool, shape: &Shap
                     cut_any = true;
                 }
             }
-            PictureMethod::Relief | PictureMethod::Sketch => {}
+            PictureMethod::Relief | PictureMethod::Sketch | PictureMethod::PhotoVCarve => {}
             PictureMethod::Depth => {
                 for &c in &cols {
                     let level = g.at(c, r) as f64;
@@ -680,6 +781,9 @@ fn run_layers(b: &mut Builder, prog: &mut Program, scene: &Scene, layers: &[Mill
         let one_pass = if layer.step_down <= 0.0 { layer.depth } else { layer.step_down.min(layer.depth) };
         if tool.dims.cut_length > 0.0 && one_pass > tool.dims.cut_length + 1e-9 && !matches!(layer.op, Operation::Drill) {
             prog.warnings.push(Warn::new("{}: one pass of {} mm is deeper than the cutting part of the bit ({} mm)", &[&layer.name, &format!("{one_pass:.1}"), &tool.dims.cut_length]));
+        }
+        if layer.op == Operation::Picture && layer.picture == PictureMethod::PhotoVCarve && !matches!(tool.kind, crate::tools::ToolKind::VBit | crate::tools::ToolKind::Engraver) {
+            prog.warnings.push(Warn::new("{}: Photo V-carve needs a V-bit or an engraving bit: the width of the grooves follows the picture only with a pointed bit", &[&layer.name]));
         }
         if dev.changer && tool.number == 0 {
             prog.warnings.push(Warn::new("{}: the bit has no changer number: the machine is asked to stop for it instead", &[&layer.name]));
@@ -2826,6 +2930,49 @@ mod tests {
         w.add(3, Kind::Image(im), Xf::translate(10.0, 10.0));
         let none = generate(&w, &engraving(PictureMethod::Rows), &lib, &dev, &stock);
         assert!(none.moves.is_empty() && none.warnings.iter().any(|x| x.to_string().contains("nothing to cut")), "{:?}", none.warnings);
+    }
+
+    /// Photo V-carve: lines the spacing apart, each with a groove as wide as the picture is dark; black goes as deep as makes the
+    /// groove as wide as the spacing (with a 60° V-bit and 1 mm: 0.866 mm), white is not cut, and a flat bit is warned about.
+    #[test]
+    fn a_photo_v_carve_cuts_grooves_as_wide_as_the_picture_is_dark() {
+        let (lib, dev, stock, _) = setup();
+        let mut layers = engraving(PictureMethod::PhotoVCarve);
+        layers[3].tool = Some("std-v-60".into());
+        layers[3].depth = 5.0;
+        layers[3].photo_spacing = 1.0;
+        let v = lib.get("std-v-60").unwrap().clone();
+        let (depth_of, deepest) = photo_vcarve_depths(&v, 1.0, 5.0);
+        let tip = v.dims.tip.max(0.0);
+        assert!((deepest - (1.0 - tip) / (2.0 * 30f64.to_radians().tan())).abs() < 1e-9, "{deepest}");
+        assert!((depth_of(0.5 + tip) * 2.0 * 30f64.to_radians().tan() - 0.5).abs() < 1e-9, "half as wide, half as deep");
+        // A gradient 20 × 10 mm: black on the left, white on the right.
+        let mut g = Scene::default();
+        picture(&mut g, 3, 20.0, 20.0, 20.0, 10.0, true);
+        let prog = generate(&g, &layers, &lib, &dev, &stock);
+        assert!(prog.warnings.is_empty(), "{:?}", prog.warnings);
+        let cuts: Vec<&Move> = prog.moves.iter().filter(|m| m.kind != MoveKind::Rapid && m.to[2] < 0.0).collect();
+        let zs: Vec<f64> = cuts.iter().map(|m| m.to[2]).collect();
+        assert!(zs.iter().all(|z| *z >= -deepest - 1e-9), "never deeper than the widest groove");
+        assert!(zs.iter().any(|z| *z < -deepest * 0.8), "black is nearly the deepest");
+        // Ten lines a millimetre apart (one dive each, the white part is not cut).
+        let mut ys: Vec<i64> = cuts.iter().map(|m| (m.to[1] * 10.0).round() as i64).collect();
+        ys.sort();
+        ys.dedup();
+        assert_eq!(ys.len(), 10, "{ys:?}");
+        // The left (dark) end of a line is deeper than its right (light) end, and the white right edge is left alone.
+        let dark = cuts.iter().filter(|m| m.to[0] < 24.0).map(|m| m.to[2]).fold(0.0f64, f64::min);
+        let light = cuts.iter().filter(|m| m.to[0] > 34.0).map(|m| m.to[2]).fold(0.0f64, f64::min);
+        assert!(dark < light - 0.3, "{dark} vs {light}");
+        assert!(cuts.iter().all(|m| m.to[0] < 39.0), "white is not cut");
+        // A layer depth shallower than the widest groove limits it.
+        layers[3].depth = 0.3;
+        let shallow = generate(&g, &layers, &lib, &dev, &stock);
+        assert!(shallow.moves.iter().all(|m| m.to[2] >= -0.3 - 1e-9));
+        // A flat bit cannot show the tone by the width: it is warned about.
+        layers[3].tool = Some("std-flat-6".into());
+        let flat = generate(&g, &layers, &lib, &dev, &stock);
+        assert!(flat.warnings.iter().any(|w| w.to_string().contains("V-bit")), "{:?}", flat.warnings);
     }
 
     #[test]

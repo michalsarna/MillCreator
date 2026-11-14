@@ -568,3 +568,7 @@
 567|Ekspordi PNG-na…
 568|Ekspordi JPG-na…
 569|Salvesta joonis PDF-leheküljena (A4), pildina (PNG, JPG) või DXF-ina (A4-leht millimeetrites)
+570|Foto-V-nikerdus
+571|Jooned üle pildi, lõigatud V-freesiga: mida tumedam pilt, seda sügavam ja seega laiem soon; laiim soon on sama lai kui joonte vahe (mitte sügavam kui kiht). Valge jääb lõikamata.
+572|Nikerduse joonte vahe: väiksem on peenem ja võtab kauem aega. Sügavaim soon on nii lai.
+573|{}: foto-V-nikerdus vajab V-freesi või graveerimisfreesi: soonte laius järgib pilti ainult terava freesiga

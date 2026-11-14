@@ -568,3 +568,7 @@
 567|Izvezi kao PNG…
 568|Izvezi kao JPG…
 569|Spremi crtež kao stranicu PDF (A4), kao sliku (PNG, JPG) ili kao DXF (list A4 u milimetrima)
+570|Foto V-rezbarenje
+571|Linije preko slike rezane V-glodalom: što je slika tamnija, utor je dublji i stoga širi; najširi utor širok je kao razmak linija (ne dublje od sloja). Bijelo se ne reže.
+572|Razmak između linija rezbarenja: manji je finiji i traje dulje. Najdublji utor je ovoliko širok.
+573|{}: Foto V-rezbarenje treba V-glodalo ili glodalo za graviranje: širina utora prati sliku samo sa šiljatim glodalom

@@ -568,3 +568,7 @@
 567|Eksporter som PNG…
 568|Eksporter som JPG…
 569|Lagre tegningen som en PDF-side (A4), som et bilde (PNG, JPG) eller som DXF (A4-arket i millimeter)
+570|Foto-V-carve
+571|Linjer på tvers av bildet, skåret med V-fres: jo mørkere bildet er, jo dypere og dermed bredere spor; det bredeste sporet er like bredt som linjeavstanden (ikke dypere enn laget). Hvitt kuttes ikke.
+572|Avstanden mellom linjene i utskjæringen: tettere er finere og tar lengre tid. Det dypeste sporet er så bredt.
+573|{}: Foto-V-carve trenger en V-fres eller en graveringsfres: sporbredden følger bildet bare med en spiss fres

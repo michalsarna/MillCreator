@@ -568,3 +568,7 @@
 567|Eksportér som PNG…
 568|Eksportér som JPG…
 569|Gem tegningen som en PDF-side (A4), som et billede (PNG, JPG) eller som DXF (A4-arket i millimeter)
+570|Foto-V-carve
+571|Linjer på tværs af billedet, skåret med et V-bor: jo mørkere billedet er, jo dybere og dermed bredere rille; den bredeste rille er lige så bred som linjeafstanden (ikke dybere end laget). Hvidt skæres ikke.
+572|Afstanden mellem linjerne i udskæringen: tættere er finere og tager længere tid. Den dybeste rille er så bred.
+573|{}: Foto-V-carve kræver et V-bor eller et gravørbor: rillernes bredde følger kun billedet med et spidst bor

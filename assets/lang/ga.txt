@@ -568,3 +568,7 @@
 567|Easpórtáil mar PNG…
 568|Easpórtáil mar JPG…
 569|Sábháil an líníocht mar leathanach PDF (A4), mar phictiúr (PNG, JPG) nó mar DXF (an bhileog A4 i milliméadair)
+570|Fótagrafadh V-carve
+571|Línte trasna an phictiúir, gearrtha le giotán V: dá dhorcha an pictiúr, is ea is doimhne agus mar sin is leithne an t-eitre; tá an t-eitre is leithne chomh leathan leis an spás idir na línte (gan a bheith níos doimhne ná an ciseal). Ní ghearrtar an bán.
+572|An fad idir línte na snoíodóireachta: níos gaire is ea is míne é agus tógann sé níos faide. Tá an t-eitre is doimhne chomh leathan seo.
+573|{}: Teastaíonn giotán V nó giotán greanta ó Fhótagrafadh V-carve: ní leanann leithead na n-eitrí an pictiúr ach le giotán biorach

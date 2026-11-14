@@ -568,3 +568,7 @@
 567|Esporta bħala PNG…
 568|Esporta bħala JPG…
 569|Issejvja t-tpinġija bħala paġna PDF (A4), bħala stampa (PNG, JPG) jew bħala DXF (il-folja A4 f'millimetri)
+570|Ritratt V-carve
+571|Linji minn naħa għal oħra tal-istampa, maqtugħa b'biċċa V: iktar ma tkun skura l-istampa, iktar ikun fond u għalhekk wiesa' l-kanal; l-iktar kanal wiesa' huwa wiesa' daqs l-ispazju bejn il-linji (mhux iktar fond mis-saff). L-abjad ma jinqatax.
+572|Id-distanza bejn il-linji tal-intaljar: iktar qrib hija iktar fina u tieħu iktar ħin. L-iktar kanal fond huwa wiesa' daqshekk.
+573|{}: Ir-Ritratt V-carve jeħtieġ biċċa V jew biċċa tal-inċiżjoni: il-wisa' tal-kanali jsegwi l-istampa biss b'biċċa bil-ponta

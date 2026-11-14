@@ -568,3 +568,7 @@
 567|Izvozi kot PNG…
 568|Izvozi kot JPG…
 569|Shrani risbo kot stran PDF (A4), kot sliko (PNG, JPG) ali kot DXF (list A4 v milimetrih)
+570|Foto V-rezbarjenje
+571|Črte čez sliko, rezane z V-rezkarjem: temnejša kot je slika, globlji in zato širši je utor; najširši utor je širok kot razmik črt (ne globlje od plasti). Belo ostane nerezano.
+572|Razdalja med črtami rezbarjenja: manjša je finejša in traja dlje. Najgloblji utor je tako širok.
+573|{}: Foto V-rezbarjenje potrebuje V-rezkar ali gravirni rezkar: širina utorov sledi sliki le s koničastim rezkarjem
