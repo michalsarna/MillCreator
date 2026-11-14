@@ -584,7 +584,7 @@ impl App {
                     },
                     cache: &self.solid_pic,
                 });
-                let sc = Scene3d { surface, prog: top_prog, region, stock: &stock, dev: &self.device, layers: &self.layers, project, rotary, parts: &parts, units: base_ui::editor::EditorHost::units(self), bottom, solid: solid_view, quality };
+                let sc = Scene3d { surface, prog: top_prog, region, stock: &stock, dev: &self.device, layers: &self.layers, project, rotary, parts: &parts, units: base_ui::editor::EditorHost::units(self), bottom, solid: solid_view, quality, back: Some(base_ui::editor::EditorHost::workspace_fill(self)) };
                 view3d::show(ui, &mut self.view, &sc);
             }
             None => {
@@ -608,6 +608,9 @@ impl App {
 
     /// The preview as a tab of the work area, in place of the drawing.
     pub(crate) fn preview_work_panel(&mut self, ui: &mut egui::Ui) {
+        // The whole tab has the colour under the work area (of the theme, or the one of the view options), not the black of the window.
+        let fill = base_ui::editor::EditorHost::workspace_fill(self);
+        ui.painter().rect_filled(ui.max_rect(), 0.0, fill);
         self.refresh_program();
         ui.horizontal(|ui| {
             ui.spacing_mut().item_spacing.x = 4.0;

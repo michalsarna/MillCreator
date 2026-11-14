@@ -297,6 +297,8 @@ pub struct Scene3d<'a> {
     pub solid: Option<SolidView<'a>>,
     /// The quality of the rendering (1 to 5) of the program options.
     pub quality: u8,
+    /// The colour behind the object: the one under the work area of the editor (`None`: the one of the theme, `background`).
+    pub back: Option<Color32>,
 }
 
 /// The bottom of a two-sided project in the view: its program as seen from side A (`toolpath::bottom_seen_from_a`, the depths from
@@ -364,7 +366,7 @@ pub fn show(ui: &mut egui::Ui, view: &mut View3d, sc: &Scene3d) {
         fit_to(view, rect, sc, lo, hi);
     }
     let painter = ui.painter_at(rect);
-    painter.rect_filled(rect, 4.0, background(ui.visuals().dark_mode));
+    painter.rect_filled(rect, 4.0, sc.back.unwrap_or_else(|| background(ui.visuals().dark_mode)));
     draw(&painter, rect, view, sc);
     // The navigation cube (not on the plan from above) and the zoom bar: its third button is the first view fitted to the work
     // area, its fourth fits all the objects.
@@ -560,7 +562,7 @@ pub fn draw(painter: &egui::Painter, rect: Rect, view: &View3d, sc: &Scene3d) {
         }
         // The cuts made so far, carved into the top of the stock (the whole top when nothing is cut yet); in a two-sided project
         // the bottom face carved by side B, seen when the block is turned to show its underside.
-        let hole = background(painter.ctx().global_style().visuals.dark_mode);
+        let hole = sc.back.unwrap_or_else(|| background(painter.ctx().global_style().visuals.dark_mode));
         let bottom_surface = sc.bottom.as_ref().and_then(|b| b.surface);
         // A face that is not cut is drawn flat when the other face has cuts, so that those that go through show on it too.
         let flat;
@@ -714,7 +716,7 @@ pub fn draw(painter: &egui::Painter, rect: Rect, view: &View3d, sc: &Scene3d) {
         }
     }
     if view.show_dims {
-        let st = base_ui::dims::DimStyle::on(background(painter.ctx().global_style().visuals.dark_mode)).in_units(sc.units, sc.dev.units);
+        let st = base_ui::dims::DimStyle::on(sc.back.unwrap_or_else(|| background(painter.ctx().global_style().visuals.dark_mode))).in_units(sc.units, sc.dev.units);
         if view.top {
             let to = |p: base_core::geom::Pt| place([p.x, p.y, 0.0]);
             base_ui::dims::drawing(painter, &to, sc.parts, Some(base_core::geom::Pt::new(0.0, 0.0)), &st);
@@ -922,7 +924,7 @@ mod tests {
     fn the_picture_is_drawn_for_a_job() {
         let (prog, dev, stock, layers, _lib) = job();
         let region = Region::of(&prog, None).unwrap();
-        let sc = Scene3d { surface: None, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary: None, parts: &base_ui::dims::Features::default(), units: base_core::units::Units::Mm, bottom: None, solid: None, quality: 3 };
+        let sc = Scene3d { surface: None, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary: None, parts: &base_ui::dims::Features::default(), units: base_core::units::Units::Mm, bottom: None, solid: None, quality: 3, back: None };
         let ctx = egui::Context::default();
         let mut view = View3d::default();
         view.progress = 0.5;
@@ -984,7 +986,7 @@ mod tests {
                 Surface::of((0, 0, [0; 5]), moves, tool_of, region, 15.0, 1.0)
             };
             for sf in [None, surface.as_ref()] {
-                let sc = Scene3d { surface: sf, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary, parts: &base_ui::dims::Features::default(), units: base_core::units::Units::Mm, bottom: None, solid: None, quality: 3 };
+                let sc = Scene3d { surface: sf, prog: &prog, region, stock: &stock, dev: &dev, layers: &layers, project: &[], rotary, parts: &base_ui::dims::Features::default(), units: base_core::units::Units::Mm, bottom: None, solid: None, quality: 3, back: None };
                 view.fit = Some(Fit::Elements);
                 let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
                     show(ui, &mut view, &sc);
