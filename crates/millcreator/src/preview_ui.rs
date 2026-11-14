@@ -162,20 +162,20 @@ impl App {
         let Some(prog) = self.prog.as_ref() else { return };
         let h = self.device.area.y;
         let to_screen = |p: toolpath::P3| self.w2s(v.origin, base_core::geom::Pt::new(p[0], h - p[1]));
-        let many = prog.moves.len() > 100_000;
-        let mut shapes = Vec::with_capacity(prog.moves.len());
+        // Moves that follow each other are one line, and what is too small or out of sight is left out (see `view3d::Lines`).
+        let mut lines = crate::view3d::Lines::new(v.painter.clip_rect());
+        let rapid = egui::Stroke::new(0.6, Color32::from_rgb(0x70, 0x90, 0xc0).gamma_multiply(0.8));
         for m in &prog.moves {
-            let (a, b) = (to_screen(m.from), to_screen(m.to));
             match m.kind {
                 toolpath::MoveKind::Cut => {
                     let c = self.layers.get(m.layer).map_or(Color32::RED, |l| l.color32());
-                    shapes.push(egui::Shape::line_segment([a, b], egui::Stroke::new(1.5, c)));
+                    lines.add(to_screen(m.from), to_screen(m.to), egui::Stroke::new(1.5, c), false);
                 }
-                toolpath::MoveKind::Rapid if !many => shapes.push(egui::Shape::line_segment([a, b], egui::Stroke::new(0.6, Color32::from_rgb(0x70, 0x90, 0xc0).gamma_multiply(0.8)))),
+                toolpath::MoveKind::Rapid => lines.add(to_screen(m.from), to_screen(m.to), rapid, false),
                 _ => {}
             }
         }
-        v.painter.extend(shapes);
+        lines.paint(&v.painter);
     }
 
     /// The camera view in the work area, in place of the drawing.
