@@ -237,6 +237,8 @@ enum SideTab {
     Camera,
     /// The no-go zones of the device, while it has any.
     Zones,
+    /// The styles of a picture, while one is selected.
+    PictureStyles,
     /// The tab of a plugin with settings (which one: `App::plugin_tab`).
     Plugin,
 }
@@ -258,12 +260,13 @@ impl SideTab {
             SideTab::Recording => "recording",
             SideTab::Camera => "camera",
             SideTab::Zones => "zones",
+            SideTab::PictureStyles => base_ui::editor::style_gallery::TAB_ID,
             SideTab::Plugin => "plugin",
         }
     }
 
     fn from_id(id: &str) -> Option<SideTab> {
-        [SideTab::Properties, SideTab::Layers, SideTab::Material, SideTab::Device, SideTab::Control, SideTab::Console, SideTab::Clipart, SideTab::Description, SideTab::Recording, SideTab::Camera, SideTab::Zones].into_iter().find(|t| t.id() == id)
+        [SideTab::Properties, SideTab::Layers, SideTab::Material, SideTab::Device, SideTab::Control, SideTab::Console, SideTab::Clipart, SideTab::Description, SideTab::Recording, SideTab::Camera, SideTab::Zones, SideTab::PictureStyles].into_iter().find(|t| t.id() == id)
     }
 
     fn label(self) -> String {
@@ -279,6 +282,7 @@ impl SideTab {
             SideTab::Recording => tr("Recording").to_string(),
             SideTab::Camera => tr("Camera").to_string(),
             SideTab::Zones => tr(base_ui::zones_ui::PAGE).to_string(),
+            SideTab::PictureStyles => base_ui::editor::style_gallery::tab_label().to_string(),
             SideTab::Plugin => String::new(),
         }
     }
@@ -291,6 +295,8 @@ enum Screen {
 }
 
 struct App {
+    /// Was a picture selected the frame before (a picture that becomes selected shows the tab of its styles)?
+    picture_was_selected: bool,
     scene: Scene,
     ed: EditorState,
     history: History,
@@ -570,6 +576,7 @@ impl App {
             picture_layers: Default::default(),
             show_all_layers: false,
             autosave: Default::default(),
+            picture_was_selected: false,
             autosave_opts: base_core::autosave::Options::from_settings(|k| saved(k)),
             saved_rev: 0,
             tabs_state: Default::default(),
@@ -1137,7 +1144,7 @@ impl App {
 
     /// The ids of the tabs that exist only sometimes: the camera view, and the tab of every plugin that has settings.
     fn extra_tabs(&self) -> Vec<&'static str> {
-        self.camera_side_tab().then_some("camera").into_iter().chain((!self.device.zones.is_empty()).then_some("zones")).chain(self.plugins.side_tabs().into_iter().map(|(id, _)| id)).collect()
+        self.camera_side_tab().then_some("camera").into_iter().chain((!self.device.zones.is_empty()).then_some("zones")).chain(self.plugins.side_tabs().into_iter().map(|(id, _)| id)).chain(base_ui::editor::style_gallery::picture_selected(self).then_some(base_ui::editor::style_gallery::TAB_ID)).collect()
     }
 
     /// The label of a tab, also of a tab of a plugin.
@@ -1181,9 +1188,15 @@ impl App {
     fn side_panel(&mut self, ui: &mut egui::Ui) {
         let extra = self.extra_tabs();
         // A tab that is gone (no camera, the plugin removed or switched off) gives way to the first one.
-        if self.side_tab == SideTab::Camera && !extra.contains(&"camera") || self.side_tab == SideTab::Zones && !extra.contains(&"zones") || self.side_tab == SideTab::Plugin && !extra.contains(&self.plugin_tab) {
+        if self.side_tab == SideTab::Camera && !extra.contains(&"camera") || self.side_tab == SideTab::Zones && !extra.contains(&"zones") || self.side_tab == SideTab::Plugin && !extra.contains(&self.plugin_tab) || self.side_tab == SideTab::PictureStyles && !extra.contains(&base_ui::editor::style_gallery::TAB_ID) {
             self.side_tab = SideTab::Properties;
         }
+        // A picture that becomes selected shows the tab of its styles.
+        let picture = base_ui::editor::style_gallery::picture_selected(self);
+        if picture && !self.picture_was_selected {
+            self.side_tab = SideTab::PictureStyles;
+        }
+        self.picture_was_selected = picture;
         let labels: std::collections::HashMap<&str, String> = SideTab::IDS.iter().copied().chain(extra.iter().copied()).map(|id| (id, self.tab_label(id))).collect();
         let label = |id: &str| labels.get(id).cloned().unwrap_or_default();
         if let Some(t) = self.tabs.bar(ui, self.shown_tab_id(), &extra, &label) {
@@ -1256,6 +1269,7 @@ impl App {
             SideTab::Recording => {
                 egui::ScrollArea::vertical().id_salt("tab_recording").auto_shrink([false, false]).show(ui, |ui| self.recording_tab(ui));
             }
+            SideTab::PictureStyles => base_ui::editor::style_gallery::panel(self, ui),
             SideTab::Zones => {
                 let units = base_ui::editor::EditorHost::units(self);
                 let mut zones = self.device.zones.clone();
