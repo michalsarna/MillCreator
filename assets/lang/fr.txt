@@ -568,3 +568,7 @@
 567|Exporter en PNG…
 568|Exporter en JPG…
 569|Enregistrer le dessin en page PDF (A4), en image (PNG, JPG) ou en DXF (la feuille A4 en millimètres)
+570|Photo V-carve
+571|Des lignes à travers l'image, taillées à la fraise en V : plus l'image est sombre, plus la rainure est profonde, et donc large ; la rainure la plus large est aussi large que l'écart des lignes (pas plus profonde que le calque). Le blanc n'est pas taillé.
+572|L'écart entre les lignes de la gravure : plus serré, c'est plus fin et plus long. La rainure la plus profonde a cette largeur.
+573|{} : la Photo V-carve demande une fraise en V ou à graver : la largeur des rainures ne suit l'image qu'avec une fraise pointue

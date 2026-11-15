@@ -568,3 +568,7 @@
 567|Exportar como PNG…
 568|Exportar como JPG…
 569|Guardar el dibujo como página PDF (A4), como imagen (PNG, JPG) o como DXF (la hoja A4 en milímetros)
+570|Foto V-carve
+571|Líneas a través de la imagen, cortadas con una fresa en V: cuanto más oscura la imagen, más profunda y por tanto más ancha la ranura; la ranura más ancha es tan ancha como la separación de las líneas (no más profunda que la capa). El blanco no se corta.
+572|La distancia entre las líneas del tallado: más cerca es más fino y tarda más. La ranura más profunda es así de ancha.
+573|{}: el Foto V-carve necesita una fresa en V o de grabar: el ancho de las ranuras sigue la imagen solo con una fresa en punta

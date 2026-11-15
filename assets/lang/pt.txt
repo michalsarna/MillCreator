@@ -568,3 +568,7 @@
 567|Exportar como PNG…
 568|Exportar como JPG…
 569|Guardar o desenho como página PDF (A4), como imagem (PNG, JPG) ou como DXF (a folha A4 em milímetros)
+570|Foto V-carve
+571|Linhas através da imagem, cortadas com uma fresa em V: quanto mais escura a imagem, mais funda e portanto mais larga a ranhura; a ranhura mais larga é tão larga como o espaçamento das linhas (não mais funda que a camada). O branco não é cortado.
+572|A distância entre as linhas do entalhe: mais perto é mais fino e demora mais. A ranhura mais funda tem esta largura.
+573|{}: o Foto V-carve precisa de uma fresa em V ou de gravar: a largura das ranhuras só segue a imagem com uma fresa pontiaguda

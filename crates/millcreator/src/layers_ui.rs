@@ -188,7 +188,7 @@ impl App {
                 ui.separator();
                 egui::CollapsingHeader::new(tr("Toolpath")).id_salt("layer_sec_path").default_open(true).show(ui, |ui| {
                 egui::Grid::new("layer_grid_path").num_columns(2).spacing([10.0, 6.0]).show(ui, |ui| {
-                    if matches!(l.op, Operation::Pocket | Operation::Picture | Operation::Face) {
+                    if matches!(l.op, Operation::Pocket | Operation::Picture | Operation::Face) && !(l.op == Operation::Picture && l.picture == PictureMethod::PhotoVCarve) {
                         ui.label(tr("Step over"));
                         changed |= ui.add(egui::DragValue::new(&mut l.step_over_pct).range(1.0..=100.0).suffix(" %")).changed();
                         ui.end_row();
@@ -278,6 +278,11 @@ impl App {
                             changed |= drag_len(ui, units, &mut l.inlay_gap, 0.01, Some((0.0, 100.0))).on_hover_text(tr("The play between the plug and the socket")).changed();
                             ui.end_row();
                         }
+                    }
+                    if l.op == Operation::Picture && l.picture == PictureMethod::PhotoVCarve {
+                        ui.label(tr("Line spacing"));
+                        changed |= drag_len(ui, units, &mut l.photo_spacing, 0.05, Some((0.1, 50.0))).on_hover_text(tr("The distance between the lines of the carving: closer is finer and takes longer. The deepest groove is as wide as this.")).changed();
+                        ui.end_row();
                     }
                     if l.op == Operation::Picture && l.picture == PictureMethod::Sketch {
                         ui.label(tr("Style"));

@@ -568,3 +568,7 @@
 567|Flytja út sem PNG…
 568|Flytja út sem JPG…
 569|Vista teikninguna sem PDF-síðu (A4), sem mynd (PNG, JPG) eða sem DXF (A4-blaðið í millimetrum)
+570|Ljósmynda-V-skurður
+571|Línur þvert yfir myndina, skornar með V-fræsi: því dekkri sem myndin er, því dýpri og þar með breiðari er raufin; breiðasta raufin er jafnbreið og bilið milli línanna (ekki dýpri en lagið). Hvítt er ekki skorið.
+572|Bilið milli lína skurðarins: minna er fínna og tekur lengri tíma. Dýpsta raufin er svona breið.
+573|{}: Ljósmynda-V-skurður þarf V-fræsi eða leturgröftsfræsi: breidd raufanna fylgir myndinni aðeins með oddhvössum fræsi

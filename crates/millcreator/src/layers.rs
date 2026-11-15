@@ -335,10 +335,13 @@ pub enum PictureMethod {
     /// Sketch carving: the picture drawn again as lines in a style (style trace), each line V-carved deeper (and so wider) where
     /// the picture is darker.
     Sketch,
+    /// Photo V-carve: lines across the picture, `photo_spacing` apart, cut with a V-bit whose groove is as wide as the picture is
+    /// dark there (the widest one as wide as the spacing).
+    PhotoVCarve,
 }
 
 impl PictureMethod {
-    pub const ALL: [PictureMethod; 5] = [PictureMethod::Rows, PictureMethod::Dots, PictureMethod::Depth, PictureMethod::Relief, PictureMethod::Sketch];
+    pub const ALL: [PictureMethod; 6] = [PictureMethod::Rows, PictureMethod::Dots, PictureMethod::Depth, PictureMethod::PhotoVCarve, PictureMethod::Relief, PictureMethod::Sketch];
 
     pub fn label(self) -> &'static str {
         match self {
@@ -347,6 +350,7 @@ impl PictureMethod {
             PictureMethod::Depth => "Depth by tone",
             PictureMethod::Relief => "3D relief",
             PictureMethod::Sketch => "Sketch carving",
+            PictureMethod::PhotoVCarve => "Photo V-carve",
         }
     }
 
@@ -357,6 +361,7 @@ impl PictureMethod {
             PictureMethod::Depth => "The rows are cut with a depth that follows the tone of the picture: the darker, the deeper, down to the depth of the layer.",
             PictureMethod::Relief => "A relief: black is the deepest, white is left uncut. Passes of the pass depth down to the full depth, and the shape of the bit is taken into account. The model can be exported as STL.",
             PictureMethod::Sketch => "The picture is drawn again as lines in a style (as Style trace does), and every line is carved with a V-bit deeper, and so wider, where the picture is darker, down to the depth of the layer: it looks like a pencil sketch. The step over of the bit is the spacing of the lines.",
+            PictureMethod::PhotoVCarve => "Lines across the picture, cut with a V-bit: the darker the picture, the deeper and so the wider the groove; the widest groove is as wide as the spacing of the lines (no deeper than the layer). White is left uncut.",
         }
     }
 
@@ -525,6 +530,14 @@ pub struct MillLayer {
     /// A 3D shape (`Operation::Shape3d`): its form, raised or sunk, the width of a slope.
     #[serde(default, skip_serializing_if = "crate::shape3d::Model::is_default")]
     pub model: crate::shape3d::Model,
+    /// Photo V-carve: the distance between the lines (mm).
+    #[serde(default = "photo_spacing")]
+    pub photo_spacing: f64,
+}
+
+/// The spacing of the lines of a photo V-carve to begin with (mm).
+pub fn photo_spacing() -> f64 {
+    1.0
 }
 
 fn etching() -> base_core::style_trace::Style {
@@ -582,7 +595,7 @@ impl MillLayer {
     /// Is every number of the layer usable?
     pub fn check(&self) -> Result<(), String> {
         let ok = |v: f64, lo: f64, hi: f64| v.is_finite() && v >= lo && v <= hi;
-        if !ok(self.depth, 0.0, 1000.0) || !ok(self.step_down, 0.0, 1000.0) || !ok(self.step_over_pct, 1.0, 100.0) || !ok(self.feed, 1.0, 100_000.0) || !ok(self.plunge, 1.0, 100_000.0) || !ok(self.rpm, 0.0, 1_000_000.0) || !ok(self.scan_angle, -360.0, 360.0) || !ok(self.leave, 0.0, 100.0) || !ok(self.ramp_angle, 0.1, 89.0) || !ok(self.ramp_feed, 0.0, 100_000.0) || !ok(self.raster_angle, -360.0, 360.0) || !ok(self.overhang, 0.0, 1000.0) || !ok(self.chamfer, 0.0, 1000.0) || !ok(self.trochoid.diameter, 0.1, 1000.0) || !ok(self.trochoid.step, 0.05, 1000.0) || !ok(self.vc_start, 0.0, 1000.0) || !ok(self.inlay_gap, 0.0, 100.0) {
+        if !ok(self.depth, 0.0, 1000.0) || !ok(self.step_down, 0.0, 1000.0) || !ok(self.step_over_pct, 1.0, 100.0) || !ok(self.feed, 1.0, 100_000.0) || !ok(self.plunge, 1.0, 100_000.0) || !ok(self.rpm, 0.0, 1_000_000.0) || !ok(self.scan_angle, -360.0, 360.0) || !ok(self.leave, 0.0, 100.0) || !ok(self.ramp_angle, 0.1, 89.0) || !ok(self.ramp_feed, 0.0, 100_000.0) || !ok(self.raster_angle, -360.0, 360.0) || !ok(self.overhang, 0.0, 1000.0) || !ok(self.chamfer, 0.0, 1000.0) || !ok(self.trochoid.diameter, 0.1, 1000.0) || !ok(self.trochoid.step, 0.05, 1000.0) || !ok(self.vc_start, 0.0, 1000.0) || !ok(self.inlay_gap, 0.0, 100.0) || !ok(self.photo_spacing, 0.1, 50.0) {
             return Err(format!("layer {}: a number is out of range", self.name));
         }
         let t = &self.tabs;
@@ -678,6 +691,7 @@ pub fn default_layers(tools: &crate::tools::Library) -> Vec<MillLayer> {
                 decor: Default::default(),
                 sketch_style: etching(),
                 model: Default::default(),
+                photo_spacing: photo_spacing(),
             };
             match bit(tool) {
                 Some(t) => layer.with_tool(&t),

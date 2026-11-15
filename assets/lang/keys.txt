@@ -568,3 +568,7 @@
 567	Export as PNG…
 568	Export as JPG…
 569	Save the drawing as a PDF page (A4), as a picture (PNG, JPG) or as a DXF (the A4 sheet in millimetres)
+570	Photo V-carve
+571	Lines across the picture, cut with a V-bit: the darker the picture, the deeper and so the wider the groove; the widest groove is as wide as the spacing of the lines (no deeper than the layer). White is left uncut.
+572	The distance between the lines of the carving: closer is finer and takes longer. The deepest groove is as wide as this.
+573	{}: Photo V-carve needs a V-bit or an engraving bit: the width of the grooves follows the picture only with a pointed bit

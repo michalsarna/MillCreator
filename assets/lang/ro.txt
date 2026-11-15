@@ -568,3 +568,7 @@
 567|Exportă ca PNG…
 568|Exportă ca JPG…
 569|Salvează desenul ca pagină PDF (A4), ca imagine (PNG, JPG) sau ca DXF (foaia A4 în milimetri)
+570|Foto V-carve
+571|Linii de-a lungul imaginii, tăiate cu o freză în V: cu cât imaginea e mai închisă, cu atât canalul e mai adânc și deci mai lat; cel mai lat canal e la fel de lat ca distanța dintre linii (nu mai adânc decât stratul). Albul nu se taie.
+572|Distanța dintre liniile sculpturii: mai mică e mai fină și durează mai mult. Cel mai adânc canal are această lățime.
+573|{}: Foto V-carve are nevoie de o freză în V sau de gravare: lățimea canalelor urmează imaginea doar cu o freză ascuțită

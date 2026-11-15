@@ -568,3 +568,7 @@
 567|Exportálás PNG-ként…
 568|Exportálás JPG-ként…
 569|A rajz mentése PDF-oldalként (A4), képként (PNG, JPG) vagy DXF-ként (az A4-es lap milliméterben)
+570|Fotó V-faragás
+571|Vonalak a képen át, V-maróval vágva: minél sötétebb a kép, annál mélyebb és így szélesebb a horony; a legszélesebb horony olyan széles, mint a vonalak távolsága (nem mélyebb a rétegnél). A fehér vágatlan marad.
+572|A faragás vonalai közötti távolság: kisebb finomabb, és tovább tart. A legmélyebb horony ilyen széles.
+573|{}: A fotó V-faragáshoz V-maró vagy gravírozó maró kell: a hornyok szélessége csak hegyes maróval követi a képet
