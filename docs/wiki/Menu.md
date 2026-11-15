@@ -90,7 +90,8 @@ Dalej **Generuj kształt…** (generatory z wtyczek, zob. [Wtyczki](Wtyczki)) i 
 | **Przytnij kształtem…**, **Usuń duplikaty**, **Rozdziel**, **Uprość…** | | Przycinanie linii kształtem, usuwanie podwójnych kształtów, jeden kształt na obrys, mniej punktów. |
 | **Tekst seryjny…**, **Kod kreskowy / QR…**, **Rozmieść kształty (nesting)…**, **Pomiar…** | | Numerowane kopie tekstu, kody jako obrysy, upakowanie kształtów na obszarze, wymiary i odległości. |
 | **Dostosuj obraz…**, **Wektoryzacja obrazu…** | | Zmiana obrazu na stronie; zamiana go na obrysy. |
-| **Obrysuj w stylu…** | | Rysuje zaznaczony obraz na nowo liniami w jednym z 19 stylów. Zobacz [Obrysuj w stylu](Obrys-w-stylu). |
+| **Obrysuj w stylu…** | | Rysuje zaznaczony obraz na nowo liniami w jednym z 21 stylów. Zobacz [Obrysuj w stylu](Obrys-w-stylu). |
+| **Wielokąty geometryczne…** | | Zaznaczony obraz jako geometryczne wielokąty (low poly) z odstępem między nimi i wokół obrysu: okno obrysu w stylu na tym stylu. Zobacz [Obrysuj w stylu](Obrys-w-stylu). |
 | **Dodaj jako strefę zakazaną** (Add as no-go zone) | | Każdy zaznaczony, niezablokowany kształt staje się strefą zakazaną urządzenia (okręgiem, gdy jest okrągły, w przeciwnym razie prostokątem wokół niego) i znika z rysunku. Jest też w menu prawego przycisku. |
 
 Wszystkie są opisane w [Narzędziach projektowych](Narzedzia-projektowe).
