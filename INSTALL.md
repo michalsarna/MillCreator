@@ -10,6 +10,8 @@ each system and `SHA256SUMS.txt` to verify them.
 | macOS, Intel | `millcreator-vX.Y.Z-macos-x86_64.dmg` | – |
 | Debian / Ubuntu, x86_64 | `millcreator-vX.Y.Z-linux-amd64.deb` | `millcreator-vX.Y.Z-linux-x86_64.tar.gz` |
 | Debian / Ubuntu, ARM64 | `millcreator-vX.Y.Z-linux-arm64.deb` | `millcreator-vX.Y.Z-linux-arm64.tar.gz` |
+| Fedora / openSUSE, x86_64 | `millcreator-vX.Y.Z-linux-x86_64.rpm` | `millcreator-vX.Y.Z-linux-x86_64.tar.gz` |
+| Fedora / openSUSE, ARM64 | `millcreator-vX.Y.Z-linux-aarch64.rpm` | `millcreator-vX.Y.Z-linux-arm64.tar.gz` |
 
 Details for each system (SmartScreen, Gatekeeper, libraries on Linux) are on the wiki page
 [Installation](https://github.com/michalsarna/MillCreator/wiki/Installation).

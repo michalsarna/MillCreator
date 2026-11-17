@@ -6,8 +6,8 @@ license.workspace = true
 description = "MillCreator: open-source CNC milling software: layers, bits, toolpaths, 3D view and G-code"
 
 [dependencies]
-base-core = { git = "https://github.com/michalsarna/baseCreator", tag = "v2.7.1" }
-base-ui = { git = "https://github.com/michalsarna/baseCreator", tag = "v2.7.1" }
+base-core = { git = "https://github.com/michalsarna/baseCreator", tag = "v2.7.2" }
+base-ui = { git = "https://github.com/michalsarna/baseCreator", tag = "v2.7.2" }
 eframe = { version = "0.37", default-features = false, features = ["clipboard", "default_fonts", "glow", "x11", "wayland", "persistence", "links"] }
 rfd = "0.18"
 serde = { version = "1", features = ["derive"] }
@@ -57,8 +57,30 @@ assets = [
   ["../../target/ffmpeg/FFMPEG-NOTICE.txt", "usr/share/doc/millcreator/FFMPEG-NOTICE.txt", "644"],
 ]
 
+# The .rpm of the releases (cargo generate-rpm -p crates/millcreator, run in the workspace folder: the sources are relative to it).
+[package.metadata.generate-rpm]
+assets = [
+  { source = "target/release/millcreator", dest = "/usr/bin/millcreator", mode = "755" },
+  { source = "assets/millcreator.desktop", dest = "/usr/share/applications/millcreator.desktop", mode = "644" },
+  { source = "assets/icons/icon-48.png", dest = "/usr/share/icons/hicolor/48x48/apps/millcreator.png", mode = "644" },
+  { source = "assets/icons/icon-128.png", dest = "/usr/share/icons/hicolor/128x128/apps/millcreator.png", mode = "644" },
+  { source = "assets/icons/icon-256.png", dest = "/usr/share/icons/hicolor/256x256/apps/millcreator.png", mode = "644" },
+  { source = "assets/icons/icon-512.png", dest = "/usr/share/icons/hicolor/512x512/apps/millcreator.png", mode = "644" },
+  { source = "README.md", dest = "/usr/share/doc/millcreator/README.md", mode = "644", doc = true },
+  { source = "LICENSE", dest = "/usr/share/doc/millcreator/LICENSE", mode = "644", doc = true },
+  { source = "LICENSE-APACHE", dest = "/usr/share/doc/millcreator/LICENSE-APACHE", mode = "644", doc = true },
+  { source = "target/ffmpeg/ffmpeg", dest = "/usr/lib/millcreator/ffmpeg", mode = "755" },
+  { source = "target/ffmpeg/COPYING.LGPLv2.1", dest = "/usr/share/doc/millcreator/COPYING.LGPLv2.1", mode = "644", doc = true },
+  { source = "target/ffmpeg/FFMPEG-NOTICE.txt", dest = "/usr/share/doc/millcreator/FFMPEG-NOTICE.txt", mode = "644", doc = true },
+]
+
+# The other libraries are found in the binary; these two the GUI loads at run time.
+[package.metadata.generate-rpm.requires]
+"libxkbcommon-x11.so.0()(64bit)" = "*"
+"libGL.so.1()(64bit)" = "*"
+
 [dev-dependencies]
 # Renders the UI headlessly to PNG for the README screenshots (see src/screenshots.rs).
 egui_kittest = { version = "0.37", features = ["wgpu"] }
 # The harness of the tests against the GRBL simulator (src/grbl_sim_tests.rs).
-base-ui = { git = "https://github.com/michalsarna/baseCreator", tag = "v2.7.1", features = ["sim-tests", "tool-checks"] }
+base-ui = { git = "https://github.com/michalsarna/baseCreator", tag = "v2.7.2", features = ["sim-tests", "tool-checks"] }
