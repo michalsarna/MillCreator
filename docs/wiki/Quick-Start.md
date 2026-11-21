@@ -59,7 +59,7 @@ A shape is milled the way its layer says. Open the **Layers** tab. The first lay
 3. **The bit:** choose it in **Bit**. Choosing a bit also sets the **Feed**, **Plunge feed**, **Spindle speed**, **Pass depth** and **Step over** from its starting speeds. The **…** button opens the **Bit library** ([Bit Library](Bit-Library)).
 4. **The depths:** **Depth** is the total depth below the top of the material; **Pass depth** is how deep one pass goes (0 = the full depth in one pass). The line under the settings says how many passes that makes.
 5. **The feeds:** **Feed** and **Plunge feed** in mm/min, **Spindle speed** in rpm. Under them, worked out from the diameter and the flutes of the bit: **Cutting speed (Vc)** in m/min and **Feed per tooth (fz)** and **Plunge per tooth** in mm. Typing a Vc changes the spindle speed, typing an fz changes the feed; only the spindle speed and the feeds are saved.
-6. **Tabs** keep a part that is cut out in its place: set them on a *Cut outside the line* layer, or place them by hand.
+6. **Tabs** keep a part that is cut out in its place: set them on a *Cut outside the line* layer, or place them by hand. Step by step: [Tabs step by step](Layers-and-Operations#tabs-step-by-step).
 
 The tick in the list takes a layer into the toolpaths and the G-code; the eye shows or hides it. A good setting can be kept with **Save preset…** and put on another layer with **Load preset**.
 

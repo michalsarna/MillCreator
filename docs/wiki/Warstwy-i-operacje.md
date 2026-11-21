@@ -48,6 +48,25 @@ Inne kształty na tej samej warstwie są prowadzone jak linie. Na warstwie z inn
 | Trochoidy (Trochoids) | dla „Podążania za linią”: frez idzie pętlami wzdłuż linii (*Średnica pętli trochoidy*, z posuwem *Krok trochoidy* na obrót; z *Półokręgi* frez kołysze się w poprzek linii), więc wycina rowek szeroki jak pętle plus frez, przy małym obciążeniu |
 | Mostki (Tabs) | **Pełny** (frez unosi się nad materiał), **Częściowy** (do wysokości mostka) albo **Rampa** (częściowy ze skosem, *Nachylenie mostka*); *Szerokość mostka* to szerokość mostka przy części (do tego dochodzi frez), *Wysokość mostka* liczy się od dna cięcia. Rozmieszczone są równomiernie: jeden na każdy *Odstęp mostków* konturu, nie mniej i nie więcej niż podane liczby, bez mostków na otworach części przy włączonym *Bez mostków na otworach*. Unoszone są tylko przejścia poniżej wierzchu mostka. Dla profili i „Podążanie za linią” na liniach zamkniętych. **Umieść mostki ręcznie** (pod ustawieniami mostków) zamienia obszar roboczy w edytor mostków dla kształtów warstwy: kliknij obrys, by dodać mostek (żółta kropka), przeciągnij kropkę wzdłuż obrysu, by ją przesunąć, kliknij kropkę, by ją usunąć; *Usuń mostki ustawione ręcznie* usuwa wszystkie. Kontur z mostkami ustawionymi ręcznie dostaje tylko je; zapisują się w projekcie razem z warstwą i podążają za kształtem przy jego przesuwaniu i skalowaniu |
 
+## Mostki krok po kroku
+
+Mostki (taby) to cienkie kawałki materiału zostawione na obrysie, dzięki którym wycinana część zostaje na miejscu do końca i nie przesuwa się pod frezem.
+
+1. Daj część na warstwę, która ją wycina: **Wycinanie na zewnątrz linii** (albo **Wycinanie wewnątrz linii** dla otworu, **Podążanie za linią** na zamkniętej linii). Inne operacje nie mają mostków.
+2. Na karcie **Warstwy** wybierz tę warstwę i otwórz sekcję **Mostki** w jej ustawieniach.
+3. Zaznacz **Mostki**. Program rozmieszcza je równomiernie na każdym obrysie warstwy.
+4. Ustaw je:
+   * **Typ mostka**: **Pełny** (frez unosi się nad materiał przy mostku), **Częściowy** (frez unosi się do wysokości mostka) albo **Rampa** (częściowy, ze skosami; kąt to **Nachylenie mostka**).
+   * **Szerokość mostka**: szerokość mostka przy części (do tego dochodzi szerokość freza).
+   * **Wysokość mostka**: od dna cięcia. Unoszone są tylko przejścia poniżej wierzchu mostka. Mostek tak wysoki jak cięcie nic nie trzyma: program o tym ostrzega.
+   * **Odstęp mostków**: jeden mostek na tyle milimetrów obrysu, oraz **Najmniej i najwięcej mostków** na jednym obrysie.
+   * **Bez mostków na otworach**: otwory wewnątrz części ich nie dostają.
+5. Sprawdź je w podglądzie (widok 3D i G-code pokazują uniesione ruchy).
+
+**W wybranych miejscach:** pod ustawieniami mostków naciśnij **Umieść mostki ręcznie** (albo **Frezowanie → Umieść mostki ręcznie**). Obszar roboczy staje się edytorem mostków dla kształtów warstwy: kliknij obrys, by dodać mostek (żółta kropka), przeciągnij kropkę wzdłuż obrysu, by ją przesunąć, kliknij kropkę, by ją usunąć. Naciśnij przycisk jeszcze raz, by skończyć. Obrys z mostkami ustawionymi ręcznie dostaje tylko je; pozostałe dalej dostają równomierne. Mostki zapisują się w projekcie i podążają za kształtem przy przesuwaniu i skalowaniu. **Usuń mostki ustawione ręcznie** usuwa wszystkie.
+
+Po zakończeniu pracy przetnij mostki nożem albo piłką i wyszlifuj resztę.
+
 ## Operacje
 | Operacja | Co robi frez |
 |---|---|

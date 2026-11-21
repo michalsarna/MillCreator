@@ -48,6 +48,25 @@ Other shapes on the same layer are followed as lines. On a layer with another op
 | Trochoids | for "Follow the line": the bit goes in loops along the line (*Trochoid diameter*, advancing *Trochoid step* with every turn; *Half circles* swing across the line instead), so that it cuts a slot as wide as the loops and the bit with a light load |
 | Tabs | **Full** (the bit rises above the material), **Partial** (to the height of the tab) or **Ramp** (partial with a slope, *Tab slope*); *Tab width* is the width of a tab at the part (the bit is added), *Tab height* is measured from the bottom of the cut. They are spread evenly: one for every *Tab spacing* of the ring, at least and at most the numbers given, none on a hole of a part when *No tabs on holes* is on. Only the passes below the top of a tab are raised. For profiles and for "Follow the line" on closed lines. **Place tabs by hand** (under the tab settings) turns the work area into a tab editor for the shapes of the layer: click on an outline to add a tab (a yellow dot), drag a dot along the outline to move it, click a dot to take it away; *Clear hand-placed tabs* removes them all. A ring that has tabs placed by hand gets only those; they are kept in the project with the layer and follow the shape when it is moved or scaled |
 
+## Tabs step by step
+
+Tabs (bridges) are thin pieces of material left on the outline, so that a part that is cut out stays in its place to the end and does not move under the bit.
+
+1. Put the part on a layer that cuts it out: **Cut outside the line** (or **Cut inside the line** for a hole, **Follow the line** on a closed line). Other operations have no tabs.
+2. On the **Layers** tab choose that layer and open the **Tabs / bridges** section of its settings.
+3. Tick **Tabs**. The program spreads them evenly on every outline of the layer.
+4. Set them:
+   * **Tab type**: **Full** (the bit rises above the material at a tab), **Partial** (the bit rises to the height of the tab) or **Ramp** (partial, with slopes; the angle is **Tab slope**).
+   * **Tab width**: the width of a tab at the part (the width of the bit is added).
+   * **Tab height**: from the bottom of the cut. Only the passes below the top of a tab are raised. A tab as high as the cut holds nothing: the program warns about it.
+   * **Tab spacing**: one tab for every so many millimetres of the outline, and **Fewest and most tabs** on one outline.
+   * **No tabs on holes**: the holes inside a part get none.
+5. Check them in the preview (the 3D view and the G-code show the raised moves).
+
+**In places you choose:** under the tab settings press **Place tabs by hand** (or **Milling → Place tabs by hand**). The work area becomes a tab editor for the shapes of the layer: click on an outline to add a tab (a yellow dot), drag a dot along the outline to move it, click a dot to take it away. Press the button again to finish. An outline with tabs placed by hand gets only those; the others still get the even ones. The tabs are kept in the project and follow the shape when it is moved or scaled. **Clear hand-placed tabs** removes them all.
+
+After the job, cut the tabs with a knife or a saw and sand the rest.
+
 ## Operations
 | Operation | What the bit does |
 |---|---|
