@@ -59,7 +59,7 @@ Kształt jest frezowany tak, jak mówi jego warstwa. Otwórz kartę **Warstwy**.
 3. **Frez:** wybierz go w polu **Frez**. Wybór freza ustawia też **Posuw**, **Posuw wcięcia**, **Obroty wrzeciona**, **Głębokość przejścia** i **Rozstaw przejść** z jego prędkości początkowych. Przycisk **…** otwiera **Bibliotekę frezów** ([Biblioteka frezów](Biblioteka-frezow)).
 4. **Głębokości:** **Głębokość** to cała głębokość pod wierzchem materiału; **Głębokość przejścia** to głębokość jednego przejścia (0 = cała głębokość w jednym przejściu). Wiersz pod ustawieniami mówi, ile przejść z tego wychodzi.
 5. **Posuwy:** **Posuw** i **Posuw wcięcia** w mm/min, **Obroty wrzeciona** w obr./min. Pod nimi, wyliczone ze średnicy i liczby ostrzy freza: **Prędkość skrawania (Vc)** w m/min oraz **Posuw na ząb (fz)** i **Posuw wgłębny na ząb** w mm. Wpisanie Vc zmienia obroty wrzeciona, wpisanie fz zmienia posuw; zapisywane są tylko obroty i posuwy.
-6. **Mostki** (Tabs) trzymają wycinaną część na miejscu: ustaw je na warstwie z *Wycinaniem na zewnątrz linii* albo rozmieść ręcznie.
+6. **Mostki** (Tabs) trzymają wycinaną część na miejscu: ustaw je na warstwie z *Wycinaniem na zewnątrz linii* albo rozmieść ręcznie. Krok po kroku: [Mostki krok po kroku](Warstwy-i-operacje#mostki-krok-po-kroku).
 
 Ptaszek na liście bierze warstwę do ścieżek i G-code; oko ją pokazuje albo ukrywa. Dobre ustawienia można zachować przyciskiem **Zapisz preset…** i położyć na innej warstwie przyciskiem **Wczytaj preset**.
 
