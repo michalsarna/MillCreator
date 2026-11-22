@@ -14,6 +14,7 @@ Każde wydanie na [stronie Releases](https://github.com/michalsarna/MillCreator/
 | Fedora, openSUSE, x86_64 | `millcreator-vX.Y.Z-linux-x86_64.rpm` | `millcreator-vX.Y.Z-linux-x86_64.tar.gz` |
 | Fedora, openSUSE, ARM64 | `millcreator-vX.Y.Z-linux-aarch64.rpm` | `millcreator-vX.Y.Z-linux-arm64.tar.gz` |
 | Inny Linux | – | `.tar.gz` powyżej |
+| FreeBSD, x86_64 | – | `millcreator-vX.Y.Z-freebsd-x86_64.tar.gz` |
 
 ## Menedżery pakietów
 
@@ -39,6 +40,15 @@ xattr -dr com.apple.quarantine /Applications/MillCreator.app
 
 ## Linux
 Zainstaluj `.deb` (`sudo apt install ./millcreator-vX.Y.Z-linux-amd64.deb`), na Fedorze lub openSUSE `.rpm` (`sudo dnf install ./millcreator-vX.Y.Z-linux-x86_64.rpm`, openSUSE: `sudo zypper install ./...`; wymaga nowego glibc, więc nie RHEL / Alma / Rocky 9), albo rozpakuj `.tar.gz` i uruchom `millcreator`. Program potrzebuje zwykłych bibliotek X11 / Wayland i OpenGL (`libxkbcommon-x11-0`, `libgl1`); pakiety `.deb` i `.rpm` je wymieniają.
+
+## FreeBSD
+Rozpakuj `millcreator-vX.Y.Z-freebsd-x86_64.tar.gz` i uruchom `millcreator`. Program potrzebuje kilku pakietów i pulpitu X11 albo Wayland (jako root):
+
+```sh
+pkg install libudev-devd libxkbcommon mesa-libs ffmpeg
+```
+
+`ffmpeg` jest dla kamer sieciowych (IP); kamery USB nie działają jeszcze na FreeBSD (kamera o tym mówi). Port USB maszyny to `/dev/cuaU0`: dodaj się do grupy `dialer` (`pw groupmod dialer -m $USER`, potem zaloguj się ponownie). Budowany i testowany automatycznie na FreeBSD 15.0 (tylko x86_64); jeszcze niewypróbowany na pulpicie FreeBSD. Aby zbudować go tam ze źródeł, najpierw `pkg install rust pkgconf libudev-devd evdev-proto`.
 
 ## Ze źródeł
 ```sh
