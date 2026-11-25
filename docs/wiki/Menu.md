@@ -167,7 +167,7 @@ Najpierw ustawienia maszyny, potem to, co na niej działa. Zob. [Sterowanie masz
 | **Opcje widoku…** (View options…) | Siatka główna i pomocnicza, kolory obszaru roboczego, grubość linii, **Pokaż nazwy warstw**, **Podgląd G-code po zapisaniu**, **Pokaż nazwy zmiennych**. Zob. [Ustawienia i pliki](Ustawienia-i-pliki). Rozmiar czcionki i kolory **konsoli G-code**. |
 | **Opcje programu…** (Program options…) | **Szukaj nowszej wersji przy uruchamianiu programu**; **Jakość renderowania** (1 szybko … 5 ostro) widoku 3D.; **Automatyczny zapis**: zapisuj pracę automatycznie (plik z nazwą na miejscu, bez nazwy do pliku odzyskiwania) i jak często (od 10 s do godziny, na początek 2 min). |
 | **Wtyczki…** (Plugins…) | Instalowanie, włączanie, wyłączanie i usuwanie wtyczek, oficjalna lista. Zob. [Wtyczki](Wtyczki). |
-| **Język ▸** (Language) | 30 języków programu. |
+| **Język ▸** (Language) | 38 języków programu. |
 | **Schemat kolorów ▸** (Colour scheme) | 18 schematów kolorów okna oraz świąteczne w okolicy Bożego Narodzenia, Nowego Roku, Halloween, Wielkanocy i Chińskiego Nowego Roku. |
 
 ## Pomoc (Help)

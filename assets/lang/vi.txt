@@ -1,0 +1,574 @@
+0|Góc nhìn 3D của công việc…
+1|Một bản sao trong mũi của bạn
+2|Một lỗ ở tâm mỗi hình kín của lớp, theo từng bước độ sâu lượt.
+3|Tên cổng, hoặc mã nhà sản xuất và mã sản phẩm USB (VID:PID, hệ thập lục phân): cổng có các mã này sẽ được dùng.
+4|Không thể thay đổi mũi có sẵn. Hãy tạo bản sao để thay đổi.
+5|Đã nối bộ quay
+6|Một kích thước máy thông dụng…
+7|Hủy công việc đang chạy
+8|Giới thiệu
+9|Thêm camera
+10|Thêm một thiết bị
+11|Thêm thiết bị
+12|Thêm thiết bị…
+13|Địa chỉ
+14|Sau khi kết nối
+15|Báo động {}
+16|Toàn bộ vùng bên trong đường được phay sạch, vòng nối vòng, đến độ sâu của lớp.
+17|Sắp xếp
+18|Sau trái
+19|Sau phải
+20|Trở về góc nhìn ban đầu. Nhấp đúp vào hình cũng vậy.
+21|Mũi cầu
+22|Tốc độ baud
+23|Gắn với cổng này
+24|Mũi
+25|Thư viện mũi
+26|Thư viện mũi…
+27|Thiết bị USB đã gắn
+28|Mũi bo góc (bán kính góc)
+29|Camera
+30|Tên camera
+31|Số camera
+32|Camera của máy tính này
+33|Xoay camera
+34|Chế độ xem camera
+35|Camera
+36|Không thể dùng tệp
+37|Kiểm tra chương trình
+38|Đang kiểm tra chương trình trước…
+39|Đang kiểm tra chương trình…
+40|Chọn mũi
+41|Hãy chọn cổng hoặc máy chủ trong cài đặt thiết bị trước.
+42|Chọn máy bạn sẽ làm việc cùng.
+43|Mâm cặp
+44|Chu vi
+45|Xóa báo động
+46|Xóa báo động sẽ bỏ qua về gốc: chỉ dùng khi biết chắc đầu đang ở chỗ an toàn.
+47|Xác nhận xóa
+48|Kết nối
+49|Tự động kết nối lại
+50|Đã kết nối
+51|Kết nối
+52|Kiểu kết nối
+53|Bảng điều khiển
+54|Điều khiển
+55|Đã sao chép vào {}
+56|Bán kính góc
+57|Không thể lưu
+58|Không thể lưu: {}
+59|Kiểu đếm lấp đầy bộ đệm của bộ điều khiển và nhanh. Kiểu đơn giản gửi một dòng và chờ ok: chậm, nhưng dành cho firmware trả lời sai.
+60|Cắt bên trong đường
+61|Cắt bên ngoài đường
+62|Đường cắt
+63|Đường cắt: {} m, khoảng {} phút
+64|Đường kính cắt
+65|Chiều dài cắt
+66|Xóa camera này
+67|Độ sâu
+68|Thiết bị
+69|Cài đặt thiết bị
+70|Cài đặt thiết bị…
+71|Chẩn đoán và thống kê…
+72|Ngắt kết nối
+73|Mũi khoan
+74|Chỉnh sửa
+75|Sửa…
+76|Mũi khắc
+77|Lỗi {} ở dòng {}: {}
+78|Lỗi {}: {}
+79|Xuất G-code…
+80|Xuất mũi này…
+81|Xuất…
+82|Tiến dao
+83|Cài đặt firmware ($$)…
+84|Dao phay ngón đầu bằng
+85|Số me
+86|Theo đường
+87|Khung
+88|Đang chạy khung vùng làm việc
+89|Từ trên
+90|Từ dòng…
+91|Trước trái
+92|Trước phải
+93|GRBL 1.1 có ba trục: không có trục A, dùng Y.
+94|Chung
+95|Đi vòng quanh khung nơi sẽ làm việc
+96|Trợ giúp
+97|Tốc độ cao nhất
+98|Về gốc
+99|Về gốc máy
+100|Máy chủ
+101|Tôi không có thiết bị
+102|Nhập dự án LightBurn…
+103|Đã nhập thiết bị {}
+104|Nhập…
+105|Loại
+106|Lớp
+107|Bị bỏ
+108|Tốc độ thấp nhất
+109|Điểm không của máy (0,0)
+110|Vật liệu
+111|Vật liệu của phôi
+112|Kim loại
+113|Số vi bước của động cơ cho một vòng đầy đủ của thứ nó dẫn động (mâm cặp, hoặc một con lăn).
+114|Vi bước mỗi vòng
+115|Được phay: đưa vào đường chạy dao và G-code
+116|Phay
+117|Di chuyển ở độ cao an toàn
+118|Mũi của tôi
+119|Mới
+120|Mũi mới
+121|Không có mũi
+122|Chưa có thiết bị. Hãy thêm một cái, hoặc làm việc không có máy.
+123|Không có cổng
+124|Không phải địa chỉ http hoặc https.
+125|Ghi chú
+126|Ghi chú về máy này
+127|Chưa có gì ở đây
+128|Chưa chọn gì
+129|Chỉ có thể đổi màu của nhựa. Vật liệu và độ dày của nó được hiển thị trong góc nhìn 3D và lưu trong dự án.
+130|Mở một bản vẽ hoặc bắt đầu một thiết kế trống.
+131|Mở liên kết đến bộ điều khiển đặt trong cài đặt thiết bị
+132|Mở cửa sổ xem trước
+133|Mở…
+134|Thao tác
+135|Chiều dài tổng
+136|Độ sâu mỗi lượt
+137|Độ sâu mỗi lượt (theo đường kính)
+138|Nhựa
+139|Tốc độ ăn xuống
+140|Hốc
+141|Cổng
+142|Cổng hoặc mã USB
+143|Xem trước
+144|Xem trước…
+145|Thuộc tính
+146|Đưa các hình đã chọn vào lớp này
+147|Đọc thiết bị từ tệp
+148|Đọc mũi từ tệp
+149|Sẵn sàng
+150|Mũi có sẵn
+151|Kết nối lại
+152|Làm mới
+153|Ghi nhớ mã USB của cổng đã chọn: khi tên cổng đổi, cổng sẽ được tìm lại bằng các mã này.
+154|Đặt lại góc nhìn
+155|Tiếp tục
+156|Đường kính con lăn
+157|Con lăn
+158|Quay
+159|DỪNG
+160|Độ cao an toàn
+161|Lưu
+162|Lưu G-code
+163|Lưu thành…
+164|Lưu thiết bị này ra tệp
+165|Lưu mũi của bạn ra tệp
+166|Đã lưu
+167|Đã lưu thiết bị vào {}
+168|Đã lưu {}
+169|Cài đặt
+170|Đường kính chuôi
+171|Các hình trên lớp này
+172|Hiện hình camera trực tiếp của máy này
+173|Hiện đường chạy trên vùng làm việc
+174|Hiện trong thẻ Camera
+175|Hiển thị trong vùng làm việc
+176|Tốc độ di chuyển phía trên vật liệu
+177|Trục chính
+178|Start
+179|Bắt đầu từ
+180|Bắt đầu công việc tại một dòng của chương trình
+181|Bắt đầu công việc: {} dòng, ~{}
+182|Tốc độ ban đầu cho một lớp
+183|Bước ngang
+184|Bước ngang (theo đường kính)
+185|Truyền công việc đến máy đã kết nối
+186|Đang truyền
+187|Đã bật
+188|Cổng TCP
+189|Mũi cầu côn
+190|G-code quanh công việc: {}
+191|Mũi chạy vòng bên trong đường, nên hình rơi ra: một lỗ hoặc ô cửa.
+192|Mũi chạy vòng bên ngoài đường, nên hình được giữ lại: một chi tiết được cắt khỏi vật liệu.
+193|Tâm mũi đi theo đường: khắc và rãnh. Đường hở cũng được.
+194|Kiểm tra không thấy lỗi nào.
+195|Kiểm tra không thấy gì. Công việc đang chạy.
+196|Kiểm tra thấy {} lỗi, lỗi đầu ở dòng {}. Công việc chưa được bắt đầu.
+197|Bộ điều khiển cần {} bước mỗi mm trên trục Y ($101).
+198|Đường cắt vượt ra ngoài vùng làm việc của thiết bị
+199|Thiết bị của dự án này
+200|Đã thêm thiết bị.
+201|Đã lưu thiết bị.
+202|Bản vẽ cao hơn chu vi phôi ({} mm)
+203|Tệp quá lớn
+204|Công việc đã xong, có {} lỗi (xem Bảng điều khiển).
+205|Công việc đã xong.
+206|Công việc tạm dừng: {}
+207|Công việc đang chạy.
+208|Đo tại cảm biến thất bại: không chạm, hoặc có báo động.
+209|Đã đo dao chuẩn: Z {} tại cảm biến.
+210|Đã đo dao; chưa có dao chuẩn để so sánh.
+211|Vòng quanh phôi: thiết kế không được cao hơn.
+212|Không có gì để cắt: hãy đặt hình lên các lớp có mũi.
+213|Không có gì để chạy khung: hãy đặt hình lên các lớp có mũi.
+214|Chưa có gì để hiển thị: hãy vẽ hình và đặt chúng lên các lớp có mũi.
+215|Độ dày
+216|Bản dựng này không thể dùng camera của máy tính.
+217|Thiết bị này không có camera nào đang bật. Hãy thêm trong cài đặt thiết bị.
+218|Thiết bị này không có trong danh sách: nó đi kèm dự án
+219|Đây là thiết bị thay thế (Dummy): vùng làm việc và tốc độ mặc định.
+220|Thời gian {} / {}
+221|Đường kính đầu mũi
+222|Quá nhiều thiết bị
+223|Đường chạy
+224|Loại
+225|Bỏ gắn
+226|Đơn vị
+227|Mũi V
+228|Xem
+229|Tùy chọn hiển thị…
+230|Chờ sau khi bật
+231|Đang chờ hình…
+232|Khi kết nối tự rớt, thử lại mỗi vài giây cho đến khi bạn nhấn Ngắt kết nối.
+233|Với bộ quay, trục Y xoay phôi: bản vẽ không được cao hơn chu vi phôi. Mô hình đơn giản (mâm cặp quay theo đường kính phôi, con lăn di chuyển bề mặt như chính nó); máy thật cần chạy thử.
+234|Gỗ, sẫm
+235|Gỗ, sáng
+236|Gỗ, vừa
+237|Làm dự án không có máy: một thiết bị đơn giản tên Dummy, với vùng làm việc và tốc độ mặc định
+238|Đường kính phôi
+239|Z là khoảng trục chính đi xuống từ mặt trên vật liệu. Độ cao an toàn là nơi trục chính di chuyển giữa các đường cắt.
+240|Z đã được đặt từ dao chuẩn.
+241|mũi đã thêm
+242|mũi đã thêm vào thư viện
+243|vd. Máy phay CNC của tôi
+244|không có
+245|dự án này được làm cho máy khác: {}
+246|{} lượt đến {} mm
+247|{}: chưa chọn mũi
+248|{}: không có gì để cắt (đường có thể quá nhỏ so với mũi)
+249|{}: đường hở bị bỏ khỏi hốc
+250|{}: đường hở bị bỏ khỏi đường biên (dùng "Theo đường")
+251|{}: ảnh không được phay
+252|{}: độ sâu bị giới hạn bởi hành trình của máy ({} mm)
+253|{}: độ sâu {} mm lớn hơn độ dày vật liệu ({} mm)
+254|{}: {} rpm nằm ngoài phạm vi trục chính {}…{} rpm
+255|Nhập thiết kế UGS…
+256|Lượt đầu
+257|Bắt đầu bằng một lượt nông dọc theo mép
+258|Mỗi lớp trước tiên đi một lần dọc theo các mép sẽ cắt, chỉ sâu chừng này, để mặt trên vật liệu được cắt gọn. Hốc chỉ có dọc theo mép; khoan thì không có. Dùng được với mọi mũi.
+259|Độ sâu lượt đầu
+260|Hình ảnh
+261|Hàng dithering
+262|Chấm
+263|Cách vẽ ảnh
+264|Dithering
+265|Góc quét
+266|Ảnh trên lớp được khắc: các hàng hoặc chấm theo ảnh dithering, hoặc các hàng có độ sâu theo tông.
+267|Độ sâu theo tông
+268|Ảnh được dithering và mỗi hàng được cắt ở độ sâu của lớp tại chỗ tối. Phương pháp dithering chọn ở dưới.
+269|Một lỗ sâu bằng lớp cho mỗi ô tối của ảnh dithering.
+270|Các hàng được cắt với độ sâu theo tông của ảnh: càng tối càng sâu, đến độ sâu của lớp.
+271|Góc của các hàng khắc
+272|{}: chương trình của ảnh quá dài: phần còn lại đã bị bỏ (dùng bước ngang lớn hơn)
+273|Phù điêu 3D
+274|Phù điêu: đen là sâu nhất, trắng không cắt. Các lượt theo độ sâu lượt đến hết độ sâu, có tính đến hình dạng mũi. Mô hình có thể xuất ra STL.
+275|Xuất phù điêu ra STL…
+276|Không có phù điêu để xuất: hãy đặt ảnh lên một lớp với thao tác Ảnh và phương pháp phù điêu 3D.
+277|Vừa với vùng làm việc
+278|Vừa với các phần tử
+279|Thu phóng để thấy toàn bộ vùng làm việc của máy
+280|Thu phóng để mọi đường cắt lấp đầy cửa sổ
+281|Từng phần tử một
+282|Mỗi phần tử (một nhóm, hoặc hình không thuộc nhóm nào) được cắt trọn vẹn, mọi lớp và mọi lượt, rồi mới sang cái tiếp; phần tử gần nhất đi trước. Tắt: từng lớp, từng lượt.
+283|Chỉ vùng chọn
+284|Chỉ cắt các hình đang được chọn trên vùng làm việc khi lưu G-code hoặc bắt đầu công việc.
+285|Không có gì để cắt: chưa chọn gì
+286|Xuất chi tiết đã phay ra STL…
+287|Không có gì để xuất: công việc chưa có đường cắt.
+288|G-code
+289|Tọa độ phôi
+290|Điểm không của chương trình
+291|Chương trình chọn hệ tọa độ phôi này (G54 … G59, điểm không đặt trên máy, ví dụ bằng cách chạm vào vật liệu) và tính từ điểm không bên dưới, cho theo tọa độ vùng làm việc. Không: chương trình tính từ điểm không của máy.
+292|G-code riêng được thêm vào mọi chương trình, mỗi dòng một lệnh (tối đa 20 dòng).
+293|Ở đầu chương trình
+294|Mỗi lần thay mũi
+295|Mỗi lần đổi thao tác
+296|Ở cuối chương trình
+297|Hướng
+298|Như đã vẽ
+299|Phay thuận
+300|Phay nghịch
+301|Lượng dư để lại
+302|Lượt hoàn thiện
+303|Cách vào dao
+304|Ăn thẳng xuống
+305|Dốc zigzag
+306|Dốc dọc theo biên dạng
+307|Xoắn ốc
+308|Góc dốc
+309|Tốc độ dốc
+310|0 = tốc độ ăn xuống
+311|Cầu giữ
+312|Kiểu cầu giữ
+313|Đầy đủ
+314|Một phần
+315|Dốc
+316|Độ rộng cầu giữ
+317|Độ cao cầu giữ
+318|Độ dốc cầu giữ
+319|Khoảng cách cầu giữ
+320|Số cầu giữ ít nhất và nhiều nhất
+321|Không đặt cầu giữ trên lỗ
+322|{}: xoắn ốc không vừa ở một số chỗ: đã dùng dốc dọc theo biên dạng ở đó
+323|{}: một số vòng quá ngắn cho mọi cầu giữ: chúng có ít hơn
+324|{}: góc dốc {}° là dốc (hơn 45°)
+325|{}: cầu giữ cao bằng đường cắt: chi tiết không được cắt rời
+326|Đặt cầu giữ bằng tay
+327|Nhấp lên đường viền để thêm cầu giữ, kéo cầu giữ để di chuyển, nhấp vào cầu giữ để bỏ. Vòng có cầu giữ đặt bằng tay chỉ nhận những cái đó.
+328|Xóa cầu giữ đặt bằng tay
+329|Nhập DXF…
+330|Phay mặt
+331|Phay lỗ
+332|Vát cạnh
+333|Rãnh dogbone
+334|Mặt trên vật liệu được phay phẳng trên khung bao các hình của lớp; mũi đi vượt mép một chút.
+335|Một lỗ tròn lớn hơn mũi: mũi đi xuống vòng xoắn ốc rồi chạy một vòng ở độ sâu đầy đủ.
+336|Mép các hình được vát: một mũi V đi theo đường ở độ sâu làm vát rộng đúng như yêu cầu.
+337|Mũi chạy vòng bên trong đường và vào mọi góc nhọn, để mũi tròn chừa chỗ cho chi tiết vuông.
+338|Vòng
+339|Quét
+340|Trước
+341|Sau
+342|Kiểu hốc
+343|Góc quét
+344|Lượt đường viền
+345|Phần còn lại của lớp
+346|Phần vượt
+347|Độ rộng vát
+348|Trochoid
+349|Đường kính trochoid
+350|Bước trochoid
+351|Nửa vòng tròn
+352|{}: vát cạnh cần mũi V hoặc mũi khắc
+353|{}: lớp của hốc phần còn lại không có mũi
+354|{}: mũi của hốc phần còn lại phải nhỏ hơn mũi của lớp mà nó tiếp nối
+355|{}: không có gì để phay phẳng: hãy vẽ một hình cho biết kích thước bề mặt
+356|Khắc chữ V
+357|Mũi V càng xa mép hình càng đi sâu, nên thành nghiêng và góc sắc. Độ sâu là mức sâu nhất mũi đi; hình rộng hơn sẽ có đáy phẳng.
+358|Ổ
+359|Nút
+360|Phá thô và hoàn thiện
+361|Phá thô
+362|Hoàn thiện
+363|Nhập mô hình 3D làm phù điêu…
+364|{}: đường hở bị bỏ khỏi khắc V
+365|{}: khắc V cần mũi V hoặc mũi khắc
+366|{}: đáy phẳng được cắt bằng mũi V: để lại gờ và lâu (mũi phẳng trên lớp Hốc tốt hơn)
+367|{}: chương trình khắc V quá dài: phần còn lại đã bị bỏ
+368|Độ sâu bắt đầu
+369|Không cắt gì nông hơn mức này
+370|Khảm
+371|Khe khảm
+372|Độ hở giữa nút và ổ
+373|Phần phù điêu
+374|mô hình cao hơn vật liệu: phù điêu chỉ được cắt sâu như lớp quy định
+375|Không thể nhập mô hình {}: {}
+376|Mô hình {} không có diện tích nhìn từ trên
+377|Đã nhập mô hình {} làm phù điêu trên lớp {}: {} x {} x {} mm
+378|Máy hút bụi
+379|Bật máy hút bụi bằng các dòng riêng của thiết bị (Cài đặt thiết bị, G-code)
+380|Bật máy hút bụi
+381|Tắt máy hút bụi
+382|Bộ thay dao
+383|Tự thay mũi (T… M6)
+384|Chương trình yêu cầu mũi bằng T<số> M6 và tiếp tục không dừng. Mỗi mũi cần có số trong thư viện. Bộ điều khiển phải hiểu M6 (grblHAL, FluidNC); GRBL thường thì không.
+385|Số trong bộ thay dao
+386|Vị trí của mũi trong bộ thay dao: chương trình yêu cầu bằng T… M6. 0 = không có trong bộ thay dao
+387|{}: mũi không có số bộ thay dao: máy sẽ được yêu cầu dừng để thay
+388|{}: lớp yêu cầu máy hút bụi, nhưng thiết bị không có dòng nào để bật nó
+389|Chạy khung theo đường viền
+390|Khung đi theo đường viền của các đường cắt (như dây thun) thay vì khung bao
+391|Tâm lỗ giờ là điểm không của X và Y; lỗ có kích thước {} x {} mm
+392|Tìm tâm thất bại: không chạm, hoặc có báo động.
+393|Đã thiết lập dự án: vật liệu {} x {} x {} mm, điểm không tại {}
+394|Thiết lập dự án…
+395|Chiều rộng vật liệu
+396|Chiều cao vật liệu
+397|Z tính từ đáy vật liệu
+398|Vùng làm việc là vật liệu
+399|Vật liệu nằm ở góc trên bên trái trang. Chương trình được viết cho hệ tọa độ phôi G54 với điểm không tại nơi bạn chọn: hãy đặt điểm không đó trên máy. Z tính từ mặt trên của vật liệu, hoặc từ đáy.
+400|Bỏ qua
+401|Chưa có thiết lập sẵn
+402|Áp các cài đặt này cho lớp
+403|Quên thiết lập sẵn này
+404|Lưu làm thiết lập sẵn
+405|Giữ cách cắt của lớp này dưới tên này
+406|Hãy đặt địa chỉ của bo mạch trước (Cài đặt thiết bị → Kết nối).
+407|Đang giao tiếp với Duet…
+408|Đã gửi đến Duet và bắt đầu. Trạng thái: {}
+409|Trạng thái của Duet: {}
+410|Duet: {}
+411|Duet tự chạy chương trình: gửi và bắt đầu, đọc trạng thái, dừng. Không có jog và ghi đè. Mật khẩu không được lưu.
+412|Gửi và bắt đầu
+413|Tải chương trình lên bo mạch và bắt đầu ở đó
+414|Trạng thái
+415|Duet / RepRapFirmware (HTTP)
+416|Bo mạch Duet tự chạy chương trình: chương trình được gửi qua mạng và bắt đầu ở đó. Không có jog và ghi đè.
+417|Mật khẩu
+418|Không lưu: sẽ được hỏi lại khi mở chương trình
+419|Không thể xuất chi tiết đã phay ra STL khi đang chọn bộ quay.
+420|Chèn
+421|Khung nhìn có tối đa ba ngăn
+422|Hiện xem trước ở đây
+423|Chưa mở tệp G-code nào: Tệp, Xem tệp G-code…
+424|0 = toàn bộ độ sâu trong một lượt
+425|{}: một lượt {} mm sâu hơn phần cắt của mũi ({} mm)
+426|Xem trước G-code
+427|Hiện G-code mà không lưu
+428|xem trước
+429|G-code được hiển thị, không lưu gì
+430|G-code riêng của thiết bị: {}
+431|Cũng khi thay mũi và đổi thao tác:
+432|Tốc độ cắt (Vc)
+433|Lượng tiến mỗi răng (fz)
+434|Ăn xuống mỗi răng
+435|Từ mũi: đường kính và số me
+436|Giữ ở dưới giữa các vòng
+437|Ở mỗi độ sâu, các vòng nối tiếp nhau và mũi sang vòng kế bằng một đường cắt trong vật liệu khi cả đường đi nằm trong hốc; nếu không nó nâng lên như thường
+438|Chọn trên vùng làm việc
+439|Lần nhấp tiếp theo trên vùng làm việc sẽ đặt điểm không (bắt dính vào góc và trung điểm của hình); biểu tượng trục có thể kéo
+440|Nhấp vào vùng làm việc để đặt điểm không của chương trình (Esc để hủy)
+441|Điểm không của chương trình ở X {} Y {}
+442|Tải thiết lập sẵn
+443|Mũi của thiết lập sẵn không có trong thư viện: lớp không có mũi
+444|Thu phóng
+445|Không phải địa chỉ camera (http, https, rtsp, udp, rtp hoặc rtmp).
+446|Giới thiệu MillCreator
+447|Dự án trên vật liệu
+448|Các hình của bản vẽ hiện trên mặt vật liệu, theo màu của lớp
+449|LinuxCNC (tệp)
+450|LinuxCNC tự chạy chương trình: Bắt đầu sẽ lưu tệp G-code cho nó. Chưa thử trên máy thật.
+451|Bản vẽ kỹ thuật
+452|Hiện bản vẽ kỹ thuật…
+453|Chi tiết dưới dạng bản vẽ kỹ thuật: hình chiếu đứng, cạnh và bằng, kèm kích thước
+454|Hình chiếu đứng
+455|Hình chiếu cạnh
+456|Hình chiếu bằng
+457|Tỉ lệ {}
+458|Kích thước theo mm
+459|Kích thước theo inch
+460|Gắn thành thẻ
+461|Hiện bản vẽ thành một thẻ của vùng làm việc, cạnh các bản vẽ và xem trước
+462|Lưu bản vẽ thành ảnh (PNG, JPG) hoặc trang PDF (A4)
+463|Kiểu bản vẽ
+464|Kích thước theo {}
+465|ISO 128 (góc chiếu thứ nhất: châu Âu, phần lớn thế giới)
+466|ASME Y14 (góc chiếu thứ ba: Mỹ, Canada)
+467|JIS B 0001 (góc chiếu thứ ba: Nhật Bản)
+468|Lưỡi dao
+469|Độ lệch {} mm
+470|Độ lệch mũi dao
+471|Mũi lưỡi dao nằm sau trục bao xa: nhà sản xuất lưỡi dao cho biết
+472|Xoay quanh các góc nhọn hơn
+473|Cắt vượt qua điểm bắt đầu
+474|Đường viền kín được cắt vượt qua điểm bắt đầu một đoạn này, để nó khép lại
+475|Dao kéo
+476|Dao kéo trong đầu kẹp cắt dọc các đường đến độ sâu của lớp, trục chính đứng yên: độ lệch được bù ở mỗi góc, lỗ được cắt trước và đường kín được cắt vượt qua điểm bắt đầu.
+477|{}: một đường vào không vừa ở đâu đó và đã bị bỏ
+478|{}: một đường vào không vừa ở đâu đó và đã được thu nhỏ
+479|Phay ren
+480|Dao phay ren đi vòng mỗi đường tròn theo xoắn ốc, mỗi vòng một bước ren, đến độ sâu của lớp: ren trong lỗ (đai ốc) hoặc quanh vấu (vít). Vẽ đường tròn bằng đường kính ngoài của vít; với đai ốc, khoan hoặc phay lỗ trước đến khoảng đường kính trừ 1,08 × bước ren.
+481|Ren
+482|Trong (đai ốc)
+483|Ngoài (vít)
+484|Cỡ thông dụng
+485|Lấy bước ren của một vít thông dụng. Vẽ đường tròn bằng đường kính ngoài của nó (Ø).
+486|Bước ren
+487|Độ nâng của một vòng ren
+488|Số lượt hướng kính
+489|Độ sâu ren được cắt trong chừng này lượt, mỗi lượt vào thành sâu hơn một chút
+490|Ren trái
+491|{}: một hình không tròn: ren được phay quanh tâm của nó
+492|{}: mũi quá lớn so với lỗ ren: ren đó bị bỏ
+493|{}: đường hở bị bỏ khỏi ren
+494|Z 0 là mặt trên vật liệu, như trong G-code: kẹp cao hơn vật liệu 15 mm là 0 – 15. Mũi vươn lên từ đầu mũi, nên mọi đường cắt bên dưới một vùng đều chạm vào nó; di chuyển ở độ cao an toàn đi qua phía trên vùng thấp hơn.
+495|Một lần di chuyển trên không không thể đi vòng vùng cấm "{}" (bắt đầu hoặc kết thúc trong đó)
+496|{}: một đường cắt chạm vào vùng cấm "{}"
+497|Mặt
+498|Dưới (lật lại)
+499|Trái sang phải (trái và phải đổi chỗ)
+500|Đầu sang đầu (sau và trước đổi chỗ)
+501|Mặt dưới được cắt sau khi lật vật liệu: hãy vẽ nó như nhìn từ trên xuyên qua vật liệu.
+502|Hai mặt
+503|Lật lại
+504|Thêm lỗ căn chỉnh
+505|Hai lỗ trên đường mà vật liệu được lật quanh, khoan xuyên vật liệu vào bàn: cắm chốt vào và vật liệu nằm đúng chỗ cũ sau khi lật.
+506|Không có lớp trống cho các lỗ
+507|Lỗ căn chỉnh
+508|Hai lỗ căn chỉnh trên lớp {}
+509|Mặt cần cắt
+510|Công việc hai mặt: chỉ cắt các lớp của mặt này. Với mặt dưới, lật vật liệu theo hướng dẫn ở thẻ Vật liệu và đặt nó lên chốt căn chỉnh: bản vẽ được lật cùng.
+511|Chưa đặt kích thước vật liệu (Tệp → Mới…): mặt dưới được lật quanh giữa vùng làm việc
+512|Hoàn thiện bằng mũi nhỏ hơn sau lượt hoàn thiện của lớp đó: chỉ đi những chỗ mũi lớn không với tới (rãnh hẹp, góc sắc), nên công việc nhanh hơn nhiều.
+513|{}: mũi của lượt hoàn thiện phần còn lại phải nhỏ hơn mũi của lớp nó theo sau
+514|Rãnh dọc
+515|Gờ chỉ
+516|Kết cấu bề mặt
+517|Một rãnh dọc theo mỗi đường, dốc xuống từ bề mặt, chạy ở độ sâu của lớp rồi dốc lên lại: rãnh cột, rãnh trang trí. Dùng mũi cầu hoặc mũi V.
+518|Một biên dạng (bo tròn, lõm, ogee, vát nghiêng hoặc rãnh bán nguyệt) được quét dọc mỗi đường, rộng như yêu cầu và sâu bằng lớp, theo các lượt song song: mép ván, khung. Biên dạng nằm bên trái hướng của đường. Dùng mũi cầu.
+519|Vùng của các hình được phủ bằng những vết múc ngắn của mũi cầu theo hàng, như được chạm tay; độ sâu của lớp là vết múc sâu nhất. Bước ngang là khoảng cách các hàng.
+520|Ở cả hai đầu
+521|Bo tròn
+522|Lõm
+523|Ogee
+524|Vát nghiêng
+525|Rãnh bán nguyệt
+526|Biên dạng
+527|Dốc
+528|Độ dài dốc
+529|Theo chiều dài đường
+530|Khe giữa các nét
+531|Độ biến đổi
+532|Độ dài và độ sâu các nét thay đổi bao nhiêu
+533|Số mẫu
+534|Số khác cho nét khác; cùng số, cùng nét
+535|Góc các hàng
+536|{}: đường hở bị bỏ khỏi kết cấu bề mặt
+537|Chạm phác thảo
+538|Ảnh được vẽ lại thành các đường theo phong cách (như Dò theo phong cách), và mỗi đường được chạm bằng mũi V sâu hơn, do đó rộng hơn, ở chỗ ảnh tối hơn, đến độ sâu của lớp: trông như bản phác thảo bút chì. Bước ngang của mũi là khoảng cách các đường.
+539|Hình 3D
+540|Mỗi hình kín thành một khối 3D — vòm, dốc hoặc mặt phẳng — nổi lên khỏi vật liệu (khung quanh nó được cắt xuống đến độ sâu lớp) hoặc chìm vào trong, và được cắt như phù điêu: phá thô, hoàn thiện hoặc cả hai, có tính đến hình dạng mũi.
+541|Dạng
+542|Nổi
+543|Chìm
+544|Độ rộng dốc
+545|Vòm
+546|Mặt phẳng
+547|Hình dạng vật liệu
+548|Khối
+549|Trụ (quay)
+550|Phôi tròn được xoay bằng bộ quay của thiết bị. Áp dụng sẽ bật bộ quay với đường kính này.
+551|Chiều dài phôi
+552|Trụ nằm dọc theo X trên bộ quay; Y của bản vẽ đi vòng quanh nó và bản vẽ được trải ra từ bề mặt. Z tính từ mặt trên bề mặt, và đường cắt sâu nhất là bán kính. Điểm không nằm trên bề mặt; hãy đặt cùng điểm đó trên máy.
+553|Đã thiết lập dự án: trụ Ø {} mm dài {} mm trên bộ quay (đã bật), điểm không tại {}
+554|Bộ quay của thiết bị đang tắt.
+555|Chọn điểm không của chương trình
+556|Thao tác của lớp hiện hành
+557|Đường chạy dao
+558|Vào dao và dẫn
+559|Cầu giữ
+560|Tốc độ tiến và tốc độ quay
+561|các hình của lớp cho mặt dưới giờ là mặt B
+562|Các mặt sẽ bị bỏ có hình: dự án giữ nguyên. Hãy xóa chúng trước.
+563|một thanh
+564|một khối
+565|Đã thiết lập dự án: {} {} x {} x {} mm, điểm không tại {}
+566|Xuất thành PDF…
+567|Xuất thành PNG…
+568|Xuất thành JPG…
+569|Lưu bản vẽ thành trang PDF (A4), ảnh (PNG, JPG) hoặc DXF (tờ A4 theo milimét)
+570|Khắc V ảnh
+571|Các đường ngang qua ảnh, cắt bằng mũi V: ảnh càng tối, rãnh càng sâu nên càng rộng; rãnh rộng nhất rộng bằng khoảng cách các đường (không sâu hơn lớp). Trắng không cắt.
+572|Khoảng cách giữa các đường khắc: gần hơn thì mịn hơn và lâu hơn. Rãnh sâu nhất rộng bằng chừng này.
+573|{}: Khắc V ảnh cần mũi V hoặc mũi khắc: độ rộng rãnh chỉ theo ảnh khi dùng mũi nhọn

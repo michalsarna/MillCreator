@@ -5,7 +5,7 @@ use std::sync::Once;
 
 /// The texts of the other languages, in the order of `Lang::ALL` after the first seven. One line each:
 /// `id|translation`, where the id is the line of the English text in `assets/lang/keys.txt`.
-const EXTRA_FILES: [&str; 23] = [
+const EXTRA_FILES: [&str; i18n::EXTRA_LANGS] = [
     include_str!("../../../assets/lang/bg.txt"),
     include_str!("../../../assets/lang/ca.txt"),
     include_str!("../../../assets/lang/hr.txt"),
@@ -29,6 +29,21 @@ const EXTRA_FILES: [&str; 23] = [
     include_str!("../../../assets/lang/es.txt"),
     include_str!("../../../assets/lang/sv.txt"),
     include_str!("../../../assets/lang/uk.txt"),
+    include_str!("../../../assets/lang/ja.txt"),
+
+    include_str!("../../../assets/lang/ko.txt"),
+
+    include_str!("../../../assets/lang/zh-hant.txt"),
+
+    include_str!("../../../assets/lang/tr.txt"),
+
+    include_str!("../../../assets/lang/vi.txt"),
+
+    include_str!("../../../assets/lang/id.txt"),
+
+    include_str!("../../../assets/lang/sr.txt"),
+
+    include_str!("../../../assets/lang/bs.txt"),
 ];
 const KEYS: &str = include_str!("../../../assets/lang/keys.txt");
 

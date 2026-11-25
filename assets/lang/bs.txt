@@ -1,0 +1,574 @@
+0|3D prikaz posla…
+1|Kopija među vašim glodalima
+2|Rupa u središtu svakog zatvorenog oblika sloja, u koracima dubine prolaza.
+3|Naziv porta ili USB ID proizvođača i proizvoda (VID:PID, heksadecimalno): koristi se port koji ima te ID-ove.
+4|Gotovo glodalo se ne može mijenjati. Napravite kopiju da biste ga promijenili.
+5|Rotacioni dodatak je povezan
+6|Uobičajena veličina mašine…
+7|Prekini posao koji radi
+8|O programu
+9|Dodaj kameru
+10|Dodaj uređaj
+11|Dodaj uređaj
+12|Dodaj uređaj…
+13|Adresa
+14|Nakon povezivanja
+15|Alarm {}
+16|Cijela površina unutar linije se izglođuje, prsten po prsten, do dubine sloja.
+17|Raspored
+18|Nazad lijevo
+19|Nazad desno
+20|Nazad na prvi pogled. Dvoklik na sliku radi isto.
+21|Loptasto
+22|Brzina prijenosa
+23|Veži za ovaj port
+24|Glodalo
+25|Biblioteka glodala
+26|Biblioteka glodala…
+27|Vezani USB uređaj
+28|S radijusom ugla
+29|Kamera
+30|Naziv kamere
+31|Broj kamere
+32|Kamera ovog računara
+33|Rotacija kamere
+34|Pogled kamere
+35|Kamere
+36|Datoteka se ne može koristiti
+37|Provjeri program
+38|Prvo se provjerava program…
+39|Provjera programa…
+40|Odaberi glodalo
+41|Prvo odaberite port ili host u postavkama uređaja.
+42|Odaberite mašinu s kojom ćete raditi.
+43|Stezna glava
+44|Obim
+45|Očisti alarm
+46|Čišćenje alarma preskače početni položaj: koristite samo kada se zna da glava stoji na sigurnom mjestu.
+47|Potvrdi brisanje
+48|Poveži
+49|Automatski se ponovo poveži
+50|Povezano
+51|Veza
+52|Tip veze
+53|Konzola
+54|Upravljanje
+55|Kopirano u {}
+56|Radijus ugla
+57|Nije moguće sačuvati
+58|Nije moguće sačuvati: {}
+59|Brojanje puni bafer kontrolera i brzo je. Jednostavno šalje jedan red i čeka njegov ok: sporo, ali za firmver koji pogrešno odgovara.
+60|Sijeci unutar linije
+61|Sijeci izvan linije
+62|Rezovi
+63|Rezovi: {} m, oko {} min
+64|Prečnik sječenja
+65|Dužina sječenja
+66|Obriši ovu kameru
+67|Dubina
+68|Uređaj
+69|Postavke uređaja
+70|Postavke uređaja…
+71|Dijagnostika i statistika…
+72|Prekini vezu
+73|Burgija
+74|Uređivanje
+75|Uredi…
+76|Glodalo za graviranje
+77|Greška {} u redu {}: {}
+78|Greška {}: {}
+79|Izvezi G-code…
+80|Izvezi ovo glodalo…
+81|Izvezi…
+82|Pomak
+83|Postavke firmvera ($$)…
+84|Ravno vretenasto glodalo
+85|Sječiva
+86|Prati liniju
+87|Okvir
+88|Uokviravanje radnog prostora
+89|Odozgo
+90|Od reda…
+91|Naprijed lijevo
+92|Naprijed desno
+93|GRBL 1.1 ima tri ose: osa A nije dostupna, koristi se Y.
+94|Općenito
+95|Obiđi okvir gdje će se raditi
+96|Pomoć
+97|Najveća brzina
+98|Početni položaj
+99|Dovedi mašinu u početni položaj
+100|Host
+101|Nemam uređaj
+102|Uvezi LightBurn projekat…
+103|Uvezen uređaj {}
+104|Uvezi…
+105|Vrsta
+106|Slojevi
+107|Izostavljeno
+108|Najmanja brzina
+109|Nula mašine (0,0)
+110|Materijal
+111|Materijal radnog predmeta
+112|Metal
+113|Mikrokoraci motora za jedan pun okret onoga što pokreće (stezne glave ili jednog valjka).
+114|Mikrokoraka po okretu
+115|Gloda se: ulazi u putanje alata i G-code
+116|Glodanje
+117|Pokreti na sigurnoj visini
+118|Moja glodala
+119|Novo
+120|Novo glodalo
+121|Nema glodala
+122|Još nema uređaja. Dodajte jedan ili radite bez mašine.
+123|Nema porta
+124|Nije http ili https adresa.
+125|Bilješke
+126|Bilješke o ovoj mašini
+127|Ovdje još nema ničega
+128|Ništa nije odabrano
+129|Može se mijenjati samo boja plastike. Materijal i njegova debljina prikazuju se u 3D prikazu i čuvaju u projektu.
+130|Otvorite crtež ili započnite prazan dizajn.
+131|Otvori vezu prema kontroleru postavljenu u postavkama uređaja
+132|Otvori prozor pregleda
+133|Otvori…
+134|Operacija
+135|Ukupna dužina
+136|Dubina prolaza
+137|Dubina prolaza (od prečnika)
+138|Plastika
+139|Pomak uranjanja
+140|Džep
+141|Port
+142|Port ili USB ID
+143|Pregled
+144|Pregled…
+145|Svojstva
+146|Stavi odabrane oblike na ovaj sloj
+147|Učitaj uređaj iz datoteke
+148|Učitaj glodala iz datoteke
+149|Spremno
+150|Gotova glodala
+151|Ponovo poveži
+152|Osvježi
+153|Zapamti USB ID-ove odabranog porta: port se ponovo nalazi po njima kada mu se promijeni naziv.
+154|Resetuj pogled
+155|Nastavi
+156|Prečnik valjka
+157|Valjci
+158|Rotacija
+159|STOP
+160|Sigurna visina
+161|Sačuvaj
+162|Sačuvaj G-code
+163|Sačuvaj kao…
+164|Sačuvaj ovaj uređaj u datoteku
+165|Sačuvaj svoja glodala u datoteku
+166|Sačuvano
+167|Uređaj sačuvan u {}
+168|Sačuvano {}
+169|Postavke
+170|Prečnik drške
+171|Oblici na ovom sloju
+172|Prikaži sliku kamere uživo ove mašine
+173|Prikaži putanje alata na radnom prostoru
+174|Prikazano na kartici Kamera
+175|Prikazano u radnom prostoru
+176|Brzina pokreta iznad materijala
+177|Vreteno
+178|Start
+179|Počni od
+180|Počni posao od reda programa
+181|Počinje posao: {} redova, ~{}
+182|Početne brzine za sloj
+183|Bočni korak
+184|Bočni korak (od prečnika)
+185|Šalji posao povezanoj mašini
+186|Slanje
+187|Uključeno
+188|TCP port
+189|Konusno loptasto
+190|G-code oko posla: {}
+191|Glodalo ide oko unutrašnje strane linije, pa oblik ispada: rupa ili prozor.
+192|Glodalo ide oko vanjske strane linije, pa oblik ostaje: dio se izrezuje iz materijala.
+193|Središte glodala prati liniju: graviranje i žljebovi. Rade i otvorene linije.
+194|Provjera nije našla ništa pogrešno.
+195|Provjera nije našla ništa. Posao radi.
+196|Provjera je našla problema: {}, prvi u redu {}. Posao nije pokrenut.
+197|Kontroleru treba {} koraka po mm na osi Y ($101).
+198|Rezovi izlaze van radnog prostora uređaja
+199|Uređaj ovog projekta
+200|Uređaj je dodan.
+201|Uređaj je sačuvan.
+202|Crtež je viši od obima radnog predmeta ({} mm)
+203|Datoteka je prevelika
+204|Posao je završen, s {} problema (pogledajte Konzolu).
+205|Posao je završen.
+206|Posao je pauziran: {}
+207|Posao radi.
+208|Mjerenje na senzoru nije uspjelo: nema kontakta ili alarm.
+209|Referentni alat je izmjeren: Z {} na senzoru.
+210|Alat je izmjeren; još nema reference za poređenje.
+211|Put oko radnog predmeta: dizajn ne smije biti viši.
+212|Nema šta da se siječe: stavite oblike na slojeve koji imaju glodalo.
+213|Nema šta da se uokviri: stavite oblike na slojeve koji imaju glodalo.
+214|Još nema šta da se prikaže: nacrtajte oblike i stavite ih na slojeve koji imaju glodalo.
+215|Debljina
+216|Ova verzija ne može koristiti kamere računara.
+217|Ovaj uređaj nema uključenu kameru. Dodajte je u postavkama uređaja.
+218|Ovaj uređaj nije na listi: došao je s projektom
+219|Ovo je zamjena za uređaj (Dummy): zadani radni prostor i brzine.
+220|Vrijeme {} / {}
+221|Prečnik vrha
+222|Previše uređaja
+223|Putanje alata
+224|Vrsta
+225|Odveži
+226|Jedinice
+227|V-glodalo
+228|Prikaz
+229|Opcije prikaza…
+230|Sačekaj nakon uključivanja
+231|Čeka se slika…
+232|Kada veza sama pukne, pokušavaj ponovo svakih nekoliko sekundi dok ne pritisnete Prekini vezu.
+233|S rotacionim dodatkom osa Y okreće radni predmet: crtež ne smije biti viši od obima radnog predmeta. Model je jednostavan (stezna glava se okreće prema prečniku radnog predmeta, valjci pomjeraju površinu kao svoju); prava mašina zahtijeva ispitivanje.
+234|Drvo, tamno
+235|Drvo, svijetlo
+236|Drvo, srednje
+237|Radite na projektu bez mašine: jednostavan uređaj po imenu Dummy, sa zadanim radnim prostorom i brzinama
+238|Prečnik radnog predmeta
+239|Z je koliko vreteno ide nadolje od vrha materijala. Sigurna visina je gdje se vreteno kreće između rezova.
+240|Z je postavljen prema referenci.
+241|glodala dodana
+242|glodala dodana u biblioteku
+243|npr. Moja CNC glodalica
+244|ništa
+245|ovaj projekat je napravljen za drugu mašinu: {}
+246|{} prolaza do {} mm
+247|{}: nije odabrano glodalo
+248|{}: nema šta da se siječe (linija je možda premala za glodalo)
+249|{}: otvorene linije se izostavljaju iz džepa
+250|{}: otvorene linije se izostavljaju iz profila (koristite „Prati liniju”)
+251|{}: slike se ne glodaju
+252|{}: dubina je ograničena hodom mašine ({} mm)
+253|{}: dubina od {} mm je veća od debljine materijala ({} mm)
+254|{}: {} rpm je van opsega vretena {}…{} rpm
+255|Uvezi UGS dizajn…
+256|Prvi prolaz
+257|Počni plitkim prolazom duž ivica
+258|Svaki sloj prvo jednom prođe duž ivica koje će sjeći, samo ovoliko duboko, što čisto probija vrh materijala. Džepovi ga imaju samo duž ivice; bušenje ga nema. Radi sa svakim glodalom.
+259|Dubina prvog prolaza
+260|Slika
+261|Diterovani redovi
+262|Tačke
+263|Metod slike
+264|Diterovanje
+265|Ugao skeniranja
+266|Slika na sloju se gravira: redovi ili tačke prema diterovanoj slici, ili redovi čija dubina prati ton.
+267|Dubina po tonu
+268|Slika se diteruje i svaki red se siječe na dubini sloja gdje je tamna. Metod diterovanja se bira ispod.
+269|Rupa do dubine sloja za svaku tamnu ćeliju diterovane slike.
+270|Redovi se sijeku dubinom koja prati ton slike: što tamnije, to dublje, do dubine sloja.
+271|Ugao redova gravure
+272|{}: program slike je predug: ostatak je izostavljen (koristite veći bočni korak)
+273|3D reljef
+274|Reljef: crno je najdublje, bijelo ostaje nesječeno. Prolazi dubine prolaza do pune dubine, a oblik glodala se uzima u obzir. Model se može izvesti kao STL.
+275|Izvezi reljef kao STL…
+276|Nema reljefa za izvoz: stavite sliku na sloj s operacijom Slika i metodom 3D reljef.
+277|Uklopi u radni prostor
+278|Uklopi u elemente
+279|Zumiraj da se vidi cijeli radni prostor mašine
+280|Zumiraj da svi rezovi ispune prozor
+281|Jedan po jedan element
+282|Svaki element (grupa ili oblik koji nije ni u jednoj) siječe se u potpunosti, svi njegovi slojevi i svi prolazi, prije sljedećeg; najbliži element ide prvi. Isključeno: sloj po sloj, prolaz po prolaz.
+283|Samo odabir
+284|Sijeku se samo oblici odabrani na radnom prostoru kada se G-code sačuva ili posao pokrene.
+285|Nema šta da se siječe: ništa nije odabrano
+286|Izvezi izglodani komad kao STL…
+287|Nema šta da se izveze: posao još nema rezova.
+288|G-code
+289|Radne koordinate
+290|Nula programa
+291|Program bira ovaj radni koordinatni sistem (G54 … G59, čija se nula postavlja na mašini, na primjer dodirom materijala) i broji od nule ispod, date u koordinatama radnog prostora. Ništa: program broji od nule mašine.
+292|Vlastiti G-code dodaje se svakom programu, jedna komanda po redu (najviše 20 redova).
+293|Na početku programa
+294|Pri svakoj zamjeni glodala
+295|Pri svakoj promjeni operacije
+296|Na kraju programa
+297|Smjer
+298|Kako je nacrtano
+299|Istosmjerno
+300|Suprotnosmjerno
+301|Ostavi dodatak
+302|Završni prolaz
+303|Ulaz
+304|Uranjanje
+305|Cik-cak rampa
+306|Rampa duž konture
+307|Spirala
+308|Ugao rampe
+309|Pomak rampe
+310|0 = pomak uranjanja
+311|Mostići
+312|Vrsta mostića
+313|Pun
+314|Djelimičan
+315|Rampa
+316|Širina mostića
+317|Visina mostića
+318|Nagib mostića
+319|Razmak mostića
+320|Najmanje i najviše mostića
+321|Bez mostića na rupama
+322|{}: spirala negdje nije stala: tamo je korištena rampa duž konture
+323|{}: neki prstenovi su prekratki za sve svoje mostiće: imaju ih manje
+324|{}: ugao rampe od {}° je strm (više od 45°)
+325|{}: mostići su visoki kao rez: dio se ne izrezuje
+326|Postavi mostiće ručno
+327|Kliknite na obris da dodate mostić, prevucite mostić da ga pomjerite, kliknite mostić da ga uklonite. Prsten s ručno postavljenim mostićima dobija samo njih.
+328|Obriši ručno postavljene mostiće
+329|Uvezi DXF…
+330|Poravnavanje površine
+331|Proširivanje rupe
+332|Obaranje ivice
+333|Dogbone žlijeb
+334|Vrh materijala se poravnava preko okvira oblika sloja; glodalo malo prelazi ivicu.
+335|Okrugla rupa veća od glodala: glodalo se spušta spiralno, zatim jednom obiđe na punoj dubini.
+336|Ivica oblika se obara: V-glodalo prati liniju na dubini koja daje traženu širinu obaranja.
+337|Glodalo ide oko unutrašnje strane linije i u svaki oštar ugao, tako da okruglo glodalo ostavlja mjesta za četvrtasti dio.
+338|Prstenovi
+339|Raster
+340|Prije
+341|Poslije
+342|Uzorak džepa
+343|Ugao rastera
+344|Prolaz po obrisu
+345|Ostatak sloja
+346|Prepust
+347|Širina obaranja
+348|Trohoide
+349|Prečnik trohoide
+350|Korak trohoide
+351|Polukrugovi
+352|{}: obaranje ivice zahtijeva V-glodalo ili glodalo za graviranje
+353|{}: sloj ostatka džepa nema glodalo
+354|{}: glodalo ostatka džepa mora biti manje od glodala sloja koji preuzima
+355|{}: nema šta da se poravna: nacrtajte oblik koji daje veličinu površine
+356|V-rezbarenje
+357|V-glodalo ide dublje što je dalje od ivice oblika, pa su zidovi kosi a uglovi oštri. Dubina je najveća do koje glodalo ide; širi oblik dobija ravno dno.
+358|Utičnica
+359|Utikač
+360|Grubo i fino
+361|Grubo
+362|Fino
+363|Uvezi 3D model kao reljef…
+364|{}: otvorene linije se izostavljaju iz V-rezbarenja
+365|{}: V-rezbarenje zahtijeva V-glodalo ili glodalo za graviranje
+366|{}: ravno dno se siječe V-glodalom: ostavlja brazde i dugo traje (bolje je ravno glodalo na sloju Džep)
+367|{}: program V-rezbarenja je predug: ostatak je izostavljen
+368|Početna dubina
+369|Ništa se ne siječe pliće od ovoga
+370|Intarzija
+371|Zazor intarzije
+372|Zazor između utikača i utičnice
+373|Dio reljefa
+374|model je viši od materijala: reljef se siječe samo onoliko duboko koliko sloj kaže
+375|Model {} nije mogao biti uvezen: {}
+376|Model {} nema površinu gledano odozgo
+377|Model {} uvezen kao reljef na sloju {}: {} x {} x {} mm
+378|Usisivač
+379|Uključuje usisivač vlastitim redovima uređaja (Postavke uređaja, G-code)
+380|Usisivač uključen
+381|Usisivač isključen
+382|Izmjenjivač alata
+383|Sam mijenja glodalo (T… M6)
+384|Program traži glodalo s T<broj> M6 i nastavlja bez pauze. Svako glodalo mora imati svoj broj u biblioteci. Kontroler mora znati M6 (grblHAL, FluidNC); običan GRBL ne zna.
+385|Broj u izmjenjivaču
+386|Mjesto glodala u izmjenjivaču alata: program ga traži s T… M6. 0 = nije u izmjenjivaču
+387|{}: glodalo nema broj u izmjenjivaču: od mašine se umjesto toga traži da stane
+388|{}: sloj traži usisivač, ali uređaj nema redove koji ga uključuju
+389|Okvir oko obrisa
+390|Okvir ide oko obrisa rezova (gumica) umjesto oko kutije
+391|Središte rupe je sada nula X i Y; rupa je {} x {} mm
+392|Nalaženje središta nije uspjelo: nema kontakta ili alarm.
+393|Projekat podešen: materijal {} x {} x {} mm, nula u {}
+394|Postavke projekta…
+395|Širina materijala
+396|Visina materijala
+397|Z se broji od dna materijala
+398|Radni prostor je materijal
+399|Materijal leži gore lijevo na stranici. Program je pisan za radni koordinatni sistem G54 s nulom na mjestu koje odaberete: postavite tu nulu na mašini. Z se broji od vrha materijala ili od njegovog dna.
+400|Preskoči
+401|Još nema predložaka
+402|Primijeni ove postavke na sloj
+403|Zaboravi ovaj predložak
+404|Sačuvaj kao predložak
+405|Zadrži način sječenja ovog sloja pod ovim nazivom
+406|Prvo postavite adresu ploče (Postavke uređaja → Veza).
+407|Razgovor s Duetom…
+408|Poslano Duetu i pokrenuto. Stanje: {}
+409|Stanje Dueta: {}
+410|Duet: {}
+411|Duet sam pokreće program: pošaljite ga i pokrenite, čitajte stanje, zaustavite. Ručno pomjeranje i korekcije nisu dostupni. Lozinka se ne čuva.
+412|Pošalji i pokreni
+413|Pošalji program na ploču i pokreni ga tamo
+414|Stanje
+415|Duet / RepRapFirmware (HTTP)
+416|Duet ploča sama pokreće program: šalje se preko mreže i tamo pokreće. Ručno pomjeranje i korekcije nisu dostupni.
+417|Lozinka
+418|Ne čuva se: ponovo se traži kada se program otvori
+419|Izglodani komad ne može se izvesti kao STL dok je odabran rotacioni dodatak.
+420|Umetni
+421|Pogled ima najviše tri okna
+422|Prikaži pregled ovdje
+423|Nijedna G-code datoteka nije otvorena: Datoteka, Pogledaj G-code datoteku…
+424|0 = puna dubina u jednom prolazu
+425|{}: jedan prolaz od {} mm dublji je od reznog dijela glodala ({} mm)
+426|Pregled G-code
+427|Prikaži G-code bez čuvanja
+428|pregled
+429|G-code se prikazuje, ništa se ne čuva
+430|Vlastiti G-code uređaja: {}
+431|I pri zamjeni glodala i operacije:
+432|Brzina sječenja (Vc)
+433|Pomak po zubu (fz)
+434|Uranjanje po zubu
+435|Iz glodala: prečnik i broj sječiva
+436|Ostani dolje između prstenova
+437|Na svakoj dubini prstenovi slijede jedan za drugim i glodalo prelazi na sljedeći prsten rezom kroz materijal, kada cijeli put leži u džepu; inače se podiže kao obično
+438|Odaberi na radnom prostoru
+439|Sljedeći klik na radnom prostoru postavlja nulu (privlači se na uglove i sredine oblika); ikona osa se može prevlačiti
+440|Kliknite na radni prostor da postavite nulu programa (Esc otkazuje)
+441|Nula programa je na X {} Y {}
+442|Učitaj predložak
+443|Glodalo iz predloška nije u biblioteci: sloj nema glodalo
+444|Zum
+445|Nije adresa kamere (http, https, rtsp, udp, rtp ili rtmp).
+446|O programu MillCreator
+447|Projekat na materijalu
+448|Oblici crteža preko vrha materijala, u boji svog sloja
+449|LinuxCNC (datoteka)
+450|LinuxCNC sam pokreće program: Počni čuva G-code datoteku za njega. Nije isprobano na pravoj mašini.
+451|Tehnički crtež
+452|Prikaži tehnički crtež…
+453|Dio kao tehnički crtež: pogledi sprijeda, sa strane i odozgo, s kotama
+454|Pogled sprijeda
+455|Pogled sa strane
+456|Pogled odozgo
+457|Razmjera {}
+458|Mjere u mm
+459|Mjere u inčima
+460|Usidri kao karticu
+461|Prikaži crtež kao karticu radnog prostora, pored crteža i pregleda
+462|Sačuvaj crtež kao sliku (PNG, JPG) ili kao PDF stranicu (A4)
+463|Vrsta crteža
+464|Mjere u {}
+465|ISO 128 (prva projekcija: Evropa, većina svijeta)
+466|ASME Y14 (treća projekcija: SAD, Kanada)
+467|JIS B 0001 (treća projekcija: Japan)
+468|Sječivo
+469|Pomak {} mm
+470|Pomak vrha
+471|Koliko je vrh sječiva iza svoje ose: daje ga proizvođač sječiva
+472|Okreni na uglovima oštrijim od
+473|Sijeci i preko početka
+474|Zatvoreni obris siječe se ovoliko preko početka, da se zatvori
+475|Vlačeći nož
+476|Vlačeći nož u držaču siječe duž linija do dubine sloja, dok vreteno miruje: pomak mu se nadoknađuje na svakom uglu, prvo se sijeku rupe, a zatvorena linija siječe se preko svog početka.
+477|{}: ulaz negdje nije stao i izostavljen je
+478|{}: ulaz negdje nije stao i smanjen je
+479|Glodalo za navoje
+480|Glodalo za navoje obilazi svaki krug po spirali, jedan korak po okretu, do dubine sloja: navoj u rupi (matica) ili oko ispupčenja (vijak). Nacrtajte krugove vanjskog prečnika vijka; za maticu prvo izbušite ili proširite rupu na otprilike prečnik minus 1,08 × korak.
+481|Navoj
+482|Unutrašnji (matica)
+483|Vanjski (vijak)
+484|Uobičajena veličina
+485|Uzima korak uobičajenog vijka. Nacrtajte krugove njegovog vanjskog prečnika (Ø).
+486|Korak
+487|Porast jednog okreta navoja
+488|Radijalni prolazi
+489|Dubina navoja siječe se u ovoliko navrata, svaki malo dublje u zid
+490|Lijevi navoj
+491|{}: oblik nije okrugao: navoj se gloda oko njegove sredine
+492|{}: glodalo je preveliko za rupu navoja: taj navoj je izostavljen
+493|{}: otvorene linije se izostavljaju iz navoja
+494|Z 0 je vrh materijala, kao u G-code: stega koja stoji 15 mm iznad materijala je 0 – 15. Glodalo se pruža nagore od vrha, pa svaki rez ispod zone je dodiruje; pokreti na sigurnoj visini prelaze preko niže zone.
+495|Pokret kroz zrak ne može zaobići zabranjenu zonu „{}” (počinje ili se završava u njoj)
+496|{}: rez dodiruje zabranjenu zonu „{}”
+497|Strana
+498|Donja (okrenuta)
+499|S jedne na drugu stranu (lijevo i desno mijenjaju mjesta)
+500|S kraja na kraj (nazad i naprijed mijenjaju mjesta)
+501|Donja strana se siječe pošto se materijal okrene: nacrtajte je kako se vidi odozgo, kroz materijal.
+502|Dvije strane
+503|Okrenuto
+504|Dodaj rupe za poravnanje
+505|Dvije rupe na liniji oko koje se materijal okreće, izbušene kroz njega u sto: stavite klinove u njih i materijal leži na istom mjestu pošto se okrene.
+506|Nema praznog sloja za rupe
+507|Rupe za poravnanje
+508|Dvije rupe za poravnanje na sloju {}
+509|Strana za sječenje
+510|Dvostrani posao: sijeku se samo slojevi ove strane. Za donju okrenite materijal kako kaže kartica Materijal i stavite ga na klinove za poravnanje: crtež se okreće s njim.
+511|Veličina materijala nije postavljena (Datoteka → Novo…): donja strana se okreće oko sredine radnog prostora
+512|Završna obrada manjim glodalom nakon završne obrade tog sloja: ide samo tamo gdje veće glodalo nije moglo doseći (uske udoline, oštri uglovi), pa posao traje mnogo kraće.
+513|{}: glodalo završne obrade ostatka mora biti manje od glodala sloja koji prati
+514|Kanelure
+515|Profilna letva
+516|Tekstura
+517|Žlijeb duž svake linije koji se rampom spušta s površine, ide na dubini sloja i rampom se ponovo penje: kanelure stuba, ukrasni žljebovi. Koristite loptasto ili V-glodalo.
+518|Profil (zaobljenje, udubljenje, ogee, kosina ili poluokrugli žlijeb) provlači se duž svake linije, širok koliko se traži i dubok koliko sloj, u prolazima jedan pored drugog: ivica daske, ram. Profil leži lijevo od smjera linije. Koristite loptasto glodalo.
+519|Površina oblika pokriva se kratkim udubljenjima loptastog glodala u redovima, kao da je rezbareno rukom; dubina sloja je najdublje udubljenje. Bočni korak je razmak redova.
+520|Na oba kraja
+521|Zaobljenje
+522|Udubljenje
+523|Ogee
+524|Kosina
+525|Poluokrugli žlijeb
+526|Profil
+527|Rampe
+528|Dužina rampe
+529|Od dužine linije
+530|Razmak između poteza
+531|Varijacija
+532|Koliko se dužina i dubina poteza mijenjaju
+533|Broj uzorka
+534|Drugi broj daje druge poteze; isti broj, iste poteze
+535|Ugao redova
+536|{}: otvorene linije se izostavljaju iz teksture
+537|Rezbarenje skice
+538|Slika se ponovo crta kao linije u stilu (kao Stilsko trasiranje), i svaka linija se rezbari V-glodalom dublje, pa i šire, gdje je slika tamnija, do dubine sloja: izgleda kao skica olovkom. Bočni korak glodala je razmak linija.
+539|3D oblik
+540|Svaki zatvoreni oblik postaje 3D forma — kupola, kosina ili ravan vrh — izdignuta iz materijala (okvir oko nje se siječe do dubine sloja) ili utonula u njega, i siječe se kao reljef: grubo, fino ili oboje, uzimajući u obzir oblik glodala.
+541|Forma
+542|Izdignuto
+543|Udubljeno
+544|Širina kosine
+545|Kupola
+546|Ravan vrh
+547|Oblik materijala
+548|Blok
+549|Valjak (rotacija)
+550|Okrugli radni predmet koji okreće rotacioni dodatak uređaja. Primjena uključuje rotacioni dodatak s ovim prečnikom.
+551|Dužina radnog predmeta
+552|Valjak leži duž X na rotacionom dodatku; Y crteža ide oko njega i crtež se odmotava s njegove površine. Z se broji od vrha površine, a najdublji rez je poluprečnik. Nula je na površini; postavite istu na mašini.
+553|Projekat podešen: valjak Ø {} mm i dug {} mm na rotacionom dodatku (uključen), nula u {}
+554|Rotacioni dodatak uređaja je isključen.
+555|Odaberi nulu programa
+556|Operacija aktivnog sloja
+557|Putanja alata
+558|Ulaz i prilaz
+559|Mostići
+560|Pomaci i brzine
+561|oblici slojeva za donju stranu sada su strana B
+562|Strane koje bi nestale imaju oblike: projekat ostaje kakav je bio. Prvo ih obrišite.
+563|greda
+564|blok
+565|Projekat podešen: {} od {} x {} x {} mm, nula u {}
+566|Izvezi kao PDF…
+567|Izvezi kao PNG…
+568|Izvezi kao JPG…
+569|Sačuvaj crtež kao PDF stranicu (A4), kao sliku (PNG, JPG) ili kao DXF (list A4 u milimetrima)
+570|Foto V-rezbarenje
+571|Linije preko slike, sječene V-glodalom: što je slika tamnija, to je žlijeb dublji i zato širi; najširi žlijeb je širok kao razmak linija (ne dublji od sloja). Bijelo se ne siječe.
+572|Razmak između linija rezbarenja: gušće je finije i traje duže. Najdublji žlijeb je ovoliko širok.
+573|{}: Foto V-rezbarenje zahtijeva V-glodalo ili glodalo za graviranje: širina žljebova prati sliku samo sa šiljatim glodalom
