@@ -1,4 +1,4 @@
-🌐 [English](Layers-and-Operations) · **Polski**
+🌐 [English](Layers-and-Operations) · **Polski** · [简体中文](Layers-and-Operations-ZH) · [한국어](Layers-and-Operations-KO)
 
 # Warstwy i operacje
 

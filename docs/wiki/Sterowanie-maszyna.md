@@ -1,4 +1,4 @@
-🌐 [English](Machine-Control) · **Polski**
+🌐 [English](Machine-Control) · **Polski** · [简体中文](Machine-Control-ZH) · [한국어](Machine-Control-KO)
 
 # Sterowanie maszyną
 

@@ -1,1 +1,1 @@
-MillCreator · MIT OR Apache-2.0 · [GitHub](https://github.com/michalsarna/MillCreator) · [Issues](https://github.com/michalsarna/MillCreator/issues) · [☕ Buy me a coffee](https://buymeacoffee.com/michalsarna) · Polska wersja / Polish: [Home-PL](Home-PL)
+MillCreator · MIT OR Apache-2.0 · [GitHub](https://github.com/michalsarna/MillCreator) · [Issues](https://github.com/michalsarna/MillCreator/issues) · [☕ Buy me a coffee](https://buymeacoffee.com/michalsarna) · Polska wersja / Polish: [Home-PL](Home-PL) · 简体中文: [Home-ZH](Home-ZH) · 한국어: [Home-KO](Home-KO)

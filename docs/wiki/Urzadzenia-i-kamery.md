@@ -1,4 +1,4 @@
-🌐 [English](Devices-and-Cameras) · **Polski**
+🌐 [English](Devices-and-Cameras) · **Polski** · [简体中文](Devices-and-Cameras-ZH) · [한국어](Devices-and-Cameras-KO)
 
 # Urządzenia i kamery
 

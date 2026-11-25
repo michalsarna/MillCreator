@@ -1,4 +1,4 @@
-🌐 [English](Drag-Knife) · **Polski**
+🌐 [English](Drag-Knife) · **Polski** · [简体中文](Drag-Knife-ZH) · [한국어](Drag-Knife-KO)
 
 # Nóż wleczony
 
