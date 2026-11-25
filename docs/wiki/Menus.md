@@ -20,7 +20,7 @@ The keys are written as on Windows and Linux (Ctrl); on macOS Ctrl is Cmd. An en
 | **Open recent** | | The last files (up to 10); **Clear list** empties it. |
 | **Save** | Ctrl+S | Saves the project (`.cre`). |
 | **Save as…** | Ctrl+Shift+S | Saves the project under another name. |
-| **Project information…** | | The file (name, folder, size, when it was created and changed), when the project was created, its creator, contributors and edits. Every save records the name set in **Settings → Program options → Your name** (the same in every program), the time and the program with its version. |
+| **Project information…** | | The file (name, folder, size, when it was created and changed), when the project was created, its creator, contributors and edits. Every save by hand records the person set in **Settings → Program options → Author** (name, e-mail, other; the same in every program), the time and the program with its version, at most once a minute. |
 | **Project setup…** | | The size and thickness of the material, the zero of the program on it, Z from the bottom, the work area as the material. See [Quick Start](Quick-Start#2-the-project-setup). |
 | **Import ▸ Import image…** | | A picture (PNG, JPG, BMP, GIF, WebP) for the page, with the import dialog. See [Design Tools](Design-Tools). |
 | **Import ▸ Import SVG…** | Ctrl+I | The paths of an SVG are added to the open drawing, each on the layer nearest to its colour, and its pictures on the active layer. **Open…** would make a new tab of the file. |
