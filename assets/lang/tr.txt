@@ -1,0 +1,574 @@
+0|İşin 3B görünümü…
+1|Kendi uçlarınız arasına bir kopya
+2|Katmanın her kapalı şeklinin ortasına, paso derinliği adımlarıyla bir delik.
+3|Bir port adı veya USB satıcı ve ürün kimliği (VID:PID, onaltılık): bu kimliklere sahip port kullanılır.
+4|Hazır bir uç değiştirilemez. Değiştirmek için bir kopya yapın.
+5|Bir döner aparat bağlı
+6|Yaygın bir makine boyutu…
+7|Çalışan işi iptal et
+8|Hakkında
+9|Kamera ekle
+10|Bir cihaz ekle
+11|Cihaz ekle
+12|Cihaz ekle…
+13|Adres
+14|Bağlandıktan sonra
+15|Alarm {}
+16|Çizginin içindeki alanın tamamı halka halka, katmanın derinliğine kadar boşaltılır.
+17|Düzenle
+18|Sol arka
+19|Sağ arka
+20|İlk görünüme dön. Resme çift tıklamak da aynısını yapar.
+21|Küresel uç
+22|Baud hızı
+23|Bu porta bağla
+24|Uç
+25|Uç kitaplığı
+26|Uç kitaplığı…
+27|Bağlı USB cihazı
+28|Köşe radyüslü (köşe yarıçapı)
+29|Kamera
+30|Kamera adı
+31|Kamera numarası
+32|Bu bilgisayarın kamerası
+33|Kamera döndürme
+34|Kamera görünümü
+35|Kameralar
+36|Dosya kullanılamıyor
+37|Programı denetle
+38|Önce program denetleniyor…
+39|Program denetleniyor…
+40|Bir uç seçin
+41|Önce cihaz ayarlarında bir port veya ana bilgisayar seçin.
+42|Çalışacağınız makineyi seçin.
+43|Ayna
+44|Çevre
+45|Alarmı temizle
+46|Alarmı temizlemek referanslamayı atlar: yalnızca kafanın güvenli bir yerde durduğu biliniyorsa kullanın.
+47|Silmeyi onayla
+48|Bağlan
+49|Otomatik olarak yeniden bağlan
+50|Bağlı
+51|Bağlantı
+52|Bağlantı türü
+53|Konsol
+54|Kontrol
+55|{} konumuna kopyalandı
+56|Köşe yarıçapı
+57|Kaydedilemedi
+58|Kaydedilemedi: {}
+59|Sayma, denetleyicinin arabelleğini doldurur ve hızlıdır. Basit, bir satır gönderip ok yanıtını bekler: yavaştır ama yanlış yanıt veren donanım yazılımları içindir.
+60|Çizginin içinden kes
+61|Çizginin dışından kes
+62|Kesimler
+63|Kesimler: {} m, yaklaşık {} dk
+64|Kesme çapı
+65|Kesme uzunluğu
+66|Bu kamerayı sil
+67|Derinlik
+68|Cihaz
+69|Cihaz ayarları
+70|Cihaz ayarları…
+71|Tanılama ve istatistikler…
+72|Bağlantıyı kes
+73|Matkap
+74|Düzen
+75|Düzenle…
+76|Gravür ucu
+77|{}. satırda hata {}: {}
+78|Hata {}: {}
+79|G-code dışa aktar…
+80|Bu ucu dışa aktar…
+81|Dışa aktar…
+82|İlerleme
+83|Donanım yazılımı ayarları ($$)…
+84|Düz uçlu freze
+85|Ağız sayısı
+86|Çizgiyi izle
+87|Çerçeve
+88|Çalışma alanı çerçeveleniyor
+89|Yukarıdan
+90|Satırdan…
+91|Sol ön
+92|Sağ ön
+93|GRBL 1.1'in üç ekseni var: A ekseni yok, Y kullanılır.
+94|Genel
+95|İşin yapılacağı kutunun çevresinden dolaş
+96|Yardım
+97|En yüksek hız
+98|Referans
+99|Makineyi referansla
+100|Ana bilgisayar
+101|Cihazım yok
+102|LightBurn projesi içe aktar…
+103|{} cihazı içe aktarıldı
+104|İçe aktar…
+105|Tür
+106|Katmanlar
+107|Dışarıda bırakıldı
+108|En düşük hız
+109|Makine sıfırı (0,0)
+110|Malzeme
+111|İş parçasının malzemesi
+112|Metal
+113|Motorun sürdüğü şeyin (ayna veya bir silindir) bir tam turu için mikro adımları.
+114|Tur başına mikro adım
+115|Frezelenir: takım yollarına ve G-code'a dahil edilir
+116|Frezeleme
+117|Güvenli yükseklikteki hareketler
+118|Uçlarım
+119|Yeni
+120|Yeni uç
+121|Uç yok
+122|Henüz cihaz yok. Bir tane ekleyin ya da makinesiz çalışın.
+123|Port yok
+124|http veya https adresi değil.
+125|Notlar
+126|Bu makine hakkında notlar
+127|Burada henüz bir şey yok
+128|Hiçbir şey seçilmedi
+129|Yalnızca bir plastiğin rengi değiştirilebilir. Malzeme ve kalınlığı 3B görünümde gösterilir ve projeye kaydedilir.
+130|Bir çizim açın veya boş bir tasarıma başlayın.
+131|Cihaz ayarlarında belirtilen denetleyici bağlantısını aç
+132|Önizleme penceresini aç
+133|Aç…
+134|İşlem
+135|Toplam uzunluk
+136|Paso derinliği
+137|Paso derinliği (çapın)
+138|Plastik
+139|Dalma ilerlemesi
+140|Cep
+141|Port
+142|Port veya USB kimliği
+143|Önizleme
+144|Önizleme…
+145|Özellikler
+146|Seçili şekilleri bu katmana taşı
+147|Bir dosyadan cihaz oku
+148|Bir dosyadan uçları oku
+149|Hazır
+150|Hazır uçlar
+151|Yeniden bağlan
+152|Yenile
+153|Seçilen portun USB kimliklerini hatırla: adı değiştiğinde port bu kimliklerle yeniden bulunur.
+154|Görünümü sıfırla
+155|Sürdür
+156|Silindir çapı
+157|Silindirler
+158|Döner
+159|DUR
+160|Güvenli yükseklik
+161|Kaydet
+162|G-code kaydet
+163|Farklı kaydet…
+164|Bu cihazı bir dosyaya kaydet
+165|Uçlarınızı bir dosyaya kaydedin
+166|Kaydedildi
+167|Cihaz {} konumuna kaydedildi
+168|{} kaydedildi
+169|Ayarlar
+170|Sap çapı
+171|Bu katmandaki şekiller
+172|Bu makinenin canlı kamera resmini göster
+173|Takım yollarını çalışma alanında göster
+174|Kamera sekmesinde gösterilir
+175|Çalışma alanında gösterilir
+176|Malzeme üzerindeki hareketlerin hızı
+177|İş mili
+178|Start
+179|Başlangıç
+180|İşi programın bir satırından başlat
+181|İş başlıyor: {} satır, ~{}
+182|Bir katman için başlangıç hızları
+183|Yan adım
+184|Yan adım (çapın)
+185|İşi bağlı makineye akıt
+186|Akıtılıyor
+187|Açık
+188|TCP portu
+189|Konik küresel uç
+190|İşin etrafındaki G-code: {}
+191|Uç çizginin içinden döner, böylece şekil düşer: bir delik veya pencere.
+192|Uç çizginin dışından döner, böylece şekil kalır: malzemeden bir parça kesilir.
+193|Ucun merkezi çizgiyi izler: gravür ve oluklar. Açık çizgiler de olur.
+194|Denetim hiçbir sorun bulmadı.
+195|Denetim hiçbir şey bulmadı. İş çalışıyor.
+196|Denetim {} sorun buldu, ilki {}. satırda. İş başlatılmadı.
+197|Denetleyicinin Y ekseninde mm başına {} adıma ihtiyacı var ($101).
+198|Kesimler cihazın çalışma alanının dışına çıkıyor
+199|Bu projenin cihazı
+200|Cihaz eklendi.
+201|Cihaz kaydedildi.
+202|Çizim iş parçasının çevresinden ({} mm) yüksek
+203|Dosya çok büyük
+204|İş bitti, {} sorunla (Konsol'a bakın).
+205|İş bitti.
+206|İş duraklatıldı: {}
+207|İş çalışıyor.
+208|Sensördeki ölçüm başarısız: temas yok veya alarm.
+209|Referans takım ölçüldü: sensörde Z {}.
+210|Takım ölçüldü; henüz karşılaştırılacak referans yok.
+211|İş parçasının çevresi: tasarım bundan yüksek olamaz.
+212|Kesilecek bir şey yok: şekilleri ucu olan katmanlara koyun.
+213|Çerçevelenecek bir şey yok: şekilleri ucu olan katmanlara koyun.
+214|Henüz gösterilecek bir şey yok: şekiller çizin ve ucu olan katmanlara koyun.
+215|Kalınlık
+216|Bu derleme bilgisayarın kameralarını kullanamaz.
+217|Bu cihazın açık kamerası yok. Cihaz ayarlarından ekleyin.
+218|Bu cihaz listede değil: projeyle birlikte geldi
+219|Bu yedek cihazdır (Dummy): varsayılan çalışma alanı ve hızlar.
+220|Süre {} / {}
+221|Uç çapı
+222|Çok fazla cihaz
+223|Takım yolları
+224|Tür
+225|Bağı kaldır
+226|Birimler
+227|V-uç
+228|Görünüm
+229|Görünüm seçenekleri…
+230|Açtıktan sonra bekle
+231|Resim bekleniyor…
+232|Bağlantı kendiliğinden koptuğunda, Bağlantıyı kes'e basana kadar birkaç saniyede bir yeniden dene.
+233|Döner aparatla Y ekseni işi döndürür: çizim iş parçasının çevresinden yüksek olamaz. Model basittir (ayna iş parçası çapına göre döner, silindirler yüzeyi kendileri gibi hareket ettirir); gerçek bir makine test gerektirir.
+234|Ahşap, koyu
+235|Ahşap, açık
+236|Ahşap, orta
+237|Makinesiz bir projede çalışın: varsayılan çalışma alanı ve hızlarla Dummy adlı basit bir cihaz
+238|İş parçası çapı
+239|Z, iş milinin malzemenin üstünden ne kadar aşağı indiğidir. Güvenli yükseklik, iş milinin kesimler arasında hareket ettiği yerdir.
+240|Z referanstan ayarlandı.
+241|uç eklendi
+242|uç kitaplığa eklendi
+243|ör. CNC routerım
+244|yok
+245|bu proje başka bir makine için yapıldı: {}
+246|{} pasoda {} mm'ye
+247|{}: uç seçilmedi
+248|{}: kesilecek bir şey yok (çizgi uç için çok küçük olabilir)
+249|{}: açık çizgiler cepten çıkarılır
+250|{}: açık çizgiler profilden çıkarılır ("Çizgiyi izle" kullanın)
+251|{}: resimler frezelenmez
+252|{}: derinlik makinenin hareket alanıyla ({} mm) sınırlı
+253|{}: {} mm derinlik malzemenin kalınlığından ({} mm) fazla
+254|{}: {} rpm iş mili aralığının {}…{} rpm dışında
+255|UGS tasarımı içe aktar…
+256|İlk paso
+257|Kenarlar boyunca sığ bir pasoyla başla
+258|Her katman önce keseceği kenarlar boyunca yalnızca bu kadar derin bir kez geçer; bu, malzemenin üstünü temizce kırar. Ceplerde yalnızca kenar boyunca yapılır; delmede yoktur. Her uçla çalışır.
+259|İlk pasonun derinliği
+260|Resim
+261|Titreşimli sıralar
+262|Noktalar
+263|Resim yöntemi
+264|Titreşim
+265|Tarama açısı
+266|Katmandaki bir resim kazınır: titreşimli resme göre sıralar veya noktalar ya da derinliği tonu izleyen sıralar.
+267|Tona göre derinlik
+268|Resim titreşimli hale getirilir ve her sıra koyu olduğu yerde katmanın derinliğinde kesilir. Titreşim yöntemi aşağıda seçilir.
+269|Titreşimli resmin her koyu hücresi için katmanın derinliğinde bir delik.
+270|Sıralar, resmin tonunu izleyen bir derinlikte kesilir: ne kadar koyuysa o kadar derin, katmanın derinliğine kadar.
+271|Gravür sıralarının açısı
+272|{}: resmin programı çok uzun: geri kalanı atlandı (daha büyük bir yan adım kullanın)
+273|3B kabartma
+274|Bir kabartma: siyah en derin, beyaz kesilmeden kalır. Paso derinliği adımlarıyla tam derinliğe kadar, ucun şekli hesaba katılır. Model STL olarak dışa aktarılabilir.
+275|Kabartmayı STL olarak dışa aktar…
+276|Dışa aktarılacak kabartma yok: Resim işlemi ve 3B kabartma yöntemiyle bir katmana resim koyun.
+277|Çalışma alanına sığdır
+278|Öğelere sığdır
+279|Makinenin tüm çalışma alanı görünecek şekilde yakınlaştır
+280|Tüm kesimler pencereyi dolduracak şekilde yakınlaştır
+281|Her seferinde bir öğe
+282|Her öğe (bir grup veya hiçbirinde olmayan bir şekil), tüm katmanları ve pasolarıyla tamamen kesilir, sonra bir sonrakine geçilir; en yakın öğe önce gelir. Kapalı: katman katman, paso paso.
+283|Yalnızca seçim
+284|Yalnızca G-code kaydedildiğinde veya iş başlatıldığında çalışma alanında seçili olan şekiller kesilir.
+285|Kesilecek bir şey yok: hiçbir şey seçili değil
+286|Frezelenen parçayı STL olarak dışa aktar…
+287|Dışa aktarılacak bir şey yok: işte henüz kesim yok.
+288|G-code
+289|İş koordinatları
+290|Programın sıfırı
+291|Program bu iş koordinat sistemini seçer (G54 … G59; sıfırı makinede, örneğin malzemeye dokunarak ayarlanır) ve aşağıdaki, çalışma alanı koordinatlarında verilen sıfırdan sayar. Hiçbiri: program makine sıfırından sayar.
+292|Kendi G-code her programa eklenir, satır başına bir komut (en fazla 20 satır).
+293|Programın başında
+294|Her uç değişiminde
+295|Her işlem değişiminde
+296|Programın sonunda
+297|Yön
+298|Çizildiği gibi
+299|Tırmanma
+300|Geleneksel
+301|Bırakılacak pay
+302|Son paso
+303|Giriş
+304|Dalma
+305|Zikzak rampa
+306|Kontur boyunca rampa
+307|Helis
+308|Rampa açısı
+309|Rampa ilerlemesi
+310|0 = dalma ilerlemesi
+311|Köprüler
+312|Köprü türü
+313|Tam
+314|Kısmi
+315|Rampa
+316|Köprü genişliği
+317|Köprü yüksekliği
+318|Köprü eğimi
+319|Köprü aralığı
+320|En az ve en çok köprü
+321|Deliklerde köprü yok
+322|{}: bir helis bir yere sığmadı: orada kontur boyunca rampa kullanıldı
+323|{}: bazı halkalar tüm köprüleri için çok kısa: daha az köprüleri var
+324|{}: {}° rampa açısı dik (45°'den fazla)
+325|{}: köprüler kesim kadar yüksek: parça serbest kesilmiyor
+326|Köprüleri elle yerleştir
+327|Köprü eklemek için kontura tıklayın, taşımak için köprüyü sürükleyin, kaldırmak için köprüye tıklayın. Elle köprü konan bir halka yalnızca onları alır.
+328|Elle konan köprüleri temizle
+329|DXF içe aktar…
+330|Yüzey
+331|Delik büyütme
+332|Pah
+333|Dogbone yuvası
+334|Malzemenin üstü, katmandaki şekillerin kutusu boyunca düzlenir; uç kenarı biraz aşar.
+335|Uçtan büyük yuvarlak bir delik: uç sarmal şekilde iner, sonra tam derinlikte bir kez döner.
+336|Şekillerin kenarına pah kırılır: bir V-uç, pahı istenen genişlikte yapan derinlikte çizgiyi izler.
+337|Uç çizginin içinden ve her keskin köşeye döner; böylece yuvarlak bir uç kare bir parça için yer bırakır.
+338|Halkalar
+339|Tarama
+340|Önce
+341|Sonra
+342|Cep deseni
+343|Tarama açısı
+344|Kontur pasosu
+345|Katmanın kalanı
+346|Taşma
+347|Pah genişliği
+348|Trokoidler
+349|Trokoid çapı
+350|Trokoid adımı
+351|Yarım daireler
+352|{}: pah için V-uç veya gravür ucu gerekir
+353|{}: kalan cebin katmanının ucu yok
+354|{}: kalan cebin ucu, devraldığı katmanın ucundan küçük olmalı
+355|{}: düzlenecek bir şey yok: yüzeyin boyutunu veren bir şekil çizin
+356|V oyma
+357|Bir V-uç, şeklin kenarından uzaklaştıkça daha derine iner; böylece duvarlar eğimli, köşeler keskin olur. Derinlik ucun gittiği en derin yerdir; daha geniş bir şeklin tabanı düz olur.
+358|Yuva
+359|Tıpa
+360|Kaba ve ince
+361|Kaba
+362|İnce
+363|3B modeli kabartma olarak içe aktar…
+364|{}: açık çizgiler V oymadan çıkarılır
+365|{}: V oyma için V-uç veya gravür ucu gerekir
+366|{}: düz taban V-uçla kesilir: sırtlar bırakır ve uzun sürer (bunun için Cep katmanında düz bir uç daha iyidir)
+367|{}: V oymanın programı çok uzun: geri kalanı atlandı
+368|Başlangıç derinliği
+369|Bundan sığ hiçbir şey kesilmez
+370|Kakma
+371|Kakma boşluğu
+372|Tıpa ile yuva arasındaki boşluk
+373|Kabartma parçası
+374|model malzemeden yüksek: kabartma yalnızca katmanın söylediği kadar derin kesilir
+375|{} modeli içe aktarılamadı: {}
+376|{} modelinin yukarıdan görülen alanı yok
+377|{} modeli {} katmanına kabartma olarak içe aktarıldı: {} x {} x {} mm
+378|Toz toplayıcı
+379|Toz toplayıcıyı cihazın kendi satırlarıyla açar (Cihaz ayarları, G-code)
+380|Toz toplayıcı açık
+381|Toz toplayıcı kapalı
+382|Takım değiştirici
+383|Ucu kendisi değiştirir (T… M6)
+384|Program T<numara> M6 ile bir uç ister ve duraklamadan devam eder. Her ucun kitaplıkta numarası olmalıdır. Denetleyici M6'yı bilmelidir (grblHAL, FluidNC); düz GRBL bilmez.
+385|Değiştirici numarası
+386|Ucun takım değiştiricideki yeri: program onu T… M6 ile ister. 0 = değiştiricide değil
+387|{}: ucun değiştirici numarası yok: bunun yerine makineden durması istenir
+388|{}: katman toz toplayıcıyı istiyor, ama cihazın onu açan satırları yok
+389|Konturun çevresinde çerçevele
+390|Çerçeve kutu yerine kesimlerin konturunun (lastik bant) çevresinden dolaşır
+391|Deliğin merkezi artık X ve Y'nin sıfırı; delik {} x {} mm
+392|Merkez bulma başarısız: temas yok veya alarm.
+393|Proje kuruldu: malzeme {} x {} x {} mm, sıfır {}
+394|Proje kurulumu…
+395|Malzeme genişliği
+396|Malzeme yüksekliği
+397|Z malzemenin altından sayılır
+398|Çalışma alanı malzemedir
+399|Malzeme sayfanın sol üstünde durur. Program, sıfırı seçtiğiniz yerde olan G54 iş koordinat sistemi için yazılır: makinede de sıfırı oraya ayarlayın. Z malzemenin üstünden veya altından sayılır.
+400|Atla
+401|Henüz ön ayar yok
+402|Bu ayarları katmana uygula
+403|Bu ön ayarı unut
+404|Ön ayar olarak kaydet
+405|Bu katmanın kesim şeklini bu adla sakla
+406|Önce kartın adresini ayarlayın (Cihaz ayarları → Bağlantı).
+407|Duet ile konuşuluyor…
+408|Duet'e gönderildi ve başlatıldı. Durum: {}
+409|Duet'in durumu: {}
+410|Duet: {}
+411|Duet programı kendisi çalıştırır: gönderip başlatın, durumunu okuyun, durdurun. Jog ve geçersiz kılmalar yok. Parola kaydedilmez.
+412|Gönder ve başlat
+413|Programı karta yükle ve orada başlat
+414|Durum
+415|Duet / RepRapFirmware (HTTP)
+416|Bir Duet kartı programı kendisi çalıştırır: ağ üzerinden gönderilir ve orada başlatılır. Jog ve geçersiz kılmalar yok.
+417|Parola
+418|Kaydedilmez: program açıldığında yeniden sorulur
+419|Döner aparat seçiliyken frezelenen parça STL olarak dışa aktarılamaz.
+420|Ekle
+421|Görünümde en fazla üç bölme olur
+422|Önizlemeyi burada göster
+423|Açık G-code dosyası yok: Dosya, G-code dosyasını görüntüle…
+424|0 = tek pasoda tam derinlik
+425|{}: {} mm'lik bir paso ucun kesici kısmından ({} mm) derin
+426|G-code önizleme
+427|G-code'u kaydetmeden göster
+428|önizleme
+429|G-code gösterilir, hiçbir şey kaydedilmez
+430|Cihazın kendi G-code'u: {}
+431|Uç ve işlem değişiminde de:
+432|Kesme hızı (Vc)
+433|Diş başına ilerleme (fz)
+434|Diş başına dalma
+435|Uçtan: çap ve ağız sayısı
+436|Halkalar arasında aşağıda kal
+437|Her derinlikte halkalar birbirini izler ve tüm yol cebin içindeyse uç bir sonraki halkaya malzemenin içinde keserek geçer; değilse her zamanki gibi kalkar
+438|Çalışma alanında seç
+439|Çalışma alanına bir sonraki tık sıfırı ayarlar (şekillerin köşelerine ve ortalarına yapışır); eksenlerin simgesi sürüklenebilir
+440|Programın sıfırını ayarlamak için çalışma alanına tıklayın (Esc iptal eder)
+441|Programın sıfırı X {} Y {} konumunda
+442|Ön ayar yükle
+443|Ön ayarın ucu kitaplıkta yok: katmanın ucu yok
+444|Yakınlaştır
+445|Bir kamera adresi değil (http, https, rtsp, udp, rtp veya rtmp).
+446|MillCreator hakkında
+447|Malzeme üzerinde proje
+448|Çizimin şekilleri, katmanlarının renginde malzemenin üstünde
+449|LinuxCNC (dosya)
+450|LinuxCNC programı kendisi çalıştırır: Başlat, onun için G-code dosyasını kaydeder. Gerçek bir makinede denenmedi.
+451|Teknik çizim
+452|Teknik çizimi göster…
+453|Parça teknik çizim olarak: önden, yandan ve üstten görünümler, ölçülerle
+454|Ön görünüş
+455|Yan görünüş
+456|Üst görünüş
+457|Ölçek {}
+458|Ölçüler mm
+459|Ölçüler inç
+460|Sekme olarak yerleştir
+461|Çizimi çalışma alanının bir sekmesi olarak, çizimlerin ve önizlemenin yanında göster
+462|Çizimi bir resim (PNG, JPG) veya PDF sayfası (A4) olarak kaydet
+463|Çizim türü
+464|Ölçüler {}
+465|ISO 128 (birinci açı: Avrupa, dünyanın çoğu)
+466|ASME Y14 (üçüncü açı: ABD, Kanada)
+467|JIS B 0001 (üçüncü açı: Japonya)
+468|Bıçak
+469|Ofset {} mm
+470|Ucun ofseti
+471|Bıçak ucunun ekseninin ne kadar gerisinde olduğu: bıçağın üreticisi verir
+472|Bundan keskin köşelerde dön
+473|Başlangıcı geçerek kes
+474|Kapalı bir kontur başlangıcını bu kadar geçerek kesilir, böylece kapanır
+475|Sürüklemeli bıçak
+476|Tutucudaki sürüklemeli bıçak, iş mili dönmeden çizgiler boyunca katmanın derinliğine keser: her köşede ofseti telafi edilir, önce delikler kesilir ve kapalı bir çizgi başlangıcını geçerek kesilir.
+477|{}: bir giriş bir yere sığmadı ve atlandı
+478|{}: bir giriş bir yere sığmadı ve küçültüldü
+479|Diş frezesi
+480|Bir diş frezesi her daireyi tur başına bir hatveyle helis şeklinde, katmanın derinliğine kadar dolaşır: bir deliğin içinde diş (somun) veya bir çıkıntının çevresinde (vida). Vidanın dış çapında daireler çizin; somun için deliği önce yaklaşık çap eksi 1,08 × hatve olarak delin veya büyütün.
+481|Diş
+482|İç (somun)
+483|Dış (vida)
+484|Yaygın boyut
+485|Yaygın bir vidanın hatvesini alır. Onun dış çapında (Ø) daireler çizin.
+486|Hatve
+487|Dişin bir turundaki yükselme
+488|Radyal pasolar
+489|Dişin derinliği bu kadar seferde kesilir, her biri duvara biraz daha derin
+490|Sol diş
+491|{}: bir şekil yuvarlak değil: diş ortasının çevresinde frezelenir
+492|{}: uç dişin deliği için çok büyük: o diş atlandı
+493|{}: açık çizgiler dişten çıkarılır
+494|Z 0, G-code'daki gibi malzemenin üstüdür: malzemenin 15 mm üstünde duran bir kıskaç 0 – 15'tir. Uç ucundan yukarı uzanır, bu yüzden bir bölgenin altındaki her kesim ona dokunur; güvenli yükseklikteki hareketler daha alçak bir bölgenin üstünden geçer.
+495|Havadaki bir hareket "{}" yasak bölgesinin etrafından dolaşamıyor (içinde başlıyor veya bitiyor)
+496|{}: bir kesim "{}" yasak bölgesine dokunuyor
+497|Taraf
+498|Alt (çevrilmiş)
+499|Yandan yana (sol ve sağ yer değiştirir)
+500|Uçtan uca (arka ve ön yer değiştirir)
+501|Alt taraf, malzeme çevrildikten sonra kesilir: onu üstten, malzemenin içinden görüldüğü gibi çizin.
+502|İki taraf
+503|Çevrilmiş
+504|Hizalama delikleri ekle
+505|Malzemenin çevrildiği çizgi üzerinde, malzemeden masaya kadar delinen iki delik: içlerine pim koyun, malzeme çevrildikten sonra aynı yerde durur.
+506|Delikler için boş katman yok
+507|Hizalama delikleri
+508|{} katmanında iki hizalama deliği
+509|Kesilecek taraf
+510|İki taraflı bir iş: yalnızca bu tarafın katmanları kesilir. Alt taraf için malzemeyi Malzeme sekmesinin dediği gibi çevirin ve hizalama pimlerine koyun: çizim de onunla birlikte çevrilir.
+511|Malzemenin boyutu ayarlanmadı (Dosya → Yeni…): alt taraf çalışma alanının ortası etrafında çevrilir
+512|O katmanın ince işlemesinden sonra daha küçük bir uçla ince işleme: yalnızca büyük ucun ulaşamadığı yerlere gider (dar vadiler, keskin köşeler), böylece iş çok daha kısa sürer.
+513|{}: kalan ince işlemenin ucu, izlediği katmanın ucundan küçük olmalı
+514|Yivleme
+515|Pervaz
+516|Doku
+517|Her çizgi boyunca yüzeyden rampayla inen, katmanın derinliğinde ilerleyen ve yine rampayla çıkan bir oluk: sütun yivleri, süs olukları. Küresel uç veya V-uç kullanın.
+518|Bir profil (yuvarlatma, iç bükey, ogee, eğim veya yarım yuvarlak oluk) her çizgi boyunca, istenen genişlikte ve katman derinliğinde, yan yana pasolarla süpürülür: bir tahtanın kenarı, bir çerçeve. Profil çizginin yönünün solunda durur. Küresel uç kullanın.
+519|Şekillerin alanı, sıralar halinde küresel ucun kısa oyuklarıyla kaplanır, elle oyulmuş gibi; katmanın derinliği en derin oyuktur. Yan adım sıraların aralığıdır.
+520|İki uçta
+521|Yuvarlatma
+522|İç bükey
+523|Ogee
+524|Eğim
+525|Yarım yuvarlak oluk
+526|Profil
+527|Rampalar
+528|Rampa uzunluğu
+529|Çizginin uzunluğunun
+530|Vuruşlar arası boşluk
+531|Değişkenlik
+532|Vuruşların uzunluğunun ve derinliğinin ne kadar değiştiği
+533|Desen numarası
+534|Başka bir numara başka vuruşlar verir; aynı numara, aynı vuruşlar
+535|Sıraların açısı
+536|{}: açık çizgiler dokudan çıkarılır
+537|Eskiz oyma
+538|Resim bir stilde çizgiler olarak yeniden çizilir (Stil izleme gibi) ve her çizgi bir V-uçla resim koyulaştıkça daha derin, dolayısıyla daha geniş, katmanın derinliğine kadar oyulur: bir kurşun kalem eskizine benzer. Ucun yan adımı çizgilerin aralığıdır.
+539|3B şekil
+540|Her kapalı şekil 3B bir forma dönüşür — kubbe, eğim veya düz üst — malzemeden yükseltilir (çevresindeki kutu katmanın derinliğine kadar kesilir) veya içine gömülür ve bir kabartma gibi kesilir: kaba, ince veya ikisi, ucun şekli hesaba katılarak.
+541|Form
+542|Kabarık
+543|Gömük
+544|Eğimin genişliği
+545|Kubbe
+546|Düz üst
+547|Malzemenin şekli
+548|Blok
+549|Silindir (döner)
+550|Cihazın döner aparatıyla döndürülen yuvarlak bir iş parçası. Uygulamak döner aparatı bu çapla açar.
+551|İş parçası uzunluğu
+552|Silindir döner aparat üzerinde X boyunca yatar; çizimin Y'si onun çevresinde döner ve çizim yüzeyinden açılır. Z yüzeyin üstünden sayılır ve en derin kesim yarıçaptır. Sıfır yüzeydedir; makinede de aynısını ayarlayın.
+553|Proje kuruldu: döner aparat (açık) üzerinde Ø {} mm ve {} mm uzunluğunda bir silindir, sıfır {}
+554|Cihazın döner aparatı kapalı.
+555|Programın sıfırını seç
+556|Etkin katmanın işlemi
+557|Takım yolu
+558|Giriş ve yaklaşma
+559|Köprüler
+560|İlerleme ve hızlar
+561|alt taraf katmanlarının şekilleri artık B tarafında
+562|Kalkacak yüzlerde şekiller var: proje olduğu gibi kalır. Önce onları silin.
+563|bir kalas
+564|bir blok
+565|Proje kuruldu: {}, {} x {} x {} mm, sıfır {}
+566|PDF olarak dışa aktar…
+567|PNG olarak dışa aktar…
+568|JPG olarak dışa aktar…
+569|Çizimi bir PDF sayfası (A4), bir resim (PNG, JPG) veya DXF (milimetre cinsinden A4 sayfa) olarak kaydet
+570|Fotoğraf V oyma
+571|Resim boyunca çizgiler, V-uçla kesilir: resim ne kadar koyuysa oluk o kadar derin ve dolayısıyla geniş; en geniş oluk çizgi aralığı kadar geniştir (katmandan derin değil). Beyaz kesilmez.
+572|Oyma çizgileri arasındaki mesafe: daha sık daha ince ve daha uzun sürer. En derin oluk bu kadar geniştir.
+573|{}: Fotoğraf V oyma için V-uç veya gravür ucu gerekir: olukların genişliği resmi yalnızca sivri bir uçla izler

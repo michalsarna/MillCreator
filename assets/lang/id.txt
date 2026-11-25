@@ -1,0 +1,574 @@
+0|Tampilan 3D pekerjaan…
+1|Salinan di antara mata Anda
+2|Lubang di tengah setiap bentuk tertutup lapisan, bertahap sedalam lintasan.
+3|Nama port, atau ID vendor dan produk USB (VID:PID, heksadesimal): port yang memiliki ID ini yang dipakai.
+4|Mata siap pakai tidak dapat diubah. Buat salinan untuk mengubahnya.
+5|Alat putar terhubung
+6|Ukuran mesin umum…
+7|Batalkan pekerjaan yang berjalan
+8|Tentang
+9|Tambah kamera
+10|Tambah perangkat
+11|Tambah perangkat
+12|Tambah perangkat…
+13|Alamat
+14|Setelah terhubung
+15|Alarm {}
+16|Seluruh area di dalam garis dikosongkan, cincin demi cincin, sampai kedalaman lapisan.
+17|Atur
+18|Kiri belakang
+19|Kanan belakang
+20|Kembali ke tampilan pertama. Klik ganda pada gambar juga sama.
+21|Ball nose
+22|Baud rate
+23|Ikat ke port ini
+24|Mata
+25|Pustaka mata
+26|Pustaka mata…
+27|Perangkat USB terikat
+28|Bull nose (jari-jari sudut)
+29|Kamera
+30|Nama kamera
+31|Nomor kamera
+32|Kamera komputer ini
+33|Rotasi kamera
+34|Tampilan kamera
+35|Kamera
+36|Tidak dapat memakai file
+37|Periksa program
+38|Memeriksa program terlebih dahulu…
+39|Memeriksa program…
+40|Pilih mata
+41|Pilih port atau host di pengaturan perangkat terlebih dahulu.
+42|Pilih mesin yang akan Anda pakai.
+43|Chuck
+44|Keliling
+45|Hapus alarm
+46|Menghapus alarm melewati homing: gunakan hanya bila kepala diketahui berada di tempat aman.
+47|Konfirmasi hapus
+48|Hubungkan
+49|Hubungkan ulang otomatis
+50|Terhubung
+51|Koneksi
+52|Jenis koneksi
+53|Konsol
+54|Kontrol
+55|Disalin ke {}
+56|Jari-jari sudut
+57|Tidak dapat menyimpan
+58|Tidak dapat menyimpan: {}
+59|Mode hitung mengisi buffer kontroler dan cepat. Mode sederhana mengirim satu baris dan menunggu ok: lambat, tetapi untuk firmware yang menjawab salah.
+60|Potong di dalam garis
+61|Potong di luar garis
+62|Potongan
+63|Potongan: {} m, sekitar {} mnt
+64|Diameter potong
+65|Panjang potong
+66|Hapus kamera ini
+67|Kedalaman
+68|Perangkat
+69|Pengaturan perangkat
+70|Pengaturan perangkat…
+71|Diagnostik dan statistik…
+72|Putuskan
+73|Bor
+74|Edit
+75|Edit…
+76|Mata ukir
+77|Galat {} di baris {}: {}
+78|Galat {}: {}
+79|Ekspor G-code…
+80|Ekspor mata ini…
+81|Ekspor…
+82|Laju
+83|Pengaturan firmware ($$)…
+84|End mill datar
+85|Jumlah alur
+86|Ikuti garis
+87|Bingkai
+88|Membingkai area kerja
+89|Dari atas
+90|Dari baris…
+91|Kiri depan
+92|Kanan depan
+93|GRBL 1.1 punya tiga sumbu: sumbu A tidak tersedia, Y yang dipakai.
+94|Umum
+95|Kelilingi kotak tempat pekerjaan akan dilakukan
+96|Bantuan
+97|Kecepatan tertinggi
+98|Home
+99|Homing mesin
+100|Host
+101|Saya tidak punya perangkat
+102|Impor proyek LightBurn…
+103|Perangkat {} diimpor
+104|Impor…
+105|Jenis
+106|Lapisan
+107|Dilewati
+108|Kecepatan terendah
+109|Nol mesin (0,0)
+110|Material
+111|Material benda kerja
+112|Logam
+113|Mikrostep motor untuk satu putaran penuh dari yang digerakkannya (chuck, atau satu roller).
+114|Mikrostep per putaran
+115|Difrais: masuk ke jalur alat dan G-code
+116|Frais
+117|Gerakan pada ketinggian aman
+118|Mata saya
+119|Baru
+120|Mata baru
+121|Tanpa mata
+122|Belum ada perangkat. Tambahkan satu, atau bekerja tanpa mesin.
+123|Tidak ada port
+124|Bukan alamat http atau https.
+125|Catatan
+126|Catatan tentang mesin ini
+127|Belum ada apa-apa di sini
+128|Tidak ada yang dipilih
+129|Hanya warna plastik yang dapat diubah. Material dan ketebalannya ditampilkan di tampilan 3D dan disimpan di proyek.
+130|Buka gambar atau mulai desain kosong.
+131|Buka tautan ke kontroler yang diatur di pengaturan perangkat
+132|Buka jendela pratinjau
+133|Buka…
+134|Operasi
+135|Panjang total
+136|Kedalaman lintasan
+137|Kedalaman lintasan (dari diameter)
+138|Plastik
+139|Laju terjun
+140|Kantong
+141|Port
+142|Port atau ID USB
+143|Pratinjau
+144|Pratinjau…
+145|Properti
+146|Pindahkan bentuk yang dipilih ke lapisan ini
+147|Baca perangkat dari file
+148|Baca mata dari file
+149|Siap
+150|Mata siap pakai
+151|Hubungkan ulang
+152|Segarkan
+153|Ingat ID USB port yang dipilih: port ditemukan lagi dengan ID itu bila namanya berubah.
+154|Atur ulang tampilan
+155|Lanjutkan
+156|Diameter roller
+157|Roller
+158|Putar
+159|STOP
+160|Ketinggian aman
+161|Simpan
+162|Simpan G-code
+163|Simpan sebagai…
+164|Simpan perangkat ini ke file
+165|Simpan mata Anda ke file
+166|Disimpan
+167|Perangkat disimpan ke {}
+168|{} disimpan
+169|Pengaturan
+170|Diameter tangkai
+171|Bentuk pada lapisan ini
+172|Tampilkan gambar kamera langsung mesin ini
+173|Tampilkan jalur alat di area kerja
+174|Ditampilkan di tab Kamera
+175|Ditampilkan di area kerja
+176|Kecepatan gerak di atas material
+177|Spindel
+178|Start
+179|Mulai dari
+180|Mulai pekerjaan dari sebuah baris program
+181|Memulai pekerjaan: {} baris, ~{}
+182|Kecepatan awal untuk lapisan
+183|Step over
+184|Step over (dari diameter)
+185|Alirkan pekerjaan ke mesin yang terhubung
+186|Mengalirkan
+187|Dinyalakan
+188|Port TCP
+189|Ball nose tirus
+190|G-code di sekitar pekerjaan: {}
+191|Mata mengitari bagian dalam garis, sehingga bentuknya lepas: lubang atau jendela.
+192|Mata mengitari bagian luar garis, sehingga bentuknya tetap: sebuah bagian dipotong dari material.
+193|Pusat mata mengikuti garis: ukiran dan alur. Garis terbuka juga bisa.
+194|Pemeriksaan tidak menemukan masalah.
+195|Pemeriksaan tidak menemukan apa pun. Pekerjaan berjalan.
+196|Pemeriksaan menemukan {} masalah, yang pertama di baris {}. Pekerjaan tidak dimulai.
+197|Kontroler memerlukan {} langkah per mm pada sumbu Y ($101).
+198|Potongan keluar dari area kerja perangkat
+199|Perangkat proyek ini
+200|Perangkat ditambahkan.
+201|Perangkat disimpan.
+202|Desain lebih tinggi dari keliling benda kerja ({} mm)
+203|File terlalu besar
+204|Pekerjaan selesai, dengan {} masalah (lihat Konsol).
+205|Pekerjaan selesai.
+206|Pekerjaan dijeda: {}
+207|Pekerjaan sedang berjalan.
+208|Pengukuran di sensor gagal: tidak ada kontak, atau alarm.
+209|Alat acuan diukur: Z {} di sensor.
+210|Alat diukur; belum ada acuan untuk dibandingkan.
+211|Keliling benda kerja: desain tidak boleh lebih tinggi.
+212|Tidak ada yang dipotong: taruh bentuk di lapisan yang punya mata.
+213|Tidak ada yang dibingkai: taruh bentuk di lapisan yang punya mata.
+214|Belum ada yang ditampilkan: gambar bentuk dan taruh di lapisan yang punya mata.
+215|Tebal
+216|Build ini tidak dapat memakai kamera komputer.
+217|Perangkat ini tidak punya kamera yang dinyalakan. Tambahkan di pengaturan perangkat.
+218|Perangkat ini tidak ada di daftar: datang bersama proyek
+219|Ini perangkat pengganti (Dummy): area kerja dan kecepatan bawaan.
+220|Waktu {} / {}
+221|Diameter ujung
+222|Terlalu banyak perangkat
+223|Jalur alat
+224|Jenis
+225|Lepas ikatan
+226|Satuan
+227|Mata V
+228|Tampilan
+229|Opsi tampilan…
+230|Tunggu setelah dinyalakan
+231|Menunggu gambar…
+232|Bila koneksi putus sendiri, coba lagi setiap beberapa detik sampai Anda menekan Putuskan.
+233|Dengan alat putar, sumbu Y memutar benda kerja: desain tidak boleh lebih tinggi dari keliling benda kerja. Modelnya sederhana (chuck berputar menurut diameter benda kerja, roller menggerakkan permukaan seperti dirinya); mesin nyata perlu diuji.
+234|Kayu, gelap
+235|Kayu, terang
+236|Kayu, sedang
+237|Kerjakan proyek tanpa mesin: perangkat sederhana bernama Dummy, dengan area kerja dan kecepatan bawaan
+238|Diameter benda kerja
+239|Z adalah seberapa jauh spindel turun dari atas material. Ketinggian aman adalah tempat spindel bergerak di antara potongan.
+240|Z diatur dari acuan.
+241|mata ditambahkan
+242|mata ditambahkan ke pustaka
+243|mis. Router CNC saya
+244|tidak ada
+245|proyek ini dibuat untuk mesin lain: {}
+246|{} lintasan sampai {} mm
+247|{}: belum ada mata dipilih
+248|{}: tidak ada yang dipotong (garis mungkin terlalu kecil untuk mata)
+249|{}: garis terbuka dikeluarkan dari kantong
+250|{}: garis terbuka dikeluarkan dari profil (gunakan "Ikuti garis")
+251|{}: gambar tidak difrais
+252|{}: kedalaman dibatasi jangkauan mesin ({} mm)
+253|{}: kedalaman {} mm melebihi tebal material ({} mm)
+254|{}: {} rpm di luar rentang spindel {}…{} rpm
+255|Impor desain UGS…
+256|Lintasan pertama
+257|Mulai dengan lintasan dangkal di sepanjang tepi
+258|Setiap lapisan pertama-tama sekali menyusuri tepi yang akan dipotongnya, hanya sedalam ini, yang memutus permukaan material dengan rapi. Kantong hanya di sepanjang tepinya; pengeboran tidak ada. Berfungsi dengan setiap mata.
+259|Kedalaman lintasan pertama
+260|Gambar
+261|Baris dithering
+262|Titik
+263|Metode gambar
+264|Dithering
+265|Sudut pindai
+266|Gambar di lapisan diukir: baris atau titik menurut gambar dithering, atau baris yang kedalamannya mengikuti nada.
+267|Kedalaman menurut nada
+268|Gambar di-dithering dan setiap baris dipotong sedalam lapisan di bagian yang gelap. Metode dithering dipilih di bawah.
+269|Satu lubang sedalam lapisan untuk setiap sel gelap gambar dithering.
+270|Baris dipotong dengan kedalaman yang mengikuti nada gambar: makin gelap makin dalam, sampai kedalaman lapisan.
+271|Sudut baris ukiran
+272|{}: program gambar terlalu panjang: sisanya dilewati (gunakan step over lebih besar)
+273|Relief 3D
+274|Relief: hitam paling dalam, putih tidak dipotong. Lintasan sedalam lintasan sampai kedalaman penuh, dan bentuk mata diperhitungkan. Model dapat diekspor sebagai STL.
+275|Ekspor relief sebagai STL…
+276|Tidak ada relief untuk diekspor: taruh gambar di lapisan dengan operasi Gambar dan metode relief 3D.
+277|Paskan ke area kerja
+278|Paskan ke elemen
+279|Zoom agar seluruh area kerja mesin terlihat
+280|Zoom agar semua potongan memenuhi jendela
+281|Satu elemen setiap kali
+282|Setiap elemen (grup, atau bentuk yang tidak masuk grup mana pun) dipotong lengkap, semua lapisan dan semua lintasannya, sebelum elemen berikutnya; elemen terdekat lebih dulu. Mati: lapisan demi lapisan, lintasan demi lintasan.
+283|Hanya pilihan
+284|Hanya bentuk yang dipilih di area kerja saat G-code disimpan atau pekerjaan dimulai yang dipotong.
+285|Tidak ada yang dipotong: tidak ada yang dipilih
+286|Ekspor benda hasil frais sebagai STL…
+287|Tidak ada yang diekspor: pekerjaan belum punya potongan.
+288|G-code
+289|Koordinat kerja
+290|Nol program
+291|Program memilih sistem koordinat kerja ini (G54 … G59, yang nolnya diatur di mesin, misalnya dengan menyentuh material) dan menghitung dari nol di bawah, yang diberikan dalam koordinat area kerja. Tidak ada: program menghitung dari nol mesin.
+292|G-code sendiri ditambahkan ke setiap program, satu perintah per baris (paling banyak 20 baris).
+293|Di awal program
+294|Di setiap penggantian mata
+295|Di setiap pergantian operasi
+296|Di akhir program
+297|Arah
+298|Seperti digambar
+299|Climb
+300|Konvensional
+301|Sisa bahan
+302|Lintasan finishing
+303|Masuk
+304|Terjun
+305|Ramp zigzag
+306|Ramp sepanjang kontur
+307|Heliks
+308|Sudut ramp
+309|Laju ramp
+310|0 = laju terjun
+311|Tab
+312|Jenis tab
+313|Penuh
+314|Sebagian
+315|Ramp
+316|Lebar tab
+317|Tinggi tab
+318|Kemiringan tab
+319|Jarak tab
+320|Tab paling sedikit dan paling banyak
+321|Tanpa tab pada lubang
+322|{}: heliks tidak muat di beberapa tempat: ramp sepanjang kontur dipakai di sana
+323|{}: beberapa cincin terlalu pendek untuk semua tab-nya: tab-nya lebih sedikit
+324|{}: sudut ramp {}° terlalu curam (lebih dari 45°)
+325|{}: tab setinggi potongan: bagian tidak terpotong lepas
+326|Tempatkan tab manual
+327|Klik pada garis tepi untuk menambah tab, seret tab untuk memindahkannya, klik tab untuk menghapusnya. Cincin yang punya tab manual hanya mendapat tab itu.
+328|Hapus tab manual
+329|Impor DXF…
+330|Facing
+331|Bore
+332|Chamfer
+333|Slot dogbone
+334|Bagian atas material diratakan di atas kotak bentuk lapisan; mata sedikit melewati tepinya.
+335|Lubang bulat lebih besar dari mata: mata turun berputar spiral lalu sekali berkeliling pada kedalaman penuh.
+336|Tepi bentuk di-chamfer: mata V mengikuti garis pada kedalaman yang membuat chamfer selebar yang diminta.
+337|Mata mengitari bagian dalam garis dan masuk ke setiap sudut tajam, sehingga mata bulat memberi ruang untuk bagian persegi.
+338|Cincin
+339|Raster
+340|Sebelum
+341|Sesudah
+342|Pola kantong
+343|Sudut raster
+344|Lintasan garis tepi
+345|Sisa lapisan
+346|Lebihan
+347|Lebar chamfer
+348|Trokoid
+349|Diameter trokoid
+350|Langkah trokoid
+351|Setengah lingkaran
+352|{}: chamfer memerlukan mata V atau mata ukir
+353|{}: lapisan kantong sisa tidak punya mata
+354|{}: mata kantong sisa harus lebih kecil dari mata lapisan yang dilanjutkannya
+355|{}: tidak ada yang diratakan: gambar bentuk yang memberi ukuran permukaan
+356|Ukir V
+357|Mata V masuk makin dalam makin jauh dari tepi bentuk, sehingga dindingnya miring dan sudutnya tajam. Kedalaman adalah yang terdalam yang dicapai mata; bentuk yang lebih lebar mendapat dasar rata.
+358|Soket
+359|Sumbat
+360|Kasar dan halus
+361|Kasar
+362|Halus
+363|Impor model 3D sebagai relief…
+364|{}: garis terbuka dikeluarkan dari ukir V
+365|{}: ukir V memerlukan mata V atau mata ukir
+366|{}: dasar rata dipotong dengan mata V: meninggalkan guratan dan lama (mata datar di lapisan Kantong lebih baik)
+367|{}: program ukir V terlalu panjang: sisanya dilewati
+368|Kedalaman awal
+369|Tidak ada yang dipotong lebih dangkal dari ini
+370|Inlay
+371|Celah inlay
+372|Kelonggaran antara sumbat dan soket
+373|Bagian relief
+374|model lebih tinggi dari material: relief dipotong hanya sedalam yang dinyatakan lapisan
+375|Tidak dapat mengimpor model {}: {}
+376|Model {} tidak punya luas dilihat dari atas
+377|Model {} diimpor sebagai relief di lapisan {}: {} x {} x {} mm
+378|Pengumpul debu
+379|Menyalakan pengumpul debu dengan baris milik perangkat (Pengaturan perangkat, G-code)
+380|Pengumpul debu nyala
+381|Pengumpul debu mati
+382|Pengganti alat
+383|Mengganti mata sendiri (T… M6)
+384|Program meminta mata dengan T<nomor> M6 dan berlanjut tanpa jeda. Setiap mata perlu nomornya di pustaka. Kontroler harus mengenal M6 (grblHAL, FluidNC); GRBL biasa tidak.
+385|Nomor pengganti
+386|Tempat mata di pengganti alat: program memintanya dengan T… M6. 0 = tidak di pengganti
+387|{}: mata tidak punya nomor pengganti: mesin diminta berhenti untuknya
+388|{}: lapisan meminta pengumpul debu, tetapi perangkat tidak punya baris untuk menyalakannya
+389|Bingkai mengelilingi garis tepi
+390|Bingkai mengelilingi garis tepi potongan (karet gelang), bukan kotaknya
+391|Pusat lubang kini nol X dan Y; lubangnya {} x {} mm
+392|Pencari pusat gagal: tidak ada kontak, atau alarm.
+393|Proyek diatur: material {} x {} x {} mm, nol di {}
+394|Pengaturan proyek…
+395|Lebar material
+396|Tinggi material
+397|Z dihitung dari dasar material
+398|Area kerja adalah material
+399|Material berada di kiri atas halaman. Program ditulis untuk sistem koordinat kerja G54 dengan nol di tempat yang Anda pilih: atur nol itu di mesin. Z dihitung dari atas material, atau dari dasarnya.
+400|Lewati
+401|Belum ada preset
+402|Terapkan pengaturan ini ke lapisan
+403|Lupakan preset ini
+404|Simpan sebagai preset
+405|Simpan cara memotong lapisan ini dengan nama ini
+406|Atur alamat papan terlebih dahulu (Pengaturan perangkat → Koneksi).
+407|Berkomunikasi dengan Duet…
+408|Dikirim ke Duet dan dimulai. Status: {}
+409|Status Duet: {}
+410|Duet: {}
+411|Duet menjalankan program sendiri: kirim dan mulai, baca statusnya, hentikan. Jogging dan override tidak tersedia. Kata sandi tidak disimpan.
+412|Kirim dan mulai
+413|Unggah program ke papan dan mulai di sana
+414|Status
+415|Duet / RepRapFirmware (HTTP)
+416|Papan Duet menjalankan program sendiri: program dikirim lewat jaringan dan dimulai di sana. Jogging dan override tidak tersedia.
+417|Kata sandi
+418|Tidak disimpan: ditanyakan lagi saat program dibuka
+419|Benda hasil frais tidak dapat diekspor sebagai STL selama alat putar dipilih.
+420|Sisipkan
+421|Tampilan punya paling banyak tiga panel
+422|Tampilkan pratinjau di sini
+423|Tidak ada file G-code yang terbuka: File, Lihat file G-code…
+424|0 = kedalaman penuh dalam satu lintasan
+425|{}: satu lintasan {} mm lebih dalam dari bagian potong mata ({} mm)
+426|Pratinjau G-code
+427|Tampilkan G-code tanpa menyimpannya
+428|pratinjau
+429|G-code ditampilkan, tidak ada yang disimpan
+430|G-code milik perangkat: {}
+431|Juga saat ganti mata dan ganti operasi:
+432|Kecepatan potong (Vc)
+433|Laju per gigi (fz)
+434|Terjun per gigi
+435|Dari mata: diameter dan jumlah alur
+436|Tetap di bawah di antara cincin
+437|Di setiap kedalaman cincin saling menyusul dan mata pindah ke cincin berikutnya dengan memotong di material, bila seluruh jalannya ada di dalam kantong; jika tidak, mata naik seperti biasa
+438|Pilih di area kerja
+439|Klik berikutnya di area kerja mengatur nol (menempel ke sudut dan tengah bentuk); ikon sumbu dapat diseret
+440|Klik area kerja untuk mengatur nol program (Esc membatalkan)
+441|Nol program ada di X {} Y {}
+442|Muat preset
+443|Mata preset tidak ada di pustaka: lapisan tidak punya mata
+444|Zoom
+445|Bukan alamat kamera (http, https, rtsp, udp, rtp, atau rtmp).
+446|Tentang MillCreator
+447|Proyek pada material
+448|Bentuk desain di atas permukaan material, dengan warna lapisannya
+449|LinuxCNC (file)
+450|LinuxCNC menjalankan program sendiri: Mulai menyimpan file G-code untuknya. Belum dicoba di mesin nyata.
+451|Gambar teknik
+452|Tampilkan gambar teknik…
+453|Bagian sebagai gambar teknik: tampak depan, samping, dan atas, dengan dimensi
+454|Tampak depan
+455|Tampak samping
+456|Tampak atas
+457|Skala {}
+458|Dimensi dalam mm
+459|Dimensi dalam inci
+460|Tambatkan sebagai tab
+461|Tampilkan gambar sebagai tab area kerja, di samping desain dan pratinjau
+462|Simpan gambar sebagai gambar (PNG, JPG) atau halaman PDF (A4)
+463|Jenis gambar
+464|Dimensi dalam {}
+465|ISO 128 (proyeksi sudut pertama: Eropa, sebagian besar dunia)
+466|ASME Y14 (proyeksi sudut ketiga: AS, Kanada)
+467|JIS B 0001 (proyeksi sudut ketiga: Jepang)
+468|Mata pisau
+469|Offset {} mm
+470|Offset ujung
+471|Seberapa jauh ujung pisau di belakang porosnya: diberikan oleh pembuat pisau
+472|Putar di sudut yang lebih tajam dari
+473|Potong melewati awal
+474|Garis tepi tertutup dipotong sejauh ini melewati awalnya, agar tertutup
+475|Pisau seret
+476|Pisau seret di dudukan memotong sepanjang garis sampai kedalaman lapisan, spindel diam: offset-nya dikompensasi di setiap sudut, lubang dipotong dulu, dan garis tertutup dipotong melewati awalnya.
+477|{}: jalan masuk tidak muat di suatu tempat dan dihilangkan
+478|{}: jalan masuk tidak muat di suatu tempat dan diperkecil
+479|Frais ulir
+480|Frais ulir mengitari setiap lingkaran dalam heliks, satu pitch per putaran, sampai kedalaman lapisan: ulir di dalam lubang (mur) atau di sekeliling tonjolan (baut). Gambar lingkaran seukuran diameter luar baut; untuk mur bor atau bore lubangnya dulu sekitar diameter dikurangi 1,08 × pitch.
+481|Ulir
+482|Dalam (mur)
+483|Luar (baut)
+484|Ukuran umum
+485|Mengambil pitch baut umum. Gambar lingkaran seukuran diameter luarnya (Ø).
+486|Pitch
+487|Kenaikan satu putaran ulir
+488|Lintasan radial
+489|Kedalaman ulir dipotong dalam sekian kali, masing-masing sedikit lebih dalam ke dinding
+490|Ulir kiri
+491|{}: bentuk tidak bulat: ulir difrais di sekitar tengahnya
+492|{}: mata terlalu besar untuk lubang ulir: ulir itu dilewati
+493|{}: garis terbuka dikeluarkan dari ulir
+494|Z 0 adalah atas material, seperti di G-code: klem yang berdiri 15 mm di atas material adalah 0 – 15. Mata menjulur ke atas dari ujungnya, sehingga setiap potongan di bawah zona menyentuhnya; gerakan pada ketinggian aman melewati di atas zona yang lebih rendah.
+495|Gerakan di udara tidak dapat memutari zona terlarang "{}" (dimulai atau berakhir di dalamnya)
+496|{}: sebuah potongan menyentuh zona terlarang "{}"
+497|Sisi
+498|Bawah (dibalik)
+499|Sisi ke sisi (kiri dan kanan bertukar)
+500|Ujung ke ujung (belakang dan depan bertukar)
+501|Sisi bawah dipotong setelah material dibalik: gambar seperti terlihat dari atas, menembus material.
+502|Dua sisi
+503|Dibalik
+504|Tambah lubang perataan
+505|Dua lubang pada garis tempat material dibalik, dibor menembus material ke meja: pasang pin di dalamnya dan material berada di tempat yang sama setelah dibalik.
+506|Tidak ada lapisan kosong untuk lubang
+507|Lubang perataan
+508|Dua lubang perataan di lapisan {}
+509|Sisi yang dipotong
+510|Pekerjaan dua sisi: hanya lapisan sisi ini yang dipotong. Untuk bawah, balik material seperti petunjuk tab Material dan pasang pada pin perataan: desain ikut dibalik.
+511|Ukuran material belum diatur (File → Baru…): sisi bawah dibalik di tengah area kerja
+512|Finishing dengan mata lebih kecil setelah finishing lapisan itu: hanya ke tempat yang tak terjangkau mata besar (lembah sempit, sudut tajam), sehingga pekerjaan jauh lebih singkat.
+513|{}: mata finishing sisa harus lebih kecil dari mata lapisan yang diikutinya
+514|Fluting
+515|Profil molding
+516|Tekstur
+517|Alur di sepanjang setiap garis yang turun miring dari permukaan, berjalan pada kedalaman lapisan dan naik miring lagi: alur tiang, alur hias. Gunakan ball nose atau mata V.
+518|Sebuah profil (roundover, cove, ogee, miring, atau alur setengah bulat) disapukan sepanjang setiap garis, selebar yang diminta dan sedalam lapisan, dalam lintasan berdampingan: tepi papan, bingkai. Profil berada di kiri arah garis. Gunakan ball nose.
+519|Area bentuk ditutup goresan cekung pendek ball nose dalam baris, seperti dipahat tangan; kedalaman lapisan adalah cekungan terdalam. Step over adalah jarak antarbaris.
+520|Di kedua ujung
+521|Roundover
+522|Cove
+523|Ogee
+524|Miring
+525|Alur setengah bulat
+526|Profil
+527|Ramp
+528|Panjang ramp
+529|Dari panjang garis
+530|Celah antar goresan
+531|Variasi
+532|Seberapa besar panjang dan kedalaman goresan bervariasi
+533|Nomor pola
+534|Nomor lain memberi goresan lain; nomor sama, goresan sama
+535|Sudut baris
+536|{}: garis terbuka dikeluarkan dari tekstur
+537|Ukir sketsa
+538|Gambar digambar ulang sebagai garis bergaya (seperti Lacak bergaya), dan setiap garis diukir dengan mata V lebih dalam, sehingga lebih lebar, di bagian gambar yang lebih gelap, sampai kedalaman lapisan: tampak seperti sketsa pensil. Step over mata adalah jarak garis.
+539|Bentuk 3D
+540|Setiap bentuk tertutup menjadi bentuk 3D — kubah, miring, atau atas rata — timbul dari material (kotak di sekelilingnya dipotong sampai kedalaman lapisan) atau tenggelam ke dalamnya, dan dipotong seperti relief: kasar, halus, atau keduanya, dengan bentuk mata diperhitungkan.
+541|Bentuk
+542|Timbul
+543|Tenggelam
+544|Lebar kemiringan
+545|Kubah
+546|Atas rata
+547|Bentuk material
+548|Blok
+549|Silinder (putar)
+550|Benda kerja bulat yang diputar oleh alat putar perangkat. Menerapkan akan menyalakan alat putar dengan diameter ini.
+551|Panjang benda kerja
+552|Silinder terletak sepanjang X pada alat putar; Y desain mengelilinginya dan desain dibentangkan dari permukaannya. Z dihitung dari atas permukaan, dan potongan terdalam adalah jari-jarinya. Nol ada di permukaan; atur yang sama di mesin.
+553|Proyek diatur: silinder Ø {} mm sepanjang {} mm pada alat putar (dinyalakan), nol di {}
+554|Alat putar perangkat mati.
+555|Pilih nol program
+556|Operasi lapisan aktif
+557|Jalur alat
+558|Masuk dan jalan masuk
+559|Tab / jembatan
+560|Laju dan kecepatan
+561|bentuk lapisan untuk bawah kini sisi B
+562|Sisi yang akan hilang punya bentuk: proyek tetap seperti semula. Hapus dulu.
+563|balok
+564|blok
+565|Proyek diatur: {} {} x {} x {} mm, nol di {}
+566|Ekspor sebagai PDF…
+567|Ekspor sebagai PNG…
+568|Ekspor sebagai JPG…
+569|Simpan gambar sebagai halaman PDF (A4), gambar (PNG, JPG), atau DXF (lembar A4 dalam milimeter)
+570|Ukir V foto
+571|Garis melintasi gambar, dipotong dengan mata V: makin gelap gambar, makin dalam dan karena itu makin lebar alurnya; alur terlebar selebar jarak garis (tidak lebih dalam dari lapisan). Putih tidak dipotong.
+572|Jarak antar garis ukiran: lebih rapat lebih halus dan lebih lama. Alur terdalam selebar ini.
+573|{}: Ukir V foto memerlukan mata V atau mata ukir: lebar alur mengikuti gambar hanya dengan mata runcing

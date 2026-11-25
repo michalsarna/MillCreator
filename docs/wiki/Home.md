@@ -54,7 +54,7 @@ The list with how to add a machine: [TESTS_ON_DEVICES.md](https://github.com/mic
 * **G-code:** GRBL flavour, with a pause to change the bit or `T… M6` for a tool changer, your own lines (start, end, change of bit or operation), a work coordinate system and a zero on the material; Mach3 / Mach4 / UCCNC and LinuxCNC through plugins.
 * **The machine:** GRBL (0.7 to 1.1 and newer), Smoothieware, a Duet over HTTP, or LinuxCNC (a file); jogging, probing, the centre of a hole, overrides, saved positions, coolant.
 * **Drawing:** DXF, SVG, PDF, Illustrator, LightBurn, MillMage and UGS import, DXF, Illustrator, LightBurn and MillMage export, arrays, copies along a path, text on a path, trimming, nesting, QR codes and barcodes, serial text, and STL / OBJ / 3MF models as a relief.
-* **Shared with LightCreator:** the editor, 310 clipart pictures, SVG / PDF / Illustrator and LightBurn import, the `.cre` project file, 30 languages (shared texts) and 18 colour schemes.
+* **Shared with LightCreator:** the editor, 310 clipart pictures, SVG / PDF / Illustrator and LightBurn import, the `.cre` project file, 38 languages (shared texts) and 18 colour schemes.
 
 > ⚠️ **Safety:** milling machines are dangerous. Test a new job in the air above the material, wear eye and ear protection, clamp the work, never leave a running machine unattended. See [Safety and Limitations](Safety-and-Limitations).
 
