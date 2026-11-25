@@ -1,4 +1,4 @@
-🌐 **English** · [Polski](Material-obrabiany)
+🌐 **English** · [Polski](Material-obrabiany) · [简体中文](Material-ZH) · [한국어](Material-KO)
 
 # Material
 

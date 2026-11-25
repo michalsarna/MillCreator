@@ -1,4 +1,4 @@
-🌐 [English](Bit-Library) · **Polski**
+🌐 [English](Bit-Library) · **Polski** · [简体中文](Bit-Library-ZH) · [한국어](Bit-Library-KO)
 
 # Biblioteka frezów
 

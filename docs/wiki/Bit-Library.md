@@ -1,4 +1,4 @@
-🌐 **English** · [Polski](Biblioteka-frezow)
+🌐 **English** · [Polski](Biblioteka-frezow) · [简体中文](Bit-Library-ZH) · [한국어](Bit-Library-KO)
 
 # Bit Library
 

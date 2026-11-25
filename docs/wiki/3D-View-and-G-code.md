@@ -1,4 +1,4 @@
-🌐 **English** · [Polski](Widok-3D-i-G-code)
+🌐 **English** · [Polski](Widok-3D-i-G-code) · [简体中文](3D-View-and-G-code-ZH) · [한국어](3D-View-and-G-code-KO)
 
 # 3D View and G-code
 

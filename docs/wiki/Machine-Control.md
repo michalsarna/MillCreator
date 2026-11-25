@@ -1,4 +1,4 @@
-🌐 **English** · [Polski](Sterowanie-maszyna)
+🌐 **English** · [Polski](Sterowanie-maszyna) · [简体中文](Machine-Control-ZH) · [한국어](Machine-Control-KO)
 
 # Machine control
 

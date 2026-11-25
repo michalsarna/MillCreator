@@ -1,4 +1,4 @@
-🌐 [English](Home) · **Polski**
+🌐 [English](Home) · **Polski** · [简体中文](Home-ZH) · [한국어](Home-KO)
 
 <p align="center"><img src="https://raw.githubusercontent.com/michalsarna/MillCreator/main/assets/icons/icon-256.png" alt="MillCreator" width="128"></p>
 
@@ -58,4 +58,4 @@ Lista i opis, jak dopisać maszynę: [TESTS_ON_DEVICES.md](https://github.com/mi
 
 > ⚠️ **Bezpieczeństwo:** frezarki są niebezpieczne. Nowe zadanie sprawdź najpierw w powietrzu nad materiałem, noś ochronę oczu i słuchu, zamocuj materiał, nigdy nie zostawiaj pracującej maszyny bez nadzoru. Zobacz [Bezpieczeństwo i ograniczenia](Bezpieczenstwo-i-ograniczenia).
 
-Najnowsza wersja: **v0.9.9** · [Wydania](https://github.com/michalsarna/MillCreator/releases) · [Zgłoszenia](https://github.com/michalsarna/MillCreator/issues) · Licencja: [MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) lub [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE), do wyboru
+Najnowsza wersja: **v0.9.10** · [Wydania](https://github.com/michalsarna/MillCreator/releases) · [Zgłoszenia](https://github.com/michalsarna/MillCreator/issues) · Licencja: [MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) lub [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE), do wyboru

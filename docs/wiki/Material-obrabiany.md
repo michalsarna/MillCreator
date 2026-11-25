@@ -1,4 +1,4 @@
-🌐 [English](Material) · **Polski**
+🌐 [English](Material) · **Polski** · [简体中文](Material-ZH) · [한국어](Material-KO)
 
 # Materiał
 
