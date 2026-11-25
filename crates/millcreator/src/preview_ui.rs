@@ -379,6 +379,11 @@ impl App {
 
     /// Ask where to put the STL model and write it.
     fn save_stl(&mut self, bytes: Vec<u8>, fallback: &str) {
+        // A drawing opened with the open password is not taken out of the program.
+        if self.lock.locked() {
+            self.status = base_ui::protect_ui::locked_message();
+            return;
+        }
         let name = self.path.as_ref().and_then(|p| p.file_stem()).map(|s| s.to_string_lossy().into_owned()).unwrap_or_else(|| fallback.into());
         let Some(p) = rfd::FileDialog::new().add_filter("STL", &["stl"]).set_file_name(format!("{name}.stl")).save_file() else { return };
         self.status = match std::fs::write(&p, bytes) {
@@ -491,7 +496,7 @@ impl App {
             base_ui::widgets::toggle(ui, &mut self.view.show_dims, tr("Dimensions"), tr("Show the sizes of the job as on a technical drawing"));
             ui.separator();
             // Only the icon: what it does is in the tooltip.
-            stl = Self::preview_stl_button(ui);
+            stl = !self.lock.locked() && Self::preview_stl_button(ui);
         });
         // While the job plays or the slider is dragged the pictures are made coarser, so they follow; when it stops they are made
         // again at the quality of the program options.

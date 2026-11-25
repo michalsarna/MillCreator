@@ -295,9 +295,17 @@ enum Screen {
     Editor,
 }
 
+/// The purpose of a password question for a recovery file: this plus its slot.
+pub(crate) const RECOVER: u32 = 1000;
+
 struct App {
     /// Was a picture selected the frame before (a picture that becomes selected shows the tab of its styles)?
     picture_was_selected: bool,
+    /// The password protection of the shown drawing (and the guard of a drawing opened with the open password).
+    lock: base_ui::protect_ui::DocLock,
+    /// Protected files waiting for their password, and the one just unlocked (its path, JSON and protection) for `open`.
+    unlock: Vec<base_ui::protect_ui::Prompt>,
+    unlocked: Option<(PathBuf, String, base_core::protect::Protection)>,
     scene: Scene,
     ed: EditorState,
     history: History,
@@ -545,6 +553,9 @@ impl App {
             clip: ClipState::new(base_core::clipart::Library::open(data_paths().gallery.clone())),
             description: String::new(),
             kept: Project::default(),
+            lock: Default::default(),
+            unlock: vec![],
+            unlocked: None,
             device: devices.first().cloned().unwrap_or_else(Device::dummy),
             active: (!devices.is_empty()).then_some(0),
             devices,
@@ -729,6 +740,8 @@ impl App {
         self.ed.sel.clear();
         self.ed.node_sel.clear();
         self.ed.view.need_fit = true;
+        self.lock = Default::default();
+        self.ed.locked = false;
         self.screen = Screen::Editor;
         self.status = tr("Ready").into();
     }
@@ -761,7 +774,21 @@ impl App {
         }
         let name = path.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
         let is_project = path.extension().is_some_and(|e| e.eq_ignore_ascii_case(project::EXTENSION));
+        // A protected project: its password first (`dialogs` comes back here with what it unlocked).
+        let unlocked = self.unlocked.take().filter(|(p, ..)| *p == path);
+        let protection = unlocked.as_ref().map(|(_, _, p)| p.clone());
+        if is_project && unlocked.is_none() {
+            if let Ok(text) = std::fs::read_to_string(&path) {
+                if base_core::protect::is_sealed(&text) {
+                    self.unlock.push(base_ui::protect_ui::Prompt::new(path, text, 0));
+                    return;
+                }
+            }
+        }
         let read = std::fs::read(&path).map_err(|e| e.to_string()).and_then(|d| {
+            if let Some((_, json, _)) = &unlocked {
+                return Project::from_json(json).map(|p| (p.scene.clone(), Some(p)));
+            }
             if is_project {
                 let text = String::from_utf8(d).map_err(|_| "this is not a project file".to_string())?;
                 Project::from_json(&text).map(|p| (p.scene.clone(), Some(p)))
@@ -807,6 +834,8 @@ impl App {
                     self.tools_win.changed = true;
                 }
                 self.scene = scene;
+                self.lock = base_ui::protect_ui::DocLock::new(protection, &self.scene);
+                self.ed.locked = self.lock.locked();
                 if self.sides_from_bottom_layers() {
                     self.status.push_str(&format!(" — {}", tr("the shapes of the layers for the bottom are now side B")));
                 }
@@ -908,7 +937,7 @@ impl App {
         let name = path.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
         // Who saves it, and when: kept with the project for the next save too.
         base_ui::authorship_ui::stamp(&mut self.kept.authorship, "MillCreator", VERSION, false);
-        match std::fs::write(&path, self.to_project().to_json()) {
+        match std::fs::write(&path, self.lock.seal(self.to_project().to_json())) {
             Ok(()) => {
                 self.status = format!("Saved {name}");
                 self.add_recent(&path);
@@ -1366,6 +1395,22 @@ impl App {
     }
 
     fn dialogs(&mut self, ctx: &egui::Context) {
+        // A protected file waiting for its password.
+        if let Some(base_ui::protect_ui::Unlocked::Opened { path, json, protection, purpose }) = base_ui::protect_ui::prompt_window(ctx, &mut self.unlock) {
+            self.unlocked = Some((path.clone(), json, protection));
+            match purpose.checked_sub(RECOVER) {
+                Some(slot) => self.recover_one(path, slot as usize),
+                None => self.open(path),
+            }
+            if self.lock.locked() {
+                self.status = base_ui::protect_ui::locked_message();
+            }
+        }
+        // A drawing opened with the open password stays as it was.
+        if self.lock.check(&mut self.scene) {
+            self.status = base_ui::protect_ui::locked_message();
+            self.touch_rev();
+        }
         self.close_dialogs(ctx);
         self.image_dialogs(ctx);
         let mut show = self.show_options;
@@ -1717,6 +1762,10 @@ impl MenuHost for App {
         menus()
     }
     fn act_enabled(&self, a: Act) -> bool {
+        // A drawing opened with the open password: nothing that adds to it or takes it out of the program as a drawing.
+        if self.lock.locked() && matches!(a, Act::ExportSvg | Act::ExportCam | Act::ExportDrawing(_) | Act::ExportRelief | Act::ImportModel | Act::Print | Act::ImportSvg | Act::ImportAi | Act::ImportDxf | Act::ImportLightburn | Act::ImportUgsd | Act::ImportPlugin | Act::GenerateShape | Act::OnlineClipart) {
+            return false;
+        }
         match a {
             Act::Std(s) => self.screen == Screen::Editor && s.enabled(self),
             Act::Print | Act::SwitchDevice => self.screen == Screen::Editor,
@@ -2436,6 +2485,49 @@ mod tests {
         a.open(svg);
         assert!(a.path.is_none());
         std::fs::remove_dir_all(dir).ok();
+    }
+
+    /// A protected project: it asks for its password and opens with either; the open password keeps the drawing as it was and
+    /// allows no export or copy, but G-code and the job; saving keeps the file protected with both passwords.
+    #[test]
+    fn a_protected_project_opens_with_its_passwords_and_the_open_one_cannot_edit() {
+        use base_core::protect::{self, Access, Kdf, Protection};
+        let _data = DATA.lock().unwrap_or_else(|e| e.into_inner());
+        let dir = std::env::temp_dir().join(format!("millcreator-protected-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let file = dir.join("secret.cre");
+        let fast = Kdf { m_kib: 8 * 1024, t: 1, p: 1 };
+        // Passwords made when the test runs (none written into the code).
+        let (owner, open) = (format!("owner-{}", std::process::id()), format!("open-{}", std::process::id()));
+        let prot = Protection::with_kdf(&owner, Some(&open), fast).unwrap();
+        std::fs::write(&file, prot.seal(&Project::new(read_scene(SVG).unwrap()).to_json())).unwrap();
+        let unlock = |a: &mut App, pw: &str| {
+            a.open(file.clone());
+            assert_eq!(a.unlock.len(), 1, "the password is asked for");
+            let (json, p) = protect::open(&std::fs::read_to_string(&file).unwrap(), pw).unwrap();
+            a.unlock.clear();
+            a.unlocked = Some((file.clone(), json, p));
+            a.open(file.clone());
+        };
+        let mut a = app();
+        unlock(&mut a, &open);
+        let shapes = a.scene.shapes.len();
+        assert!(shapes > 0 && a.lock.locked() && a.ed.locked);
+        assert!(!a.act_enabled(Act::ExportSvg) && !a.act_enabled(Act::Print) && !a.act_enabled(Act::ImportSvg) && !a.act_enabled(Act::ExportRelief));
+        assert!(!a.act_enabled(Act::Std(base_ui::menu::StdAct::Copy)) && !a.act_enabled(Act::Std(base_ui::menu::StdAct::Duplicate)));
+        assert!(a.act_enabled(Act::ExportGcode), "G-code stays allowed");
+        a.scene.shapes.clear();
+        assert!(a.lock.check(&mut a.scene));
+        assert_eq!(a.scene.shapes.len(), shapes, "the drawing is put back");
+        a.save(false);
+        let text = std::fs::read_to_string(&file).unwrap();
+        assert!(protect::is_sealed(&text));
+        assert_eq!(protect::open(&text, &owner).unwrap().1.access, Access::Owner);
+        assert_eq!(protect::open(&text, &open).unwrap().1.access, Access::Open);
+        let mut b = app();
+        unlock(&mut b, &owner);
+        assert!(!b.lock.locked() && !b.ed.locked && b.act_enabled(Act::ExportSvg));
+        let _ = std::fs::remove_dir_all(&dir);
     }
 
     /// A project made by someone else gets the person saving it as a contributor, once, with this program and its version.
