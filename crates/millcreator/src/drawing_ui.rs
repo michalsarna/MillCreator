@@ -257,6 +257,11 @@ impl App {
 
     /// Save the drawing in format `f`: a PDF page of A4, PNG or JPG at 300 dots per inch on an A4 sheet, or a DXF of the sheet.
     pub(crate) fn export_drawing_as(&mut self, sheet: &Sheet, f: DrawingFormat) {
+        // A drawing opened with the open password is not taken out of the program.
+        if self.lock.locked() {
+            self.status = base_ui::protect_ui::locked_message();
+            return;
+        }
         let stem = self.drawing_file_stem();
         let (name, exts) = f.filter();
         let Some(path) = rfd::FileDialog::new().add_filter(name, exts).set_file_name(format!("{stem}.{}", exts[0])).save_file() else { return };

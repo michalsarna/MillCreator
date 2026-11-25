@@ -142,6 +142,7 @@ impl App {
         std::mem::swap(&mut self.scene, &mut two.others[i]);
         std::mem::swap(&mut self.history, &mut two.histories[i]);
         two.shown = i;
+        self.lock.rearm(&self.scene);
         let solid = two.is_solid();
         self.side = if !solid && i == 1 { Side::Bottom } else { Side::Top };
         self.ed.sel.clear();

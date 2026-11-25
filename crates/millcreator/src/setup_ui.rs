@@ -44,6 +44,7 @@ impl App {
             // The marks are offered for a project that becomes two-sided; one that is already has them (or not) by now.
             marks: self.two.is_none(),
             max: (mx, my),
+            protect: self.lock.fields(),
             ..Setup::default()
         };
         let solid = self.solid();
@@ -178,7 +179,17 @@ impl App {
     pub(crate) fn setup_window(&mut self, ctx: &egui::Context) {
         let units = base_ui::editor::EditorHost::units(self);
         match base_ui::project_setup::window(ctx, &mut self.setup, units, kind(self.stock.color)) {
-            Some(Answer::Apply) => self.apply_setup(),
+            Some(Answer::Apply) => {
+                // The passwords first (the window checked them); a change makes the project need saving.
+                let change = self.setup.protect.take_change();
+                let real = !matches!(change, base_ui::protect_ui::Change::Keep);
+                match base_ui::protect_ui::apply(change, &mut self.lock.protection) {
+                    Ok(()) if real => self.touch_rev(),
+                    Ok(()) => {}
+                    Err(e) => self.status = e,
+                }
+                self.apply_setup();
+            }
             Some(Answer::Skip) if self.setup.start => self.skip_start_setup(),
             _ => {}
         }
