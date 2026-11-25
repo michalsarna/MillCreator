@@ -17,6 +17,7 @@ impl App {
                 ui.label(tr("Updates"));
                 ui.checkbox(&mut self.check_updates, tr("Look for a newer version when the program starts"));
                 ui.end_row();
+                base_ui::authorship_ui::options_rows(ui);
                 base_ui::autosave_ui::options_rows(ui, &mut self.autosave_opts);
                 base_ui::units_ui::display_units_row(ui, &mut self.ed.grid_prefs.units);
                 base_ui::view3d::quality_row(ui, &mut self.ed.grid_prefs.render_quality);
