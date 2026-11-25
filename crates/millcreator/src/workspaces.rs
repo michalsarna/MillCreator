@@ -61,6 +61,7 @@ impl Workspace {
     pub fn to_project(&self, device: &crate::device::Device, tools: &crate::tools::Library) -> Project {
         let mut p = Project::new(self.scene.clone());
         p.description = self.description.clone();
+        p.authorship = self.kept.authorship.clone();
         p.set_section(crate::section::SECTION, &crate::section::MillSection::new(&self.layers, &self.stock, device, tools));
         p.restore_sections(&self.kept.other_sections(crate::section::SECTION));
         p.restore_extra(self.kept.extra());
@@ -285,6 +286,10 @@ impl App {
         for w in self.tabs_state.parked.iter_mut().flatten() {
             if !w.dirty() || w.autosaved_clean {
                 continue;
+            }
+            if w.path.is_some() {
+                // Written to its own file: a save of the project (joined with the edit before it).
+                base_ui::authorship_ui::stamp(&mut w.kept.authorship, "MillCreator", crate::VERSION, true);
             }
             let text = w.to_project(&device, tools).to_json();
             let ok = match &w.path {
