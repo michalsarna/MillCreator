@@ -1411,6 +1411,14 @@ impl App {
             self.status = base_ui::protect_ui::locked_message();
             self.touch_rev();
         }
+        // The owner password (asked for from the menu of the tab, or typed in the Protection part of the setup): everything again.
+        let name = base_ui::doc_tabs::title_of(self.path.as_deref());
+        let mut unlocked = self.lock.owner_window(ctx, &name);
+        unlocked |= base_ui::protect_ui::setup_unlock(&mut self.setup.protect, &mut self.lock);
+        if unlocked {
+            self.ed.locked = false;
+            self.status = base_ui::protect_ui::unlocked_message();
+        }
         self.close_dialogs(ctx);
         self.image_dialogs(ctx);
         let mut show = self.show_options;
@@ -2524,6 +2532,20 @@ mod tests {
         assert!(protect::is_sealed(&text));
         assert_eq!(protect::open(&text, &owner).unwrap().1.access, Access::Owner);
         assert_eq!(protect::open(&text, &open).unwrap().1.access, Access::Open);
+        // The menu of the tab: the project information, and the owner password that unlocks everything (the same file, no reopening).
+        let slot = a.slot;
+        assert!(base_ui::work_panes::PaneHost::tab_locked(&a, base_ui::work_panes::Content::Doc(slot)));
+        a.pane_event(base_ui::work_panes::PaneEvent::Menu(slot, base_ui::work_panes::TabCommand::Info));
+        assert!(a.show_project_info);
+        let mut f = a.lock.fields();
+        f.unlock = open.clone();
+        f.try_unlock = true;
+        assert!(!base_ui::protect_ui::setup_unlock(&mut f, &mut a.lock) && a.lock.locked(), "the open password is not the owner's");
+        f.unlock = owner.clone();
+        f.try_unlock = true;
+        assert!(base_ui::protect_ui::setup_unlock(&mut f, &mut a.lock) && !a.lock.locked());
+        a.scene.shapes.clear();
+        assert!(!a.lock.check(&mut a.scene), "everything is allowed now");
         let mut b = app();
         unlock(&mut b, &owner);
         assert!(!b.lock.locked() && !b.ed.locked && b.act_enabled(Act::ExportSvg));
