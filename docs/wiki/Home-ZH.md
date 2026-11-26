@@ -60,4 +60,4 @@
 
 > ⚠️ **安全：** 铣床是危险的。请先在材料上方的空中测试新任务，佩戴护目镜和耳罩，夹紧工件，切勿让运行中的机器无人看管。参见[安全与限制](Safety-and-Limitations-ZH)。
 
-最新版本：**v0.9.10** · [Releases](https://github.com/michalsarna/MillCreator/releases) · [Issues](https://github.com/michalsarna/MillCreator/issues) · 许可证：[MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) 或 [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE)，任选其一
+最新版本：**v1.0.0** · [Releases](https://github.com/michalsarna/MillCreator/releases) · [Issues](https://github.com/michalsarna/MillCreator/issues) · 许可证：[MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) 或 [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE)，任选其一
