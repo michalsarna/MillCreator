@@ -60,4 +60,4 @@ CNC 밀링 작업을 설계하고 준비하는 오픈 소스 소프트웨어로,
 
 > ⚠️ **안전:** 밀링 기계는 위험합니다. 새 작업은 재료 위 허공에서 먼저 시험하고, 눈과 귀 보호구를 착용하고, 공작물을 고정하고, 작동 중인 기계를 절대 방치하지 마십시오. [안전과 제한 사항](Safety-and-Limitations-KO)을 참고하십시오.
 
-최신 릴리스: **v0.9.10** · [릴리스](https://github.com/michalsarna/MillCreator/releases) · [이슈](https://github.com/michalsarna/MillCreator/issues) · 라이선스: [MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) 또는 [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE) 중 선택
+최신 릴리스: **v1.0.0** · [릴리스](https://github.com/michalsarna/MillCreator/releases) · [이슈](https://github.com/michalsarna/MillCreator/issues) · 라이선스: [MIT](https://github.com/michalsarna/MillCreator/blob/main/LICENSE) 또는 [Apache-2.0](https://github.com/michalsarna/MillCreator/blob/main/LICENSE-APACHE) 중 선택
