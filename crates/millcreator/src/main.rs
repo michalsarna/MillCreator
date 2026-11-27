@@ -25,6 +25,8 @@ mod panes_glue;
 mod handtabs;
 #[cfg(test)]
 mod grbl_sim_tests;
+#[cfg(test)]
+mod perf_tests;
 mod guide;
 mod menu;
 mod plugins_glue;
