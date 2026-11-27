@@ -576,7 +576,7 @@ mod tests {
         let info = a.gcode_info("job");
         let g = crate::toolpath::to_gcode_info(&a.sides_in_one(pa.clone(), pb.clone(), true), &dev, &a.layers, &a.tools, &info);
         let at = |t: &str| g.find(t).unwrap_or_else(|| panic!("no {t:?} in\n{g}"));
-        let (side_a, stop, side_b) = (at("(Side A)"), at("M0 (Turn the material over"), at("(Side B:"));
+        let (side_a, stop, side_b) = (at("; Side A"), at("M0 ; Turn the material over"), at("; Side B:"));
         assert!(side_a < stop && stop < side_b, "{g}");
         let last_m5 = g[..stop].rfind("M5").unwrap();
         assert!(!g[last_m5..stop].contains("G1"), "nothing is cut after the spindle stopped");
@@ -584,9 +584,9 @@ mod tests {
         assert_eq!(g.matches("M30").count(), 1);
         // Without the stop; and each side alone says which it is.
         let g = crate::toolpath::to_gcode_info(&a.sides_in_one(pa.clone(), pb.clone(), false), &dev, &a.layers, &a.tools, &info);
-        assert!(!g.contains("M0 (Turn") && g.contains("(Side B:"));
+        assert!(!g.contains("M0 ; Turn") && g.contains("; Side B:"));
         let g = crate::toolpath::to_gcode_info(&pa, &dev, &a.layers, &a.tools, &info);
-        assert!(g.contains("(Side A)") && !g.contains("Side B"));
+        assert!(g.contains("; Side A") && !g.contains("Side B"));
     }
 
     /// The ghosts are the shapes of the other side turned over; they can be picked to align to (base-ui does the rest).
@@ -643,7 +643,7 @@ mod tests {
         let tab = |a: &crate::App, key: usize| a.gcode_texts.iter().find(|g| g.slot == key).map(|g| (g.name.clone(), g.text.clone(), g.sides));
         let (ta, tb) = (tab(&a, slot).unwrap(), tab(&a, slot | SIDE_B_TEXT).unwrap());
         assert!(ta.0.ends_with("_A.nc") && tb.0.ends_with("_B.nc"));
-        assert!(ta.1.contains("(Side A)") && !ta.1.contains("Side B") && tb.1.contains("(Side B"), "{}", ta.1);
+        assert!(ta.1.contains("; Side A") && !ta.1.contains("Side B") && tb.1.contains("; Side B"), "{}", ta.1);
         // The tab of side B follows the project (a new note changes what the G-code is made of).
         let before = tb.1.clone();
         a.scene.add(0, Kind::Rect { w: 10.0, h: 10.0 }, Xf::translate(150.0, 60.0));
@@ -654,7 +654,7 @@ mod tests {
         a.show_sides(SaveSides::OneFileWithHold);
         assert!(tab(&a, slot | SIDE_B_TEXT).is_none());
         let whole = tab(&a, slot).unwrap();
-        assert!(whole.1.contains("(Side A)") && whole.1.contains("M0 (Turn") && whole.1.contains("(Side B"), "{}", whole.1);
+        assert!(whole.1.contains("; Side A") && whole.1.contains("M0 ; Turn") && whole.1.contains("; Side B"), "{}", whole.1);
         assert_eq!(whole.2, Some(SaveSides::OneFileWithHold));
     }
 
@@ -730,7 +730,7 @@ mod tests {
         assert_eq!(one.len(), 1);
         let g = &one[0];
         let at = |t: &str| g.find(t).unwrap_or_else(|| panic!("no {t:?} in\n{g}"));
-        let order = [at("(Face A of 4"), at("M0 (Roll it a quarter turn back: face B up"), at("(Face B of 4"), at("M0 (Roll it a quarter turn back: face C up"), at("(Face D of 4")];
+        let order = [at("; Face A of 4"), at("M0 ; Roll it a quarter turn back: face B up"), at("; Face B of 4"), at("M0 ; Roll it a quarter turn back: face C up"), at("; Face D of 4")];
         assert!(order.windows(2).all(|w| w[0] < w[1]), "{g}");
         assert_eq!(g.matches("M30").count(), 1);
         // Every face is cut round its own middle: the X and Y of the cuts are the same small numbers on each face.
@@ -752,16 +752,16 @@ mod tests {
         assert_eq!(sep.len(), 4);
         // Z of face B counts from the one zero of Z set on the top of face A: face B (60 high) stands 20 mm higher than face A (40).
         let zs = |text: &str, cmd: &str| -> Vec<f64> { text.lines().filter(|l| l.starts_with(cmd)).flat_map(|l| l.split_whitespace().filter(|w| w.starts_with('Z')).map(|w| w[1..].parse::<f64>().unwrap()).collect::<Vec<_>>()).collect() };
-        let b_part = &g[at("(Face B of 4")..at("(Face C of 4")];
+        let b_part = &g[at("; Face B of 4")..at("; Face C of 4")];
         let low = |v: Vec<f64>| v.into_iter().fold(f64::MAX, f64::min);
         let high = |v: Vec<f64>| v.into_iter().fold(f64::MIN, f64::max);
         assert!((low(zs(b_part, "G1")) - (low(zs(&sep[1], "G1")) + 20.0)).abs() < 1e-6, "the deepest cut of face B is 20 mm higher");
         assert!((high(zs(b_part, "G0")) - (high(zs(&sep[1], "G0")) + 20.0)).abs() < 1e-6, "its moves above the material too");
         // Before each stop the bit goes above the highest face, so that the post can be rolled under it.
-        let before_stop = &g[..at("M0 (Roll it a quarter turn back: face B up")];
+        let before_stop = &g[..at("M0 ; Roll it a quarter turn back: face B up")];
         let lift = before_stop.lines().rev().find(|l| l.starts_with("G0 Z")).unwrap();
         assert!(lift[4..].parse::<f64>().unwrap() >= a.device.safe_z + 20.0 - 1e-6, "{lift}");
-        assert!(sep[2].contains("(Face C of 4, bottom of the post: 250 x 60 mm, 40 mm high)") && !sep[2].contains("M0 (Roll"), "{}", sep[2]);
+        assert!(sep[2].contains("; Face C of 4, bottom of the post: 250 x 60 mm, 40 mm high") && !sep[2].contains("M0 ; Roll"), "{}", sep[2]);
         // The tabs of the faces: one each, and one for the whole when it is shown in one.
         a.show_sides(SaveSides::Separate);
         assert_eq!(a.gcode_texts.iter().filter(|t| base_ui::two_sided::text_slot(t.slot) == a.slot).count(), 4);

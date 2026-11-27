@@ -1471,7 +1471,7 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
             g.push_str(&format!("({})\n", note_text(&n.text)));
         }
         if let Some(h) = &hold {
-            g.push_str(&format!("M0 ({})\n", note_text(h)));
+            g.push_str(&format!("M0 ; {}\n", note_text(h)));
             layer = usize::MAX;
         }
         for n in starts {
@@ -1500,7 +1500,7 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
                         g.push_str(&format!("G0 Z{}\nM5\n", num(dev.safe_z + dev.z_offset)));
                         spindle_on = false;
                     }
-                    g.push_str("M0 (Put in the drag knife)\n");
+                    g.push_str("M0 ; Put in the drag knife\n");
                     tool_id = Some("drag-knife".into());
                 } else if !knife && tool_id != l.tool {
                     if spindle_on {
@@ -1522,7 +1522,7 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
                         // A machine with a tool changer takes the bit by itself: no pause.
                         g.push_str(&format!("(Bit: {name})\nT{number} M6\n"));
                     } else if tool_id.is_some() {
-                        g.push_str(&format!("M0 (Change the bit to: {name})\n"));
+                        g.push_str(&format!("M0 ; Change the bit to: {name}\n"));
                     } else {
                         g.push_str(&format!("(Bit: {name})\n"));
                     }
@@ -1589,7 +1589,8 @@ pub fn to_gcode_info(prog: &Program, dev: &Device, layers: &[MillLayer], tools: 
     custom(&mut g, &dev.gcode.end, &|n| value_of(&info, &here, n));
     g.push_str("M30\n");
     let lines = |text: &str| custom_lines(text, &|n| value_of(&info, &here, n));
-    base_core::gcode_out::finish(&g, &lines(&dev.gcode.very_start), &lines(&dev.gcode.very_end), &dev.gcode.flavour)
+    // Comments with a semicolon in front, as LightCreator writes them.
+    base_core::gcode_out::finish(&base_core::gcode_out::semicolon_comments(&g), &lines(&dev.gcode.very_start), &lines(&dev.gcode.very_end), &dev.gcode.flavour)
 }
 
 #[cfg(test)]
@@ -1644,7 +1645,7 @@ mod tests {
             // The overlap and the leads make the cut longer.
             assert!(prog.cut_length() > plain.cut_length() + 4.0 * 2.0, "{kind:?}");
             let g = to_gcode(&prog, &dev, &layers, &lib, "job");
-            assert!(g.contains("(Lead in)") && g.contains("(Lead out)"), "{g}");
+            assert!(g.contains("; Lead in") && g.contains("; Lead out"), "{g}");
         }
     }
 
@@ -1823,7 +1824,7 @@ mod tests {
         let b = xs(&bottom, 3);
         assert!(!b.is_empty() && b.iter().all(|x| *x >= 170.0 - 1e-6 && *x <= 190.0 + 1e-6), "turned over side to side on 200 mm: {b:?}");
         let g = to_gcode(&bottom, &dev, &layers, &lib, "job");
-        assert!(g.contains("(Bottom side: the material is turned over side to side)"), "{g}");
+        assert!(g.contains("; Bottom side: the material is turned over side to side"), "{g}");
         // End to end: y changes, x stays.
         stock.flip = FlipAxis::EndToEnd;
         let bottom = generate_with(&scene, &layers, &lib, &dev, &stock, JobOptions { side: Side::Bottom, ..Default::default() });
@@ -1964,7 +1965,7 @@ mod tests {
         // The axis goes ahead of the tip: some points of the path lie the offset beyond the corners of the hole.
         assert!(cuts.iter().any(|m| (m.to[0] - 50.5).abs() < 1e-6), "past the corner by the offset");
         let g = to_gcode(&prog, &dev, &layers, &lib, "knife");
-        assert!(g.contains("M0 (Put in the drag knife)") && !g.contains("M3 S"), "{}", &g[..g.len().min(600)]);
+        assert!(g.contains("M0 ; Put in the drag knife") && !g.contains("M3 S"), "{}", &g[..g.len().min(600)]);
     }
 
     fn xy_bounds(prog: &Program) -> (f64, f64, f64, f64) {
@@ -2131,34 +2132,34 @@ mod tests {
         let prog = generate(&scene, &layers, &lib, &dev, &stock);
         let plain = to_gcode(&prog, &dev, &layers, &lib, "job");
         // The default device: the file is what it always was (the header, the start, the end, M30).
-        assert!(plain.starts_with("(MillCreator: job)\n(Device: ") && plain.trim_end().ends_with("M30") && !plain.contains('%'));
+        assert!(plain.starts_with("; MillCreator: job\n; Device: ") && plain.trim_end().ends_with("M30") && !plain.contains('%'));
         // The very start and the very end, with variables.
         dev.gcode.very_start = "%\nO{project_name}".into();
-        dev.gcode.very_end = "(done {machine_name})".into();
-        dev.gcode.start = "(box {min_x} {max_x} {width}x{height}x{depth})".into();
-        dev.gcode.operation_change = "(layer {layer_index}/{total_layers} {layer_name})".into();
+        dev.gcode.very_end = "; done {machine_name}".into();
+        dev.gcode.start = "; box {min_x} {max_x} {width}x{height}x{depth}".into();
+        dev.gcode.operation_change = "; layer {layer_index}/{total_layers} {layer_name}".into();
         let info = base_core::gcode_out::Info { project_name: "part".into(), project_path: "/w/part.cre".into(), date: "2026-11-01".into(), time: "12:00".into(), ..Default::default() };
         let text = to_gcode_info(&prog, &dev, &layers, &lib, &info);
         let lines: Vec<&str> = text.lines().collect();
-        assert_eq!(&lines[..3], &["%", "Opart", "(MillCreator: part)"]);
+        assert_eq!(&lines[..3], &["%", "Opart", "; MillCreator: part"]);
         // The notes of the project come after the name as comments, with nothing in them that could end a comment.
         let noted = base_core::gcode_out::Info { notes: "Birch (3 mm); first\n\nglue".into(), ..info.clone() };
         let with_notes = to_gcode_info(&prog, &dev, &layers, &lib, &noted);
         let lines: Vec<&str> = with_notes.lines().collect();
-        assert_eq!(&lines[2..5], &["(MillCreator: part)", "(Device: {})".replace("{}", &dev.name).as_str(), "(Note: Birch <3 mm>, first)"][..], "{with_notes}");
-        assert_eq!(lines[5], "(Note: glue)");
-        assert!(!text.contains("(Note"), "no notes, no note lines");
-        assert!(lines.iter().any(|l| l.starts_with("(box ") && !l.contains('{')), "{text}");
-        assert!(lines.iter().any(|l| l.starts_with("(layer 0/") && !l.contains('{')), "{text}");
-        assert_eq!(lines.last().copied(), Some(format!("(done {})", dev.name).as_str()));
+        assert_eq!(&lines[2..5], &["; MillCreator: part", "; Device: {}".replace("{}", &dev.name).as_str(), "; Note: Birch <3 mm>, first"][..], "{with_notes}");
+        assert_eq!(lines[5], "; Note: glue");
+        assert!(!text.contains("; Note"), "no notes, no note lines");
+        assert!(lines.iter().any(|l| l.starts_with("; box ") && !l.contains('{')), "{text}");
+        assert!(lines.iter().any(|l| l.starts_with("; layer 0/") && !l.contains('{')), "{text}");
+        assert_eq!(lines.last().copied(), Some(format!("; done {}", dev.name).as_str()));
         assert_eq!(lines[lines.len() - 2], "M30", "the very end is after M30");
         // The box is the one of the cuts: the square 40 mm wide, with the radius of the bit.
         let r = lib.get("std-flat-3").unwrap().radius();
-        let w: f64 = lines.iter().find(|l| l.starts_with("(box ")).unwrap().split(['(', ' ', 'x']).filter_map(|p| p.parse::<f64>().ok()).nth(2).unwrap();
+        let w: f64 = lines.iter().find(|l| l.starts_with("; box ")).unwrap().split(['(', ' ', 'x']).filter_map(|p| p.parse::<f64>().ok()).nth(2).unwrap();
         assert!((w - (40.0 + 2.0 * r)).abs() < 0.01, "{w}");
         // The variables are checked before a file is made.
         assert!(dev.gcode.check_variables().is_ok());
-        dev.gcode.end = "(oops {tool_number})".into();
+        dev.gcode.end = "; oops {tool_number}".into();
         assert!(dev.gcode.check_variables().unwrap_err().contains("At the end of the program"));
         dev.gcode.end.clear();
         // The flavour: a point after whole numbers, the dwell in milliseconds, line numbers, % lines.
@@ -2170,7 +2171,7 @@ mod tests {
         assert_eq!((l[0], l[l.len() - 1]), ("%", "%"));
         assert!(l[1].starts_with("N10 G21 G90 G17"), "{}", l[1]);
         assert!(l.iter().any(|x| x.contains("G4 P2000.")), "dwell in milliseconds with a point: {g}");
-        assert!(l.iter().any(|x| x.contains(" X") && x.contains("Y") && !x.contains("(")) && !g.contains("(MillCreator"));
+        assert!(l.iter().any(|x| x.contains(" X") && x.contains("Y") && !x.contains("(")) && !g.contains("; MillCreator"));
         assert!(!g.contains("M3 S12000.") && g.contains("M3 S"), "the spindle speed gets no point");
     }
 
@@ -2187,15 +2188,15 @@ mod tests {
         t.cutting.plunge = 250.0;
         let id = lib.add(t).expect("a bit is added");
         layers[0].tool = Some(id);
-        dev.gcode.tool_change = "(T{tool_number} {tool_name} D{tool_diameter} Z{tool_flutes} S{tool_rpm} F{tool_feed} P{tool_plunge})".into();
-        dev.gcode.operation_change = "(op {layer_name} T{tool_number})".into();
+        dev.gcode.tool_change = "; T{tool_number} {tool_name} D{tool_diameter} Z{tool_flutes} S{tool_rpm} F{tool_feed} P{tool_plunge}".into();
+        dev.gcode.operation_change = "; op {layer_name} T{tool_number}".into();
         assert!(dev.gcode.check_variables().is_ok());
         let mut scene = Scene::default();
         square(&mut scene, 0, 50.0, 50.0, 40.0);
         let prog = generate(&scene, &layers, &lib, &dev, &stock);
         let g = to_gcode(&prog, &dev, &layers, &lib, "t");
-        assert!(g.contains("(T7 Test cutter D3.175 Z3 S18000 F900 P250)"), "{g}");
-        assert!(g.contains("T7)"), "the operation change knows the bit too: {g}");
+        assert!(g.contains("; T7 Test cutter D3.175 Z3 S18000 F900 P250"), "{g}");
+        assert!(g.contains(" T7\n"), "the operation change knows the bit too: {g}");
         dev.gcode.tool_change = "{tool_nothing}".into();
         assert!(dev.gcode.check_variables().is_err());
     }
@@ -2347,7 +2348,7 @@ mod tests {
         square(&mut scene, 0, 50.0, 50.0, 40.0);
         let prog = generate(&scene, &layers, &lib, &dev, &stock);
         let g = to_gcode(&prog, &dev, &layers, &lib, "job");
-        assert!(g.starts_with("(MillCreator: job)\n(Device: Dummy)\nG21 G90 G17\n"), "{g}");
+        assert!(g.starts_with("; MillCreator: job\n; Device: Dummy\nG21 G90 G17\n"), "{g}");
         assert!(g.contains("M3 S16000\nG4 P2\n"), "{g}");
         assert!(g.contains(" F900") && g.contains("G1 Z-2 F300"), "{g}");
         assert!(g.trim_end().ends_with("M5\nG0 X0 Y0\nM30"), "{g}");
@@ -2371,12 +2372,12 @@ mod tests {
         let prog = generate(&scene, &layers, &lib, &dev, &stock);
         let plain = to_gcode(&prog, &dev, &layers, &lib, "job");
         assert!(!plain.contains("G54") && !plain.contains("M8"), "nothing is added by default: {plain}");
-        dev.gcode = crate::device::CustomGcode { start: "M8\n\n  G4 P1 ".into(), end: "M9".into(), tool_change: "T1 M6".into(), operation_change: "(next)".into(), ..Default::default() };
+        dev.gcode = crate::device::CustomGcode { start: "M8\n\n  G4 P1 ".into(), end: "M9".into(), tool_change: "T1 M6".into(), operation_change: "; next".into(), ..Default::default() };
         dev.wcs = crate::device::Wcs { code: 55, x: 10.0, y: 20.0 };
         let g = to_gcode(&prog, &dev, &layers, &lib, "job");
         assert!(g.contains("G21 G90 G17\nG55\nM8\nG4 P1\n"), "the word, then the own start lines: {g}");
-        let layer = g.find("(Layer:").unwrap();
-        assert!(g[layer..].contains("(next)\n") && g.find("(next)").unwrap() < g.find("T1 M6").unwrap() && g.find("T1 M6").unwrap() < g.find("M3 S").unwrap(), "operation, bit, then the spindle: {g}");
+        let layer = g.find("; Layer:").unwrap();
+        assert!(g[layer..].contains("; next\n") && g.find("; next").unwrap() < g.find("T1 M6").unwrap() && g.find("T1 M6").unwrap() < g.find("M3 S").unwrap(), "operation, bit, then the spindle: {g}");
         assert!(g.trim_end().ends_with("G0 X-10 Y-20\nM9\nM30"), "the end lines come before M30, the head returns to the zero of the program: {g}");
         // The zero of the program moves every number, in the frame as well.
         let x = |text: &str| -> f64 { text.lines().find(|l| l.starts_with("G1 X")).unwrap().split('X').nth(1).unwrap().split(' ').next().unwrap().parse().unwrap() };
@@ -2844,7 +2845,7 @@ mod tests {
         scene.add(3, Kind::Path(vec![Polyline::new(vec![Pt::new(10.0, 10.0), Pt::new(30.0, 10.0)], false)]), Xf::IDENTITY);
         let prog = generate(&scene, &layers, &lib, &dev, &stock);
         let g = to_gcode(&prog, &dev, &layers, &lib, "job");
-        assert_eq!(g.matches("M0 (Change the bit to: V-bit 60").count(), 1, "{g}");
+        assert_eq!(g.matches("M0 ; Change the bit to: V-bit 60").count(), 1, "{g}");
         assert_eq!(g.matches("M3 S").count(), 2);
     }
 
@@ -3271,7 +3272,7 @@ mod tests {
         layers[0].coolant = Coolant::Mist;
         // Without a changer there is a pause for the second bit.
         let g = to_gcode(&generate(&scene, &layers, &lib, &dev, &stock), &dev, &layers, &lib, "t");
-        assert!(g.contains("M0 (Change the bit to") && !g.contains(" M6"), "{g}");
+        assert!(g.contains("M0 ; Change the bit to") && !g.contains(" M6"), "{g}");
         // With one and numbers in the library: T… M6 for both, no pause.
         dev.changer = true;
         for (id, own, n) in [("std-flat-3", "my-1", 1), ("std-flat-6", "my-2", 2)] {
@@ -3323,23 +3324,23 @@ mod tests {
         layers[0].name = "Kieszeń ąś".into();
         let prog = generate(&scene, &layers, &lib, &dev, &stock);
         let g = to_gcode(&prog, &dev, &layers, &lib, "comments");
-        assert!(g.is_ascii() && g.contains("(Layer: Kieszen as)"), "{g}");
-        for want in ["(Job: 2 layers,", "(Part 1 of 2 of the job:", "(Depth 3 mm in steps of", "(Contour 1 of 1 start:", "(Depth 1 of", "(Contour 1 end)", "(Clearing of the pocket start)", "(End of layer", "(End of the job)"] {
+        assert!(g.is_ascii() && g.contains("; Layer: Kieszen as"), "{g}");
+        for want in ["; Job: 2 layers,", "; Part 1 of 2 of the job:", "; Depth 3 mm in steps of", "; Contour 1 of 1 start:", "; Depth 1 of", "; Contour 1 end", "; Clearing of the pocket start", "; End of layer", "; End of the job"] {
             assert!(g.contains(want), "{want} missing in:\n{g}");
         }
         // A sender that counts the characters in the buffer of GRBL (128) needs short lines; a comment holds no brackets inside.
         for l in g.lines() {
             assert!(l.len() <= 80, "too long: {l}");
-            if l.starts_with('(') {
-                assert!(l.ends_with(')') && l[1..l.len() - 1].chars().all(|c| c != '(' && c != ')' && c != ';'), "{l}");
+            if let Some(c) = l.strip_prefix("; ") {
+                assert!(c.chars().all(|c| c != '(' && c != ')' && c != ';'), "{l}");
             }
         }
         // The layer marks of the sender are only the layer lines.
-        assert_eq!(g.lines().filter(|l| l.starts_with("(Layer:")).count(), 2);
+        assert_eq!(g.lines().filter(|l| l.starts_with("; Layer:")).count(), 2);
         // The commands are the same as without the comments.
         let mut bare = prog.clone();
         bare.notes.clear();
-        let strip = |t: &str| t.lines().filter(|l| !l.starts_with('(')).map(String::from).collect::<Vec<_>>();
+        let strip = |t: &str| t.lines().filter(|l| !l.starts_with(';')).map(String::from).collect::<Vec<_>>();
         assert_eq!(strip(&g), strip(&to_gcode(&bare, &dev, &layers, &lib, "comments")));
     }
 
@@ -3353,7 +3354,7 @@ mod tests {
         stock.first_pass_depth = 0.1;
         let g = to_gcode(&generate(&scene, &layers, &lib, &dev, &stock), &dev, &layers, &lib, "order");
         let at = |t: &str| g.find(t).unwrap_or_else(|| panic!("{t} missing in:\n{g}"));
-        assert!(at("(Layer: Drill)") < at("(First shallow pass along the edges start") && at("(First shallow pass along the edges start") < at("(First shallow pass end)"), "{g}");
-        assert!(at("(Hole 1 of 1 start") < at("(Hole 1 end)") && at("(Hole 1 end)") < at("(End of layer Drill)"), "{g}");
+        assert!(at("; Layer: Drill") < at("; First shallow pass along the edges start") && at("; First shallow pass along the edges start") < at("; First shallow pass end"), "{g}");
+        assert!(at("; Hole 1 of 1 start") < at("; Hole 1 end") && at("; Hole 1 end") < at("; End of layer Drill"), "{g}");
     }
 }
