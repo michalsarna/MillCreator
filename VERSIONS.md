@@ -4,7 +4,9 @@ Each release gets the next version number. Newest first.
 
 ## v1.0.1 (not released yet)
 
-* **The preview shows only what lies on the work area** (the 3D view, the sides and faces, the toolpaths over the work area): a drawing kept beside the work area is never in it and no longer makes the preview slow; the milled material does not go past the work area, and the toolpaths are cut off at its edge. The G-code is not changed. baseCreator v2.9.4.
+* **Pockets much faster** (baseCreator v2.9.6): each island of a pocket gets its rings by itself, on all the cores. On the performance test project the G-code of six faces took 4 minutes and now takes under a second, the preview 52 s and now 4 s.
+* **Only what lies on the work area is milled**: a shape wholly beside the work area (of a face of a post or a block: beside the face) is not in the G-code. A two-sided job or one on more faces takes of each side or face only what lies on its work area, in a file of its own and in one file for all.
+* **The preview shows only what lies on the work area** (the 3D view, the sides and faces, the toolpaths over the work area): a drawing kept beside the work area is never in it and no longer makes the preview slow; the milled material does not go past the work area, and the toolpaths are cut off at its edge. baseCreator v2.9.4.
 
 ## v1.0.0
 

@@ -95,16 +95,22 @@ pub fn raster_paths(region: &[Polyline], angle_deg: f64, step: f64) -> Vec<Polyl
 }
 
 /// The rings of a pocket with the strip in the middle that the step over leaves when the width is not a multiple of it: after the last
-/// ring a ring that goes along the middle of what is left.
+/// ring a ring that goes along the middle of what is left. Each island of the region (an outline with its holes) has its rings by
+/// itself, as many as it needs, all the islands at the same time (`ops::islands`, `ops::par_map`): taking the whole region in at every
+/// ring went on over every shape as long as the biggest one had rings (minutes for a drawing of a thousand shapes).
 pub fn rings_with_middle(region: &[Polyline], step: f64) -> Vec<Polyline> {
     let step = step.max(0.01);
+    ops::par_map(&ops::islands(region), |island| island_rings(island, step)).into_iter().flatten().collect()
+}
+
+/// `rings_with_middle` of one island.
+fn island_rings(start: &[Polyline], step: f64) -> Vec<Polyline> {
     // Every ring is the region taken in by its whole distance (going in by a disc adds up), not the ring before taken in again: the
     // round corners of one ring would be more points in the next, and the rings are made once (they were made twice).
-    let start = ops::offset(region, 0.0);
     let mut rings = vec![];
     let mut innermost: Vec<Polyline> = vec![];
     for k in 0..500 {
-        let ring = if k == 0 { start.clone() } else { ops::offset(&start, -(k as f64) * step) };
+        let ring = if k == 0 { start.to_vec() } else { ops::offset(start, -(k as f64) * step) };
         if ring.is_empty() || ring.iter().all(|p| p.area().abs() < 1e-4) {
             break;
         }
