@@ -10,6 +10,25 @@ use eframe::egui::{self, Color32, RichText};
 impl App {
     /// The toolpaths of the project as it is now.
     pub(crate) fn make_program(&self) -> Program {
+        self.program_of(false)
+    }
+
+    /// The toolpaths of the preview (the 3D view and the toolpaths over the work area): only of what lies on the work area. What
+    /// lies beside it is never in a preview, and a big drawing kept there does not make the preview slow.
+    pub(crate) fn preview_program(&self) -> Program {
+        self.program_of(true)
+    }
+
+    /// The drawing `s`, or with `on_area` only its shapes that lie at least partly on the work area.
+    pub(crate) fn on_area<'s>(&self, s: &'s base_core::scene::Scene, on_area: bool) -> std::borrow::Cow<'s, base_core::scene::Scene> {
+        if on_area {
+            std::borrow::Cow::Owned(s.on_area(self.device.area.x, self.device.area.y))
+        } else {
+            std::borrow::Cow::Borrowed(s)
+        }
+    }
+
+    fn program_of(&self, on_area: bool) -> Program {
         let shown = self.job_scene();
         // A post or a block: the shown face alone, on its own material; a sheet: side A, or side B with side A beside it.
         let (a, b) = match &self.two {
@@ -18,7 +37,8 @@ impl App {
             Some(t) => (&*shown, Some(t.other())),
             None => (&*shown, None),
         };
-        toolpath::generate_sides(a, b, &self.layers, &self.tools, &self.device, &self.stock, toolpath::JobOptions { one_by_one: self.one_by_one, side: self.side })
+        let (a, b) = (self.on_area(a, on_area), b.map(|b| self.on_area(b, on_area)));
+        toolpath::generate_sides(&a, b.as_deref(), &self.layers, &self.tools, &self.device, &self.stock, toolpath::JobOptions { one_by_one: self.one_by_one, side: self.side })
     }
 
     /// What the job is made of: the whole drawing, or with "Selection only" the shapes that are selected now.
@@ -56,7 +76,7 @@ impl App {
         if self.two.as_ref().is_some_and(|t| t.is_solid()) {
             self.sides3d = None;
             if self.solid3d.as_ref().is_none_or(|(k, _)| *k != stamp) {
-                self.solid3d = Some((stamp, self.face_programs().into_iter().map(|(p, _, _)| p).collect()));
+                self.solid3d = Some((stamp, self.face_programs_of(true).into_iter().map(|(p, _, _)| p).collect()));
             }
             return;
         }
@@ -69,10 +89,10 @@ impl App {
             return;
         }
         let (a, b) = self.sides_scenes();
-        let b = b.cloned().unwrap_or_default();
+        let (a, b) = (self.on_area(a, true), b.map_or_else(Default::default, |b| b.on_area(self.device.area.x, self.device.area.y)));
         let opts = toolpath::JobOptions { one_by_one: self.one_by_one, side: crate::layers::Side::Top };
-        let top = toolpath::generate_sides(a, None, &self.layers, &self.tools, &self.device, &self.stock, opts);
-        let bottom = toolpath::bottom_seen_from_a(a, &b, &self.layers, &self.tools, &self.device, &self.stock, opts);
+        let top = toolpath::generate_sides(&a, None, &self.layers, &self.tools, &self.device, &self.stock, opts);
+        let bottom = toolpath::bottom_seen_from_a(&a, &b, &self.layers, &self.tools, &self.device, &self.stock, opts);
         self.sides3d = Some((stamp, top, bottom));
     }
 
@@ -147,7 +167,7 @@ impl App {
     /// The program is made again when the project changed since it was made.
     pub(crate) fn refresh_program(&mut self) {
         if self.prog.is_none() || self.prog_rev != self.job_stamp() {
-            self.prog = Some(self.make_program());
+            self.prog = Some(self.preview_program());
             self.prog_rev = self.job_stamp();
         }
     }
@@ -167,7 +187,10 @@ impl App {
         let h = self.device.area.y;
         let to_screen = |p: toolpath::P3| self.w2s(v.origin, base_core::geom::Pt::new(p[0], h - p[1]));
         // Moves that follow each other are one line, and what is too small or out of sight is left out (see `view3d::Lines`).
-        let mut lines = crate::view3d::Lines::new(v.painter.clip_rect());
+        // Only on the work area: the part of a path that reaches past its edge is cut off there.
+        let bed = egui::Rect::from_two_pos(self.w2s(v.origin, base_core::geom::Pt::new(0.0, 0.0)), self.w2s(v.origin, base_core::geom::Pt::new(self.device.area.x, h)));
+        let on_bed = v.painter.with_clip_rect(v.painter.clip_rect().intersect(bed.expand(1.0)));
+        let mut lines = crate::view3d::Lines::new(on_bed.clip_rect());
         let rapid = egui::Stroke::new(0.6, Color32::from_rgb(0x70, 0x90, 0xc0).gamma_multiply(0.8));
         for m in &prog.moves {
             match m.kind {
@@ -179,7 +202,7 @@ impl App {
                 _ => {}
             }
         }
-        lines.paint(&v.painter);
+        lines.paint(&on_bed);
     }
 
     /// The camera view in the work area, in place of the drawing.
@@ -191,7 +214,7 @@ impl App {
 
     /// Open the 3D window with a fresh program.
     pub(crate) fn open_preview(&mut self) {
-        self.prog = Some(self.make_program());
+        self.prog = Some(self.preview_program());
         self.prog_rev = self.job_stamp();
         self.show_3d = true;
     }
@@ -396,7 +419,7 @@ impl App {
     /// the bits in it. `None` when no cut has been made yet.
     pub(crate) fn view_model(&self) -> Option<Vec<u8>> {
         let prog = self.prog.as_ref()?;
-        let region = Region::of(prog, self.shapes_box())?;
+        let region = self.within_area(Region::of(prog, self.shapes_box())?)?;
         let (done, _) = view3d::position_at(prog, self.view.progress);
         let moves = &prog.moves[..done.min(prog.moves.len())];
         let tool_of = |layer: usize| self.layers.get(layer).and_then(|l| l.tool.as_deref()).and_then(|id| self.tools.get(id)).cloned();
@@ -405,6 +428,17 @@ impl App {
             return None;
         }
         Some(crate::relief::stl_of(cols, rows, step, |c, r| z[r * cols + c], self.stock.thickness))
+    }
+
+    /// The part of `r` on the work area (with a rotary attachment the way round is not cut). `None` when nothing of it is.
+    pub(crate) fn within_area(&self, r: Region) -> Option<Region> {
+        if self.device.rotary.enabled {
+            return Some(r);
+        }
+        let (w, h) = (self.device.area.x, self.device.area.y);
+        let min = [r.min[0].max(0.0), r.min[1].max(0.0)];
+        let max = [r.max[0].min(w), r.max[1].min(h)];
+        (max[0] > min[0] && max[1] > min[1]).then_some(Region { min, max })
     }
 
     /// With a rotary attachment the block is the cylinder round the workpiece: the whole way round, centred on the job.
@@ -465,6 +499,8 @@ impl App {
             Some((t, b)) => Region::of_two(t, b, self.shapes_box()),
             None => Region::of(prog, self.shapes_box()),
         };
+        // Never past the work area: what lies beside it is not shown.
+        let region = region.and_then(|r| self.within_area(r));
         // The whole shown face of a post or a block (its work area is the face).
         let region = if solid_faces.is_some() { Some(Region { min: [0.0, 0.0], max: [self.stock.width.max(1.0), self.stock.height.max(1.0)] }) } else { region };
         let (region, rotary) = self.rotary_view(region);
@@ -644,6 +680,26 @@ mod tests {
     use crate::App;
     use base_core::geom::Xf;
     use base_core::scene::Kind;
+
+    #[test]
+    fn the_preview_never_holds_what_lies_beside_the_work_area() {
+        let ctx = egui::Context::default();
+        let mut a = App::build(&ctx, None, false);
+        let (w, h) = (a.device.area.x, a.device.area.y);
+        a.scene.add(0, Kind::Rect { w: 30.0, h: 30.0 }, Xf::translate(20.0, 20.0));
+        a.touch_rev();
+        let on = a.preview_program().moves.len();
+        assert!(on > 0);
+        // Beside the work area, right and below: in the G-code, but not in the preview.
+        a.scene.add(0, Kind::Rect { w: 30.0, h: 30.0 }, Xf::translate(w + 50.0, 20.0));
+        a.scene.add(0, Kind::Rect { w: 30.0, h: 30.0 }, Xf::translate(20.0, h + 50.0));
+        a.touch_rev();
+        assert_eq!(a.preview_program().moves.len(), on);
+        assert!(a.make_program().moves.len() > on);
+        a.open_preview();
+        assert!(a.show_3d);
+        assert_eq!(a.prog.as_ref().unwrap().moves.len(), on);
+    }
 
     #[test]
     fn the_window_follows_the_project_and_is_drawn() {

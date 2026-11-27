@@ -340,12 +340,18 @@ impl App {
     /// The program of every face of a post or a block, each made for its own material and work area (also given), with the name of
     /// the face at its head.
     pub(crate) fn face_programs(&self) -> Vec<(Program, crate::materials::Stock, crate::device::Device)> {
+        self.face_programs_of(false)
+    }
+
+    /// `face_programs`, with `on_area` (for the preview) only of the shapes that lie at least partly on the work area of each face.
+    pub(crate) fn face_programs_of(&self, on_area: bool) -> Vec<(Program, crate::materials::Stock, crate::device::Device)> {
         let Some(solid) = self.solid() else { return vec![] };
         (0..solid.count())
             .map(|i| {
                 let (stock, dev) = self.face_stock(i);
                 let opts = crate::toolpath::JobOptions { one_by_one: self.one_by_one, side: Side::Top };
-                let mut p = crate::toolpath::generate_sides(self.face_scene(i), None, &self.layers, &self.tools, &dev, &stock, opts);
+                let scene = if on_area { std::borrow::Cow::Owned(self.face_scene(i).on_area(dev.area.x, dev.area.y)) } else { std::borrow::Cow::Borrowed(self.face_scene(i)) };
+                let mut p = crate::toolpath::generate_sides(&scene, None, &self.layers, &self.tools, &dev, &stock, opts);
                 p.notes.insert(0, crate::toolpath::Note { at: 0, text: solid.head_comment(i), before_layer: true });
                 (p, stock, dev)
             })
