@@ -3066,7 +3066,7 @@ mod tests {
         assert!(a.gcode_texts[0].name.ends_with(".nc") && a.gcode_texts[0].text.contains("M30"), "{}", a.gcode_texts[0].name);
         // The first line has the name of the project, as the exported file has (not the name of the file).
         let first = a.gcode_texts[0].text.lines().next().unwrap_or_default().to_string();
-        assert!(first.starts_with("(MillCreator: ") && !first.contains(".nc"), "{first}");
+        assert!(first.starts_with("; MillCreator: ") && !first.contains(".nc"), "{first}");
         // A second press does not make a second tab; an untouched text is made again.
         a.preview_gcode();
         assert_eq!(a.gcode_texts.len(), 1);
@@ -3126,7 +3126,7 @@ mod tests {
         // A note of the project, a G-code setting of the device: the text is made again by itself.
         a.description = "fresh note".into();
         a.refresh_gcode_text_after(std::time::Duration::ZERO);
-        assert!(a.gcode_texts[0].text.contains("(Note: fresh note)"), "{}", a.gcode_texts[0].text);
+        assert!(a.gcode_texts[0].text.contains("; Note: fresh note"), "{}", a.gcode_texts[0].text);
         a.device.gcode.flavour.remove_comments = true;
         a.refresh_gcode_text_after(std::time::Duration::ZERO);
         assert!(!a.gcode_texts[0].text.contains("fresh note"), "the comments are gone");
