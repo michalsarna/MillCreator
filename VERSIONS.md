@@ -2,6 +2,10 @@
 
 Each release gets the next version number. Newest first.
 
+## v1.0.1 (not released yet)
+
+* **The preview shows only what lies on the work area** (the 3D view, the sides and faces, the toolpaths over the work area): a drawing kept beside the work area is never in it and no longer makes the preview slow; the milled material does not go past the work area, and the toolpaths are cut off at its edge. The G-code is not changed. baseCreator v2.9.4.
+
 ## v1.0.0
 
 * **Password protection of project files** (baseCreator v2.9.0): in **Project setup**, part **Protection**, an owner password (allows everything) and an optional open password. With the open password the project opens, the preview, G-code and the job work and the material and layer settings can be changed, but the drawing cannot be edited, copied, exported or printed. The file is encrypted (XChaCha20-Poly1305, the key from each password by Argon2id); a protected file asks for its password when it is opened or recovered. The technical drawing, the STL of the relief and of the milled piece and the 3D model import are off with the open password.
