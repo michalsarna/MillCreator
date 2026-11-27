@@ -53,6 +53,7 @@ The carved block is a picture on a grid (finer for a small job), and the time is
 * **Save G-code** in the tab writes the text as it is to a file.
 * **Make again** makes it from the project again. While there are edits, the first click asks **Lose the edits?** and the second makes it.
 * **Analyse** shows the toolpaths of the text in the **G-code analysis** tab.
+* **Line numbers and stages:** the numbers of the lines stand on the left (only shown, never in the file), and every shape has its name (**Shape 1**, **Shape 2**…) beside its first line. The list of **Stages** on the right has a small box for the start, side A and B, every layer, element and shape, every stop (M0) and the end of the job: a click brings its line to the top of the text. The stage of the first line in view is lit.
 * While it has no edits, the text **follows the project** by itself, half a second after the last change: when the project is saved, when the text of the **Description** tab (the notes) changes, when a setting of the device changes (its own G-code too) and when a postprocessor is switched on or off. Edits by hand are never thrown away by this; changes of the drawing appear after the next save, or with **Preview G-code** or **Make again**.
 * Closing a tab with edits asks **Save your work before closing?**: **Save**, **Discard** or **Cancel**.
 

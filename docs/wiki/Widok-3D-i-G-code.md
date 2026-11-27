@@ -53,6 +53,7 @@ Wyżłobiony blok to obraz na siatce (gęstszej dla małego zadania), a czas to 
 * **Zapisz G-code** w karcie zapisuje tekst taki, jaki jest, do pliku.
 * **Wygeneruj ponownie** (Make again) robi go od nowa z projektu. Gdy są ręczne zmiany, pierwsze kliknięcie pyta **Stracić zmiany?**, a drugie go robi.
 * **Analizuj** (Analyse) pokazuje ścieżki tekstu w analizie G-code.
+* **Numery wierszy i etapy:** po lewej stoją numery wierszy (tylko na ekranie, nigdy w pliku), a każdy kształt ma swoją nazwę (**Kształt 1**, **Kształt 2**…) obok swojego pierwszego wiersza. Lista **Etapy** po prawej ma małe okienko dla początku, strony A i B, każdej warstwy, elementu i kształtu, każdego zatrzymania (M0) i końca zadania: kliknięcie przenosi jego wiersz na górę tekstu. Etap pierwszego widocznego wiersza jest podświetlony.
 * Dopóki nie ma ręcznych zmian, tekst **sam idzie za projektem**, pół sekundy po ostatniej zmianie: gdy projekt jest zapisany, gdy zmienia się tekst karty **Opis** (notatki), gdy zmienia się ustawienie urządzenia (także jego własny G-code) i gdy postprocesor zostaje włączony lub wyłączony. Ręczne zmiany nigdy przez to nie przepadają; zmiany rysunku pojawiają się po następnym zapisie albo po **Podgląd G-code** lub **Wygeneruj ponownie**.
 * Zamknięcie karty z ręcznymi zmianami pyta **Zapisać pracę przed zamknięciem?**: **Zapisz**, **Odrzuć** albo **Anuluj**.
 
