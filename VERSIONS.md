@@ -5,8 +5,8 @@ Each release gets the next version number. Newest first.
 ## v1.1.1 (not released yet)
 
 * **Comments of the G-code with a semicolon in front**, as LightCreator writes them (`; Layer: Cut`, `M0 ; Change the pen to: red`), in the file and in the G-code tab. What the sending needs of them still goes to the machine: the start of a layer (the photo of the time-lapse after it) and the words of a stop.
-* The G-code tab: a little room over its buttons; the stage that was clicked is the one lit in the list.
-* baseCreator v2.9.8.
+* The G-code tab: a little room over its buttons and on their left; the stage that was clicked is the one lit in the list; a click on a stage brings its line exactly to the top, also far down a long program (many thousand lines down, the text stopped a few hundred lines above it); the preview of the G-code always opens at the start of the text.
+* baseCreator v2.9.9.
 
 ## v1.1.0
 
