@@ -331,8 +331,10 @@ impl App {
     pub(crate) fn side_programs(&self) -> (Program, Program) {
         use crate::toolpath::{generate_sides, JobOptions};
         let (a, b) = self.sides_scenes();
-        let empty = Scene::default();
-        let b = b.unwrap_or(&empty);
+        // Only what lies on the work area, of each side.
+        let (a, b) = (self.on_area(a), b.map_or_else(Scene::default, |b| self.on_area(b)));
+        let b = &b;
+        let a = &a;
         let opts = |side| JobOptions { one_by_one: self.one_by_one, side };
         (generate_sides(a, Some(b), &self.layers, &self.tools, &self.device, &self.stock, opts(Side::Top)), generate_sides(a, Some(b), &self.layers, &self.tools, &self.device, &self.stock, opts(Side::Bottom)))
     }
@@ -340,17 +342,13 @@ impl App {
     /// The program of every face of a post or a block, each made for its own material and work area (also given), with the name of
     /// the face at its head.
     pub(crate) fn face_programs(&self) -> Vec<(Program, crate::materials::Stock, crate::device::Device)> {
-        self.face_programs_of(false)
-    }
-
-    /// `face_programs`, with `on_area` (for the preview) only of the shapes that lie at least partly on the work area of each face.
-    pub(crate) fn face_programs_of(&self, on_area: bool) -> Vec<(Program, crate::materials::Stock, crate::device::Device)> {
         let Some(solid) = self.solid() else { return vec![] };
         (0..solid.count())
             .map(|i| {
                 let (stock, dev) = self.face_stock(i);
                 let opts = crate::toolpath::JobOptions { one_by_one: self.one_by_one, side: Side::Top };
-                let scene = if on_area { std::borrow::Cow::Owned(self.face_scene(i).on_area(dev.area.x, dev.area.y)) } else { std::borrow::Cow::Borrowed(self.face_scene(i)) };
+                // Only what lies on the work area of the face: in a file of its own and in one file for all.
+                let scene = self.face_scene(i).on_area(dev.area.x, dev.area.y);
                 let mut p = crate::toolpath::generate_sides(&scene, None, &self.layers, &self.tools, &dev, &stock, opts);
                 p.notes.insert(0, crate::toolpath::Note { at: 0, text: solid.head_comment(i), before_layer: true });
                 (p, stock, dev)

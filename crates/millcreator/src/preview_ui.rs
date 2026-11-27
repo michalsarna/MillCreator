@@ -8,27 +8,9 @@ use base_ui::editor::EditorHost;
 use eframe::egui::{self, Color32, RichText};
 
 impl App {
-    /// The toolpaths of the project as it is now.
+    /// The toolpaths of the project as it is now: of what lies at least partly on the work area. What lies beside it is never milled,
+    /// nor shown in a preview, and a big drawing kept there does not make them slow.
     pub(crate) fn make_program(&self) -> Program {
-        self.program_of(false)
-    }
-
-    /// The toolpaths of the preview (the 3D view and the toolpaths over the work area): only of what lies on the work area. What
-    /// lies beside it is never in a preview, and a big drawing kept there does not make the preview slow.
-    pub(crate) fn preview_program(&self) -> Program {
-        self.program_of(true)
-    }
-
-    /// The drawing `s`, or with `on_area` only its shapes that lie at least partly on the work area.
-    pub(crate) fn on_area<'s>(&self, s: &'s base_core::scene::Scene, on_area: bool) -> std::borrow::Cow<'s, base_core::scene::Scene> {
-        if on_area {
-            std::borrow::Cow::Owned(s.on_area(self.device.area.x, self.device.area.y))
-        } else {
-            std::borrow::Cow::Borrowed(s)
-        }
-    }
-
-    fn program_of(&self, on_area: bool) -> Program {
         let shown = self.job_scene();
         // A post or a block: the shown face alone, on its own material; a sheet: side A, or side B with side A beside it.
         let (a, b) = match &self.two {
@@ -37,8 +19,30 @@ impl App {
             Some(t) => (&*shown, Some(t.other())),
             None => (&*shown, None),
         };
-        let (a, b) = (self.on_area(a, on_area), b.map(|b| self.on_area(b, on_area)));
-        toolpath::generate_sides(&a, b.as_deref(), &self.layers, &self.tools, &self.device, &self.stock, toolpath::JobOptions { one_by_one: self.one_by_one, side: self.side })
+        let (a, b) = (self.on_area(a), b.map(|b| self.on_area(b)));
+        toolpath::generate_sides(&a, b.as_ref(), &self.layers, &self.tools, &self.device, &self.stock, toolpath::JobOptions { one_by_one: self.one_by_one, side: self.side })
+    }
+
+    /// The toolpaths of the preview (the 3D view and the toolpaths over the work area): those of the job.
+    pub(crate) fn preview_program(&self) -> Program {
+        self.make_program()
+    }
+
+    /// The work area of the drawing that is shown: the face of a post or a block, else the work area of the machine.
+    pub(crate) fn work_area(&self) -> (f64, f64) {
+        match (self.solid(), &self.two) {
+            (Some(s), Some(t)) if t.is_solid() => {
+                let f = s.face(t.shown);
+                (f.w, f.h)
+            }
+            _ => (self.device.area.x, self.device.area.y),
+        }
+    }
+
+    /// The shapes of `s` that lie at least partly on the work area (`Scene::on_area`).
+    pub(crate) fn on_area(&self, s: &base_core::scene::Scene) -> base_core::scene::Scene {
+        let (w, h) = self.work_area();
+        s.on_area(w, h)
     }
 
     /// What the job is made of: the whole drawing, or with "Selection only" the shapes that are selected now.
@@ -76,7 +80,7 @@ impl App {
         if self.two.as_ref().is_some_and(|t| t.is_solid()) {
             self.sides3d = None;
             if self.solid3d.as_ref().is_none_or(|(k, _)| *k != stamp) {
-                self.solid3d = Some((stamp, self.face_programs_of(true).into_iter().map(|(p, _, _)| p).collect()));
+                self.solid3d = Some((stamp, self.face_programs().into_iter().map(|(p, _, _)| p).collect()));
             }
             return;
         }
@@ -89,7 +93,7 @@ impl App {
             return;
         }
         let (a, b) = self.sides_scenes();
-        let (a, b) = (self.on_area(a, true), b.map_or_else(Default::default, |b| b.on_area(self.device.area.x, self.device.area.y)));
+        let (a, b) = (self.on_area(a), b.map_or_else(Default::default, |b| self.on_area(b)));
         let opts = toolpath::JobOptions { one_by_one: self.one_by_one, side: crate::layers::Side::Top };
         let top = toolpath::generate_sides(&a, None, &self.layers, &self.tools, &self.device, &self.stock, opts);
         let bottom = toolpath::bottom_seen_from_a(&a, &b, &self.layers, &self.tools, &self.device, &self.stock, opts);
@@ -690,12 +694,12 @@ mod tests {
         a.touch_rev();
         let on = a.preview_program().moves.len();
         assert!(on > 0);
-        // Beside the work area, right and below: in the G-code, but not in the preview.
+        // Beside the work area, right and below: neither in the preview nor in the G-code.
         a.scene.add(0, Kind::Rect { w: 30.0, h: 30.0 }, Xf::translate(w + 50.0, 20.0));
         a.scene.add(0, Kind::Rect { w: 30.0, h: 30.0 }, Xf::translate(20.0, h + 50.0));
         a.touch_rev();
         assert_eq!(a.preview_program().moves.len(), on);
-        assert!(a.make_program().moves.len() > on);
+        assert_eq!(a.make_program().moves.len(), on);
         a.open_preview();
         assert!(a.show_3d);
         assert_eq!(a.prog.as_ref().unwrap().moves.len(), on);
